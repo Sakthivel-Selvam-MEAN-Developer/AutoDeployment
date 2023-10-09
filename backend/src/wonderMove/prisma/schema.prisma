@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model customers {
+  id              Int      @id @default(autoincrement())
+  name            String?  @unique
+  pan             String?
+  gst             String?
+  iGst            String?
+  sGst            String?
+  cGst            String?
+  isGstBilling    Boolean?
+  ourVendorCode   String?
+  isTDSApplicable Boolean?
+  tdsPercentage   Int?
+  createdAt       DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime @updatedAt @db.Timestamptz(6)
+  contactPersonId Int?     @unique
+  contactPerson   people?  @relation(fields: [contactPersonId], references: [id])
+  addressLine1    String?
+  addressLine2    String?
+  AddressLine3    String?
+  pincode         BigInt?
+  state           String?
+  city            String?
+}
+
+model people {
+  id        Int        @id @default(autoincrement())
+  name      String?
+  email     String?
+  mobile    BigInt?
+  createdAt DateTime   @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime   @updatedAt @db.Timestamptz(6)
+  customers customers?
+}
+
+model vehicles {
+  id                  Int            @id @default(autoincrement())
+  number              String?        @unique
+  make                String?
+  type                String?
+  ownershipType       String?
+  ownerName           String?
+  insuranceExpiryDate DateTime?      @db.Timestamptz(6)
+  taxExpiryDate       DateTime?      @db.Timestamptz(6)
+  npPermitDate        DateTime?      @db.Timestamptz(6)
+  fiveYearPermitDate  DateTime?      @db.Timestamptz(6)
+  fcDate              DateTime?      @db.Timestamptz(6)
+  createdAt           DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime       @updatedAt @db.Timestamptz(6)
+  traccarDevice       traccarDevice?
+  gpsStops            gpsStops[]
+}
+
+model traccarDevice {
+  id        Int      @id @default(autoincrement())
+  traccarId Int      @unique
+  vehicleId Int      @unique
+  vehicle   vehicles @relation(fields: [vehicleId], references: [id])
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+}
+
+model stopReasons {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  stops     stops[]  @relation
+}
+
+model stops {
+  id               Int         @id @default(autoincrement())
+  startTime        Int
+  endTime          Int
+  durationInMillis Int
+  active           Boolean     @default(true)
+  reason           stopReasons @relation(fields: [stopReasonId], references: [id])
+  stopReasonId     Int
+  gpsStop          gpsStops    @relation(fields: [gpsStopId], references: [id])
+  gpsStopId        Int
+  createdAt        DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime    @updatedAt @db.Timestamptz(6)
+}
+
+model gpsStops {
+  id               Int      @id @default(autoincrement())
+  startTime        Int
+  endTime          Int
+  durationInMillis Int
+  vehicles         vehicles @relation(fields: [vehicleId], references: [id])
+  vehicleId        Int
+  latitude         Float
+  longitude        Float
+  source           String
+  stops            stops[]
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime @updatedAt @db.Timestamptz(6)
+
+  @@unique([vehicleId, startTime], name: "vehicleStop")
+}
