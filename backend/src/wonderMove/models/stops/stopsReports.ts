@@ -1,10 +1,9 @@
 import prisma from '../index'
 
 interface Stop {
-    stop: any;
     stopReasonId: number;
-    startTime: Date;
-    endTime: Date;
+    startTime: number;
+    endTime: number;
     durationInMillis: number;
 }
 export const getDurationWithInRange = async (from: number, to: number): Promise<Stop[]> => {
@@ -16,7 +15,8 @@ export const getDurationWithInRange = async (from: number, to: number): Promise<
             },
             endTime: {
                 lte: to
-            }
+            },
+            active: true
         },
         _sum: {
             durationInMillis: true
@@ -40,7 +40,8 @@ export const getDurationStopBeforeFrom = async (from: number, to: number): Promi
             endTime: {
                 lte: to,
                 gt: from
-            }
+            },
+            active: true
         },
         select: {
             stopReasonId: true,
@@ -76,7 +77,8 @@ export const getDurationStopAfterTo = async (from: number, to: number): Promise<
             },
             endTime: {
                 gt: to
-            }
+            },
+            active: true
         },
         select: {
             stopReasonId: true,
@@ -111,7 +113,8 @@ export const getDurationGreaterThanFromTo = async (from: number, to: number): Pr
             },
             endTime: {
                 gt: to
-            }
+            },
+            active: true
         },
         select: {
             stopReasonId: true,

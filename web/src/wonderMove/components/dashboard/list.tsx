@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import {PieChart, Pie, ResponsiveContainer, Tooltip, Cell} from 'recharts'
-import {FormControl, InputLabel, Select, MenuItem} from '@mui/material'
+import {FormControl, InputLabel, Select, MenuItem, SelectChangeEvent} from '@mui/material'
 import dayjs from 'dayjs'
 import PieChartDetails from './details.tsx'
 import {getVehicles} from '../../services/vehicles.ts'
 import { stopDuration } from '../../services/stops.ts'
+import { formatDuration } from '../epochToTime.ts'
 
 interface DurationData {
     durationInMillis: number;
@@ -13,7 +14,7 @@ interface DurationData {
 const DashboardList: React.FC = () => {
     const [duration, setDuration] = useState<DurationData[]>([]);
     const [totalVehicles, setTotalVehicles] = useState<any[]>([]);
-    const [hours, setHours] = useState<number>(86400);
+    const [millisPerDay, setMillisPerDay] = useState<number>(86400000);
     const [period, setPeriod] = useState<string>('pastDay');
     const [from, setFrom] = useState<number>(
         dayjs().subtract(1, 'day').unix()
@@ -30,7 +31,7 @@ const DashboardList: React.FC = () => {
         '#c261ff',
         '#ffa2a2',
     ]
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const handleChange = (event: SelectChangeEvent) => {
         const period = event.target.value as string;
         setPeriod(period);
 
@@ -38,17 +39,17 @@ const DashboardList: React.FC = () => {
             case 'pastDay':
                 setFrom(dayjs().subtract(1, 'day').unix());
                 setTo(dayjs().unix());
-                setHours(86400);
+                setMillisPerDay(86400000);
                 break;
             case 'lastWeek':
                 setFrom(dayjs().subtract(1, 'week').unix());
                 setTo(dayjs().unix());
-                setHours(7 * 86400);
+                setMillisPerDay(7 * 86400000);
                 break;
             case 'lastMonth':
                 setFrom(dayjs().subtract(1, 'month').unix());
                 setTo(dayjs().unix());
-                setHours(30 * 86400);
+                setMillisPerDay(30 * 86400000);
                 break;
         }
     }
@@ -67,7 +68,7 @@ const DashboardList: React.FC = () => {
     }
 
     let runningTime = {
-        durationInMillis: totalVehicles.length * hours - totalDuration,
+        durationInMillis: totalVehicles.length * millisPerDay - totalDuration,
         name: 'Running Time',
     };
 
@@ -102,7 +103,7 @@ const DashboardList: React.FC = () => {
                         outerRadius={150}
                         paddingAngle={5}
                         label={(entry) =>
-                            `${entry.name} ${entry.durationInMillis}`
+                            `${entry.name} (${formatDuration(entry.durationInMillis)})`
                         }
                     >
                         {duration.map((entry, index) => (

@@ -1,6 +1,7 @@
 import prisma from './index'
 
 export const YetToBeIdentifiedReason = 'Yet to be identified'
+
 export const getDefaultReason = () =>
     prisma.stopReasons.findUnique({ where: { name: "YetToBeIdentifiedReason" } })
 

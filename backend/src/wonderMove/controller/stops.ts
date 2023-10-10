@@ -1,11 +1,11 @@
 import { getCombinedDuration } from '../models/stops/stopsReports'
-import { getAllReason } from '../models/stopReason'
-// import { getAllVehicles } from '../models/vehicle'
+import { getAllReason, getDefaultReason } from '../models/stopReason'
+import { getAllVehicles } from '../models/vehicle'
 import {
     allPendingStopsForSingleVehicle,
     create as createInDb,
     fetchStopsByVehicle as getDetailsFromDb,
-    // getVehicleDetailByReason,
+    getVehicleDetailByReason,
     updateStopReason
 } from '../models/stops/stops.crud'
 import { Request, Response } from "express";
@@ -38,7 +38,7 @@ const mapNamesToReason = async (aggregatedStops: AggregatedStop[]): Promise<Aggr
 }
 
 export const stopDurations = (req: Request, res: Response) => {
-    getCombinedDuration((req.query.from, 10),(req.query.to, 10))
+    getCombinedDuration(parseInt(req.query.from as string), parseInt(req.query.to as string))
         .then(mapNamesToReason)
         .then((data) => {
             res.status(200).json(data)
@@ -46,29 +46,29 @@ export const stopDurations = (req: Request, res: Response) => {
 }
 
 export const updateStopsDb = (req: Request, res: Response) => {
-    updateStopReason(parseInt(req.params.id, 10), req.body.stopReasonId).then(
+    updateStopReason(parseInt(req.params.id as string), req.body.stopReasonId).then(
         (data) => {
             res.status(200).json(data)
         }
     )
 }
-// const mapNumberToVehicle = async (aggregatedReason: any[]) => {
-//     const numbers = await getAllVehicles()
-//     return aggregatedReason.map((item) => {
-//         const { number } = numbers.find(
-//             (vehicle) => vehicle.id === item.vehicleId
-//         )
-//         return { ...item, number }
-//     })
-// }
-// export const pendingStopReason = (req: Request, res: Response) => {
-//     getDefaultReason()
-//         .then(({ id }) => getVehicleDetailByReason(id))
-//         .then(mapNumberToVehicle)
-//         .then((data) => {
-//             res.status(200).json(data)
-//         })
-// }
+const mapNumberToVehicle = async (aggregatedReason: any[]) => {
+    const numbers = await getAllVehicles()
+    return aggregatedReason.map((item) => {
+        const { number } = numbers.find(
+            (vehicle) => vehicle.id === item.vehicleId
+        )
+        return { ...item, number }
+    })
+}
+export const pendingStopReason = (req: Request, res: Response) => {
+    getDefaultReason()
+        .then(({ id }) => getVehicleDetailByReason(id))
+        .then(mapNumberToVehicle)
+        .then((data) => {
+            res.status(200).json(data)
+        })
+}
 export const allPendingSRforSingleVehicle = (req: Request, res: Response) => {
     allPendingStopsForSingleVehicle(req.params.number).then((detail) => {
         res.status(200).json(detail)
