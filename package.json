@@ -6,10 +6,10 @@
     "libs",
     "frontend",
     "backend",
-    "apps"
+    "apps", "web"
   ],
   "scripts": {
-    "ui": "yarn workspace ui dev",
+    "ui": "yarn workspace web dev",
     "u": "yarn workspace ui ",
     "backend": "yarn workspace backend dev",
     "b": "yarn workspace backend",

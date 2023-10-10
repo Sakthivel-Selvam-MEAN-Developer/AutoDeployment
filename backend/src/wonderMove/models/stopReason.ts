@@ -2,9 +2,9 @@ import prisma from './index'
 
 export const YetToBeIdentifiedReason = 'Yet to be identified'
 export const getDefaultReason = () =>
-    prisma.stopReasons.findUnique({ where: { name: YetToBeIdentifiedReason } })
+    prisma.stopReasons.findUnique({ where: { name: "YetToBeIdentifiedReason" } })
 
-export const create = (data) =>
+export const create = (data: any) =>
     prisma.stopReasons.upsert({
         where: { name: data.name },
         create: data,

@@ -1,11 +1,11 @@
 import prisma from './index'
 
-export const create = (data) => prisma.vehicles.create({ data })
+export const create = (data: any) => prisma.vehicles.create({ data })
 
-export const fetchVehicleByNumber = (number) =>
+export const fetchVehicleByNumber = (number: string) =>
     prisma.vehicles.findFirst({ where: { number } })
 
-export const updateVehicleByNumber = (number, data) =>
+export const updateVehicleByNumber = (number: string, data: any) =>
     prisma.vehicles.updateMany({
         where: {
             number
@@ -13,4 +13,4 @@ export const updateVehicleByNumber = (number, data) =>
         data
     })
 
-export const getAllVehicles = () => prisma.vehicles.findMany({ where: {} })
+export const getAllVehicles = () => prisma.vehicles.findMany()

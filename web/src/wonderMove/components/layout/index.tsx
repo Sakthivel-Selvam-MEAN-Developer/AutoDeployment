@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { styled } from '@mui/material/styles'
+import { styled, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import MuiAppBar, {AppBarProps} from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
@@ -36,6 +36,7 @@ const AppBar = styled((props: AppBarPropsWithOpen) => <MuiAppBar {...props} />, 
 }))
 
 export default function Layout() {
+    const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const handleDrawerOpen = () => setOpen(true)
     const handleDrawerClose = () => setOpen(false)
@@ -66,7 +67,7 @@ export default function Layout() {
                 drawerState={open}
             />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <DrawerHeader />
+                <DrawerHeader theme={theme}/>
                 <Outlet />
             </Box>
         </Box>

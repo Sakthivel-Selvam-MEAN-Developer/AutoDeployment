@@ -2,7 +2,11 @@ import IconButton from '@mui/material/IconButton'
 import {
     Dashboard,
     ChevronRight,
-    ChevronLeft
+    ChevronLeft,
+    LocalShipping,
+    Badge,
+    Upload,
+    LocalParking
 } from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -11,7 +15,6 @@ import MuiDrawer from '@mui/material/Drawer'
 import { DrawerHeader } from './drawerHeader.ts'
 import PropTypes from 'prop-types'
 import DrawerListItem from './drawerListItem.tsx'
-import React from "react";
 
 interface MiniDrawerProps {
     handleDrawerClose: () => void;
@@ -62,7 +65,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
 
     return (
         <Drawer variant="permanent" open={drawerState}>
-            <DrawerHeader>
+            <DrawerHeader theme={theme}>
                 <IconButton onClick={handleDrawerClose}>
                     {theme.direction === 'rtl' ? (
                         <ChevronRight />
@@ -77,7 +80,36 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     text="Dashboard"
                     navigate="/"
                     drawerState={drawerState}
+                    index={0}
                     icon={<Dashboard />}
+                />
+                <DrawerListItem
+                    text="Reason"
+                    navigate="/reasons"
+                    drawerState={drawerState}
+                    index={1}
+                    icon={<Upload />}
+                />
+                <DrawerListItem
+                    text="Stops"
+                    navigate="/stops"
+                    drawerState={drawerState}
+                    index={2}
+                    icon={<LocalParking />}
+                />
+                <DrawerListItem
+                    text="Vehicle"
+                    navigate="/vehicles"
+                    drawerState={drawerState}
+                    index={3}
+                    icon={<LocalShipping />}
+                />
+                <DrawerListItem
+                    text="Customer"
+                    navigate="/customers"
+                    drawerState={drawerState}
+                    index={4}
+                    icon={<Badge />}
                 />
             </List>
         </Drawer>
