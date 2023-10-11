@@ -1,10 +1,10 @@
 import prisma from './index'
 
-export const create = (data) => prisma.gpsStops.create({ data })
+export const create = (data: any) => prisma.gpsStops.create({ data })
 
 export const getGpsStops = () => prisma.gpsStops.findMany()
 
-function getGpsStopInPersistableFormat(gpsStop) {
+function getGpsStopInPersistableFormat(gpsStop: any) {
     const {
         startTime,
         endTime,
@@ -29,7 +29,7 @@ function getGpsStopInPersistableFormat(gpsStop) {
     }
 }
 
-const createIfNotExist = (gpsStop) => {
+const createIfNotExist = (gpsStop: any) => {
     const gpsStopWithStop = getGpsStopInPersistableFormat(gpsStop)
     return prisma.gpsStops.upsert({
         where: {
@@ -44,5 +44,5 @@ const createIfNotExist = (gpsStop) => {
         update: {}
     })
 }
-export const createManyIfNotExist = (gpsStops) =>
+export const createManyIfNotExist = (gpsStops: any) =>
     Promise.all(gpsStops.map(createIfNotExist))

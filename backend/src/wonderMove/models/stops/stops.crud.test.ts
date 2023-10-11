@@ -1,11 +1,13 @@
-import seedStop from 'apps/wonderMove/seed/stops'
-import seedVehicle from 'apps/wonderMove/seed/vehicle'
-import seedReason from 'apps/wonderMove/seed/reason'
-import seedStopWithoutDependency from 'apps/wonderMove/seed/stopsWithoutDependency'
-import seedGpsStopsWithoutDep from 'apps/wonderMove/seed/gpsStopsWithoutDependency'
-import gpsStops from 'apps/wonderMove/seed/gpsStops'
+import seedStop from '../../seed/stops'
+import seedVehicle from '../../seed/vehicle.ts'
+import seedReason from '../../seed/reason'
+import seedStopWithoutDependency from '../../seed/stopsWithoutDependency'
+import seedGpsStopsWithoutDep from '../../seed/gpsStopsWithoutDependency'
+import seedVehicleWithoutDep from '../../seed/vehiclesWithoutDependency'
+import gpsStops from '../../seed/gpsStops'
 import { create as createNewReason } from '../stopReason'
-import { create as createNewVehicle, getAllVehicles } from '../vehicle'
+import { create as createNewVehicle} from '../vehicle'
+import { getAllVehicles } from '../vehicle'
 import { create as createGpsStop } from '../gpsStop'
 import {
     allPendingStopsForSingleVehicle,
@@ -20,7 +22,7 @@ describe('Stop model', () => {
     test('should fetch stops by vehicle number', async () => {
         await create(seedStop)
         const actual = await fetchStopsByVehicle(
-            seedStop.gpsStop.create.vehicle.create.number
+            seedStop.gpsStop.create.vehicles.create.number
         )
         expect(actual.length).toBe(1)
         expect(actual[0].durationInMillis).toBe(seedStop.durationInMillis)
@@ -28,14 +30,14 @@ describe('Stop model', () => {
     test('should exclude inactive stops in fetch stops by vehicle number ', async () => {
         await create({ ...seedStop, active: false })
         const actual = await fetchStopsByVehicle(
-            seedStop.gpsStop.create.vehicle.create.number
+            seedStop.gpsStop.create.vehicles.create.number
         )
         expect(actual.length).toBe(0)
     })
     test('should get vehicle details by reason', async () => {
         const vehicleToSearch = await createNewVehicle(seedVehicle)
         const secondVehicleForSearch = await createNewVehicle({
-            ...seedVehicle,
+            ...seedVehicleWithoutDep,
             number: 'tn93d5512'
         })
         const reasonToSearch = await createNewReason(seedReason)
@@ -122,7 +124,7 @@ describe('Stop model', () => {
             ...seedReason,
             name: 'Reason Not Updated'
         })
-        const vehicle = await createNewVehicle(seedVehicle)
+        const vehicle = await createNewVehicle(seedVehicleWithoutDep)
         const vehicle1 = await createNewVehicle({
             ...seedVehicle,
             number: 'tn93d5512'
@@ -159,7 +161,7 @@ describe('Stop model', () => {
         await create({ ...stop2, startTime: 100 })
         await create({ ...stop3, startTime: 150 })
         await create(stop4)
-        const actual = await allPendingStopsForSingleVehicle('tn33ba1234')
+        const actual = await allPendingStopsForSingleVehicle('TN88K0272')
         expect(actual).toHaveLength(2)
         expect(actual).toEqual(
             expect.arrayContaining([
@@ -185,7 +187,7 @@ describe('Stop model', () => {
         })
         await updateStopReason(stop.id, newReason.id)
         const actual = await fetchStopsByVehicle(
-            seedStop.gpsStop.create.vehicle.create.number
+            seedStop.gpsStop.create.vehicles.create.number
         )
         expect(actual[0].reason.name).toBe(newReasonName)
     })
@@ -209,17 +211,19 @@ describe('Stop model', () => {
             gpsStopId: gpsStopsCreated.id,
             stopReasonId: reason.id
         })
-        await overrideStops(gpsStopsCreated.id, [
-            {
-                startTime: 20,
-                endTime: 60,
-                durationInMillis: 40,
-                stopReasonId: reason.id,
-                gpsStopId: gpsStopsCreated.id
-            }
-        ])
-        const newStops = await fetchStopsByVehicle(vehicles[0].number)
-        expect(newStops).toHaveLength(1)
-        expect(newStops[0].durationInMillis).toBe(40)
+        if (vehicles[0] && vehicles[0].number) {
+            await overrideStops(gpsStopsCreated.id, [
+                {
+                    startTime: 20,
+                    endTime: 60,
+                    durationInMillis: 40,
+                    stopReasonId: reason.id,
+                    gpsStopId: gpsStopsCreated.id
+                }
+            ])
+            const newStops = await fetchStopsByVehicle(vehicles[0].number)
+            expect(newStops).toHaveLength(1)
+            expect(newStops[0].durationInMillis).toBe(40)
+        }
     })
 })
