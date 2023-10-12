@@ -1,5 +1,5 @@
-import seedGpsStop from 'apps/wonderMove/seed/gpsStopsWithoutDependency'
-import seedVehicle from 'apps/wonderMove/seed/vehicle'
+import seedGpsStop from '../seed/gpsStopsWithoutDependency'
+import seedVehicle from '../seed/vehicle'
 import { create, createManyIfNotExist, getGpsStops } from './gpsStop'
 import { create as createVehicle } from './vehicle'
 import { create as createStopReason } from './stopReason'

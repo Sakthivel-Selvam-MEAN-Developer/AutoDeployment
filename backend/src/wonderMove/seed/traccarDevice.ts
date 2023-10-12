@@ -1,4 +1,4 @@
-import vehicle from "./vehicle";
+import vehicle from "./vehiclesWithoutDependency";
 
 export default {
     traccarId: 3,

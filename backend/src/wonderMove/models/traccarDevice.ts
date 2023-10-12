@@ -1,6 +1,6 @@
 import prisma from './index'
 
-export const getTraccarByVehicleNumber = (vehicleNumber) =>
+export const getTraccarByVehicleNumber = (vehicleNumber: string) =>
     prisma.traccarDevice.findFirst({
         where: {
             vehicle: { is: { number: vehicleNumber } }
@@ -10,4 +10,4 @@ export const getTraccarByVehicleNumber = (vehicleNumber) =>
         }
     })
 
-export const create = (data) => prisma.traccarDevice.create({ data })
+export const create = (data: any) => prisma.traccarDevice.create({ data })

@@ -8,6 +8,7 @@
 //     pincode: DataTypes.BIGINT,
 //     state: DataTypes.TEXT,
 //     city: DataTypes.TEXT,
+//     town: DataTypes.TEXT,
 // };
 // export const Address = sequelize.define('address', addressFields)
 

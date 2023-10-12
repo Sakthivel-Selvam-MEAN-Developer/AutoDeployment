@@ -1,7 +1,8 @@
-import seedReason from 'apps/wonderMove/seed/reason'
-import seedVehicle from 'apps/wonderMove/seed/vehicle'
-import seedStop from 'apps/wonderMove/seed/stopsWithoutDependency'
-import seedGpsStopsWithoutDep from 'apps/wonderMove/seed/gpsStopsWithoutDependency'
+import seedReason from '../../seed/reason'
+import seedVehicle from '../../seed/vehicle'
+import seedStop from '../../seed/stopsWithoutDependency'
+import seedGpsStopsWithoutDep from '../../seed/gpsStopsWithoutDependency'
+import seedVehicleWithoutDep from '../../seed/vehiclesWithoutDependency'
 import {
     getCombinedDuration,
     getDurationGreaterThanFromTo,
@@ -14,7 +15,7 @@ import { create as createNewVehicle } from '../vehicle'
 import { create as createGpsStop } from '../gpsStop'
 import { create } from './stops.crud'
 
-const createStop = async (stop, from, to) => {
+const createStop = async (stop: any, from: number, to: number) => {
     await create({
         ...stop,
         startTime: from,
@@ -32,9 +33,9 @@ describe('Stops report', () => {
             ...seedReason,
             name: 'Puncture'
         })
-        const vehicle1 = await createNewVehicle(seedVehicle)
+        const vehicle1 = await createNewVehicle(seedVehicleWithoutDep)
         const vehicle2 = await createNewVehicle({
-            ...seedVehicle,
+            ...seedVehicleWithoutDep,
             number: 'tn93d5512'
         })
         const gpsStops1 = await createGpsStop({

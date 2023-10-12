@@ -1,5 +1,5 @@
-import seedReason from 'apps/wonderMove/seed/reason'
-import { create, getAllReason, YetToBeIdentifiedReason } from './stopReason'
+import seedReason from '../seed/reason'
+import {create, getAllReason, getDefaultReason, YetToBeIdentifiedReason} from './stopReason'
 
 describe('Reason model', () => {
     test('should able to access', async () => {
@@ -13,5 +13,10 @@ describe('Reason model', () => {
         const actual = await getAllReason()
         expect(actual.length).toBe(1)
         expect(actual[0].name).toBe(YetToBeIdentifiedReason)
+    })
+    test('should get default reason', async () => {
+        await create({ name: YetToBeIdentifiedReason })
+        const actual = await getDefaultReason()
+        expect(actual!.name).toBe(YetToBeIdentifiedReason)
     })
 })

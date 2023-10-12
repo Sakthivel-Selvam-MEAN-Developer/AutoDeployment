@@ -1,4 +1,4 @@
-import seedCustomer from 'apps/wonderMove/seed/customer'
+import seedCustomer from '../seed/customer'
 import {
     create,
     fetchCustomerByName,
@@ -6,7 +6,7 @@ import {
     updateCustomerByName
 } from './customer'
 
-function validateCustomerValues(actual) {
+function validateCustomerValues(actual: any) {
     expect(actual.name).toBe(seedCustomer.name)
     expect(actual.gst).toBe(seedCustomer.gst)
     expect(actual.pan).toBe(seedCustomer.pan)
@@ -29,12 +29,13 @@ describe('Customer model', () => {
             iGst: 'newValue'
         })
         const actual = await fetchCustomerByName(seedCustomer.name)
-        expect(actual.iGst).toBe('newValue')
+        expect(actual!.iGst).toBe('newValue')
     })
     test('should have person field', async () => {
         await create(seedCustomer)
         const actual = await fetchCustomerByName(seedCustomer.name)
-        expect(actual.contactPerson.name).toBe(
+        expect(actual!.contactPerson).toBeDefined()
+        expect(actual!.contactPerson!.name).toBe(
             seedCustomer.contactPerson.create.name
         )
     })
