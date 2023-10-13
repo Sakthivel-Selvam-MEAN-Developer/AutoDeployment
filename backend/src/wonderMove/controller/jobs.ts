@@ -1,8 +1,9 @@
 import fetchTraccarStops from '../jobs/fetchTraccarStops'
-
+import { Request, Response } from 'express'
 const fetchTraccarData = (req: Request, res: Response) => {
     const { vehicleNumber, from, to } = req.query
-    fetchTraccarStops(vehicleNumber, from, to).then(res.send(200))
+    // @ts-ignore
+    fetchTraccarStops(vehicleNumber, from, to).then(() => res.sendStatus(200))
 }
 
 export default fetchTraccarData

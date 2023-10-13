@@ -4,14 +4,15 @@ import {
     fetchCustomerByName as getDetailsFromDb,
     updateCustomerByName as updateInDB
 } from '../models/customer'
+import { Request, Response } from 'express'
 
 export const create = (req: Request, res: Response) => {
-    createInDb(req.body).then(res.send(200))
+    createInDb(req.body).then(() => res.sendStatus(200))
 }
 
 export const update = (req: Request, res: Response) => {
     // todo: check if customer number in param and body matches
-    updateInDB(req.params.number, req.body).then(res.send(200))
+    updateInDB(req.params.number, req.body).then(() => res.sendStatus(200))
 }
 
 export const listAllNames = (req: Request, res: Response) => {

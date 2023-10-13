@@ -55,15 +55,15 @@ export const updateStopsDb = (req: Request, res: Response) => {
 const mapNumberToVehicle = async (aggregatedReason: any[]) => {
     const numbers = await getAllVehicles()
     return aggregatedReason.map((item) => {
-        const { number } = numbers.find(
+        const { number }: any = numbers.find(
             (vehicle) => vehicle.id === item.vehicleId
         )
         return { ...item, number }
     })
 }
-export const pendingStopReason = (req: Request, res: Response) => {
+export const pendingStopReason = (_req: Request, res: Response) => {
     getDefaultReason()
-        .then(({ id }) => getVehicleDetailByReason(id))
+        .then(({ id }: any) => getVehicleDetailByReason(id))
         .then(mapNumberToVehicle)
         .then((data) => {
             res.status(200).json(data)

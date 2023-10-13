@@ -3,9 +3,9 @@ import {
     create,
     listAllNames,
     update
-} from '../controller/customer.js'
-
-const customerRoutes = (router) => {
+} from '../controller/customer.ts'
+import {Router} from 'express'
+const customerRoutes = (router: Router) => {
     router.post('/customers', create)
     router.get('/customers', listAllNames)
     router.get('/customers/:number', getDetails)
