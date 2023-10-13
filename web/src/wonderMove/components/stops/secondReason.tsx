@@ -6,15 +6,21 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { useState } from 'react'
 import { Button } from '@mui/material'
-import { epochToDate } from '../EpochConverter.jsx'
-import UpdateReason from './updateReason.jsx'
-import { updateSecondReason } from '../../services/stops.js'
+import { epochToDate } from '../epochToTime.ts'
+import UpdateReason from './updateReason.tsx'
+import { updateSecondReason } from '../../services/stops.ts'
 
-const SecondReason = ({ row, onClose, tableState }) => {
-    const [value, setValue] = useState(null)
+interface SecondReasonProps {
+    row: any;
+    onClose: () => void;
+    tableState: () => void;
+}
+
+const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState }) => {
+    const [value, setValue] = useState<dayjs.Dayjs | null>(null)
     const [selectedReason, setSelectedReason] = useState(row.reason.id)
 
-    const handleMenuItemSelect = (selectedReasonId) => {
+    const handleMenuItemSelect = (selectedReasonId: number) => {
         setSelectedReason(selectedReasonId)
     }
     const handleClose = () => {

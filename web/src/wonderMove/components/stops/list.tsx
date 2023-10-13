@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import SearchStops from './searchStops'
 import Stops from './view'
 
-const StopList = () => {
-    const [selectedStop, setSelectedStop] = useState()
+interface StopListProps {}
+const StopList: React.FC<StopListProps> = () => {
+    const [selectedStop, setSelectedStop] = useState<number | undefined>()
 
     return (
         <>

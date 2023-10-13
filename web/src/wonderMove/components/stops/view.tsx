@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { getStopsByVehicle } from '../../services/stops'
-import StopList from './show'
+import StopList from './show.js'
 
-const Stops = ({ number }) => {
+interface StopsProps {
+    number: any;
+}
+const Stops: React.FC<StopsProps> = ({ number }) => {
     const [stopDetails, setStopDetails] = useState([])
     const [tableDataChanged, setTableDataChanged] = useState(false)
 

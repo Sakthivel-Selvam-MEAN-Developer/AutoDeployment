@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-const StopsHome = () => {
+const StopsHome: React.FC = () => {
     return (
         <>
             <div style={{ marginBottom: '30px' }}>Idling</div>

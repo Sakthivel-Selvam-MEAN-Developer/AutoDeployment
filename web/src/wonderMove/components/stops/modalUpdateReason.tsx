@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -6,12 +5,19 @@ import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
-import { epochToDate, formatDuration } from '../EpochConverter.jsx'
+import { epochToDate, formatDuration } from '../epochToTime.ts'
 import { Button } from '@mui/material'
 import { useState } from 'react'
 import * as React from 'react'
-import SecondReason from './secondReason.jsx'
-const ModalUpdateReason = ({
+import SecondReason from './secondReason.tsx'
+
+interface ModalUpdateReasonProps {
+    open: boolean;
+    selectedRow: Array<any>;
+    setSelectedRow: (row: any) => void;
+    tableState: any;
+}
+const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     open,
     selectedRow,
     setSelectedRow,
@@ -22,7 +28,7 @@ const ModalUpdateReason = ({
     const handleAccordionClose = () => {
         setExpandedRow(null)
     }
-    const toggleAccordion = (rowId) => {
+    const toggleAccordion = (rowId: any) => {
         setExpandedRow(expandedRow === rowId ? null : rowId)
     }
 
@@ -135,11 +141,5 @@ const ModalUpdateReason = ({
             </div>
         </>
     )
-}
-ModalUpdateReason.propTypes = {
-    selectedRow: PropTypes.array,
-    open: PropTypes.bool,
-    setSelectedRow: PropTypes.func,
-    tableState: PropTypes.any,
 }
 export default ModalUpdateReason

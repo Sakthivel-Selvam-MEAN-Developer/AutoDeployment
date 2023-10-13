@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -6,27 +5,41 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import AddReason from './addReason'
-import { formatDuration, epochToDate } from '../EpochConverter.jsx'
+import AddReason from './addReason.js'
+import { formatDuration, epochToDate } from '../epochToTime.ts'
 import EditIcon from '@mui/icons-material/Edit'
 import { useState, useEffect } from 'react'
 import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton'
-import ModalUpdateReason from './modalUpdateReason.jsx'
+import ModalUpdateReason from './modalUpdateReason.tsx'
 import { getAllReasons } from '../../services/reason.js'
 
-const StopList = ({ stopDetails, tableState }) => {
+interface StopDetails {
+    id: number;
+    startTime: number;
+    endTime: number;
+    durationInMillis: number;
+    gpsStop: {
+        id: number;
+    };
+}
+interface StopListProps {
+    stopDetails: StopDetails[];
+    tableState: any;
+}
+const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
     const [selectedRow, setSelectedRow] = useState(null)
     const [allReasons, setAllReasons] = useState([])
 
     useEffect(() => {
+        // @ts-ignore
         getAllReasons().then(setAllReasons)
     }, [])
-    const handleEditClick = (row) => {
+    const handleEditClick = (row: StopDetails) => {
         const rowsWithSameGpsStopId = stopDetails.filter(
             (item) => item.gpsStop.id === row.gpsStop.id
         )
-        setSelectedRow(rowsWithSameGpsStopId)
+        setSelectedRow(rowsWithSameGpsStopId as any)
     }
 
     return (
@@ -92,17 +105,13 @@ const StopList = ({ stopDetails, tableState }) => {
             {selectedRow && (
                 <ModalUpdateReason
                     selectedRow={selectedRow}
-                    open={open}
+                    open={open as any}
                     setSelectedRow={setSelectedRow}
                     tableState={tableState}
                 />
             )}
         </>
     )
-}
-StopList.propTypes = {
-    stopDetails: PropTypes.any,
-    tableState: PropTypes.any,
 }
 
 export default StopList

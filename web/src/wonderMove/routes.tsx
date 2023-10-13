@@ -8,6 +8,8 @@ import {NewVehicle} from './components/vehicles/new.tsx'
 import CustomersHome from './components/customers/home.tsx'
 import CustomerList from './components/customers/list.tsx'
 import {NewCustomer} from './components/customers/new.tsx'
+import StopsHome from "./components/stops/home.tsx";
+import StopList from "./components/stops/list.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +23,16 @@ export const router = createBrowserRouter([
                     {
                         path: '',
                         element: <DashboardList/>,
+                    },
+                ],
+            },
+            {
+                path: 'stops',
+                element: <StopsHome />,
+                children: [
+                    {
+                        path: '',
+                        element: <StopList />,
                     },
                 ],
             },

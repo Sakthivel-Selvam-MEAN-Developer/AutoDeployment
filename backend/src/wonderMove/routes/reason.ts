@@ -3,7 +3,7 @@ import {Router} from 'express'
 
 const reasonRoutes = (router: Router) => {
     router.post('/reason', create)
-    router.get('/reason', listAllReason)
+    router.get('/stop-reason', listAllReason)
 }
 
 export default reasonRoutes

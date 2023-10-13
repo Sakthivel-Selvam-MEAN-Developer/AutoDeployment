@@ -1,27 +1,30 @@
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import PropTypes, { any } from 'prop-types'
-import Select from '@mui/material/Select'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { useState } from 'react'
 import { updateStops } from '../../services/stops'
 import SuccessDialog from '../SuccessDialog.tsx'
 import AlertDialog from '../confirmationDialog.js'
 
-const AddReason = ({ stopInfo, allReasons }) => {
-    const [selectedReason, setSelectedReason] = useState(stopInfo.reason.id)
+interface AddReasonProps {
+    stopInfo: any;
+    allReasons: Array<any>;
+}
+const AddReason: React.FC<AddReasonProps> = ({ stopInfo, allReasons }) => {
+    const [selectedReason, setSelectedReason] = useState<string>(stopInfo.reason.id)
     const [temporaryReason, setTemporaryReason] = useState()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [openAlertDialog, setOpenAlertDialog] = useState(false)
 
-    const handleChange = (event) => {
+    const handleChange = (event: SelectChangeEvent) => {
         const selectedReasonId = event.target.value
-        setTemporaryReason(selectedReasonId)
+        setTemporaryReason(selectedReasonId as any)
         setOpenAlertDialog(true)
     }
 
     const handleAgree = () => {
-        setSelectedReason(temporaryReason)
+        setSelectedReason(temporaryReason as any)
         updateStops(stopInfo.id, { stopReasonId: temporaryReason }).then(() => {
             setOpenAlertDialog(false)
             setOpenSuccessDialog(true)
@@ -61,10 +64,6 @@ const AddReason = ({ stopInfo, allReasons }) => {
             />
         </>
     )
-}
-AddReason.propTypes = {
-    stopInfo: PropTypes.any,
-    allReasons: PropTypes.arrayOf(any),
 }
 
 export default AddReason

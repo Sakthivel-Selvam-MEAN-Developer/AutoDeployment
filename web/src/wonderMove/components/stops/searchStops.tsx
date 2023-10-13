@@ -1,11 +1,14 @@
 import { Autocomplete, TextField } from '@mui/material'
-import PropTypes from 'prop-types'
-import { useState } from 'react'
+import {ChangeEvent, useState} from 'react'
 
-const SearchStops = ({ onSelect }) => {
+interface SearchStopsProps {
+    onSelect: (selectedStop: any) => void;
+}
+
+const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
     const [value, setValue] = useState()
 
-    const onChange = (event, newValue) => {
+    const onChange = (_event: ChangeEvent<{}>, newValue: any | null) => {
         setValue(newValue)
         if (newValue) {
             onSelect(newValue)
@@ -33,10 +36,6 @@ const SearchStops = ({ onSelect }) => {
             />
         </>
     )
-}
-
-SearchStops.propTypes = {
-    onSelect: PropTypes.func,
 }
 
 export default SearchStops
