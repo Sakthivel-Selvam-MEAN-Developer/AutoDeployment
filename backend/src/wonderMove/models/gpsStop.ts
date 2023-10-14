@@ -46,3 +46,18 @@ const createIfNotExist = (gpsStop: any) => {
 }
 export const createManyIfNotExist = (gpsStops: any) =>
     Promise.all(gpsStops.map(createIfNotExist))
+
+export const groupByReason = async (id: any) => {
+    const vehiclesWithPendingReason = await prisma.gpsStops.groupBy({
+        by: ['vehicleId'],
+        where: {
+            stops: {
+                some: {
+                    stopReasonId: id
+                }
+            }
+        },
+        _count: true
+    })
+    return vehiclesWithPendingReason
+}

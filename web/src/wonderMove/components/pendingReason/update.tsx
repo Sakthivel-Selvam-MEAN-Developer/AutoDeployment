@@ -1,22 +1,32 @@
-import PropTypes from 'prop-types'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import { useEffect, useState } from 'react'
-import { getAllReasons } from '../../services/reason.js'
+import { getAllReasons } from '../../services/reason.ts'
 import SuccessDialog from '../SuccessDialog.tsx'
-import { updateStops } from '../../services/stops.js'
+import { updateStops } from '../../services/stops.ts'
 
-const UpdateReason = ({ reasonInfo }) => {
-    const [fetchReason, setFetchReason] = useState([])
+interface ReasonInfo {
+    id: number;
+    reason: {
+        id: number;
+    };
+}
+
+interface UpdateReasonProps {
+    reasonInfo: ReasonInfo;
+}
+const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo }) => {
+    const [fetchReason, setFetchReason] = useState<any>([])
     const [selectedReason, setSelectedReason] = useState(reasonInfo.reason.id)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
 
     useEffect(() => {
+        // @ts-ignore
         getAllReasons().then(setFetchReason)
     }, [])
-    const handleChange = (event) => {
+    const handleChange = (event: any) => {
         const selectedReasonId = event.target.value
         setSelectedReason(selectedReasonId)
         updateStops(reasonInfo.id, { stopReasonId: selectedReasonId })
@@ -36,7 +46,7 @@ const UpdateReason = ({ reasonInfo }) => {
                     label="Reasons"
                     onChange={handleChange}
                 >
-                    {fetchReason.map((reason, i) => (
+                    {fetchReason.map((reason: any, i: any) => (
                         <MenuItem key={i} value={reason.id}>
                             {reason.name}
                         </MenuItem>
@@ -50,8 +60,5 @@ const UpdateReason = ({ reasonInfo }) => {
             />
         </>
     )
-}
-UpdateReason.propTypes = {
-    reasonInfo: PropTypes.any,
 }
 export default UpdateReason

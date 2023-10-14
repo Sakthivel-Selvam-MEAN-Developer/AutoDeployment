@@ -122,7 +122,7 @@ describe('Stop model', () => {
         const reason1 = await createNewReason(seedReason)
         const reason2 = await createNewReason({
             ...seedReason,
-            name: 'Reason Not Updated'
+            name: 'Yet to be identified'
         })
         const vehicle = await createNewVehicle(seedVehicleWithoutDep)
         const vehicle1 = await createNewVehicle({

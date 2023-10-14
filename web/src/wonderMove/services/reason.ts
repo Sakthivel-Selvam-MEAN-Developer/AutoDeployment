@@ -4,4 +4,4 @@ export const getAllReasons = (reason: any) =>
     axiosInstance.get('/stop-reason', reason).then(getData)
 
 export const allPendingSRforSingleVehicle = (number: string) =>
-    axiosInstance.get(`/pending/${number}`).then(getData)
+    axiosInstance.get(`/stops-pending/${number}`).then(getData)

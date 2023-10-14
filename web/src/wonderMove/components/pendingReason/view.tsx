@@ -1,15 +1,20 @@
-import DetailsList from './details.jsx'
+import DetailsList from './details.tsx'
 import { useEffect, useState } from 'react'
-import { allPendingSRforSingleVehicle } from '../../services/reason.js'
+import { allPendingSRforSingleVehicle } from '../../services/reason.ts'
 import { useParams } from 'react-router-dom'
 
-const Details = () => {
+interface DetailsProps {
+    pendingDetails: any;
+}
+const Details: React.FC<DetailsProps>  = () => {
     const { number } = useParams()
     const [pendingDetails, setPendingDetails] = useState()
 
     useEffect(() => {
+        // @ts-ignore
         allPendingSRforSingleVehicle(number).then(setPendingDetails)
     }, [number])
+    console.log("Hiiii", number)
 
     return (
         <>

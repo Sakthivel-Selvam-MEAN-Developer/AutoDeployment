@@ -10,6 +10,9 @@ import CustomerList from './components/customers/list.tsx'
 import {NewCustomer} from './components/customers/new.tsx'
 import StopsHome from "./components/stops/home.tsx";
 import StopList from "./components/stops/list.tsx";
+import PendingReasonHome from "./components/pendingReason/home.tsx";
+import PendingList from "./components/pendingReason/list.tsx";
+import Details from "./components/pendingReason/details.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +26,20 @@ export const router = createBrowserRouter([
                     {
                         path: '',
                         element: <DashboardList/>,
+                    },
+                ],
+            },
+            {
+                path: 'reasons',
+                element: <PendingReasonHome />,
+                children: [
+                    {
+                        path: '',
+                        element: <PendingList />,
+                    },
+                    {
+                        path: 'details/:number',
+                        element: <Details />,
                     },
                 ],
             },

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
-import PendingStops from './show.jsx'
-
+import PendingStops from './show.tsx'
 import { pendingStopReason } from '../../services/stops.js'
 
-const PendingList = () => {
+interface PendingListProps {}
+const PendingList: React.FC<PendingListProps> = () => {
     const [pendingStops, setPendingStops] = useState([])
 
     useEffect(() => {
+        // @ts-ignore
         pendingStopReason().then(setPendingStops)
     }, [])
 

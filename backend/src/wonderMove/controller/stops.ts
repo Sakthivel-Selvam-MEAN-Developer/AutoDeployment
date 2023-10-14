@@ -1,11 +1,11 @@
 import { getCombinedDuration } from '../models/stops/stopsReports'
 import { getAllReason, getDefaultReason } from '../models/stopReason'
 import { getAllVehicles } from '../models/vehicle'
+import { groupByReason } from '../models/gpsStop.ts'
 import {
     allPendingStopsForSingleVehicle,
     create as createInDb,
     fetchStopsByVehicle as getDetailsFromDb,
-    getVehicleDetailByReason,
     updateStopReason
 } from '../models/stops/stops.crud'
 import { Request, Response } from "express";
@@ -54,8 +54,9 @@ export const updateStopsDb = (req: Request, res: Response) => {
 }
 const mapNumberToVehicle = async (aggregatedReason: any[]) => {
     const numbers = await getAllVehicles()
-    return aggregatedReason.map((item) => {
-        const { number }: any = numbers.find(
+    return aggregatedReason.map((item: any) => {
+        // @ts-ignore
+        const { number } = numbers.find(
             (vehicle) => vehicle.id === item.vehicleId
         )
         return { ...item, number }
@@ -63,7 +64,7 @@ const mapNumberToVehicle = async (aggregatedReason: any[]) => {
 }
 export const pendingStopReason = (_req: Request, res: Response) => {
     getDefaultReason()
-        .then(({ id }: any) => getVehicleDetailByReason(id))
+        .then(({ id }: any) => groupByReason(id))
         .then(mapNumberToVehicle)
         .then((data) => {
             res.status(200).json(data)

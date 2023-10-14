@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -8,9 +7,17 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { useNavigate } from 'react-router-dom'
 
-const PendingStops = ({ pendingStops }) => {
+interface PendingStop {
+    number: string;
+    _count: number;
+}
+
+interface Props {
+    pendingStops: PendingStop[];
+}
+const PendingStops: React.FC<Props> = ({ pendingStops }) => {
     const navigate = useNavigate()
-    const sortedStops = [...pendingStops].sort((a, b) => b.count - a.count)
+    const sortedStops = [...pendingStops].sort((a, b) => b._count - a._count)
 
     return (
         <>
@@ -24,12 +31,12 @@ const PendingStops = ({ pendingStops }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortedStops.map((row, i) => (
+                        {sortedStops.map((row, index) => (
                             <TableRow
                                 onClick={() =>
                                     navigate(`details/${row.number}`)
                                 }
-                                key={i}
+                                key={index}
                                 style={{ cursor: 'pointer' }}
                                 sx={{
                                     '&:last-child td, &:last-child th': {
@@ -37,9 +44,10 @@ const PendingStops = ({ pendingStops }) => {
                                     },
                                 }}
                             >
-                                <TableCell> {i + 1} </TableCell>
+                                <TableCell> {index + 1} </TableCell>
                                 <TableCell align="left">{row.number}</TableCell>
-                                <TableCell align="left">{row.count}</TableCell>
+                                {/*@ts-ignore*/}
+                                <TableCell align="left">{row._count}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -47,9 +55,6 @@ const PendingStops = ({ pendingStops }) => {
             </TableContainer>
         </>
     )
-}
-PendingStops.propTypes = {
-    pendingStops: PropTypes.any,
 }
 
 export default PendingStops

@@ -1,4 +1,5 @@
 import prisma from '../index'
+import {YetToBeIdentifiedReason} from "../stopReason.ts";
 
 export const create = (data: any) => prisma.stops.create({ data })
 export const fetchStopsByVehicle = (number: string) =>
@@ -24,7 +25,7 @@ export const updateStopReason = (id: number, stopReasonId: number) =>
         data: { stopReasonId }
     })
 
-export const    allPendingStopsForSingleVehicle = async (number: string) => {
+export const allPendingStopsForSingleVehicle = async (number: string) => {
     const vehicle = await prisma.stops.findMany({
         where: {
             gpsStop: {
@@ -33,7 +34,7 @@ export const    allPendingStopsForSingleVehicle = async (number: string) => {
                 }
             },
             reason: {
-                name: 'Reason Not Updated'
+                name: YetToBeIdentifiedReason
             }
         },
         include: {
@@ -53,7 +54,7 @@ export const getVehicleDetailByReason = async (id: number) => {
             }
         },
         include: {
-            gpsStop: true
+            gpsStop: true,
         }
     })
     return vehicle
@@ -71,3 +72,4 @@ export const overrideStops = async (gpsStopId: number, data: any) => {
     const newStops = await prisma.stops.createMany({ data })
     return newStops
 }
+

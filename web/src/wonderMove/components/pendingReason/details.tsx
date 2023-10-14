@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import UpdateReason from './update.jsx'
+import UpdateReason from './update.tsx'
 import Paper from '@mui/material/Paper'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
@@ -7,14 +6,17 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import Table from '@mui/material/Table'
-import { formatDuration, epochToDate } from '../EpochConverter.jsx'
+import { formatDuration, epochToDate } from '../epochToTime.ts'
 
-const DetailsList = ({ pendingDetails }) => {
+interface DetailsListProps {
+    pendingDetails: any;
+}
+const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
     let sortedDetails = []
     if (pendingDetails && pendingDetails.length > 0) {
         sortedDetails = pendingDetails
             .slice()
-            .sort((a, b) => a.startTime - b.startTime)
+            .sort((a: any, b: any) => a.startTime - b.startTime)
     }
 
     return (
@@ -33,7 +35,7 @@ const DetailsList = ({ pendingDetails }) => {
                     </TableHead>
                     <TableBody>
                         {sortedDetails &&
-                            sortedDetails.map((row, i) => (
+                            sortedDetails.map((row: any, i: any) => (
                                 <TableRow
                                     key={i}
                                     sx={{
@@ -66,8 +68,5 @@ const DetailsList = ({ pendingDetails }) => {
             </TableContainer>
         </>
     )
-}
-DetailsList.propTypes = {
-    pendingDetails: PropTypes.any,
 }
 export default DetailsList
