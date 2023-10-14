@@ -14,7 +14,6 @@ const Details: React.FC<DetailsProps>  = () => {
         // @ts-ignore
         allPendingSRforSingleVehicle(number).then(setPendingDetails)
     }, [number])
-    console.log("Hiiii", number)
 
     return (
         <>

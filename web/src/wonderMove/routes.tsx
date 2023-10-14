@@ -12,7 +12,7 @@ import StopsHome from "./components/stops/home.tsx";
 import StopList from "./components/stops/list.tsx";
 import PendingReasonHome from "./components/pendingReason/home.tsx";
 import PendingList from "./components/pendingReason/list.tsx";
-import Details from "./components/pendingReason/details.tsx";
+import Details from './components/pendingReason/view.tsx'
 
 export const router = createBrowserRouter([
     {
