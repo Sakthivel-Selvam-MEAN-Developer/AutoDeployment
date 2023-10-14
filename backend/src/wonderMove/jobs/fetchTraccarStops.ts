@@ -43,13 +43,12 @@ const enrichWithVehicleDetails = (traccar: TraccarData) => (rawGpsData: RawGpsDa
         rawGpsData.map(convertToGPsData(traccar, id))
     )
 
-const fetchStopsFromTraccar = (from: number, to: number) => (traccar: TraccarData): Promise<GpsData[]> =>
+const fetchStopsFromTraccar = (from: number, to: number) => (traccar: any): Promise<GpsData[]> =>
     getStops(traccar.traccarId, from, to).then(
         enrichWithVehicleDetails(traccar)
     )
 
 export default (vehicleNumber: string, from: number, to: number) => {
-    // @ts-ignore
     return getTraccarByVehicleNumber(vehicleNumber)
         .then(fetchStopsFromTraccar(from, to))
         .then(createManyIfNotExist);

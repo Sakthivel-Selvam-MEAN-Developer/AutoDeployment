@@ -17,5 +17,4 @@ app.options('*', cors())
 setRoutes(app)
 
 // this is needed for the vite
-// eslint-disable-next-line import/prefer-default-export
 export { app }

@@ -1,15 +1,15 @@
-import { Application, Request, Response, NextFunction } from 'express';
+import { Application,Response } from 'express';
 import routes from './wonderMove/routes';
 
 const healthRoute = (app: Application): void => {
-    app.get('/health', (req: Request, res: Response) => {
+    app.get('/health', ( res: Response) => {
         res.status(200).send();
     });
 }
 
 const nonExistingRoute = (app: Application): void => {
-    app.use((req: Request, res: Response, next: NextFunction) => {
-        next(res.status(404).send("Sorry can't find that!!!!"));
+    app.use((res: Response) => {
+       res.status(404).send("Sorry can't find that!!!!");
     });
 }
 
