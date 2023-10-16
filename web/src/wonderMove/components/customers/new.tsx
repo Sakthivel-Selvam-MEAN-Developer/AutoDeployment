@@ -24,7 +24,7 @@ export const NewCustomer = () => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FormFields control={control} listValues={undefined} />
+                <FormFields control={control} />
                 <div
                     style={{
                         display: 'flex',

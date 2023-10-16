@@ -7,13 +7,15 @@ interface TextInputProps {
     fieldName: string;
 }
 function TextInput({control, label, fieldName}: TextInputProps) {
-    return <Controller
+    return (
+        <Controller
         render={({field}) =>
             <TextField {...field} label={label}/>
         }
         name={fieldName}
         control={control}
-    />;
+        />
+    )
 }
 
 export default TextInput

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {PieChart, Pie, ResponsiveContainer, Tooltip, Cell} from 'recharts'
+import {PieChart, Pie, Tooltip, Cell} from 'recharts'
 import {FormControl, InputLabel, Select, MenuItem, SelectChangeEvent} from '@mui/material'
 import dayjs from 'dayjs'
 import PieChartDetails from './details.tsx'
@@ -27,12 +27,12 @@ const DashboardList: React.FC = () => {
         '#39b2de',
         '#fd9846',
         '#7164fd',
-        '#ffee6c',
+        '#a4ea3c',
         '#c261ff',
         '#ffa2a2',
     ]
     const handleChange = (event: SelectChangeEvent) => {
-        const period = event.target.value as string;
+        const period = event.target.value;
         setPeriod(period);
 
         switch (period) {
@@ -67,13 +67,12 @@ const DashboardList: React.FC = () => {
         totalDuration += duration[i].durationInMillis;
     }
 
-    let runningTime = {
-        durationInMillis: totalVehicles.length * millisPerDay - totalDuration,
+    const runningTimeForAllVehicle = {
+        durationInMillis: ( totalVehicles.length * millisPerDay ) - totalDuration,
         name: 'Running Time',
     };
 
-    duration.push(runningTime);
-
+    duration.push(runningTimeForAllVehicle);
     const handleCellClick = (entry: DurationData) => {
         setSelectedCell(entry);
     };
@@ -92,7 +91,7 @@ const DashboardList: React.FC = () => {
                 </Select>
             </FormControl>
             {/* Pie Chart */}
-            <ResponsiveContainer width={950} height={600}>
+            {/*<ResponsiveContainer width={950} height={600}>*/}
                 <PieChart width={700} height={600}>
                     <Pie
                         data={duration}
@@ -116,7 +115,7 @@ const DashboardList: React.FC = () => {
                     </Pie>
                     <Tooltip />
                 </PieChart>
-            </ResponsiveContainer>
+            {/*</ResponsiveContainer>*/}
             {selectedCell && (
                 <PieChartDetails
                     selectedCell={selectedCell}

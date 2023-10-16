@@ -57,7 +57,7 @@ export const groupByReason = async (id: any) => {
                 }
             }
         },
-        _count: true
+        _count: true,
     })
     return vehiclesWithPendingReason
 }

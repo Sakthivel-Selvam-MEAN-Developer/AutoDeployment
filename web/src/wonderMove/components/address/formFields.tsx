@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import TextInput from "../form/TextInput.tsx";
 
-const Address = ({control})=> {
+const Address = ({control}: any)=> {
     return <>
         <div>
             <div style={{margin: "10px"}}> Address </div>

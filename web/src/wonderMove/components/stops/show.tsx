@@ -35,6 +35,13 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
         // @ts-ignore
         getAllReasons().then(setAllReasons)
     }, [])
+
+    let sortedDetails: any = []
+    if (stopDetails && stopDetails.length > 0) {
+        sortedDetails = stopDetails
+            .slice()
+            .sort((a: any, b: any) => a.startTime - b.startTime)
+    }
     const handleEditClick = (row: StopDetails) => {
         const rowsWithSameGpsStopId = stopDetails.filter(
             (item) => item.gpsStop.id === row.gpsStop.id
@@ -58,7 +65,7 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {stopDetails.map((row, index) => (
+                        {sortedDetails.map((row: any, index: number) => (
                             <TableRow
                                 key={row.id}
                                 sx={{

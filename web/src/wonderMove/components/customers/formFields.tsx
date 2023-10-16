@@ -1,10 +1,10 @@
 import TextInput from '../form/TextInput.tsx'
 import BooleanInput from '../form/BooleanInput.tsx'
 import Address from '../address/formFields.tsx'
+import React from "react";
 
 interface FormFieldsProps {
     control: any;
-    listValues: any;
 }
 const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
     return (

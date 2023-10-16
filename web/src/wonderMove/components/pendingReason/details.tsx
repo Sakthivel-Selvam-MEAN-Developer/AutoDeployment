@@ -7,17 +7,25 @@ import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import Table from '@mui/material/Table'
 import { formatDuration, epochToDate } from '../epochToTime.ts'
+import {useEffect, useState} from "react";
+import {getAllReasons} from "../../services/reason.ts";
 
 interface DetailsListProps {
     pendingDetails: any;
 }
 const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
+    const [fetchReason, setFetchReason] = useState<any>([])
+
     let sortedDetails = []
     if (pendingDetails && pendingDetails.length > 0) {
         sortedDetails = pendingDetails
             .slice()
             .sort((a: any, b: any) => a.startTime - b.startTime)
     }
+    useEffect(() => {
+        // @ts-ignore
+        getAllReasons().then(setFetchReason)
+    }, [])
 
     return (
         <>
@@ -55,11 +63,10 @@ const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
                                         {formatDuration(row.durationInMillis)}
                                     </TableCell>
                                     <TableCell align="left">
-                                        {row.gpsStop.latitude},
-                                        {row.gpsStop.longitude}
+                                        To Be Built
                                     </TableCell>
                                     <TableCell align="left">
-                                        {<UpdateReason reasonInfo={row} />}
+                                        {<UpdateReason reasonInfo={row} allReasons={fetchReason}/>}
                                     </TableCell>
                                 </TableRow>
                             ))}

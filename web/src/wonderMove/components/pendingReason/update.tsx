@@ -2,8 +2,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
-import { useEffect, useState } from 'react'
-import { getAllReasons } from '../../services/reason.ts'
+import { useState } from 'react'
 import SuccessDialog from '../SuccessDialog.tsx'
 import { updateStops } from '../../services/stops.ts'
 
@@ -16,16 +15,13 @@ interface ReasonInfo {
 
 interface UpdateReasonProps {
     reasonInfo: ReasonInfo;
+    allReasons: Array<any>;
 }
-const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo }) => {
-    const [fetchReason, setFetchReason] = useState<any>([])
+const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) => {
     const [selectedReason, setSelectedReason] = useState(reasonInfo.reason.id)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
 
-    useEffect(() => {
-        // @ts-ignore
-        getAllReasons().then(setFetchReason)
-    }, [])
+
     const handleChange = (event: any) => {
         const selectedReasonId = event.target.value
         setSelectedReason(selectedReasonId)
@@ -46,8 +42,8 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo }) => {
                     label="Reasons"
                     onChange={handleChange}
                 >
-                    {fetchReason.map((reason: any, i: any) => (
-                        <MenuItem key={i} value={reason.id}>
+                    {allReasons.map((reason: any, index: any) => (
+                        <MenuItem key={index} value={reason.id}>
                             {reason.name}
                         </MenuItem>
                     ))}
