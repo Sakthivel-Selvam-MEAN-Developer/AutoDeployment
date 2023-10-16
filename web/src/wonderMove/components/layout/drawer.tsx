@@ -6,7 +6,8 @@ import {
     LocalShipping,
     Badge,
     Upload,
-    LocalParking
+    LocalParking,
+    Article
 } from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -85,30 +86,37 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                 />
                 <DrawerListItem
                     text="Reason"
-                    navigate="/reasons"
+                    navigate="/reason"
                     drawerState={drawerState}
                     index={1}
+                    icon={<Article />}
+                />
+                <DrawerListItem
+                    text="PendingReason"
+                    navigate="/pending-reasons"
+                    drawerState={drawerState}
+                    index={2}
                     icon={<Upload />}
                 />
                 <DrawerListItem
                     text="Stops"
                     navigate="/stops"
                     drawerState={drawerState}
-                    index={2}
+                    index={3}
                     icon={<LocalParking />}
                 />
                 <DrawerListItem
                     text="Vehicle"
                     navigate="/vehicles"
                     drawerState={drawerState}
-                    index={3}
+                    index={4}
                     icon={<LocalShipping />}
                 />
                 <DrawerListItem
                     text="Customer"
                     navigate="/customers"
                     drawerState={drawerState}
-                    index={4}
+                    index={5}
                     icon={<Badge />}
                 />
             </List>

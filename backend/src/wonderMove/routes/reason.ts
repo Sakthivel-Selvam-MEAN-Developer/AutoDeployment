@@ -1,4 +1,4 @@
-import { create, listAllReason } from '../controller/reason.js'
+import { create, listAllReason } from '../controller/reason.ts'
 import {Router} from 'express'
 
 const reasonRoutes = (router: Router) => {

@@ -13,6 +13,8 @@ import StopList from "./components/stops/list.tsx";
 import PendingReasonHome from "./components/pendingReason/home.tsx";
 import PendingList from "./components/pendingReason/list.tsx";
 import Details from './components/pendingReason/view.tsx'
+import Reason from "./components/reason/home.tsx";
+import ReasonList from "./components/reason/list.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -30,7 +32,17 @@ export const router = createBrowserRouter([
                 ],
             },
             {
-                path: 'reasons',
+                path: 'reason',
+                element: <Reason/>,
+                children: [
+                    {
+                        path: '',
+                        element: <ReasonList/>,
+                    },
+                ],
+            },
+            {
+                path: 'pending-reasons',
                 element: <PendingReasonHome />,
                 children: [
                     {

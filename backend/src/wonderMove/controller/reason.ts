@@ -5,6 +5,6 @@ export const create = (req: Request, res: Response) => {
     createInDb(req.body).then(() => res.send(200))
 }
 
-export const listAllReason = (req: Request, res: Response) => {
+export const listAllReason = (_req: Request, res: Response) => {
     getAllReason().then((name) => res.status(200).json(name))
 }

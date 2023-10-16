@@ -54,7 +54,9 @@ const DashboardList: React.FC = () => {
         }
     }
     useEffect(() => {
-        getVehicles().then(setTotalVehicles);
+        getVehicles().then((vehicles) => {
+            setTotalVehicles(vehicles)
+        })
     }, []);
 
     useEffect(() => {
@@ -62,7 +64,6 @@ const DashboardList: React.FC = () => {
     }, [totalVehicles, from, to]);
 
     let totalDuration = 0;
-
     for (let i = 0; i < duration.length; i++) {
         totalDuration += duration[i].durationInMillis;
     }
@@ -73,6 +74,7 @@ const DashboardList: React.FC = () => {
     };
 
     duration.push(runningTimeForAllVehicle);
+    console.log(duration)
     const handleCellClick = (entry: DurationData) => {
         setSelectedCell(entry);
     };
