@@ -1,14 +1,17 @@
 export const formatDuration = (durationInMillis: number) => {
     const minutes: number = Math.floor(durationInMillis / 60000);
-    const min: number = Math.floor(durationInMillis / 60000) % 60;
+    const minutesMoreThan1Hour: number = Math.floor(durationInMillis / 60000) % 60;
     const hours: number = Math.floor(durationInMillis / (60000 * 60));
     const days: number = Math.floor(durationInMillis / (24 * 60000 * 60));
+    const hoursMoreThan24: number = Math.floor((durationInMillis / (60000 * 60)) % 24);
 
-    if (days > 10) {
-        return `${days} ${days === 1 ? 'day' : 'days'}`;
-    } else if (hours > 0 && min >= 0) {
-        return `${hours} ${hours === 1 ? 'hour' : 'hours'} and ${min} ${
-            min === 1 ? 'min' : 'mins'
+    if (days > 0 && hoursMoreThan24 >= 0) {
+        return `${days} ${days === 1 ? 'day' : 'days'} and ${hoursMoreThan24} ${
+            hoursMoreThan24 === 1 ? 'hour': 'hours'
+        }`;
+    } else if (hours > 0 && minutesMoreThan1Hour >= 0) {
+        return `${hours} ${hours === 1 ? 'hour' : 'hours'} and ${minutesMoreThan1Hour} ${
+            minutesMoreThan1Hour === 1 ? 'min' : 'mins'
         }`;
     } else {
         return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;

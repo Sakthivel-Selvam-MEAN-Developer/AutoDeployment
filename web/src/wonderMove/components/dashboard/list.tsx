@@ -11,18 +11,19 @@ interface DurationData {
     durationInMillis: number;
     name: string;
 }
+interface DurationEntryProps {
+    durationInMillis: number;
+}
 const DashboardList: React.FC = () => {
     const [duration, setDuration] = useState<DurationData[]>([]);
-    const [totalVehicles, setTotalVehicles] = useState<any[]>([]);
+    const [totalVehicles, setTotalVehicles] = useState([]);
     const [millisPerDay, setMillisPerDay] = useState<number>(86400000);
     const [period, setPeriod] = useState<string>('pastDay');
     const [from, setFrom] = useState<number>(
-        dayjs().subtract(1, 'day').unix()
-    );
+        dayjs().subtract(1, 'day').unix());
     const [to, setTo] = useState<number>(dayjs().unix());
     const [selectedCell, setSelectedCell] = useState<DurationData | null>(
-        null
-    )
+        null)
     const colors = [
         '#39b2de',
         '#fd9846',
@@ -60,21 +61,18 @@ const DashboardList: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        stopDuration(from, to).then(setDuration);
-    }, [totalVehicles, from, to]);
-
-    let totalDuration = 0;
-    for (let i = 0; i < duration.length; i++) {
-        totalDuration += duration[i].durationInMillis;
-    }
-
-    const runningTimeForAllVehicle = {
-        durationInMillis: ( totalVehicles.length * millisPerDay ) - totalDuration,
-        name: 'Running Time',
-    };
-
-    duration.push(runningTimeForAllVehicle);
-    console.log(duration)
+        stopDuration(from, to).then((stopDurations) => {
+            const totalDuration = stopDurations.reduce(
+                (total: number, entry: DurationEntryProps) => total + entry.durationInMillis,
+                0
+            );
+            const runningTimeForAllVehicle = {
+                durationInMillis: totalVehicles.length * millisPerDay - totalDuration,
+                name: 'Running Time',
+            };
+            setDuration([...stopDurations, runningTimeForAllVehicle]);
+        });
+    }, [totalVehicles, from, to, millisPerDay])
     const handleCellClick = (entry: DurationData) => {
         setSelectedCell(entry);
     };
@@ -94,13 +92,13 @@ const DashboardList: React.FC = () => {
             </FormControl>
             {/* Pie Chart */}
             {/*<ResponsiveContainer width={950} height={600}>*/}
-                <PieChart width={700} height={600}>
+                <PieChart width={1000} height={600}>
                     <Pie
                         data={duration}
                         dataKey="durationInMillis"
                         cx="50%"
                         cy="50%"
-                        innerRadius={120}
+                        innerRadius={110}
                         outerRadius={150}
                         paddingAngle={5}
                         label={(entry) =>
@@ -115,7 +113,7 @@ const DashboardList: React.FC = () => {
                             />
                         ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip formatter={(value: number, name) => [formatDuration(value), name]} />
                 </PieChart>
             {/*</ResponsiveContainer>*/}
             {selectedCell && (
@@ -126,5 +124,4 @@ const DashboardList: React.FC = () => {
         </>
     );
 };
-
 export default DashboardList
