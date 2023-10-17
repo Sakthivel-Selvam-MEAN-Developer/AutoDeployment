@@ -2,15 +2,12 @@ import React, {useEffect, useState} from "react";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography'
 import {getAllReasons} from '../../services/reason.ts'
-// import {create} from '../../services/reason.ts'
 import Input from '@mui/material/Input'
-import DoneIcon from '@mui/icons-material/Done'
-import ClearIcon from '@mui/icons-material/Clear'
+import {Edit, Add, Done, Clear} from '@mui/icons-material'
+// import {create} from '../../services/reason.ts'
 interface reasonProps {
     id: number
     name: string
@@ -46,7 +43,8 @@ const ReasonList: React.FC = () => {
                 <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
                     List All Reasons
                     <span style={{ position: 'absolute', right: '10px' }}>
-                        <AddIcon
+                        <Add
+                            data-testid={'add-button'}
                             onClick={() =>
                                 handleAdd()
                             }/>
@@ -58,7 +56,7 @@ const ReasonList: React.FC = () => {
                         disableGutters
                         secondaryAction={
                             <IconButton aria-label="comment">
-                                <EditIcon
+                                <Edit
                                     onClick={() =>
                                     handleEditClick(row)
                                 }/>
@@ -78,9 +76,9 @@ const ReasonList: React.FC = () => {
                         value={newReason}
                         onChange={(e) => setNewReason(e.target.value)}
                         endAdornment={
-                               <div style={{ display: 'flex', paddingRight: '8px', cursor: 'pointer'  }}>
-                                   <ClearIcon onClick={handleClose} />
-                                   <DoneIcon onClick={handleSave} />
+                               <div style={{ display: 'flex', paddingRight: '8px', cursor: 'pointer' }}>
+                                   <Clear data-testid={'close-button'} onClick={handleClose} />
+                                   <Done onClick={handleSave} />
                                </div>
                            }/>
                 </ListItem>
