@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import TextInput from "./TextInput.tsx";
-import {TestForm} from "./TestForm.tsx";
+import { TestForm } from "./TestForm.tsx";
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 

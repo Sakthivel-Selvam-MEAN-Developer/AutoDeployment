@@ -1,10 +1,7 @@
-import { render, fireEvent, screen } from '@testing-library/react';
-// import {getAllReasons} from '../../services/reason.ts'
-import ReasonList from './list.tsx';
+import { render, fireEvent, screen } from '@testing-library/react'
+import ReasonList from './list.tsx'
+import userEvent from '@testing-library/user-event';
 
-// jest.mock("../../services/reason", () => ({
-//     getAllReasons: jest.fn(),
-// }))
 
 describe('Reason Page', () => {
     test('clicking add button shows input field', () => {
@@ -20,24 +17,14 @@ describe('Reason Page', () => {
         fireEvent.click(screen.getByTestId('close-button'));
         expect(screen.queryByPlaceholderText('Add New Reason')).toBeNull();
     })
-    // it("fetches data from backend on mount", async () => {
-    //     const mockReasons = [
-    //         { id: 1, name: "Reason 1" },
-    //         { id: 2, name: "Reason 2" },
-    //     ];
-    //
-    //     // @ts-ignore
-    //     (getAllReasons as jest.Mock).mockResolvedValue(mockReasons);
-    //
-    //     render(<ReasonList />);
-    //     await screen.findByText("List All Reasons");
-    //
-    //     // Check if the service function was called
-    //     expect(getAllReasons).toHaveBeenCalled();
-    //
-    //     // Check if the data is rendered in the component
-    //     mockReasons.forEach((reason) => {
-    //         expect(screen.getByText(reason.name)).toBeInTheDocument();
-    //     });
-    // })
+    test('clicking save button which post data and close input field', () => {
+        render(<ReasonList />);
+        fireEvent.click(screen.getByTestId('add-button'));
+        expect(screen.getByPlaceholderText('Add New Reason')).toBeInTheDocument();
+        userEvent.type(screen.getByPlaceholderText('Add New Reason'),"hi buddy")
+        const consoleSpy = jest.spyOn(console, 'log');
+        fireEvent.click(screen.getByTestId('done-button'));
+        expect(consoleSpy).toHaveBeenCalledWith('hi buddy');
+        expect(screen.queryByPlaceholderText('Add New Reason')).toBeNull();
+    })
 })
