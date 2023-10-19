@@ -5,15 +5,14 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography'
 import {getAllReasons, update} from '../../services/reason.ts'
-import Input from '@mui/material/Input'
-import {Edit, Add, Done, Clear} from '@mui/icons-material'
+import {Edit, Add} from '@mui/icons-material'
 import {create} from '../../services/reason.ts'
 import SuccessDialog from "../SuccessDialog.tsx";
+import InputField from "./inputField.tsx";
 interface reasonProps {
     id: number
     name: string
 }
-const ariaLabel = { 'aria-label': 'description' }
 const ReasonList: React.FC = () => {
     const [reason, setReason] = useState([])
     const [isAdding, setIsAdding] = useState(false);
@@ -21,6 +20,8 @@ const ReasonList: React.FC = () => {
     const [refreshData, setRefreshData] = useState(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [editReasonId, setEditReasonId] = useState<number | null>(null)
+    const [oldReason, setOldReason] = useState<string | null>(null)
+    const [message, setMessage] = useState<string>("")
 
     useEffect(() => {
         // @ts-ignore
@@ -28,6 +29,7 @@ const ReasonList: React.FC = () => {
     }, [refreshData])
 
     const handleEditClick = (row: reasonProps) => {
+        setOldReason(row.name)
         setEditReasonId(row.id)
     }
     const handleAdd = () => {
@@ -38,6 +40,7 @@ const ReasonList: React.FC = () => {
             .then(() =>setRefreshData(true))
             .then(() => setOpenSuccessDialog(true))
         handleClose()
+        setMessage("New Reason Added")
     }
     const handleClose = () => {
         setNewReason("")
@@ -45,12 +48,14 @@ const ReasonList: React.FC = () => {
         setIsAdding(false)
         setRefreshData(false)
         setEditReasonId(null)
+        setMessage("")
     }
     const handleUpdate = () => {
         update(JSON.stringify({id: editReasonId, name: newReason}))
             .then(() =>setRefreshData(true))
             .then(() => setOpenSuccessDialog(true))
         handleClose()
+        setMessage("Reason Updated")
     }
 
     return (
@@ -59,11 +64,9 @@ const ReasonList: React.FC = () => {
                 <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
                     List All Reasons
                     <span style={{ position: 'absolute', right: '10px' }}>
-                        <Add
-                            data-testid={'add-button'}
-                            onClick={() =>
-                                handleAdd()
-                            }/>
+                        <IconButton data-testid={'add-button'} onClick={() => handleAdd()}>
+                            <Add/>
+                        </IconButton>
                     </span>
                 </Typography>
                 {reason.map((row: reasonProps, index: number) => (
@@ -71,28 +74,20 @@ const ReasonList: React.FC = () => {
                         key={index}
                         disableGutters
                         secondaryAction={
-                            <IconButton aria-label="comment">
-                                <Edit
-                                    onClick={() =>
-                                    handleEditClick(row)
-                                }/>
+                            <IconButton aria-label="comment" onClick={() => handleEditClick(row)}>
+                                <Edit />
                             </IconButton>
                         }
                     >
                         {editReasonId === row.id ? (
-                            <Input
-                                fullWidth
-                                placeholder="Edit Reason"
-                                inputProps={ariaLabel}
-                                value={newReason}
-                                onChange={(e) => setNewReason(e.target.value)}
-                                endAdornment={
-                                    <div style={{ display: 'flex', paddingRight: '8px', cursor: 'pointer' }}>
-                                        <Clear data-testid={'close-button'} onClick={handleClose} />
-                                        <Done data-testid={'update-button'} onClick={handleUpdate} />
-                                    </div>
-                                }
-                            />
+                            <>
+                            <Typography variant="body1">{`${index + 1}`}.&nbsp;</Typography>
+                            <InputField
+                                value={oldReason}
+                                onChange={(e: any) => setNewReason(e.target.value)}
+                                onClear={handleClose}
+                                onSave={handleUpdate}
+                            /></>
                         ) : (
                         <ListItemText primary={`${index + 1}. ${row.name}`} />
                         )}
@@ -101,25 +96,19 @@ const ReasonList: React.FC = () => {
                 {isAdding && (
                     <ListItem disableGutters>
                         {reason.length + 1}.&nbsp;
-                        <Input
-                            fullWidth
-                            placeholder="Add New Reason"
-                            inputProps={ariaLabel}
-                            value={newReason}
-                            onChange={(e) => setNewReason(e.target.value)}
-                            endAdornment={
-                                <div style={{ display: 'flex', paddingRight: '8px', cursor: 'pointer' }}>
-                                    <Clear data-testid={'close-button'} onClick={handleClose} />
-                                    <Done data-testid={'done-button'} onClick={handleSave} />
-                                </div>
-                            }/>
+                        <InputField
+                                value={newReason}
+                                onChange={(e: any) => setNewReason(e.target.value)}
+                                onClear={handleClose}
+                                onSave={handleSave}
+                            />
                     </ListItem>
             )}
             </List>
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={handleClose}
-                message="New reason added"
+                message={message}
             />
         </>
     )

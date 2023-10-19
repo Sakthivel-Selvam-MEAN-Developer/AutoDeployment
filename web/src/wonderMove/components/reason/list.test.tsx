@@ -1,7 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/react'
 import ReasonList from './list.tsx'
-import userEvent from '@testing-library/user-event';
-
+import userEvent from '@testing-library/user-event'
 
 describe('Reason Page', () => {
     test('clicking add button shows input field', () => {
