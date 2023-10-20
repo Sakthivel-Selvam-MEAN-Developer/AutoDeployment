@@ -6,7 +6,7 @@ import {
     allPendingStopsForSingleVehicle,
     create as createInDb,
     fetchStopsByVehicle as getDetailsFromDb,
-    updateStopReason
+    updateStopReason, overrideStops
 } from '../models/stops/stops.crud'
 import { Request, Response } from "express";
 
@@ -22,7 +22,7 @@ export const create = (req: Request, res: Response) => {
 }
 
 export const getDetails = (req: Request, res: Response) => {
-    getDetailsFromDb(req.params.number).then((detail) => {
+    getDetailsFromDb(req.params.number).then((detail: any) => {
         res.status(200).json(detail)
     })
 }
@@ -47,7 +47,7 @@ export const stopDurations = (req: Request, res: Response) => {
 
 export const updateStopsDb = (req: Request, res: Response) => {
     updateStopReason(parseInt(req.params.id as string), req.body.stopReasonId).then(
-        (data) => {
+        (data: any) => {
             res.status(200).json(data)
         }
     )
@@ -57,7 +57,7 @@ const mapNumberToVehicle = async (aggregatedReason: any[]) => {
     return aggregatedReason.map((item: any) => {
         // @ts-ignore
         const { number } = numbers.find(
-            (vehicle) => vehicle.id === item.vehicleId
+            (vehicle: { id: any }) => vehicle.id === item.vehicleId
         )
         return { ...item, number }
     })
@@ -66,7 +66,7 @@ export const pendingStopReason = (_req: Request, res: Response) => {
     getDefaultReason()
         .then(({ id }: any) => groupByReason(id))
         .then(mapNumberToVehicle)
-        .then((data) => {
+        .then((data: any) => {
             res.status(200).json(data)
         })
 }
@@ -74,4 +74,11 @@ export const allPendingSRforSingleVehicle = (req: Request, res: Response) => {
     allPendingStopsForSingleVehicle(req.params.number).then((detail) => {
         res.status(200).json(detail)
     })
+}
+export const overrideStop = (req: Request, res: Response) => {
+    overrideStops(parseInt(req.params.gpsStopId), req.body.data).then(
+        (data) => {
+            res.status(200).json(data)
+        }
+    )
 }

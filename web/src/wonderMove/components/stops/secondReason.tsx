@@ -8,17 +8,19 @@ import { useState } from 'react'
 import { Button } from '@mui/material'
 import { epochToDate } from '../epochToTime.ts'
 import UpdateReason from './updateReason.tsx'
-import { updateSecondReason } from '../../services/stops.ts'
+import { overrideStop } from '../../services/stops.ts'
 
 interface SecondReasonProps {
     row: any;
     onClose: () => void;
     tableState: () => void;
+    rowWithSameGpsId: any;
 }
 
-const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState }) => {
+const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, rowWithSameGpsId }) => {
     const [value, setValue] = useState<dayjs.Dayjs | null>(null)
     const [selectedReason, setSelectedReason] = useState(row.reason.id)
+    // const [editStops, setEditStops] = useState([])
 
     const handleMenuItemSelect = (selectedReasonId: number) => {
         setSelectedReason(selectedReasonId)
@@ -31,11 +33,26 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState })
         !value.isValid() ||
         value.isBefore(dayjs(epochToDate(row.startTime))) ||
         value.isAfter(dayjs(epochToDate(row.endTime)))
+
     const updateReason = () => {
-        updateSecondReason(row.id, {
-            resolvedTime: dayjs(value).unix(),
-            newStopReasonId: selectedReason,
-        })
+        const splitTime = dayjs(value).unix()
+        const firstStop = {
+            startTime: row.startTime,
+            endTime: splitTime,
+            durationInMillis: splitTime-row.startTime,
+            gpsStopId: row.gpsStopId,
+            stopReasonId: row.stopReasonId
+        }
+        const secondStop = {
+            startTime: splitTime,
+            endTime: row.endTime,
+            durationInMillis: row.endTime-splitTime,
+            gpsStopId: row.gpsStopId,
+            stopReasonId: row.stopReasonId
+        }
+        console.log(rowWithSameGpsId);
+
+        overrideStop(row.gpsStopId, [firstStop, secondStop])
         tableState()
         onClose()
     }

@@ -30,8 +30,8 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selecte
                     value={selectedReason}
                     onChange={(e) => onSelect(e.target.value)}
                 >
-                    {fetchReason.map((reason: any, i: any) => (
-                        <MenuItem key={i} value={reason.id}>
+                    {fetchReason.map((reason: any, index: any) => (
+                        <MenuItem key={index} value={reason.id}>
                             {reason.name}
                         </MenuItem>
                     ))}

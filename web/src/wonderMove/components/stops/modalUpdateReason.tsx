@@ -23,12 +23,12 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     setSelectedRow,
     tableState,
 }) => {
-    const [expandedRow, setExpandedRow] = useState(null)
+    const [expandedRow, setExpandedRow] = useState<any | null>(null)
     const handleModalClose = () => setSelectedRow(null)
     const handleAccordionClose = () => {
         setExpandedRow(null)
     }
-    const toggleAccordion = (rowId: any) => {
+    const toggleAccordion = (rowId: number) => {
         setExpandedRow(expandedRow === rowId ? null : rowId)
     }
 
@@ -45,100 +45,86 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     }
     return (
         <>
-            <div>
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    open={open}
-                    onClose={handleModalClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                        <Box sx={style}>
-                            <Typography
-                                id="transition-modal-title"
-                                variant="h6"
-                                component="h2"
-                            >
-                                Details
-                            </Typography>
-                            <Typography
-                                id="transition-modal-description"
-                                sx={{ mt: 2 }}
-                            >
-                                {selectedRow.map((row, i) => (
-                                    <React.Fragment key={row.id}>
-                                        <TableRow
-                                            key={row.id}
-                                            sx={{
-                                                '&:last-child td, &:last-child th':
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleModalClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                    <Box sx={style}>
+                        <Typography
+                            id="transition-modal-title"
+                            variant="h6"
+                            component="h2"
+                        >
+                            Details
+                        </Typography>
+                        <Typography
+                            id="transition-modal-description"
+                            sx={{ mt: 2 }}
+                        >
+                            {selectedRow.map((row, index) => (
+                                <React.Fragment key={row.id}>
+                                    <TableRow
+                                        key={row.id}
+                                        sx={{'&:last-child td, &:last-child th':
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}>
+                                        <TableCell> {index + 1} </TableCell>
+                                        <TableCell align="left">
+                                            {epochToDate(row.startTime)}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {epochToDate(row.endTime)}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {formatDuration(
+                                                row.durationInMillis
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {row.reason.name}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <Button onClick={() => toggleAccordion(row.id)}> Split </Button>
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <Button> Edit </Button>
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <Button> Delete </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                    {expandedRow === row.id && (
+                                        <TableRow>
+                                            <TableCell colSpan={7}>
+                                                <Typography variant="body1">
                                                     {
-                                                        border: 0,
-                                                    },
-                                            }}
-                                        >
-                                            <TableCell> {i + 1} </TableCell>
-                                            <TableCell align="left">
-                                                {epochToDate(row.startTime)}
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                {epochToDate(row.endTime)}
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                {formatDuration(
-                                                    row.durationInMillis
-                                                )}
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                {row.reason.name}
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                <Button
-                                                    onClick={() =>
-                                                        toggleAccordion(row.id)
+                                                        <SecondReason
+                                                            row={row}
+                                                            onClose={handleAccordionClose}
+                                                            tableState={tableState}
+                                                            rowWithSameGpsId={selectedRow}
+                                                        />
                                                     }
-                                                >
-                                                    {' '}
-                                                    Split{' '}
-                                                </Button>
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                <Button> Edit </Button>
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                <Button> Delete </Button>
+                                                </Typography>
                                             </TableCell>
                                         </TableRow>
-                                        {expandedRow === row.id && (
-                                            <TableRow>
-                                                <TableCell colSpan={7}>
-                                                    <Typography variant="body1">
-                                                        {
-                                                            <SecondReason
-                                                                row={row}
-                                                                onClose={
-                                                                    handleAccordionClose
-                                                                }
-                                                                tableState={
-                                                                    tableState
-                                                                }
-                                                            />
-                                                        }
-                                                    </Typography>
-                                                </TableCell>
-                                            </TableRow>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </Typography>
-                        </Box>
-                    </Fade>
-                </Modal>
-            </div>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </Typography>
+                    </Box>
+                </Fade>
+            </Modal>
         </>
     )
 }

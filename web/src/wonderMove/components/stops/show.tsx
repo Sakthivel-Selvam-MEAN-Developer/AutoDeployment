@@ -28,7 +28,7 @@ interface StopListProps {
     tableState: any;
 }
 const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
-    const [selectedRow, setSelectedRow] = useState(null)
+    const [selectedRows, setSelectedRows] = useState(null)
     const [allReasons, setAllReasons] = useState([])
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
         const rowsWithSameGpsStopId = stopDetails.filter(
             (item) => item.gpsStop.id === row.gpsStop.id
         )
-        setSelectedRow(rowsWithSameGpsStopId as any)
+        setSelectedRows(rowsWithSameGpsStopId as any)
     }
 
     return (
@@ -95,12 +95,8 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
                                 </TableCell>
                                 <TableCell align="left">
                                     <Tooltip title="Split Stops">
-                                        <IconButton>
-                                            <EditIcon
-                                                onClick={() =>
-                                                    handleEditClick(row)
-                                                }
-                                            />
+                                        <IconButton onClick={() => handleEditClick(row)}>
+                                            <EditIcon/>
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
@@ -109,11 +105,11 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {selectedRow && (
+            {selectedRows && (
                 <ModalUpdateReason
-                    selectedRow={selectedRow}
+                    selectedRow={selectedRows}
                     open={open as any}
-                    setSelectedRow={setSelectedRow}
+                    setSelectedRow={setSelectedRows}
                     tableState={tableState}
                 />
             )}

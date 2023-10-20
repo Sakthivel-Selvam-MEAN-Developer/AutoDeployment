@@ -10,8 +10,8 @@ export const updateStops = (id: number, data: object) => {
     return axiosInstance.post(`/stops/update/${id}`, data)
 }
 
-export const updateSecondReason = (id: number, data: object) => {
-    return axiosInstance.post(`/stops/update/2/${id}`, data)
+export const overrideStop = (id: number, data: any) => {
+    return axiosInstance.post(`/stops/override/${id}`, data)
 }
 export const pendingStopReason = (reason: object) =>
     axiosInstance.get('/stops/pending', reason).then(getData)

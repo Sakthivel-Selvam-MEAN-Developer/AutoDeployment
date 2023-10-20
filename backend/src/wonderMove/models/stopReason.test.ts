@@ -1,5 +1,5 @@
 import seedReason from '../seed/reason'
-import {create, getAllReason, getDefaultReason, YetToBeIdentifiedReason} from './stopReason'
+import {create, getAllReason, getDefaultReason, update, YetToBeIdentifiedReason} from './stopReason'
 
 describe('Reason model', () => {
     test('should able to access', async () => {
@@ -13,7 +13,12 @@ describe('Reason model', () => {
         await create({ name: "Break Down" })
         await create({ name: "Puncture" })
         const actual = await getDefaultReason()
-        console.log(actual)
         expect(actual!.name).toBe(YetToBeIdentifiedReason)
+    })
+    test('should update reason', async () => {
+        const newReason = await create({ name: "Puncture" })
+        const actual = await update({id: newReason.id, name: "Break Down"})
+        expect(actual.id).toBe(newReason.id)
+        expect(actual.name).toBe("Break Down")
     })
 })

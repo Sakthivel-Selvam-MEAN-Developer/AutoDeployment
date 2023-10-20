@@ -5,7 +5,7 @@ export const create = (data: any) => prisma.stops.create({ data })
 export const fetchStopsByVehicle = (number: string) =>
     prisma.stops.findMany({
         where: {
-            active: true,
+            // active: true,
             gpsStop: {
                 vehicles: {
                     number
@@ -63,7 +63,9 @@ export const getVehicleDetailByReason = async (id: number) => {
 export const overrideStops = async (gpsStopId: number, data: any) => {
     await prisma.stops.updateMany({
         where: {
-            gpsStopId
+            gpsStop: {
+                id: gpsStopId
+            }
         },
         data: {
             active: false
