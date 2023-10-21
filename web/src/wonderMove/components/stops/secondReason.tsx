@@ -48,7 +48,7 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
             endTime: row.endTime,
             durationInMillis: row.endTime-splitTime,
             gpsStopId: row.gpsStopId,
-            stopReasonId: row.stopReasonId
+            stopReasonId: selectedReason
         }
         console.log(rowWithSameGpsId);
 

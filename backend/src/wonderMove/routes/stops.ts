@@ -15,7 +15,7 @@ const stopRoutes = (router: Router) => {
     router.get('/stops/duration', stopDurations)
     router.get('/stops/:number', getDetails)
     router.post('/stops/update/:id', updateStopsDb)
-    router.post('/stops/override/:gpsStopId', overrideStop)
+    router.post('/stops/override', overrideStop)
     router.get('/stops-pending/:number', allPendingSRforSingleVehicle)
 }
 

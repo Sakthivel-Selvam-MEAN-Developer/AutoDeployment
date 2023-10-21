@@ -76,8 +76,8 @@ export const allPendingSRforSingleVehicle = (req: Request, res: Response) => {
     })
 }
 export const overrideStop = (req: Request, res: Response) => {
-    overrideStops(parseInt(req.params.gpsStopId), req.body.data).then(
-        (data) => {
+    overrideStops(parseInt(req.query.gpsStopId as string), req.body).then(
+        (data: any) => {
             res.status(200).json(data)
         }
     )
