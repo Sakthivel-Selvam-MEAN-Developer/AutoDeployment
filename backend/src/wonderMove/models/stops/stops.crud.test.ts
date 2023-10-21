@@ -15,7 +15,8 @@ import {
     overrideStops,
     fetchStopsByVehicle,
     getVehicleDetailByReason,
-    updateStopReason
+    updateStopReason,
+    groupByStopReason
 } from './stops.crud'
 
 describe('Stop model', () => {
@@ -225,5 +226,65 @@ describe('Stop model', () => {
             expect(newStops).toHaveLength(1)
             expect(newStops[0].durationInMillis).toBe(40)
         }
+    })
+    test('should get count of vehicles with pending reason', async () => {
+        const reason1 = await createNewReason(seedReason)
+        const reason2 = await createNewReason({
+            ...seedReason,
+            name: 'Yet to be identified'
+        })
+        const vehicle1 = await createNewVehicle(seedVehicleWithoutDep)
+        const vehicle2 = await createNewVehicle({
+            ...seedVehicle,
+            number: 'tn93d5512'
+        })
+        const gpsStop1 = await createGpsStop({
+            ...seedGpsStopsWithoutDep,
+            vehicleId: vehicle1.id
+        })
+        const gpsStop2 = await createGpsStop({
+            ...seedGpsStopsWithoutDep,
+            vehicleId: vehicle2.id
+        })
+        const stop1 = {
+            ...seedStopWithoutDependency,
+            stopReasonId: reason1.id,
+            gpsStopId: gpsStop1.id
+        }
+        const stop2 = {
+            ...seedStopWithoutDependency,
+            stopReasonId: reason2.id,
+            gpsStopId: gpsStop1.id
+        }
+        const stop3 = {
+            ...seedStopWithoutDependency,
+            stopReasonId: reason2.id,
+            gpsStopId: gpsStop1.id
+        }
+        const stop4 = {
+            ...seedStopWithoutDependency,
+            stopReasonId: reason2.id,
+            gpsStopId: gpsStop2.id
+        }
+        await create(stop1)
+        await create({ ...stop2, startTime: 100 })
+        await create({ ...stop3, startTime: 150 })
+        await create(stop4)
+        const actual = await groupByStopReason(reason2.id)
+        console.log(actual);
+        
+        expect(actual).toHaveLength(2)
+        expect(actual).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    _count: 2,
+                    gpsStopId: gpsStop1.id
+                }),
+                expect.objectContaining({
+                    _count: 1,
+                    gpsStopId: gpsStop2.id
+                })
+            ])
+        )
     })
 })

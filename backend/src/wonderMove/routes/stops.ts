@@ -1,9 +1,9 @@
+import { pendingStopReason } from '../controller/pendingReason.ts';
 import {
     create,
     getDetails,
     stopDurations,
     updateStopsDb,
-    pendingStopReason,
     allPendingSRforSingleVehicle,
     overrideStop
 } from '../controller/stops.ts'

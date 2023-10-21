@@ -20,7 +20,13 @@ export const update = (data: any) =>
 
 export const getAllReason = () =>
     prisma.stopReasons.findMany({
-        where: {},
+        where: {
+            // stops: {
+            //     some: {
+            //         active: true
+            //     }
+            // }
+        },
         select: {
             id: true,
             name: true

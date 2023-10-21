@@ -73,3 +73,14 @@ export const overrideStops = async (gpsStopId: any, data: any) => {
     return newStops
 }
 
+export const groupByStopReason =async (id: any) => {
+    const vehiclesWithPendingReason = await prisma.stops.groupBy({
+        by: ['gpsStopId'],
+        where: {
+            stopReasonId: id
+        },
+        _count: true
+    })
+    return vehiclesWithPendingReason
+}
+

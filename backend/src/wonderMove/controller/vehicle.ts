@@ -15,7 +15,7 @@ export const update = (req: Request, res: Response) => {
     updateInDB(req.params.number, req.body).then(() => res.sendStatus(200))
 }
 
-export const listAllNumbers = (req: Request, res: Response) => {
+export const listAllNumbers = (_req: Request, res: Response) => {
     getAllVehicles().then((numbers) => res.status(200).json(numbers))
 }
 
