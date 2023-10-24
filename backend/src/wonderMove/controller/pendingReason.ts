@@ -2,29 +2,34 @@ import { Request, Response } from "express";
 import { getDefaultReason } from "../models/stopReason";
 import { groupByStopReason } from "../models/stops/stops.crud";
 import { getGpsStops } from "../models/gpsStop";
+import { getAllVehicles } from "../models/vehicle";
 
-function groupNumber(groupedData: any[], gpsStopIdToVehicleNumber: Map<any, any>) {
+function groupNumber(groupedData: any[], gpsStopIdToVehicleId: Map<any, any>, vehicleDataMap: Map<any, any>) {
     return groupedData.reduce((acc, entry) => {
         const gpsStopId = entry.gpsStopId;
-        const number = gpsStopIdToVehicleNumber.get(gpsStopId);
-            if (!acc[number]) {
-                acc[number] = {
-                    number: number,
+        const vehicleId = gpsStopIdToVehicleId.get(gpsStopId)
+        const vehicleData = vehicleDataMap.get(vehicleId)
+            if (!acc[vehicleId]) {
+                acc[vehicleId] = {
+                    number: vehicleData.number,
                     _count: 0
                 };
             }
-            acc[number]._count += entry._count;
+            acc[vehicleId]._count += entry._count;
         return acc;
     }, {})
 }
 
 const mapNumberToVehicle = async (groupedData: any[]) => {
     const gpsStop = await getGpsStops();
-    const gpsStopIdToVehicleNumber = new Map();
+    const gpsStopIdToVehicleId = new Map();
     gpsStop.forEach(stop => {
-        gpsStopIdToVehicleNumber.set(stop.id, stop.vehicleId);
+        gpsStopIdToVehicleId.set(stop.id, stop.vehicleId);
     });
-    const result = groupNumber(groupedData, gpsStopIdToVehicleNumber)
+    const vehicleData = await getAllVehicles()
+    const vehicleDataMap = new Map(vehicleData.map(vehicle => [vehicle.id, vehicle]))
+
+    const result = groupNumber(groupedData, gpsStopIdToVehicleId, vehicleDataMap)
     return Object.values(result);
 }
 

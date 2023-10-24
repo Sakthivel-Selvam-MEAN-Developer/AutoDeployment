@@ -271,7 +271,6 @@ describe('Stop model', () => {
         await create({ ...stop3, startTime: 150 })
         await create(stop4)
         const actual = await groupByStopReason(reason2.id)
-        console.log(actual);
         
         expect(actual).toHaveLength(2)
         expect(actual).toEqual(
