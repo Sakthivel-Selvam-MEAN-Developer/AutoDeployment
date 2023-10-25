@@ -20,7 +20,6 @@ interface SecondReasonProps {
 const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, rowWithSameGpsId }) => {
     const [value, setValue] = useState<dayjs.Dayjs | null>(null)
     const [selectedReason, setSelectedReason] = useState(row.reason.id)
-    // const [editStops, setEditStops] = useState([])
 
     const handleMenuItemSelect = (selectedReasonId: number) => {
         setSelectedReason(selectedReasonId)
@@ -39,14 +38,14 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
         const firstStop = {
             startTime: row.startTime,
             endTime: splitTime,
-            durationInMillis: splitTime-row.startTime,
+            durationInMillis: (splitTime-row.startTime)*1000,
             gpsStopId: row.gpsStopId,
             stopReasonId: row.stopReasonId
         }
         const secondStop = {
             startTime: splitTime,
             endTime: row.endTime,
-            durationInMillis: row.endTime-splitTime,
+            durationInMillis: (row.endTime-splitTime)*1000,
             gpsStopId: row.gpsStopId,
             stopReasonId: selectedReason
         }

@@ -28,6 +28,7 @@ export const updateStopReason = (id: number, stopReasonId: number) =>
 export const allPendingStopsForSingleVehicle = async (number: string) => {
     const vehicle = await prisma.stops.findMany({
         where: {
+            active: true,
             gpsStop: {
                 vehicles: {
                     number

@@ -38,12 +38,12 @@ const convertToGPsData = (traccar: TraccarData, reasonId: number) => (rawGps: Ra
         stopReasonId: reasonId
     }
 }
-const enrichWithVehicleDetails = (traccar: TraccarData) => (rawGpsData: RawGpsData[]): Promise<GpsData[]> =>
+const enrichWithVehicleDetails = (traccar: TraccarData) => (rawGpsData: RawGpsData[]) =>
     getDefaultReason().then(({ id }: any) =>
         rawGpsData.map(convertToGPsData(traccar, id))
     )
 
-const fetchStopsFromTraccar = (from: number, to: number) => (traccar: any): Promise<GpsData[]> =>
+const fetchStopsFromTraccar = (from: number, to: number) => (traccar: any) =>
     getStops(traccar.traccarId, from, to).then(
         enrichWithVehicleDetails(traccar)
     )

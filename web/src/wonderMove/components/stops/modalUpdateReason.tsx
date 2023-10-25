@@ -30,6 +30,8 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     }
     const toggleAccordion = (rowId: number) => {
         setExpandedRow(expandedRow === rowId ? null : rowId)
+        console.log(selectedRow);
+        
     }
 
     const style = {
@@ -95,9 +97,6 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                         </TableCell>
                                         <TableCell align="left">
                                             <Button onClick={() => toggleAccordion(row.id)}> Split </Button>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                            <Button> Edit </Button>
                                         </TableCell>
                                         <TableCell align="left">
                                             <Button> Delete </Button>
