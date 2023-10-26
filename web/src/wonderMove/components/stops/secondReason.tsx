@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import Stack from '@mui/material/Stack'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -26,6 +25,7 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
     }
     const handleClose = () => {
         onClose()
+        console.log(rowWithSameGpsId);
     }
     const disableUpdate =
         !value ||
@@ -38,23 +38,31 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
         const firstStop = {
             startTime: row.startTime,
             endTime: splitTime,
-            durationInMillis: (splitTime-row.startTime)*1000,
+            durationInMillis: (splitTime - row.startTime) * 1000,
             gpsStopId: row.gpsStopId,
             stopReasonId: row.stopReasonId
         }
         const secondStop = {
             startTime: splitTime,
             endTime: row.endTime,
-            durationInMillis: (row.endTime-splitTime)*1000,
+            durationInMillis: (row.endTime - splitTime) * 1000,
             gpsStopId: row.gpsStopId,
             stopReasonId: selectedReason
         }
-        console.log(rowWithSameGpsId);
-
-        overrideStop(row.gpsStopId, [firstStop, secondStop])
+        const remainingRows = rowWithSameGpsId
+            .filter((splitRow: { id: number }) => splitRow.id !== row.id)
+            .map(({ startTime, endTime, durationInMillis, gpsStopId, stopReasonId }: any) => ({
+                startTime,
+                endTime,
+                durationInMillis,
+                gpsStopId,
+                stopReasonId
+            }))
+        overrideStop(row.gpsStopId, [firstStop, secondStop, ...remainingRows])
         tableState()
         onClose()
     }
+
     return (
         <>
             <div className="popup">
@@ -98,10 +106,5 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
             </div>
         </>
     )
-}
-SecondReason.propTypes = {
-    row: PropTypes.any,
-    onClose: PropTypes.any,
-    tableState: PropTypes.any,
 }
 export default SecondReason

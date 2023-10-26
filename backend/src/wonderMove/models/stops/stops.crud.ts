@@ -78,7 +78,8 @@ export const groupByStopReason =async (id: any) => {
     const vehiclesWithPendingReason = await prisma.stops.groupBy({
         by: ['gpsStopId'],
         where: {
-            stopReasonId: id
+            stopReasonId: id,
+            active: true
         },
         _count: true
     })

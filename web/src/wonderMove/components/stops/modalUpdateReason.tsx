@@ -24,14 +24,62 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     tableState,
 }) => {
     const [expandedRow, setExpandedRow] = useState<any | null>(null)
+    let sortedDetails: any
+    if (selectedRow && selectedRow.length > 0) {
+        sortedDetails = selectedRow
+            .slice()
+            .sort((a: any, b: any) => a.startTime - b.startTime)
+    }
     const handleModalClose = () => setSelectedRow(null)
     const handleAccordionClose = () => {
         setExpandedRow(null)
     }
-    const toggleAccordion = (rowId: number) => {
+    const splitStopAccordion = (rowId: number) => {
         setExpandedRow(expandedRow === rowId ? null : rowId)
-        console.log(selectedRow);
-        
+    }
+    const deleteStop = (row: any, index: number) => {
+        const rowsWithSameGpsStopId = selectedRow.filter(
+            (item) => item.gpsStopId === row.gpsStopId
+        )
+        const remainingStops = rowsWithSameGpsStopId
+            .filter((deleteRow) => deleteRow.id !== row.id)
+            .map(({ startTime, endTime, durationInMillis, gpsStopId, stopReasonId }, idx) => {
+                console.log('idx = '+ idx,'index = '+ index)
+
+                if (idx === 0 && index === 0) {
+                    return {
+                        startTime: epochToDate(row.startTime),
+                        endTime: epochToDate(endTime),
+                        durationInMillis: formatDuration(durationInMillis + row.durationInMillis),
+                        gpsStopId,
+                        stopReasonId,
+                    }
+                } else if (idx === 0 && index === 1) {
+                    return {
+                        startTime: epochToDate(startTime),
+                        endTime: epochToDate(row.endTime),
+                        durationInMillis: formatDuration(durationInMillis + row.durationInMillis),
+                        gpsStopId,
+                        stopReasonId,
+                    }
+                } else if (idx === index - 1 ) {
+                    return {
+                        startTime: epochToDate(startTime),
+                        endTime: epochToDate(row.endTime),
+                        durationInMillis: formatDuration(durationInMillis + row.durationInMillis),
+                        gpsStopId,
+                        stopReasonId,
+                    }
+                }
+                return {
+                    startTime: epochToDate(startTime),
+                    endTime: epochToDate(endTime),
+                    durationInMillis: formatDuration(durationInMillis),
+                    gpsStopId,
+                    stopReasonId,
+                }
+            })
+        console.log(remainingStops)
     }
 
     const style = {
@@ -71,14 +119,13 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                             id="transition-modal-description"
                             sx={{ mt: 2 }}
                         >
-                            {selectedRow.map((row, index) => (
+                            {sortedDetails.map((row: any, index: number) => (
                                 <React.Fragment key={row.id}>
                                     <TableRow
                                         key={row.id}
-                                        sx={{'&:last-child td, &:last-child th':
-                                                {
-                                                    border: 0,
-                                                },
+                                        sx={{
+                                            '&:last-child td, &:last-child th':
+                                                { border: 0 },
                                         }}>
                                         <TableCell> {index + 1} </TableCell>
                                         <TableCell align="left">
@@ -96,10 +143,10 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                             {row.reason.name}
                                         </TableCell>
                                         <TableCell align="left">
-                                            <Button onClick={() => toggleAccordion(row.id)}> Split </Button>
+                                            <Button onClick={() => splitStopAccordion(row.id)}> Split </Button>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <Button> Delete </Button>
+                                            <Button data-testid={'delete-button'} onClick={() => deleteStop(row, index)}> Delete </Button>
                                         </TableCell>
                                     </TableRow>
                                     {expandedRow === row.id && (
