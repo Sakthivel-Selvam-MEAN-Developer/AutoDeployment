@@ -1,0 +1,14 @@
+### Get vehicle history
+GET https://marketplace.loconav.com/api/v1/vehicles/polyline?vehicle_number=TN36AU4853&start_time=1698299747&end_time=1698401989
+User-Authentication: 6Wkps1x1zyPzSKTR8Bau
+
+
+### Get vehicle list
+GET https://marketplace.loconav.com/api/v1/vehicles?per_page=38
+User-Authentication: 6Wkps1x1zyPzSKTR8Bau
+
+
+### Alerts
+GET https://marketplace.loconav.com/api/v1/alerts?vehicle_number=TN36AU4853&start_time=1697899747&end_time=1698401989
+User-Authentication: 6Wkps1x1zyPzSKTR8Bau
+

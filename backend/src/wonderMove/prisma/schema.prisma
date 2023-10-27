@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis, timescaledb]
 }
 
 model customers {
@@ -42,21 +44,22 @@ model people {
 }
 
 model vehicles {
-  id                  Int            @id @default(autoincrement())
-  number              String?        @unique
+  id                  Int               @id @default(autoincrement())
+  number              String?           @unique
   make                String?
   type                String?
   ownershipType       String?
   ownerName           String?
-  insuranceExpiryDate DateTime?      @db.Timestamptz(6)
-  taxExpiryDate       DateTime?      @db.Timestamptz(6)
-  npPermitDate        DateTime?      @db.Timestamptz(6)
-  fiveYearPermitDate  DateTime?      @db.Timestamptz(6)
-  fcDate              DateTime?      @db.Timestamptz(6)
-  createdAt           DateTime       @default(now()) @db.Timestamptz(6)
-  updatedAt           DateTime       @updatedAt @db.Timestamptz(6)
+  insuranceExpiryDate DateTime?         @db.Timestamptz(6)
+  taxExpiryDate       DateTime?         @db.Timestamptz(6)
+  npPermitDate        DateTime?         @db.Timestamptz(6)
+  fiveYearPermitDate  DateTime?         @db.Timestamptz(6)
+  fcDate              DateTime?         @db.Timestamptz(6)
+  createdAt           DateTime          @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime          @updatedAt @db.Timestamptz(6)
   traccarDevice       traccarDevice?
   gpsStops            gpsStops[]
+  vehiclMovements     vehiclMovements[]
 }
 
 model traccarDevice {
@@ -105,4 +108,17 @@ model gpsStops {
   updatedAt        DateTime @updatedAt @db.Timestamptz(6)
 
   @@unique([vehicleId, startTime], name: "vehicleStop")
+}
+
+model vehiclMovements {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  on        Int
+  latitude  Float
+  longitude Float
+  source    String
+  speed     Float
+  vehicleId Int
+  vehicle   vehicles @relation(fields: [vehicleId], references: [id])
 }

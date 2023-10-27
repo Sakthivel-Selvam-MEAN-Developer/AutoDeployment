@@ -2,3 +2,5 @@ node_modules
 coverage
 .env
 .env.*
+*.private.env.json
+db-docker-data

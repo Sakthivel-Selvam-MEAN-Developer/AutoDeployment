@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: "timescale/timescaledb-ha:pg15-ts2.12"
+    environment:
+      POSTGRES_PASSWORD: "chumma"
+    ports:
+      - 15432:5432
+    networks:
+      - postgres-network
+    volumes:
+      - ./db-docker-data/:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  postgres-network:
+    driver: bridge

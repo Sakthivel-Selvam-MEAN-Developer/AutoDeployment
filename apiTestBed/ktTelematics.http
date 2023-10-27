@@ -1,0 +1,13 @@
+### Get the current staus
+GET https://customer.ktt.io/pandc/list
+Accept: application/json
+X-AT-AccessToken:{{ktAccessToken}}
+
+### user
+GET https://api.kttelematic.com/api/userroles/user/3737
+X-AT-SessionToken: {{ktSessionToken}}
+
+
+### toll data
+GET https://api.kttelematic.com/api/pointofinterests/list/type/Toll%20Gate
+X-AT-SessionToken: {{ktSessionToken}}

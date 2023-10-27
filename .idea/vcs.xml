@@ -2,8 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="" />
-    <mapping directory="$PROJECT_DIR$/apps/getMoving" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/apps/pncOneStop" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/apps/wonderSubs" vcs="Git" />
   </component>
 </project>
