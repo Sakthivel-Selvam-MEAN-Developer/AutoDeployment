@@ -5,6 +5,7 @@ import {
     getAllCustomerNames,
     updateCustomerByName
 } from './customer'
+import {Prisma} from "@prisma/client";
 
 function validateCustomerValues(actual: any) {
     expect(actual.name).toBe(seedCustomer.name)
