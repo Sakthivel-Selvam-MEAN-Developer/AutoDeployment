@@ -1,0 +1,20 @@
+import axios from 'axios'
+import configs from '../../../config'
+
+const {loconavUrl} = configs
+const getStops = (deviceId: number, from: number, to: number, authToken: string) =>
+    axios({
+        url: '/v1/vehicles/polyline',
+        baseURL: loconavUrl,
+        method: 'get',
+        params: {
+            device_id: deviceId,
+            start_time: from,
+            end_time: to
+        },
+        headers: {
+            "User-Authentication": authToken
+        }
+    }).then((response) => response.data)
+
+export default getStops

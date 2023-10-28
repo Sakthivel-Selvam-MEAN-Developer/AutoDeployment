@@ -2,13 +2,7 @@ import axios from 'axios'
 import configs from '../../../../config'
 import { toTraccarFormat } from "../dateFormater.ts";
 
-interface Configs {
-    traccarUrl: string;
-    traccarPassword: string;
-    traccarUsername: string;
-}
-// @ts-ignore
-const { traccarUrl, traccarPassword, traccarUsername }: Configs = configs
+const { traccarUrl, traccarPassword, traccarUsername } = configs
 const getStops = (deviceId: number, from: number, to: number) =>
     axios({
         url: '/reports/stops',
