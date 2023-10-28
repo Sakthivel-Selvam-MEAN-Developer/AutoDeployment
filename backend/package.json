@@ -25,8 +25,6 @@
     "vitest": "^0.34.6"
   },
   "dependencies": {
-    "@ory/cli": "^0.2.2",
-    "@ory/client": "^1.2.11",
     "@prisma/client": "^5.4.2",
     "axios": "^1.5.1",
     "compression": "^1.7.4",
@@ -41,9 +39,16 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "prismaGenMove": "prisma migrate dev --schema=./src/wonderMove/prisma/schema.prisma --create-only --name ",
+    "prismaGenCheckMove": "prisma migrate reset --schema=./src/wonderMove/prisma/schema.prisma ",
+    "prismaUpMove": "prisma generate  --schema=./src/wonderMove/prisma/schema.prisma",
+    "prismaMigrateDevMove": "prisma migrate deploy --schema=./src/wonderMove/prisma/schema.prisma",
+    "prismaMigrateTestMove": "dotenv -e .env.test -- prisma migrate deploy  --schema=./src/wonderMove/prisma/schema.prisma",
+    "migrateCIDb": "dotenv -e .env.ci -- prisma migrate deploy",
     "prismaWonderMove": "prisma generate --schema=./src/wonderMove/prisma/schema.prisma",
     "test": "dotenv -e .env.test -- jest --watch --runInBand",
     "t": "dotenv -e .env.test -- jest --watch  ",
-    "proxy": "ory proxy --no-jwt --port 4000 http://localhost:3000/"
+    "format": "prettier -c src",
+    "prismaMove" : "yarn prismaUpMove; yarn prismaMigrateDevMove; yarn prismaMigrateTestMove"
   }
 }

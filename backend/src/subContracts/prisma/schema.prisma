@@ -1,0 +1,177 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Place {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(100)
+  geoFence  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CementFactory {
+  id                          Int                           @id @default(autoincrement())
+  name                        String                        @unique @db.VarChar(100)
+  geoFence                    Json
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  CementFactoryInvoice        CementFactoryInvoice[]
+  FactoryTripToStockPoint     FactoryToStockPointTrip[]
+  StockPointToEndCustomerTrip StockPointToEndCustomerTrip[]
+  FactoryToEndCustomerTrip    FactoryToEndCustomerTrip[]
+  StockPoint                  StockPoint[]
+  EndCustomer                 EndCustomer[]
+}
+
+model StockPoint {
+  id                           Int                           @id @default(autoincrement())
+  name                         String                        @unique @db.VarChar(100)
+  cementFactoryId              Int
+  cementFactory                CementFactory                 @relation(fields: [cementFactoryId], references: [id])
+  geoFence                     Json
+  createdAt                    DateTime                      @default(now())
+  updatedAt                    DateTime                      @updatedAt
+  FactoryToStockPointTrips     FactoryToStockPointTrip[]
+  StockPointToEndCustomerTrips StockPointToEndCustomerTrip[]
+}
+
+model EndCustomer {
+  id                           Int                           @id @default(autoincrement())
+  name                         String                        @unique @db.VarChar(100)
+  cementFactoryId              Int
+  cementFactory                CementFactory                 @relation(fields: [cementFactoryId], references: [id])
+  geoFence                     Json
+  createdAt                    DateTime                      @default(now())
+  updatedAt                    DateTime                      @updatedAt
+  StockPointToEndCustomerTrips StockPointToEndCustomerTrip[]
+  FactoryToEndCustomerTrips    FactoryToEndCustomerTrip[]
+}
+
+model SubContractor {
+  id                    Int                    @id @default(autoincrement())
+  name                  String                 @unique @db.VarChar(100)
+  hasGst                Boolean                @default(false)
+  GSTNo                 String                 @db.VarChar(15)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  subContractorInvoices SubContractorInvoice[]
+  SubContractorTrips    SubContractorTrip[]
+}
+
+model FactoryToStockPointTrip {
+  id                Int                @id @default(autoincrement())
+  cementFactoryId   Int
+  cementFactory     CementFactory      @relation(fields: [cementFactoryId], references: [id])
+  startTime         Int
+  endTime           Int
+  ratePerTon        Int
+  loadCarried       Int
+  stockPointId      Int
+  stockPoint        StockPoint         @relation(fields: [stockPointId], references: [id])
+  invoiceNumber     String             @unique @db.VarChar(20)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  SubContractorTrip SubContractorTrip?
+}
+
+model StockPointToEndCustomerTrip {
+  id                Int                @id @default(autoincrement())
+  stockPointId      Int
+  stockPoint        StockPoint         @relation(fields: [stockPointId], references: [id])
+  endCustomerId     Int
+  endCustomer       EndCustomer        @relation(fields: [endCustomerId], references: [id])
+  startTime         Int
+  endTime           Int
+  ratePerTon        Int
+  loadCarried       Int
+  invoiceNumber     String             @unique @db.VarChar(20)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  SubContractorTrip SubContractorTrip?
+  CementFactory     CementFactory?     @relation(fields: [cementFactoryId], references: [id])
+  cementFactoryId   Int?
+}
+
+model FactoryToEndCustomerTrip {
+  id                Int                @id @default(autoincrement())
+  cementFactoryId   Int
+  cementFactory     CementFactory      @relation(fields: [cementFactoryId], references: [id])
+  endCustomerId     Int
+  endCustomer       EndCustomer        @relation(fields: [endCustomerId], references: [id])
+  invoiceNumber     String             @unique @db.VarChar(20)
+  startTime         Int
+  endTime           Int
+  ratePerTon        Int
+  loadCarried       Int
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  SubContractorTrip SubContractorTrip?
+}
+
+model SubContractorTrip {
+  id                            Int                         @id @default(autoincrement())
+  subContractorId               Int
+  subContractor                 SubContractor               @relation(fields: [subContractorId], references: [id])
+  factoryToStockPointTripId     Int                         @unique
+  factoryToStockPointTrip       FactoryToStockPointTrip     @relation(fields: [factoryToStockPointTripId], references: [id])
+  stockPointToEndCustomerTripId Int                         @unique
+  stockPointToEndCustomerTrip   StockPointToEndCustomerTrip @relation(fields: [stockPointToEndCustomerTripId], references: [id])
+  factoryToEndCustomerTripId    Int                         @unique
+  factoryToEndCustomerTrip      FactoryToEndCustomerTrip    @relation(fields: [factoryToEndCustomerTripId], references: [id])
+  initialRatePerTon             Int
+  finalRAtePerTon               Int
+  createdAt                     DateTime                    @default(now())
+  updatedAt                     DateTime                    @updatedAt
+  DieselEntry                   DieselEntry?
+}
+
+model SubContractorInvoice {
+  id             Int           @id @default(autoincrement())
+  invoiceNumber  String        @unique @db.VarChar(20)
+  subContratorId Int
+  subContrator   SubContractor @relation(fields: [subContratorId], references: [id])
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model CementFactoryInvoice {
+  id              Int           @id @default(autoincrement())
+  invoiceNumber   String        @unique @db.VarChar(20)
+  cementFactoryId Int
+  cementFactory   CementFactory @relation(fields: [cementFactoryId], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model FuelBunk {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique @db.VarChar(100)
+  geoFence    Json
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  DieselEntry DieselEntry[]
+}
+
+model DieselEntry {
+  id                  Int               @id @default(autoincrement())
+  name                String            @unique @db.VarChar(100)
+  fuelBunkId          Int
+  fuelBunk            FuelBunk          @relation(fields: [fuelBunkId], references: [id])
+  subContractorTripId Int               @unique
+  subContractorTrip   SubContractorTrip @relation(fields: [subContractorTripId], references: [id])
+  invoiceNumber       String            @unique @db.VarChar(20)
+  litersFilled        Int
+  diesleRate          Int
+  fillTime            Int
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+}

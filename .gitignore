@@ -1,6 +1,6 @@
 node_modules
 coverage
-.env
+backend/.env
 .env.*
 *.private.env.json
 db-docker-data

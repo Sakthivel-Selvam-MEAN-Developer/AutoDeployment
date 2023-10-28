@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider   = "postgresql"
-  url        = env("DATABASE_URL")
+  url        = env("MOVE_DATABASE_URL")
   extensions = [postgis, timescaledb]
 }
 
@@ -44,22 +44,23 @@ model people {
 }
 
 model vehicles {
-  id                  Int               @id @default(autoincrement())
-  number              String?           @unique
+  id                  Int                @id @default(autoincrement())
+  number              String?            @unique
   make                String?
   type                String?
   ownershipType       String?
   ownerName           String?
-  insuranceExpiryDate DateTime?         @db.Timestamptz(6)
-  taxExpiryDate       DateTime?         @db.Timestamptz(6)
-  npPermitDate        DateTime?         @db.Timestamptz(6)
-  fiveYearPermitDate  DateTime?         @db.Timestamptz(6)
-  fcDate              DateTime?         @db.Timestamptz(6)
-  createdAt           DateTime          @default(now()) @db.Timestamptz(6)
-  updatedAt           DateTime          @updatedAt @db.Timestamptz(6)
+  insuranceExpiryDate DateTime?          @db.Timestamptz(6)
+  taxExpiryDate       DateTime?          @db.Timestamptz(6)
+  npPermitDate        DateTime?          @db.Timestamptz(6)
+  fiveYearPermitDate  DateTime?          @db.Timestamptz(6)
+  fcDate              DateTime?          @db.Timestamptz(6)
+  createdAt           DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime           @updatedAt @db.Timestamptz(6)
   traccarDevice       traccarDevice?
   gpsStops            gpsStops[]
-  vehiclMovements     vehiclMovements[]
+  vehicleMovements    vehicleMovements[]
+  loconavDevice       loconavDevice?
 }
 
 model traccarDevice {
@@ -69,6 +70,16 @@ model traccarDevice {
   vehicle   vehicles @relation(fields: [vehicleId], references: [id])
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
+}
+
+model loconavDevice {
+  id           Int      @id @default(autoincrement())
+  traccarId    Int      @unique
+  vehicleId    Int      @unique
+  loconavToken String
+  vehicle      vehicles @relation(fields: [vehicleId], references: [id])
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
 }
 
 model stopReasons {
@@ -110,11 +121,11 @@ model gpsStops {
   @@unique([vehicleId, startTime], name: "vehicleStop")
 }
 
-model vehiclMovements {
+model vehicleMovements {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
-  on        Int
+  eventTime Int
   latitude  Float
   longitude Float
   source    String

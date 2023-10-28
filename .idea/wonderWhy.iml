@@ -4,6 +4,8 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/apps/getMoving" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/pncOneStop" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/wonderSubs" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
