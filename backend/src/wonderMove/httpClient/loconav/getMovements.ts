@@ -2,7 +2,7 @@ import axios from 'axios'
 import configs from '../../../config'
 
 const { loconavUrl } = configs
-const getStops = (
+const getMovements = async (
     deviceId: number,
     from: number,
     to: number,
@@ -20,6 +20,6 @@ const getStops = (
         headers: {
             'User-Authentication': authToken
         }
-    }).then((response) => response.data)
+    }).then((response) => response.data.data.movements)
 
-export default getStops
+export default getMovements

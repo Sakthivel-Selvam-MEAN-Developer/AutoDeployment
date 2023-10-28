@@ -1,7 +1,11 @@
 import prisma from './index'
+import { Prisma } from '@prisma/client'
 
-export const getLoconavByVehicleNumber = (vehicleNumber: string) =>
-    prisma.loconavDevice.findFirst({
+export type loconavDeviceByVehicleNumber = Prisma.PromiseReturnType<
+    typeof getLoconavByVehicleNumber
+>
+export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
+    prisma.loconavDevice.findFirstOrThrow({
         where: {
             vehicle: { is: { number: vehicleNumber } }
         },
@@ -10,4 +14,4 @@ export const getLoconavByVehicleNumber = (vehicleNumber: string) =>
         }
     })
 
-export const create = (data: any) => prisma.traccarDevice.create({ data })
+export const create = (data: any) => prisma.loconavDevice.create({ data })

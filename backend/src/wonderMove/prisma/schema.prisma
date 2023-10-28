@@ -74,7 +74,7 @@ model traccarDevice {
 
 model loconavDevice {
   id              Int      @id @default(autoincrement())
-  locanavDeviceId Int      @unique
+  loconavDeviceId Int      @unique
   vehicleId       Int      @unique
   loconavToken    String
   vehicle         vehicles @relation(fields: [vehicleId], references: [id])
@@ -109,7 +109,7 @@ model gpsStops {
   startTime        Int
   endTime          Int
   durationInMillis Int
-  vehicles         vehicles @relation(fields: [vehicleId], references: [id])
+  vehicle          vehicles @relation(fields: [vehicleId], references: [id])
   vehicleId        Int
   latitude         Float
   longitude        Float

@@ -1,18 +1,8 @@
 import nock from 'nock'
 import configs from '../../../config'
 import getMovements from './getMovements'
+import { movement } from './loconavMovement.ts'
 
-const movement = {
-    latitude: 15.012927,
-    longitude: 78.014107,
-    orientation: 318.0,
-    speed: 0.0,
-    time: 1698315362,
-    speed_with_unit: {
-        value: 0.0,
-        unit: 'km/h'
-    }
-}
 const mockApiCall = () => {
     const url = configs.loconavUrl || ''
     return nock(url)
@@ -38,8 +28,7 @@ describe('loconav client', () => {
         const from = 1694457000
         const to = 1694370600
         const movements = await getMovements(deviceId, from, to, 'authToken')
-        expect(movements.status).toBeTruthy()
-        expect(movements.data.movements).toContainEqual(movement)
+        expect(movements).toContainEqual(movement)
         expect(scope.isDone()).toBeTruthy()
     })
 })

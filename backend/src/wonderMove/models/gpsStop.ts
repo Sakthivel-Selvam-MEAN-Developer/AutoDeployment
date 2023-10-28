@@ -1,6 +1,10 @@
 import prisma from './index'
+import { Prisma } from '@prisma/client'
 
-export const create = (data: any) => prisma.gpsStops.create({ data })
+export const create = (data: Prisma.gpsStopsCreateInput | Prisma.gpsStopsUncheckedCreateInput) =>
+    prisma.gpsStops.create({ data })
+export const createMany = (data: Prisma.gpsStopsCreateManyInput[]) =>
+    prisma.gpsStops.createMany({ data })
 
 export const getGpsStops = () => prisma.gpsStops.findMany()
 
@@ -44,5 +48,4 @@ const createIfNotExist = (gpsStop: any) => {
         update: {}
     })
 }
-export const createManyIfNotExist = (gpsStops: any) =>
-    Promise.all(gpsStops.map(createIfNotExist))
+export const createManyIfNotExist = (gpsStops: any) => Promise.all(gpsStops.map(createIfNotExist))

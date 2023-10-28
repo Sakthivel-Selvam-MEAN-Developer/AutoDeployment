@@ -22,17 +22,13 @@ import {
 describe('Stop model', () => {
     test('should fetch stops by vehicle number', async () => {
         await create(seedStop)
-        const actual = await fetchStopsByVehicle(
-            seedStop.gpsStop.create.vehicles.create.number
-        )
+        const actual = await fetchStopsByVehicle(seedStop.gpsStop.create.vehicles.create.number)
         expect(actual.length).toBe(1)
         expect(actual[0].durationInMillis).toBe(seedStop.durationInMillis)
     })
     test('should exclude inactive stops in fetch stops by vehicle number ', async () => {
         await create({ ...seedStop, active: false })
-        const actual = await fetchStopsByVehicle(
-            seedStop.gpsStop.create.vehicles.create.number
-        )
+        const actual = await fetchStopsByVehicle(seedStop.gpsStop.create.vehicles.create.number)
         expect(actual.length).toBe(0)
     })
     test('should get vehicle details by reason', async () => {
@@ -187,9 +183,7 @@ describe('Stop model', () => {
             name: newReasonName
         })
         await updateStopReason(stop.id, newReason.id)
-        const actual = await fetchStopsByVehicle(
-            seedStop.gpsStop.create.vehicles.create.number
-        )
+        const actual = await fetchStopsByVehicle(seedStop.gpsStop.create.vehicles.create.number)
         expect(actual[0].reason.name).toBe(newReasonName)
     })
     test('should override existing stops with new set of stops by gpsStop', async () => {
