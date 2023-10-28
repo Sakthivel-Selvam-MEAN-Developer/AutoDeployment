@@ -73,13 +73,13 @@ model traccarDevice {
 }
 
 model loconavDevice {
-  id           Int      @id @default(autoincrement())
-  traccarId    Int      @unique
-  vehicleId    Int      @unique
-  loconavToken String
-  vehicle      vehicles @relation(fields: [vehicleId], references: [id])
-  createdAt    DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+  id              Int      @id @default(autoincrement())
+  locanavDeviceId Int      @unique
+  vehicleId       Int      @unique
+  loconavToken    String
+  vehicle         vehicles @relation(fields: [vehicleId], references: [id])
+  createdAt       DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime @updatedAt @db.Timestamptz(6)
 }
 
 model stopReasons {

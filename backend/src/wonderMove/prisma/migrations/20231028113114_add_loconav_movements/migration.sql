@@ -40,8 +40,8 @@ ALTER TABLE "loconavDevice" ADD CONSTRAINT "loconavDevice_vehicleId_fkey" FOREIG
 -- AddForeignKey
 ALTER TABLE "vehicleMovements" ADD CONSTRAINT "vehicleMovements_vehicleId_fkey" FOREIGN KEY ("vehicleId") REFERENCES "vehicles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
-CREATE EXTENSION IF NOT EXISTS timescaledb;
-CREATE EXTENSION IF NOT EXISTS postgis;
+-- CREATE EXTENSION IF NOT EXISTS timescaledb;
+-- CREATE EXTENSION IF NOT EXISTS postgis;
 
 -- CREATE EXTENSION IF NOT EXISTS timescaledb;
 -- CREATE EXTENSION IF NOT EXISTS postgis;

@@ -23,6 +23,7 @@ describe('loconav movements', () => {
         const vehicleNumber = ''
         const to = 123123123
         const from = 32412341234123
+        mockLoconavVehicleMap.mockReturnValue({ loconavId })
         await fetchMovements(from, to, vehicleNumber)
         expect(mockLoconavMomentApi).toBeCalled()
     })
