@@ -29,10 +29,10 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     const [expandedRow, setExpandedRow] = useState<any | null>(null)
     const [remainingStop, setRemainingStop] = useState<any>()
     const [openAlertDialog, setOpenAlertDialog] = useState(false)
-    const [gpsStopId, setGpsStopId]= useState(null)
-    let sortedRow: any
+    const [gpsStopId, setGpsStopId] = useState(null)
+    let sortedRows: any
     if (selectedRow && selectedRow.length > 0) {
-        sortedRow = selectedRow
+        sortedRows = selectedRow
             .slice()
             .sort((a: any, b: any) => a.startTime - b.startTime)
     }
@@ -44,16 +44,20 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
         setExpandedRow(expandedRow === rowId ? null : rowId)
     }
     const handleDeleteClick = (row: any, index: number) => {
-        const updatedStops = deleteStop(row, index, sortedRow)
-        setRemainingStop(updatedStops)
-        setGpsStopId(row.gpsStopId)
-        setOpenAlertDialog(true)
+        if (sortedRows.length === 1) {
+            alert("Can't delete")
+        } else {
+            const updatedStops = deleteStop(row, index, sortedRows)
+            setRemainingStop(updatedStops)
+            setGpsStopId(row.gpsStopId)
+            setOpenAlertDialog(true)
+        }
     }
-    const handleAgree = () => {        
-        overrideStop(gpsStopId, remainingStop).then(()=> {
+    const handleAgree = () => {
+        overrideStop(gpsStopId, remainingStop).then(() => {
             setOpenAlertDialog(false)
             tableState()
-        }).catch(()=> {
+        }).catch(() => {
             setOpenAlertDialog(false)
             alert("Can't able to delete")
         })
@@ -96,7 +100,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                             id="transition-modal-description"
                             sx={{ mt: 2 }}
                         >
-                            {sortedRow.map((row: any, index: number) => (
+                            {sortedRows.map((row: any, index: number) => (
                                 <React.Fragment key={row.id}>
                                     <TableRow
                                         key={row.id}
@@ -135,7 +139,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                                             row={row}
                                                             onClose={handleAccordionClose}
                                                             tableState={tableState}
-                                                            rowWithSameGpsId={sortedRow}
+                                                            rowWithSameGpsId={sortedRows}
                                                         />
                                                     }
                                                 </Typography>
