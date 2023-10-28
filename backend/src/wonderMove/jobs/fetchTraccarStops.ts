@@ -5,43 +5,46 @@ import { createManyIfNotExist } from '../models/gpsStop'
 import { dateFromTraccar } from '../httpClient/traccar/dateFormater'
 
 interface RawGpsData {
-    startTime: string;
-    endTime: string;
-    duration: number;
-    latitude: number;
-    longitude: number;
+    startTime: string
+    endTime: string
+    duration: number
+    latitude: number
+    longitude: number
 }
 interface TraccarData {
-    traccarId: number;
-    vehicleId: number;
+    traccarId: number
+    vehicleId: number
 }
 interface GpsData {
-    startTime: number;
-    endTime: number;
-    durationInMillis: number;
-    latitude: number;
-    longitude: number;
-    vehicleId: number;
-    source: string;
-    stopReasonId: number;
+    startTime: number
+    endTime: number
+    durationInMillis: number
+    latitude: number
+    longitude: number
+    vehicleId: number
+    source: string
+    stopReasonId: number
 }
-const convertToGPsData = (traccar: TraccarData, reasonId: number) => (rawGps: RawGpsData): GpsData => {
-    const { startTime, endTime, duration, latitude, longitude } = rawGps
-    return {
-        startTime: dateFromTraccar(startTime),
-        endTime: dateFromTraccar(endTime),
-        durationInMillis: duration,
-        latitude,
-        longitude,
-        vehicleId: traccar.vehicleId,
-        source: 'traccar',
-        stopReasonId: reasonId
+const convertToGPsData =
+    (traccar: TraccarData, reasonId: number) =>
+    (rawGps: RawGpsData): GpsData => {
+        const { startTime, endTime, duration, latitude, longitude } = rawGps
+        return {
+            startTime: dateFromTraccar(startTime),
+            endTime: dateFromTraccar(endTime),
+            durationInMillis: duration,
+            latitude,
+            longitude,
+            vehicleId: traccar.vehicleId,
+            source: 'traccar',
+            stopReasonId: reasonId
+        }
     }
-}
-const enrichWithVehicleDetails = (traccar: TraccarData) => (rawGpsData: RawGpsData[]) =>
-    getDefaultReason().then(({ id }: any) =>
-        rawGpsData.map(convertToGPsData(traccar, id))
-    )
+const enrichWithVehicleDetails =
+    (traccar: TraccarData) => (rawGpsData: RawGpsData[]) =>
+        getDefaultReason().then(({ id }: any) =>
+            rawGpsData.map(convertToGPsData(traccar, id))
+        )
 
 const fetchStopsFromTraccar = (from: number, to: number) => (traccar: any) =>
     getStops(traccar.traccarId, from, to).then(
@@ -51,5 +54,5 @@ const fetchStopsFromTraccar = (from: number, to: number) => (traccar: any) =>
 export default (vehicleNumber: string, from: number, to: number) => {
     return getTraccarByVehicleNumber(vehicleNumber)
         .then(fetchStopsFromTraccar(from, to))
-        .then(createManyIfNotExist);
+        .then(createManyIfNotExist)
 }

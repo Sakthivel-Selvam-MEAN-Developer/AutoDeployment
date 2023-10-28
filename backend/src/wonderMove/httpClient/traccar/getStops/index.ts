@@ -1,6 +1,6 @@
 import axios from 'axios'
 import configs from '../../../../config'
-import { toTraccarFormat } from "../dateFormater.ts";
+import { toTraccarFormat } from '../dateFormater.ts'
 
 const { traccarUrl, traccarPassword, traccarUsername } = configs
 const getStops = (deviceId: number, from: number, to: number) =>

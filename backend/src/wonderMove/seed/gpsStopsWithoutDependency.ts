@@ -4,5 +4,5 @@ export default {
     durationInMillis: 451200,
     latitude: 11.341,
     longitude: 77.7172,
-    source: "traccar",
-};
+    source: 'traccar'
+}

@@ -1,39 +1,47 @@
-import { Request, Response } from "express";
-import { getDefaultReason } from "../models/stopReason";
-import { groupByStopReason } from "../models/stops/stops.crud";
-import { getGpsStops } from "../models/gpsStop";
-import { getAllVehicles } from "../models/vehicle";
+import { Request, Response } from 'express'
+import { getDefaultReason } from '../models/stopReason'
+import { groupByStopReason } from '../models/stops/stops.crud'
+import { getGpsStops } from '../models/gpsStop'
+import { getAllVehicles } from '../models/vehicle'
 
-function groupNumber(groupedData: any[], gpsStopIdToVehicleId: Map<any, any>, vehicleDataMap: Map<any, any>) {
+function groupNumber(
+    groupedData: any[],
+    gpsStopIdToVehicleId: Map<any, any>,
+    vehicleDataMap: Map<any, any>
+) {
     return groupedData.reduce((acc, entry) => {
-        const gpsStopId = entry.gpsStopId;
+        const gpsStopId = entry.gpsStopId
         const vehicleId = gpsStopIdToVehicleId.get(gpsStopId)
         const vehicleData = vehicleDataMap.get(vehicleId)
-            if (!acc[vehicleId]) {
-                acc[vehicleId] = {
-                    number: vehicleData.number,
-                    _count: 0
-                };
+        if (!acc[vehicleId]) {
+            acc[vehicleId] = {
+                number: vehicleData.number,
+                _count: 0
             }
-            acc[vehicleId]._count += entry._count;
-        return acc;
+        }
+        acc[vehicleId]._count += entry._count
+        return acc
     }, {})
 }
 
 const mapNumberToVehicle = async (groupedData: any[]) => {
-    const gpsStop = await getGpsStops();
-    const gpsStopIdToVehicleId = new Map();
-    gpsStop.forEach(stop => {
-        gpsStopIdToVehicleId.set(stop.id, stop.vehicleId);
-    });
+    const gpsStop = await getGpsStops()
+    const gpsStopIdToVehicleId = new Map()
+    gpsStop.forEach((stop) => {
+        gpsStopIdToVehicleId.set(stop.id, stop.vehicleId)
+    })
     const vehicleData = await getAllVehicles()
-    const vehicleDataMap = new Map(vehicleData.map(vehicle => [vehicle.id, vehicle]))
+    const vehicleDataMap = new Map(
+        vehicleData.map((vehicle) => [vehicle.id, vehicle])
+    )
 
-    const result = groupNumber(groupedData, gpsStopIdToVehicleId, vehicleDataMap)
-    return Object.values(result);
+    const result = groupNumber(
+        groupedData,
+        gpsStopIdToVehicleId,
+        vehicleDataMap
+    )
+    return Object.values(result)
 }
-
-
 
 export const pendingStopReason = (_req: Request, res: Response) => {
     getDefaultReason()
@@ -43,4 +51,3 @@ export const pendingStopReason = (_req: Request, res: Response) => {
             res.status(200).json(data)
         })
 }
-

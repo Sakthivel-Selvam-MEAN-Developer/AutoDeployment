@@ -4,7 +4,7 @@ import {
     listAllNumbers,
     update
 } from '../controller/vehicle.ts'
-import {Router} from "express";
+import { Router } from 'express'
 
 const vehicleRoutes = (router: Router) => {
     router.post('/vehicles', create)

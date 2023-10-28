@@ -5,10 +5,9 @@ export const YetToBeIdentifiedReason: string = 'Yet to be identified'
 export const getDefaultReason = () =>
     prisma.stopReasons.findUnique({ where: { name: YetToBeIdentifiedReason } })
 
-export const create = (data: any) =>
-    prisma.stopReasons.create({ data })
+export const create = (data: any) => prisma.stopReasons.create({ data })
 
-export const update = (data: any) => 
+export const update = (data: any) =>
     prisma.stopReasons.update({
         where: {
             id: data.id

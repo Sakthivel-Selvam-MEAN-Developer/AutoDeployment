@@ -4,11 +4,11 @@ import getStops from './index'
 import traccarStop from './sampleStopData'
 
 const mockApiCall = () => {
-    const url = configs.traccarUrl || ""
+    const url = configs.traccarUrl || ''
     return nock(url)
         .get('/reports/stops')
         .basicAuth({
-            user: configs.traccarUsername || "",
+            user: configs.traccarUsername || '',
             pass: configs.traccarPassword
         })
         .query({

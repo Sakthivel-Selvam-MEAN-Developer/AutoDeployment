@@ -4,7 +4,7 @@ import {
     fetchVehicleByNumber as getDetailsFromDb,
     updateVehicleByNumber as updateInDB
 } from '../models/vehicle'
-import { Request, Response } from "express";
+import { Request, Response } from 'express'
 
 export const create = (req: Request, res: Response) => {
     createInDb(req.body).then(() => res.sendStatus(200))

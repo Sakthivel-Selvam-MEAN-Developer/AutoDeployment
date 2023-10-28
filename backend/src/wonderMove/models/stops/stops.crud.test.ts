@@ -6,7 +6,7 @@ import seedGpsStopsWithoutDep from '../../seed/gpsStopsWithoutDependency'
 import seedVehicleWithoutDep from '../../seed/vehiclesWithoutDependency'
 import gpsStops from '../../seed/gpsStops'
 import { create as createNewReason } from '../stopReason'
-import { create as createNewVehicle} from '../vehicle'
+import { create as createNewVehicle } from '../vehicle'
 import { getAllVehicles } from '../vehicle'
 import { create as createGpsStop } from '../gpsStop'
 import {
@@ -271,7 +271,7 @@ describe('Stop model', () => {
         await create({ ...stop3, startTime: 150 })
         await create(stop4)
         const actual = await groupByStopReason(reason2.id)
-        
+
         expect(actual).toHaveLength(2)
         expect(actual).toEqual(
             expect.arrayContaining([

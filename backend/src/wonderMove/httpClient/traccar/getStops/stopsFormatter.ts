@@ -1,11 +1,11 @@
 import { dateFromTraccar } from '../dateFormater'
 
 interface TraccarResponse {
-    startTime: string;
-    endTime: string;
-    latitude: number;
-    longitude: number;
-    duration: number;
+    startTime: string
+    endTime: string
+    latitude: number
+    longitude: number
+    duration: number
 }
 const fromTraccar = (traccarResponse: TraccarResponse) => {
     const { startTime, endTime, latitude, longitude, duration } =

@@ -4,5 +4,5 @@ export default {
     line3: 'chumma',
     city: 'erode',
     state: 'Tamil Nadu',
-    pincode: 638001,
+    pincode: 638001
 }

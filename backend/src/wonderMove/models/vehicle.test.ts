@@ -37,11 +37,11 @@ describe('Vehicle model', () => {
         validateDates(actual)
     })
     test('should get all vehicle numbers', async () => {
-        await create(seedVehicle);
-        const actual = await getAllVehicles();
-        expect(actual.length).toBe(1);
-        expect(actual[0].number).toBe(seedVehicle.number);
-    });
+        await create(seedVehicle)
+        const actual = await getAllVehicles()
+        expect(actual.length).toBe(1)
+        expect(actual[0].number).toBe(seedVehicle.number)
+    })
     test('should get vehicle details by number', async () => {
         await create(seedVehicle)
         const number: string = 'TN88K0272'

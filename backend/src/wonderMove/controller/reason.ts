@@ -1,4 +1,8 @@
-import { create as createInDb, getAllReason, update } from '../models/stopReason'
+import {
+    create as createInDb,
+    getAllReason,
+    update
+} from '../models/stopReason'
 import { Request, Response } from 'express'
 
 export const create = (req: Request, res: Response) => {

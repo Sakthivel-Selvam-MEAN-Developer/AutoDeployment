@@ -1,4 +1,4 @@
-import vehicle from "./vehicle";
+import vehicle from './vehicle'
 
 export default {
     startTime: new Date(2023, 9, 2).getTime() / 1000,
@@ -6,8 +6,8 @@ export default {
     durationInMillis: 451200,
     latitude: 11.341,
     longitude: 77.7172,
-    source: "traccar",
+    source: 'traccar',
     vehicles: {
-        create: vehicle,
-    },
-};
+        create: vehicle
+    }
+}
