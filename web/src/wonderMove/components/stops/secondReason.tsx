@@ -25,7 +25,6 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
     }
     const handleClose = () => {
         onClose()
-        console.log(rowWithSameGpsId);
     }
     const disableUpdate =
         !value ||
@@ -58,9 +57,10 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
                 gpsStopId,
                 stopReasonId
             }))
-        overrideStop(row.gpsStopId, [firstStop, secondStop, ...remainingRows])
-        tableState()
-        onClose()
+        overrideStop(row.gpsStopId, [firstStop, secondStop, ...remainingRows]).then(()=> {
+            tableState()
+            onClose()
+        }).catch(()=>{alert("Can't able to split")})
     }
 
     return (

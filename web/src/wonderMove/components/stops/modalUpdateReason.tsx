@@ -10,6 +10,9 @@ import { Button } from '@mui/material'
 import { useState } from 'react'
 import * as React from 'react'
 import SecondReason from './secondReason.tsx'
+import { deleteStop } from './deleteStops.ts'
+import { overrideStop } from '../../services/stops.ts'
+import AlertDialog from '../confirmationDialog.tsx'
 
 interface ModalUpdateReasonProps {
     open: boolean;
@@ -24,9 +27,12 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     tableState,
 }) => {
     const [expandedRow, setExpandedRow] = useState<any | null>(null)
-    let sortedDetails: any
+    const [remainingStop, setRemainingStop] = useState<any>()
+    const [openAlertDialog, setOpenAlertDialog] = useState(false)
+    const [gpsStopId, setGpsStopId]= useState(null)
+    let sortedRow: any
     if (selectedRow && selectedRow.length > 0) {
-        sortedDetails = selectedRow
+        sortedRow = selectedRow
             .slice()
             .sort((a: any, b: any) => a.startTime - b.startTime)
     }
@@ -37,49 +43,20 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     const splitStopAccordion = (rowId: number) => {
         setExpandedRow(expandedRow === rowId ? null : rowId)
     }
-    const deleteStop = (row: any, index: number) => {
-        const rowsWithSameGpsStopId = selectedRow.filter(
-            (item) => item.gpsStopId === row.gpsStopId
-        )
-        const remainingStops = rowsWithSameGpsStopId
-            .filter((deleteRow) => deleteRow.id !== row.id)
-            .map(({ startTime, endTime, durationInMillis, gpsStopId, stopReasonId }, idx) => {
-                console.log('idx = '+ idx,'index = '+ index)
-
-                if (idx === 0 && index === 0) {
-                    return {
-                        startTime: epochToDate(row.startTime),
-                        endTime: epochToDate(endTime),
-                        durationInMillis: formatDuration(durationInMillis + row.durationInMillis),
-                        gpsStopId,
-                        stopReasonId,
-                    }
-                } else if (idx === 0 && index === 1) {
-                    return {
-                        startTime: epochToDate(startTime),
-                        endTime: epochToDate(row.endTime),
-                        durationInMillis: formatDuration(durationInMillis + row.durationInMillis),
-                        gpsStopId,
-                        stopReasonId,
-                    }
-                } else if (idx === index - 1 ) {
-                    return {
-                        startTime: epochToDate(startTime),
-                        endTime: epochToDate(row.endTime),
-                        durationInMillis: formatDuration(durationInMillis + row.durationInMillis),
-                        gpsStopId,
-                        stopReasonId,
-                    }
-                }
-                return {
-                    startTime: epochToDate(startTime),
-                    endTime: epochToDate(endTime),
-                    durationInMillis: formatDuration(durationInMillis),
-                    gpsStopId,
-                    stopReasonId,
-                }
-            })
-        console.log(remainingStops)
+    const handleDeleteClick = (row: any, index: number) => {
+        const updatedStops = deleteStop(row, index, sortedRow)
+        setRemainingStop(updatedStops)
+        setGpsStopId(row.gpsStopId)
+        setOpenAlertDialog(true)
+    }
+    const handleAgree = () => {        
+        overrideStop(gpsStopId, remainingStop).then(()=> {
+            setOpenAlertDialog(false)
+            tableState()
+        }).catch(()=> {
+            setOpenAlertDialog(false)
+            alert("Can't able to delete")
+        })
     }
 
     const style = {
@@ -119,7 +96,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                             id="transition-modal-description"
                             sx={{ mt: 2 }}
                         >
-                            {sortedDetails.map((row: any, index: number) => (
+                            {sortedRow.map((row: any, index: number) => (
                                 <React.Fragment key={row.id}>
                                     <TableRow
                                         key={row.id}
@@ -146,7 +123,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                             <Button onClick={() => splitStopAccordion(row.id)}> Split </Button>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <Button data-testid={'delete-button'} onClick={() => deleteStop(row, index)}> Delete </Button>
+                                            <Button onClick={() => handleDeleteClick(row, index)}> Delete </Button>
                                         </TableCell>
                                     </TableRow>
                                     {expandedRow === row.id && (
@@ -158,7 +135,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                                             row={row}
                                                             onClose={handleAccordionClose}
                                                             tableState={tableState}
-                                                            rowWithSameGpsId={selectedRow}
+                                                            rowWithSameGpsId={sortedRow}
                                                         />
                                                     }
                                                 </Typography>
@@ -171,6 +148,12 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                     </Box>
                 </Fade>
             </Modal>
+            <AlertDialog
+                open={openAlertDialog}
+                handleClose={() => setOpenAlertDialog(false)}
+                handleAgree={handleAgree}
+                message={'Want to delete the stop...'}
+            />
         </>
     )
 }
