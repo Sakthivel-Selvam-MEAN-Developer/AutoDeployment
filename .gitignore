@@ -4,3 +4,4 @@ backend/.env
 .env.*
 *.private.env.json
 db-docker-data
+.DS_Store
