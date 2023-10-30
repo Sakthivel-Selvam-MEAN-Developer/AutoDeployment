@@ -7,7 +7,7 @@ export const fetchStopsByVehicle = (number: string) =>
         where: {
             active: true,
             gpsStop: {
-                vehicles: {
+                vehicle: {
                     number
                 }
             }
@@ -30,7 +30,7 @@ export const allPendingStopsForSingleVehicle = async (number: string) => {
         where: {
             active: true,
             gpsStop: {
-                vehicles: {
+                vehicle: {
                     number
                 }
             },

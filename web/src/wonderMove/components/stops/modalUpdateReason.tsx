@@ -44,14 +44,10 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
         setExpandedRow(expandedRow === rowId ? null : rowId)
     }
     const handleDeleteClick = (row: any, index: number) => {
-        if (sortedRows.length === 1) {
-            alert("Can't delete")
-        } else {
-            const updatedStops = deleteStop(row, index, sortedRows)
-            setRemainingStop(updatedStops)
-            setGpsStopId(row.gpsStopId)
-            setOpenAlertDialog(true)
-        }
+        const updatedStops = deleteStop(row, index, sortedRows)
+        setRemainingStop(updatedStops)
+        setGpsStopId(row.gpsStopId)
+        setOpenAlertDialog(true)
     }
     const handleAgree = () => {
         overrideStop(gpsStopId, remainingStop).then(() => {
@@ -104,10 +100,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                 <React.Fragment key={row.id}>
                                     <TableRow
                                         key={row.id}
-                                        sx={{
-                                            '&:last-child td, &:last-child th':
-                                                { border: 0 },
-                                        }}>
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell> {index + 1} </TableCell>
                                         <TableCell align="left">
                                             {epochToDate(row.startTime)}
@@ -126,9 +119,11 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                         <TableCell align="left">
                                             <Button onClick={() => splitStopAccordion(row.id)}> Split </Button>
                                         </TableCell>
-                                        <TableCell align="left">
-                                            <Button onClick={() => handleDeleteClick(row, index)}> Delete </Button>
-                                        </TableCell>
+                                        {sortedRows.length > 1 && (
+                                            <TableCell align="left">
+                                                <Button onClick={() => handleDeleteClick(row, index)}> Delete </Button>
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                     {expandedRow === row.id && (
                                         <TableRow>

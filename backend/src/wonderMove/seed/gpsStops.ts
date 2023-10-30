@@ -7,7 +7,7 @@ export default {
     latitude: 11.341,
     longitude: 77.7172,
     source: 'traccar',
-    vehicles: {
+    vehicle: {
         create: vehicle
     }
 }

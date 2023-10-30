@@ -1,14 +1,5 @@
 import IconButton from "@mui/material/IconButton";
-import {
-  Dashboard,
-  ChevronRight,
-  ChevronLeft,
-  LocalShipping,
-  Badge,
-  Upload,
-  LocalParking,
-  Article,
-} from "@mui/icons-material";
+import { Dashboard, ChevronRight, ChevronLeft } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import { styled, useTheme } from "@mui/material/styles";
@@ -73,46 +64,18 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
       <Divider />
       <List>
         <DrawerListItem
-          text="Dashboard"
+          text="WonderMove"
           navigate="/moveit"
           drawerState={drawerState}
           index={0}
           icon={<Dashboard />}
         />
         <DrawerListItem
-          text="Reason"
-          navigate="/moveit/reason"
+          text="Hrm"
+          navigate="/hrm"
           drawerState={drawerState}
-          index={1}
-          icon={<Article />}
-        />
-        <DrawerListItem
-          text="PendingReason"
-          navigate="/moveit/pending-reasons"
-          drawerState={drawerState}
-          index={2}
-          icon={<Upload />}
-        />
-        <DrawerListItem
-          text="Stops"
-          navigate="/moveit/stops"
-          drawerState={drawerState}
-          index={3}
-          icon={<LocalParking />}
-        />
-        <DrawerListItem
-          text="Vehicle"
-          navigate="/moveit/vehicles"
-          drawerState={drawerState}
-          index={4}
-          icon={<LocalShipping />}
-        />
-        <DrawerListItem
-          text="Customer"
-          navigate="/moveit/customers"
-          drawerState={drawerState}
-          index={5}
-          icon={<Badge />}
+          index={0}
+          icon={<Dashboard />}
         />
       </List>
     </Drawer>

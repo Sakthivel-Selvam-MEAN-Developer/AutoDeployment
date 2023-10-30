@@ -37,7 +37,7 @@ const AppBar = styled(
   }),
 }));
 
-export default function Layout() {
+export default function MainLayout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => setOpen(true);
@@ -60,7 +60,7 @@ export default function Layout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            MoveIt
+            WonderWhy
           </Typography>
         </Toolbar>
       </AppBar>

@@ -40,16 +40,11 @@ const convertToGPsData =
             stopReasonId: reasonId
         }
     }
-const enrichWithVehicleDetails =
-    (traccar: TraccarData) => (rawGpsData: RawGpsData[]) =>
-        getDefaultReason().then(({ id }: any) =>
-            rawGpsData.map(convertToGPsData(traccar, id))
-        )
+const enrichWithVehicleDetails = (traccar: TraccarData) => (rawGpsData: RawGpsData[]) =>
+    getDefaultReason().then(({ id }: any) => rawGpsData.map(convertToGPsData(traccar, id)))
 
 const fetchStopsFromTraccar = (from: number, to: number) => (traccar: any) =>
-    getStops(traccar.traccarId, from, to).then(
-        enrichWithVehicleDetails(traccar)
-    )
+    getStops(traccar.traccarId, from, to).then(enrichWithVehicleDetails(traccar))
 
 export default (vehicleNumber: string, from: number, to: number) => {
     return getTraccarByVehicleNumber(vehicleNumber)

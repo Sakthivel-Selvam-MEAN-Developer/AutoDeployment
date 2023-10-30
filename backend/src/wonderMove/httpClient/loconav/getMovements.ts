@@ -2,12 +2,7 @@ import axios from 'axios'
 import configs from '../../../config'
 
 const { loconavUrl } = configs
-const getMovements = async (
-    deviceId: number,
-    from: number,
-    to: number,
-    authToken: string
-) =>
+const getMovements = async (deviceId: number, from: number, to: number, authToken: string) =>
     axios({
         url: '/v1/vehicles/polyline',
         baseURL: loconavUrl,
