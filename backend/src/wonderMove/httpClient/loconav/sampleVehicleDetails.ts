@@ -1,8 +1,30 @@
+export type DeviceDetail = {
+    id: number,
+    number: string,
+    notes: string,
+    current_temperature: string,
+    last_located_at: number,
+    last_location: string,
+    status_message: {
+        received_at: string
+    },
+    device: {
+        serial_number: string,
+        country_code: string,
+        phone_number: string,
+        device_type: string
+    },
+    subscription: {
+        expires_at: string
+    },
+    current_odometer_reading: number,
+    chassis_number: string,
+    display_number: string
+}
 
-
-export const vehicleDetail: any = {
+export const vehicleDetail: DeviceDetail = {
     id: 1,
-    number: "Tn93D5512",
+    number: "TN93D5512",
     notes: "abc",
     current_temperature: "40 c",
     last_located_at: 1234,
@@ -21,5 +43,5 @@ export const vehicleDetail: any = {
     },
     current_odometer_reading: 0.0,
     chassis_number: "",
-    display_number: "NL01AC3217"
+    display_number: "TN93D5512"
 }

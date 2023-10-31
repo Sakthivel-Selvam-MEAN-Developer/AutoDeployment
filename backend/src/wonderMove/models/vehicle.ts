@@ -14,3 +14,5 @@ export const updateVehicleByNumber = (number: string, data: any) =>
     })
 
 export const getAllVehicles = () => prisma.vehicles.findMany()
+
+export const createMany = (data: any) => prisma.vehicles.createMany({data})

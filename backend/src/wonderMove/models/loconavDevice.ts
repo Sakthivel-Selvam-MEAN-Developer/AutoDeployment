@@ -15,3 +15,6 @@ export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
     })
 
 export const create = (data: any) => prisma.loconavDevice.create({ data })
+
+
+export const createMany = (data: any) => prisma.loconavDevice.createMany({data})
