@@ -1,15 +1,15 @@
 import axios from 'axios'
 import configs from '../../../config'
 
-const { loconavUrl, loconavUsername, loconavPassword } = configs
-const getAllVehicleDetails = async () =>
+const { loconavUrl } = configs
+const getAllVehicleDetails = async (authToken: string) =>
     axios({
         url: '/v1/vehicles',
         baseURL: loconavUrl,
         method: 'get',
-        auth: {
-            username: loconavUsername,
-            password: loconavPassword
+        headers: {
+            'User-Authentication': authToken
         }
     }).then((response) => response.data.data)
+    
 export default getAllVehicleDetails

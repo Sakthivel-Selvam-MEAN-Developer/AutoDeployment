@@ -7,22 +7,17 @@ import { vehicleDetail } from './sampleVehicleDetails.ts'
 const mockApiCall = () => {
     const url = configs.loconavUrl || ''
     return nock(url)
+        .matchHeader('User-Authentication', 'authToken')
         .get('/v1/vehicles')
-        .basicAuth({
-            user: configs.traccarUsername || '',
-            pass: configs.traccarPassword
-        })
         .reply(200, {
             status: true,
-            data: {
-                vehicleDetail
-            }
+            data: [vehicleDetail]
         })
 }
 describe('locanav client for get vehicle details', () => {
     it('should get all vehicle details exists in loconav db', async () => {
         const scope = mockApiCall()
-        const vehicleDetails = await getAllVehicleDetails()
+        const vehicleDetails = await getAllVehicleDetails('authToken')
         expect(vehicleDetails).toContainEqual(vehicleDetail)
         expect(scope.isDone()).toBeTruthy()
     })
