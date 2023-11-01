@@ -1,22 +1,40 @@
-import getAllVehicleDetails from "../../httpClient/loconav/getAllVehicleDetails"
-import { DeviceDetail } from "../../httpClient/loconav/sampleVehicleDetails"
-import { createMany } from "../../models/loconavDevice"
-import computeDetails, { RawDetails } from "./computeDevice"
+import getAllVehicleDetails from '../../httpClient/loconav/getAllVehicleDetails'
+import { DeviceDetail } from '../../httpClient/loconav/sampleVehicleDetails'
+import { createMany as createLoconav } from '../../models/loconavDevice'
+import { getAllVehicles, createMany as createVehicles } from '../../models/vehicle'
 
-const formatDeviceDetails = (deviceDetails: DeviceDetail[]) => {
+interface RawDetails {
+    loconavDeviceId: number
+    vehicleId: number
+}
+const formatVehicleDetails = (deviceDetails: DeviceDetail[]) => {
+    return deviceDetails.map((vehicleDetail) => {
+        const { number } = vehicleDetail
+        return { number: number }
+    })
+}
+
+const formatDeviceDetails = (deviceDetails: DeviceDetail[], allVehicle: any[]) => {
     return deviceDetails.map((device) => {
         const { id, number } = device
-        return { loconavDeviceId: id, vehicle: {create:  {number: number} }}
+        const vehicleId = allVehicle.find((vehicle) => vehicle.number === number).id
+        return {
+            loconavDeviceId: id,
+            vehicleId: vehicleId
+        }
     })
 }
 const enrichDetails = (rawDetails: RawDetails[], authToken: string) => {
-    return rawDetails.map((details) => ({...details, loconavToken: authToken}))
+    return rawDetails.map((details) => ({ ...details, loconavToken: authToken }))
 }
 
 export const fetchDeviceDetails = async (authToken: string) => {
     const deviceDetails = await getAllVehicleDetails(authToken)
-    const formatDetails = formatDeviceDetails(deviceDetails)
-    const rawDetails = computeDetails(formatDetails)
-    const details = enrichDetails(rawDetails, authToken)
-    await createMany(details)
+    const getOnlyVehicleDetails = formatVehicleDetails(deviceDetails)
+    await createVehicles(getOnlyVehicleDetails)
+    const allVehicles = await getAllVehicles()
+    const formatDetails = formatDeviceDetails(deviceDetails, allVehicles)    
+    const details = enrichDetails(formatDetails, authToken)
+    console.log(details);
+    await createLoconav(details)    
 }

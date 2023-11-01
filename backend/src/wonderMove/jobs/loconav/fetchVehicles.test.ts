@@ -1,30 +1,45 @@
 import { describe, jest } from '@jest/globals'
-import { RawDetailsTestData } from './computeDevice.test'
 import { vehicleDetail } from '../../httpClient/loconav/sampleVehicleDetails'
 import { fetchDeviceDetails } from './fetchVehicles'
-// import { Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
-const mockComputeDevice = jest.fn()
-const mockFormatDetails = jest.fn()
-// const mockLoconavModel = jest.fn()
+const mockLoconavApi = jest.fn()
+const mockLoconavModel = jest.fn()
+const mockGetAllVehicles = jest.fn()
 
-jest.mock('./computeDevice', () => () => mockComputeDevice())
-jest.mock('../../httpClient/loconav/getAllVehicleDetails',() =>
-    () => mockFormatDetails()
+const RawDetailsTestData = {
+    loconavDeviceId: 123,
+    loconavToken: 'asdfasdf',
+    vehicleId: 10
+}
+
+jest.mock(
+    '../../httpClient/loconav/getAllVehicleDetails',
+    () => (authToken: string) => mockLoconavApi(authToken)
 )
-// jest.mock('../../models/loconavDevice', () => {
-//     return { createMany: (data: Prisma.gpsStopsCreateManyInput[]) => mockLoconavModel(data) }
-// })
+
+jest.mock('../../models/loconavDevice', () => {
+    return {
+        createMany: (inputs: Prisma.loconavDeviceCreateManyInput[]) =>
+            mockLoconavModel(inputs),
+    }
+})
+
+jest.mock('../../models/vehicle', () =>
+    () => mockGetAllVehicles()
+)
 
 describe('fetch device details', () => {
     it('should get device details from loconav', async () => {
         const authToken = 'asdfasdf'
-        mockComputeDevice.mockReturnValue([RawDetailsTestData])
+        const number = 'TN93D5512'
+        const id = 10
         // @ts-ignore
-        mockFormatDetails.mockResolvedValue([vehicleDetail])
-        const actual = await fetchDeviceDetails(authToken)
-        expect(mockComputeDevice).toBeCalledWith()
-        expect(mockFormatDetails).toBeCalledWith()
-        console.log(actual);
+        mockLoconavApi.mockResolvedValue([vehicleDetail])
+        await fetchDeviceDetails(authToken)
+        mockGetAllVehicles.mockReturnValue({number, id})
+        expect(mockLoconavModel).toBeCalledWith([
+            { ...RawDetailsTestData, vehicleId: 10 }
+        ])
     })
 })

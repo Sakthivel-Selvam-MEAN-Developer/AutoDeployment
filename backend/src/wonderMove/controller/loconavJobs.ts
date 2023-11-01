@@ -2,7 +2,7 @@ import { fetchDeviceDetails } from "../jobs/loconav/fetchVehicles"
 import { Request, Response } from 'express'
 
 const loconavDeviceData = (req: Request, res: Response) => {
-    const { authToken } = req.headers
+    const { authToken }: any = req.headers
     fetchDeviceDetails(authToken).then(() => res.sendStatus(200))
 }
 

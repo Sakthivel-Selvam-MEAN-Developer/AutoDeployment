@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import prisma from './index'
 
 export const create = (data: any) => prisma.vehicles.create({ data })
@@ -15,4 +16,4 @@ export const updateVehicleByNumber = (number: string, data: any) =>
 
 export const getAllVehicles = () => prisma.vehicles.findMany()
 
-export const createMany = (data: any) => prisma.vehicles.createMany({data})
+export const createMany = async (data: Prisma.vehiclesCreateManyInput[]) => prisma.vehicles.createMany({data})
