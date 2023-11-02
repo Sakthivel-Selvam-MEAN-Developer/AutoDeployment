@@ -4,7 +4,8 @@ import {
     create,
     getAllVehicles,
     fetchVehicleByNumber,
-    updateVehicleByNumber
+    updateVehicleByNumber,
+    createManyIfNotExist
 } from './vehicle'
 
 function validateDates(actual: any) {
@@ -56,5 +57,19 @@ describe('Vehicle model', () => {
         })
         const actual = await fetchVehicleByNumber(seedVehicle.number)
         expect(actual!.ownerName).toBe('linga')
+    })
+    test('should create many if not existing', async () => {
+        await createManyIfNotExist([seedVehicleWithoutDep])
+        const actual = await getAllVehicles()
+        expect(actual.length).toBe(1)      
+        expect(actual[0].number).toBe(seedVehicleWithoutDep.number)      
+    })
+    test('should not create many if exist already', async () => {
+        const vehicleToBeAdd = await createManyIfNotExist([seedVehicleWithoutDep])
+        const sameVehicleShouldBeReject = await createManyIfNotExist([{...seedVehicleWithoutDep, number: 'TN88K0272'}])
+        await createManyIfNotExist(sameVehicleShouldBeReject)
+        const actual = await getAllVehicles()
+        expect(actual.length).toBe(1)    
+        expect(actual[0].number).toBe(vehicleToBeAdd[0].number) 
     })
 })

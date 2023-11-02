@@ -16,5 +16,17 @@ export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
 
 export const create = (data: any) => prisma.loconavDevice.create({ data })
 
+const createIfNotExist = (data: any) => {
+    return prisma.loconavDevice.upsert({
+        where: {
+            loconavDeviceId: data.loconavDeviceId
+        },
+        create: {
+            ...data
+        },
+        update: {}
+    })
+}
 
-export const createMany = (data: Prisma.loconavDeviceCreateManyInput[]) => prisma.loconavDevice.createMany({data})
+export const createManyIfNotExist = (data: Prisma.loconavDeviceCreateManyInput[]) =>
+    Promise.all(data.map(createIfNotExist))

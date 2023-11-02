@@ -24,7 +24,7 @@ export type DeviceDetail = {
 
 export const vehicleDetail: DeviceDetail = {
     id: 123,
-    number: "TN93D5512",
+    number: "TN52S3555",
     notes: "abc",
     current_temperature: "40 c",
     last_located_at: 1234,

@@ -1,5 +1,8 @@
 import loconavDevice from '../seed/loconavDevice'
-import { create, getLoconavByVehicleNumber } from './loconavDevice'
+import loconavDeviceWithoutDep from '../seed/loconavDeviceWithoutDep'
+import vehicleDeviceWithoutDep from '../seed/vehiclesWithoutDependency'
+import { create as createVehicle } from './vehicle'
+import { create, createManyIfNotExist, getLoconavByVehicleNumber } from './loconavDevice'
 
 describe('loconav device', () => {
     it('should get device id by vehicle number', async () => {
@@ -10,5 +13,12 @@ describe('loconav device', () => {
         expect(loconavByVehicleNumber!.loconavDeviceId).toBe(
             loconavDevice.loconavDeviceId
         )
+    })
+    test('should create many if not existing', async () => {
+        const number = "TN93D5512"
+        const vehicle = await createVehicle({...vehicleDeviceWithoutDep, number})
+        await createManyIfNotExist([{...loconavDeviceWithoutDep, vehicleId: vehicle.id}])
+        const actual = await getLoconavByVehicleNumber(number)
+        expect(actual.vehicleId).toBe(vehicle.id)
     })
 })

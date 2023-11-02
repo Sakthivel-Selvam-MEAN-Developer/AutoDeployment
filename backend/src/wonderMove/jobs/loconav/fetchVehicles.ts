@@ -1,7 +1,7 @@
 import getAllVehicleDetails from '../../httpClient/loconav/getAllVehicleDetails'
 import { DeviceDetail } from '../../httpClient/loconav/sampleVehicleDetails'
-import { createMany as createLoconav } from '../../models/loconavDevice'
-import { getAllVehicles, createMany as createVehicles } from '../../models/vehicle'
+import { createManyIfNotExist as createLoconav } from '../../models/loconavDevice'
+import { getAllVehicles, createManyIfNotExist as createVehicles } from '../../models/vehicle'
 
 interface RawDetails {
     loconavDeviceId: number
@@ -35,6 +35,5 @@ export const fetchDeviceDetails = async (authToken: string) => {
     const allVehicles = await getAllVehicles()
     const formatDetails = formatDeviceDetails(deviceDetails, allVehicles)    
     const details = enrichDetails(formatDetails, authToken)
-    console.log(details);
     await createLoconav(details)    
 }

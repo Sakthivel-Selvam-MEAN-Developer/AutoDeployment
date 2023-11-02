@@ -5,13 +5,17 @@ import { Prisma } from '@prisma/client'
 
 const mockLoconavApi = jest.fn()
 const mockLoconavModel = jest.fn()
-const mockGetAllVehicles = jest.fn()
+const mockCreateVehicles = jest.fn()
 
 const RawDetailsTestData = {
     loconavDeviceId: 123,
     loconavToken: 'asdfasdf',
     vehicleId: 10
 }
+const allVehicles = [
+    { id: 10, number: 'TN93D5512' },
+    { id: 20, number: 'TN52S3555' }
+]
 
 jest.mock(
     '../../httpClient/loconav/getAllVehicleDetails',
@@ -20,26 +24,25 @@ jest.mock(
 
 jest.mock('../../models/loconavDevice', () => {
     return {
-        createMany: (inputs: Prisma.loconavDeviceCreateManyInput[]) =>
-            mockLoconavModel(inputs),
+        createManyIfNotExist: (inputs: Prisma.loconavDeviceCreateManyInput[]) => mockLoconavModel(inputs)
     }
 })
 
-jest.mock('../../models/vehicle', () =>
-    () => mockGetAllVehicles()
-)
+jest.mock('../../models/vehicle', () => {
+    return {
+        createManyIfNotExist: (inputs: Prisma.vehiclesCreateManyInput[]) => {
+            mockCreateVehicles(inputs)
+        },
+        getAllVehicles: () => (allVehicles)
+    }
+})
 
 describe('fetch device details', () => {
     it('should get device details from loconav', async () => {
         const authToken = 'asdfasdf'
-        const number = 'TN93D5512'
-        const id = 10
         // @ts-ignore
         mockLoconavApi.mockResolvedValue([vehicleDetail])
         await fetchDeviceDetails(authToken)
-        mockGetAllVehicles.mockReturnValue({number, id})
-        expect(mockLoconavModel).toBeCalledWith([
-            { ...RawDetailsTestData, vehicleId: 10 }
-        ])
+        expect(mockLoconavModel).toBeCalledWith([{ ...RawDetailsTestData, vehicleId: 20 }])
     })
 })
