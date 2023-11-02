@@ -11,5 +11,5 @@ const getAllVehicleDetails = async (authToken: string) =>
             'User-Authentication': authToken
         }
     }).then((response) => response.data.data)
-    
+
 export default getAllVehicleDetails

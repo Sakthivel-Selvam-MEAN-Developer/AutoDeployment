@@ -44,23 +44,24 @@ model people {
 }
 
 model vehicles {
-  id                  Int                @id @default(autoincrement())
-  number              String?            @unique
+  id                  Int                 @id @default(autoincrement())
+  number              String?             @unique
   make                String?
   type                String?
   ownershipType       String?
   ownerName           String?
-  insuranceExpiryDate DateTime?          @db.Timestamptz(6)
-  taxExpiryDate       DateTime?          @db.Timestamptz(6)
-  npPermitDate        DateTime?          @db.Timestamptz(6)
-  fiveYearPermitDate  DateTime?          @db.Timestamptz(6)
-  fcDate              DateTime?          @db.Timestamptz(6)
-  createdAt           DateTime           @default(now()) @db.Timestamptz(6)
-  updatedAt           DateTime           @updatedAt @db.Timestamptz(6)
+  insuranceExpiryDate DateTime?           @db.Timestamptz(6)
+  taxExpiryDate       DateTime?           @db.Timestamptz(6)
+  npPermitDate        DateTime?           @db.Timestamptz(6)
+  fiveYearPermitDate  DateTime?           @db.Timestamptz(6)
+  fcDate              DateTime?           @db.Timestamptz(6)
+  createdAt           DateTime            @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime            @updatedAt @db.Timestamptz(6)
   traccarDevice       traccarDevice?
   gpsStops            gpsStops[]
   vehicleMovements    vehicleMovements[]
   loconavDevice       loconavDevice?
+  ktTelematicsDevice  ktTelematicsDevice?
 }
 
 model traccarDevice {
@@ -80,6 +81,16 @@ model loconavDevice {
   vehicle         vehicles @relation(fields: [vehicleId], references: [id])
   createdAt       DateTime @default(now()) @db.Timestamptz(6)
   updatedAt       DateTime @updatedAt @db.Timestamptz(6)
+}
+
+model ktTelematicsDevice {
+  id                   Int      @id @default(autoincrement())
+  ktTelematicsDeviceId Int      @unique
+  vehicleId            Int      @unique
+  ktTelematicsToken    String
+  vehicle              vehicles @relation(fields: [vehicleId], references: [id])
+  createdAt            DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt            DateTime @updatedAt @db.Timestamptz(6)
 }
 
 model stopReasons {

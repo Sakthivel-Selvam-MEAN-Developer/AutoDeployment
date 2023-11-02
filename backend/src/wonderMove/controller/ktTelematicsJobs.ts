@@ -1,0 +1,9 @@
+import { fetchDeviceDetails } from '../jobs/ktTelematics/fetchVehicles'
+import { Request, Response } from 'express'
+
+const ktTelematicsDeviceData = (req: Request, res: Response) => {
+    const { authToken }: any = req.query
+    fetchDeviceDetails(authToken).then(() => res.sendStatus(200))
+}
+
+export default ktTelematicsDeviceData

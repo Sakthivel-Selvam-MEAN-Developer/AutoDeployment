@@ -4,6 +4,7 @@ const configs = {
     traccarPassword: process.env.TRACCAR_PASSWORD || '',
     port: process.env.PORT || '',
     loconavUrl: process.env.LOCONAV_URL || '',
+    ktTelematicsUrl: process.env.KTTELEMATICS_URL || ''
 }
 
 export default configs

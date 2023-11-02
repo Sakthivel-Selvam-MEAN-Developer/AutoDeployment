@@ -7,6 +7,7 @@ interface RawDetails {
     loconavDeviceId: number
     vehicleId: number
 }
+
 const formatVehicleDetails = (deviceDetails: DeviceDetail[]) => {
     return deviceDetails.map((vehicleDetail) => {
         const { number } = vehicleDetail
