@@ -1,5 +1,5 @@
-import traccarDevice from '../seed/traccarDevice'
-import { create, getTraccarByVehicleNumber } from './traccarDevice'
+import traccarDevice from '../seed/traccarDevice.ts'
+import { create, getTraccarByVehicleNumber } from './traccarDevice.ts'
 
 describe('traccar device', () => {
     it('should get device id by vehicle number', async () => {

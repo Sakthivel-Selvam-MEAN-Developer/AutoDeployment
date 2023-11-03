@@ -1,4 +1,4 @@
-import { dateFromTraccar, toTraccarFormat } from './dateFormater'
+import { dateFromTraccar, toTraccarFormat } from './dateFormater.ts'
 
 describe('date format', () => {
     it('should convert epoc to traccar format', () => {

@@ -1,11 +1,11 @@
-import seedReason from '../seed/reason'
+import seedReason from '../seed/reason.ts'
 import {
     create,
     getAllReason,
     getDefaultReason,
     update,
     YetToBeIdentifiedReason
-} from './stopReason'
+} from './stopReason.ts'
 
 describe('Reason model', () => {
     test('should able to access', async () => {

@@ -3,7 +3,7 @@ import helmet from 'helmet'
 import compression from 'compression'
 import cors from 'cors'
 import morgan from 'morgan'
-import setRoutes from './setRoutes'
+import setRoutes from './setRoutes.ts'
 
 const app = express()
 app.use(morgan('combined'))

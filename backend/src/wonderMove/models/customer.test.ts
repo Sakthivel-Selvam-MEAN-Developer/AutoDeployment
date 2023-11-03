@@ -1,10 +1,5 @@
-import seedCustomer from '../seed/customer'
-import {
-    create,
-    fetchCustomerByName,
-    getAllCustomerNames,
-    updateCustomerByName
-} from './customer'
+import seedCustomer from '../seed/customer.ts'
+import { create, fetchCustomerByName, getAllCustomerNames, updateCustomerByName } from './customer.ts'
 
 function validateCustomerValues(actual: any) {
     expect(actual.name).toBe(seedCustomer.name)
@@ -35,9 +30,7 @@ describe('Customer model', () => {
         await create(seedCustomer)
         const actual = await fetchCustomerByName(seedCustomer.name)
         expect(actual!.contactPerson).toBeDefined()
-        expect(actual!.contactPerson!.name).toBe(
-            seedCustomer.contactPerson.create.name
-        )
+        expect(actual!.contactPerson!.name).toBe(seedCustomer.contactPerson.create.name)
     })
     test('should get all customer', async () => {
         await create(seedCustomer)

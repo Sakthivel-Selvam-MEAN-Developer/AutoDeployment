@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import { getDefaultReason } from '../models/stopReason'
-import { groupByStopReason } from '../models/stops/stops.crud'
-import { getGpsStops } from '../models/gpsStop'
-import { getAllVehicles } from '../models/vehicle'
+import { getDefaultReason } from '../models/stopReason.ts'
+import { groupByStopReason } from '../models/stops/stops.crud.ts'
+import { getGpsStops } from '../models/gpsStop.ts'
+import { getAllVehicles } from '../models/vehicle.ts'
 
 function groupNumber(
     groupedData: any[],
@@ -10,15 +10,16 @@ function groupNumber(
     vehicleDataMap: Map<any, any>
 ) {
     return groupedData.reduce((acc, entry) => {
-        const gpsStopId = entry.gpsStopId
+        const { gpsStopId } = entry
         const vehicleId = gpsStopIdToVehicleId.get(gpsStopId)
         const vehicleData = vehicleDataMap.get(vehicleId)
         if (!acc[vehicleId]) {
             acc[vehicleId] = {
-                number: vehicleData.number,
-                _count: 0
+                // eslint-disable-next-line no-underscore-dangle
+                number: vehicleData.number, _count: 0
             }
         }
+        // eslint-disable-next-line no-underscore-dangle
         acc[vehicleId]._count += entry._count
         return acc
     }, {})
@@ -31,15 +32,9 @@ const mapNumberToVehicle = async (groupedData: any[]) => {
         gpsStopIdToVehicleId.set(stop.id, stop.vehicleId)
     })
     const vehicleData = await getAllVehicles()
-    const vehicleDataMap = new Map(
-        vehicleData.map((vehicle) => [vehicle.id, vehicle])
-    )
+    const vehicleDataMap = new Map(vehicleData.map((vehicle) => [vehicle.id, vehicle]))
 
-    const result = groupNumber(
-        groupedData,
-        gpsStopIdToVehicleId,
-        vehicleDataMap
-    )
+    const result = groupNumber(groupedData, gpsStopIdToVehicleId, vehicleDataMap)
     return Object.values(result)
 }
 

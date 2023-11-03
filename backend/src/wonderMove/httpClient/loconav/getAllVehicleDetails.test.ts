@@ -1,6 +1,6 @@
 import nock from 'nock'
-import configs from '../../../config'
 import { describe, expect } from '@jest/globals'
+import configs from '../../../config.ts'
 import getAllVehicleDetails from './getAllVehicleDetails.ts'
 import { vehicleDetail } from './sampleVehicleDetails.ts'
 

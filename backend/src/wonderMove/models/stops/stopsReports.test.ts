@@ -1,19 +1,19 @@
-import seedReason from '../../seed/reason'
-import seedVehicle from '../../seed/vehicle'
-import seedStop from '../../seed/stopsWithoutDependency'
-import seedGpsStopsWithoutDep from '../../seed/gpsStopsWithoutDependency'
-import seedVehicleWithoutDep from '../../seed/vehiclesWithoutDependency'
+import seedReason from '../../seed/reason.ts'
+import seedVehicle from '../../seed/vehicle.ts'
+import seedStop from '../../seed/stopsWithoutDependency.ts'
+import seedGpsStopsWithoutDep from '../../seed/gpsStopsWithoutDependency.ts'
+import seedVehicleWithoutDep from '../../seed/vehiclesWithoutDependency.ts'
 import {
     getCombinedDuration,
     getDurationGreaterThanFromTo,
     getDurationStopAfterTo,
     getDurationStopBeforeFrom,
     getDurationWithInRange
-} from './stopsReports'
-import { create as createNewReason } from '../stopReason'
-import { create as createNewVehicle } from '../vehicle'
-import { create as createGpsStop } from '../gpsStop'
-import { create } from './stops.crud'
+} from './stopsReports.ts'
+import { create as createNewReason } from '../stopReason.ts'
+import { create as createNewVehicle } from '../vehicle.ts'
+import { create as createGpsStop } from '../gpsStop.ts'
+import { create } from './stops.crud.ts'
 
 const createStop = async (stop: any, from: number, to: number) => {
     await create({

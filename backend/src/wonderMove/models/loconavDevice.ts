@@ -1,5 +1,5 @@
-import prisma from './index'
 import { Prisma } from '@prisma/client'
+import prisma from './index.ts'
 
 export type loconavDeviceByVehicleNumber = Prisma.PromiseReturnType<
     typeof getLoconavByVehicleNumber
@@ -16,17 +16,15 @@ export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
 
 export const create = (data: any) => prisma.loconavDevice.create({ data })
 
-const createIfNotExist = (data: any) => {
-    return prisma.loconavDevice.upsert({
-        where: {
-            loconavDeviceId: data.loconavDeviceId
-        },
-        create: {
-            ...data
-        },
-        update: {}
-    })
-}
+const createIfNotExist = (data: any) => prisma.loconavDevice.upsert({
+    where: {
+        loconavDeviceId: data.loconavDeviceId
+    },
+    create: {
+        ...data
+    },
+    update: {}
+})
 
 export const createManyIfNotExist = (data: Prisma.loconavDeviceCreateManyInput[]) =>
     Promise.all(data.map(createIfNotExist))

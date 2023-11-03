@@ -1,19 +1,17 @@
-import prisma from './index'
 import { Prisma } from '@prisma/client'
+import prisma from './index.ts'
 
 export const create = (data: any) => prisma.ktTelematicsDevice.create({ data })
 
-const createIfNotExist = (data: any) => {
-    return prisma.ktTelematicsDevice.upsert({
-        where: {
-            ktTelematicsDeviceId: data.ktTelematicsDeviceId
-        },
-        create: {
-            ...data
-        },
-        update: {}
-    })
-}
+const createIfNotExist = (data: any) => prisma.ktTelematicsDevice.upsert({
+    where: {
+        ktTelematicsDeviceId: data.ktTelematicsDeviceId
+    },
+    create: {
+        ...data
+    },
+    update: {}
+})
 
 export const createManyIfNotExist = (data: Prisma.ktTelematicsDeviceCreateManyInput[]) =>
     Promise.all(data.map(createIfNotExist))

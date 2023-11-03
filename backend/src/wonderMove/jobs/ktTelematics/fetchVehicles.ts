@@ -1,34 +1,31 @@
-import getAllVehicleDetails from "../../httpClient/ktTelematics/getAllVehicleDetails"
-import { DeviceDetail } from "../../httpClient/ktTelematics/sampleVehicleDetails"
-import { createManyIfNotExist as createKtTelematics} from '../../models/ktTelematicsDevice'
-import { getAllVehicles, createManyIfNotExist as createVehicles} from '../../models/vehicle'
+import getAllVehicleDetails from '../../httpClient/ktTelematics/getAllVehicleDetails.ts'
+import { DeviceDetail } from '../../httpClient/ktTelematics/sampleVehicleDetails.ts'
+import { createManyIfNotExist as createKtTelematics } from '../../models/ktTelematicsDevice.ts'
+import { getAllVehicles, createManyIfNotExist as createVehicles } from '../../models/vehicle.ts'
 
 interface RawDetails {
     ktTelematicsDeviceId: number
     vehicleId: number
 }
 
-const formatVehicleDetails = (deviceDetails: DeviceDetail[]) => {
-    return deviceDetails.map((vehicleDetail) => {
+const formatVehicleDetails = (deviceDetails: DeviceDetail[]) =>
+    deviceDetails.map((vehicleDetail) => {
         const { vehicle } = vehicleDetail
         return { number: vehicle }
     })
-}
 
-const formatDeviceDetails = (deviceDetails: DeviceDetail[], allVehicle: any[]) => {
-    return deviceDetails.map((device) => {
+const formatDeviceDetails = (deviceDetails: DeviceDetail[], allVehicle: any[]) =>
+    deviceDetails.map((device) => {
         const { deviceId, vehicle } = device
         const vehicleId = allVehicle.find((vehicles) => vehicles.number === vehicle).id
         return {
             ktTelematicsDeviceId: deviceId,
-            vehicleId: vehicleId
+            vehicleId
         }
     })
-}
 
-const enrichDetails = (rawDetails: RawDetails[], authToken: string) => {
-    return rawDetails.map((details) => ({ ...details, ktTelematicsToken: authToken }))
-}
+const enrichDetails = (rawDetails: RawDetails[], authToken: string) =>
+    rawDetails.map((details) => ({ ...details, ktTelematicsToken: authToken }))
 
 export const fetchDeviceDetails = async (authToken: string) => {
     const deviceDetails = await getAllVehicleDetails(authToken)

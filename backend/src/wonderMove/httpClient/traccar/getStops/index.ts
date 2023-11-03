@@ -1,5 +1,5 @@
 import axios from 'axios'
-import configs from '../../../../config'
+import configs from '../../../../config.ts'
 import { toTraccarFormat } from '../dateFormater.ts'
 
 const { traccarUrl, traccarPassword, traccarUsername } = configs

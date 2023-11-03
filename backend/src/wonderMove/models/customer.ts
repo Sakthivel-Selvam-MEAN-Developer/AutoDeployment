@@ -1,4 +1,4 @@
-import prisma from './index'
+import prisma from './index.ts'
 
 export const create = (data: any) => prisma.customers.create({ data })
 export const fetchCustomerByName = (name: string) =>
@@ -10,5 +10,4 @@ export const fetchCustomerByName = (name: string) =>
     })
 export const updateCustomerByName = (name: string, data: any) =>
     prisma.customers.update({ where: { name }, data })
-export const getAllCustomerNames = () =>
-    prisma.customers.findMany({ where: {} })
+export const getAllCustomerNames = () => prisma.customers.findMany({ where: {} })

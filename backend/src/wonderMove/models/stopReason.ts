@@ -1,4 +1,4 @@
-import prisma from './index'
+import prisma from './index.ts'
 
 export const YetToBeIdentifiedReason: string = 'Yet to be identified'
 

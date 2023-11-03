@@ -1,4 +1,4 @@
-import prisma from '../index'
+import prisma from '../index.ts'
 
 interface Stop {
     stopReasonId: number
@@ -6,10 +6,7 @@ interface Stop {
     endTime: number
     durationInMillis: number
 }
-export const getDurationWithInRange = async (
-    from: number,
-    to: number
-): Promise<Stop[]> => {
+export const getDurationWithInRange = async (from: number, to: number): Promise<Stop[]> => {
     const duration = await prisma.stops.groupBy({
         by: ['stopReasonId'],
         where: {
@@ -34,10 +31,7 @@ export const getDurationWithInRange = async (
     }))
 }
 
-export const getDurationStopBeforeFrom = async (
-    from: number,
-    to: number
-): Promise<Stop[]> => {
+export const getDurationStopBeforeFrom = async (from: number, to: number): Promise<Stop[]> => {
     const modifiedAggDuration: Record<number, Stop> = {}
     const stopsBeforeFrom = await prisma.stops.findMany({
         where: {
@@ -58,11 +52,9 @@ export const getDurationStopBeforeFrom = async (
         }
     })
     stopsBeforeFrom.forEach((stop: any) => {
-        const durationInMillis =
-            Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
+        const durationInMillis = Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
         if (modifiedAggDuration[stop.stopReasonId]) {
-            modifiedAggDuration[stop.stopReasonId].durationInMillis +=
-                durationInMillis
+            modifiedAggDuration[stop.stopReasonId].durationInMillis += durationInMillis
         } else {
             modifiedAggDuration[stop.stopReasonId] = <Stop>{
                 stopReasonId: stop.stopReasonId,
@@ -74,10 +66,7 @@ export const getDurationStopBeforeFrom = async (
     return aggDurationWithInRange
 }
 
-export const getDurationStopAfterTo = async (
-    from: number,
-    to: number
-): Promise<Stop[]> => {
+export const getDurationStopAfterTo = async (from: number, to: number): Promise<Stop[]> => {
     const modifiedAggDuration: Record<number, Stop> = {}
     const stopsAfterTo = await prisma.stops.findMany({
         where: {
@@ -98,11 +87,9 @@ export const getDurationStopAfterTo = async (
         }
     })
     stopsAfterTo.forEach((stop: any) => {
-        const durationInMillis =
-            Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
+        const durationInMillis = Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
         if (modifiedAggDuration[stop.stopReasonId]) {
-            modifiedAggDuration[stop.stopReasonId].durationInMillis +=
-                durationInMillis
+            modifiedAggDuration[stop.stopReasonId].durationInMillis += durationInMillis
         } else {
             modifiedAggDuration[stop.stopReasonId] = <Stop>{
                 stopReasonId: stop.stopReasonId,
@@ -114,10 +101,7 @@ export const getDurationStopAfterTo = async (
     return aggDurationWithInRange
 }
 
-export const getDurationGreaterThanFromTo = async (
-    from: number,
-    to: number
-): Promise<Stop[]> => {
+export const getDurationGreaterThanFromTo = async (from: number, to: number): Promise<Stop[]> => {
     const modifiedAggDuration: Record<number, Stop> = {}
     const stopsBeyondRange = await prisma.stops.findMany({
         where: {
@@ -137,11 +121,9 @@ export const getDurationGreaterThanFromTo = async (
         }
     })
     stopsBeyondRange.forEach((stop: any) => {
-        const durationInMillis =
-            Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
+        const durationInMillis = Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
         if (modifiedAggDuration[stop.stopReasonId]) {
-            modifiedAggDuration[stop.stopReasonId].durationInMillis +=
-                durationInMillis
+            modifiedAggDuration[stop.stopReasonId].durationInMillis += durationInMillis
         } else {
             modifiedAggDuration[stop.stopReasonId] = <Stop>{
                 stopReasonId: stop.stopReasonId,
@@ -158,12 +140,7 @@ async function fetchRelevantStops(from: number, to: number): Promise<Stop[]> {
     const afterFromAndTo = await getDurationStopAfterTo(from, to)
     const greaterThanFromTo = await getDurationGreaterThanFromTo(from, to)
 
-    const duration = [
-        ...withInRange,
-        ...beforeFromAndTo,
-        ...afterFromAndTo,
-        ...greaterThanFromTo
-    ]
+    const duration = [...withInRange, ...beforeFromAndTo, ...afterFromAndTo, ...greaterThanFromTo]
     return duration
 }
 
@@ -175,13 +152,10 @@ function aggregateByReasonId(duration: any) {
             (groupedDurations.get(stopReasonId) || 0) + durationInMillis
         )
     })
-    const mappedDuration = Array.from(
-        groupedDurations,
-        ([stopReasonId, durationInMillis]) => ({
-            stopReasonId: Number(stopReasonId),
-            durationInMillis
-        })
-    )
+    const mappedDuration = Array.from(groupedDurations, ([stopReasonId, durationInMillis]) => ({
+        stopReasonId: Number(stopReasonId),
+        durationInMillis
+    }))
     return mappedDuration
 }
 

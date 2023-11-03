@@ -1,9 +1,5 @@
-import {
-    create as createInDb,
-    getAllReason,
-    update
-} from '../models/stopReason'
 import { Request, Response } from 'express'
+import { create as createInDb, getAllReason, update } from '../models/stopReason.ts'
 
 export const create = (req: Request, res: Response) => {
     createInDb(req.body).then(() => res.send(200))

@@ -1,12 +1,12 @@
 /* eslint-env node */
 module.exports = {
-    plugins: ['jest'],
+    plugins: ['jest', '@typescript-eslint'],
     env: {
         browser: true,
         es2021: true,
         'jest/globals': true
     },
-    extends: ['airbnb-base'],
+    extends: ['airbnb-base', 'plugin:@typescript-eslint/recommended'],
     overrides: [
         {
             env: {
@@ -18,10 +18,11 @@ module.exports = {
             }
         },
         {
-            files: ['*.test.ts'],
+            files: ['*.test.ts', '*.ts'],
             rules: {
                 'max-lines': ['error', 500],
-                'max-lines-per-function': ['error', 500]
+                'max-lines-per-function': ['error', 500],
+                "@typescript-eslint/no-explicit-any": "off"
             }
         }
     ],
@@ -43,4 +44,4 @@ module.exports = {
         'object-curly-newline': 0,
         'import/prefer-default-export': 0
     }
-};
+}

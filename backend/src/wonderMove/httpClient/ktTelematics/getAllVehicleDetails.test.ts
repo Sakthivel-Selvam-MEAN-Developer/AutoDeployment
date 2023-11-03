@@ -1,7 +1,7 @@
-import nock from "nock"
-import configs from "../../../config"
-import getAllVehicleDetails from "./getAllVehicleDetails.ts"
-import { vehicleDetail } from "./sampleVehicleDetails.ts"
+import nock from 'nock'
+import configs from '../../../config.ts'
+import getAllVehicleDetails from './getAllVehicleDetails.ts'
+import { vehicleDetail } from './sampleVehicleDetails.ts'
 
 const mockApiCall = () => {
     const url = configs.ktTelematicsUrl || ''

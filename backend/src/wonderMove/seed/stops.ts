@@ -1,5 +1,5 @@
-import reason from './reason'
-import gpsStops from './gpsStops'
+import reason from './reason.ts'
+import gpsStops from './gpsStops.ts'
 
 export default {
     startTime: new Date(2023, 9, 2).getTime() / 1000,

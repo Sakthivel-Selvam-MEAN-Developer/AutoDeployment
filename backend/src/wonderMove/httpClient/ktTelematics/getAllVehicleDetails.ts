@@ -1,5 +1,5 @@
-import axios from "axios";
-import configs from "../../../config";
+import axios from 'axios'
+import configs from '../../../config.ts'
 
 const { ktTelematicsUrl } = configs
 const getAllVehicleDetails = async (authToken: string) =>

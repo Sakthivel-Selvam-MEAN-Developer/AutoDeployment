@@ -1,4 +1,4 @@
-import cleanData from './cleanDb'
+import cleanData from './cleanDb.ts'
 
 beforeEach(async () => {
     await cleanData()

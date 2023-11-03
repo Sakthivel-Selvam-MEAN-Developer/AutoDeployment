@@ -1,14 +1,13 @@
-import seedStop from '../../seed/stops'
+import seedStop from '../../seed/stops.ts'
 import seedVehicle from '../../seed/vehicle.ts'
-import seedReason from '../../seed/reason'
-import seedStopWithoutDependency from '../../seed/stopsWithoutDependency'
-import seedGpsStopsWithoutDep from '../../seed/gpsStopsWithoutDependency'
-import seedVehicleWithoutDep from '../../seed/vehiclesWithoutDependency'
-import gpsStops from '../../seed/gpsStops'
-import { create as createNewReason } from '../stopReason'
-import { create as createNewVehicle } from '../vehicle'
-import { getAllVehicles } from '../vehicle'
-import { create as createGpsStop } from '../gpsStop'
+import seedReason from '../../seed/reason.ts'
+import seedStopWithoutDependency from '../../seed/stopsWithoutDependency.ts'
+import seedGpsStopsWithoutDep from '../../seed/gpsStopsWithoutDependency.ts'
+import seedVehicleWithoutDep from '../../seed/vehiclesWithoutDependency.ts'
+import gpsStops from '../../seed/gpsStops.ts'
+import { create as createNewReason } from '../stopReason.ts'
+import { create as createNewVehicle, getAllVehicles } from '../vehicle.ts'
+import { create as createGpsStop } from '../gpsStop.ts'
 import {
     allPendingStopsForSingleVehicle,
     create,
@@ -17,7 +16,7 @@ import {
     getVehicleDetailByReason,
     updateStopReason,
     groupByStopReason
-} from './stops.crud'
+} from './stops.crud.ts'
 
 describe('Stop model', () => {
     test('should fetch stops by vehicle number', async () => {

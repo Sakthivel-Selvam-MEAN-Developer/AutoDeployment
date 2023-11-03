@@ -1,10 +1,5 @@
-import {
-    getDetails,
-    create,
-    listAllNumbers,
-    update
-} from '../controller/vehicle.ts'
 import { Router } from 'express'
+import { getDetails, create, listAllNumbers, update } from '../controller/vehicle.ts'
 
 const vehicleRoutes = (router: Router) => {
     router.post('/vehicles', create)

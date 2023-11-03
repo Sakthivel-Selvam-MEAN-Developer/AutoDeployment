@@ -1,4 +1,4 @@
-import prisma from './index'
+import prisma from './index.ts'
 
 export const getTraccarByVehicleNumber = (vehicleNumber: string) =>
     prisma.traccarDevice.findFirst({

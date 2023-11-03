@@ -1,5 +1,5 @@
-import fetchTraccarStops from './fetchTraccarStops'
 import { describe, expect, jest } from '@jest/globals'
+import fetchTraccarStops from './fetchTraccarStops.ts'
 
 const mockGetStops = jest.fn()
 const mockCreateGpsStops = jest.fn()

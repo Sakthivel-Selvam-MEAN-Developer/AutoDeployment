@@ -1,5 +1,5 @@
 import axios from 'axios'
-import configs from '../../../config'
+import configs from '../../../config.ts'
 
 const { loconavUrl } = configs
 const getMovements = async (deviceId: number, from: number, to: number, authToken: string) =>

@@ -1,7 +1,7 @@
 import { describe, jest } from '@jest/globals'
-import { vehicleDetail } from '../../httpClient/loconav/sampleVehicleDetails'
-import { fetchDeviceDetails } from './fetchVehicles'
 import { Prisma } from '@prisma/client'
+import { vehicleDetail } from '../../httpClient/loconav/sampleVehicleDetails.ts'
+import { fetchDeviceDetails } from './fetchVehicles.ts'
 
 const mockLoconavApi = jest.fn()
 const mockLoconavModel = jest.fn()
@@ -22,20 +22,17 @@ jest.mock(
     () => (authToken: string) => mockLoconavApi(authToken)
 )
 
-jest.mock('../../models/loconavDevice', () => {
-    return {
-        createManyIfNotExist: (inputs: Prisma.loconavDeviceCreateManyInput[]) => mockLoconavModel(inputs)
-    }
-})
+jest.mock('../../models/loconavDevice', () => ({
+    createManyIfNotExist: (inputs: Prisma.loconavDeviceCreateManyInput[]) =>
+        mockLoconavModel(inputs)
+}))
 
-jest.mock('../../models/vehicle', () => {
-    return {
-        createManyIfNotExist: (inputs: Prisma.vehiclesCreateManyInput[]) => {
-            mockCreateVehicles(inputs)
-        },
-        getAllVehicles: () => (allVehicles)
-    }
-})
+jest.mock('../../models/vehicle', () => ({
+    createManyIfNotExist: (inputs: Prisma.vehiclesCreateManyInput[]) => {
+        mockCreateVehicles(inputs)
+    },
+    getAllVehicles: () => allVehicles
+}))
 
 describe('fetch device details', () => {
     it('should get device details from loconav', async () => {

@@ -3,7 +3,7 @@ import { VitePluginNode } from 'vite-plugin-node'
 
 export default defineConfig({
     server: {
-        port: 3000,
+        port: 3000
     },
     plugins: [
         ...VitePluginNode({
@@ -12,9 +12,9 @@ export default defineConfig({
             exportName: 'app',
             swcOptions: {},
             build: {
-                sourcemap: true,
-            },
-        }),
+                sourcemap: true
+            }
+        })
     ],
-    optimizeDeps: {},
+    optimizeDeps: {}
 })

@@ -1,4 +1,4 @@
-import prisma from '../index'
+import prisma from '../index.ts'
 
 const cleanData = async () => {
     await prisma.$executeRaw`truncate customers cascade`

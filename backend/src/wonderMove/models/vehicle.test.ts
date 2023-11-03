@@ -1,4 +1,4 @@
-import seedVehicle from '../seed/vehicle'
+import seedVehicle from '../seed/vehicle.ts'
 import seedVehicleWithoutDep from '../seed/vehiclesWithoutDependency.ts'
 import {
     create,
@@ -6,12 +6,10 @@ import {
     fetchVehicleByNumber,
     updateVehicleByNumber,
     createManyIfNotExist
-} from './vehicle'
+} from './vehicle.ts'
 
 function validateDates(actual: any) {
-    expect(actual.fcDate.getUTCMilliseconds()).toBe(
-        seedVehicle.fcDate.getUTCMilliseconds()
-    )
+    expect(actual.fcDate.getUTCMilliseconds()).toBe(seedVehicle.fcDate.getUTCMilliseconds())
     expect(actual.insuranceExpiryDate.getUTCMilliseconds()).toBe(
         seedVehicle.insuranceExpiryDate.getUTCMilliseconds()
     )
@@ -61,15 +59,17 @@ describe('Vehicle model', () => {
     test('should create many if not existing', async () => {
         await createManyIfNotExist([seedVehicleWithoutDep])
         const actual = await getAllVehicles()
-        expect(actual.length).toBe(1)      
-        expect(actual[0].number).toBe(seedVehicleWithoutDep.number)      
+        expect(actual.length).toBe(1)
+        expect(actual[0].number).toBe(seedVehicleWithoutDep.number)
     })
     test('should not create many if exist already', async () => {
         const vehicleToBeAdd = await createManyIfNotExist([seedVehicleWithoutDep])
-        const sameVehicleShouldBeReject = await createManyIfNotExist([{...seedVehicleWithoutDep, number: 'TN88K0272'}])
+        const sameVehicleShouldBeReject = await createManyIfNotExist([
+            { ...seedVehicleWithoutDep, number: 'TN88K0272' }
+        ])
         await createManyIfNotExist(sameVehicleShouldBeReject)
         const actual = await getAllVehicles()
-        expect(actual.length).toBe(1)    
-        expect(actual[0].number).toBe(vehicleToBeAdd[0].number) 
+        expect(actual.length).toBe(1)
+        expect(actual[0].number).toBe(vehicleToBeAdd[0].number)
     })
 })

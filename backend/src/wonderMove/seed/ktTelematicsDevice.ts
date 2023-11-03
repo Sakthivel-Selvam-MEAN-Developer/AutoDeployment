@@ -1,4 +1,4 @@
-import vehicle from './vehiclesWithoutDependency'
+import vehicle from './vehiclesWithoutDependency.ts'
 
 export default {
     ktTelematicsDeviceId: 3,

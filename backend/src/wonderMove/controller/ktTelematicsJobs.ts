@@ -1,5 +1,5 @@
-import { fetchDeviceDetails } from '../jobs/ktTelematics/fetchVehicles'
 import { Request, Response } from 'express'
+import { fetchDeviceDetails } from '../jobs/ktTelematics/fetchVehicles.ts'
 
 const ktTelematicsDeviceData = (req: Request, res: Response) => {
     const { authToken }: any = req.query

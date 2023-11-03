@@ -1,3 +1,4 @@
+import { Router } from 'express'
 import { pendingStopReason } from '../controller/pendingReason.ts'
 import {
     create,
@@ -7,7 +8,6 @@ import {
     allPendingSRforSingleVehicle,
     overrideStop
 } from '../controller/stops.ts'
-import { Router } from 'express'
 
 const stopRoutes = (router: Router) => {
     router.post('/stops', create)

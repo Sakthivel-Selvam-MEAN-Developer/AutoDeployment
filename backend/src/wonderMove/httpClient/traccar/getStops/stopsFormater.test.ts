@@ -1,5 +1,5 @@
-import fromTraccar from './stopsFormatter'
-import traccarStop from './sampleStopData'
+import fromTraccar from './stopsFormatter.ts'
+import traccarStop from './sampleStopData.ts'
 
 describe('stop formatter', () => {
     it('should convert traccar response to our format', () => {

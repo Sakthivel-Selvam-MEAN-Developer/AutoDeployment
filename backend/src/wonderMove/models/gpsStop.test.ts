@@ -1,8 +1,8 @@
-import seedGpsStop from '../seed/gpsStopsWithoutDependency'
-import seedVehicle from '../seed/vehicle'
-import { create, createManyIfNotExist, getGpsStops } from './gpsStop'
-import { create as createVehicle } from './vehicle'
-import { create as createStopReason } from './stopReason'
+import seedGpsStop from '../seed/gpsStopsWithoutDependency.ts'
+import seedVehicle from '../seed/vehicle.ts'
+import { create, createManyIfNotExist, getGpsStops } from './gpsStop.ts'
+import { create as createVehicle } from './vehicle.ts'
+import { create as createStopReason } from './stopReason.ts'
 
 async function createBaseData() {
     const stopReason = await createStopReason({ name: 'random' })

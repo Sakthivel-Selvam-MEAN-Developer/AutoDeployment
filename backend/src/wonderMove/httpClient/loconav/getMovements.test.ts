@@ -1,6 +1,6 @@
 import nock from 'nock'
-import configs from '../../../config'
-import getMovements from './getMovements'
+import configs from '../../../config.ts'
+import getMovements from './getMovements.ts'
 import { movement } from './loconavMovement.ts'
 
 const mockApiCall = () => {

@@ -1,7 +1,7 @@
 import nock from 'nock'
-import configs from '../../../../config'
-import getStops from './index'
-import traccarStop from './sampleStopData'
+import configs from '../../../../config.ts'
+import getStops from './index.ts'
+import traccarStop from './sampleStopData.ts'
 
 const mockApiCall = () => {
     const url = configs.traccarUrl || ''

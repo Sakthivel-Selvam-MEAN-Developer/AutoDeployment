@@ -1,4 +1,4 @@
-import person from './person'
+import person from './person.ts'
 
 export default {
     name: 'Good Cements',

@@ -1,13 +1,13 @@
-import { getCombinedDuration } from '../models/stops/stopsReports'
-import { getAllReason } from '../models/stopReason'
+import { Request, Response } from 'express'
+import { getCombinedDuration } from '../models/stops/stopsReports.ts'
+import { getAllReason } from '../models/stopReason.ts'
 import {
     allPendingStopsForSingleVehicle,
     create as createInDb,
     fetchStopsByVehicle as getDetailsFromDb,
     updateStopReason,
     overrideStops
-} from '../models/stops/stops.crud'
-import { Request, Response } from 'express'
+} from '../models/stops/stops.crud.ts'
 
 interface AggregatedStop {
     stopReasonId: number
@@ -26,23 +26,17 @@ export const getDetails = (req: Request, res: Response) => {
     })
 }
 
-const mapNamesToReason = async (
-    aggregatedStops: AggregatedStop[]
-): Promise<AggregatedStop[]> => {
+const mapNamesToReason = async (aggregatedStops: AggregatedStop[]): Promise<AggregatedStop[]> => {
     const reasons: Reason[] = await getAllReason()
     return aggregatedStops.map((item) => {
-        const { name }: any = reasons.find(
-            (reason) => reason.id === item.stopReasonId
-        )
+        const { name }: any = reasons.find((reason) => reason.id === item.stopReasonId)
         return { ...item, name }
     })
 }
 
 export const stopDurations = (req: Request, res: Response) => {
-    getCombinedDuration(
-        parseInt(req.query.from as string),
-        parseInt(req.query.to as string)
-    )
+    getCombinedDuration(parseInt(req.query.from as string, 10),
+        parseInt(req.query.to as string, 10))
         .then(mapNamesToReason)
         .then((data) => {
             res.status(200).json(data)
@@ -50,10 +44,8 @@ export const stopDurations = (req: Request, res: Response) => {
 }
 
 export const updateStopsDb = (req: Request, res: Response) => {
-    updateStopReason(
-        parseInt(req.params.id as string),
-        req.body.stopReasonId
-    ).then((data: any) => {
+    updateStopReason(parseInt(req.params.id as string, 10),
+        req.body.stopReasonId).then((data: any) => {
         res.status(200).json(data)
     })
 }
@@ -64,9 +56,7 @@ export const allPendingSRforSingleVehicle = (req: Request, res: Response) => {
     })
 }
 export const overrideStop = (req: Request, res: Response) => {
-    overrideStops(parseInt(req.query.gpsStopId as string), req.body).then(
-        (data: any) => {
-            res.status(200).json(data)
-        }
-    )
+    overrideStops(parseInt(req.query.gpsStopId as string, 10), req.body).then((data: any) => {
+        res.status(200).json(data)
+    })
 }

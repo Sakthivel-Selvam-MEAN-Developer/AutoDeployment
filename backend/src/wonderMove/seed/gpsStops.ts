@@ -1,4 +1,4 @@
-import vehicle from './vehicle'
+import vehicle from './vehicle.ts'
 
 export default {
     startTime: new Date(2023, 9, 2).getTime() / 1000,

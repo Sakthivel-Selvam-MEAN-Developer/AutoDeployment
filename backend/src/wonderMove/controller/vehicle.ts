@@ -1,10 +1,10 @@
+import { Request, Response } from 'express'
 import {
     create as createInDb,
     getAllVehicles,
     fetchVehicleByNumber as getDetailsFromDb,
     updateVehicleByNumber as updateInDB
-} from '../models/vehicle'
-import { Request, Response } from 'express'
+} from '../models/vehicle.ts'
 
 export const create = (req: Request, res: Response) => {
     createInDb(req.body).then(() => res.sendStatus(200))
@@ -20,7 +20,5 @@ export const listAllNumbers = (_req: Request, res: Response) => {
 }
 
 export const getDetails = (req: Request, res: Response) => {
-    getDetailsFromDb(req.params.number).then((detail) =>
-        res.status(200).json(detail)
-    )
+    getDetailsFromDb(req.params.number).then((detail) => res.status(200).json(detail))
 }

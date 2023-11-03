@@ -1,4 +1,4 @@
-import { dateFromTraccar } from '../dateFormater'
+import { dateFromTraccar } from '../dateFormater.ts'
 
 interface TraccarResponse {
     startTime: string
@@ -8,8 +8,7 @@ interface TraccarResponse {
     duration: number
 }
 const fromTraccar = (traccarResponse: TraccarResponse) => {
-    const { startTime, endTime, latitude, longitude, duration } =
-        traccarResponse
+    const { startTime, endTime, latitude, longitude, duration } = traccarResponse
     return {
         from: dateFromTraccar(startTime),
         to: dateFromTraccar(endTime),

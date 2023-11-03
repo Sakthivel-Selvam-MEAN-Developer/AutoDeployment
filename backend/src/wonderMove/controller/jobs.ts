@@ -1,5 +1,6 @@
-import fetchTraccarStops from '../jobs/fetchTraccarStops'
 import { Request, Response } from 'express'
+import fetchTraccarStops from '../jobs/fetchTraccarStops.ts'
+
 const fetchTraccarData = (req: Request, res: Response) => {
     const { vehicleNumber, from, to } = req.query
     // @ts-ignore
