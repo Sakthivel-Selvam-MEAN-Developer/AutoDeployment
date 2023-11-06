@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./wonderMove/components/layout";
+import MoveItLayout from "./wonderMove/components/layout";
 import Dashboard from "./wonderMove/components/dashboard";
 import DashboardList from "./wonderMove/components/dashboard/list.tsx";
 import VehiclesHome from "./wonderMove/components/vehicles/home.tsx";
@@ -15,11 +15,14 @@ import PendingList from "./wonderMove/components/pendingReason/list.tsx";
 import Details from "./wonderMove/components/pendingReason/view.tsx";
 import Reason from "./wonderMove/components/reason/home.tsx";
 import ReasonList from "./wonderMove/components/reason/list.tsx";
+import HrmLayout from "./hrm/components/layout";
+import HrmDashboard from "./hrm/components/dashboard";
+import HrmDashboardList from "./hrm/components/dashboard/list.tsx";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Layout />,
+    path: "/moveit",
+    element: <MoveItLayout />,
     children: [
       {
         path: "",
@@ -90,6 +93,22 @@ export const router = createBrowserRouter([
           {
             path: "create",
             element: <NewCustomer />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/hrm",
+    element: <HrmLayout />,
+    children: [
+      {
+        path: "",
+        element: <HrmDashboard />,
+        children: [
+          {
+            path: "",
+            element: <HrmDashboardList />,
           },
         ],
       },

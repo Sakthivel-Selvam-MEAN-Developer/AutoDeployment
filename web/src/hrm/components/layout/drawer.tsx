@@ -64,14 +64,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
       <Divider />
       <List>
         <DrawerListItem
-          text="WonderMove"
-          navigate="/moveit"
-          drawerState={drawerState}
-          index={0}
-          icon={<Dashboard />}
-        />
-        <DrawerListItem
-          text="Hrm"
+          text="Dashboard"
           navigate="/hrm"
           drawerState={drawerState}
           index={0}

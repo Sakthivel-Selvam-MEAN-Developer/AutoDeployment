@@ -20,6 +20,6 @@ jobs:
           ls ${{ github.workspace }}
       - run: pwd
       - run: yarn install
-      - run: yarn workspace backend lint
       - run: yarn workspace backend format
+      - run: yarn workspace backend lint
       - run: echo "🍏 This job's status is ${{ job.status }}."

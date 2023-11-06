@@ -23,8 +23,8 @@ const formatDeviceDetails = (deviceDetails: DeviceDetail[], allVehicle: any[]) =
             vehicleId
         }
     })
-const enrichDetails = (rawDetails: RawDetails[], authToken: string) => rawDetails.map((details) =>
-    ({ ...details, loconavToken: authToken }))
+const enrichDetails = (rawDetails: RawDetails[], authToken: string) =>
+    rawDetails.map((details) => ({ ...details, loconavToken: authToken }))
 
 export const fetchDeviceDetails = async (authToken: string) => {
     const deviceDetails = await getAllVehicleDetails(authToken)

@@ -6,6 +6,6 @@ module.exports = {
     collectCoverage: true,
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
-    globalSetup: './src/wonderMove/models/testUtils/autoDBSync.ts',
-    setupFilesAfterEnv: ['./src/wonderMove/models/testUtils/testGlobalHooks.ts']
+    globalSetup: './src/testUtils/autoDBSync.ts',
+    setupFilesAfterEnv: ['./src/testUtils/testGlobalHooks.ts']
 }

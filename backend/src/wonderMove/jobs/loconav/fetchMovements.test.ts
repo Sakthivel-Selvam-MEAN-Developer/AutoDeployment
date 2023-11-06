@@ -11,7 +11,9 @@ const mockMovementModel = jest.fn()
 const mockStopModel = jest.fn()
 
 jest.mock('../computeStops', () => () => mockComputeStops())
-jest.mock('../../models/loconavDevice', () => ({ getLoconavByVehicleNumber: (number: number) => mockLoconavVehicleMap(number) }))
+jest.mock('../../models/loconavDevice', () => ({
+    getLoconavByVehicleNumber: (number: number) => mockLoconavVehicleMap(number)
+}))
 jest.mock(
     '../../httpClient/loconav/getMovements',
     () => (deviceId: number, from: number, to: number, authToken: string) =>
@@ -20,7 +22,9 @@ jest.mock(
 jest.mock('../../models/movement', () => () => ({
     createMany: (inputs: Prisma.vehicleMovementsCreateManyInput[]) => mockMovementModel(inputs)
 }))
-jest.mock('../../models/gpsStop', () => ({ createMany: (gpsStops: Prisma.gpsStopsCreateManyInput[]) => mockStopModel(gpsStops) }))
+jest.mock('../../models/gpsStop', () => ({
+    createMany: (gpsStops: Prisma.gpsStopsCreateManyInput[]) => mockStopModel(gpsStops)
+}))
 
 describe('loconav movements', () => {
     it('should fetch loconav movements and persist in DB', async () => {

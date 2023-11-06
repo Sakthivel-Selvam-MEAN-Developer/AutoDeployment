@@ -37,7 +37,7 @@ const AppBar = styled(
   }),
 }));
 
-export default function Layout() {
+export default function MoveItLayout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => setOpen(true);

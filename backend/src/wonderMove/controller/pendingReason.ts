@@ -16,7 +16,8 @@ function groupNumber(
         if (!acc[vehicleId]) {
             acc[vehicleId] = {
                 // eslint-disable-next-line no-underscore-dangle
-                number: vehicleData.number, _count: 0
+                number: vehicleData.number,
+                _count: 0
             }
         }
         // eslint-disable-next-line no-underscore-dangle

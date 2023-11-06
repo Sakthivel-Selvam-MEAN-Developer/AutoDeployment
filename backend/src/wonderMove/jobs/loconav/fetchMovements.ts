@@ -1,4 +1,7 @@
-import { getLoconavByVehicleNumber, loconavDeviceByVehicleNumber } from '../../models/loconavDevice.ts'
+import {
+    getLoconavByVehicleNumber,
+    loconavDeviceByVehicleNumber
+} from '../../models/loconavDevice.ts'
 import getMovements from '../../httpClient/loconav/getMovements.ts'
 import { LoconavMovement } from '../../httpClient/loconav/loconavMovement.ts'
 import computeStops, { RawStop } from '../computeStops.ts'

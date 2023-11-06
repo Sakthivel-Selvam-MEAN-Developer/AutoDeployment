@@ -16,15 +16,16 @@ export const updateVehicleByNumber = (number: string, data: any) =>
 
 export const getAllVehicles = () => prisma.vehicles.findMany()
 
-const createIfNotExist = (data: any) => prisma.vehicles.upsert({
-    where: {
-        number: data.number
-    },
-    create: {
-        ...data
-    },
-    update: {}
-})
+const createIfNotExist = (data: any) =>
+    prisma.vehicles.upsert({
+        where: {
+            number: data.number
+        },
+        create: {
+            ...data
+        },
+        update: {}
+    })
 
 export const createManyIfNotExist = (data: Prisma.vehiclesCreateManyInput[]) =>
     Promise.all(data.map(createIfNotExist))

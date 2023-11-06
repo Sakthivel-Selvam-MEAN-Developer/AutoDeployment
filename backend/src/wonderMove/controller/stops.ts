@@ -35,8 +35,10 @@ const mapNamesToReason = async (aggregatedStops: AggregatedStop[]): Promise<Aggr
 }
 
 export const stopDurations = (req: Request, res: Response) => {
-    getCombinedDuration(parseInt(req.query.from as string, 10),
-        parseInt(req.query.to as string, 10))
+    getCombinedDuration(
+        parseInt(req.query.from as string, 10),
+        parseInt(req.query.to as string, 10)
+    )
         .then(mapNamesToReason)
         .then((data) => {
             res.status(200).json(data)
@@ -44,10 +46,11 @@ export const stopDurations = (req: Request, res: Response) => {
 }
 
 export const updateStopsDb = (req: Request, res: Response) => {
-    updateStopReason(parseInt(req.params.id as string, 10),
-        req.body.stopReasonId).then((data: any) => {
-        res.status(200).json(data)
-    })
+    updateStopReason(parseInt(req.params.id as string, 10), req.body.stopReasonId).then(
+        (data: any) => {
+            res.status(200).json(data)
+        }
+    )
 }
 
 export const allPendingSRforSingleVehicle = (req: Request, res: Response) => {

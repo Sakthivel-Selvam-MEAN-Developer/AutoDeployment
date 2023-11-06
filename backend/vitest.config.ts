@@ -8,7 +8,7 @@ export default defineConfig({
             provider: 'istanbul' // or 'v8'
         },
         maxConcurrency: 1,
-        globalSetup: './src/wonderMove/models/testUtils/autoDBSync.ts',
-        setupFiles: ['./src/wonderMove/models/testUtils/testGlobalHooks.ts']
+        globalSetup: './src/testUtils/autoDBSync.ts',
+        setupFiles: ['./src/testUtils/testGlobalHooks.ts']
     }
 })

@@ -1,5 +1,10 @@
 import seedCustomer from '../seed/customer.ts'
-import { create, fetchCustomerByName, getAllCustomerNames, updateCustomerByName } from './customer.ts'
+import {
+    create,
+    fetchCustomerByName,
+    getAllCustomerNames,
+    updateCustomerByName
+} from './customer.ts'
 
 function validateCustomerValues(actual: any) {
     expect(actual.name).toBe(seedCustomer.name)

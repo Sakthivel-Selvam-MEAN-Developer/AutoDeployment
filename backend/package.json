@@ -26,7 +26,7 @@
     },
     "dependencies": {
         "@jest/globals": "^29.7.0",
-        "@prisma/client": "^5.4.2",
+        "@prisma/client": "5.5.2",
         "axios": "^1.5.1",
         "compression": "^1.7.4",
         "cors": "^2.8.5",
@@ -55,6 +55,7 @@
         "prismaMove": "yarn prismaUpMove; yarn prismaMigrateDevMove; yarn prismaMigrateTestMove",
         "prismaHrm": "prisma generate --schema=./src/hrm/prisma/schema.prisma",
         "prismaHrmDev": "prisma migrate dev --schema=./src/hrm/prisma/schema.prisma --create-only --name",
-        "prismaHrmDeploy": "prisma migrate deploy --schema=./src/hrm/prisma/schema.prisma"
+        "prismaHrmDeploy": "prisma migrate deploy --schema=./src/hrm/prisma/schema.prisma",
+        "prismaHrmTest": "dotenv -e .env.test -- prisma migrate deploy --schema=./src/hrm/prisma/schema.prisma"
     }
 }

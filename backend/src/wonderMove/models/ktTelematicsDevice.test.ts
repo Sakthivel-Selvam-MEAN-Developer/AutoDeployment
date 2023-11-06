@@ -2,7 +2,11 @@ import ktTelematicsDevice from '../seed/ktTelematicsDevice.ts'
 import vehicleDeviceWithoutDep from '../seed/vehiclesWithoutDependency.ts'
 import ktTelematicsDeviceWithoutDep from '../seed/ktTelematicsDeviceWithoutDep.ts'
 import { create as createVehicle } from './vehicle.ts'
-import { create, createManyIfNotExist, getKtTelematicsByVehicleNumber } from './ktTelematicsDevice.ts'
+import {
+    create,
+    createManyIfNotExist,
+    getKtTelematicsByVehicleNumber
+} from './ktTelematicsDevice.ts'
 
 describe('ktTelematics device', () => {
     it('should get device id by vehicle number', async () => {

@@ -27,19 +27,19 @@ interface GpsData {
 }
 const convertToGPsData =
     (traccar: TraccarData, reasonId: number) =>
-        (rawGps: RawGpsData): GpsData => {
-            const { startTime, endTime, duration, latitude, longitude } = rawGps
-            return {
-                startTime: dateFromTraccar(startTime),
-                endTime: dateFromTraccar(endTime),
-                durationInMillis: duration,
-                latitude,
-                longitude,
-                vehicleId: traccar.vehicleId,
-                source: 'traccar',
-                stopReasonId: reasonId
-            }
+    (rawGps: RawGpsData): GpsData => {
+        const { startTime, endTime, duration, latitude, longitude } = rawGps
+        return {
+            startTime: dateFromTraccar(startTime),
+            endTime: dateFromTraccar(endTime),
+            durationInMillis: duration,
+            latitude,
+            longitude,
+            vehicleId: traccar.vehicleId,
+            source: 'traccar',
+            stopReasonId: reasonId
         }
+    }
 const enrichWithVehicleDetails = (traccar: TraccarData) => (rawGpsData: RawGpsData[]) =>
     getDefaultReason().then(({ id }: any) => rawGpsData.map(convertToGPsData(traccar, id)))
 
