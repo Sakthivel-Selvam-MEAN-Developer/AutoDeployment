@@ -14,6 +14,7 @@ export interface RawStop {
 }
 
 const computeStops = (movements: Movement[]): RawStop[] => {
+    // eslint-disable-next-line
     console.log(movements)
     return []
 }

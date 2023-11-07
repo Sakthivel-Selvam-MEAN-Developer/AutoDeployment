@@ -1,9 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from './index.ts'
 
-export type loconavDeviceByVehicleNumber = Prisma.PromiseReturnType<
-    typeof getLoconavByVehicleNumber
->
 export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
     prisma.loconavDevice.findFirstOrThrow({
         where: {
@@ -13,6 +10,10 @@ export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
             vehicle: true
         }
     })
+
+export type loconavDeviceByVehicleNumber = Prisma.PromiseReturnType<
+    typeof getLoconavByVehicleNumber
+>
 
 export const create = (data: any) => prisma.loconavDevice.create({ data })
 

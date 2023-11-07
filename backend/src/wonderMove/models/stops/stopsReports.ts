@@ -22,6 +22,7 @@ export const getDurationWithInRange = async (from: number, to: number): Promise<
             durationInMillis: true
         }
     })
+    // eslint-disable-next-line
     // @ts-ignore
     return duration.map((stop) => ({
         stopReasonId: stop.stopReasonId,

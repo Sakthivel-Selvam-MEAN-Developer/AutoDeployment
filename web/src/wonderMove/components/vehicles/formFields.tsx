@@ -1,6 +1,6 @@
-import SelectInput from '../form/SelectInput.tsx'
-import TextInput from '../form/TextInput.tsx'
-import DateInput from '../form/DateInput.tsx'
+import SelectInput from '../../../form/SelectInput.tsx'
+import TextInput from '../../../form/TextInput.tsx'
+import DateInput from '../../../form/DateInput.tsx'
 
 interface FormFieldsProps {
     control: any;

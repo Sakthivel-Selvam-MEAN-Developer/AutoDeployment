@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import TextInput from "../form/TextInput.tsx";
+import TextInput from "../../../form/TextInput.tsx";
 
 const Address = ({control}: any)=> {
     return <>

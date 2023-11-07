@@ -33,6 +33,7 @@ describe('loconav movements', () => {
         const from = 32412341234123
         const loconavDeviceId = 1324123
         const loconavToken = 'asdasdfasdf'
+        // eslint-disable-next-line
         // @ts-ignore
         mockLoconavVehicleMap.mockResolvedValue({
             loconavDeviceId,
@@ -40,6 +41,7 @@ describe('loconav movements', () => {
             vehicle: { id: 10 }
         })
         mockComputeStops.mockReturnValue([rawStopTestData])
+        // eslint-disable-next-line
         // @ts-ignore
         mockLoconavMomentApi.mockResolvedValue([movement])
         await fetchMovements(from, to, vehicleNumber)

@@ -1,5 +1,5 @@
-import TextInput from '../form/TextInput.tsx'
-import BooleanInput from '../form/BooleanInput.tsx'
+import TextInput from '../../../form/TextInput.tsx'
+import BooleanInput from '../../../form/BooleanInput.tsx'
 import Address from '../address/formFields.tsx'
 import React from "react";
 

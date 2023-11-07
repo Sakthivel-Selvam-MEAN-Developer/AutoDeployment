@@ -1,6 +1,6 @@
 import { getTraccarByVehicleNumber } from '../models/traccarDevice.ts'
 import { getDefaultReason } from '../models/stopReason.ts'
-import getStops from '../httpClient/traccar/getStops'
+import getStops from '../httpClient/traccar/getStops/index.ts'
 import { createManyIfNotExist } from '../models/gpsStop.ts'
 import { dateFromTraccar } from '../httpClient/traccar/dateFormater.ts'
 
