@@ -25,9 +25,9 @@ interface GpsData {
     source: string
     stopReasonId: number
 }
-const convertToGPsData =
-    (traccar: TraccarData, reasonId: number) =>
-    (rawGps: RawGpsData): GpsData => {
+
+function newFunction(traccar: TraccarData, reasonId: number) {
+    return (rawGps: RawGpsData): GpsData => {
         const { startTime, endTime, duration, latitude, longitude } = rawGps
         return {
             startTime: dateFromTraccar(startTime),
@@ -40,6 +40,9 @@ const convertToGPsData =
             stopReasonId: reasonId
         }
     }
+}
+
+const convertToGPsData = (traccar: TraccarData, reasonId: number) => newFunction(traccar, reasonId)
 const enrichWithVehicleDetails = (traccar: TraccarData) => (rawGpsData: RawGpsData[]) =>
     getDefaultReason().then(({ id }: any) => rawGpsData.map(convertToGPsData(traccar, id)))
 

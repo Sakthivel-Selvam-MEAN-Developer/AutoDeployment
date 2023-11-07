@@ -1,4 +1,4 @@
-import { axiosInstance, getData } from './index.js'
+import { axiosInstance, getData } from './index.ts'
 
 export const create = (reason: any) =>
     axiosInstance.post('/reason', reason).then(getData)

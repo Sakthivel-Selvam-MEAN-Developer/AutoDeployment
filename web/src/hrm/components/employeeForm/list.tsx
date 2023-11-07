@@ -8,17 +8,20 @@ import SelectInput from "../../../form/SelectInput";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import FetchReason from "./fetchReason";
 
 
 const EmployeeFormList: React.FC = () => {
   const { handleSubmit, control } = useForm<FormData>()
   const [startValue, setStartValue] = useState<dayjs.Dayjs | null>(null)
   const [endValue, setEndValue] = useState<dayjs.Dayjs | null>(null)
+  const [reason, setReason] = useState('')
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log('data', data);
     console.log(dayjs(startValue));
-
+    console.log(reason);
+    
   }
   return (
     <>
@@ -41,7 +44,6 @@ const EmployeeFormList: React.FC = () => {
               value={startValue}
               onChange={setStartValue}
               minDate={dayjs()}
-
               label="Start Date" />
 
           </LocalizationProvider>
@@ -59,17 +61,14 @@ const EmployeeFormList: React.FC = () => {
             fieldName="make"
             label="Make"
           />
-          {/* <TextInput
-            control={control}
-            label="leaveReason"
-            fieldName="leaveReason"
-          /> */}
-          <SelectInput
-            control={control}
-            listValues={['Half Day', 'Full Day','Full Day']}
-            fieldName="leaveReason"
-            label="Reason"
-          />
+          <div>
+            {
+              <FetchReason
+                reason={reason}
+                setReason={setReason}
+              />
+            }
+          </div>
         </div>
         <div
           style={{
