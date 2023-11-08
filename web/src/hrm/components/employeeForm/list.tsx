@@ -12,7 +12,7 @@ import { create } from "../../services/employeeLeave"
 
 
 const EmployeeFormList: React.FC = () => {
-  const { control, handleSubmit } = useForm<FormData>()
+  const { control, handleSubmit, reset } = useForm<FormData>()
   const [fromValue, setFromValue] = useState<dayjs.Dayjs | null>(null)
   const [toValue, setToValue] = useState<dayjs.Dayjs | null>(null)
   const [startIsHalfDay, setStartIsHalfDay] = useState(false)
@@ -29,6 +29,14 @@ const EmployeeFormList: React.FC = () => {
       to: toValue?.unix(),
       appliedOn: dayjs().unix()
     }))
+    
+    setFromValue(null)
+    setToValue(null)
+    setStartIsHalfDay(false)
+    setEndIsHalfDay(false)
+    setReason('')
+
+  reset({ appliedBy: '' })
   }
   const isFormIncomplete = !fromValue || !toValue || !reason
 
