@@ -37,7 +37,7 @@ const ReasonList: React.FC = () => {
     }
     const handleSave = () => {
         create(JSON.stringify({name: newReason}))
-            .then(() =>setRefreshData(true))
+            .then(() => setRefreshData(true))
             .then(() => setOpenSuccessDialog(true))
         handleClose()
         setMessage("New Reason Added")
@@ -52,7 +52,7 @@ const ReasonList: React.FC = () => {
     }
     const handleUpdate = () => {
         update(JSON.stringify({id: editReasonId, name: newReason}))
-            .then(() =>setRefreshData(true))
+            .then(() => setRefreshData(true))
             .then(() => setOpenSuccessDialog(true))
         handleClose()
         setMessage("Reason Updated")

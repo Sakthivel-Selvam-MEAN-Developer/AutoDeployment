@@ -1,28 +1,37 @@
-import React from "react";
-import { Button } from "@mui/material";
+import React from "react"
+import { Button, FormControlLabel, Switch } from "@mui/material"
 import { useForm, SubmitHandler } from 'react-hook-form'
-import dayjs from 'dayjs';
-import { useState } from "react";
-import TextInput from "../../../form/TextInput";
-import SelectInput from "../../../form/SelectInput";
+import dayjs from 'dayjs'
+import { useState } from "react"
+import TextInput from "../../../form/TextInput"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import FetchReason from "./fetchReason";
+import FetchReason from "./fetchReason"
+import { create } from "../../services/employeeLeave"
 
 
 const EmployeeFormList: React.FC = () => {
-  const { handleSubmit, control } = useForm<FormData>()
-  const [startValue, setStartValue] = useState<dayjs.Dayjs | null>(null)
-  const [endValue, setEndValue] = useState<dayjs.Dayjs | null>(null)
+  const { control, handleSubmit } = useForm<FormData>()
+  const [fromValue, setFromValue] = useState<dayjs.Dayjs | null>(null)
+  const [toValue, setToValue] = useState<dayjs.Dayjs | null>(null)
+  const [startIsHalfDay, setStartIsHalfDay] = useState(false)
+  const [endIsHalfDay, setEndIsHalfDay] = useState(false)
   const [reason, setReason] = useState('')
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log('data', data);
-    console.log(dayjs(startValue));
-    console.log(reason);
-    
+    create(JSON.stringify({
+      ...data,
+      isFromHalfDay: startIsHalfDay,
+      isToHalfDay: endIsHalfDay,
+      leaveReasonId: reason,
+      from: fromValue?.unix(),
+      to: toValue?.unix(),
+      appliedOn: dayjs().unix()
+    }))
   }
+  const isFormIncomplete = !fromValue || !toValue || !reason
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -41,34 +50,40 @@ const EmployeeFormList: React.FC = () => {
           />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              value={startValue}
-              onChange={setStartValue}
+              value={fromValue}
+              onChange={setFromValue}
               minDate={dayjs()}
               label="Start Date" />
-
           </LocalizationProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              value={endValue}
-              onChange={setEndValue}
-              minDate={dayjs()}
-              label="End Date" />
-
-          </LocalizationProvider>
-          <SelectInput
-            control={control}
-            listValues={['Half Day', 'Full Day']}
-            fieldName="make"
-            label="Make"
-          />
-          <div>
-            {
-              <FetchReason
-                reason={reason}
-                setReason={setReason}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={startIsHalfDay}
+                onChange={() => setStartIsHalfDay(!startIsHalfDay)}
               />
             }
-          </div>
+            label={startIsHalfDay ? "Half Day" : "Full Day"}
+          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              value={toValue}
+              onChange={setToValue}
+              minDate={dayjs()}
+              label="End Date" />
+          </LocalizationProvider>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={endIsHalfDay}
+                onChange={() => setEndIsHalfDay(!endIsHalfDay)}
+              />
+            }
+            label={endIsHalfDay ? "Half Day" : "Full Day"}
+          />
+          <FetchReason
+            reason={reason}
+            setReason={setReason}
+          />
         </div>
         <div
           style={{
@@ -81,8 +96,9 @@ const EmployeeFormList: React.FC = () => {
             variant="contained"
             type="submit"
             style={{ marginTop: '20px' }}
+            disabled={isFormIncomplete}
           >
-            Save
+            Submit
           </Button>
         </div>
       </form>
@@ -90,4 +106,4 @@ const EmployeeFormList: React.FC = () => {
   );
 };
 
-export default EmployeeFormList;
+export default EmployeeFormList

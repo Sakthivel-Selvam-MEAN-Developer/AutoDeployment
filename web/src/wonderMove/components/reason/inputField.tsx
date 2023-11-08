@@ -16,6 +16,7 @@ const InputField: React.FC<InputFieldProps> = ({
     onClear, 
     onSave 
   }) => {
+    const isValueEmpty = value === ''
     return (
         <Input
             fullWidth
@@ -27,8 +28,8 @@ const InputField: React.FC<InputFieldProps> = ({
                 <><IconButton aria-label="comment" data-testid={'close-button'} onClick={onClear}>
                     <Clear />
                 </IconButton>
-                <IconButton aria-label="comment" data-testid={'done-button'} onClick={onSave} >
-                    <Done/>
+                <IconButton aria-label="comment" data-testid={'done-button'} onClick={onSave} disabled={isValueEmpty}>
+                    <Done />
                 </IconButton></>
             }/>
     )
