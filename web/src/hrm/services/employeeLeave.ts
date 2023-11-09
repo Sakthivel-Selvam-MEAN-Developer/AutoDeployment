@@ -11,5 +11,13 @@ export const rejectLeaves = (id: any, data: any) => {
 }
 
 export const getRejectLeaves = (data: any) => {
-    return axiosInstance.post(`/reject`, data)
+    return axiosInstance.post(`/reject`, data).then(getData)
+}
+
+export const approveLeaves = (id: any, data: any) => {
+    return axiosInstance.post(`/approve/${id}`, data)
+}
+
+export const getApproveLeaves = (data: any) => {
+    return axiosInstance.post(`/approve`, data).then(getData)
 }

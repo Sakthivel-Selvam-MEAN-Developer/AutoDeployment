@@ -1,8 +1,8 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllLeaveForms, rejectLeaves } from "../../services/employeeLeave";
+import { approveLeaves, getAllLeaveForms, rejectLeaves } from "../../services/employeeLeave";
 import { epochToDate } from "../../../wonderMove/components/epochToTime";
-import { Button } from "@mui/material" 
+import { Button } from "@mui/material"
 
 const ManagerFormList: React.FC = () => {
     const [allList, setAllList] = useState([])
@@ -11,11 +11,11 @@ const ManagerFormList: React.FC = () => {
         // @ts-ignore
         getAllLeaveForms().then(setAllList)
     }, [])
-    const rejectClick = (row:any) => {
-        rejectLeaves(row.id, {appliedBy: row.appliedBy})
+    const rejectClick = (row: any) => {
+        rejectLeaves(row.id, { appliedBy: row.appliedBy })
     }
-    const approveClick = (row:any) => {
-        console.log('approve :',row.id)
+    const approveClick = (row: any) => {
+        approveLeaves(row.id, { appliedBy: row.appliedBy })
     }
 
 

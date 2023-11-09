@@ -28,6 +28,7 @@ model leaves {
   isFromHalfDay Boolean
   isToHalfDay   Boolean
   active        Boolean      @default(true)
+  approval      Boolean?
   leaveReasonId Int
   leaveReason   leaveReasons @relation(fields: [leaveReasonId], references: [id])
   createdAt     DateTime     @default(now()) @db.Timestamptz(6)
