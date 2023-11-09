@@ -2,11 +2,18 @@ import prisma from './index.ts'
 
 export const create = (data: any) => prisma.leaves.create({ data })
 
-export const getAllEmployeeLeaveForm = () =>
+export const leavesAfterApply = () =>
     prisma.leaves.findMany({
         where: {
             active: true,
             approval: null
+        }
+    })
+
+export const getAllLeave = () =>
+    prisma.leaves.findMany({
+        where: {
+            active: true
         }
     })
 
@@ -33,21 +40,3 @@ export const approvedLeaves = async (id: any, appliedBy: string) => {
         }
     })
 }
-
-export const getAllRejectedLeaves = (appliedBy: string) =>
-    prisma.leaves.findMany({
-        where: {
-            active: true,
-            approval: false,
-            appliedBy
-        }
-    })
-
-export const getAllApprovedLeaves = (appliedBy: string) =>
-    prisma.leaves.findMany({
-        where: {
-            active: true,
-            approval: true,
-            appliedBy
-        }
-    })

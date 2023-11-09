@@ -1,23 +1,16 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
-import { approveLeaves, getAllLeaveAfterApply, rejectLeaves } from "../../services/employeeLeave";
 import { epochToDate } from "../../../wonderMove/components/epochToTime";
-import { Button } from "@mui/material"
+import { getAllLeaveWithStatus } from "../../services/employeeLeave";
 
-const ManagerFormList: React.FC = () => {
-    const [allList, setAllList] = useState([])
+
+const EmployeeList: React.FC = () => {
+    const [allLeave, setAllLeave] = useState([])
 
     useEffect(() => {
         // @ts-ignore
-        getAllLeaveAfterApply().then(setAllList)
+        getAllLeaveWithStatus().then(setAllLeave)
     }, [])
-    const rejectClick = (row: any) => {
-        rejectLeaves(row.id, { appliedBy: row.appliedBy })
-    }
-    const approveClick = (row: any) => {
-        approveLeaves(row.id, { appliedBy: row.appliedBy })
-    }
-
 
     return (
         <>
@@ -30,10 +23,11 @@ const ManagerFormList: React.FC = () => {
                             <TableCell align="left">Applied On</TableCell>
                             <TableCell align="left">From</TableCell>
                             <TableCell align="left">To</TableCell>
+                            <TableCell align="left">Status</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {allList.map((row: any, index: number) => (
+                        {allLeave.map((row: any, index: number) => (
                             <TableRow
                                 key={row.id}
                                 sx={{
@@ -56,11 +50,13 @@ const ManagerFormList: React.FC = () => {
                                     {epochToDate(row.to)}
                                 </TableCell>
                                 <TableCell align="left">
-                                    <Button onClick={() => rejectClick(row)}> Reject</Button>
+                                    {row.approval === null
+                                        ? "Pending"
+                                        : row.approval === true
+                                            ? "Approved"
+                                            : "Rejected"}
                                 </TableCell>
-                                <TableCell align="left">
-                                    <Button onClick={() => approveClick(row)}> Approve</Button>
-                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
@@ -69,4 +65,4 @@ const ManagerFormList: React.FC = () => {
         </>
     );
 };
-export default ManagerFormList;
+export default EmployeeList;

@@ -84,6 +84,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
           index={0}
           icon={<Badge />}
         />
+        <DrawerListItem
+          text="Employee Form"
+          navigate="/hrm/employee"
+          drawerState={drawerState}
+          index={0}
+          icon={<Badge />}
+        />
       </List>
     </Drawer>
   );

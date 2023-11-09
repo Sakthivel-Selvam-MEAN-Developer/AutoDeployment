@@ -10,6 +10,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import FetchReason from "./fetchReason"
 import { create } from "../../services/employeeLeave"
 
+interface FormData {
+  appliedBy: string
+}
+
 
 const EmployeeFormList: React.FC = () => {
   const { control, handleSubmit, reset } = useForm<FormData>()
