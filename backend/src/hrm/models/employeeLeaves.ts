@@ -8,3 +8,23 @@ export const getAllEmployeeLeaveForm = () =>
             active: true
         }
     })
+
+export const rejectedLeaves = async (id: any, appliedBy: string) => {
+    await prisma.leaves.update({
+        where: {
+            id,
+            appliedBy
+        },
+        data: {
+            active: false
+        }
+    })
+}
+
+export const getAllRejectedLeaves = (appliedBy: string) =>
+    prisma.leaves.findMany({
+        where: {
+            active: false,
+            appliedBy
+        }
+    })
