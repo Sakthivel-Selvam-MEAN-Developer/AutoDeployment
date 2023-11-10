@@ -32,7 +32,7 @@ const EmployeeFormList: React.FC = () => {
       from: fromValue?.unix(),
       to: toValue?.unix(),
       appliedOn: dayjs().unix()
-    }))
+    })).catch(err => alert(err));
     
     setFromValue(null)
     setToValue(null)

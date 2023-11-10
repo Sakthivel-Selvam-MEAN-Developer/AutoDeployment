@@ -1,10 +1,10 @@
-import IconButton from "@mui/material/IconButton";
-import { Dashboard, ChevronRight, ChevronLeft, Article, Badge } from "@mui/icons-material";
+// import IconButton from "@mui/material/IconButton";
+import { Dashboard, ChevronRight, ChevronLeft, Article, Badge, ThreeP } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import { styled, useTheme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
-import { DrawerHeader } from "./drawerHeader.ts";
+// import { DrawerHeader } from "./drawerHeader.ts";
 import PropTypes from "prop-types";
 import DrawerListItem from "./drawerListItem.tsx";
 
@@ -55,12 +55,12 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
   const theme = useTheme();
 
   return (
-    <Drawer variant="permanent" open={drawerState}>
-      <DrawerHeader theme={theme}>
+    <Drawer variant="permanent" open={drawerState} anchor="bottom" >
+      {/* <DrawerHeader theme={theme}>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
         </IconButton>
-      </DrawerHeader>
+      </DrawerHeader> */}
       <Divider />
       <List>
         <DrawerListItem
@@ -74,22 +74,22 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
           text="Employee Form"
           navigate="/hrm/form"
           drawerState={drawerState}
-          index={0}
+          index={1}
           icon={<Article />}
         />
          <DrawerListItem
           text="Manager Form"
           navigate="/hrm/manager"
           drawerState={drawerState}
-          index={0}
+          index={2}
           icon={<Badge />}
         />
         <DrawerListItem
           text="Employee Form"
           navigate="/hrm/employee"
           drawerState={drawerState}
-          index={0}
-          icon={<Badge />}
+          index={3}
+          icon={<ThreeP />}
         />
       </List>
     </Drawer>

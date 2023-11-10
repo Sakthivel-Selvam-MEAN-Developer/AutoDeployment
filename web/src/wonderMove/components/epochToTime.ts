@@ -30,3 +30,13 @@ export const epochToDate = (epochTime: number) => {
     };
     return date.toLocaleString('en-US', options);
 };
+
+export const epochToMinimalDate = (epochTime: number) => {
+    const date: Date = new Date(epochTime * 1000);
+    const options: Intl.DateTimeFormatOptions = {
+        month: 'short',
+        day: '2-digit',
+        hour12: true,
+    };
+    return date.toLocaleString('en-US', options);
+}

@@ -7,6 +7,9 @@ export const leavesAfterApply = () =>
         where: {
             active: true,
             approval: null
+        },
+        include: {
+            leaveReason: true
         }
     })
 
@@ -14,6 +17,9 @@ export const getAllLeave = () =>
     prisma.leaves.findMany({
         where: {
             active: true
+        },
+        include: {
+            leaveReason: true
         }
     })
 

@@ -50,11 +50,11 @@ const EmployeeList: React.FC = () => {
                                     {epochToDate(row.to)}
                                 </TableCell>
                                 <TableCell align="left">
-                                    {row.approval === null
-                                        ? "Pending"
-                                        : row.approval === true
-                                            ? "Approved"
-                                            : "Rejected"}
+                                    {row.approval === true
+                                        ? "Approved"
+                                        : row.approval === false
+                                            ? "Rejected"
+                                            : "Pending"}
                                 </TableCell>
 
                             </TableRow>

@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import MuiAppBar, { AppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+// import IconButton from "@mui/material/IconButton";
+// import MenuIcon from "@mui/icons-material/Menu";
 import { DrawerHeader } from "./drawerHeader.ts";
 import MiniDrawer from "./drawer.tsx";
 import { Outlet } from "react-router-dom";
@@ -40,14 +40,14 @@ const AppBar = styled(
 export default function HrmLayout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const handleDrawerOpen = () => setOpen(true);
+  // const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ flexDirection: "column", minHeight: "100vh" }}>
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -58,7 +58,7 @@ export default function HrmLayout() {
             }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" noWrap component="div">
             Hrm
           </Typography>
