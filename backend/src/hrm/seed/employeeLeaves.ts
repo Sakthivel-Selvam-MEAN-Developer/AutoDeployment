@@ -7,6 +7,7 @@ export default {
     to: new Date(2023, 10, 12).getTime() / 1000,
     isToHalfDay: true,
     isFromHalfDay: false,
+    comments: 'No comments',
     leaveReason: {
         create: reason
     }

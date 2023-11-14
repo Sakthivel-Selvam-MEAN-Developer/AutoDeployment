@@ -58,7 +58,7 @@ const ManagerFormList: React.FC = () => {
                                     </ListItemSecondaryAction>
                                     <div>
                                         <Typography variant="body2">For : {row.leaveReason.name}</Typography>
-                                        <p>Comments comes here...</p>
+                                        <p>{row.comments}</p>
                                     </div>
                                 </>
                             )}

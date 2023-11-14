@@ -1,67 +1,81 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useEffect, useState } from "react";
-import { epochToDate } from "../../../wonderMove/components/epochToTime";
+import { Button, Divider, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom'
+import { epochToMinimalDate } from "../../../wonderMove/components/epochToTime";
 import { getAllLeaveWithStatus } from "../../services/employeeLeave";
 
 
 const EmployeeList: React.FC = () => {
+    const navigate = useNavigate()
     const [allLeave, setAllLeave] = useState([])
+    const [selectedRow, setSelectedRow] = useState<any | null>(null)
 
     useEffect(() => {
         // @ts-ignore
         getAllLeaveWithStatus().then(setAllLeave)
     }, [])
+    const handleListItemClick = (rowId: number) => {
+        setSelectedRow(selectedRow === rowId ? null : rowId)
+    }
 
     return (
         <>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell align="left">Name</TableCell>
-                            <TableCell align="left">Applied On</TableCell>
-                            <TableCell align="left">From</TableCell>
-                            <TableCell align="left">To</TableCell>
-                            <TableCell align="left">Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {allLeave.map((row: any, index: number) => (
-                            <TableRow
-                                key={row.id}
-                                sx={{
-                                    '&:last-child td, &:last-child th': {
-                                        border: 0,
-                                    },
-                                }}
-                            >
-                                <TableCell> {index + 1} </TableCell>
-                                <TableCell align="left">
-                                    {row.appliedBy}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {epochToDate(row.appliedOn)}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {epochToDate(row.from)}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {epochToDate(row.to)}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {row.approval === true
-                                        ? "Approved"
-                                        : row.approval === false
-                                            ? "Rejected"
-                                            : "Pending"}
-                                </TableCell>
-
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <div
+                style={{
+                    marginBottom: '30px',
+                    display: 'flex',
+                    justifyContent: 'right',
+                }}
+            >
+                <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => navigate('apply')}
+                >
+                    Apply Leave
+                </Button>
+            </div>
+            <List>
+                {allLeave.map((row: any) => (
+                    <React.Fragment key={row.id}>
+                        <ListItem key={row.id} sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                            <div onClick={() => handleListItemClick(row.id)}>
+                                <ListItemText
+                                    primary={row.appliedBy}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                sx={{ display: 'inline' }}
+                                                component="span"
+                                                variant="body2"
+                                                color="text.primary"
+                                            >
+                                                Duration&nbsp;: &nbsp;
+                                            </Typography>
+                                            {epochToMinimalDate(row.from)} &nbsp;- &nbsp;
+                                            {epochToMinimalDate(row.to)}
+                                            <ListItemSecondaryAction>
+                                                {row.approval === true
+                                                    ? "Approved"
+                                                    : row.approval === false
+                                                        ? "Rejected"
+                                                        : "Pending"}
+                                            </ListItemSecondaryAction>
+                                        </React.Fragment>
+                                    }
+                                />
+                                {selectedRow == row.id && (
+                                    <>
+                                        <Typography variant="body2">For : {row.leaveReason.name}</Typography>
+                                        <p>Comments comes here...</p>
+                                    </>
+                                )}
+                            </div>
+                        </ListItem>
+                        <Divider variant="fullWidth" component="li" />
+                    </React.Fragment>
+                ))}
+            </List>
         </>
     );
 };

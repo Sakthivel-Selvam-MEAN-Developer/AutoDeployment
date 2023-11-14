@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "./../node_modules/@prisma/client-hrm"
+  output   = "./../node_modules/@prisma/client-hrm"
 }
 
 datasource db {
@@ -29,6 +29,8 @@ model leaves {
   isToHalfDay   Boolean
   active        Boolean      @default(true)
   approval      Boolean?
+  comments      String
+  deniedComment String?
   leaveReasonId Int
   leaveReason   leaveReasons @relation(fields: [leaveReasonId], references: [id])
   createdAt     DateTime     @default(now()) @db.Timestamptz(6)

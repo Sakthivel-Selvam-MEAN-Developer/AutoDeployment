@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, FormControlLabel, Switch } from "@mui/material"
+import { Button, FormControlLabel, Switch, TextField } from "@mui/material"
 import { useForm, SubmitHandler } from 'react-hook-form'
 import dayjs from 'dayjs'
 import { useState } from "react"
@@ -9,6 +9,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import FetchReason from "./fetchReason"
 import { create } from "../../services/employeeLeave"
+import { useNavigate } from 'react-router-dom'
+import SuccessDialog from "../../../wonderMove/components/SuccessDialog"
 
 interface FormData {
   appliedBy: string
@@ -16,33 +18,41 @@ interface FormData {
 
 
 const EmployeeFormList: React.FC = () => {
-  const { control, handleSubmit, reset } = useForm<FormData>()
+  const navigate = useNavigate()
+  const { control, handleSubmit } = useForm<FormData>()
   const [fromValue, setFromValue] = useState<dayjs.Dayjs | null>(null)
   const [toValue, setToValue] = useState<dayjs.Dayjs | null>(null)
   const [startIsHalfDay, setStartIsHalfDay] = useState(false)
   const [endIsHalfDay, setEndIsHalfDay] = useState(false)
   const [reason, setReason] = useState('')
+  const [comment, setComment] = useState('')
+  const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    create(JSON.stringify({
+    const details = {
       ...data,
       isFromHalfDay: startIsHalfDay,
       isToHalfDay: endIsHalfDay,
       leaveReasonId: reason,
       from: fromValue?.unix(),
       to: toValue?.unix(),
-      appliedOn: dayjs().unix()
-    })).catch(err => alert(err));
-    
-    setFromValue(null)
-    setToValue(null)
-    setStartIsHalfDay(false)
-    setEndIsHalfDay(false)
-    setReason('')
+      appliedOn: dayjs().unix(),
+      comments: comment
+    }
 
-  reset({ appliedBy: '' })
+    create(JSON.stringify(details)).then(() =>
+      setOpenSuccessDialog(true)
+    ).catch(err => alert(err));
   }
-  const isFormIncomplete = !fromValue || !toValue || !reason
+
+  const handleClose = () => {
+    setOpenSuccessDialog(false)
+    navigate(-1)
+  }
+  const handleChange = (event: any) => {
+    setComment(event.target.value)
+  }
+  const isFormIncomplete = !fromValue || !toValue || !reason || !comment
 
   return (
     <>
@@ -65,7 +75,7 @@ const EmployeeFormList: React.FC = () => {
               value={fromValue}
               onChange={setFromValue}
               minDate={dayjs()}
-              label="Start Date" />
+              label="From" />
           </LocalizationProvider>
           <FormControlLabel
             control={
@@ -81,7 +91,7 @@ const EmployeeFormList: React.FC = () => {
               value={toValue}
               onChange={setToValue}
               minDate={dayjs()}
-              label="End Date" />
+              label="To" />
           </LocalizationProvider>
           <FormControlLabel
             control={
@@ -95,6 +105,13 @@ const EmployeeFormList: React.FC = () => {
           <FetchReason
             reason={reason}
             setReason={setReason}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="Add comments..."
+            multiline
+            rows={4}
+            onChange={handleChange}
           />
         </div>
         <div
@@ -114,6 +131,11 @@ const EmployeeFormList: React.FC = () => {
           </Button>
         </div>
       </form>
+      <SuccessDialog
+        open={openSuccessDialog}
+        handleClose={handleClose}
+        message="Leave applied successfully"
+      />
     </>
   );
 };

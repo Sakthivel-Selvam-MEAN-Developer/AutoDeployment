@@ -1,4 +1,4 @@
-import { Dashboard, Article, Badge, ThreeP, Cancel } from "@mui/icons-material";
+import { Dashboard, Badge, ThreeP, Cancel } from "@mui/icons-material";
 import List from "@mui/material/List";
 import { DrawerHeader } from "./drawerHeader.ts";
 import DrawerListItem from "./drawerListItem.tsx";
@@ -24,12 +24,6 @@ const MiniDrawer = () => {
           navigate="/hrm"
           index={0}
           icon={<Dashboard />}
-        />
-        <DrawerListItem
-          text="Employee Form"
-          navigate="/hrm/form"
-          index={1}
-          icon={<Article />}
         />
         <DrawerListItem
           text="Manager Form"

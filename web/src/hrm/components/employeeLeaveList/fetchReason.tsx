@@ -25,7 +25,7 @@ const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {
 
     return (
         <>
-            <FormControl sx={{ minWidth: 200 }} size="medium">
+            <FormControl sx={{ minWidth: 195 }} size="medium">
                 <InputLabel id="demo-simple-select-helper-label">
                     Reasons
                 </InputLabel>
