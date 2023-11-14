@@ -3,24 +3,22 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
 interface DrawerListItemProps {
     text: string;
-    drawerState: boolean;
     index: number;
     navigate: string;
     icon: ReactElement;
 }
-const DrawerListItem: FC<DrawerListItemProps> = ({ text, drawerState, index, navigate, icon }) => {
+const DrawerListItem: FC<DrawerListItemProps> = ({ text, index, navigate, icon }) => {
     const navigateFunction = useNavigate()
     return (
         <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
                 sx={{
                     minHeight: 48,
-                    justifyContent: drawerState ? 'initial' : 'center',
+                    justifyContent: 'center',
                     px: 2.5,
                 }}
                 onClick={() => navigateFunction(navigate)}
@@ -28,7 +26,7 @@ const DrawerListItem: FC<DrawerListItemProps> = ({ text, drawerState, index, nav
                 <ListItemIcon
                     sx={{
                         minWidth: 0,
-                        mr: drawerState ? 3 : 'auto',
+                        mr: 2.5,
                         justifyContent: 'center',
                     }}
                     title={text}
@@ -37,19 +35,10 @@ const DrawerListItem: FC<DrawerListItemProps> = ({ text, drawerState, index, nav
                 </ListItemIcon>
                 <ListItemText
                     primary={<div>{text}</div>}
-                    sx={{ opacity: drawerState ? 1 : 0 }}
                 />
             </ListItemButton>
         </ListItem>
     )
-}
-
-DrawerListItem.propTypes = {
-    text: PropTypes.string.isRequired,
-    drawerState: PropTypes.bool.isRequired,
-    index: PropTypes.number.isRequired,
-    icon: PropTypes.element.isRequired,
-    navigate: PropTypes.string.isRequired,
 }
 
 export default DrawerListItem

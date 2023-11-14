@@ -26,7 +26,7 @@ const ManagerFormList: React.FC = () => {
     return (
         <List>
             {allList.map((row: any) => (
-                <>
+                <React.Fragment key={row.id}>
                     <ListItem key={row.id} sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         <div onClick={() => handleListItemClick(row.id)}>
                             <ListItemText
@@ -65,7 +65,7 @@ const ManagerFormList: React.FC = () => {
                         </div>
                     </ListItem>
                     <Divider variant="fullWidth" component="li" />
-                </>
+                </React.Fragment>
             ))}
         </List>
     );
