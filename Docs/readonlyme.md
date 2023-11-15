@@ -1,49 +1,3 @@
-husky
-jest-dom
-user-event
-eslint-plugin
-parser
-@vitejs/plugin-react
-@vitest/coverage-v8
-eslint
-eslint-plugin-react-hooks
-eslint-plugin-react-refresh
-jsdom
-vitest
-ts-jest
-ts-node
-prisma
-typescript
-vite
-vitest
-
- @auth0/auth0-react
- @emotion/react
- @emotion/styled
- @mui/icons-material
- @mui/material
- @mui/x-date-pickers
- axios
- dayjs
- react
- react-dom
- react-hook-form
- react-router-dom
- recharts
-
-@jest/globals
-@prisma/client
-axios
-compression
-cors
-dayjs
-dotenv-cli
-express
-helmet
-morgan
-nock
-winston
-
 |Barath|Muthu|
 |----|----|
 |husky
@@ -64,7 +18,6 @@ prisma
 typescript
 vite
 vitest
-
  @auth0/auth0-react
  @emotion/react
  @emotion/styled
@@ -78,7 +31,6 @@ vitest
  react-hook-form
  react-router-dom
  recharts
-
 @jest/globals
 @prisma/client
 axios
