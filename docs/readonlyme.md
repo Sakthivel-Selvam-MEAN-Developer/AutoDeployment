@@ -1,6 +1,6 @@
 |Packages|Priority|Barath|Muthu|
 |----|----|----|----|
-|husky|Must|dont know|no
+|husky|good to know|dont know|no
 |jest|Must|know|no
 |ts-jest|Must|dont know|no
 |ts-node|Must|dont know|no
@@ -11,8 +11,8 @@
 |@auth0/auth0-react|Must|dont know|no
 |@emotion/react|Must|dont know|no
 |@emotion/styled|Must|dont know|no
-|@mui/icons-material|Must|know|no
-|@mui/material|Must|know|no
+|@mui/icons-material|good to know|know|no
+|@mui/material|good to know|know|no
 |@mui/x-date-pickers|Must|dont know|no
 |react|Must|expert|no
 |react-dom|Must|expert|no
