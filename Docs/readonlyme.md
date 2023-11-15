@@ -1,45 +1,43 @@
 |Barath|Muthu|
 |----|----|
-|husky
-jest-dom
-user-event
-eslint-plugin
-parser
-@vitejs/plugin-react
-@vitest/coverage-v8
-eslint
-eslint-plugin-react-hooks
-eslint-plugin-react-refresh
-jsdom
-vitest
-ts-jest
-ts-node
-prisma
-typescript
-vite
-vitest
- @auth0/auth0-react
- @emotion/react
- @emotion/styled
- @mui/icons-material
- @mui/material
- @mui/x-date-pickers
- axios
- dayjs
- react
- react-dom
- react-hook-form
- react-router-dom
- recharts
-@jest/globals
-@prisma/client
-axios
-compression
-cors
-dayjs
-dotenv-cli
-express
-helmet
-morgan
-nock
-winston  |two
+|husky(no)
+jest-dom(no)
+user-event(no)
+eslint-plugin(no)
+parser(no)
+@vitejs/plugin-react(no)
+@vitest/coverage-v8(no)
+eslint(no)
+eslint-plugin-react-hooks(no)
+eslint-plugin-react-refresh(no)
+jsdom(no)
+ts-jest(no)
+ts-node(no)
+prisma(no)
+typescript(no)
+vite(no)
+vitest(no)
+ @auth0/auth0-react(no)
+ @emotion/react(no)
+ @emotion/styled(no)
+ @mui/icons-material(yes)
+ @mui/material(yes)
+ @mui/x-date-pickers(no)
+ dayjs(no)
+ react(yes)
+ react-dom(yes)
+ react-hook-form(no)
+ react-router-dom(yes)
+ recharts(no)
+@jest/globals(yes)
+@prisma/client(no)
+axios(yes)
+compression(no)
+cors(yes)
+dayjs(no)
+dotenv-cli(no)
+express(yes)
+helmet(no)
+morgan(no)
+nock(no)
+winston (no) |two
