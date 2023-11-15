@@ -32,3 +32,10 @@
 |nock|dont know|no
 |helmet|dont know|no
 |winston |dont know| no
+
+|High Priority|good to know|
+|----|----|
+|typescript|dont know
+|prisma|dont know
+
+
