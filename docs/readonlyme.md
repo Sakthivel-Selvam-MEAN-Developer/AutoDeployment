@@ -25,7 +25,7 @@
 |compression|dont know|no
 |cors|expert|no
 |dayjs|dont know|no
-|dotenv-cli|know|no
+|dotenv-cli|dont know|no
 |express|expert|no
 |helmet|dont know|no
 |morgan|dont know|no
