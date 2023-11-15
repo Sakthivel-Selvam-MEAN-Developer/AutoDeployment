@@ -37,5 +37,6 @@
 |----|----|
 |typescript|dont know
 |prisma|dont know
+|vitest|dont know
 
 
