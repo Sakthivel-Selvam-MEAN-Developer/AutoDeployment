@@ -1,42 +1,35 @@
-|Packages|Barath|Muthu|
-|----|----|----|
-|husky|dont know|no
-|jest|know|no
-|ts-jest|dont know|no
-|ts-node|dont know|no
-|prisma|dont know|no
-|typescript|dont know|no
-|vite|dont know|no
-|vitest|dont know|no
-|@auth0/auth0-react|dont know|no
-|@emotion/react|dont know|no
-|@emotion/styled|dont know|no
-|@mui/icons-material|know|no
-|@mui/material|know|no
-|@mui/x-date-pickers|dont know|no
-|react|expert|no
-|react-dom|expert|no
-|react-hook-form|dont know|no
-|react-router-dom|expert|no
-|recharts|dont know|no
-|@jest/globals|know|no
+|Packages|Priority|Barath|Muthu|
+|----|----|----|----|
+|husky|Must|dont know|no
+|jest|Must|know|no
+|ts-jest|Must|dont know|no
+|ts-node|Must|dont know|no
+|prisma|Must|dont know|no
+|typescript|Must|dont know|no
+|vite|Must|dont know|no
+|vitest|Must|dont know|no
+|@auth0/auth0-react|Must|dont know|no
+|@emotion/react|Must|dont know|no
+|@emotion/styled|Must|dont know|no
+|@mui/icons-material|Must|know|no
+|@mui/material|Must|know|no
+|@mui/x-date-pickers|Must|dont know|no
+|react|Must|expert|no
+|react-dom|Must|expert|no
+|react-hook-form|Must|dont know|no
+|react-router-dom|Must|expert|no
+|recharts|Must|dont know|no
+|@jest/globals|Must|know|no
 |@prisma/client|dont know|no
-|axios|expert|no
-|compression|dont know|no
-|cors|expert|no
-|dayjs|dont know|no
-|dotenv-cli|dont know|no
-|express|expert|no
-|helmet|dont know|no
-|morgan|dont know|no
-|nock|dont know|no
-|helmet|dont know|no
-|winston |dont know| no
-
-|Must|good to know|
-|----|----|
-|typescript|dont know
-|prisma|dont know
-|vitest|dont know
-
+|axios|Must|expert|no
+|compression|Must|dont know|no
+|cors|Must|expert|no
+|dayjs|Must|dont know|no
+|dotenv-cli|Must|dont know|no
+|express|Must|expert|no
+|helmet|Must|dont know|no
+|morgan|Must|dont know|no
+|nock|Must|dont know|no
+|helmet|Must|dont know|no
+|winston |Must|dont know| no
 
