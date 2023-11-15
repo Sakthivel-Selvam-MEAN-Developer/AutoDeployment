@@ -10,23 +10,25 @@ import { approveLeaves, getAllLeaveAfterApply, rejectLeaves } from "../../servic
 import { epochToMinimalDate } from "../../../wonderMove/components/epochToTime";
 import { Done, Close } from '@mui/icons-material'
 
-const ManagerFormList: React.FC = () => {
+const ApprovalList: React.FC = () => {
     const [allList, setAllList] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
     const [rejectRow, setRejectRow] = useState<any | null>(null)
     const [open, setOpen] = React.useState(false)
     const [rejectionReason, setRejectionReason] = useState("")
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         // @ts-ignore
         getAllLeaveAfterApply().then(setAllList)
-    }, [])
+    }, [refresh])
     const rejectClick = (row: any) => {
         setRejectRow(row)
         setOpen(true)
     }
     const approveClick = (row: any) => {
         approveLeaves(row.id, { appliedBy: row.appliedBy })
+        .then(() => setRefresh(prevState => !prevState))
     }
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
@@ -34,7 +36,7 @@ const ManagerFormList: React.FC = () => {
     const handleReject = (row: any) => {
         rejectLeaves(row.id, { appliedBy: row.appliedBy, deniedComment: rejectionReason })
             .then(() => setOpen(false)).then(() => setRejectionReason(''))
-            .then(() => setRejectRow(null))
+            .then(() => setRejectRow(null)).then(() => setRefresh(prevState => !prevState))
     }
 
 
@@ -114,4 +116,4 @@ const ManagerFormList: React.FC = () => {
         </>
     );
 };
-export default ManagerFormList;
+export default ApprovalList;

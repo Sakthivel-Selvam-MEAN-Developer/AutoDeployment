@@ -5,7 +5,7 @@ import { epochToMinimalDate } from "../../../wonderMove/components/epochToTime";
 import { getAllLeaveWithStatus } from "../../services/employeeLeave";
 
 
-const EmployeeList: React.FC = () => {
+const LeaveList: React.FC = () => {
     const navigate = useNavigate()
     const [allLeave, setAllLeave] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
@@ -85,4 +85,4 @@ const EmployeeList: React.FC = () => {
         </>
     );
 };
-export default EmployeeList;
+export default LeaveList;

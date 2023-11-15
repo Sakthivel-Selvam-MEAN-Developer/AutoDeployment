@@ -1,9 +1,8 @@
-import { Dashboard, Badge, ThreeP, Cancel } from "@mui/icons-material";
+import { Dashboard, Badge, ThreeP } from "@mui/icons-material";
 import List from "@mui/material/List";
 import { DrawerHeader } from "./drawerHeader.ts";
 import DrawerListItem from "./drawerListItem.tsx";
 import React from "react";
-import { Divider, IconButton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 
@@ -13,11 +12,7 @@ const MiniDrawer = () => {
   return (
     <React.Fragment>
       <DrawerHeader theme={theme}>
-        <IconButton >
-          <Cancel />
-        </IconButton>
       </DrawerHeader>
-      <Divider />
       <List>
         <DrawerListItem
           text="Dashboard"
@@ -26,14 +21,14 @@ const MiniDrawer = () => {
           icon={<Dashboard />}
         />
         <DrawerListItem
-          text="Manager Form"
-          navigate="/hrm/manager"
+          text="Approval"
+          navigate="/hrm/approval"
           index={2}
           icon={<Badge />}
         />
         <DrawerListItem
-          text="Employee Form"
-          navigate="/hrm/employee"
+          text="Leaves"
+          navigate="/hrm/leaves"
           index={3}
           icon={<ThreeP />}
         />

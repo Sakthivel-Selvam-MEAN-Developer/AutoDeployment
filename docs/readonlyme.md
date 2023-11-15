@@ -1,5 +1,7 @@
 |Packages|Priority|Barath|Muthu|
 |----|----|----|----|
+|postgres|
+|lint|
 |husky|good to know|dont know|no
 |jest|Must|know|no
 |ts-jest|Must|dont know|no
@@ -32,4 +34,12 @@
 |nock|Must|dont know|no
 |helmet|Must|dont know|no
 |winston |Must|dont know| no
+|git actions|
+|git|
+|linux commands|
+|docker|
+|docker compose|
+|aws|
+|dns|
+|react testing library|
 

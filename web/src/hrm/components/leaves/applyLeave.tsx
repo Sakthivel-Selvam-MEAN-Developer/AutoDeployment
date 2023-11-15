@@ -17,7 +17,7 @@ interface FormData {
 }
 
 
-const EmployeeFormList: React.FC = () => {
+const LeaveForm: React.FC = () => {
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm<FormData>()
   const [fromValue, setFromValue] = useState<dayjs.Dayjs | null>(null)
@@ -140,4 +140,4 @@ const EmployeeFormList: React.FC = () => {
   );
 };
 
-export default EmployeeFormList
+export default LeaveForm

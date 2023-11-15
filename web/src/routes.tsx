@@ -18,11 +18,11 @@ import ReasonList from "./wonderMove/components/reason/list.tsx";
 import HrmLayout from "./hrm/components/layout";
 import HrmDashboard from "./hrm/components/dashboard";
 import HrmDashboardList from "./hrm/components/dashboard/list.tsx";
-import EmployeeFormList from "./hrm/components/employeeLeaveList/applyLeave.tsx";
-import ManagerForm from "./hrm/components/managerForm/index.tsx";
-import ManagerFormList from "./hrm/components/managerForm/list.tsx";
-import EmployeeLeaveList from "./hrm/components/employeeLeaveList/index.tsx";
-import EmployeeList from "./hrm/components/employeeLeaveList/list.tsx";
+import LeaveForm from "./hrm/components/leaves/applyLeave.tsx";
+import ApprovalPage from "./hrm/components/approvals/index.tsx";
+import ApprovalList from "./hrm/components/approvals/list.tsx";
+import Leaves from "./hrm/components/leaves/index.tsx";
+import LeaveList from "./hrm/components/leaves/list.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -118,26 +118,26 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "manager",
-        element: <ManagerForm />,
+        path: "approval",
+        element: <ApprovalPage />,
         children: [
           {
             path: "",
-            element: <ManagerFormList />,
+            element: <ApprovalList />,
           },
         ],
       },
       {
-        path: "employee",
-        element: <EmployeeLeaveList />,
+        path: "leaves",
+        element: <Leaves />,
         children: [
           {
             path: "",
-            element: <EmployeeList />,
+            element: <LeaveList />,
           },
           {
             path: "apply",
-            element: <EmployeeFormList />,
+            element: <LeaveForm />,
           }
         ],
       },

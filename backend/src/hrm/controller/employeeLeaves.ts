@@ -5,7 +5,7 @@ import {
     getAllLeave,
     leavesAfterApply,
     rejectedLeaves
-} from '../models/employeeLeaves.ts'
+} from '../models/leaves.ts'
 
 export const create = (req: Request, res: Response) => {
     createInDb(req.body).then(() => res.sendStatus(200))
