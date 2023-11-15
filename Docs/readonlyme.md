@@ -1,16 +1,7 @@
 |Barath|Muthu|
 |----|----|
 |husky(no)
-jest-dom(no)
-user-event(no)
-eslint-plugin(no)
-parser(no)
-@vitejs/plugin-react(no)
-@vitest/coverage-v8(no)
-eslint(no)
-eslint-plugin-react-hooks(no)
-eslint-plugin-react-refresh(no)
-jsdom(no)
+jest(yes)
 ts-jest(no)
 ts-node(no)
 prisma(no)
