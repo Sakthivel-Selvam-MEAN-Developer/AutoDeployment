@@ -20,7 +20,7 @@
 |react-router-dom|Must|expert|no
 |recharts|Must|dont know|no
 |@jest/globals|Must|know|no
-|@prisma/client|dont know|no
+|@prisma/client|Must|dont know|no
 |axios|Must|expert|no
 |compression|Must|dont know|no
 |cors|Must|expert|no
