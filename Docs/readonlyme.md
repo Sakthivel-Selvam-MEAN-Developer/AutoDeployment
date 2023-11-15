@@ -1,34 +1,34 @@
-|Barath|Muthu|
-|----|----|
-|husky(no)
-jest(yes)
-ts-jest(no)
-ts-node(no)
-prisma(no)
-typescript(no)
-vite(no)
-vitest(no)
- @auth0/auth0-react(no)
- @emotion/react(no)
- @emotion/styled(no)
- @mui/icons-material(yes)
- @mui/material(yes)
- @mui/x-date-pickers(no)
- dayjs(no)
- react(yes)
- react-dom(yes)
- react-hook-form(no)
- react-router-dom(yes)
- recharts(no)
-@jest/globals(yes)
-@prisma/client(no)
-axios(yes)
-compression(no)
-cors(yes)
-dayjs(no)
-dotenv-cli(no)
-express(yes)
-helmet(no)
-morgan(no)
-nock(no)
-winston (no) |two
+|Packages|Barath|Muthu|
+|----|----|----|
+|husky|yes|no
+jest
+ts-jest
+ts-node
+prisma
+typescript
+vite
+vitest
+ @auth0/auth0-react
+ @emotion/react
+ @emotion/styled
+ @mui/icons-material
+ @mui/material
+ @mui/x-date-pickers
+ dayjs
+ react
+ react-dom
+ react-hook-form
+ react-router-dom
+ recharts
+@jest/globals
+@prisma/client
+axios
+compression
+cors
+dayjs
+dotenv-cli
+express
+helmet
+morgan
+nock
+winston |two| three
