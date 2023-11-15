@@ -33,7 +33,7 @@
 |helmet|dont know|no
 |winston |dont know| no
 
-|High Priority|good to know|
+|Must|good to know|
 |----|----|
 |typescript|dont know
 |prisma|dont know
