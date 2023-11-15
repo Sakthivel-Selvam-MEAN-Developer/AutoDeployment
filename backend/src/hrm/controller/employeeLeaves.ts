@@ -20,7 +20,11 @@ export const listAllLeave = (_req: Request, res: Response) => {
 }
 
 export const rejectLeaves = (req: Request, res: Response) => {
-    rejectedLeaves(parseInt(req.params.id as string, 10), req.body.appliedBy).then((data: any) => {
+    rejectedLeaves(
+        parseInt(req.params.id as string, 10),
+        req.body.appliedBy,
+        req.body.deniedComment
+    ).then((data: any) => {
         res.status(200).json(data)
     })
 }

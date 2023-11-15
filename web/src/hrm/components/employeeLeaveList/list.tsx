@@ -65,10 +65,16 @@ const EmployeeList: React.FC = () => {
                                     }
                                 />
                                 {selectedRow == row.id && (
-                                    <>
-                                        <Typography variant="body2">For : {row.leaveReason.name}</Typography>
-                                        <p>Comments comes here...</p>
-                                    </>
+                                    <Typography variant="body2">
+                                        For : {row.leaveReason.name}
+                                        <p>
+                                            {row.approval === true
+                                                ? "Permission Granted"
+                                                : row.approval === false
+                                                    ? (row.deniedComment ? row.deniedComment : "No comment provided")
+                                                    : "Pending"}
+                                        </p>
+                                    </Typography>
                                 )}
                             </div>
                         </ListItem>
