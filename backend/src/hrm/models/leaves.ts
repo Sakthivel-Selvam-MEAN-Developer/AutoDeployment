@@ -2,7 +2,7 @@ import prisma from './index.ts'
 
 export const create = (data: any) => prisma.leaves.create({ data })
 
-export const leavesAfterApply = () =>
+export const leavesBeforeApproval = () =>
     prisma.leaves.findMany({
         where: {
             active: true,
@@ -13,10 +13,11 @@ export const leavesAfterApply = () =>
         }
     })
 
-export const getAllLeave = () =>
+export const getAllLeave = (employeeId: string) =>
     prisma.leaves.findMany({
         where: {
-            active: true
+            active: true,
+            employeesId: employeeId
         },
         include: {
             leaveReason: true

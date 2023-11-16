@@ -1,4 +1,4 @@
-import orgUnits from "./orgUnits";
+import orgUnits from './orgUnits.ts'
 
 export default {
     employeeId: '123abc',

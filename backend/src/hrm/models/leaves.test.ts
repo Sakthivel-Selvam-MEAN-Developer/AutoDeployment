@@ -1,16 +1,10 @@
 import seedEmployeeLeave from '../seed/leaves.ts'
-import {
-    approvedLeaves,
-    create,
-    getAllLeave,
-    leavesAfterApply,
-    rejectedLeaves
-} from './leaves.ts'
+import { approvedLeaves, create, getAllLeave, leavesBeforeApproval, rejectedLeaves } from './leaves.ts'
 
 describe('Employee Leave Form model', () => {
     test('should able to access', async () => {
         await create(seedEmployeeLeave)
-        const actual = await leavesAfterApply()
+        const actual = await leavesBeforeApproval()
         expect(actual.length).toBe(1)
         expect(actual[0].appliedBy).toBe(seedEmployeeLeave.appliedBy)
     })

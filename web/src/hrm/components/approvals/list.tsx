@@ -6,7 +6,7 @@ import {
     List, ListItem, ListItemSecondaryAction,
     ListItemText, TextField, Typography
 } from "@mui/material";
-import { approveLeaves, getAllLeaveAfterApply, rejectLeaves } from "../../services/employeeLeave";
+import { approveLeaves, getAllLeaveBeforeApproval, rejectLeaves } from "../../services/employeeLeave";
 import { epochToMinimalDate } from "../../../wonderMove/components/epochToTime";
 import { Done, Close } from '@mui/icons-material'
 
@@ -20,7 +20,7 @@ const ApprovalList: React.FC = () => {
 
     useEffect(() => {
         // @ts-ignore
-        getAllLeaveAfterApply().then(setAllList)
+        getAllLeaveBeforeApproval().then(setAllList)
     }, [refresh])
     const rejectClick = (row: any) => {
         setRejectRow(row)
@@ -57,7 +57,7 @@ const ApprovalList: React.FC = () => {
                                                 variant="body2"
                                                 color="text.primary"
                                             >
-                                                Duration&nbsp;: &nbsp;
+                                                Duration &nbsp;: &nbsp;
                                             </Typography>
                                             {epochToMinimalDate(row.from)} &nbsp;- &nbsp;
                                             {epochToMinimalDate(row.to)}

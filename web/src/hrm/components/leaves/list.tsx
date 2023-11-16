@@ -1,8 +1,8 @@
-import { Button, Divider, List, ListItem, ListItemSecondaryAction, ListItemText, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
-import { epochToMinimalDate } from "../../../wonderMove/components/epochToTime";
-import { getAllLeaveWithStatus } from "../../services/employeeLeave";
+import {Button, Divider, List, ListItem, ListItemSecondaryAction, ListItemText, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom'
+import {epochToMinimalDate} from "../../../wonderMove/components/epochToTime";
+import {getAllLeaveWithStatus} from "../../services/employeeLeave";
 
 
 const LeaveList: React.FC = () => {
@@ -11,8 +11,9 @@ const LeaveList: React.FC = () => {
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
 
     useEffect(() => {
+        const id: string = 'asdf';
         // @ts-ignore
-        getAllLeaveWithStatus().then(setAllLeave)
+        getAllLeaveWithStatus(id).then(setAllLeave)
     }, [])
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
@@ -38,14 +39,14 @@ const LeaveList: React.FC = () => {
             <List>
                 {allLeave.map((row: any) => (
                     <React.Fragment key={row.id}>
-                        <ListItem key={row.id} sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        <ListItem key={row.id} sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                             <div onClick={() => handleListItemClick(row.id)}>
                                 <ListItemText
                                     primary={row.appliedBy}
                                     secondary={
                                         <React.Fragment>
                                             <Typography
-                                                sx={{ display: 'inline' }}
+                                                sx={{display: 'inline'}}
                                                 component="span"
                                                 variant="body2"
                                                 color="text.primary"
@@ -78,7 +79,7 @@ const LeaveList: React.FC = () => {
                                 )}
                             </div>
                         </ListItem>
-                        <Divider variant="fullWidth" component="li" />
+                        <Divider variant="fullWidth" component="li"/>
                     </React.Fragment>
                 ))}
             </List>

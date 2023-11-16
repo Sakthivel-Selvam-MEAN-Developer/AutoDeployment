@@ -59,7 +59,7 @@ export default function HrmLayout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Hr management
+            PNC
           </Typography>
         </Toolbar>
       </AppBar>
@@ -83,3 +83,4 @@ export default function HrmLayout() {
     </Box>
   );
 }
+// thr diagrem of the

@@ -5,7 +5,7 @@ import stopRoutes from './stops.ts'
 import reasonRoutes from './reason.ts'
 import jobsRoutes from './jobs.ts'
 import leaveReasonRoutes from '../../hrm/routes/leaveReasons.ts'
-import employeeLeavesRoutes from '../../hrm/routes/employeeLeaves.ts'
+import employeeLeavesRoutes from '../../hrm/routes/leaves.ts'
 // import gpsStopRoutes from './gpsStops'
 
 const router = express.Router()

@@ -35,6 +35,8 @@ model leaves {
   leaveReason   leaveReasons @relation(fields: [leaveReasonId], references: [id])
   createdAt     DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
+  employeesId   String?
+  employees     employees?   @relation(fields: [employeesId], references: [employeeId])
 }
 
 model orgUnits {
@@ -56,6 +58,7 @@ model employees {
   orgUnitId    Int
   orgUnit      orgUnits       @relation(fields: [orgUnitId], references: [id])
   orgUnitHeads orgUnitHeads[]
+  leaves       leaves[]
 }
 
 model orgUnitHeads {

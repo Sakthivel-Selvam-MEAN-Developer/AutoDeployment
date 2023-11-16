@@ -3,7 +3,7 @@ import {
     approvedLeaves,
     create as createInDb,
     getAllLeave,
-    leavesAfterApply,
+    leavesBeforeApproval,
     rejectedLeaves
 } from '../models/leaves.ts'
 
@@ -11,12 +11,12 @@ export const create = (req: Request, res: Response) => {
     createInDb(req.body).then(() => res.sendStatus(200))
 }
 
-export const listAllLeaveAfterApply = (_req: Request, res: Response) => {
-    leavesAfterApply().then((data) => res.status(200).json(data))
+export const listAllLeaveBeforeApproval = (_req: Request, res: Response) => {
+    leavesBeforeApproval().then((data) => res.status(200).json(data))
 }
 
-export const listAllLeave = (_req: Request, res: Response) => {
-    getAllLeave().then((data) => res.status(200).json(data))
+export const listAllLeave = (req: Request, res: Response) => {
+    getAllLeave(req.params.employeeId).then((data) => res.status(200).json(data))
 }
 
 export const rejectLeaves = (req: Request, res: Response) => {

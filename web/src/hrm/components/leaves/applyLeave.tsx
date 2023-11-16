@@ -70,6 +70,11 @@ const LeaveForm: React.FC = () => {
             label="Name"
             fieldName="appliedBy"
           />
+          <TextInput
+            control={control}
+            label="Employee Id"
+            fieldName="employeesId"
+          />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               value={fromValue}

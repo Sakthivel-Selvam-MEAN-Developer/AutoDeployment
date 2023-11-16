@@ -1,5 +1,5 @@
-import employeeHead from "./employeeHead";
-import orgUnits from "./orgUnits";
+import employeeHead from './employeeHead.ts'
+import orgUnits from './orgUnits.ts'
 
 export default {
     orgUnit: {
