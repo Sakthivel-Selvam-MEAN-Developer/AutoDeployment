@@ -1,13 +1,13 @@
-import React from 'react';
-import {formatDuration} from "../epochToTime.ts";
+import React from 'react'
+import { formatDuration } from '../epochToTime.ts'
 
 interface SelectedCell {
-    name: string;
-    durationInMillis: number;
+    name: string
+    durationInMillis: number
 }
 
 interface Props {
-    selectedCell: SelectedCell;
+    selectedCell: SelectedCell
 }
 
 const PieChartDetails: React.FC<Props> = ({ selectedCell }) => {
@@ -17,7 +17,7 @@ const PieChartDetails: React.FC<Props> = ({ selectedCell }) => {
             <br />
             {formatDuration(selectedCell.durationInMillis)}
         </>
-    );
+    )
 }
 
 export default PieChartDetails

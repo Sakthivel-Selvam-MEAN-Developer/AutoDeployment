@@ -1,27 +1,27 @@
-import React, {useEffect, useState} from "react";
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
+import React, { useEffect, useState } from 'react'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import {getAllReasons, update} from '../../services/reason.ts'
-import {Edit, Add} from '@mui/icons-material'
-import {create} from '../../services/reason.ts'
-import SuccessDialog from "../SuccessDialog.tsx";
-import InputField from "./inputField.tsx";
+import { getAllReasons, update } from '../../services/reason.ts'
+import { Edit, Add } from '@mui/icons-material'
+import { create } from '../../services/reason.ts'
+import SuccessDialog from '../SuccessDialog.tsx'
+import InputField from './inputField.tsx'
 interface reasonProps {
     id: number
     name: string
 }
 const ReasonList: React.FC = () => {
     const [reason, setReason] = useState([])
-    const [isAdding, setIsAdding] = useState(false);
-    const [newReason, setNewReason] = useState("")
+    const [isAdding, setIsAdding] = useState(false)
+    const [newReason, setNewReason] = useState('')
     const [refreshData, setRefreshData] = useState(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [editReasonId, setEditReasonId] = useState<number | null>(null)
     const [oldReason, setOldReason] = useState<string | null>(null)
-    const [message, setMessage] = useState<string>("")
+    const [message, setMessage] = useState<string>('')
 
     useEffect(() => {
         // @ts-ignore
@@ -36,26 +36,26 @@ const ReasonList: React.FC = () => {
         setIsAdding(true)
     }
     const handleSave = () => {
-        create(JSON.stringify({name: newReason}))
+        create(JSON.stringify({ name: newReason }))
             .then(() => setRefreshData(true))
             .then(() => setOpenSuccessDialog(true))
         handleClose()
-        setMessage("New Reason Added")
+        setMessage('New Reason Added')
     }
     const handleClose = () => {
-        setNewReason("")
+        setNewReason('')
         setOpenSuccessDialog(false)
         setIsAdding(false)
         setRefreshData(false)
         setEditReasonId(null)
-        setMessage("")
+        setMessage('')
     }
     const handleUpdate = () => {
-        update(JSON.stringify({id: editReasonId, name: newReason}))
+        update(JSON.stringify({ id: editReasonId, name: newReason }))
             .then(() => setRefreshData(true))
             .then(() => setOpenSuccessDialog(true))
         handleClose()
-        setMessage("Reason Updated")
+        setMessage('Reason Updated')
     }
 
     return (
@@ -65,7 +65,7 @@ const ReasonList: React.FC = () => {
                     List All Reasons
                     <span style={{ position: 'absolute', right: '10px' }}>
                         <IconButton data-testid={'add-button'} onClick={() => handleAdd()}>
-                            <Add/>
+                            <Add />
                         </IconButton>
                     </span>
                 </Typography>
@@ -81,15 +81,16 @@ const ReasonList: React.FC = () => {
                     >
                         {editReasonId === row.id ? (
                             <>
-                            <Typography variant="body1">{`${index + 1}`}.&nbsp;</Typography>
-                            <InputField
-                                value={oldReason}
-                                onChange={(e: any) => setNewReason(e.target.value)}
-                                onClear={handleClose}
-                                onSave={handleUpdate}
-                            /></>
+                                <Typography variant="body1">{`${index + 1}`}.&nbsp;</Typography>
+                                <InputField
+                                    value={oldReason}
+                                    onChange={(e: any) => setNewReason(e.target.value)}
+                                    onClear={handleClose}
+                                    onSave={handleUpdate}
+                                />
+                            </>
                         ) : (
-                        <ListItemText primary={`${index + 1}. ${row.name}`} />
+                            <ListItemText primary={`${index + 1}. ${row.name}`} />
                         )}
                     </ListItem>
                 ))}
@@ -97,19 +98,15 @@ const ReasonList: React.FC = () => {
                     <ListItem disableGutters>
                         {reason.length + 1}.&nbsp;
                         <InputField
-                                value={newReason}
-                                onChange={(e: any) => setNewReason(e.target.value)}
-                                onClear={handleClose}
-                                onSave={handleSave}
-                            />
+                            value={newReason}
+                            onChange={(e: any) => setNewReason(e.target.value)}
+                            onClear={handleClose}
+                            onSave={handleSave}
+                        />
                     </ListItem>
-            )}
+                )}
             </List>
-            <SuccessDialog
-                open={openSuccessDialog}
-                handleClose={handleClose}
-                message={message}
-            />
+            <SuccessDialog open={openSuccessDialog} handleClose={handleClose} message={message} />
         </>
     )
 }

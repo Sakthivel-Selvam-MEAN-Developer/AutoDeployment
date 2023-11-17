@@ -1,9 +1,9 @@
 import { Autocomplete, TextField } from '@mui/material'
-import {ChangeEvent, useState} from 'react'
+import { ChangeEvent, useState } from 'react'
 
 interface SearchCustomerProps {
-    customers: any[];
-    onSelect: (selectedVehicle: any) => void;
+    customers: any[]
+    onSelect: (selectedVehicle: any) => void
 }
 const SearchCustomer: React.FC<SearchCustomerProps> = ({ customers, onSelect }) => {
     const [value, setValue] = useState()
@@ -27,7 +27,7 @@ const SearchCustomer: React.FC<SearchCustomerProps> = ({ customers, onSelect }) 
                     label="Search customer by name to act on it"
                     InputProps={{
                         ...params.InputProps,
-                        type: 'search',
+                        type: 'search'
                     }}
                 />
             )}

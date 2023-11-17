@@ -7,20 +7,19 @@ import SuccessDialog from '../SuccessDialog.tsx'
 import { updateStops } from '../../services/stops.ts'
 
 interface ReasonInfo {
-    id: number;
+    id: number
     reason: {
-        id: number;
-    };
+        id: number
+    }
 }
 
 interface UpdateReasonProps {
-    reasonInfo: ReasonInfo;
-    allReasons: Array<any>;
+    reasonInfo: ReasonInfo
+    allReasons: Array<any>
 }
 const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) => {
     const [selectedReason, setSelectedReason] = useState(reasonInfo.reason.id)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-
 
     const handleChange = (event: any) => {
         const selectedReasonId = event.target.value
@@ -32,9 +31,7 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) =
     return (
         <>
             <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                <InputLabel id="demo-simple-select-helper-label">
-                    Reasons
-                </InputLabel>
+                <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>
                 <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"

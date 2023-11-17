@@ -1,21 +1,15 @@
 import { Input, IconButton } from '@mui/material'
-import {Done, Clear} from '@mui/icons-material'
-
+import { Done, Clear } from '@mui/icons-material'
 
 interface InputFieldProps {
-    value: any;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onClear: () => void;
-    onSave: () => void;
+    value: any
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onClear: () => void
+    onSave: () => void
 }
 const ariaLabel = { 'aria-label': 'description' }
 
-const InputField: React.FC<InputFieldProps> = ({ 
-    value, 
-    onChange, 
-    onClear, 
-    onSave 
-  }) => {
+const InputField: React.FC<InputFieldProps> = ({ value, onChange, onClear, onSave }) => {
     const isValueEmpty = value === ''
     return (
         <Input
@@ -25,13 +19,21 @@ const InputField: React.FC<InputFieldProps> = ({
             defaultValue={value}
             onChange={onChange}
             endAdornment={
-                <><IconButton aria-label="comment" data-testid={'close-button'} onClick={onClear}>
-                    <Clear />
-                </IconButton>
-                <IconButton aria-label="comment" data-testid={'done-button'} onClick={onSave} disabled={isValueEmpty}>
-                    <Done />
-                </IconButton></>
-            }/>
+                <>
+                    <IconButton aria-label="comment" data-testid={'close-button'} onClick={onClear}>
+                        <Clear />
+                    </IconButton>
+                    <IconButton
+                        aria-label="comment"
+                        data-testid={'done-button'}
+                        onClick={onSave}
+                        disabled={isValueEmpty}
+                    >
+                        <Done />
+                    </IconButton>
+                </>
+            }
+        />
     )
 }
 

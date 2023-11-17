@@ -7,20 +7,18 @@ import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import Table from '@mui/material/Table'
 import { formatDuration, epochToDate } from '../epochToTime.ts'
-import {useEffect, useState} from "react";
-import {getAllReasons} from "../../services/reason.ts";
+import { useEffect, useState } from 'react'
+import { getAllReasons } from '../../services/reason.ts'
 
 interface DetailsListProps {
-    pendingDetails: any;
+    pendingDetails: any
 }
 const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
     const [fetchReason, setFetchReason] = useState<any>([])
 
     let sortedDetails = []
     if (pendingDetails && pendingDetails.length > 0) {
-        sortedDetails = pendingDetails
-            .slice()
-            .sort((a: any, b: any) => a.startTime - b.startTime)
+        sortedDetails = pendingDetails.slice().sort((a: any, b: any) => a.startTime - b.startTime)
     }
     useEffect(() => {
         // @ts-ignore
@@ -48,25 +46,19 @@ const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
                                     key={i}
                                     sx={{
                                         '&:last-child td, &:last-child th': {
-                                            border: 0,
-                                        },
+                                            border: 0
+                                        }
                                     }}
                                 >
                                     <TableCell> {i + 1} </TableCell>
-                                    <TableCell align="left">
-                                        {epochToDate(row.startTime)}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {epochToDate(row.endTime)}
-                                    </TableCell>
+                                    <TableCell align="left">{epochToDate(row.startTime)}</TableCell>
+                                    <TableCell align="left">{epochToDate(row.endTime)}</TableCell>
                                     <TableCell align="left">
                                         {formatDuration(row.durationInMillis)}
                                     </TableCell>
+                                    <TableCell align="left">To Be Built</TableCell>
                                     <TableCell align="left">
-                                        To Be Built
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {<UpdateReason reasonInfo={row} allReasons={fetchReason}/>}
+                                        {<UpdateReason reasonInfo={row} allReasons={fetchReason} />}
                                     </TableCell>
                                 </TableRow>
                             ))}

@@ -13,9 +13,7 @@ export const NewCustomer = () => {
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        createCustomer(JSON.stringify(data)).then(() =>
-            setOpenSuccessDialog(true)
-        )
+        createCustomer(JSON.stringify(data)).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)
@@ -28,7 +26,7 @@ export const NewCustomer = () => {
                 <div
                     style={{
                         display: 'flex',
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                     }}
                 >
                     <Button

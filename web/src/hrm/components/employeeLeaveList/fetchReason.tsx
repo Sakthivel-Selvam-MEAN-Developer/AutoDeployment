@@ -1,18 +1,17 @@
-import FormControl from "@mui/material/FormControl"
+import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { useEffect, useState } from "react"
-import { getAllLeaveReasons } from "../../services/leaveReasons"
+import { useEffect, useState } from 'react'
+import { getAllLeaveReasons } from '../../services/leaveReasons'
 
 type FetchReasonProps = {
-    reason: string;
-    setReason: any;
+    reason: string
+    setReason: any
 }
 
 const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {
     const [fetchReason, setFetchReason] = useState<any>([])
-
 
     useEffect(() => {
         // @ts-ignore
@@ -20,15 +19,13 @@ const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {
     }, [])
 
     const handleChange = (event: SelectChangeEvent) => {
-        setReason(event.target.value as string);
+        setReason(event.target.value as string)
     }
 
     return (
         <>
             <FormControl sx={{ minWidth: 195 }} size="medium">
-                <InputLabel id="demo-simple-select-helper-label">
-                    Reasons
-                </InputLabel>
+                <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>
                 <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"

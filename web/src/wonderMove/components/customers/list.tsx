@@ -22,14 +22,10 @@ const CustomerList: React.FC<CustomerListProps> = () => {
                 style={{
                     marginBottom: '30px',
                     display: 'flex',
-                    justifyContent: 'right',
+                    justifyContent: 'right'
                 }}
             >
-                <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={() => navigate('create')}
-                >
+                <Button color="primary" variant="contained" onClick={() => navigate('create')}>
                     Add New Customer
                 </Button>
             </div>

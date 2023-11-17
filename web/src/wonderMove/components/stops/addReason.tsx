@@ -8,8 +8,8 @@ import SuccessDialog from '../SuccessDialog.tsx'
 import AlertDialog from '../confirmationDialog.js'
 
 interface AddReasonProps {
-    stopInfo: any;
-    allReasons: Array<any>;
+    stopInfo: any
+    allReasons: Array<any>
 }
 const AddReason: React.FC<AddReasonProps> = ({ stopInfo, allReasons }) => {
     const [selectedReason, setSelectedReason] = useState<string>(stopInfo.reason.id)
@@ -34,9 +34,7 @@ const AddReason: React.FC<AddReasonProps> = ({ stopInfo, allReasons }) => {
     return (
         <>
             <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                <InputLabel id="demo-simple-select-helper-label">
-                    Reasons
-                </InputLabel>
+                <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>
                 <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"

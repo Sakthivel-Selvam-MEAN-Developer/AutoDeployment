@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const Reason: React.FC = (): ReactElement => {

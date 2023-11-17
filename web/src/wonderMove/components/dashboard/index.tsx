@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const Dashboard: React.FC = (): ReactElement => {

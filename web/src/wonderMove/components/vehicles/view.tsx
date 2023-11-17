@@ -6,18 +6,15 @@ import { reformatVehicleDate } from './reformatVehicleDate.ts'
 
 // UpdateVehicle.propTypes = { vehicle: PropTypes.func }
 interface VehicleProps {
-    number: any;
+    number: any
 }
 
-interface VehicleDetails {
-}
+interface VehicleDetails {}
 const Vehicle: React.FC<VehicleProps> = ({ number }) => {
     const [vehicleDetails, setVehicleDetails] = useState<VehicleDetails | undefined>()
-    
+
     const updateVehicleList = () => {
-        getVehicleDetails(number)
-            .then(reformatVehicleDate)
-            .then(setVehicleDetails)
+        getVehicleDetails(number).then(reformatVehicleDate).then(setVehicleDetails)
     }
     useEffect(updateVehicleList, [number])
     return (
@@ -31,7 +28,7 @@ const Vehicle: React.FC<VehicleProps> = ({ number }) => {
     )
 }
 Vehicle.propTypes = {
-    number: PropTypes.any,
+    number: PropTypes.any
 }
 
 export default Vehicle

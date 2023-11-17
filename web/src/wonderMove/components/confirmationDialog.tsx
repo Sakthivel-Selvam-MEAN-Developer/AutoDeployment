@@ -1,20 +1,13 @@
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogTitle,
-} from '@mui/material'
-import {FC} from "react";
+import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material'
+import { FC } from 'react'
 
 interface AlertDialogProps {
-    open: boolean;
-    handleClose: () => void;
-    handleAgree: () => void;
-    message: string;
+    open: boolean
+    handleClose: () => void
+    handleAgree: () => void
+    message: string
 }
 const AlertDialog: FC<AlertDialogProps> = ({ open, handleClose, handleAgree, message }) => {
-
-
     return (
         <Dialog
             open={open}
@@ -22,9 +15,7 @@ const AlertDialog: FC<AlertDialogProps> = ({ open, handleClose, handleAgree, mes
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title">
-                {message}
-            </DialogTitle>
+            <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
             <DialogActions>
                 <Button onClick={handleClose}>Disagree</Button>
                 <Button onClick={handleAgree} autoFocus>
@@ -35,4 +26,4 @@ const AlertDialog: FC<AlertDialogProps> = ({ open, handleClose, handleAgree, mes
     )
 }
 
-export default AlertDialog;
+export default AlertDialog

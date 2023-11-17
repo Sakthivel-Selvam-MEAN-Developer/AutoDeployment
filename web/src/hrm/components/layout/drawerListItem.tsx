@@ -6,10 +6,10 @@ import ListItemText from '@mui/material/ListItemText'
 import { useNavigate } from 'react-router-dom'
 
 interface DrawerListItemProps {
-    text: string;
-    index: number;
-    navigate: string;
-    icon: ReactElement;
+    text: string
+    index: number
+    navigate: string
+    icon: ReactElement
 }
 const DrawerListItem: FC<DrawerListItemProps> = ({ text, index, navigate, icon }) => {
     const navigateFunction = useNavigate()
@@ -19,7 +19,7 @@ const DrawerListItem: FC<DrawerListItemProps> = ({ text, index, navigate, icon }
                 sx={{
                     minHeight: 48,
                     justifyContent: 'center',
-                    px: 2.5,
+                    px: 2.5
                 }}
                 onClick={() => navigateFunction(navigate)}
             >
@@ -27,15 +27,13 @@ const DrawerListItem: FC<DrawerListItemProps> = ({ text, index, navigate, icon }
                     sx={{
                         minWidth: 0,
                         mr: 2.5,
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                     }}
                     title={text}
                 >
                     {icon}
                 </ListItemIcon>
-                <ListItemText
-                    primary={<div>{text}</div>}
-                />
+                <ListItemText primary={<div>{text}</div>} />
             </ListItemButton>
         </ListItem>
     )

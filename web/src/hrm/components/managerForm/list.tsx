@@ -1,51 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import {
-    Button, Dialog, DialogActions,
-    DialogContent, DialogContentText,
-    DialogTitle, Divider, IconButton,
-    List, ListItem, ListItemSecondaryAction,
-    ListItemText, TextField, Typography
-} from "@mui/material";
-import { approveLeaves, getAllLeaveBeforeApproval, rejectLeaves } from "../../services/employeeLeave";
-import { epochToMinimalDate } from "../../../wonderMove/components/epochToTime";
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    IconButton,
+    List,
+    ListItem,
+    ListItemSecondaryAction,
+    ListItemText,
+    TextField,
+    Typography
+} from '@mui/material'
+import { approveLeaves, getAllLeaveAfterApply, rejectLeaves } from '../../services/employeeLeave'
+import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
 import { Done, Close } from '@mui/icons-material'
 
-const ApprovalList: React.FC = () => {
+const ManagerFormList: React.FC = () => {
     const [allList, setAllList] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
     const [rejectRow, setRejectRow] = useState<any | null>(null)
     const [open, setOpen] = React.useState(false)
-    const [rejectionReason, setRejectionReason] = useState("")
-    const [refresh, setRefresh] = useState(false)
+    const [rejectionReason, setRejectionReason] = useState('')
 
     useEffect(() => {
         // @ts-ignore
-        getAllLeaveBeforeApproval().then(setAllList)
-    }, [refresh])
+        getAllLeaveAfterApply().then(setAllList)
+    }, [])
     const rejectClick = (row: any) => {
         setRejectRow(row)
         setOpen(true)
     }
     const approveClick = (row: any) => {
         approveLeaves(row.id, { appliedBy: row.appliedBy })
-        .then(() => setRefresh(prevState => !prevState))
     }
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
     }
     const handleReject = (row: any) => {
         rejectLeaves(row.id, { appliedBy: row.appliedBy, deniedComment: rejectionReason })
-            .then(() => setOpen(false)).then(() => setRejectionReason(''))
-            .then(() => setRejectRow(null)).then(() => setRefresh(prevState => !prevState))
+            .then(() => setOpen(false))
+            .then(() => setRejectionReason(''))
+            .then(() => setRejectRow(null))
     }
-
 
     return (
         <>
             <List>
                 {allList.map((row: any) => (
                     <React.Fragment key={row.id}>
-                        <ListItem key={row.id} sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        <ListItem
+                            key={row.id}
+                            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                        >
                             <div onClick={() => handleListItemClick(row.id)}>
                                 <ListItemText
                                     primary={row.appliedBy}
@@ -57,7 +67,7 @@ const ApprovalList: React.FC = () => {
                                                 variant="body2"
                                                 color="text.primary"
                                             >
-                                                Duration &nbsp;: &nbsp;
+                                                Duration&nbsp;: &nbsp;
                                             </Typography>
                                             {epochToMinimalDate(row.from)} &nbsp;- &nbsp;
                                             {epochToMinimalDate(row.to)}
@@ -67,10 +77,16 @@ const ApprovalList: React.FC = () => {
                                 {selectedRow == row.id && (
                                     <>
                                         <ListItemSecondaryAction>
-                                            <IconButton aria-label="deny" onClick={() => rejectClick(row)}>
+                                            <IconButton
+                                                aria-label="deny"
+                                                onClick={() => rejectClick(row)}
+                                            >
                                                 <Close />
                                             </IconButton>
-                                            <IconButton aria-label="approve" onClick={() => approveClick(row)}>
+                                            <IconButton
+                                                aria-label="approve"
+                                                onClick={() => approveClick(row)}
+                                            >
                                                 <Done />
                                             </IconButton>
                                         </ListItemSecondaryAction>
@@ -92,9 +108,7 @@ const ApprovalList: React.FC = () => {
                 <Dialog open={open} onClose={() => setOpen(false)}>
                     <DialogTitle>Reason</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            Write the reason for rejection...
-                        </DialogContentText>
+                        <DialogContentText>Write the reason for rejection...</DialogContentText>
                         <TextField
                             autoFocus
                             margin="dense"
@@ -114,6 +128,6 @@ const ApprovalList: React.FC = () => {
                 </Dialog>
             </React.Fragment>
         </>
-    );
-};
-export default ApprovalList;
+    )
+}
+export default ManagerFormList

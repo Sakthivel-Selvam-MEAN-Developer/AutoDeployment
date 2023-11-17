@@ -1,8 +1,8 @@
 import { Autocomplete, TextField } from '@mui/material'
-import {ChangeEvent, useState} from 'react'
+import { ChangeEvent, useState } from 'react'
 
 interface SearchStopsProps {
-    onSelect: (selectedStop: any) => void;
+    onSelect: (selectedStop: any) => void
 }
 
 const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
@@ -29,7 +29,7 @@ const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
                         label="Search stops by number to act on it"
                         InputProps={{
                             ...params.InputProps,
-                            type: 'search',
+                            type: 'search'
                         }}
                     />
                 )}

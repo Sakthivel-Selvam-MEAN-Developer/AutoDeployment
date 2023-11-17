@@ -19,7 +19,7 @@ const PendingList: React.FC<PendingListProps> = () => {
                 <h5
                     style={{
                         display: 'flex',
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                     }}
                 >
                     No Pending Reasons To Update

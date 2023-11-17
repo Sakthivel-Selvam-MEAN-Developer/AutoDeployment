@@ -6,16 +6,16 @@ import SuccessDialog from '../SuccessDialog.tsx'
 import { useEffect, useState } from 'react'
 
 interface CustomerDetails {
-    name: string;
+    name: string
 }
 
 interface UpdateCustomerProps {
-    customerDetails: any;
+    customerDetails: any
 }
 const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
     const [name, setName] = useState()
     const { handleSubmit, control, getValues, reset } = useForm({
-        defaultValues: customerDetails,
+        defaultValues: customerDetails
     })
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     useEffect(() => {
@@ -25,9 +25,7 @@ const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
 
     const onSubmit: SubmitHandler<CustomerDetails> = (customer) => {
         // @ts-ignore
-        updateCustomer(name, JSON.stringify(customer)).then(() =>
-            setOpenSuccessDialog(true)
-        )
+        updateCustomer(name, JSON.stringify(customer)).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)
@@ -39,7 +37,7 @@ const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
                 <div
                     style={{
                         display: 'flex',
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                     }}
                 >
                     <Button

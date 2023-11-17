@@ -1,4 +1,4 @@
-import {styled, Theme} from "@mui/material/styles";
+import { styled, Theme } from '@mui/material/styles'
 
 interface DrawerHeaderProps {
     theme: Theme
@@ -8,5 +8,5 @@ export const DrawerHeader = styled('div')<DrawerHeaderProps>(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-}));
+    ...theme.mixins.toolbar
+}))

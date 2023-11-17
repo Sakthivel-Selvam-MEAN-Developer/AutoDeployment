@@ -2,9 +2,9 @@ import { FC } from 'react'
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material'
 
 interface SuccessDialogProps {
-    open: boolean;
-    handleClose: () => void;
-    message: string;
+    open: boolean
+    handleClose: () => void
+    message: string
 }
 const SuccessDialog: FC<SuccessDialogProps> = ({ open, handleClose, message }) => {
     return (

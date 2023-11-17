@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react'
 import { Outlet } from 'react-router-dom'
 
-const HrmDashboard: React.FC = (): ReactElement => {
+const ManagerForm: React.FC = (): ReactElement => {
     return (
         <>
-            <div style={{ marginBottom: '30px' }}>Hrm</div>
+            <div style={{ marginBottom: '30px' }}>Manager Form</div>
             <Outlet />
         </>
     )
 }
 
-export default HrmDashboard
+export default ManagerForm

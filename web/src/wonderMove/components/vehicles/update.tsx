@@ -7,30 +7,28 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface VehicleDetails {
-    number: string;
+    number: string
 }
 
 interface UpdateVehicleProps {
-    vehicleDetails: any;
+    vehicleDetails: any
 }
 const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
     const [number, setNumber] = useState()
     const navigate = useNavigate()
     const { handleSubmit, control, getValues, reset } = useForm({
-        defaultValues: vehicleDetails,
+        defaultValues: vehicleDetails
     })
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    
+
     useEffect(() => {
         setNumber(vehicleDetails.number)
         reset(vehicleDetails)
     }, [vehicleDetails])
 
     const onSubmit: SubmitHandler<VehicleDetails> = (vehicle) => {
-        // @ts-ignore
-        updateVehicle(number, JSON.stringify(vehicle)).then(() =>
-            setOpenSuccessDialog(true)
-        )
+        
+        updateVehicle(number, JSON.stringify(vehicle)).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)
@@ -39,11 +37,11 @@ const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FormFields control={control} listValues={undefined}/>
+                <FormFields control={control} listValues={undefined} />
                 <div
                     style={{
                         display: 'flex',
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                     }}
                 >
                     <Button

@@ -6,7 +6,7 @@ import SearchVehicle from './searchVehicle.tsx'
 import Vehicle from './view.tsx'
 
 interface VehicleListProps {}
-const   VehicleList: React.FC<VehicleListProps> = () => {
+const VehicleList: React.FC<VehicleListProps> = () => {
     const navigate = useNavigate()
     const [vehicles, setVehicles] = useState<string[]>([])
     const [selectedVehicle, setSelectedVehicle] = useState([0])
@@ -22,14 +22,10 @@ const   VehicleList: React.FC<VehicleListProps> = () => {
                 style={{
                     marginBottom: '30px',
                     display: 'flex',
-                    justifyContent: 'right',
+                    justifyContent: 'right'
                 }}
             >
-                <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={() => navigate('create')}
-                >
+                <Button color="primary" variant="contained" onClick={() => navigate('create')}>
                     Add New Vehicle
                 </Button>
             </div>

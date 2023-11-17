@@ -15,16 +15,16 @@ import { overrideStop } from '../../services/stops.ts'
 import AlertDialog from '../confirmationDialog.tsx'
 
 interface ModalUpdateReasonProps {
-    open: boolean;
-    selectedRow: Array<any>;
-    setSelectedRow: (row: any) => void;
-    tableState: any;
+    open: boolean
+    selectedRow: Array<any>
+    setSelectedRow: (row: any) => void
+    tableState: any
 }
 const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     open,
     selectedRow,
     setSelectedRow,
-    tableState,
+    tableState
 }) => {
     const [expandedRow, setExpandedRow] = useState<any | null>(null)
     const [remainingStop, setRemainingStop] = useState<any>()
@@ -32,9 +32,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     const [gpsStopId, setGpsStopId] = useState(null)
     let sortedRows: any
     if (selectedRow && selectedRow.length > 0) {
-        sortedRows = selectedRow
-            .slice()
-            .sort((a: any, b: any) => a.startTime - b.startTime)
+        sortedRows = selectedRow.slice().sort((a: any, b: any) => a.startTime - b.startTime)
     }
     const handleModalClose = () => setSelectedRow(null)
     const handleAccordionClose = () => {
@@ -50,13 +48,15 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
         setOpenAlertDialog(true)
     }
     const handleAgree = () => {
-        overrideStop(gpsStopId, remainingStop).then(() => {
-            setOpenAlertDialog(false)
-            tableState()
-        }).catch(() => {
-            setOpenAlertDialog(false)
-            alert("Can't able to delete")
-        })
+        overrideStop(gpsStopId, remainingStop)
+            .then(() => {
+                setOpenAlertDialog(false)
+                tableState()
+            })
+            .catch(() => {
+                setOpenAlertDialog(false)
+                alert("Can't able to delete")
+            })
     }
 
     const style = {
@@ -68,7 +68,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
-        p: 4,
+        p: 4
     }
     return (
         <>
@@ -80,27 +80,21 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
-                    timeout: 500,
+                    timeout: 500
                 }}
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                        <Typography
-                            id="transition-modal-title"
-                            variant="h6"
-                            component="h2"
-                        >
+                        <Typography id="transition-modal-title" variant="h6" component="h2">
                             Details
                         </Typography>
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ mt: 2 }}
-                        >
+                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                             {sortedRows.map((row: any, index: number) => (
                                 <React.Fragment key={row.id}>
                                     <TableRow
                                         key={row.id}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
                                         <TableCell> {index + 1} </TableCell>
                                         <TableCell align="left">
                                             {epochToDate(row.startTime)}
@@ -109,19 +103,23 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                             {epochToDate(row.endTime)}
                                         </TableCell>
                                         <TableCell align="left">
-                                            {formatDuration(
-                                                row.durationInMillis
-                                            )}
+                                            {formatDuration(row.durationInMillis)}
                                         </TableCell>
+                                        <TableCell align="left">{row.reason.name}</TableCell>
                                         <TableCell align="left">
-                                            {row.reason.name}
-                                        </TableCell>
-                                        <TableCell align="left">
-                                            <Button onClick={() => splitStopAccordion(row.id)}> Split </Button>
+                                            <Button onClick={() => splitStopAccordion(row.id)}>
+                                                {' '}
+                                                Split{' '}
+                                            </Button>
                                         </TableCell>
                                         {sortedRows.length > 1 && (
                                             <TableCell align="left">
-                                                <Button onClick={() => handleDeleteClick(row, index)}> Delete </Button>
+                                                <Button
+                                                    onClick={() => handleDeleteClick(row, index)}
+                                                >
+                                                    {' '}
+                                                    Delete{' '}
+                                                </Button>
                                             </TableCell>
                                         )}
                                     </TableRow>

@@ -4,16 +4,14 @@ import { getCustomerDetails } from '../../services/customer'
 import UpdateCustomer from './update.tsx'
 
 interface CustomerProps {
-    number: any;
+    number: any
 }
 
-interface CustomerDetails {
-}
+interface CustomerDetails {}
 const Customer: React.FC<CustomerProps> = ({ number }) => {
     const [customerDetails, setCustomerDetails] = useState<CustomerDetails | undefined>()
     const updateCustomerList = () => {
-        getCustomerDetails(number)
-            .then(setCustomerDetails)
+        getCustomerDetails(number).then(setCustomerDetails)
     }
     useEffect(updateCustomerList, [number])
     return (
@@ -27,7 +25,7 @@ const Customer: React.FC<CustomerProps> = ({ number }) => {
     )
 }
 Customer.propTypes = {
-    number: PropTypes.string,
+    number: PropTypes.string
 }
 
 export default Customer

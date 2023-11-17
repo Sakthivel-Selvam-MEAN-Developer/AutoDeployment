@@ -7,11 +7,11 @@ import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
 interface DrawerListItemProps {
-    text: string;
-    drawerState: boolean;
-    index: number;
-    navigate: string;
-    icon: ReactElement;
+    text: string
+    drawerState: boolean
+    index: number
+    navigate: string
+    icon: ReactElement
 }
 const DrawerListItem: FC<DrawerListItemProps> = ({ text, drawerState, index, navigate, icon }) => {
     const navigateFunction = useNavigate()
@@ -21,7 +21,7 @@ const DrawerListItem: FC<DrawerListItemProps> = ({ text, drawerState, index, nav
                 sx={{
                     minHeight: 48,
                     justifyContent: drawerState ? 'initial' : 'center',
-                    px: 2.5,
+                    px: 2.5
                 }}
                 onClick={() => navigateFunction(navigate)}
             >
@@ -29,16 +29,13 @@ const DrawerListItem: FC<DrawerListItemProps> = ({ text, drawerState, index, nav
                     sx={{
                         minWidth: 0,
                         mr: drawerState ? 3 : 'auto',
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                     }}
                     title={text}
                 >
                     {icon}
                 </ListItemIcon>
-                <ListItemText
-                    primary={<div>{text}</div>}
-                    sx={{ opacity: drawerState ? 1 : 0 }}
-                />
+                <ListItemText primary={<div>{text}</div>} sx={{ opacity: drawerState ? 1 : 0 }} />
             </ListItemButton>
         </ListItem>
     )
@@ -49,7 +46,7 @@ DrawerListItem.propTypes = {
     drawerState: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     icon: PropTypes.element.isRequired,
-    navigate: PropTypes.string.isRequired,
+    navigate: PropTypes.string.isRequired
 }
 
 export default DrawerListItem

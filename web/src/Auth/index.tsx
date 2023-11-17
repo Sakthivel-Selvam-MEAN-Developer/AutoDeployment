@@ -1,7 +1,7 @@
-import {Auth0Provider} from '@auth0/auth0-react';
-import {ChildrenProps} from "./childrenProps.tsx";
+import { Auth0Provider } from '@auth0/auth0-react'
+import { ChildrenProps } from './childrenProps.tsx'
 
-const Auth = ({children}: ChildrenProps) => {
+const Auth = ({ children }: ChildrenProps) => {
     {
         return (
             <Auth0Provider
@@ -15,7 +15,5 @@ const Auth = ({children}: ChildrenProps) => {
             </Auth0Provider>
         )
     }
-
 }
 export default Auth
-

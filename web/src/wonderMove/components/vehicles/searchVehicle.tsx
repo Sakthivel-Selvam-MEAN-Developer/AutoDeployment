@@ -2,8 +2,8 @@ import { Autocomplete, TextField } from '@mui/material'
 import { useState, ChangeEvent } from 'react'
 
 interface SearchVehicleProps {
-    vehicles: any[];
-    onSelect: (selectedVehicle: any) => void;
+    vehicles: any[]
+    onSelect: (selectedVehicle: any) => void
 }
 const SearchVehicle: React.FC<SearchVehicleProps> = ({ vehicles, onSelect }) => {
     const [value, setValue] = useState<any | null>(null)
@@ -22,16 +22,16 @@ const SearchVehicle: React.FC<SearchVehicleProps> = ({ vehicles, onSelect }) => 
             value={value}
             options={vehicles}
             onChange={onChange}
-            renderInput={(params) => 
+            renderInput={(params) => (
                 <TextField
                     {...params}
                     label="Search vehicle by number to act on it"
                     InputProps={{
                         ...params.InputProps,
-                        type: 'search',
+                        type: 'search'
                     }}
                 />
-            }
+            )}
         />
     )
 }

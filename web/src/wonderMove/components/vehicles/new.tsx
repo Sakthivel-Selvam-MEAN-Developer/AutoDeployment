@@ -13,9 +13,7 @@ export const NewVehicle = () => {
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        createVehicle(JSON.stringify(data)).then(() =>
-            setOpenSuccessDialog(true)
-        )
+        createVehicle(JSON.stringify(data)).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)
@@ -28,7 +26,7 @@ export const NewVehicle = () => {
                 <div
                     style={{
                         display: 'flex',
-                        justifyContent: 'center',
+                        justifyContent: 'center'
                     }}
                 >
                     <Button

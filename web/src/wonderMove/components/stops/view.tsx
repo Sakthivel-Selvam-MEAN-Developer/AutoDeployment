@@ -4,7 +4,7 @@ import { getStopsByVehicle } from '../../services/stops'
 import StopList from './show.js'
 
 interface StopsProps {
-    number: any;
+    number: any
 }
 const Stops: React.FC<StopsProps> = ({ number }) => {
     const [stopDetails, setStopDetails] = useState([])
@@ -19,19 +19,10 @@ const Stops: React.FC<StopsProps> = ({ number }) => {
 
     useEffect(stopList, [number, tableDataChanged])
 
-    return (
-        <>
-            {stopDetails && (
-                <StopList
-                    stopDetails={stopDetails}
-                    tableState={updateTableData}
-                />
-            )}
-        </>
-    )
+    return <>{stopDetails && <StopList stopDetails={stopDetails} tableState={updateTableData} />}</>
 }
 Stops.propTypes = {
-    number: PropTypes.any,
+    number: PropTypes.any
 }
 
 export default Stops

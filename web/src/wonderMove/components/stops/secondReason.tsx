@@ -10,13 +10,18 @@ import UpdateReason from './updateReason.tsx'
 import { overrideStop } from '../../services/stops.ts'
 
 interface SecondReasonProps {
-    row: any;
-    onClose: () => void;
-    tableState: () => void;
-    rowWithSameGpsId: any;
+    row: any
+    onClose: () => void
+    tableState: () => void
+    rowWithSameGpsId: any
 }
 
-const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, rowWithSameGpsId }) => {
+const SecondReason: React.FC<SecondReasonProps> = ({
+    row,
+    onClose,
+    tableState,
+    rowWithSameGpsId
+}) => {
     const [value, setValue] = useState<dayjs.Dayjs | null>(null)
     const [selectedReason, setSelectedReason] = useState(row.reason.id)
 
@@ -57,10 +62,14 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
                 gpsStopId,
                 stopReasonId
             }))
-        overrideStop(row.gpsStopId, [firstStop, secondStop, ...remainingRows]).then(() => {
-            tableState()
-            onClose()
-        }).catch(() => { alert("Can't able to split") })
+        overrideStop(row.gpsStopId, [firstStop, secondStop, ...remainingRows])
+            .then(() => {
+                tableState()
+                onClose()
+            })
+            .catch(() => {
+                alert("Can't able to split")
+            })
     }
 
     return (
@@ -73,12 +82,8 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
                                 <DateTimePicker
                                     value={value}
                                     onChange={setValue}
-                                    minDateTime={dayjs(
-                                        epochToDate(row.startTime)
-                                    )}
-                                    maxDateTime={dayjs(
-                                        epochToDate(row.endTime)
-                                    )}
+                                    minDateTime={dayjs(epochToDate(row.startTime))}
+                                    maxDateTime={dayjs(epochToDate(row.endTime))}
                                 />
                             </Stack>
                         </LocalizationProvider>
@@ -94,11 +99,7 @@ const SecondReason: React.FC<SecondReasonProps> = ({ row, onClose, tableState, r
                     </div>
                     <div>
                         <Button onClick={handleClose}>Close</Button>
-                        <Button
-                            autoFocus
-                            onClick={updateReason}
-                            disabled={disableUpdate}
-                        >
+                        <Button autoFocus onClick={updateReason} disabled={disableUpdate}>
                             Update
                         </Button>
                     </div>

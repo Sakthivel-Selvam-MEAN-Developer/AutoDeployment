@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react'
 import { getAllReasons } from '../../services/reason.ts'
 
 type UpdateReasonProps = {
-    stopInfo: any;
-    onSelect: (value: any) => void;
-    selectedReason: any;
-};
+    stopInfo: any
+    onSelect: (value: any) => void
+    selectedReason: any
+}
 const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selectedReason }) => {
     const [fetchReason, setFetchReason] = useState<any>([])
     useEffect(() => {
@@ -20,9 +20,7 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selecte
     return (
         <>
             <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                <InputLabel id="demo-simple-select-helper-label">
-                    Reasons
-                </InputLabel>
+                <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>
                 <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"

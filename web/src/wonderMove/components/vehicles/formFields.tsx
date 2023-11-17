@@ -3,8 +3,8 @@ import TextInput from '../../../form/TextInput.tsx'
 import DateInput from '../../../form/DateInput.tsx'
 
 interface FormFieldsProps {
-    control: any;
-    listValues: any;
+    control: any
+    listValues: any
 }
 const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
     return (
@@ -13,7 +13,7 @@ const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
                 display: 'flex',
                 gap: '10px',
                 rowGap: '10px',
-                flexWrap: 'wrap',
+                flexWrap: 'wrap'
             }}
         >
             <SelectInput
@@ -22,22 +22,9 @@ const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
                 fieldName="make"
                 label="Make"
             />
-            <TextInput 
-                control={control}
-                label="Number"
-                fieldName="number"
-            />
-            <TextInput
-                control={control}
-                label="OwnerName"
-                fieldName="ownerName"
-            />
-            <SelectInput
-                control={control}
-                listValues={['Bulker']}
-                fieldName="type"
-                label="Type"
-            />
+            <TextInput control={control} label="Number" fieldName="number" />
+            <TextInput control={control} label="OwnerName" fieldName="ownerName" />
+            <SelectInput control={control} listValues={['Bulker']} fieldName="type" label="Type" />
             <SelectInput
                 control={control}
                 listValues={['Self', 'Leased']}
@@ -49,26 +36,14 @@ const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
                 fieldName="insuranceExpiryDate"
                 label="Insurance Expiry Date"
             />
-            <DateInput
-                control={control}
-                fieldName="taxExpiryDate"
-                label="Tax Expiry Date"
-            />
-            <DateInput
-                control={control}
-                fieldName="npPermitDate"
-                label="Np Permit Date"
-            />
+            <DateInput control={control} fieldName="taxExpiryDate" label="Tax Expiry Date" />
+            <DateInput control={control} fieldName="npPermitDate" label="Np Permit Date" />
             <DateInput
                 control={control}
                 fieldName="fiveYearPermitDate"
                 label="Five Year Permit Date"
             />
-            <DateInput
-                control={control}
-                fieldName="fcDate"
-                label="FC Date"
-            />
+            <DateInput control={control} fieldName="fcDate" label="FC Date" />
         </div>
     )
 }

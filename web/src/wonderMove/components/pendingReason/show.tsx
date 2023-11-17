@@ -8,12 +8,12 @@ import Paper from '@mui/material/Paper'
 import { useNavigate } from 'react-router-dom'
 
 interface PendingStop {
-    number: string;
-    _count: number;
+    number: string
+    _count: number
 }
 
 interface Props {
-    pendingStops: PendingStop[];
+    pendingStops: PendingStop[]
 }
 const PendingStops: React.FC<Props> = ({ pendingStops }) => {
     const navigate = useNavigate()
@@ -33,15 +33,13 @@ const PendingStops: React.FC<Props> = ({ pendingStops }) => {
                     <TableBody>
                         {sortedStops.map((row, index) => (
                             <TableRow
-                                onClick={() =>
-                                    navigate(`details/${row.number}`)
-                                }
+                                onClick={() => navigate(`details/${row.number}`)}
                                 key={index}
                                 style={{ cursor: 'pointer' }}
                                 sx={{
                                     '&:last-child td, &:last-child th': {
-                                        border: 0,
-                                    },
+                                        border: 0
+                                    }
                                 }}
                             >
                                 <TableCell> {index + 1} </TableCell>
