@@ -44,7 +44,6 @@ const PendingStops: React.FC<Props> = ({ pendingStops }) => {
                             >
                                 <TableCell> {index + 1} </TableCell>
                                 <TableCell align="left">{row.number}</TableCell>
-                                {/*@ts-ignore*/}
                                 <TableCell align="left">{row._count}</TableCell>
                             </TableRow>
                         ))}

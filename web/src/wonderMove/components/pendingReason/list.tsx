@@ -7,7 +7,6 @@ const PendingList: React.FC<PendingListProps> = () => {
     const [pendingStops, setPendingStops] = useState([])
 
     useEffect(() => {
-        // @ts-ignore
         pendingStopReason().then(setPendingStops)
     }, [])
 

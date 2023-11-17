@@ -8,12 +8,13 @@ import Vehicle from './view.tsx'
 interface VehicleListProps {}
 const VehicleList: React.FC<VehicleListProps> = () => {
     const navigate = useNavigate()
-    const [vehicles, setVehicles] = useState<string[]>([])
+    const [vehicles, setVehicles] = useState([])
     const [selectedVehicle, setSelectedVehicle] = useState([0])
 
     useEffect(() => {
-        // @ts-ignore
-        getVehicles().then(setVehicles.toString())
+        getVehicles().then((data) => {
+            setVehicles(data)
+        })
     }, [])
 
     return (

@@ -21,7 +21,6 @@ const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
         sortedDetails = pendingDetails.slice().sort((a: any, b: any) => a.startTime - b.startTime)
     }
     useEffect(() => {
-        // @ts-ignore
         getAllReasons().then(setFetchReason)
     }, [])
 

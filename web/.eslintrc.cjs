@@ -19,7 +19,6 @@ module.exports = {
         'max-depth': ['error', 3],
         'max-lines-per-function': ['warn', 30],
         'import/prefer-default-export': 0,
-        '@typescript-eslint/no-explicit-any': 'warn',
-        "max-warnings" : 2
+        '@typescript-eslint/no-explicit-any': 'warn'
     }
 }

@@ -24,7 +24,6 @@ const ReasonList: React.FC = () => {
     const [message, setMessage] = useState<string>('')
 
     useEffect(() => {
-        // @ts-ignore
         getAllReasons().then(setReason)
     }, [refreshData])
 

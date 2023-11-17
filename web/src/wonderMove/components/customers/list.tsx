@@ -12,8 +12,7 @@ const CustomerList: React.FC<CustomerListProps> = () => {
     const [selectedCustomer, setSelectedCustomer] = useState()
 
     useEffect(() => {
-        // @ts-ignore
-        getCustomers().then(setCustomers.toString())
+        getCustomers().then(setCustomers)
     }, [])
 
     return (

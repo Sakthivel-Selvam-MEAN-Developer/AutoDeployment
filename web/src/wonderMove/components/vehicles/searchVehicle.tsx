@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from '@mui/material'
-import { useState, ChangeEvent } from 'react'
+import { useState } from 'react'
 
 interface SearchVehicleProps {
     vehicles: any[]
@@ -8,7 +8,7 @@ interface SearchVehicleProps {
 const SearchVehicle: React.FC<SearchVehicleProps> = ({ vehicles, onSelect }) => {
     const [value, setValue] = useState<any | null>(null)
 
-    const onChange = (_event: ChangeEvent<{}>, newValue: any | null) => {
+    const onChange = (_event: any, newValue: any | null) => {
         setValue(newValue)
         if (newValue) {
             onSelect(newValue)
@@ -20,7 +20,7 @@ const SearchVehicle: React.FC<SearchVehicleProps> = ({ vehicles, onSelect }) => 
             freeSolo
             disableClearable
             value={value}
-            options={vehicles}
+            options={vehicles.map((e) => e.number)}
             onChange={onChange}
             renderInput={(params) => (
                 <TextField

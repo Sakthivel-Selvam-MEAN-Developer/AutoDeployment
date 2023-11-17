@@ -18,7 +18,6 @@ const EmployeeList: React.FC = () => {
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
 
     useEffect(() => {
-        // @ts-ignore
         getAllLeaveWithStatus().then(setAllLeave)
     }, [])
     const handleListItemClick = (rowId: number) => {

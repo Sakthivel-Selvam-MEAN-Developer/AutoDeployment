@@ -13,7 +13,7 @@ interface UpdateCustomerProps {
     customerDetails: any
 }
 const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
-    const [name, setName] = useState()
+    const [name, setName] = useState('')
     const { handleSubmit, control, getValues, reset } = useForm({
         defaultValues: customerDetails
     })
@@ -24,7 +24,6 @@ const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
     }, [customerDetails])
 
     const onSubmit: SubmitHandler<CustomerDetails> = (customer) => {
-        // @ts-ignore
         updateCustomer(name, JSON.stringify(customer)).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {
@@ -33,7 +32,7 @@ const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FormFields control={control} listValues={undefined} />
+                <FormFields control={control} />
                 <div
                     style={{
                         display: 'flex',

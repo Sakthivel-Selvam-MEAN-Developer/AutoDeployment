@@ -5,11 +5,10 @@ import { useParams } from 'react-router-dom'
 
 interface DetailsProps {}
 const Details: React.FC<DetailsProps> = () => {
-    const { number } = useParams()
+    const { number }: any = useParams()
     const [pendingDetails, setPendingDetails] = useState()
 
     useEffect(() => {
-        // @ts-ignore
         allPendingSRforSingleVehicle(number).then(setPendingDetails)
     }, [number])
 

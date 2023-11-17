@@ -13,7 +13,6 @@ type UpdateReasonProps = {
 const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selectedReason }) => {
     const [fetchReason, setFetchReason] = useState<any>([])
     useEffect(() => {
-        // @ts-ignore
         getAllReasons().then(setFetchReason)
     }, [stopInfo])
 

@@ -32,7 +32,6 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
     const [allReasons, setAllReasons] = useState([])
 
     useEffect(() => {
-        // @ts-ignore
         getAllReasons().then(setAllReasons)
     }, [])
 

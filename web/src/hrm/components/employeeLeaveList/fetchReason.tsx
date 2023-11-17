@@ -14,7 +14,6 @@ const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {
     const [fetchReason, setFetchReason] = useState<any>([])
 
     useEffect(() => {
-        // @ts-ignore
         getAllLeaveReasons().then(setFetchReason)
     }, [])
 

@@ -27,7 +27,6 @@ const ManagerFormList: React.FC = () => {
     const [rejectionReason, setRejectionReason] = useState('')
 
     useEffect(() => {
-        // @ts-ignore
         getAllLeaveAfterApply().then(setAllList)
     }, [])
     const rejectClick = (row: any) => {

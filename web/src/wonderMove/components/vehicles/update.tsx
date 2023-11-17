@@ -27,7 +27,6 @@ const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
     }, [vehicleDetails])
 
     const onSubmit: SubmitHandler<VehicleDetails> = (vehicle) => {
-        
         updateVehicle(number, JSON.stringify(vehicle)).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {

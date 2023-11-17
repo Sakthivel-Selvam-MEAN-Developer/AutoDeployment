@@ -1,5 +1,11 @@
 import seedEmployeeLeave from '../seed/leaves.ts'
-import { approvedLeaves, create, getAllLeave, leavesBeforeApproval, rejectedLeaves } from './leaves.ts'
+import {
+    approvedLeaves,
+    create,
+    getAllLeave,
+    leavesBeforeApproval,
+    rejectedLeaves
+} from './leaves.ts'
 
 describe('Employee Leave Form model', () => {
     test('should able to access', async () => {
