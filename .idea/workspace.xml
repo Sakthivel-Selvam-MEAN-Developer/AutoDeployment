@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.husky/pre-commit" beforeDir="false" afterPath="$PROJECT_DIR$/.husky/pre-commit" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.env.ci" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/customers/update.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/customers/update.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/searchVehicle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/searchVehicle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/update.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/update.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,32 +47,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "js.last.introduce.type": "CONST",
-    "js.linters.configure.manually.selectedeslint": "true",
-    "last_opened_file_path": "/Users/de/work/wonderWhy/backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/de/work/wonderWhy/node_modules/prettier",
-    "rest.client.default.execution.environment": "dev",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "ts.external.directory.path": "/Users/de/work/wonderWhy/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
+    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/de/work/wonderWhy/backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/de/work/wonderWhy/node_modules/prettier&quot;,
+    &quot;rest.client.default.execution.environment&quot;: &quot;dev&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/de/work/wonderWhy/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend" />
@@ -132,34 +128,6 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <method v="2" />
-    </configuration>
-    <configuration name="ktTelematics | toll data" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/ktTelematics.http" index="3" requestIdentifier="toll data" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="ktTelematics | user" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/ktTelematics.http" index="2" requestIdentifier="user" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="loconav | Alerts" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" index="3" requestIdentifier="Alerts" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="loconav | Get vehicle history" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" requestIdentifier="Get vehicle history" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="loconav | Get vehicle list" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" index="2" requestIdentifier="Get vehicle list" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="WonderWhy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="WonderWhy" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
       <module name="WonderWhy" />
@@ -221,6 +189,21 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <method v="2" />
     </configuration>
+    <configuration name="ktTelematics | toll data" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/ktTelematics.http" index="3" requestIdentifier="toll data" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="ktTelematics | user" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/ktTelematics.http" index="2" requestIdentifier="user" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="loconav | Alerts" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" index="3" requestIdentifier="Alerts" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="loconav | Get vehicle history" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" requestIdentifier="Get vehicle history" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="loconav | Get vehicle list" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" index="2" requestIdentifier="Get vehicle list" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="HTTP Request.ktTelematics | toll data" />
@@ -251,6 +234,8 @@
       <workItem from="1699951746498" duration="17427000" />
       <workItem from="1700047899844" duration="15000" />
       <workItem from="1700281763721" duration="2731000" />
+      <workItem from="1700309956255" duration="135000" />
+      <workItem from="1700310211699" duration="15000" />
     </task>
     <servers />
   </component>
