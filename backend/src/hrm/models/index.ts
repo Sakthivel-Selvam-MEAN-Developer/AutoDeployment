@@ -1,6 +1,5 @@
-// eslint-disable-next-line
-import { PrismaClient } from '@prisma/client-hrm'
+import { PrismaClient } from '@prisma/client'
 
-const prismaHrm = new PrismaClient()
+const prisma = new PrismaClient()
 
-export default prismaHrm
+export default prisma

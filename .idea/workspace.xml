@@ -5,26 +5,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/auth/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/LoginButton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/Wrapper.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/childrenProps.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/Auth/ory/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/src/app.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/prisma/ReadMe.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/auth.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231008073658_init_tables/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231106103445_change_leaves/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231109080955_added_approvalcolumn/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231114114601_added_comments/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231116115323_maps_leaves_and_employee/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231117125216_removed_name_field_in_leaves/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/migration_lock.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/schema.prisma" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826123212_init/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826123440_remove_address_id_from_cuatomer/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826124151_remove_address_from_person/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826142721_add_uniq_constrain_on_name/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826144216_change_relation_to_customer_to_person_as_one_to_one/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230829041226_change/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230831050512_relating_stops/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230906041011_change_datatype_of_duration/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230916124137_alter_stops_start_and_end_to_epoc/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230930103105_add_traccar_device/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231001123648_add_gap_stops/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231004050301_alter_stops_model/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231004070138_change_data_type_of_latitude_to_float/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231005135757_add_uniq_constraint_for_vehicle_stop/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231007054135_rename_field_to_be_singulaer/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231007054329_alter_vehicle_in_gps_stop/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231007055902_alter_stop_resons_in_stops/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231028113114_add_loconav_movements/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231028120709_rename_device_id_field/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231028123235_rename_device_id_field/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231102111358_created_kt_telematics_table/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/migration_lock.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docker/init.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/secrets/wondermove.kdbx" beforeDir="false" afterPath="$PROJECT_DIR$/secrets/wondermove.kdbx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,11 +92,11 @@
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Rebasing main",
+    "git-widget-placeholder": "main",
     "go.import.settings.migrated": "true",
     "js.last.introduce.type": "CONST",
     "js.linters.configure.manually.selectedeslint": "true",
-    "last_opened_file_path": "/Users/de/work/wonderWhy",
+    "last_opened_file_path": "/Users/de/work/wonderWhy/backend/src/hrm/models",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -92,21 +113,60 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/src/hrm/models" />
       <recent name="$PROJECT_DIR$/backend/src/wonderMove/models" />
       <recent name="$PROJECT_DIR$/backend/src/wonderMove/seed" />
       <recent name="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations" />
       <recent name="$PROJECT_DIR$/backend/src/subContracts" />
-      <recent name="$PROJECT_DIR$/backend/src/hrm" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/web/src/Auth" />
-      <recent name="$PROJECT_DIR$/web/src" />
+      <recent name="$PROJECT_DIR$/backend/src/subContracts" />
       <recent name="$PROJECT_DIR$/backend" />
       <recent name="$PROJECT_DIR$/backend/src" />
-      <recent name="$PROJECT_DIR$/backend/src/wonderMove" />
+      <recent name="$PROJECT_DIR$/web/src/Auth" />
+      <recent name="$PROJECT_DIR$/web/src" />
     </key>
   </component>
   <component name="RunManager" selected="HTTP Request.ktTelematics | toll data">
+    <configuration default="true" type="DjangoTestsConfigurationType">
+      <module name="WonderWhy" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="WonderWhy" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="WonderWhy" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <configuration name="ktTelematics | toll data" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/ktTelematics.http" index="3" requestIdentifier="toll data" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -120,6 +180,79 @@
       <method v="2" />
     </configuration>
     <configuration name="loconav | Get vehicle list" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" index="2" requestIdentifier="Get vehicle list" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="WonderWhy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="WonderWhy" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <module name="WonderWhy" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="WonderWhy" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Python.FlaskServer">
+      <module name="WonderWhy" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="WonderWhy" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <method v="2" />
     </configuration>
     <recent_temporary>

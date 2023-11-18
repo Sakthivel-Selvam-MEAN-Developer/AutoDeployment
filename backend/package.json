@@ -46,19 +46,15 @@
         "build": "tsc && vite build",
         "preview": "vite preview",
         "lint": "eslint ./src --max-warnings 157",
-        "prismaGenMove": "prisma migrate dev --schema=./src/wonderMove/prisma/schema.prisma --create-only --name ",
-        "prismaGenCheckMove": "prisma migrate status --schema=./src/wonderMove/prisma/schema.prisma ",
-        "prismaUpMove": "prisma generate --schema=./src/wonderMove/prisma/schema.prisma",
-        "prismaMigrateDevMove": "prisma migrate deploy --schema=./src/wonderMove/prisma/schema.prisma",
-        "prismaMigrateTestMove": "dotenv -e .env.test -- prisma migrate deploy --schema=./src/wonderMove/prisma/schema.prisma",
+        "pris": "yarn prismaUp; yarn prismaMigrateDev; yarn prismaMigrateTest",
+        "prismaGen": "prisma migrate dev --create-only --name ",
+        "prismaGenCheck": "prisma migrate status ",
+        "prismaUp": "prisma generate",
+        "prismaMigrateDev": "prisma migrate deploy",
+        "prismaMigrateTest": "dotenv -e .env.test -- prisma migrate deploy",
         "migrateCIDb": "dotenv -e .env.ci -- prisma migrate deploy",
         "test": "dotenv -e .env.test -- jest --watch --runInBand",
         "t": "dotenv -e .env.test -- jest --watch",
-        "format": "prettier -c src",
-        "prismaMove": "yarn prismaUpMove; yarn prismaMigrateDevMove; yarn prismaMigrateTestMove",
-        "prismaHrm": "prisma generate --schema=./src/hrm/prisma/schema.prisma",
-        "prismaHrmDev": "prisma migrate dev --schema=./src/hrm/prisma/schema.prisma --create-only --name",
-        "prismaHrmDeploy": "prisma migrate deploy --schema=./src/hrm/prisma/schema.prisma",
-        "prismaHrmTest": "dotenv -e .env.test -- prisma migrate deploy --schema=./src/hrm/prisma/schema.prisma"
+        "format": "prettier -c src"
     }
 }

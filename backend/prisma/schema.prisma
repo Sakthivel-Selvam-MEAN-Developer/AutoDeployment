@@ -1,12 +1,13 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions"]
+  previewFeatures = ["postgresqlExtensions", "multiSchema"]
 }
 
 datasource db {
   provider   = "postgresql"
-  url        = env("MOVE_DATABASE_URL")
+  url        = env("DATABASE_URL")
   extensions = [postgis, timescaledb]
+  schemas    = ["wonderMove", "peopleOrg", "identity"]
 }
 
 model customers {
@@ -31,6 +32,8 @@ model customers {
   pincode         BigInt?
   state           String?
   city            String?
+
+  @@schema("wonderMove")
 }
 
 model people {
@@ -41,6 +44,8 @@ model people {
   createdAt DateTime   @default(now()) @db.Timestamptz(6)
   updatedAt DateTime   @updatedAt @db.Timestamptz(6)
   customers customers?
+
+  @@schema("wonderMove")
 }
 
 model vehicles {
@@ -62,6 +67,8 @@ model vehicles {
   vehicleMovements    vehicleMovements[]
   loconavDevice       loconavDevice?
   ktTelematicsDevice  ktTelematicsDevice?
+
+  @@schema("wonderMove")
 }
 
 model traccarDevice {
@@ -71,6 +78,8 @@ model traccarDevice {
   vehicle   vehicles @relation(fields: [vehicleId], references: [id])
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
+
+  @@schema("wonderMove")
 }
 
 model loconavDevice {
@@ -81,6 +90,8 @@ model loconavDevice {
   vehicle         vehicles @relation(fields: [vehicleId], references: [id])
   createdAt       DateTime @default(now()) @db.Timestamptz(6)
   updatedAt       DateTime @updatedAt @db.Timestamptz(6)
+
+  @@schema("wonderMove")
 }
 
 model ktTelematicsDevice {
@@ -91,6 +102,8 @@ model ktTelematicsDevice {
   vehicle              vehicles @relation(fields: [vehicleId], references: [id])
   createdAt            DateTime @default(now()) @db.Timestamptz(6)
   updatedAt            DateTime @updatedAt @db.Timestamptz(6)
+
+  @@schema("wonderMove")
 }
 
 model stopReasons {
@@ -99,6 +112,8 @@ model stopReasons {
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
   stops     stops[]  @relation
+
+  @@schema("wonderMove")
 }
 
 model stops {
@@ -113,6 +128,8 @@ model stops {
   gpsStopId        Int
   createdAt        DateTime    @default(now()) @db.Timestamptz(6)
   updatedAt        DateTime    @updatedAt @db.Timestamptz(6)
+
+  @@schema("wonderMove")
 }
 
 model gpsStops {
@@ -130,6 +147,7 @@ model gpsStops {
   updatedAt        DateTime @updatedAt @db.Timestamptz(6)
 
   @@unique([vehicleId, startTime], name: "vehicleStop")
+  @@schema("wonderMove")
 }
 
 model vehicleMovements {
@@ -143,4 +161,73 @@ model vehicleMovements {
   speed     Float
   vehicleId Int
   vehicle   vehicles @relation(fields: [vehicleId], references: [id])
+
+  @@schema("wonderMove")
+}
+
+model leaveReasons {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  leaves    leaves[]
+
+  @@schema("peopleOrg")
+}
+
+model leaves {
+  id            Int          @id @default(autoincrement())
+  appliedOn     Int
+  from          Int
+  to            Int
+  isFromHalfDay Boolean
+  isToHalfDay   Boolean
+  active        Boolean      @default(true)
+  approval      Boolean?
+  comments      String
+  deniedComment String?
+  leaveReasonId Int
+  leaveReason   leaveReasons @relation(fields: [leaveReasonId], references: [id])
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
+  employeesId   String?
+  employees     employees?   @relation(fields: [employeesId], references: [employeeId])
+
+  @@schema("peopleOrg")
+}
+
+model orgUnits {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  createdAt    DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime       @updatedAt @db.Timestamptz(6)
+  employees    employees[]
+  orgUnitHeads orgUnitHeads[]
+
+  @@schema("peopleOrg")
+}
+
+model employees {
+  id           Int            @id @default(autoincrement())
+  employeeId   String         @unique
+  name         String
+  jobTitle     String
+  createdAt    DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime       @updatedAt @db.Timestamptz(6)
+  orgUnitId    Int
+  orgUnit      orgUnits       @relation(fields: [orgUnitId], references: [id])
+  orgUnitHeads orgUnitHeads[]
+  leaves       leaves[]
+
+  @@schema("peopleOrg")
+}
+
+model orgUnitHeads {
+  id          Int        @id @default(autoincrement())
+  orgUnit     orgUnits?  @relation(fields: [orgUnitsId], references: [id])
+  orgHead     employees? @relation(fields: [employeesId], references: [id])
+  orgUnitsId  Int?
+  employeesId Int?
+
+  @@schema("peopleOrg")
 }

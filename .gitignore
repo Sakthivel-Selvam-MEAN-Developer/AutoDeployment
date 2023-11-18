@@ -6,3 +6,4 @@ backend/.env
 db-docker-data
 .DS_Store
 .idea/httpRequests/
+package-lock.json
