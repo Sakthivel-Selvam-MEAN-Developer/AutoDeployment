@@ -11,15 +11,18 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
 import { getAllLeaveWithStatus } from '../../services/employeeLeave'
+import config from '../../../../config'
 
-const EmployeeList: React.FC = () => {
+const LeaveList: React.FC = () => {
     const navigate = useNavigate()
     const [allLeave, setAllLeave] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
+    const employeeId = config.EMPLOYEE_ID
 
     useEffect(() => {
-        getAllLeaveWithStatus().then(setAllLeave)
+        getAllLeaveWithStatus(employeeId).then(setAllLeave)
     }, [])
+
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
     }
@@ -63,8 +66,8 @@ const EmployeeList: React.FC = () => {
                                                 {row.approval === true
                                                     ? 'Approved'
                                                     : row.approval === false
-                                                        ? 'Rejected'
-                                                        : 'Pending'}
+                                                    ? 'Rejected'
+                                                    : 'Pending'}
                                             </ListItemSecondaryAction>
                                         </React.Fragment>
                                     }
@@ -76,10 +79,10 @@ const EmployeeList: React.FC = () => {
                                             {row.approval === true
                                                 ? 'Permission Granted'
                                                 : row.approval === false
+                                                ? row.deniedComment
                                                     ? row.deniedComment
-                                                        ? row.deniedComment
-                                                        : 'No comment provided'
-                                                    : 'Pending'}
+                                                    : 'No comment provided'
+                                                : 'Pending'}
                                         </p>
                                     </Typography>
                                 )}
@@ -92,4 +95,4 @@ const EmployeeList: React.FC = () => {
         </>
     )
 }
-export default EmployeeList
+export default LeaveList

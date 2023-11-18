@@ -66,7 +66,9 @@ export default function HrmLayout() {
                     onClose={toggleDrawer('left', false)}
                     onOpen={toggleDrawer('left', true)}
                 >
-                    <MiniDrawer />
+                    <Box role="presentation" onClick={toggleDrawer('left', false)}>
+                        <MiniDrawer />
+                    </Box>
                 </SwipeableDrawer>
                 <DrawerHeader theme={theme} />
                 <Outlet />

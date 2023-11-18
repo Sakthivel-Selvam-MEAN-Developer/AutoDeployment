@@ -19,7 +19,7 @@ import { approveLeaves, getAllLeaveAfterApply, rejectLeaves } from '../../servic
 import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
 import { Done, Close } from '@mui/icons-material'
 
-const ManagerFormList: React.FC = () => {
+const ApprovalList: React.FC = () => {
     const [allList, setAllList] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
     const [rejectRow, setRejectRow] = useState<any | null>(null)
@@ -57,7 +57,7 @@ const ManagerFormList: React.FC = () => {
                         >
                             <div onClick={() => handleListItemClick(row.id)}>
                                 <ListItemText
-                                    primary={row.appliedBy}
+                                    primary={row.employeesId}
                                     secondary={
                                         <React.Fragment>
                                             <Typography
@@ -129,4 +129,4 @@ const ManagerFormList: React.FC = () => {
         </>
     )
 }
-export default ManagerFormList
+export default ApprovalList

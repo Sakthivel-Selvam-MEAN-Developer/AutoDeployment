@@ -1,4 +1,4 @@
-import { Dashboard, Badge, ThreeP, Cancel } from '@mui/icons-material'
+import { Dashboard, Badge, ThreeP } from '@mui/icons-material'
 import List from '@mui/material/List'
 import { DrawerHeader } from './drawerHeader.ts'
 import DrawerListItem from './drawerListItem.tsx'
@@ -12,25 +12,18 @@ const MiniDrawer = () => {
     return (
         <React.Fragment>
             <DrawerHeader theme={theme}>
-                <IconButton>
-                    <Cancel />
-                </IconButton>
+                <IconButton></IconButton>
             </DrawerHeader>
             <Divider />
             <List>
                 <DrawerListItem text="Dashboard" navigate="/hrm" index={0} icon={<Dashboard />} />
                 <DrawerListItem
-                    text="Manager Form"
-                    navigate="/hrm/manager"
+                    text="Approval"
+                    navigate="/hrm/approval"
                     index={2}
                     icon={<Badge />}
                 />
-                <DrawerListItem
-                    text="Employee Form"
-                    navigate="/hrm/employee"
-                    index={3}
-                    icon={<ThreeP />}
-                />
+                <DrawerListItem text="Leaves" navigate="/hrm/leaves" index={3} icon={<ThreeP />} />
             </List>
         </React.Fragment>
     )

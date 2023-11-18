@@ -28,21 +28,21 @@ const DashboardList: React.FC = () => {
         setPeriod(period)
 
         switch (period) {
-        case 'pastDay':
-            setFrom(dayjs().subtract(1, 'day').unix())
-            setTo(dayjs().unix())
-            setMillisPerDay(86400000)
-            break
-        case 'lastWeek':
-            setFrom(dayjs().subtract(1, 'week').unix())
-            setTo(dayjs().unix())
-            setMillisPerDay(7 * 86400000)
-            break
-        case 'lastMonth':
-            setFrom(dayjs().subtract(1, 'month').unix())
-            setTo(dayjs().unix())
-            setMillisPerDay(30 * 86400000)
-            break
+            case 'pastDay':
+                setFrom(dayjs().subtract(1, 'day').unix())
+                setTo(dayjs().unix())
+                setMillisPerDay(86400000)
+                break
+            case 'lastWeek':
+                setFrom(dayjs().subtract(1, 'week').unix())
+                setTo(dayjs().unix())
+                setMillisPerDay(7 * 86400000)
+                break
+            case 'lastMonth':
+                setFrom(dayjs().subtract(1, 'month').unix())
+                setTo(dayjs().unix())
+                setMillisPerDay(30 * 86400000)
+                break
         }
     }
     useEffect(() => {

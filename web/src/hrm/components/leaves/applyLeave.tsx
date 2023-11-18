@@ -3,7 +3,6 @@ import { Button, FormControlLabel, Switch, TextField } from '@mui/material'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import dayjs from 'dayjs'
 import { useState } from 'react'
-import TextInput from '../../../form/TextInput'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -11,14 +10,15 @@ import FetchReason from './fetchReason'
 import { create } from '../../services/employeeLeave'
 import { useNavigate } from 'react-router-dom'
 import SuccessDialog from '../../../wonderMove/components/SuccessDialog'
+import config from '../../../../config'
 
 interface FormData {
     appliedBy: string
 }
 
-const EmployeeFormList: React.FC = () => {
+const LeaveForm: React.FC = () => {
     const navigate = useNavigate()
-    const { control, handleSubmit } = useForm<FormData>()
+    const { handleSubmit } = useForm<FormData>()
     const [fromValue, setFromValue] = useState<dayjs.Dayjs | null>(null)
     const [toValue, setToValue] = useState<dayjs.Dayjs | null>(null)
     const [startIsHalfDay, setStartIsHalfDay] = useState(false)
@@ -27,16 +27,16 @@ const EmployeeFormList: React.FC = () => {
     const [comment, setComment] = useState('')
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
 
-    const onSubmit: SubmitHandler<FormData> = (data) => {
+    const onSubmit: SubmitHandler<FormData> = () => {
         const details = {
-            ...data,
             isFromHalfDay: startIsHalfDay,
             isToHalfDay: endIsHalfDay,
             leaveReasonId: reason,
             from: fromValue?.unix(),
             to: toValue?.unix(),
             appliedOn: dayjs().unix(),
-            comments: comment
+            comments: comment,
+            employeesId: config.EMPLOYEE_ID
         }
 
         create(JSON.stringify(details))
@@ -64,7 +64,6 @@ const EmployeeFormList: React.FC = () => {
                         flexWrap: 'wrap'
                     }}
                 >
-                    <TextInput control={control} label="Name" fieldName="appliedBy" />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             value={fromValue}
@@ -134,4 +133,4 @@ const EmployeeFormList: React.FC = () => {
     )
 }
 
-export default EmployeeFormList
+export default LeaveForm
