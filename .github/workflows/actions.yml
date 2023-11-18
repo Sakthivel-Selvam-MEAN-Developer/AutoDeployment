@@ -4,6 +4,21 @@ on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: wonderwhyci
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
@@ -20,8 +35,12 @@ jobs:
           ls ${{ github.workspace }}
       - run: pwd
       - run: yarn install
-      - run: yarn workspace backend format
-      - run: yarn workspace backend lint
-      - run: yarn workspace web lint
-      - run: yarn workspace web test
+      - run: yarn b format
+      - run: yarn u format
+      - run: yarn b lint
+      - run: yarn u lint
+      - run: yarn u test
+      - run: yarn b prismaUp
+      - run: yarn b prismaMigrateCi
+      - run: yarn b testCI
       - run: echo "🍏 This job's status is ${{ job.status }}."

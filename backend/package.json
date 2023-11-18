@@ -52,8 +52,9 @@
         "prismaUp": "prisma generate",
         "prismaMigrateDev": "prisma migrate deploy",
         "prismaMigrateTest": "dotenv -e .env.test -- prisma migrate deploy",
-        "migrateCIDb": "dotenv -e .env.ci -- prisma migrate deploy",
+        "prismaMigrateCi": "dotenv -e .env.ci -- prisma migrate deploy",
         "test": "dotenv -e .env.test -- jest --watch --runInBand",
+        "testCI": "dotenv -e .env.ci -- jest --runInBand",
         "testOnce": "dotenv -e .env.test -- jest --runInBand",
         "t": "dotenv -e .env.test -- jest --watch",
         "format": "prettier -c src"
