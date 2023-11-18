@@ -42,7 +42,7 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "lint": "eslint ./src",
+        "lint": "eslint ./src --max-warnings 157",
         "prismaGenMove": "prisma migrate dev --schema=./src/wonderMove/prisma/schema.prisma --create-only --name ",
         "prismaGenCheckMove": "prisma migrate status --schema=./src/wonderMove/prisma/schema.prisma ",
         "prismaUpMove": "prisma generate --schema=./src/wonderMove/prisma/schema.prisma",
