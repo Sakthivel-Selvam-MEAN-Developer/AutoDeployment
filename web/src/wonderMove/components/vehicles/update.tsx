@@ -3,7 +3,7 @@ import { updateVehicle } from '../../services/vehicles.ts'
 import FormFields from './formFields.tsx'
 import { Button } from '@mui/material'
 import SuccessDialog from '../SuccessDialog.tsx'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface VehicleDetails {
@@ -14,7 +14,7 @@ interface UpdateVehicleProps {
     vehicleDetails: any
 }
 const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
-    const [number, setNumber] = useState()
+    const [number, setNumber] = useState<string>('')
     const navigate = useNavigate()
     const { handleSubmit, control, getValues, reset } = useForm({
         defaultValues: vehicleDetails

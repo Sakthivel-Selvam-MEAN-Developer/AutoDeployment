@@ -27,6 +27,26 @@ const LeaveList: React.FC = () => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
     }
 
+    const gstStatus = (row: any) => {
+        if (row.approval === true) {
+            return 'Approved'
+        } else if (row.approval === false) {
+            return 'Rejected'
+        } else {
+            return 'Pending'
+        }
+    }
+
+    const getApprovalStatus = (row: any) => {
+        if (row.approval === true) {
+            return 'Permission Granted'
+        } else if (row.approval === false) {
+            return row.deniedComment ? row.deniedComment : 'No comment provided'
+        } else {
+            return 'Pending'
+        }
+    }
+
     return (
         <>
             <div
@@ -63,11 +83,7 @@ const LeaveList: React.FC = () => {
                                             {epochToMinimalDate(row.from)} &nbsp;- &nbsp;
                                             {epochToMinimalDate(row.to)}
                                             <ListItemSecondaryAction>
-                                                {row.approval === true
-                                                    ? 'Approved'
-                                                    : row.approval === false
-                                                      ? 'Rejected'
-                                                      : 'Pending'}
+                                                {gstStatus(row)}
                                             </ListItemSecondaryAction>
                                         </React.Fragment>
                                     }
@@ -75,15 +91,7 @@ const LeaveList: React.FC = () => {
                                 {selectedRow == row.id && (
                                     <Typography variant="body2">
                                         For : {row.leaveReason.name}
-                                        <p>
-                                            {row.approval === true
-                                                ? 'Permission Granted'
-                                                : row.approval === false
-                                                  ? row.deniedComment
-                                                      ? row.deniedComment
-                                                      : 'No comment provided'
-                                                  : 'Pending'}
-                                        </p>
+                                        <p>{getApprovalStatus(row)}</p>
                                     </Typography>
                                 )}
                             </div>

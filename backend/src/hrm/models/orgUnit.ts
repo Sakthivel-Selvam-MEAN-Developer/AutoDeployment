@@ -1,3 +1,3 @@
-import prisma from '../../../prisma'
+import prisma from '../../../prisma/index.ts'
 
 export const create = (data: any) => prisma.orgUnits.create({ data })

@@ -4,7 +4,7 @@ import compression from 'compression'
 import cors from 'cors'
 import morgan from 'morgan'
 import setRoutes from './setRoutes.ts'
-import { authMiddleware } from './auth'
+import { authMiddleware } from './auth/index.ts'
 
 const app = express()
 app.use(morgan('combined'))

@@ -9,8 +9,8 @@
     "apps", "web"
   ],
   "scripts": {
+    "u": "yarn workspace web",
     "ui": "yarn workspace web dev",
-    "u": "yarn workspace ui ",
     "backend": "yarn workspace backend dev",
     "b": "yarn workspace backend",
     "setUpHusky": "husky install"

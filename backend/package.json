@@ -54,6 +54,7 @@
         "prismaMigrateTest": "dotenv -e .env.test -- prisma migrate deploy",
         "migrateCIDb": "dotenv -e .env.ci -- prisma migrate deploy",
         "test": "dotenv -e .env.test -- jest --watch --runInBand",
+        "testOnce": "dotenv -e .env.test -- jest --runInBand",
         "t": "dotenv -e .env.test -- jest --watch",
         "format": "prettier -c src"
     }

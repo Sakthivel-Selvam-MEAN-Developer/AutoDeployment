@@ -1,14 +1,14 @@
 import { Autocomplete, TextField } from '@mui/material'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 interface SearchVehicleProps {
     vehicles: any[]
     onSelect: (selectedVehicle: any) => void
 }
 const SearchVehicle: React.FC<SearchVehicleProps> = ({ vehicles, onSelect }) => {
-    const [value, setValue] = useState<any | null>(null)
+    const [value, setValue] = useState<string>("")
 
-    const onChange = (_event: any, newValue: any | null) => {
+    const onChange = (_event: any, newValue: string) => {
         setValue(newValue)
         if (newValue) {
             onSelect(newValue)

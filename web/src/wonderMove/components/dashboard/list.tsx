@@ -11,9 +11,11 @@ interface DurationData {
     durationInMillis: number
     name: string
 }
+
 interface DurationEntryProps {
     durationInMillis: number
 }
+
 const DashboardList: React.FC = () => {
     const [duration, setDuration] = useState<DurationData[]>([])
     const [totalVehicles, setTotalVehicles] = useState([])

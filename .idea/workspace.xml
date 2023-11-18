@@ -5,7 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.husky/pre-commit" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/auth/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/auth/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaveReasons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaveReasons.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/web/.eslintrc.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/approvals/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/approvals/list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/leaves/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/leaves/list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/dashboard/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/dashboard/list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/searchVehicle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/searchVehicle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/update.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/update.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/services/vehicles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/services/vehicles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +73,7 @@
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Rebasing main",
     "go.import.settings.migrated": "true",
     "js.last.introduce.type": "CONST",
     "js.linters.configure.manually.selectedeslint": "true",

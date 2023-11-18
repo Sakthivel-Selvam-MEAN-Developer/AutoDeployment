@@ -1,6 +1,6 @@
 import { axiosInstance, getData } from './index.ts'
 
-export const updateVehicle = (number: number, vehicle: any) => {
+export const updateVehicle = (number: string, vehicle: any) => {
     return axiosInstance.post(`/vehicles/${number}`, vehicle)
 }
 

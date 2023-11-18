@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
     Button,
     Dialog,
@@ -19,11 +19,11 @@ import { approveLeaves, getAllLeaveAfterApply, rejectLeaves } from '../../servic
 import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
 import { Done, Close } from '@mui/icons-material'
 
-const ApprovalList: React.FC = () => {
+const ApprovalList: FC = () => {
     const [allList, setAllList] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
     const [rejectRow, setRejectRow] = useState<any | null>(null)
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
     const [rejectionReason, setRejectionReason] = useState('')
     const [refresh, setRefresh] = useState(false)
 

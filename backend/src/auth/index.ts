@@ -1,6 +1,6 @@
 import sdk from '@ory/client'
-import config from '../config.ts'
 import { NextFunction, Request, Response } from 'express'
+import config from '../config.ts'
 
 const ory = new sdk.FrontendApi(
     new sdk.Configuration({
