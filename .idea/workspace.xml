@@ -6,22 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaveReasons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaveReasons.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/customer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/gpsStop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/gpsStop.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/ktTelematicsDevice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/ktTelematicsDevice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/loconavDevice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/loconavDevice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/movement.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/movement.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/stopReason.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/stopReason.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/traccarDevice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/traccarDevice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/vehicle.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/vehicle.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
