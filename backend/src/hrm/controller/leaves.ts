@@ -22,7 +22,7 @@ export const listAllLeave = (req: Request, res: Response) => {
 export const rejectLeaves = (req: Request, res: Response) => {
     rejectedLeaves(
         parseInt(req.params.id as string, 10),
-        req.body.appliedBy,
+        req.body.employeeId,
         req.body.deniedComment
     ).then((data: any) => {
         res.status(200).json(data)
@@ -30,7 +30,7 @@ export const rejectLeaves = (req: Request, res: Response) => {
 }
 
 export const approveLeaves = (req: Request, res: Response) => {
-    approvedLeaves(parseInt(req.params.id as string, 10), req.body.appliedBy).then((data: any) => {
+    approvedLeaves(parseInt(req.params.id as string, 10), req.body.employeeId).then((data: any) => {
         res.status(200).json(data)
     })
 }

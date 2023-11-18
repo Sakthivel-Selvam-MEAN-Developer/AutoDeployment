@@ -66,8 +66,8 @@ const LeaveList: React.FC = () => {
                                                 {row.approval === true
                                                     ? 'Approved'
                                                     : row.approval === false
-                                                    ? 'Rejected'
-                                                    : 'Pending'}
+                                                      ? 'Rejected'
+                                                      : 'Pending'}
                                             </ListItemSecondaryAction>
                                         </React.Fragment>
                                     }
@@ -79,10 +79,10 @@ const LeaveList: React.FC = () => {
                                             {row.approval === true
                                                 ? 'Permission Granted'
                                                 : row.approval === false
-                                                ? row.deniedComment
-                                                    ? row.deniedComment
-                                                    : 'No comment provided'
-                                                : 'Pending'}
+                                                  ? row.deniedComment
+                                                      ? row.deniedComment
+                                                      : 'No comment provided'
+                                                  : 'Pending'}
                                         </p>
                                     </Typography>
                                 )}

@@ -12,12 +12,12 @@ describe('Employee Leave Form model', () => {
         await create(seedEmployeeLeave)
         const actual = await leavesBeforeApproval()
         expect(actual.length).toBe(1)
-        expect(actual[0].appliedBy).toBe(seedEmployeeLeave.appliedBy)
+        expect(actual[0].employeesId).toBe(seedEmployeeLeave.employees.create.employeeId)
     })
     test('should get only the rejected leave by employeeId', async () => {
         const leaveFormToDelete = await create(seedEmployeeLeave)
         const comment = { ...leaveFormToDelete, deniedComment: 'No comments' }
-        await rejectedLeaves(comment.id, comment.appliedBy, comment.deniedComment)
+        await rejectedLeaves(comment.id, comment.employeesId, comment.deniedComment)
         const actual = await getAllLeave('asdf')
         expect(actual.length).toBe(1)
         expect(actual[0].approval).toBe(false)
@@ -25,7 +25,7 @@ describe('Employee Leave Form model', () => {
     test('should get only the approved leave by employeeId', async () => {
         const leaveFormToApprove = await create(seedEmployeeLeave)
         expect(leaveFormToApprove.approval).toBe(null)
-        await approvedLeaves(leaveFormToApprove.id, leaveFormToApprove.appliedBy)
+        await approvedLeaves(leaveFormToApprove.id, leaveFormToApprove.employeesId)
         const actual = await getAllLeave('asdf')
         expect(actual.length).toBe(1)
         expect(actual[0].approval).toBe(true)

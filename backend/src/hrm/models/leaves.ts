@@ -25,11 +25,11 @@ export const getAllLeave = (employeeId: string) =>
         }
     })
 
-export const rejectedLeaves = async (id: any, appliedBy: string, comment: string) => {
+export const rejectedLeaves = async (id: any, employeeId: any, comment: string) => {
     await prisma.leaves.update({
         where: {
             id,
-            appliedBy
+            employeesId: employeeId
         },
         data: {
             approval: false,
@@ -38,14 +38,16 @@ export const rejectedLeaves = async (id: any, appliedBy: string, comment: string
     })
 }
 
-export const approvedLeaves = async (id: any, appliedBy: string) => {
+export const approvedLeaves = async (id: any, employeeId: any) => {
     await prisma.leaves.update({
         where: {
             id,
-            appliedBy
+            employeesId: employeeId
         },
         data: {
             approval: true
         }
     })
 }
+
+// export const 

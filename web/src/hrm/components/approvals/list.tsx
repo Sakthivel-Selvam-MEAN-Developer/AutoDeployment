@@ -25,25 +25,29 @@ const ApprovalList: React.FC = () => {
     const [rejectRow, setRejectRow] = useState<any | null>(null)
     const [open, setOpen] = React.useState(false)
     const [rejectionReason, setRejectionReason] = useState('')
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         getAllLeaveAfterApply().then(setAllList)
-    }, [])
+    }, [refresh])
     const rejectClick = (row: any) => {
         setRejectRow(row)
         setOpen(true)
     }
     const approveClick = (row: any) => {
-        approveLeaves(row.id, { appliedBy: row.appliedBy })
+        approveLeaves(row.id, { employeeId: row.employeeId }).then(() =>
+            setRefresh((prevState) => !prevState)
+        )
     }
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
     }
     const handleReject = (row: any) => {
-        rejectLeaves(row.id, { appliedBy: row.appliedBy, deniedComment: rejectionReason })
+        rejectLeaves(row.id, { employeeId: row.employeeId, deniedComment: rejectionReason })
             .then(() => setOpen(false))
             .then(() => setRejectionReason(''))
             .then(() => setRejectRow(null))
+            .then(() => setRefresh((prevState) => !prevState))
     }
 
     return (
