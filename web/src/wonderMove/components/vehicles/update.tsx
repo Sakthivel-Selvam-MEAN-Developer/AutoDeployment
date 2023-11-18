@@ -24,7 +24,7 @@ const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
     useEffect(() => {
         setNumber(vehicleDetails.number)
         reset(vehicleDetails)
-    }, [vehicleDetails])
+    }, [vehicleDetails, reset])
 
     const onSubmit: SubmitHandler<VehicleDetails> = (vehicle) => {
         updateVehicle(number, JSON.stringify(vehicle)).then(() => setOpenSuccessDialog(true))

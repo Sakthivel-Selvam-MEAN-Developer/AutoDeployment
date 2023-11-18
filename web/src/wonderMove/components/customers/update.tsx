@@ -3,7 +3,7 @@ import { updateCustomer } from '../../services/customer.js'
 import FormFields from './formFields.tsx'
 import { Button } from '@mui/material'
 import SuccessDialog from '../SuccessDialog.tsx'
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 interface CustomerDetails {
     name: string
@@ -12,7 +12,7 @@ interface CustomerDetails {
 interface UpdateCustomerProps {
     customerDetails: any
 }
-const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
+const UpdateCustomer: FC<UpdateCustomerProps> = ({ customerDetails }) => {
     const [name, setName] = useState('')
     const { handleSubmit, control, getValues, reset } = useForm({
         defaultValues: customerDetails
@@ -21,7 +21,7 @@ const UpdateCustomer: React.FC<UpdateCustomerProps> = ({ customerDetails }) => {
     useEffect(() => {
         setName(customerDetails.name)
         reset(customerDetails)
-    }, [customerDetails])
+    }, [customerDetails, reset])
 
     const onSubmit: SubmitHandler<CustomerDetails> = (customer) => {
         updateCustomer(name, JSON.stringify(customer)).then(() => setOpenSuccessDialog(true))

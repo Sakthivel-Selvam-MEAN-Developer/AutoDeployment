@@ -13,7 +13,8 @@
     "ui": "yarn workspace web dev",
     "backend": "yarn workspace backend dev",
     "b": "yarn workspace backend",
-    "setUpHusky": "husky install"
+    "setUpHusky": "husky install",
+    "all": "yarn u format; yarn u lint;  yarn u test; yarn b format; yarn b lint;  yarn b testOnce"
   },
   "devDependencies": {
     "husky": "^8.0.3"

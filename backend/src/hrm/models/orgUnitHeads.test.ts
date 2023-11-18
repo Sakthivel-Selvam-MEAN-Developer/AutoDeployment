@@ -1,7 +1,4 @@
-import {
-    create as createOrgHead,
-    isEmployeeInOrgUnitHeads,
-} from './orgUnitHeads.ts'
+import { create as createOrgHead, isEmployeeInOrgUnitHeads } from './orgUnitHeads.ts'
 import { create } from './orgUnit.ts'
 import { create as createEmployee } from './employee.ts'
 import seedOrgUnits from '../seed/orgUnits.ts'
@@ -21,7 +18,7 @@ describe('OrgUnitHeads', () => {
     //     const anotherOrgUnits = await create({ ...seedOrgUnits, name: 'Finance' })
     //     const orgHead = await createEmployee({ ...seedEmployee, orgUnitId: orgUnits.id })
     //     // headOfOtherOrgToExclude
-    //     await createEmployee({ ...seedEmployee, employeeId: 'abcd', orgUnitId: anotherOrgUnits.id })
+    // await createEmployee({ ...seedEmployee, employeeId: 'abcd', orgUnitId: anotherOrgUnits.id })
     //     await createOrgHead({ orgUnitsId: orgUnits.id, employeesId: orgHead.id })
     //     const actual = await orgHeadOfEmployees(orgUnits.id)
     //     expect(actual.length).toBe(1)

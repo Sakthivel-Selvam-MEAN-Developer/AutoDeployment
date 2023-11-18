@@ -6,7 +6,7 @@ interface SearchVehicleProps {
     onSelect: (selectedVehicle: any) => void
 }
 const SearchVehicle: React.FC<SearchVehicleProps> = ({ vehicles, onSelect }) => {
-    const [value, setValue] = useState<string>("")
+    const [value, setValue] = useState<string>('')
 
     const onChange = (_event: any, newValue: string) => {
         setValue(newValue)
