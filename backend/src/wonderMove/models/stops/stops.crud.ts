@@ -1,4 +1,4 @@
-import prisma from '../index.ts'
+import prisma from '../../../../prisma/index.ts'
 import { YetToBeIdentifiedReason } from '../stopReason.ts'
 
 export const create = (data: any) => prisma.stops.create({ data })

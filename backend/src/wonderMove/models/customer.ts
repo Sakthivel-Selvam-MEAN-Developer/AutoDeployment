@@ -1,4 +1,4 @@
-import prisma from './index.ts'
+import prisma from '../../../prisma/index.ts'
 
 export const create = (data: any) => prisma.customers.create({ data })
 export const fetchCustomerByName = (name: string) =>

@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client'
-import prisma from './index.ts'
+import prisma from '../../../prisma/index.ts'
 
 export const create = (data: Prisma.gpsStopsCreateInput | Prisma.gpsStopsUncheckedCreateInput) =>
     prisma.gpsStops.create({ data })

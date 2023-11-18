@@ -1,4 +1,4 @@
-import prisma from '../index.ts'
+import prisma from '../../../../prisma/index.ts'
 
 interface Stop {
     stopReasonId: number

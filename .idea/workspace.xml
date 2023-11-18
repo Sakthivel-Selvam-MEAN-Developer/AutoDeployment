@@ -5,47 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/prisma/ReadMe.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231008073658_init_tables/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231106103445_change_leaves/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231109080955_added_approvalcolumn/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231114114601_added_comments/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231116115323_maps_leaves_and_employee/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/20231117125216_removed_name_field_in_leaves/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/migrations/migration_lock.toml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/prisma/schema.prisma" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaveReasons.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaveReasons.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826123212_init/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826123440_remove_address_id_from_cuatomer/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826124151_remove_address_from_person/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826142721_add_uniq_constrain_on_name/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230826144216_change_relation_to_customer_to_person_as_one_to_one/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230829041226_change/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230831050512_relating_stops/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230906041011_change_datatype_of_duration/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230916124137_alter_stops_start_and_end_to_epoc/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20230930103105_add_traccar_device/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231001123648_add_gap_stops/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231004050301_alter_stops_model/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231004070138_change_data_type_of_latitude_to_float/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231005135757_add_uniq_constraint_for_vehicle_stop/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231007054135_rename_field_to_be_singulaer/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231007054329_alter_vehicle_in_gps_stop/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231007055902_alter_stop_resons_in_stops/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231028113114_add_loconav_movements/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231028120709_rename_device_id_field/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231028123235_rename_device_id_field/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/20231102111358_created_kt_telematics_table/migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations/migration_lock.toml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docker/init.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/gpsStop.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/gpsStop.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/ktTelematicsDevice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/ktTelematicsDevice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/loconavDevice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/loconavDevice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/movement.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/movement.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/stopReason.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/stopReason.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/traccarDevice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/traccarDevice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/wonderMove/models/vehicle.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/wonderMove/models/vehicle.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +72,7 @@
     "go.import.settings.migrated": "true",
     "js.last.introduce.type": "CONST",
     "js.linters.configure.manually.selectedeslint": "true",
-    "last_opened_file_path": "/Users/de/work/wonderWhy/backend/src/hrm/models",
+    "last_opened_file_path": "/Users/de/work/wonderWhy/backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -113,18 +89,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend" />
       <recent name="$PROJECT_DIR$/backend/src/hrm/models" />
       <recent name="$PROJECT_DIR$/backend/src/wonderMove/models" />
       <recent name="$PROJECT_DIR$/backend/src/wonderMove/seed" />
       <recent name="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations" />
-      <recent name="$PROJECT_DIR$/backend/src/subContracts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/prisma" />
       <recent name="$PROJECT_DIR$/backend/src/subContracts" />
       <recent name="$PROJECT_DIR$/backend" />
       <recent name="$PROJECT_DIR$/backend/src" />
       <recent name="$PROJECT_DIR$/web/src/Auth" />
-      <recent name="$PROJECT_DIR$/web/src" />
     </key>
   </component>
   <component name="RunManager" selected="HTTP Request.ktTelematics | toll data">
@@ -152,7 +128,7 @@
       <module name="WonderWhy" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
@@ -161,7 +137,7 @@
       <module name="WonderWhy" />
       <working_directory value="$PROJECT_DIR$" />
       <go_parameters value="-i" />
-      <kind />
+      <kind value="DIRECTORY" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
