@@ -4,32 +4,59 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a6509e4-f8cc-48ec-976a-a3cc7fdb92f2" name="Changes" comment="">
+    <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/auth/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/LoginButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/Wrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/childrenProps.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/Auth/Auth0/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/Auth/ory/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/src/app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/seed/employeeHead.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/seed/employeeHead.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/seed/employees.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/seed/employees.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/seed/leaves.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/seed/leaves.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/seed/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/seed/orgUnitHeads.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/leaves/applyLeave.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/leaves/applyLeave.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docker/init.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secrets/wondermove.kdbx" beforeDir="false" afterPath="$PROJECT_DIR$/secrets/wondermove.kdbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTTP Request" />
+        <option value="HTTP Private Environment File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HttpClientSelectedEnvironments">
+    <file url="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/requests-with-authorization.http" environment="test" />
+    <file url="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/get-requests.http" environment="test" />
+    <file url="file://$PROJECT_DIR$/apiTestBed/ktTelematics.http" environment="dev" />
+    <file url="file://$PROJECT_DIR$/apiTestBed/loconav.http" environment="dev" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2YD6qe64pDFbD2yNa5qTeSq9qZO" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectId" id="2WTno1DFxBChQZYa7He1xv31VNS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -37,50 +64,102 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/muthu/work/WonderWhy&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/muthu/work/WonderWhy/node_modules/prettier&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/muthu/work/WonderWhy/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Rebasing main",
+    "go.import.settings.migrated": "true",
+    "js.last.introduce.type": "CONST",
+    "js.linters.configure.manually.selectedeslint": "true",
+    "last_opened_file_path": "/Users/de/work/wonderWhy",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "/Users/de/work/wonderWhy/node_modules/prettier",
+    "rest.client.default.execution.environment": "dev",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "ts.external.directory.path": "/Users/de/work/wonderWhy/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
-    <key name="es6.move.members.recent.items">
-      <recent name="$PROJECT_DIR$/web/src/hrmRoutes.tsx" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/src/wonderMove/models" />
+      <recent name="$PROJECT_DIR$/backend/src/wonderMove/seed" />
+      <recent name="$PROJECT_DIR$/backend/src/wonderMove/prisma/migrations" />
+      <recent name="$PROJECT_DIR$/backend/src/subContracts" />
+      <recent name="$PROJECT_DIR$/backend/src/hrm" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web/src/Auth" />
+      <recent name="$PROJECT_DIR$/web/src" />
+      <recent name="$PROJECT_DIR$/backend" />
+      <recent name="$PROJECT_DIR$/backend/src" />
+      <recent name="$PROJECT_DIR$/backend/src/wonderMove" />
+    </key>
+  </component>
+  <component name="RunManager" selected="HTTP Request.ktTelematics | toll data">
+    <configuration name="ktTelematics | toll data" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/ktTelematics.http" index="3" requestIdentifier="toll data" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="ktTelematics | user" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/ktTelematics.http" index="2" requestIdentifier="user" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="loconav | Alerts" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" index="3" requestIdentifier="Alerts" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="loconav | Get vehicle history" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" requestIdentifier="Get vehicle history" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="loconav | Get vehicle list" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/apiTestBed/loconav.http" index="2" requestIdentifier="Get vehicle list" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.ktTelematics | toll data" />
+        <item itemvalue="HTTP Request.loconav | Get vehicle list" />
+        <item itemvalue="HTTP Request.loconav | Get vehicle history" />
+        <item itemvalue="HTTP Request.loconav | Alerts" />
+        <item itemvalue="HTTP Request.ktTelematics | user" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6a6509e4-f8cc-48ec-976a-a3cc7fdb92f2" name="Changes" comment="" />
-      <created>1700047994366</created>
+      <changelist id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="" />
+      <created>1696765610835</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1700047994366</updated>
-      <workItem from="1700047995406" duration="60000" />
-      <workItem from="1700048581816" duration="992000" />
-      <workItem from="1700050883389" duration="2240000" />
-      <workItem from="1700110199458" duration="25637000" />
-      <workItem from="1700195167871" duration="22635000" />
+      <updated>1696765610835</updated>
+      <workItem from="1696765611913" duration="652000" />
+      <workItem from="1696769028538" duration="27950000" />
+      <workItem from="1698156428027" duration="4530000" />
+      <workItem from="1698391880871" duration="16740000" />
+      <workItem from="1698467136891" duration="28647000" />
+      <workItem from="1698501901707" duration="57000" />
+      <workItem from="1698501978196" duration="7086000" />
+      <workItem from="1699036158625" duration="259000" />
+      <workItem from="1699680819415" duration="318000" />
+      <workItem from="1699951746498" duration="17427000" />
+      <workItem from="1700047899844" duration="15000" />
+      <workItem from="1700281763721" duration="2731000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -92,5 +171,19 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/apps/getMoving" />
+      <path value="$PROJECT_DIR$/apps/pncOneStop" />
+      <path value="$PROJECT_DIR$/apps/wonderSubs" />
+    </ignored-roots>
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

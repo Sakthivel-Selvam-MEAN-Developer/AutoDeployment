@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import ReactDOM from 'react-dom/client'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './theme.ts'
@@ -17,3 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </Auth>
     </>
 )
+=======
+import ReactDOM from "react-dom/client";
+import { App } from "./app.tsx";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(App);
+>>>>>>> Stashed changes

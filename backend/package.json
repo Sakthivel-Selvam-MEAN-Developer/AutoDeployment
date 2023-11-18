@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "@jest/globals": "^29.7.0",
+        "@ory/cli": "^0.2.2",
+        "@ory/client": "^1.3.0",
         "@prisma/client": "5.5.2",
         "axios": "^1.5.1",
         "compression": "^1.7.4",
@@ -40,6 +42,7 @@
     },
     "scripts": {
         "dev": "vite",
+        "proxy": "ory proxy --no-jwt --port 4000 http://localhost:3000/",
         "build": "tsc && vite build",
         "preview": "vite preview",
         "lint": "eslint ./src --max-warnings 157",
@@ -50,7 +53,7 @@
         "prismaMigrateTestMove": "dotenv -e .env.test -- prisma migrate deploy --schema=./src/wonderMove/prisma/schema.prisma",
         "migrateCIDb": "dotenv -e .env.ci -- prisma migrate deploy",
         "test": "dotenv -e .env.test -- jest --watch --runInBand",
-        "t": "dotenv -e .env.test -- jest --watch  ",
+        "t": "dotenv -e .env.test -- jest --watch",
         "format": "prettier -c src",
         "prismaMove": "yarn prismaUpMove; yarn prismaMigrateDevMove; yarn prismaMigrateTestMove",
         "prismaHrm": "prisma generate --schema=./src/hrm/prisma/schema.prisma",
