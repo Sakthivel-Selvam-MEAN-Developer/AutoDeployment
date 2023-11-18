@@ -21,7 +21,6 @@ model leaveReasons {
 
 model leaves {
   id            Int          @id @default(autoincrement())
-  appliedBy     String
   appliedOn     Int
   from          Int
   to            Int

@@ -1,4 +1,5 @@
 import reason from './reason.ts'
+import employees from './employees.ts'
 
 export default {
     appliedBy: 'raja',
@@ -8,6 +9,9 @@ export default {
     isToHalfDay: true,
     isFromHalfDay: false,
     comments: 'No comments',
+    employees: {
+        create: employees
+    },
     leaveReason: {
         create: reason
     }

@@ -20,7 +20,8 @@ export const getAllLeave = (employeeId: string) =>
             employeesId: employeeId
         },
         include: {
-            leaveReason: true
+            leaveReason: true,
+            employees: true
         }
     })
 
