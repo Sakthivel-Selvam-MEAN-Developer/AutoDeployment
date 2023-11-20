@@ -1,12 +1,17 @@
+import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (data: any) => prisma.leaves.create({ data })
+export const create = (data: Prisma.leavesCreateInput | Prisma.leavesUncheckedCreateInput) =>
+    prisma.leaves.create({ data })
 
-export const leavesBeforeApproval = () =>
+export const leavesBeforeApproval = (orgUnitId: number) =>
     prisma.leaves.findMany({
         where: {
             active: true,
-            approval: null
+            approval: null,
+            employee: {
+                orgUnitId
+            }
         },
         include: {
             leaveReason: true
@@ -17,11 +22,13 @@ export const getAllLeave = (employeeId: string) =>
     prisma.leaves.findMany({
         where: {
             active: true,
-            employeesId: employeeId
+            employee: {
+                employeeId
+            }
         },
         include: {
             leaveReason: true,
-            employees: true
+            employee: true
         }
     })
 
@@ -29,7 +36,7 @@ export const rejectedLeaves = async (id: any, employeeId: any, comment: string) 
     await prisma.leaves.update({
         where: {
             id,
-            employeesId: employeeId
+            employeeId
         },
         data: {
             approval: false,
@@ -42,12 +49,10 @@ export const approvedLeaves = async (id: any, employeeId: any) => {
     await prisma.leaves.update({
         where: {
             id,
-            employeesId: employeeId
+            employeeId
         },
         data: {
             approval: true
         }
     })
 }
-
-// export const

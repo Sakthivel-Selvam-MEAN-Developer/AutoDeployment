@@ -36,7 +36,7 @@ const LeaveForm: React.FC = () => {
             to: toValue?.unix(),
             appliedOn: dayjs().unix(),
             comments: comment,
-            employeesId: config.EMPLOYEE_ID
+            employeeId: config.EMPLOYEE_ID
         }
 
         create(JSON.stringify(details))

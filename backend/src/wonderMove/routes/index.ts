@@ -6,6 +6,7 @@ import reasonRoutes from './reason.ts'
 import jobsRoutes from './jobs.ts'
 import leaveReasonRoutes from '../../hrm/routes/leaveReasons.ts'
 import employeeLeavesRoutes from '../../hrm/routes/leaves.ts'
+import orgHeadRoutes from '../../hrm/routes/orgHeads.ts'
 // import gpsStopRoutes from './gpsStops'
 
 const router = express.Router()
@@ -19,5 +20,6 @@ jobsRoutes(router)
 
 leaveReasonRoutes(router)
 employeeLeavesRoutes(router)
+orgHeadRoutes(router)
 
 export default router
