@@ -1,6 +1,7 @@
+import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (data: any) => prisma.orgUnitHeads.create({ data })
+export const create = (data: Prisma.orgUnitHeadsCreateInput) => prisma.orgUnitHeads.create({ data })
 
 export const isEmployeeInOrgUnitHeads = async (employeeId: any) => {
     const orgUnitHead = await prisma.orgUnitHeads.findFirst({

@@ -13,7 +13,7 @@ module.exports = {
             lines: 80,
             statements: 80
         }
-    } ,
+    },
     globalSetup: './src/testUtils/autoDBSync.ts',
     setupFilesAfterEnv: ['./src/testUtils/testGlobalHooks.ts']
 }

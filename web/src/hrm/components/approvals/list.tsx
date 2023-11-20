@@ -56,7 +56,7 @@ const ApprovalList: FC = () => {
     return (
         <>
             <List>
-                {allList.map((row: any) => (
+                {allList && allList.map((row: any) => (
                     <React.Fragment key={row.id}>
                         <ListItem
                             key={row.id}
