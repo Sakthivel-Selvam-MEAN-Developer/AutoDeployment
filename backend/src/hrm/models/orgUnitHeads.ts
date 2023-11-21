@@ -14,11 +14,9 @@ export const isEmployeeInOrgUnitHeads = (employeeId: string) =>
         }
     })
 
-// export const orgHeadOfEmployees = async (orgUnitId: any) => {
-//     const orgHead = await prisma.orgUnitHeads.findMany({
-//         where: {
-//             orgUnitsId: orgUnitId
-//         }
-//     })
-//     return orgHead
-// }
+export const orgHeadOfEmployees = (orgUnitId: any) =>
+    prisma.orgUnitHeads.findFirst({
+        where: {
+            orgUnitId
+        }
+    })

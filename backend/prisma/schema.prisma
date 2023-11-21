@@ -197,12 +197,14 @@ model leaves {
 }
 
 model orgUnits {
-  id           Int            @id @default(autoincrement())
-  name         String         @unique
-  createdAt    DateTime       @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime       @updatedAt @db.Timestamptz(6)
-  employees    employees[]
-  orgUnitHeads orgUnitHeads[]
+  id                 Int                @id @default(autoincrement())
+  name               String             @unique
+  createdAt          DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(6)
+  employees          employees[]
+  orgUnitHeads       orgUnitHeads[]
+  parentOrgRelations orgUnitRelations[] @relation("ParentRelations")
+  childOrgRelations  orgUnitRelations[] @relation("ChildRelations")
 
   @@schema("peopleOrg")
 }
@@ -223,11 +225,21 @@ model employees {
 }
 
 model orgUnitHeads {
-  id          Int        @id @default(autoincrement())
-  orgUnit     orgUnits?  @relation(fields: [orgUnitsId], references: [id])
-  orgHead     employees? @relation(fields: [employeesId], references: [id])
-  orgUnitsId  Int?
-  employeesId Int?
+  id         Int        @id @default(autoincrement())
+  orgUnit    orgUnits?  @relation(fields: [orgUnitId], references: [id])
+  orgHead    employees? @relation(fields: [employeeId], references: [id])
+  orgUnitId  Int?
+  employeeId Int?
+
+  @@schema("peopleOrg")
+}
+
+model orgUnitRelations {
+  id        Int       @id @default(autoincrement())
+  parentOrg orgUnits? @relation("ParentRelations", fields: [parentOrgId], references: [id])
+  childOrg   orgUnits? @relation("ChildRelations", fields: [childOrgId], references: [id])
+  parentOrgId  Int?
+  childOrgId   Int?
 
   @@schema("peopleOrg")
 }

@@ -14,7 +14,8 @@ export const leavesPendingReview = (orgUnitId: number) =>
             }
         },
         include: {
-            leaveReason: true
+            leaveReason: true,
+            employee: true
         }
     })
 
@@ -56,3 +57,17 @@ export const approvedLeaves = async (id: any, employeeId: any) => {
         }
     })
 }
+
+export const getHeadLeave = (employeeId: any) =>
+    prisma.leaves.findMany({
+        where: {
+            active: true,
+            employee: {
+                id: employeeId
+            }
+        },
+        include: {
+            leaveReason: true,
+            employee: true
+        }
+    })

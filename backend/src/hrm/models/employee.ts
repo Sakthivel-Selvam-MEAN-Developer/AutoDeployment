@@ -2,8 +2,8 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (data: any) => prisma.employees.create({ data })
 
-export const getEmployeeOrgId = async (employeeId: any) => {
-    const orgId = await prisma.employees.findUnique({
+export const getEmployeeOrgId = (employeeId: string) =>
+    prisma.employees.findUnique({
         where: {
             employeeId
         },
@@ -11,5 +11,3 @@ export const getEmployeeOrgId = async (employeeId: any) => {
             orgUnitId: true
         }
     })
-    return orgId
-}

@@ -65,7 +65,7 @@ const ApprovalList: FC = () => {
                             >
                                 <div onClick={() => handleListItemClick(row.id)}>
                                     <ListItemText
-                                        primary={row.employeesId}
+                                        primary={row.employee.name}
                                         secondary={
                                             <React.Fragment>
                                                 <Typography

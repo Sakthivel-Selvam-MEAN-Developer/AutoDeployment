@@ -8,20 +8,9 @@ describe('OrgUnitHeads', () => {
     test('should find Employee is OrgUnitHead or not', async () => {
         const orgUnits = await create(seedOrgUnits)
         const orgHead = await createEmployee({ ...seedEmployee, orgUnitId: orgUnits.id })
-        await createOrgHead({ orgUnitsId: orgUnits.id, employeesId: orgHead.id })
+        await createOrgHead({ orgUnitId: orgUnits.id, employeeId: orgHead.id })
         const actual = await isEmployeeInOrgUnitHeads(orgHead.employeeId)
-        expect(actual?.employeesId).toBe(orgHead.id)
-        expect(actual?.orgUnitsId).toBe(orgUnits.id)
+        expect(actual?.employeeId).toBe(orgHead.id)
+        expect(actual?.orgUnitId).toBe(orgUnits.id)
     })
-    // test('should find OrgUnitHead', async () => {
-    //     const orgUnits = await create(seedOrgUnits)
-    //     const anotherOrgUnits = await create({ ...seedOrgUnits, name: 'Finance' })
-    //     const orgHead = await createEmployee({ ...seedEmployee, orgUnitId: orgUnits.id })
-    //     // headOfOtherOrgToExclude
-    // await createEmployee({ ...seedEmployee, employeeId: 'abcd', orgUnitId: anotherOrgUnits.id })
-    //     await createOrgHead({ orgUnitsId: orgUnits.id, employeesId: orgHead.id })
-    //     const actual = await orgHeadOfEmployees(orgUnits.id)
-    //     expect(actual.length).toBe(1)
-    //     expect(actual[0]?.orgUnitsId).toBe(orgUnits.id)
-    // })
 })

@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/testUtils/testSetup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/leaves.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/approvals/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/approvals/list.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +77,7 @@
     "project.structure.side.proportion": "0.0",
     "rest.client.default.execution.environment": "dev",
     "settings.editor.selected.configurable": "coverage",
-    "ts.external.directory.path": "/Users/de/work/wonderWhy/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Users/muthu/work/WonderWhy/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -167,6 +165,7 @@
       <workItem from="1700309956255" duration="135000" />
       <workItem from="1700310211699" duration="15000" />
       <workItem from="1700540128831" duration="8419000" />
+      <workItem from="1700559288993" duration="994000" />
     </task>
     <servers />
   </component>
