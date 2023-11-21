@@ -56,59 +56,60 @@ const ApprovalList: FC = () => {
     return (
         <>
             <List>
-                {allList && allList.map((row: any) => (
-                    <React.Fragment key={row.id}>
-                        <ListItem
-                            key={row.id}
-                            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                        >
-                            <div onClick={() => handleListItemClick(row.id)}>
-                                <ListItemText
-                                    primary={row.employeesId}
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography
-                                                sx={{ display: 'inline' }}
-                                                component="span"
-                                                variant="body2"
-                                                color="text.primary"
-                                            >
-                                                Duration&nbsp;: &nbsp;
-                                            </Typography>
-                                            {epochToMinimalDate(row.from)} &nbsp;- &nbsp;
-                                            {epochToMinimalDate(row.to)}
-                                        </React.Fragment>
-                                    }
-                                />
-                                {selectedRow == row.id && (
-                                    <>
-                                        <ListItemSecondaryAction>
-                                            <IconButton
-                                                aria-label="deny"
-                                                onClick={() => rejectClick(row)}
-                                            >
-                                                <Close />
-                                            </IconButton>
-                                            <IconButton
-                                                aria-label="approve"
-                                                onClick={() => approveClick(row)}
-                                            >
-                                                <Done />
-                                            </IconButton>
-                                        </ListItemSecondaryAction>
-                                        <div>
-                                            <Typography variant="body2">
-                                                For : {row.leaveReason.name}
-                                                <p>{row.comments}</p>
-                                            </Typography>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        </ListItem>
-                        <Divider variant="fullWidth" component="li" />
-                    </React.Fragment>
-                ))}
+                {allList &&
+                    allList.map((row: any) => (
+                        <React.Fragment key={row.id}>
+                            <ListItem
+                                key={row.id}
+                                sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                            >
+                                <div onClick={() => handleListItemClick(row.id)}>
+                                    <ListItemText
+                                        primary={row.employeesId}
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography
+                                                    sx={{ display: 'inline' }}
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="text.primary"
+                                                >
+                                                    Duration&nbsp;: &nbsp;
+                                                </Typography>
+                                                {epochToMinimalDate(row.from)} &nbsp;- &nbsp;
+                                                {epochToMinimalDate(row.to)}
+                                            </React.Fragment>
+                                        }
+                                    />
+                                    {selectedRow == row.id && (
+                                        <>
+                                            <ListItemSecondaryAction>
+                                                <IconButton
+                                                    aria-label="deny"
+                                                    onClick={() => rejectClick(row)}
+                                                >
+                                                    <Close />
+                                                </IconButton>
+                                                <IconButton
+                                                    aria-label="approve"
+                                                    onClick={() => approveClick(row)}
+                                                >
+                                                    <Done />
+                                                </IconButton>
+                                            </ListItemSecondaryAction>
+                                            <div>
+                                                <Typography variant="body2">
+                                                    For : {row.leaveReason.name}
+                                                    <p>{row.comments}</p>
+                                                </Typography>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </ListItem>
+                            <Divider variant="fullWidth" component="li" />
+                        </React.Fragment>
+                    ))}
             </List>
             <React.Fragment>
                 <Dialog open={open} onClose={() => setOpen(false)}>

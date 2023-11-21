@@ -19,7 +19,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "types": ["vitest/globals"]
+        "types": ["jest", "node","vitest/globals"]
     },
     "include": ["src"]
 }

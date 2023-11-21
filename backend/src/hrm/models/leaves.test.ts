@@ -11,7 +11,7 @@ import {
     approvedLeaves,
     create as createLeave,
     getAllLeave,
-    leavesBeforeApproval,
+    leavesPendingReview,
     rejectedLeaves
 } from './leaves.ts'
 
@@ -25,7 +25,7 @@ describe('Employee Leave Form model', () => {
             employeeId: employee.employeeId,
             leaveReasonId: reason.id
         })
-        const actual = await leavesBeforeApproval(employee.orgUnitId)
+        const actual = await leavesPendingReview(employee.orgUnitId)
         expect(actual.length).toBe(1)
         expect(actual[0].employeeId).toBe(employee.employeeId)
     })

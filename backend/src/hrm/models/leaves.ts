@@ -4,7 +4,7 @@ import prisma from '../../../prisma/index.ts'
 export const create = (data: Prisma.leavesCreateInput | Prisma.leavesUncheckedCreateInput) =>
     prisma.leaves.create({ data })
 
-export const leavesBeforeApproval = (orgUnitId: number) =>
+export const leavesPendingReview = (orgUnitId: number) =>
     prisma.leaves.findMany({
         where: {
             active: true,
