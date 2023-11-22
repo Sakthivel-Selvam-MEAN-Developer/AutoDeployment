@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/barathpatch.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/dashboard/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/src/hrm/components/dashboard/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/dashboard/list.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/layout/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/layout/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/leaves/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/leaves/list.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +162,7 @@
       <workItem from="1700310211699" duration="15000" />
       <workItem from="1700540128831" duration="8419000" />
       <workItem from="1700559288993" duration="994000" />
-      <workItem from="1700637908772" duration="795000" />
+      <workItem from="1700637908772" duration="2075000" />
     </task>
     <servers />
   </component>

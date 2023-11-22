@@ -7,8 +7,8 @@ import { isEmployeeHeadOfParentOrg } from '../models/orgUnitRelations.ts'
 export const employeeLeavesPerOrg = (req: any, res: any) => {
     isEmployeeInOrgUnitHeads(req.params.employeeId)
         .then((result: any) => {
-            if (result && result.orgUnitsId) {
-                return leavesPendingReview(result.orgUnitsId)
+            if (result && result.orgUnitId) {
+                return leavesPendingReview(result.orgUnitId)
             }
             return null
         })

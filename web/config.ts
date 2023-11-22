@@ -8,13 +8,13 @@ const config: Record<string, Config> = {
     dev: {
         backendUrl: 'http://192.168.29.67:3000',
         REACT_APP_ORY_URL: 'http://localhost:4000',
-        EMPLOYEE_ID: '1234'
+        EMPLOYEE_ID: 'zxcv'
     },
     test: {
         backendUrl: 'http://127.0.0.1:3001',
         backendPort: 3001,
         REACT_APP_ORY_URL: 'http://localhost:4000',
-        EMPLOYEE_ID: '1234'
+        EMPLOYEE_ID: 'zxcv'
     },
 }
 let env = 'test'

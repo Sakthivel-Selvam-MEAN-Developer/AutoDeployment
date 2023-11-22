@@ -60,6 +60,10 @@
         "testCI": "dotenv -e .env.ci -- jest --runInBand",
         "testOnce": "dotenv -e .env.test -- jest --runInBand",
         "t": "dotenv -e .env.test -- jest --watch",
-        "format": "prettier -c src"
+        "format": "prettier -c src",
+        "seedDevDb": "dotenv -e .env -- ts-node src/hrm/seed/dev/index.ts"
+    },
+    "prisma" : {
+      "seed" : "ts-node src/hrm/seed/dev/index.ts"
     }
 }
