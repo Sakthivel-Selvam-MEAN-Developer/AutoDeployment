@@ -235,11 +235,11 @@ model orgUnitHeads {
 }
 
 model orgUnitRelations {
-  id        Int       @id @default(autoincrement())
-  parentOrg orgUnits? @relation("ParentRelations", fields: [parentOrgId], references: [id])
-  childOrg   orgUnits? @relation("ChildRelations", fields: [childOrgId], references: [id])
-  parentOrgId  Int?
-  childOrgId   Int?
+  id          Int       @id @default(autoincrement())
+  parentOrg   orgUnits? @relation("ParentRelations", fields: [parentOrgId], references: [id])
+  childOrg    orgUnits? @relation("ChildRelations", fields: [childOrgId], references: [id])
+  parentOrgId Int?
+  childOrgId  Int?
 
   @@schema("peopleOrg")
 }

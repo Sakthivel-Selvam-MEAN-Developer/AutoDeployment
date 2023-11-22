@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 const HrmDashboard: React.FC = (): ReactElement => {
     return (
         <>
-            <div style={{ marginBottom: '30px' }}>PNC</div>
+            <div style={{ marginBottom: '30px' }}></div>
             <Outlet />
         </>
     )

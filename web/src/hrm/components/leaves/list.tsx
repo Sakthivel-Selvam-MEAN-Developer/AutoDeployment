@@ -7,13 +7,15 @@ import {
     ListItemText,
     Typography
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { name } from '../context'
 import { useNavigate } from 'react-router-dom'
 import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
 import { getAllLeaveWithStatus } from '../../services/employeeLeave'
 import config from '../../../../config'
 
 const LeaveList: React.FC = () => {
+    const username: any = useContext(name)
     const navigate = useNavigate()
     const [allLeave, setAllLeave] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
@@ -69,7 +71,7 @@ const LeaveList: React.FC = () => {
                         >
                             <div onClick={() => handleListItemClick(row.id)}>
                                 <ListItemText
-                                    primary={row.appliedBy}
+                                    primary={(username.displayName = row.employee.name)}
                                     secondary={
                                         <React.Fragment>
                                             <Typography

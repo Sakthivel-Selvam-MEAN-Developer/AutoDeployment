@@ -6,13 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/controller/orgUnitHeads.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/employee.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnit.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/models/orgUnitHeads.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/approvals/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/approvals/list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/barathpatch.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/dashboard/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/dashboard/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/dashboard/list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/layout/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/layout/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/hrm/components/leaves/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/hrm/components/leaves/list.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,35 +50,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "js.last.introduce.type": "CONST",
-    "js.linters.configure.manually.selectedeslint": "true",
-    "last_opened_file_path": "/Users/de/work/wonderWhy/backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/de/work/wonderWhy/node_modules/prettier",
-    "project.structure.last.edited": "Facets",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "rest.client.default.execution.environment": "dev",
-    "settings.editor.selected.configurable": "coverage",
-    "ts.external.directory.path": "/Users/muthu/work/WonderWhy/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
+    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/de/work/wonderWhy/backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/de/work/wonderWhy/node_modules/prettier&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Facets&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;rest.client.default.execution.environment&quot;: &quot;dev&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;coverage&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/muthu/work/WonderWhy/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/backend" />
@@ -166,6 +164,7 @@
       <workItem from="1700310211699" duration="15000" />
       <workItem from="1700540128831" duration="8419000" />
       <workItem from="1700559288993" duration="994000" />
+      <workItem from="1700637908772" duration="795000" />
     </task>
     <servers />
   </component>
