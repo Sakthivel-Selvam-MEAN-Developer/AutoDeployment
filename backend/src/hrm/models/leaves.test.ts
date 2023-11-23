@@ -19,7 +19,10 @@ describe('Employee Leave Form model', () => {
     test('should able to access', async () => {
         const orgUnit = await createOrgUnit(seedOrgUnit)
         const reason = await createReason(seedReason)
-        const employee = await createEmployee({ ...seedEmployee, orgUnitId: orgUnit.id })
+        const employee = await createEmployee({
+            ...seedEmployee,
+            orgUnitId: orgUnit.id
+        })
         await createLeave({
             ...seedEmployeeLeaveWithoutDep,
             employeeId: employee.employeeId,

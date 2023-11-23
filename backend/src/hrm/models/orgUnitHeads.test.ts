@@ -7,7 +7,10 @@ import seedEmployee from '../seed/employeeHead.ts'
 describe('OrgUnitHeads', () => {
     test('should find Employee is OrgUnitHead or not', async () => {
         const orgUnits = await create(seedOrgUnits)
-        const orgHead = await createEmployee({ ...seedEmployee, orgUnitId: orgUnits.id })
+        const orgHead = await createEmployee({
+            ...seedEmployee,
+            orgUnitId: orgUnits.id
+        })
         await createOrgHead({ orgUnitId: orgUnits.id, employeeId: orgHead.id })
         const actual = await isEmployeeInOrgUnitHeads(orgHead.employeeId)
         expect(actual?.employeeId).toBe(orgHead.id)
