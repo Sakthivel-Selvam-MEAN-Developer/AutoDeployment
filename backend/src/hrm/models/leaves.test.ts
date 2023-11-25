@@ -28,9 +28,8 @@ describe('Employee Leave Form model', () => {
             employeeId: employee.employeeId,
             leaveReasonId: reason.id
         })
-        const actual = await leavesPendingReview(employee.orgUnitId)
-        expect(actual.length).toBe(1)
-        expect(actual[0].employeeId).toBe(employee.employeeId)
+        const actual = await leavesPendingReview(employee.orgUnitId, employee.employeeId)
+        expect(actual.length).toBe(0)
     })
     test('should get only the rejected leave by employeeId', async () => {
         const leaveFormToDelete = await create(seedEmployeeLeave)

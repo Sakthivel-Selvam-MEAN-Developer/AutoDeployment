@@ -15,14 +15,7 @@ import PendingList from './wonderMove/components/pendingReason/list.tsx'
 import Details from './wonderMove/components/pendingReason/view.tsx'
 import Reason from './wonderMove/components/reason/home.tsx'
 import ReasonList from './wonderMove/components/reason/list.tsx'
-import HrmLayout from './hrm/components/layout'
-import HrmDashboard from './hrm/components/dashboard'
-import HrmDashboardList from './hrm/components/dashboard/list.tsx'
-import LeaveForm from './hrm/components/leaves/applyLeave.tsx'
-import Approvals from './hrm/components/approvals/index.tsx'
-import ApprovalList from './hrm/components/approvals/list.tsx'
-import Leaves from './hrm/components/leaves/index.tsx'
-import LeaveList from './hrm/components/leaves/list.tsx'
+import hrmRoutes from './hrmRoutes.tsx'
 
 export const router = createBrowserRouter([
     {
@@ -103,44 +96,5 @@ export const router = createBrowserRouter([
             }
         ]
     },
-    {
-        path: '/hrm',
-        element: <HrmLayout />,
-        children: [
-            {
-                path: '',
-                element: <HrmDashboard />,
-                children: [
-                    {
-                        path: '',
-                        element: <HrmDashboardList />
-                    }
-                ]
-            },
-            {
-                path: 'approval',
-                element: <Approvals />,
-                children: [
-                    {
-                        path: '',
-                        element: <ApprovalList />
-                    }
-                ]
-            },
-            {
-                path: 'leaves',
-                element: <Leaves />,
-                children: [
-                    {
-                        path: '',
-                        element: <LeaveList />
-                    },
-                    {
-                        path: 'apply',
-                        element: <LeaveForm />
-                    }
-                ]
-            }
-        ]
-    }
+    hrmRoutes
 ])

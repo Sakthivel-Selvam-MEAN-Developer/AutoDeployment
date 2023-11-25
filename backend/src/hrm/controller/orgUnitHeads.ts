@@ -8,7 +8,7 @@ export const employeeLeavesPerOrg = (req: any, res: any) => {
     isEmployeeInOrgUnitHeads(req.params.employeeId)
         .then((result: any) => {
             if (result && result.orgUnitId) {
-                return leavesPendingReview(result.orgUnitId)
+                return leavesPendingReview(result.orgUnitId, req.params.employeeId)
             }
             return null
         })
