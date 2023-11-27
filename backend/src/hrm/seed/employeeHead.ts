@@ -1,5 +1,5 @@
 export default {
     employeeId: '1234',
-    name: 'jack',
+    name: 'Barath',
     jobTitle: 'Manager'
 }

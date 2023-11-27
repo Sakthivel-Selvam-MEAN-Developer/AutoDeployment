@@ -1,5 +1,5 @@
 import { Application, Response } from 'express'
-import routes from './wonderMove/routes/index.ts'
+import routes from './index.ts'
 
 const healthRoute = (app: Application): void => {
     app.get('/health', (res: Response) => {

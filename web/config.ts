@@ -6,7 +6,7 @@ interface Config {
 }
 const config: Record<string, Config> = {
     dev: {
-        backendUrl: 'http://192.168.29.67:3000',
+        backendUrl: `http://${window.location.hostname}:3000`,
         REACT_APP_ORY_URL: 'http://localhost:4000',
         EMPLOYEE_ID: '1234'
     },
