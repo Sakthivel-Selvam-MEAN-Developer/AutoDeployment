@@ -3,7 +3,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
 interface DrawerListItemProps {
@@ -39,14 +38,6 @@ const DrawerListItem: FC<DrawerListItemProps> = ({ text, drawerState, index, nav
             </ListItemButton>
         </ListItem>
     )
-}
-
-DrawerListItem.propTypes = {
-    text: PropTypes.string.isRequired,
-    drawerState: PropTypes.bool.isRequired,
-    index: PropTypes.number.isRequired,
-    icon: PropTypes.element.isRequired,
-    navigate: PropTypes.string.isRequired
 }
 
 export default DrawerListItem

@@ -16,6 +16,7 @@ import Details from './wonderMove/components/pendingReason/view.tsx'
 import Reason from './wonderMove/components/reason/home.tsx'
 import ReasonList from './wonderMove/components/reason/list.tsx'
 import hrmRoutes from './hrmRoutes.tsx'
+import sunContractRoutes from './subContractRoutes.tsx'
 
 export const router = createBrowserRouter([
     {
@@ -96,5 +97,6 @@ export const router = createBrowserRouter([
             }
         ]
     },
-    hrmRoutes
+    hrmRoutes,
+    sunContractRoutes
 ])

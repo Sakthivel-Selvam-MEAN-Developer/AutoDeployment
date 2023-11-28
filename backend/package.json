@@ -62,6 +62,6 @@
         "testOnce": "dotenv -e .env.test -- jest --runInBand",
         "t": "dotenv -e .env.test -- jest --watch",
         "format": "prettier -c src",
-        "seedDevDb": "npx ts-node --esm src/hrm/seed/dev/index.ts"
+        "seedDevDb": "npx ts-node --esm src/devSeed/index.ts"
     }
 }

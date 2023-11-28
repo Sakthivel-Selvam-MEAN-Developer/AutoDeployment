@@ -35,7 +35,7 @@ jest.mock('../../models/vehicle', () => ({
 }))
 
 describe('fetch device details', () => {
-    it.skip('should get device details from loconav', async () => {
+    it('should get device details from loconav', async () => {
         const authToken = 'asdfasdf'
         // eslint-disable-next-line
         // @ts-ignore

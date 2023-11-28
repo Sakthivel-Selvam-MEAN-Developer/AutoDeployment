@@ -34,7 +34,7 @@ const AppBar = styled((props: AppBarPropsWithOpen) => <MuiAppBar {...props} />, 
     })
 }))
 
-export default function MoveItLayout() {
+export default function SubContractLayout() {
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const handleDrawerOpen = () => setOpen(true)
@@ -57,7 +57,7 @@ export default function MoveItLayout() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        MoveIt
+                        Sub-Contract
                     </Typography>
                 </Toolbar>
             </AppBar>

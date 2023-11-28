@@ -7,7 +7,7 @@ datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
   extensions = [postgis, timescaledb]
-  schemas    = ["wonderMove", "peopleOrg", "identity"]
+  schemas    = ["wonderMove", "peopleOrg", "identity", "subContract"]
 }
 
 model customers {
@@ -242,4 +242,204 @@ model orgUnitRelations {
   childOrgId  Int?
 
   @@schema("peopleOrg")
+}
+
+model transporter {
+  id            Int         @id @default(autoincrement())
+  name          String
+  hasGst        Boolean     @default(false)
+  gstNumber     Int?
+  tdsPercentage Int
+  bankDetailsId Int
+  bankDetails   bankDetails @relation(fields: [bankDetailsId], references: [id])
+  createdAt     DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime    @updatedAt @db.Timestamptz(6)
+  trucks        truck[]
+
+  @@schema("subContract")
+}
+
+model bankDetails {
+  id            Int           @id @default(autoincrement())
+  accountHolder String
+  accountNumber Int
+  ifsc          String
+  createdAt     DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime      @updatedAt @db.Timestamptz(6)
+  transporter   transporter[]
+
+  @@schema("subContract")
+}
+
+model cementCompany {
+  id             Int             @id @default(autoincrement())
+  name           String
+  factories      factory[]
+  stockPoints    stockPoint[]
+  deliveryPoints deliveryPoint[]
+  createdAt      DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime        @updatedAt @db.Timestamptz(6)
+
+  @@schema("subContract")
+}
+
+model factory {
+  id                    Int                       @id @default(autoincrement())
+  name                  String
+  location              String
+  createdAt             DateTime                  @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime                  @updatedAt @db.Timestamptz(6)
+  factoryToStockTrip    factoryToStockPointTrip[]
+  factoryToCustomerTrip factoryToCustomerTrip[]
+  cementCompany         cementCompany             @relation(fields: [cementCompanyId], references: [id])
+  cementCompanyId       Int
+
+  @@schema("subContract")
+}
+
+model stockPoint {
+  id                  Int                        @id @default(autoincrement())
+  name                String
+  location            String
+  factoryToStockTrip  factoryToStockPointTrip[]
+  stockToCustomerTrip stockToCustomerPointTrip[]
+  createdAt           DateTime                   @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime                   @updatedAt @db.Timestamptz(6)
+  cementCompany       cementCompany              @relation(fields: [cementCompanyId], references: [id])
+  cementCompanyId     Int
+
+  @@schema("subContract")
+}
+
+model deliveryPoint {
+  id                    Int                        @id @default(autoincrement())
+  name                  String
+  location              String
+  stockToCustomerTrip   stockToCustomerPointTrip[]
+  factoryToCustomerTrip factoryToCustomerTrip[]
+  createdAt             DateTime                   @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime                   @updatedAt @db.Timestamptz(6)
+  cementCompany         cementCompany              @relation(fields: [cementCompanyId], references: [id])
+  cementCompanyId       Int
+
+  @@schema("subContract")
+}
+
+model factoryToStockPointTrip {
+  id            Int          @id @default(autoincrement())
+  fuel          fuel[]
+  startDate     Int
+  endDate       Int
+  filledLoad    Int
+  invoiceNumber String
+  factoryId     Int
+  factory       factory      @relation(fields: [factoryId], references: [id])
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
+  stockPoint    stockPoint   @relation(fields: [stockPointId], references: [id])
+  stockPointId  Int
+  singleTrip    singleTrip[]
+  truck         truck?       @relation(fields: [truckId], references: [id])
+  truckId       Int?
+
+  @@schema("subContract")
+}
+
+model stockToCustomerPointTrip {
+  id              Int            @id @default(autoincrement())
+  fuel            fuel[]
+  startDate       Int
+  endDate         Int
+  filledLoad      Int
+  invoiceNumber   String
+  createdAt       DateTime       @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime       @updatedAt @db.Timestamptz(6)
+  stockPoint      stockPoint     @relation(fields: [stockPointId], references: [id])
+  stockPointId    Int
+  deliveryPoint   deliveryPoint? @relation(fields: [deliveryPointId], references: [id])
+  deliveryPointId Int?
+  singleTrip      singleTrip[]
+  truck           truck?         @relation(fields: [truckId], references: [id])
+  truckId         Int?
+
+  @@schema("subContract")
+}
+
+model factoryToCustomerTrip {
+  id              Int           @id @default(autoincrement())
+  fuel            fuel[]
+  startDate       Int
+  endDate         Int
+  filledLoad      Int
+  factoryId       Int
+  factory         factory       @relation(fields: [factoryId], references: [id])
+  invoiceNumber   String
+  createdAt       DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime      @updatedAt @db.Timestamptz(6)
+  deliveryPoint   deliveryPoint @relation(fields: [deliveryPointId], references: [id])
+  deliveryPointId Int
+  singleTrip      singleTrip[]
+  truck           truck?        @relation(fields: [truckId], references: [id])
+  truckId         Int?
+
+  @@schema("subContract")
+}
+
+model singleTrip {
+  id                      Int                      @id @default(autoincrement())
+  stockToCustomerTripId   Int
+  stockToCustomerTrip     stockToCustomerPointTrip @relation(fields: [stockToCustomerTripId], references: [id])
+  factoryToStockTripId    Int
+  factoryToStockTrip      factoryToStockPointTrip  @relation(fields: [factoryToStockTripId], references: [id])
+  createdAt               DateTime                 @default(now()) @db.Timestamptz(6)
+  updatedAt               DateTime                 @updatedAt @db.Timestamptz(6)
+  FactoryToCustomerTrip   factoryToCustomerTrip    @relation(fields: [factoryToCustomerTripId], references: [id])
+  factoryToCustomerTripId Int
+
+  @@schema("subContract")
+}
+
+model bunk {
+  id           Int      @id @default(autoincrement())
+  bunkName     String
+  bunkLocation String
+  createdAt    DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
+  fuel         fuel[]
+
+  @@schema("subContract")
+}
+
+model fuel {
+  id                      Int                       @id @default(autoincrement())
+  pricePerliter           Int
+  quantity                Int
+  totalprice              Int
+  factoryToStockTripId    Int?
+  factoryToStockTrip      factoryToStockPointTrip?  @relation(fields: [factoryToStockTripId], references: [id])
+  stockToCustomerTripId   Int?
+  stockToCustomerTrip     stockToCustomerPointTrip? @relation(fields: [stockToCustomerTripId], references: [id])
+  bunkId                  Int
+  bunk                    bunk                      @relation(fields: [bunkId], references: [id])
+  createdAt               DateTime                  @default(now()) @db.Timestamptz(6)
+  updatedAt               DateTime                  @updatedAt @db.Timestamptz(6)
+  factoryToCustomerTrip   factoryToCustomerTrip?    @relation(fields: [factoryToCustomerTripId], references: [id])
+  factoryToCustomerTripId Int?
+
+  @@schema("subContract")
+}
+
+model truck {
+  id                       Int                        @id @default(autoincrement())
+  vehicleNumber            String
+  capacity                 Int
+  transporterId            Int
+  transporter              transporter                @relation(fields: [transporterId], references: [id])
+  createdAt                DateTime                   @default(now()) @db.Timestamptz(6)
+  updatedAt                DateTime                   @updatedAt @db.Timestamptz(6)
+  factoryToStockPointTrip  factoryToStockPointTrip[]
+  stockToCustomerPointTrip stockToCustomerPointTrip[]
+  factoryToCustomerTrip    factoryToCustomerTrip[]
+
+  @@schema("subContract")
 }
