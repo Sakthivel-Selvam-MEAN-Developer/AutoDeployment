@@ -6,11 +6,14 @@ interface TextInputProps {
     label: string
     fieldName: string
     type: string
+    InputProps: any
 }
-function NumberInput({ control, label, fieldName, type }: TextInputProps) {
+function NumberInput({ control, label, fieldName, type, InputProps }: TextInputProps) {
     return (
         <Controller
-            render={({ field }) => <TextField {...field} label={label} type={type} />}
+            render={({ field }) => (
+                <TextField {...field} label={label} type={type} InputProps={InputProps} />
+            )}
             name={fieldName}
             control={control}
         />

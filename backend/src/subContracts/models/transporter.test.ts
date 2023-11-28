@@ -1,9 +1,11 @@
 import seedTransporter from '../seed/transporter.ts'
-import { create } from './transporter.ts'
+import { create, getAllTransporter } from './transporter.ts'
 
 describe('Factory model', () => {
     test('should able to create', async () => {
-        const transporter = await create(seedTransporter)
-        expect(transporter.name).toBe(seedTransporter.name)
+        await create(seedTransporter)
+        const actual = await getAllTransporter()
+        expect(actual.length).toBe(1)
+        expect(actual[0].name).toBe(seedTransporter.name)
     })
 })

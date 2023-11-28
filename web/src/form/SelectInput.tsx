@@ -8,7 +8,7 @@ interface SelectInputProps {
     fieldName: string
 }
 const SelectInput: React.FC<SelectInputProps> = ({ control, listValues, label, fieldName }) => (
-    <FormControl sx={{ minWidth: 120 }}>
+    <FormControl sx={{ minWidth: 195 }}>
         <InputLabel id={`${fieldName}-label-id`}>{label}</InputLabel>
         <Controller
             render={({ field }) => (

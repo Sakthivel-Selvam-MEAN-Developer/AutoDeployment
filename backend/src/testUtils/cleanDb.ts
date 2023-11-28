@@ -19,6 +19,7 @@ const cleanData = async () => {
     await prisma.$executeRaw`truncate "peopleOrg"."orgUnitRelations" cascade`
     await prisma.$executeRaw`truncate "subContract"."cementCompany" cascade`
     await prisma.$executeRaw`truncate "subContract"."truck" cascade`
+    await prisma.$executeRaw`truncate "subContract"."transporter" cascade`
 }
 
 export default cleanData
