@@ -4,6 +4,7 @@ import seedEmployeeHead from '../hrm/seed/employeeHead.ts'
 import seedEmployee from '../hrm/seed/employeeWithoutDep.ts'
 import seedReason from '../hrm/seed/reason.ts'
 import seedTruck from '../subContracts/seed/truck.ts'
+import seedTruckWithoutDep from '../subContracts/seed/truckWithoutDeb.ts'
 import { create as createOrgUnit } from '../hrm/models/orgUnitRelations.ts'
 import { create as createEmployee } from '../hrm/models/employee.ts'
 import { create as createOrgUnitHead } from '../hrm/models/orgUnitHeads.ts'
@@ -26,8 +27,8 @@ const main = async () => {
     await createReason({ name: 'Sick Leave' })
 
     //   Seed Truck
-    await createTruck(seedTruck)
-    await createTruck({ ...seedTruck, vehicleNumber: 'TN33AB2312', capacity: 60 })
+    const truck = await createTruck(seedTruck)
+    await createTruck({ ...seedTruckWithoutDep, transporterId: truck.transporterId })
 }
 main()
     .then(() => prisma.$disconnect())

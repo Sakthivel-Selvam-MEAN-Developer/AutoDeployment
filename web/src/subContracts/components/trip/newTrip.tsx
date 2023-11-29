@@ -1,29 +1,41 @@
-import SelectInput from '../../../form/SelectInput.tsx'
 import TextInput from '../../../form/TextInput.tsx'
-import { Button, InputAdornment } from '@mui/material'
+import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import NumberInput from '../../../form/NumberInput.tsx'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
-import { getAllTruck } from '../../services/truck.ts'
+// import { getAllTruck } from '../../services/truck.ts'
 import { getAllTransporter } from '../../services/transporter.ts'
+import { getTruckByTransporter } from '../../services/truck.ts'
 
 const NewTrip: React.FC = () => {
     const { handleSubmit, control } = useForm<FormData>()
-    const [truck, setTruck] = useState([])
+    const [listTruck, setListTruck] = useState([])
     const [transporter, setTransporter] = useState([])
+    const [truckNumber, setTruckNumber] = React.useState<string | null>()
+    const [transporterName, setTransporterName] = React.useState<string | null>()
     const [fromValue, setFromValue] = useState<dayjs.Dayjs | null>(null)
     const [toValue, setToValue] = useState<dayjs.Dayjs | null>(null)
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        console.log({ ...data, startDate: fromValue?.unix(), endDate: toValue?.unix() })
+        console.log({
+            ...data,
+            startDate: fromValue?.unix(),
+            endDate: toValue?.unix(),
+            truckId: truckNumber,
+            transporter: transporterName
+        })
     }
     useEffect(() => {
         getAllTransporter().then(setTransporter)
-        getAllTruck().then(setTruck)
+        // getAllTruck().then(setListTruck)
     }, [])
+
+    useEffect(() => {
+        getTruckByTransporter(transporterName).then(setListTruck)
+    }, [transporterName])
 
     return (
         <>
@@ -36,22 +48,27 @@ const NewTrip: React.FC = () => {
                         flexWrap: 'wrap'
                     }}
                 >
-                    <SelectInput
-                        control={control}
-                        listValues={transporter.map(({ name }) => name)}
-                        label="Transporter"
-                        fieldName="transporter"
+                    <Autocomplete
+                        options={transporter.map(({ name }) => name)}
+                        sx={{ width: 300 }}
+                        value={transporterName}
+                        renderInput={(params) => <TextField {...params} label="Transporter" />}
+                        onChange={(_event: any, newValue: string | null) => {
+                            setTransporterName(newValue)
+                        }}
                     />
-                    <SelectInput
-                        control={control}
-                        listValues={truck.map(({ vehicleNumber }) => vehicleNumber)}
-                        label="Truck Number"
-                        fieldName="truckId"
+                    <Autocomplete
+                        options={listTruck.map(({ vehicleNumber }) => vehicleNumber)}
+                        sx={{ width: 300 }}
+                        value={truckNumber}
+                        renderInput={(params) => <TextField {...params} label="Truck Number" />}
+                        onChange={(_event: any, newValue: string | null) => {
+                            setTruckNumber(newValue)
+                        }}
                     />
                     <TextInput control={control} label="Start Point" fieldName="Start Point" />
                     <TextInput control={control} label="Delivery Point" fieldName="deliveryPoint" />
                     <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
-
                     <NumberInput
                         control={control}
                         label="Filled Load"
@@ -60,7 +77,7 @@ const NewTrip: React.FC = () => {
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    <b>/ Ton</b>
+                                    <b>Ton</b>
                                 </InputAdornment>
                             )
                         }}

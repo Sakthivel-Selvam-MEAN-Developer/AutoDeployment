@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { listAllTruck } from '../controller/truck.ts'
+import { listAllTruck, listTruckByTransporter } from '../controller/truck.ts'
 
 const truckRoutes = (router: Router) => {
     router.get('/truck', listAllTruck)
+    router.get('/transporter-truck/:transporterName', listTruckByTransporter)
 }
 
 export default truckRoutes

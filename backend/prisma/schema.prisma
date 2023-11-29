@@ -246,7 +246,7 @@ model orgUnitRelations {
 
 model transporter {
   id            Int         @id @default(autoincrement())
-  name          String
+  name          String      @unique
   hasGst        Boolean     @default(false)
   gstNumber     Int?
   tdsPercentage Int
@@ -262,7 +262,7 @@ model transporter {
 model bankDetails {
   id            Int           @id @default(autoincrement())
   accountHolder String
-  accountNumber Int
+  accountNumber Int           @unique
   ifsc          String
   createdAt     DateTime      @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime      @updatedAt @db.Timestamptz(6)
@@ -431,7 +431,7 @@ model fuel {
 
 model truck {
   id                       Int                        @id @default(autoincrement())
-  vehicleNumber            String
+  vehicleNumber            String                     @unique
   capacity                 Int
   transporterId            Int
   transporter              transporter                @relation(fields: [transporterId], references: [id])

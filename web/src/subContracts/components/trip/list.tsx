@@ -1,9 +1,7 @@
 import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const TripList: React.FC = () => {
-    const navigate = useNavigate()
-
     return (
         <>
             <div
@@ -13,9 +11,11 @@ const TripList: React.FC = () => {
                     justifyContent: 'right'
                 }}
             >
-                <Button color="primary" variant="contained" onClick={() => navigate('add')}>
-                    Assign New Trip
-                </Button>
+                <Link to={'/sub/trip/add'}>
+                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                        Assign New Trip
+                    </Button>
+                </Link>
             </div>
             <p>List Of Vehicle</p>
         </>

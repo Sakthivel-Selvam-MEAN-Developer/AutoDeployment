@@ -5,13 +5,11 @@ import SuccessDialog from '../SuccessDialog.tsx'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormFields from './formFields.tsx'
-
 interface FormData {}
 export const NewVehicle = () => {
     const { handleSubmit, control } = useForm<FormData>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const navigate = useNavigate()
-
     const onSubmit: SubmitHandler<FormData> = (data) => {
         createVehicle(JSON.stringify(data)).then(() => setOpenSuccessDialog(true))
     }
