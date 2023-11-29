@@ -10,7 +10,7 @@ export const updateStops = (id: number, data: object) => {
     return axiosInstance.post(`/stops/update/${id}`, data)
 }
 
-export const overrideStop = (gpsStopId: any, data: any) => {
+export const overrideStop = (gpsStopId: number, data: any) => {
     return axiosInstance.post(`/stops/override?gpsStopId=${gpsStopId}`, data)
 }
 export const pendingStopReason = () => axiosInstance.get('/stops/pending').then(getData)

@@ -6,15 +6,13 @@ interface SearchStopsProps {
 }
 
 const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
-    const [value, setValue] = useState()
-
-    const onChange = (_event: any, newValue: any | null) => {
+    const [value, setValue] = useState<string>()
+    const onChange = (_event: any, newValue: string) => {
         setValue(newValue)
         if (newValue) {
             onSelect(newValue)
         }
     }
-
     return (
         <>
             <Autocomplete
@@ -37,5 +35,4 @@ const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
         </>
     )
 }
-
 export default SearchStops

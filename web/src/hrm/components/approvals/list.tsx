@@ -32,7 +32,7 @@ const ApprovalList: FC = () => {
 
     useEffect(() => {
         getAllLeaveAfterApply(employeeId).then(setAllList)
-    }, [refresh])
+    }, [refresh, employeeId])
     const rejectClick = (row: any) => {
         setRejectRow(row)
         setOpen(true)

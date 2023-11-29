@@ -23,7 +23,7 @@ const LeaveList: React.FC = () => {
 
     useEffect(() => {
         getAllLeaveWithStatus(employeeId).then(setAllLeave)
-    }, [])
+    }, [employeeId])
 
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)

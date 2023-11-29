@@ -11,7 +11,7 @@ type UpdateReasonProps = {
     selectedReason: any
 }
 const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selectedReason }) => {
-    const [fetchReason, setFetchReason] = useState<any>([])
+    const [fetchReason, setFetchReason] = useState([])
     useEffect(() => {
         getAllReasons().then(setFetchReason)
     }, [stopInfo])
@@ -27,7 +27,7 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selecte
                     value={selectedReason}
                     onChange={(e) => onSelect(e.target.value)}
                 >
-                    {fetchReason.map((reason: any, index: any) => (
+                    {fetchReason.map((reason: any, index: number) => (
                         <MenuItem key={index} value={reason.id}>
                             {reason.name}
                         </MenuItem>

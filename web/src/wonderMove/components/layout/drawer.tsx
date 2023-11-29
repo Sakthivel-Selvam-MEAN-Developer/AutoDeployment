@@ -11,7 +11,7 @@ import {
 } from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
-import { styled, useTheme } from '@mui/material/styles'
+import { Theme, styled, useTheme } from '@mui/material/styles'
 import MuiDrawer from '@mui/material/Drawer'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
@@ -22,7 +22,7 @@ interface MiniDrawerProps {
 }
 const drawerWidth = 240
 
-const openedMixin = (theme: any) => ({
+const openedMixin = (theme: Theme) => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -31,7 +31,7 @@ const openedMixin = (theme: any) => ({
     overflowX: 'hidden'
 })
 
-const closedMixin = (theme: any) => ({
+const closedMixin = (theme: Theme) => ({
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen

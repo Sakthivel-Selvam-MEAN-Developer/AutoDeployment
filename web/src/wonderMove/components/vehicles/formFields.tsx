@@ -47,5 +47,4 @@ const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
         </div>
     )
 }
-
 export default FormFields

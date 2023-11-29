@@ -9,8 +9,18 @@ import { epochToDate } from '../epochToTime.ts'
 import UpdateReason from './updateReason.tsx'
 import { overrideStop } from '../../services/stops.ts'
 
+interface RowType {
+    id: number
+    startTime: number
+    endTime: number
+    gpsStopId: number
+    stopReasonId: number
+    reason: {
+        id: number
+    }
+}
 interface SecondReasonProps {
-    row: any
+    row: RowType
     onClose: () => void
     tableState: () => void
     rowWithSameGpsId: any

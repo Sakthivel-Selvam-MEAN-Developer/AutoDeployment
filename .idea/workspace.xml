@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/hrm/seed/dev/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/devSeed/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/routes.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/layout/drawer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/layout/drawer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/layout/drawerHeader.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/layout/drawerListItem.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/layout/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/layout/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,6 +171,7 @@
       <workItem from="1701066633347" duration="5073000" />
       <workItem from="1701166633184" duration="86000" />
       <workItem from="1701166794024" duration="701000" />
+      <workItem from="1701248784740" duration="777000" />
     </task>
     <servers />
   </component>

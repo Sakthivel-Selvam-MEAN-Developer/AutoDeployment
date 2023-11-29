@@ -14,6 +14,18 @@ import { deleteStop } from './deleteStops.ts'
 import { overrideStop } from '../../services/stops.ts'
 import AlertDialog from '../confirmationDialog.tsx'
 
+interface Row {
+    id: number
+    gpsStopId: number
+    stopReasonId: number
+    startTime: number
+    endTime: number
+    durationInMillis: number
+    reason: {
+        id: number
+        name: string
+    }
+}
 interface ModalUpdateReasonProps {
     open: boolean
     selectedRow: Array<any>
@@ -29,10 +41,10 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     const [expandedRow, setExpandedRow] = useState<any | null>(null)
     const [remainingStop, setRemainingStop] = useState<any>()
     const [openAlertDialog, setOpenAlertDialog] = useState(false)
-    const [gpsStopId, setGpsStopId] = useState(null)
+    const [gpsStopId, setGpsStopId] = useState<any>()
     let sortedRows: any
     if (selectedRow && selectedRow.length > 0) {
-        sortedRows = selectedRow.slice().sort((a: any, b: any) => a.startTime - b.startTime)
+        sortedRows = selectedRow.slice().sort((a: Row, b: Row) => a.startTime - b.startTime)
     }
     const handleModalClose = () => setSelectedRow(null)
     const handleAccordionClose = () => {
@@ -41,7 +53,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     const splitStopAccordion = (rowId: number) => {
         setExpandedRow(expandedRow === rowId ? null : rowId)
     }
-    const handleDeleteClick = (row: any, index: number) => {
+    const handleDeleteClick = (row: Row, index: number) => {
         const updatedStops = deleteStop(row, index, sortedRows)
         setRemainingStop(updatedStops)
         setGpsStopId(row.gpsStopId)
@@ -89,7 +101,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                             Details
                         </Typography>
                         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            {sortedRows.map((row: any, index: number) => (
+                            {sortedRows.map((row: Row, index: number) => (
                                 <React.Fragment key={row.id}>
                                     <TableRow
                                         key={row.id}
