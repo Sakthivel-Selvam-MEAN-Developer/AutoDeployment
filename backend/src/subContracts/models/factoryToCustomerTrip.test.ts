@@ -1,6 +1,5 @@
-import seedFactoryToCustomerTrip from "../seed/factoryToCustomerTrip"
-import {create, getAllTrip} from "./factoryToCustomerTrip"
-
+import seedFactoryToCustomerTrip from '../seed/factoryToCustomerTrip.ts'
+import { create, getAllTrip } from './factoryToCustomerTrip.ts'
 
 describe('Trip model', () => {
     test('should able to create a trip', async () => {

@@ -1,6 +1,5 @@
-import seedDeliveryPoint from "../seed/deliveryPoint"
-import {create, getAllDeliveryPoint} from "./deliveryPoint"
-
+import seedDeliveryPoint from '../seed/deliveryPoint.ts'
+import { create, getAllDeliveryPoint } from './deliveryPoint.ts'
 
 describe('deliveryPoint model', () => {
     test('should able to create a deliveryPoint', async () => {

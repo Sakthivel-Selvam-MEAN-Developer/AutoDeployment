@@ -21,7 +21,7 @@ const NewTrip: React.FC = () => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormField control={control} transporter={transporter} />
-                <SubmitButton name="Submit" type="submit" />
+                <SubmitButton name="Start Trip" type="submit" />
             </form>
         </>
     )

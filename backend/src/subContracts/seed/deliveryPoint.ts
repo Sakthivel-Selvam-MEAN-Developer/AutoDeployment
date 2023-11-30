@@ -1,4 +1,4 @@
-import cementCompany from "./cementCompany";
+import cementCompany from './cementCompany.ts'
 
 export default {
     name: 'Salem',
