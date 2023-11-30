@@ -9,7 +9,7 @@ ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/d
 
 ### Start postgres
 ```shell
-docker compose up
+docker-compose up
 ## connect to db
 docker compose exec postgres psql
 ## connect to db from local
