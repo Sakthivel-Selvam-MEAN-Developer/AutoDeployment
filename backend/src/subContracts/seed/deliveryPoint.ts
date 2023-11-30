@@ -1,4 +1,9 @@
+import cementCompany from "./cementCompany";
+
 export default {
     name: 'Salem',
-    location: 'Salem, Tamilnadu'
+    location: 'Salem, Tamilnadu',
+    cementCompany: {
+        create: cementCompany
+    }
 }

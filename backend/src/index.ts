@@ -10,6 +10,8 @@ import orgHeadRoutes from './hrm/routes/orgHeads.ts'
 import orgUnitHeads from './hrm/routes/orgUnits.ts'
 import truckRoutes from './subContracts/routes/truck.ts'
 import transporterRoutes from './subContracts/routes/transporter.ts'
+import tripRoutes from './subContracts/routes/trip.ts'
+
 // import gpsStopRoutes from './gpsStops'
 
 const router = express.Router()
@@ -28,5 +30,6 @@ orgUnitHeads(router)
 
 truckRoutes(router)
 transporterRoutes(router)
+tripRoutes(router)
 
 export default router
