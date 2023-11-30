@@ -1,18 +1,18 @@
-import { Controller } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 import { TextField } from '@mui/material'
 
 interface TextInputProps {
-    control: any
+    control: Control
     label: string
     fieldName: string
-    type: string
     InputProps: any
+    type: 'number'
 }
-function NumberInput({ control, label, fieldName, type, InputProps }: TextInputProps) {
+function NumberInput({ control, label, fieldName, InputProps, type }: TextInputProps) {
     return (
         <Controller
             render={({ field }) => (
-                <TextField {...field} label={label} type={type} InputProps={InputProps} />
+                <TextField {...field} label={label} InputProps={InputProps} type={type} />
             )}
             name={fieldName}
             control={control}
