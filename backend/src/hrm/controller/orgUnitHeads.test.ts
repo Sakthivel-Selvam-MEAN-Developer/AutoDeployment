@@ -1,6 +1,5 @@
-import express from 'express'
 import supertest from 'supertest'
-import { childOrgLeavesEachOrg, employeeLeavesPerOrg } from './orgUnitHeads.ts'
+import { app } from '../../app.ts'
 
 const mockOrgUnitHead = jest.fn()
 const mockLeaves = jest.fn()
@@ -25,23 +24,16 @@ jest.mock('../models/orgUnitRelations', () => ({
 }))
 
 describe('orgUnitHead Controller', () => {
-    let app: any
-    beforeEach(() => {
-        app = express()
-        app.use(express.urlencoded({ extended: true }))
-    })
     test('should able to access', async () => {
-        app.get('/leave/:employeeId', employeeLeavesPerOrg)
         mockOrgUnitHead.mockResolvedValue({ orgUnitId: 2, employeeId: 4, id: 1 })
         mockLeaves.mockResolvedValue([{ employeeId: 4 }])
         await supertest(app)
-            .get('/leave/random')
+            .get('/org-leaves/random')
             .expect([{ employeeId: 4 }])
         expect(mockOrgUnitHead).toBeCalledWith('random')
         expect(mockLeaves).toBeCalledWith(2)
     })
     test('should get leaves of child org head to parent org', async () => {
-        app.get('/org-head-leaves/:employeeId', childOrgLeavesEachOrg)
         mockChildsOrgUnitHead.mockResolvedValue({ orgUnitId: 3 })
         mockIsEmployeeHeadOfParentOrg.mockResolvedValue([{ childOrgId: 4 }])
         mockOrgHeadOfEmployees.mockResolvedValue({ childOrgId: 4 })
