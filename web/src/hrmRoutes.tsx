@@ -1,26 +1,16 @@
-import HrmLayout from './hrm/components/layout'
-import HrmDashboard from './hrm/components/dashboard'
-import HrmDashboardList from './hrm/components/dashboard/list.tsx'
-import Approvals from './hrm/components/approvals'
-import ApprovalList from './hrm/components/approvals/list.tsx'
-import Leaves from './hrm/components/leaves'
-import LeaveList from './hrm/components/leaves/list.tsx'
-import LeaveForm from './hrm/components/leaves/applyLeave.tsx'
+import HrmLayout from './peopleOrg/components/layout'
+import HrmDashboard from './peopleOrg/components/dashboard'
+import HrmDashboardList from './peopleOrg/components/dashboard/list.tsx'
+import Approvals from './peopleOrg/components/approvals'
+import ApprovalList from './peopleOrg/components/approvals/list.tsx'
+import Leaves from './peopleOrg/components/leaves'
+import LeaveList from './peopleOrg/components/leaves/list.tsx'
+import LeaveForm from './peopleOrg/components/leaves/applyLeave.tsx'
 
 const hrmRoutes = {
     path: '/hrm',
     element: <HrmLayout />,
     children: [
-        {
-            path: '',
-            element: <HrmDashboard />,
-            children: [
-                {
-                    path: '',
-                    element: <HrmDashboardList />
-                }
-            ]
-        },
         {
             path: 'approval',
             element: <Approvals />,
@@ -42,6 +32,16 @@ const hrmRoutes = {
                 {
                     path: 'apply',
                     element: <LeaveForm />
+                }
+            ]
+        },
+        {
+            path: 'dashboard/:employeeId',
+            element: <HrmDashboard />,
+            children: [
+                {
+                    path: '',
+                    element: <HrmDashboardList />
                 }
             ]
         }

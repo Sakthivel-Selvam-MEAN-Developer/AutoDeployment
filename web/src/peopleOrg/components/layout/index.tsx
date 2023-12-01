@@ -1,28 +1,15 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import MenuIcon from '@mui/icons-material/Menu'
 import { DrawerHeader } from './drawerHeader.ts'
 import MiniDrawer from './MiniDrawer.tsx'
 import { Outlet } from 'react-router-dom'
-import { IconButton, ListItemSecondaryAction, SwipeableDrawer } from '@mui/material'
-import { styled, useTheme } from '@mui/material/styles'
-import MuiAppBar from '@mui/material/AppBar'
+import { SwipeableDrawer } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { HeaderBar } from './headerBar.tsx'
 
 type Anchor = 'left'
 
-const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open'
-})(({ theme }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-    })
-}))
-
-export default function HrmLayout() {
+const HrmLayout = () => {
     const theme = useTheme()
     const [state, setState] = React.useState({ left: false })
 
@@ -44,22 +31,7 @@ export default function HrmLayout() {
 
     return (
         <Box sx={{ flexDirection: 'column', minHeight: '100vh' }}>
-            <AppBar position="fixed">
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleMenuIconClick}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        P&C
-                    </Typography>
-                    <ListItemSecondaryAction>{username}</ListItemSecondaryAction>
-                </Toolbar>
-            </AppBar>
+            <HeaderBar handleMenuIconClick={() => handleMenuIconClick()} />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <SwipeableDrawer
                     anchor={'left'}
@@ -77,3 +49,4 @@ export default function HrmLayout() {
         </Box>
     )
 }
+export default HrmLayout

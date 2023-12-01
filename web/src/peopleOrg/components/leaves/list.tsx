@@ -10,14 +10,15 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
 import { getAllLeaveWithStatus } from '../../services/employeeLeave'
-import config from '../../../../config'
 import { ActionButton } from './actionButton.tsx'
+import { useAtomValue } from 'jotai/react'
+import { userIdAtom } from '../layout/userAtom.tsx'
 
 const LeaveList: React.FC = () => {
     const navigate = useNavigate()
     const [allLeave, setAllLeave] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
-    const employeeId = config.EMPLOYEE_ID
+    const employeeId = useAtomValue(userIdAtom)
 
     useEffect(() => {
         getAllLeaveWithStatus(employeeId).then(setAllLeave)

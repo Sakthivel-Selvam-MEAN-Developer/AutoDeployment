@@ -70,7 +70,7 @@ const HrmDashboardList: React.FC = () => {
                 <Button
                     color="primary"
                     variant="contained"
-                    onClick={() => navigate('leaves/apply')}
+                    onClick={() => navigate('/hrm/leaves/apply')}
                 >
                     Apply Leave
                 </Button>

@@ -18,8 +18,9 @@ import {
 import { approveLeaves, rejectLeaves } from '../../services/employeeLeave'
 import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
 import { Done, Close } from '@mui/icons-material'
-import config from '../../../../config'
 import { getAllLeaveAfterApply } from '../../services/orgHead'
+import { useAtomValue } from 'jotai/react'
+import { userIdAtom } from '../layout/userAtom.tsx'
 
 const ApprovalList: FC = () => {
     const [allList, setAllList] = useState([])
@@ -28,7 +29,7 @@ const ApprovalList: FC = () => {
     const [open, setOpen] = useState(false)
     const [rejectionReason, setRejectionReason] = useState('')
     const [refresh, setRefresh] = useState(false)
-    const employeeId = config.EMPLOYEE_ID
+    const employeeId = useAtomValue(userIdAtom)
 
     useEffect(() => {
         getAllLeaveAfterApply(employeeId).then(setAllList)

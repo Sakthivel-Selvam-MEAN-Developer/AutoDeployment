@@ -5,9 +5,12 @@ import DrawerListItem from './drawerListItem.tsx'
 import React from 'react'
 import { Divider, IconButton } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { userIdAtom } from './userAtom.tsx'
+import { useAtomValue } from 'jotai/react'
 
 const MiniDrawer = () => {
     const theme = useTheme()
+    const userId = useAtomValue(userIdAtom)
 
     return (
         <React.Fragment>
@@ -16,7 +19,12 @@ const MiniDrawer = () => {
             </DrawerHeader>
             <Divider />
             <List>
-                <DrawerListItem text="Dashboard" navigate="/hrm" index={0} icon={<Dashboard />} />
+                <DrawerListItem
+                    text="Dashboard"
+                    navigate={`/hrm/dashboard/${userId}`}
+                    index={0}
+                    icon={<Dashboard />}
+                />
                 <DrawerListItem
                     text="Approval"
                     navigate="/hrm/approval"

@@ -10,7 +10,8 @@ import FetchReason from './fetchReason'
 import { create } from '../../services/employeeLeave'
 import { useNavigate } from 'react-router-dom'
 import SuccessDialog from '../../../wonderMove/components/SuccessDialog'
-import config from '../../../../config'
+import { useAtomValue } from 'jotai/react'
+import { userIdAtom } from '../layout/userAtom.tsx'
 
 interface FormData {
     appliedBy: string
@@ -26,6 +27,7 @@ const LeaveForm: React.FC = () => {
     const [reason, setReason] = useState('')
     const [comment, setComment] = useState('')
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const employeeId = useAtomValue(userIdAtom)
 
     const onSubmit: SubmitHandler<FormData> = () => {
         const details = {
@@ -36,7 +38,7 @@ const LeaveForm: React.FC = () => {
             to: toValue?.unix(),
             appliedOn: dayjs().unix(),
             comments: comment,
-            employeeId: config.EMPLOYEE_ID
+            employeeId
         }
 
         create(JSON.stringify(details))
