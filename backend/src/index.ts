@@ -1,6 +1,5 @@
 import express from 'express'
 import vehicleRoutes from './wonderMove/routes/vehicle.ts'
-// import customerRoutes from './customer'
 import stopRoutes from './wonderMove/routes/stops.ts'
 import reasonRoutes from './wonderMove/routes/reason.ts'
 import jobsRoutes from './wonderMove/routes/jobs.ts'
@@ -11,22 +10,20 @@ import orgUnitHeads from './hrm/routes/orgUnits.ts'
 import truckRoutes from './subContracts/routes/truck.ts'
 import transporterRoutes from './subContracts/routes/transporter.ts'
 import tripRoutes from './subContracts/routes/trip.ts'
-
-// import gpsStopRoutes from './gpsStops'
+import employeeRoutes from './hrm/routes/employees.ts'
 
 const router = express.Router()
 
 vehicleRoutes(router)
-// customerRoutes(router)
 stopRoutes(router)
 reasonRoutes(router)
 jobsRoutes(router)
-// gpsStopRoutes(router)
 
 leaveReasonRoutes(router)
 employeeLeavesRoutes(router)
 orgHeadRoutes(router)
 orgUnitHeads(router)
+employeeRoutes(router)
 
 truckRoutes(router)
 transporterRoutes(router)

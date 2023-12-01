@@ -4,12 +4,11 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import { DrawerHeader } from './drawerHeader.ts'
-import MiniDrawer from './drawer.tsx'
+import MiniDrawer from './MiniDrawer.tsx'
 import { Outlet } from 'react-router-dom'
 import { IconButton, ListItemSecondaryAction, SwipeableDrawer } from '@mui/material'
 import { styled, useTheme } from '@mui/material/styles'
 import MuiAppBar from '@mui/material/AppBar'
-import { name } from '../context.ts'
 
 type Anchor = 'left'
 
@@ -24,7 +23,6 @@ const AppBar = styled(MuiAppBar, {
 }))
 
 export default function HrmLayout() {
-    const username: any = React.useContext(name)
     const theme = useTheme()
     const [state, setState] = React.useState({ left: false })
 
@@ -59,7 +57,7 @@ export default function HrmLayout() {
                     <Typography variant="h6" noWrap component="div">
                         P&C
                     </Typography>
-                    <ListItemSecondaryAction>{username.displayName}</ListItemSecondaryAction>
+                    <ListItemSecondaryAction>{username}</ListItemSecondaryAction>
                 </Toolbar>
             </AppBar>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

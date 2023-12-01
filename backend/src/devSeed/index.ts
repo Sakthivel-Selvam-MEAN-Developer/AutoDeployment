@@ -31,8 +31,11 @@ const main = async () => {
     await createTruck({ ...seedTruckWithoutDep, transporterId: truck.transporterId })
 }
 main()
-    .then(() => prisma.$disconnect())
-    .catch(async () => {
-        await prisma.$disconnect()
+    .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error)
         process.exit(1)
+    })
+    .finally(() => {
+        prisma.$disconnect()
     })

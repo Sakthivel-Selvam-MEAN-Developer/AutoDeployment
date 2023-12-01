@@ -11,3 +11,13 @@ export const getEmployeeOrgId = (employeeId: string) =>
             orgUnitId: true
         }
     })
+
+export const getEmployeeName = (employeeId: string) =>
+    prisma.employees.findUnique({
+        where: {
+            employeeId
+        },
+        select: {
+            name: true
+        }
+    })
