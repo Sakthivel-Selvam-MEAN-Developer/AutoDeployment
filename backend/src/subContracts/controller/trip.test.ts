@@ -3,11 +3,11 @@ import supertest from 'supertest'
 import { listAllTrip } from './trip.ts'
 
 const mockgetTrip = jest.fn()
-const mockPostTrip = jest.fn()
+const mockCreateTrip = jest.fn()
 
 jest.mock('../models/factoryToCustomerTrip', () => ({
     getAllTrip: () => mockgetTrip(),
-    postTrip: () => mockPostTrip()
+    createTrip: () => mockCreateTrip()
 }))
 
 describe('Trip Controller', () => {
@@ -36,7 +36,7 @@ describe('Trip Controller', () => {
     })
     // test('should able to access crteate trip', async () => {
     //     app.post('/trip', postTrip)
-    //     mockPostTrip.mockResolvedValue({
+    //     mockCreateTrip.mockResolvedValue({
     //         filledLoad: 40,
     //         invoiceNumber: 'ABC123',
     //     })
@@ -44,6 +44,6 @@ describe('Trip Controller', () => {
     //         filledLoad: 40,
     //         invoiceNumber: 'ABC123',
     //     })
-    //     expect(mockPostTrip).toBeCalledWith()
+    //     expect(mockCreateTrip).toBeCalledWith()
     // })
 })

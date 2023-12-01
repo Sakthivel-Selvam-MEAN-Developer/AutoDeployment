@@ -1,5 +1,5 @@
 import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import { useState } from 'react'
@@ -18,10 +18,10 @@ interface UpdateReasonProps {
     allReasons: Array<any>
 }
 const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) => {
-    const [selectedReason, setSelectedReason] = useState(reasonInfo.reason.id)
+    const [selectedReason, setSelectedReason] = useState<string | number>(reasonInfo.reason.id)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
 
-    const handleChange = (event: any) => {
+    const handleChange = (event: SelectChangeEvent<typeof selectedReason>) => {
         const selectedReasonId = event.target.value
         setSelectedReason(selectedReasonId)
         updateStops(reasonInfo.id, { stopReasonId: selectedReasonId })
@@ -39,7 +39,7 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) =
                     label="Reasons"
                     onChange={handleChange}
                 >
-                    {allReasons.map((reason: any, index: any) => (
+                    {allReasons.map((reason, index) => (
                         <MenuItem key={index} value={reason.id}>
                             {reason.name}
                         </MenuItem>

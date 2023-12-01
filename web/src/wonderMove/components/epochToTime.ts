@@ -36,6 +36,7 @@ export const epochToMinimalDate = (epochTime: number) => {
     const options: Intl.DateTimeFormatOptions = {
         month: 'short',
         day: '2-digit',
+        year: 'numeric',
         hour12: true
     }
     return date.toLocaleString('en-US', options)

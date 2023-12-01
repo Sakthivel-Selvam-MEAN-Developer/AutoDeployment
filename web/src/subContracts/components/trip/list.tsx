@@ -1,7 +1,15 @@
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import ListAllTrip from './show'
+import { useEffect, useState } from 'react'
+import { getAllTrip } from '../../services/trip'
 
 const TripList: React.FC = () => {
+    const [allTrips, setAllTrips] = useState([])
+
+    useEffect(() => {
+        getAllTrip().then(setAllTrips)
+    }, [])
     return (
         <>
             <div
@@ -17,7 +25,8 @@ const TripList: React.FC = () => {
                     </Button>
                 </Link>
             </div>
-            <p>List Of Vehicle</p>
+            <p>List Of Trips</p>
+            <ListAllTrip allTrips={allTrips} />
         </>
     )
 }

@@ -1,31 +1,27 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { updateVehicle } from '../../services/vehicles.ts'
 import FormFields from './formFields.tsx'
-import { Button } from '@mui/material'
 import SuccessDialog from '../SuccessDialog.tsx'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import SubmitButton from '../../../form/button.tsx'
 
 interface VehicleDetails {
     number: string
 }
-
 interface UpdateVehicleProps {
     vehicleDetails: any
 }
+
 const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
     const [number, setNumber] = useState<string>('')
     const navigate = useNavigate()
-    const { handleSubmit, control, getValues, reset } = useForm({
-        defaultValues: vehicleDetails
-    })
+    const { handleSubmit, control, getValues, reset } = useForm({ defaultValues: vehicleDetails })
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-
     useEffect(() => {
         setNumber(vehicleDetails.number)
         reset(vehicleDetails)
     }, [vehicleDetails, reset])
-
     const onSubmit: SubmitHandler<VehicleDetails> = (vehicle) => {
         updateVehicle(number, JSON.stringify(vehicle)).then(() => setOpenSuccessDialog(true))
     }
@@ -37,21 +33,7 @@ const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields control={control} listValues={undefined} />
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        type="submit"
-                        style={{ marginTop: '20px' }}
-                    >
-                        Update
-                    </Button>
-                </div>
+                <SubmitButton name="Submit" type="submit" />
             </form>
             <SuccessDialog
                 open={openSuccessDialog}
@@ -61,5 +43,4 @@ const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
         </>
     )
 }
-
 export default UpdateVehicle

@@ -1,5 +1,6 @@
 import factory from './factory.ts'
 import deliveryPoint from './deliveryPoint.ts'
+import truck from './truck.ts'
 
 export default {
     startDate: new Date(2023, 11, 27).getTime() / 1000,
@@ -11,5 +12,8 @@ export default {
     },
     deliveryPoint: {
         create: deliveryPoint
+    },
+    truck: {
+        create: truck
     }
 }

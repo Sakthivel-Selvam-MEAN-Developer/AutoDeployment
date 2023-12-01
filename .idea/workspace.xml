@@ -13,6 +13,7 @@
       <change afterPath="$PROJECT_DIR$/web/src/peopleOrg/services/employees.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/wonderWhy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wonderWhy.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/backend/src/hrm/seed/employeeHead.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/seed/employeeHead.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/hrm/seed/employeeWithoutDep.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/hrm/seed/employeeWithoutDep.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
@@ -41,6 +42,40 @@
       <change beforePath="$PROJECT_DIR$/web/src/old/index.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/web/src/old/vite-env.d.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/devSeed/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/devSeed/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/trip.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/trip.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/trip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/trip.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/cementCompany.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/cementCompany.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/cementCompany.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/cementCompany.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/deliveryPoint.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/deliveryPoint.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/deliveryPoint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/deliveryPoint.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/factory.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/factory.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/factory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/factory.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/factoryToCustomerTrip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/factoryToCustomerTrip.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/routes/trip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/routes/trip.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/seed/factoryToCustomerTrip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/seed/factoryToCustomerTrip.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/form/DateInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/form/DateInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/form/button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/layout/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/layout/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/formFields.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/formFields.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/newTrip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/newTrip.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/subContracts/services/trip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/services/trip.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/customers/update.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/customers/update.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/customers/view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/customers/view.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/epochToTime.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/epochToTime.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/pendingReason/details.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/pendingReason/details.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/pendingReason/show.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/pendingReason/show.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/pendingReason/update.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/pendingReason/update.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/stops/deleteStops.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/stops/deleteStops.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/stops/modalUpdateReason.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/stops/modalUpdateReason.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/stops/secondReason.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/stops/secondReason.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/new.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/new.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/update.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/vehicles/update.tsx" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,10 +243,17 @@
       <workItem from="1701166794024" duration="701000" />
       <workItem from="1701248784740" duration="3644000" />
       <workItem from="1701334071925" duration="1224000" />
+<<<<<<< Updated upstream
       <workItem from="1701346423397" duration="6676000" />
       <workItem from="1701410119805" duration="7290000" />
       <workItem from="1701423683651" duration="5646000" />
       <workItem from="1701430436724" duration="497000" />
+=======
+      <workItem from="1701337478422" duration="3181000" />
+      <workItem from="1701348339441" duration="122000" />
+      <workItem from="1701349670824" duration="749000" />
+      <workItem from="1701428960699" duration="1396000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

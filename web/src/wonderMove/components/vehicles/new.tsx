@@ -1,10 +1,10 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Button } from '@mui/material'
 import { createVehicle } from '../../services/vehicles.ts'
 import SuccessDialog from '../SuccessDialog.tsx'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormFields from './formFields.tsx'
+import SubmitButton from '../../../form/button.tsx'
 
 export const NewVehicle = () => {
     const { handleSubmit, control } = useForm<FormData>()
@@ -21,21 +21,7 @@ export const NewVehicle = () => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields control={control} listValues={undefined} />
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        type="submit"
-                        style={{ marginTop: '20px' }}
-                    >
-                        Save
-                    </Button>
-                </div>
+                <SubmitButton name="Save" type="submit" />
             </form>
             <SuccessDialog
                 open={openSuccessDialog}

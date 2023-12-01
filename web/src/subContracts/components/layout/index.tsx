@@ -34,28 +34,33 @@ const AppBar = styled((props: AppBarPropsWithOpen) => <MuiAppBar {...props} />, 
     })
 }))
 
+function getIconButton(handleDrawerOpen: () => void, open: boolean) {
+    return (
+        <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' })
+            }}
+        >
+            <MenuIcon />
+        </IconButton>
+    )
+}
+
 export default function SubContractLayout() {
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const handleDrawerOpen = () => setOpen(true)
     const handleDrawerClose = () => setOpen(false)
-
     return (
         <Box sx={{ display: 'flex' }}>
             <AppBar position="fixed" open={open}>
                 <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{
-                            marginRight: 5,
-                            ...(open && { display: 'none' })
-                        }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    {getIconButton(handleDrawerOpen, open)}
                     <Typography variant="h6" noWrap component="div">
                         Sub-Contract
                     </Typography>
@@ -63,6 +68,7 @@ export default function SubContractLayout() {
             </AppBar>
             <MiniDrawer handleDrawerClose={handleDrawerClose} drawerState={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                {' '}
                 <DrawerHeader theme={theme} />
                 <Outlet />
             </Box>

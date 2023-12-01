@@ -2,7 +2,11 @@ const calculateUpdatedStops = (
     stop: any,
     index: number,
     deleteRowIndex: number,
-    stopToDelete: any
+    stopToDelete: {
+        startTime: number
+        durationInMillis: number
+        endTime: number
+    }
 ) => {
     const { startTime, endTime, durationInMillis, gpsStopId, stopReasonId } = stop
     if (index === 0 && deleteRowIndex === 0) {
@@ -30,12 +34,9 @@ const calculateUpdatedStops = (
         stopReasonId
     }
 }
-
 export const deleteStop = (stopToDelete: any, deleteRowIndex: number, allStops: any[]) => {
     const remainingStops = allStops
         .filter((deleteRow) => deleteRow.id !== stopToDelete.id)
-        .map((stop, index) => {
-            return calculateUpdatedStops(stop, index, deleteRowIndex, stopToDelete)
-        })
+        .map((stop, index) => calculateUpdatedStops(stop, index, deleteRowIndex, stopToDelete))
     return remainingStops
 }

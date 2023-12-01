@@ -6,52 +6,44 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { useNavigate } from 'react-router-dom'
-
 interface PendingStop {
     number: string
     _count: number
 }
-
 interface Props {
     pendingStops: PendingStop[]
 }
 const PendingStops: React.FC<Props> = ({ pendingStops }) => {
     const navigate = useNavigate()
     const sortedStops = [...pendingStops].sort((a, b) => b._count - a._count)
-
     return (
-        <>
-            <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
-                <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell align="left">Vehicle Number</TableCell>
-                            <TableCell align="left">Pending Reason</TableCell>
+        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
+            <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>#</TableCell>
+                        <TableCell align="left">Vehicle Number</TableCell>
+                        <TableCell align="left">Pending Reason</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {sortedStops.map((row, index) => (
+                        <TableRow
+                            onClick={() => navigate(`details/${row.number}`)}
+                            key={index}
+                            style={{ cursor: 'pointer' }}
+                            sx={{
+                                '&:last-child td, &:last-child th': { border: 0 }
+                            }}
+                        >
+                            <TableCell> {index + 1} </TableCell>
+                            <TableCell align="left">{row.number}</TableCell>
+                            <TableCell align="left">{row._count}</TableCell>
                         </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {sortedStops.map((row, index) => (
-                            <TableRow
-                                onClick={() => navigate(`details/${row.number}`)}
-                                key={index}
-                                style={{ cursor: 'pointer' }}
-                                sx={{
-                                    '&:last-child td, &:last-child th': {
-                                        border: 0
-                                    }
-                                }}
-                            >
-                                <TableCell> {index + 1} </TableCell>
-                                <TableCell align="left">{row.number}</TableCell>
-                                <TableCell align="left">{row._count}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
-
 export default PendingStops

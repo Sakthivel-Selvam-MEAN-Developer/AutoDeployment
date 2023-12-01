@@ -15,6 +15,7 @@ interface RowType {
     endTime: number
     gpsStopId: number
     stopReasonId: number
+    durationInMillis: number
     reason: {
         id: number
     }
@@ -65,7 +66,7 @@ const SecondReason: React.FC<SecondReasonProps> = ({
         }
         const remainingRows = rowWithSameGpsId
             .filter((splitRow: { id: number }) => splitRow.id !== row.id)
-            .map(({ startTime, endTime, durationInMillis, gpsStopId, stopReasonId }: any) => ({
+            .map(({ startTime, endTime, durationInMillis, gpsStopId, stopReasonId }: RowType) => ({
                 startTime,
                 endTime,
                 durationInMillis,

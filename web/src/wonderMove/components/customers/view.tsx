@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { getCustomerDetails } from '../../services/customer'
 import UpdateCustomer from './update.tsx'
 
 interface CustomerProps {
-    number: any
+    number: string
 }
 
 interface CustomerDetails {}
@@ -23,9 +22,6 @@ const Customer: React.FC<CustomerProps> = ({ number }) => {
             )}
         </>
     )
-}
-Customer.propTypes = {
-    number: PropTypes.string
 }
 
 export default Customer

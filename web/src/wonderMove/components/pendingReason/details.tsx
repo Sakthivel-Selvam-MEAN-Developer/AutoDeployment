@@ -13,6 +13,22 @@ import { getAllReasons } from '../../services/reason.ts'
 interface DetailsListProps {
     pendingDetails: any
 }
+
+function getTableHead() {
+    return (
+        <TableHead>
+            <TableRow>
+                <TableCell>#</TableCell>
+                <TableCell align="left">Start Time</TableCell>
+                <TableCell align="left">End Time</TableCell>
+                <TableCell align="left">Duration</TableCell>
+                <TableCell align="left">Location</TableCell>
+                <TableCell align="left">Reason</TableCell>
+            </TableRow>
+        </TableHead>
+    )
+}
+
 const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
     const [fetchReason, setFetchReason] = useState<any>([])
 
@@ -28,19 +44,10 @@ const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
         <>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell align="left">Start Time</TableCell>
-                            <TableCell align="left">End Time</TableCell>
-                            <TableCell align="left">Duration</TableCell>
-                            <TableCell align="left">Location</TableCell>
-                            <TableCell align="left">Reason</TableCell>
-                        </TableRow>
-                    </TableHead>
+                    {getTableHead()}
                     <TableBody>
                         {sortedDetails &&
-                            sortedDetails.map((row: any, i: any) => (
+                            sortedDetails.map((row: any, i: number) => (
                                 <TableRow
                                     key={i}
                                     sx={{

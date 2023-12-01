@@ -1,9 +1,9 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { updateCustomer } from '../../services/customer.js'
 import FormFields from './formFields.tsx'
-import { Button } from '@mui/material'
 import SuccessDialog from '../SuccessDialog.tsx'
 import { FC, useEffect, useState } from 'react'
+import SubmitButton from '../../../form/button.tsx'
 
 interface CustomerDetails {
     name: string
@@ -33,21 +33,7 @@ const UpdateCustomer: FC<UpdateCustomerProps> = ({ customerDetails }) => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields control={control} />
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        type="submit"
-                        style={{ marginTop: '20px' }}
-                    >
-                        Update
-                    </Button>
-                </div>
+                <SubmitButton name="Update" type="submit" />
             </form>
             <SuccessDialog
                 open={openSuccessDialog}

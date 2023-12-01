@@ -11,6 +11,11 @@ import truckRoutes from './subContracts/routes/truck.ts'
 import transporterRoutes from './subContracts/routes/transporter.ts'
 import tripRoutes from './subContracts/routes/trip.ts'
 import employeeRoutes from './hrm/routes/employees.ts'
+import cementCompanyRoutes from './subContracts/routes/cementCompany.ts'
+import factoryRoutes from './subContracts/routes/factory.ts'
+import deliveryPointRoutes from './subContracts/routes/deliveryPoint.ts'
+
+// import gpsStopRoutes from './gpsStops'
 
 const router = express.Router()
 
@@ -28,5 +33,8 @@ employeeRoutes(router)
 truckRoutes(router)
 transporterRoutes(router)
 tripRoutes(router)
+factoryRoutes(router)
+cementCompanyRoutes(router)
+deliveryPointRoutes(router)
 
 export default router

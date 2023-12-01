@@ -339,28 +339,28 @@ model factoryToStockPointTrip {
   stockPoint    stockPoint   @relation(fields: [stockPointId], references: [id])
   stockPointId  Int
   singleTrip    singleTrip[]
-  truck         truck?       @relation(fields: [truckId], references: [id])
-  truckId       Int?
+  truck         truck        @relation(fields: [truckId], references: [id])
+  truckId       Int
 
   @@schema("subContract")
 }
 
 model stockToCustomerPointTrip {
-  id              Int            @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   fuel            fuel[]
   startDate       Int
-  endDate         Int
+  endDate         Int?
   filledLoad      Int
   invoiceNumber   String
-  createdAt       DateTime       @default(now()) @db.Timestamptz(6)
-  updatedAt       DateTime       @updatedAt @db.Timestamptz(6)
-  stockPoint      stockPoint     @relation(fields: [stockPointId], references: [id])
+  createdAt       DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime      @updatedAt @db.Timestamptz(6)
+  stockPoint      stockPoint    @relation(fields: [stockPointId], references: [id])
   stockPointId    Int
-  deliveryPoint   deliveryPoint? @relation(fields: [deliveryPointId], references: [id])
-  deliveryPointId Int?
+  deliveryPoint   deliveryPoint @relation(fields: [deliveryPointId], references: [id])
+  deliveryPointId Int
   singleTrip      singleTrip[]
-  truck           truck?         @relation(fields: [truckId], references: [id])
-  truckId         Int?
+  truck           truck         @relation(fields: [truckId], references: [id])
+  truckId         Int
 
   @@schema("subContract")
 }
@@ -379,8 +379,8 @@ model factoryToCustomerTrip {
   deliveryPoint   deliveryPoint @relation(fields: [deliveryPointId], references: [id])
   deliveryPointId Int
   singleTrip      singleTrip[]
-  truck           truck?        @relation(fields: [truckId], references: [id])
-  truckId         Int?
+  truck           truck         @relation(fields: [truckId], references: [id])
+  truckId         Int
 
   @@schema("subContract")
 }

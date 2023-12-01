@@ -1,10 +1,10 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Button } from '@mui/material'
 import { createCustomer } from '../../services/customer.ts'
 import SuccessDialog from '../SuccessDialog.tsx'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormFields from './formFields.tsx'
+import SubmitButton from '../../../form/button.tsx'
 
 interface FormData {}
 export const NewCustomer = () => {
@@ -23,21 +23,7 @@ export const NewCustomer = () => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields control={control} />
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        type="submit"
-                        style={{ marginTop: '20px' }}
-                    >
-                        Save
-                    </Button>
-                </div>
+                <SubmitButton name="Save" type="submit" />
             </form>
             <SuccessDialog
                 open={openSuccessDialog}
