@@ -6,15 +6,11 @@ import { Outlet } from 'react-router-dom'
 import { SwipeableDrawer } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { HeaderBar } from './headerBar.tsx'
-
-type Anchor = 'left'
-
 const HrmLayout = () => {
     const theme = useTheme()
     const [state, setState] = React.useState({ left: false })
-
     const toggleDrawer =
-        (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        (anchor: 'left', open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
             if (
                 event &&
                 event.type === 'keydown' &&
@@ -25,10 +21,8 @@ const HrmLayout = () => {
             }
             setState({ ...state, [anchor]: open })
         }
-    const handleMenuIconClick = () => {
+    const handleMenuIconClick = () =>
         setState((prevState) => ({ ...prevState, left: !prevState.left }))
-    }
-
     return (
         <Box sx={{ flexDirection: 'column', minHeight: '100vh' }}>
             <HeaderBar handleMenuIconClick={() => handleMenuIconClick()} />

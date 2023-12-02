@@ -78,45 +78,40 @@ const SecondReason: React.FC<SecondReasonProps> = ({
                 tableState()
                 onClose()
             })
-            .catch(() => {
-                alert("Can't able to split")
-            })
+            .catch(() => alert("Can't able to split"))
     }
-
     return (
-        <>
-            <div className="popup">
-                <div className="popup-content" style={{ display: 'flex' }}>
-                    <div>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Stack spacing={2} sx={{ maxWidth: 300 }}>
-                                <DateTimePicker
-                                    value={value}
-                                    onChange={setValue}
-                                    minDateTime={dayjs(epochToDate(row.startTime))}
-                                    maxDateTime={dayjs(epochToDate(row.endTime))}
-                                />
-                            </Stack>
-                        </LocalizationProvider>
-                    </div>
-                    <div>
-                        {
-                            <UpdateReason
-                                stopInfo={row}
-                                selectedReason={selectedReason}
-                                onSelect={handleMenuItemSelect}
+        <div className="popup">
+            <div className="popup-content" style={{ display: 'flex' }}>
+                <div>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <Stack spacing={2} sx={{ maxWidth: 300 }}>
+                            <DateTimePicker
+                                value={value}
+                                onChange={setValue}
+                                minDateTime={dayjs(epochToDate(row.startTime))}
+                                maxDateTime={dayjs(epochToDate(row.endTime))}
                             />
-                        }
-                    </div>
-                    <div>
-                        <Button onClick={handleClose}>Close</Button>
-                        <Button autoFocus onClick={updateReason} disabled={disableUpdate}>
-                            Update
-                        </Button>
-                    </div>
+                        </Stack>
+                    </LocalizationProvider>
+                </div>
+                <div>
+                    {
+                        <UpdateReason
+                            stopInfo={row}
+                            selectedReason={selectedReason}
+                            onSelect={handleMenuItemSelect}
+                        />
+                    }
+                </div>
+                <div>
+                    <Button onClick={handleClose}>Close</Button>
+                    <Button autoFocus onClick={updateReason} disabled={disableUpdate}>
+                        Update
+                    </Button>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 export default SecondReason

@@ -32,9 +32,7 @@ const PendingStops: React.FC<Props> = ({ pendingStops }) => {
                             onClick={() => navigate(`details/${row.number}`)}
                             key={index}
                             style={{ cursor: 'pointer' }}
-                            sx={{
-                                '&:last-child td, &:last-child th': { border: 0 }
-                            }}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell> {index + 1} </TableCell>
                             <TableCell align="left">{row.number}</TableCell>

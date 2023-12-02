@@ -19,35 +19,26 @@ const LeaveList: React.FC = () => {
     const [allLeave, setAllLeave] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
     const employeeId = useAtomValue(userIdAtom)
-
     useEffect(() => {
         getAllLeaveWithStatus(employeeId).then(setAllLeave)
     }, [employeeId])
-
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
     }
-
     const gstStatus = (row: any) => {
         if (row.approval === true) {
             return 'Approved'
         } else if (row.approval === false) {
             return 'Rejected'
-        } else {
-            return 'Pending'
-        }
+        } else return 'Pending'
     }
-
     const getApprovalStatus = (row: any) => {
         if (row.approval === true) {
             return 'Permission Granted'
         } else if (row.approval === false) {
             return row.deniedComment ? row.deniedComment : 'No comment provided'
-        } else {
-            return 'Pending'
-        }
+        } else return 'Pending'
     }
-
     return (
         <>
             <ActionButton onClick={() => navigate('apply')} displayText="Apply Leave" />

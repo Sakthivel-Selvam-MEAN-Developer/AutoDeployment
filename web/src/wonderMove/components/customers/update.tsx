@@ -8,7 +8,6 @@ import SubmitButton from '../../../form/button.tsx'
 interface CustomerDetails {
     name: string
 }
-
 interface UpdateCustomerProps {
     customerDetails: any
 }
@@ -26,9 +25,8 @@ const UpdateCustomer: FC<UpdateCustomerProps> = ({ customerDetails }) => {
     const onSubmit: SubmitHandler<CustomerDetails> = (customer) => {
         updateCustomer(name, JSON.stringify(customer)).then(() => setOpenSuccessDialog(true))
     }
-    const handleClose = () => {
-        setOpenSuccessDialog(false)
-    }
+    const handleClose = () => setOpenSuccessDialog(false)
+
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>

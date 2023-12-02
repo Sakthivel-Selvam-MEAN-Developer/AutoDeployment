@@ -43,9 +43,8 @@ const ApprovalList: FC = () => {
             setRefresh((prevState) => !prevState)
         )
     }
-    const handleListItemClick = (rowId: number) => {
+    const handleListItemClick = (rowId: number) =>
         setSelectedRow(selectedRow === rowId ? null : rowId)
-    }
     const handleReject = (row: any) => {
         rejectLeaves(row.id, { employeeId: row.employeeId, deniedComment: rejectionReason })
             .then(() => setOpen(false))

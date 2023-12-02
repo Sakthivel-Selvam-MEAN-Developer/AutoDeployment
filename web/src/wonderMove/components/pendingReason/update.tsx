@@ -12,7 +12,6 @@ interface ReasonInfo {
         id: number
     }
 }
-
 interface UpdateReasonProps {
     reasonInfo: ReasonInfo
     allReasons: Array<any>
@@ -20,14 +19,12 @@ interface UpdateReasonProps {
 const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) => {
     const [selectedReason, setSelectedReason] = useState<string | number>(reasonInfo.reason.id)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-
     const handleChange = (event: SelectChangeEvent<typeof selectedReason>) => {
         const selectedReasonId = event.target.value
         setSelectedReason(selectedReasonId)
         updateStops(reasonInfo.id, { stopReasonId: selectedReasonId })
         setOpenSuccessDialog(true)
     }
-
     return (
         <>
             <FormControl sx={{ m: 1, minWidth: 200 }} size="small">

@@ -16,30 +16,26 @@ const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {
     useEffect(() => {
         getAllLeaveReasons().then(setFetchReason)
     }, [])
-
     const handleChange = (event: SelectChangeEvent) => {
         setReason(event.target.value as string)
     }
-
     return (
-        <>
-            <FormControl sx={{ minWidth: 195 }} size="medium">
-                <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>
-                <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    label="Reasons"
-                    value={reason}
-                    onChange={handleChange}
-                >
-                    {fetchReason.map((reason: any, index: any) => (
-                        <MenuItem key={index} value={reason.id}>
-                            {reason.name}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-        </>
+        <FormControl sx={{ minWidth: 195 }} size="medium">
+            <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>
+            <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                label="Reasons"
+                value={reason}
+                onChange={handleChange}
+            >
+                {fetchReason.map((reason: any, index: any) => (
+                    <MenuItem key={index} value={reason.id}>
+                        {reason.name}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
     )
 }
 export default FetchReason
