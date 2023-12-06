@@ -9,12 +9,12 @@ const mockOrgHeadOfEmployees = jest.fn()
 const mockHeadLeaves = jest.fn()
 
 jest.mock('../models/orgUnitHeads', () => ({
-    isEmployeeInOrgUnitHeads: (employeeId: any) => mockOrgUnitHead(employeeId),
-    orgHeadOfEmployees: (childOrgId: any) => mockOrgHeadOfEmployees(childOrgId)
+    isEmployeeInOrgUnitHeads: (employeeId: string) => mockOrgUnitHead(employeeId),
+    orgHeadOfEmployees: (childOrgId: string) => mockOrgHeadOfEmployees(childOrgId)
 }))
 jest.mock('../models/leaves', () => ({
-    leavesPendingReview: (orgUnitId: any) => mockLeaves(orgUnitId),
-    getHeadLeave: (orgUnitId: any) => mockHeadLeaves(orgUnitId)
+    leavesPendingReview: (orgUnitId: number) => mockLeaves(orgUnitId),
+    getHeadLeave: (orgUnitId: number) => mockHeadLeaves(orgUnitId)
 }))
 jest.mock('../models/employee', () => ({
     getEmployeeOrgId: (employeeId: any) => mockChildsOrgUnitHead(employeeId)

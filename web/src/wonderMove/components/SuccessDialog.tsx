@@ -16,7 +16,7 @@ const SuccessDialog: FC<SuccessDialogProps> = ({ open, handleClose, message }) =
         >
             <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
             <DialogActions>
-                <Button onClick={handleClose} autoFocus>
+                <Button data-testid={'ok-button'} onClick={handleClose} autoFocus>
                     Ok
                 </Button>
             </DialogActions>

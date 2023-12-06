@@ -4,9 +4,8 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import { getAllReasons, update } from '../../services/reason.ts'
+import { create, getAllReasons, update } from '../../services/reason.ts'
 import { Edit, Add } from '@mui/icons-material'
-import { create } from '../../services/reason.ts'
 import SuccessDialog from '../SuccessDialog.tsx'
 import InputField from './inputField.tsx'
 interface reasonProps {
@@ -72,8 +71,13 @@ const ReasonList: React.FC = () => {
                     <ListItem
                         key={index}
                         disableGutters
+                        data-testid={'list-item'}
                         secondaryAction={
-                            <IconButton aria-label="comment" onClick={() => handleEditClick(row)}>
+                            <IconButton
+                                aria-label="comment"
+                                data-testid={'edit-button'}
+                                onClick={() => handleEditClick(row)}
+                            >
                                 <Edit />
                             </IconButton>
                         }

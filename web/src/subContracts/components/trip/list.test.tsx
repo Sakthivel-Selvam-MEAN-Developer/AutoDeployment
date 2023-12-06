@@ -2,8 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react'
 import TripList from './list'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
-// import ListAllTrip from './show'
-// import NewTrip from './newTrip'
 
 const mockAllTrip = vi.fn()
 
@@ -44,23 +42,4 @@ describe('Trip Test', () => {
         })
         expect(mockAllTrip).toHaveBeenCalledTimes(1)
     })
-    // test('checking the component called TripList', () => {
-    //     render(
-    //         <BrowserRouter><TripList /></BrowserRouter>)
-    //     expect(screen.getByText('List Of Trips')).toBeInTheDocument()
-    //     expect(screen.getByText('Assign New Trip')).toBeInTheDocument()
-    //     fireEvent.click(screen.getByTestId('new-trip-button'))
-    // })
-    // test('checking the component called NewTrip', () => {
-    //     render(
-    //         <BrowserRouter><NewTrip /></BrowserRouter>)
-    //     expect(screen.getByText('Start')).toBeInTheDocument()
-
-    // })
-    // test('checking the component called ListAllTrip', () => {
-    //     render(
-    //         <BrowserRouter><ListAllTrip allTrips={[]} /></BrowserRouter>)
-    //     expect(screen.getByText('Vehicle Number')).toBeInTheDocument()
-    //     expect(screen.getByText('Filled Load')).toBeInTheDocument()
-    //     })
 })
