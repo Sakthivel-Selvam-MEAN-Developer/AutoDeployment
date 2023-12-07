@@ -17,18 +17,18 @@ import { create } from '../subContracts/models/deliveryPoint.ts'
 
 const prisma = new PrismaClient()
 const main = async () => {
-    // const orgUnit = await createOrgUnit(seedOrgUnit)
-    // const employeeHead = await createEmployee({
-    //     ...seedEmployeeHead,
-    //     orgUnitId: orgUnit.childOrgId
-    // })
-    // await createEmployee({ ...seedEmployee, orgUnitId: orgUnit.childOrgId })
-    // await createOrgUnitHead({
-    //     orgUnitId: orgUnit.childOrgId,
-    //     employeeId: employeeHead.id
-    // })
-    // await createReason(seedReason)
-    // await createReason({ name: 'Sick Leave' })
+    const orgUnit = await createOrgUnit(seedOrgUnit)
+    const employeeHead = await createEmployee({
+        ...seedEmployeeHead,
+        orgUnitId: orgUnit.childOrgId
+    })
+    await createEmployee({ ...seedEmployee, orgUnitId: orgUnit.childOrgId })
+    await createOrgUnitHead({
+        orgUnitId: orgUnit.childOrgId,
+        employeeId: employeeHead.id
+    })
+    await createReason(seedReason)
+    await createReason({ name: 'Sick Leave' })
 
     //  Seed Factory
     const factory = await createFactory(seedFactory)

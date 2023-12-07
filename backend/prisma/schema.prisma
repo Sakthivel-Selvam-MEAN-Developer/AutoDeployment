@@ -272,13 +272,18 @@ model bankDetails {
 }
 
 model cementCompany {
-  id             Int             @id @default(autoincrement())
-  name           String
-  factories      factory[]
-  stockPoints    stockPoint[]
-  deliveryPoints deliveryPoint[]
-  createdAt      DateTime        @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime        @updatedAt @db.Timestamptz(6)
+  id                  Int             @id @default(autoincrement())
+  name                String          @unique
+  gstNo               String
+  address             String
+  emailId             String
+  contactPersonName   String
+  contactPersonNumber Int
+  factories           factory[]
+  stockPoints         stockPoint[]
+  deliveryPoints      deliveryPoint[]
+  createdAt           DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime        @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }

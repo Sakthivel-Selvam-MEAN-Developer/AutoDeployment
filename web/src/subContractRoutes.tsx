@@ -7,7 +7,6 @@ import TripList from './subContracts/components/trip/list'
 import NewTrip from './subContracts/components/trip/newTrip'
 import CreateCompany from './subContracts/components/cementCompany/factory'
 
-
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -42,7 +41,7 @@ const sunContractRoutes = {
             children: [
                 {
                     path: '',
-                    element: <CreateCompany/>
+                    element: <CreateCompany />
                 }
             ]
         }
