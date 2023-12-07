@@ -102,7 +102,7 @@ const FormField: React.FC<FormFieldProps> = ({
             <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
             <NumberInput
                 control={control}
-                label="Filled Load"
+                label="Quantity Loaded"
                 fieldName="filledLoad"
                 type="number"
                 InputProps={{

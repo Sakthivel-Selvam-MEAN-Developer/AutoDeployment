@@ -41,7 +41,7 @@ function getTableHead() {
                 <TableCell align="left">InvoiceNumber</TableCell>
                 <TableCell align="left">Factory Point</TableCell>
                 <TableCell align="left">Delivery Point</TableCell>
-                <TableCell align="left">Filled Load</TableCell>
+                <TableCell align="left">Quantity Loaded</TableCell>
             </TableRow>
         </TableHead>
     )

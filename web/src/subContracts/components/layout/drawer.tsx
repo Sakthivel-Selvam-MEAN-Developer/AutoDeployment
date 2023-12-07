@@ -1,5 +1,5 @@
 import IconButton from '@mui/material/IconButton'
-import { Dashboard, ChevronRight, ChevronLeft, LocalShipping } from '@mui/icons-material'
+import { Dashboard, ChevronRight, ChevronLeft, LocalShipping , Factory} from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import { styled, useTheme, Theme } from '@mui/material/styles'
@@ -75,6 +75,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     drawerState={drawerState}
                     index={1}
                     icon={<LocalShipping />}
+                />
+                <DrawerListItem
+                    text="Company"
+                    navigate="/sub/company"
+                    drawerState={drawerState}
+                    index={2}
+                    icon={<Factory />}
                 />
             </List>
         </Drawer>
