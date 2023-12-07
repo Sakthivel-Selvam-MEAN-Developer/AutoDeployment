@@ -79,10 +79,10 @@ const FormField: React.FC<FormFieldProps> = ({
                 control={control}
                 fieldName="factoryId"
                 label="Factory Point"
-                options={factoryList.map(({ location }) => location)}
+                options={factoryList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id }: any = factoryList.find(
-                        (factory: any) => factory.location === newValue
+                        (factory: any) => factory.name === newValue
                     )
                     factoryId(id)
                 }}
@@ -91,10 +91,10 @@ const FormField: React.FC<FormFieldProps> = ({
                 control={control}
                 fieldName="deliveryPointId"
                 label="Delivery Point"
-                options={deliveryPoint.map(({ location }) => location)}
+                options={deliveryPoint.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id }: any = deliveryPoint.find(
-                        (deliveryPoint: any) => deliveryPoint.location === newValue
+                        (deliveryPoint: any) => deliveryPoint.name === newValue
                     )
                     deliveryPointId(id)
                 }}

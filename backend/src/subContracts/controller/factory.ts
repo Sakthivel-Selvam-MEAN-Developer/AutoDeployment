@@ -1,5 +1,9 @@
 import { Request, Response } from 'express'
-import { getAllFactory, getFactoryByCompany } from '../models/factory.ts'
+import { create, getAllFactory, getFactoryByCompany } from '../models/factory.ts'
+
+export const createFoctoryPoint = (req: Request, res: Response) => {
+    create(req.body).then(() => res.send(200))
+}
 
 export const listAllFactory = (_req: Request, res: Response) => {
     getAllFactory().then((data) => res.status(200).json(data))

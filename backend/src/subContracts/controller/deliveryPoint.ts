@@ -1,5 +1,9 @@
 import { Request, Response } from 'express'
-import { getAllDeliveryPoint, getDeliveryPointByCompany } from '../models/deliveryPoint.ts'
+import { create, getAllDeliveryPoint, getDeliveryPointByCompany } from '../models/deliveryPoint.ts'
+
+export const createDeliveryPoint = (req: Request, res: Response) => {
+    create(req.body).then(() => res.send(200))
+}
 
 export const listAllDeliveryPoint = (_req: Request, res: Response) => {
     getAllDeliveryPoint().then((data) => res.status(200).json(data))

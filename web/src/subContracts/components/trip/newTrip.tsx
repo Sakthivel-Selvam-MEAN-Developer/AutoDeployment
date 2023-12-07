@@ -7,6 +7,9 @@ import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { createTrip } from '../../services/trip.ts'
 import { useNavigate } from 'react-router-dom'
 
+interface transporter {
+    name: string
+}
 const NewTrip: React.FC = () => {
     const navigate = useNavigate()
     const { handleSubmit, control } = useForm<FormData>()
@@ -29,10 +32,10 @@ const NewTrip: React.FC = () => {
     }
     useEffect(() => {
         getAllTransporter().then((transporterData) =>
-            setTransporter(transporterData.map(({ name }: any) => name))
+            setTransporter(transporterData.map(({ name }: transporter) => name))
         )
         getAllCementCompany().then((companyData) =>
-            setCementCompany(companyData.map(({ name }: any) => name))
+            setCementCompany(companyData.map(({ name }: transporter) => name))
         )
     }, [])
     return (

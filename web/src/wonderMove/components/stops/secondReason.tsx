@@ -36,18 +36,13 @@ const SecondReason: React.FC<SecondReasonProps> = ({
     const [value, setValue] = useState<dayjs.Dayjs | null>(null)
     const [selectedReason, setSelectedReason] = useState(row.reason.id)
 
-    const handleMenuItemSelect = (selectedReasonId: number) => {
-        setSelectedReason(selectedReasonId)
-    }
-    const handleClose = () => {
-        onClose()
-    }
+    const handleMenuItemSelect = (selectedReasonId: number) => setSelectedReason(selectedReasonId)
+    const handleClose = () => onClose()
     const disableUpdate =
         !value ||
         !value.isValid() ||
         value.isBefore(dayjs(epochToDate(row.startTime))) ||
         value.isAfter(dayjs(epochToDate(row.endTime)))
-
     const updateReason = () => {
         const splitTime = dayjs(value).unix()
         const firstStop = {

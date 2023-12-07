@@ -4,5 +4,5 @@ export default {
     address: 'chennai',
     emailId: 'sample@gmail.com',
     contactPersonName: 'muthu',
-    contactPersonNumber: 1234567890
+    contactPersonNumber: '1234567890'
 }

@@ -278,7 +278,7 @@ model cementCompany {
   address             String
   emailId             String
   contactPersonName   String
-  contactPersonNumber Int
+  contactPersonNumber String
   factories           factory[]
   stockPoints         stockPoint[]
   deliveryPoints      deliveryPoint[]
@@ -291,7 +291,7 @@ model cementCompany {
 model factory {
   id                    Int                       @id @default(autoincrement())
   name                  String
-  location              String
+  location              String?
   createdAt             DateTime                  @default(now()) @db.Timestamptz(6)
   updatedAt             DateTime                  @updatedAt @db.Timestamptz(6)
   factoryToStockTrip    factoryToStockPointTrip[]
@@ -305,7 +305,7 @@ model factory {
 model stockPoint {
   id                  Int                        @id @default(autoincrement())
   name                String
-  location            String
+  location            String?
   factoryToStockTrip  factoryToStockPointTrip[]
   stockToCustomerTrip stockToCustomerPointTrip[]
   createdAt           DateTime                   @default(now()) @db.Timestamptz(6)
@@ -319,7 +319,7 @@ model stockPoint {
 model deliveryPoint {
   id                    Int                        @id @default(autoincrement())
   name                  String
-  location              String
+  location              String?
   stockToCustomerTrip   stockToCustomerPointTrip[]
   factoryToCustomerTrip factoryToCustomerTrip[]
   createdAt             DateTime                   @default(now()) @db.Timestamptz(6)

@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import { listAllCementCompany } from '../controller/cementCompany.ts'
+import { createCompany, listAllCementCompany } from '../controller/cementCompany.ts'
 
 const cementCompanyRoutes = (router: Router) => {
+    router.post('/cementCompany', createCompany)
     router.get('/cementCompany', listAllCementCompany)
 }
 

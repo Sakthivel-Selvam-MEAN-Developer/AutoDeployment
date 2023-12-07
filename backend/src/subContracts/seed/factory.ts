@@ -1,8 +1,8 @@
 import cementCompany from './cementCompany.ts'
 
 export default {
-    name: 'UltraTech',
-    location: 'Erode',
+    // name: 'UltraTech',
+    name: 'Chennai',
     cementCompany: {
         create: cementCompany
     }

@@ -1,13 +1,30 @@
-import React, { ReactElement } from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { ReactElement, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import SubmitButton from '../../../form/button'
+import FactoryFormFields from './factoryFormField'
+import { createDeliveryPoint } from '../../services/deliveryPoint'
+import { createFactoryPoint } from '../../services/factory'
 
-const CreateCompany: React.FC = (): ReactElement => {
+const CreateFactory: React.FC = (): ReactElement => {
+    const { handleSubmit, control } = useForm<FormData>()
+    const [companyId, setCompanyId] = useState()
+    const onSubmit: SubmitHandler<FormData> = (data: any) => {
+        if (data.loadingPoint !== undefined || '') {
+            createFactoryPoint({ name: data.loadingPoint, cementCompanyId: companyId })
+        }
+        if (data.unloadingPoint !== undefined || '') {
+            createDeliveryPoint({ name: data.unloadingPoint, cementCompanyId: companyId })
+        }
+        window.location.reload()
+    }
     return (
         <>
-            <div style={{ marginBottom: '30px' }}>CreateCompany</div>
-            <Outlet />
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FactoryFormFields control={control} companyId={setCompanyId} />
+                <SubmitButton name="Save" type="submit" />
+            </form>
         </>
     )
 }
 
-export default CreateCompany
+export default CreateFactory
