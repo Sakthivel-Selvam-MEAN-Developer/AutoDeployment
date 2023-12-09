@@ -5,7 +5,7 @@ interface TextInputProps {
     control: Control
     label: string
     fieldName: string
-    type: any
+    type: 'number' | 'string' | 'email'
     disabled: any
 }
 function InputWithType({ control, label, fieldName, type, disabled }: TextInputProps) {

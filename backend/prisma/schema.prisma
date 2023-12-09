@@ -298,6 +298,7 @@ model factory {
   factoryToCustomerTrip factoryToCustomerTrip[]
   cementCompany         cementCompany             @relation(fields: [cementCompanyId], references: [id])
   cementCompanyId       Int
+  pricePoint            pricePoint[]
 
   @@schema("subContract")
 }
@@ -326,66 +327,73 @@ model deliveryPoint {
   updatedAt             DateTime                   @updatedAt @db.Timestamptz(6)
   cementCompany         cementCompany              @relation(fields: [cementCompanyId], references: [id])
   cementCompanyId       Int
+  pricePoint            pricePoint[]
 
   @@schema("subContract")
 }
 
 model factoryToStockPointTrip {
-  id            Int          @id @default(autoincrement())
-  fuel          fuel[]
-  startDate     Int
-  endDate       Int
-  filledLoad    Int
-  invoiceNumber String
-  factoryId     Int
-  factory       factory      @relation(fields: [factoryId], references: [id])
-  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
-  stockPoint    stockPoint   @relation(fields: [stockPointId], references: [id])
-  stockPointId  Int
-  singleTrip    singleTrip[]
-  truck         truck        @relation(fields: [truckId], references: [id])
-  truckId       Int
+  id                Int          @id @default(autoincrement())
+  fuel              fuel[]
+  startDate         Int
+  filledLoad        Int
+  invoiceNumber     String
+  freightAmount     Int
+  transporterAmount Int
+  factoryId         Int
+  factory           factory      @relation(fields: [factoryId], references: [id])
+  createdAt         DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime     @updatedAt @db.Timestamptz(6)
+  stockPoint        stockPoint   @relation(fields: [stockPointId], references: [id])
+  stockPointId      Int
+  singleTrip        singleTrip[]
+  truck             truck        @relation(fields: [truckId], references: [id])
+  truckId           Int
 
   @@schema("subContract")
 }
 
 model stockToCustomerPointTrip {
-  id              Int           @id @default(autoincrement())
-  fuel            fuel[]
-  startDate       Int
-  endDate         Int?
-  filledLoad      Int
-  invoiceNumber   String
-  createdAt       DateTime      @default(now()) @db.Timestamptz(6)
-  updatedAt       DateTime      @updatedAt @db.Timestamptz(6)
-  stockPoint      stockPoint    @relation(fields: [stockPointId], references: [id])
-  stockPointId    Int
-  deliveryPoint   deliveryPoint @relation(fields: [deliveryPointId], references: [id])
-  deliveryPointId Int
-  singleTrip      singleTrip[]
-  truck           truck         @relation(fields: [truckId], references: [id])
-  truckId         Int
+  id                Int           @id @default(autoincrement())
+  fuel              fuel[]
+  startDate         Int
+  filledLoad        Int
+  invoiceNumber     String
+  freightAmount     Int
+  transporterAmount Int
+  createdAt         DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime      @updatedAt @db.Timestamptz(6)
+  stockPoint        stockPoint    @relation(fields: [stockPointId], references: [id])
+  stockPointId      Int
+  deliveryPoint     deliveryPoint @relation(fields: [deliveryPointId], references: [id])
+  deliveryPointId   Int
+  singleTrip        singleTrip[]
+  truck             truck         @relation(fields: [truckId], references: [id])
+  truckId           Int
 
   @@schema("subContract")
 }
 
 model factoryToCustomerTrip {
-  id              Int           @id @default(autoincrement())
-  fuel            fuel[]
-  startDate       Int
-  endDate         Int
-  filledLoad      Int
-  factoryId       Int
-  factory         factory       @relation(fields: [factoryId], references: [id])
-  invoiceNumber   String
-  createdAt       DateTime      @default(now()) @db.Timestamptz(6)
-  updatedAt       DateTime      @updatedAt @db.Timestamptz(6)
-  deliveryPoint   deliveryPoint @relation(fields: [deliveryPointId], references: [id])
-  deliveryPointId Int
-  singleTrip      singleTrip[]
-  truck           truck         @relation(fields: [truckId], references: [id])
-  truckId         Int
+  id                     Int           @id @default(autoincrement())
+  fuel                   fuel[]
+  startDate              Int
+  filledLoad             Int
+  freightAmount          Int
+  transporterAmount      Int
+  totalFreightAmount     Int
+  totalTransporterAmount Int
+  margin                 Int
+  factoryId              Int
+  factory                factory       @relation(fields: [factoryId], references: [id])
+  invoiceNumber          String
+  createdAt              DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt              DateTime      @updatedAt @db.Timestamptz(6)
+  deliveryPoint          deliveryPoint @relation(fields: [deliveryPointId], references: [id])
+  deliveryPointId        Int
+  singleTrip             singleTrip[]
+  truck                  truck         @relation(fields: [truckId], references: [id])
+  truckId                Int
 
   @@schema("subContract")
 }
@@ -445,6 +453,21 @@ model truck {
   factoryToStockPointTrip  factoryToStockPointTrip[]
   stockToCustomerPointTrip stockToCustomerPointTrip[]
   factoryToCustomerTrip    factoryToCustomerTrip[]
+
+  @@schema("subContract")
+}
+
+model pricePoint {
+  id                    Int           @id @default(autoincrement())
+  factoryId             Int
+  factory               factory       @relation(fields: [factoryId], references: [id])
+  deliveryPointId       Int
+  deliveryPoint         deliveryPoint @relation(fields: [deliveryPointId], references: [id])
+  freightAmount         Int
+  transporterAmount     Int
+  transporterPercentage Int
+  createdAt             DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime      @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }

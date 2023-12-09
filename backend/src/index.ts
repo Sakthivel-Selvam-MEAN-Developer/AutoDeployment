@@ -14,6 +14,7 @@ import employeeRoutes from './hrm/routes/employees.ts'
 import cementCompanyRoutes from './subContracts/routes/cementCompany.ts'
 import factoryRoutes from './subContracts/routes/factory.ts'
 import deliveryPointRoutes from './subContracts/routes/deliveryPoint.ts'
+import pricePointRoutes from './subContracts/routes/pricePoint.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -36,5 +37,6 @@ tripRoutes(router)
 factoryRoutes(router)
 cementCompanyRoutes(router)
 deliveryPointRoutes(router)
+pricePointRoutes(router)
 
 export default router

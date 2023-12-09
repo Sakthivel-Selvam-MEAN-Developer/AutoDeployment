@@ -10,12 +10,12 @@ export const getAllTrip = () =>
         include: {
             factory: {
                 select: {
-                    location: true
+                    name: true
                 }
             },
             deliveryPoint: {
                 select: {
-                    location: true
+                    name: true
                 }
             },
             truck: {

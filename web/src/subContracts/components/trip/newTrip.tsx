@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { getAllTransporter } from '../../services/transporter.ts'
 import FormField from './formFields.tsx'
@@ -6,27 +6,47 @@ import SubmitButton from '../../../form/button.tsx'
 import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { createTrip } from '../../services/trip.ts'
 import { useNavigate } from 'react-router-dom'
+import { getPricePoint } from '../../services/pricePoint.ts'
+import dayjs from 'dayjs'
 
 interface transporter {
     name: string
+    transporterAmount: number
+    freightAmount: number
 }
 const NewTrip: React.FC = () => {
     const navigate = useNavigate()
-    const { handleSubmit, control } = useForm<FormData>()
+    const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
     const [truckId, setTruckId] = useState()
     const [factoryId, setFactoryId] = useState()
     const [deliveryPointId, setDeliveryPointId] = useState()
-    const onSubmit: SubmitHandler<FormData> = (data: any) => {
+    const [freightAmount, setFreightAmount] = useState(0)
+    const [transporterAmount, setTransporterAmount] = useState(0)
+    const [totalTransporterAmount, setTotalTransporterAmount] = useState(0)
+    const [totalFreightAmount, setTotalFreightAmount] = useState(0)
+    const [margin, setMargin] = useState(0)
+    const filledLoad = watch('filledLoad')
+    useEffect(() => {
+        setTotalFreightAmount(freightAmount * parseInt(filledLoad))
+        setTotalTransporterAmount(transporterAmount * parseInt(filledLoad))
+        setMargin(totalFreightAmount - totalTransporterAmount)
+    }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
+
+    const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
         const details = {
             truckId: truckId,
             factoryId: factoryId,
             deliveryPointId: deliveryPointId,
-            startDate: data.startDate.unix(),
-            endDate: data.endDate.unix(),
+            startDate: dayjs().unix(),
             filledLoad: parseInt(data.filledLoad),
-            invoiceNumber: data.invoiceNumber
+            invoiceNumber: data.invoiceNumber,
+            freightAmount: freightAmount,
+            transporterAmount: transporterAmount,
+            totalFreightAmount: totalFreightAmount,
+            totalTransporterAmount: totalTransporterAmount,
+            margin: margin
         }
         createTrip(JSON.stringify(details)).then(() => navigate('/sub/trip'))
     }
@@ -38,6 +58,15 @@ const NewTrip: React.FC = () => {
             setCementCompany(companyData.map(({ name }: transporter) => name))
         )
     }, [])
+    useEffect(() => {
+        if (factoryId !== undefined && deliveryPointId !== undefined) {
+            getPricePoint(factoryId, deliveryPointId).then((data) => {
+                setFreightAmount(data.freightAmount)
+                setTransporterAmount(data.transporterAmount)
+            })
+        }
+    }, [factoryId, deliveryPointId])
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormField
@@ -47,6 +76,11 @@ const NewTrip: React.FC = () => {
                 truckId={setTruckId}
                 factoryId={setFactoryId}
                 deliveryPointId={setDeliveryPointId}
+                freightAmount={freightAmount}
+                transporterAmount={transporterAmount}
+                totalFreightAmount={totalFreightAmount}
+                totalTransporterAmount={totalTransporterAmount}
+                margin={margin}
             />
             <SubmitButton name="Start" type="submit" />
         </form>

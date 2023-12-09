@@ -11,6 +11,10 @@ interface Props {
     allTrips: Row[]
 }
 interface Row {
+    freightAmount: number
+    transporterAmount: number
+    totalFreightAmount: number
+    totalTransporterAmount: number
     truck: {
         vehicleNumber: string
         transporter: {
@@ -20,10 +24,10 @@ interface Row {
     endDate: number
     invoiceNumber: string
     factory: {
-        location: string
+        name: string
     }
     deliveryPoint: {
-        location: string
+        name: string
     }
     filledLoad: string
     startDate: number
@@ -36,12 +40,16 @@ function getTableHead() {
                 <TableCell>#</TableCell>
                 <TableCell align="left">Vehicle Number</TableCell>
                 <TableCell align="left">Start Date</TableCell>
-                <TableCell align="left">End date</TableCell>
                 <TableCell align="left">Transporter</TableCell>
                 <TableCell align="left">InvoiceNumber</TableCell>
                 <TableCell align="left">Factory Point</TableCell>
                 <TableCell align="left">Delivery Point</TableCell>
+                <TableCell align="left">Freight Amount</TableCell>
+                <TableCell align="left">Transporter amount</TableCell>
                 <TableCell align="left">Quantity Loaded</TableCell>
+                <TableCell align="left">Total Freight Amount</TableCell>
+                <TableCell align="left">Total Transporter Amount</TableCell>
+                <TableCell align="left">Payment Status</TableCell>
             </TableRow>
         </TableHead>
     )
@@ -62,12 +70,16 @@ function getTableBody(allTrips: Row[]) {
                     <TableCell> {index + 1} </TableCell>
                     <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
                     <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
-                    <TableCell align="left">{epochToMinimalDate(row.endDate)}</TableCell>
                     <TableCell align="left">{row.truck.transporter.name}</TableCell>
                     <TableCell align="left">{row.invoiceNumber}</TableCell>
-                    <TableCell align="left">{row.factory.location}</TableCell>
-                    <TableCell align="left">{row.deliveryPoint.location}</TableCell>
+                    <TableCell align="left">{row.factory.name}</TableCell>
+                    <TableCell align="left">{row.deliveryPoint.name}</TableCell>
+                    <TableCell align="left">{row.freightAmount}</TableCell>
+                    <TableCell align="left">{row.transporterAmount}</TableCell>
                     <TableCell align="left">{row.filledLoad}</TableCell>
+                    <TableCell align="left">{row.totalFreightAmount}</TableCell>
+                    <TableCell align="left">{row.totalTransporterAmount}</TableCell>
+                    <TableCell align="left">-------</TableCell>
                 </TableRow>
             ))}
         </TableBody>

@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { create, getAllFactory, getFactoryByCompany } from '../models/factory.ts'
 
 export const createFoctoryPoint = (req: Request, res: Response) => {
-    create(req.body).then(() => res.send(200))
+    create(req.body).then(() => res.sendStatus(200))
 }
 
 export const listAllFactory = (_req: Request, res: Response) => {

@@ -7,6 +7,8 @@ import TripList from './subContracts/components/trip/list'
 import NewTrip from './subContracts/components/trip/newTrip'
 import CreateCompany from './subContracts/components/cementCompany/company'
 import CreateFactory from './subContracts/components/cementCompany/factory'
+import PricePoint from './subContracts/components/pricePoint'
+import CreatePricepoint from './subContracts/components/pricePoint/list'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -47,6 +49,16 @@ const sunContractRoutes = {
                 {
                     path: 'factory',
                     element: <CreateFactory />
+                }
+            ]
+        },
+        {
+            path: 'price-point',
+            element: <PricePoint />,
+            children: [
+                {
+                    path: '',
+                    element: <CreatePricepoint />
                 }
             ]
         }

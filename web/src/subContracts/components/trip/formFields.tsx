@@ -1,20 +1,26 @@
 import TextInput from '../../../form/TextInput.tsx'
 import NumberInput from '../../../form/NumberInput.tsx'
 import AutoComplete from '../../../form/AutoComplete.tsx'
-import DateInput from '../../../form/DateInput.tsx'
 import { InputAdornment } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getTruckByTransporter } from '../../services/truck.ts'
 import { getFactoryByCementCompanyName } from '../../services/factory.ts'
 import { getDeliveryPointByCompanyName } from '../../services/deliveryPoint.ts'
+import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
+import { Control } from 'react-hook-form'
 
 interface FormFieldProps {
-    control: any
+    control: Control
     transporter: string[]
     truckId: any
     factoryId: any
     deliveryPointId: any
     cementCompany: string[]
+    freightAmount: any
+    transporterAmount: any
+    totalFreightAmount: number | undefined
+    totalTransporterAmount: number | undefined
+    margin: number | undefined
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -22,10 +28,15 @@ const FormField: React.FC<FormFieldProps> = ({
     truckId,
     cementCompany,
     factoryId,
-    deliveryPointId
+    deliveryPointId,
+    freightAmount,
+    transporterAmount,
+    totalFreightAmount,
+    totalTransporterAmount,
+    margin
 }) => {
-    const [transporterName, setTransporterName] = useState<string | null>()
-    const [cementCompanyName, setCementCompanyName] = useState<string | null>()
+    const [transporterName, setTransporterName] = useState<any>()
+    const [cementCompanyName, setCementCompanyName] = useState<any>()
     const [listTruck, setListTruck] = useState([])
     const [factoryList, setFactoryList] = useState([])
     const [deliveryPoint, setDeliveryPoint] = useState([])
@@ -99,6 +110,34 @@ const FormField: React.FC<FormFieldProps> = ({
                     deliveryPointId(id)
                 }}
             />
+            <InputWithDefaultValue
+                control={control}
+                label="Freight Amount"
+                fieldName="freightAmount"
+                type="number"
+                defaultValue={freightAmount}
+                value={freightAmount}
+                InputProps={{
+                    readOnly: true
+                }}
+                InputLabelProps={{
+                    shrink: true
+                }}
+            />
+            <InputWithDefaultValue
+                control={control}
+                label="Transporter Amount"
+                fieldName="transporterAmount"
+                type="number"
+                defaultValue="jj"
+                value={transporterAmount}
+                InputProps={{
+                    readOnly: true
+                }}
+                InputLabelProps={{
+                    shrink: true
+                }}
+            />
             <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
             <NumberInput
                 control={control}
@@ -113,8 +152,48 @@ const FormField: React.FC<FormFieldProps> = ({
                     )
                 }}
             />
-            <DateInput control={control} fieldName="startDate" label="Start Date" />
-            <DateInput control={control} fieldName="endDate" label="End Date" />
+            <InputWithDefaultValue
+                control={control}
+                label="Total Freight Amount"
+                fieldName="totalFreightAmount"
+                type="number"
+                defaultValue={totalFreightAmount}
+                value={totalFreightAmount}
+                InputProps={{
+                    readOnly: true
+                }}
+                InputLabelProps={{
+                    shrink: true
+                }}
+            />
+            <InputWithDefaultValue
+                control={control}
+                label="Total Transporter Amount"
+                fieldName="totalTransporterAmount"
+                type="number"
+                defaultValue={totalTransporterAmount}
+                value={totalTransporterAmount}
+                InputProps={{
+                    readOnly: true
+                }}
+                InputLabelProps={{
+                    shrink: true
+                }}
+            />
+            <InputWithDefaultValue
+                control={control}
+                label="Total Margin"
+                fieldName="margin"
+                type="number"
+                defaultValue={margin}
+                value={margin}
+                InputProps={{
+                    readOnly: true
+                }}
+                InputLabelProps={{
+                    shrink: true
+                }}
+            />
         </div>
     )
 }

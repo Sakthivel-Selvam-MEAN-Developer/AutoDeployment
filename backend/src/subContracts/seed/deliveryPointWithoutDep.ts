@@ -1,4 +1,3 @@
 export default {
-    name: 'Salem',
-    location: 'Salem, Tamilnadu'
+    name: 'Salem'
 }
