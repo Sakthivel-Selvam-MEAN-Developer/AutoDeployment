@@ -10,22 +10,23 @@ vi.mock('../../services/trip', () => ({
 }))
 
 describe('Trip Test', () => {
-    test.skip('should fetch data from Db', async () => {
+    test('should fetch data from Db', async () => {
         const mockTripData = [
             {
-                // startDate: 1696934739,
+                startDate: 1696934739,
                 factory: {
-                    location: 'salem'
+                    name: 'salem'
                 },
                 deliveryPoint: {
-                    location: 'erode'
+                    name: 'erode'
                 },
                 truck: {
                     vehicleNumber: 'TN93D5512',
                     transporter: {
                         name: 'Barath'
                     }
-                }
+                },
+                transporterBalance: 1000
             }
         ]
         mockAllTrip.mockResolvedValue(mockTripData)
@@ -36,7 +37,7 @@ describe('Trip Test', () => {
         )
         await waitFor(() => {
             expect(screen.getByText('TN93D5512')).toBeInTheDocument()
-            // expect(screen.getByText('Oct 10, 2023')).toBeInTheDocument()
+            expect(screen.getByText('Oct 10, 2023')).toBeInTheDocument()
             expect(screen.getByText('salem')).toBeInTheDocument()
         })
         expect(mockAllTrip).toHaveBeenCalledTimes(1)

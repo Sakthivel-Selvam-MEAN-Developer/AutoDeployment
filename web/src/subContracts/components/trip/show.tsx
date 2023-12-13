@@ -34,11 +34,9 @@ interface Row {
     startDate: number
 }
 const paymentStatus = (row: any) => {
-    if (row.transporterBalance === 0) {
-        return 'Pending'
-    } else if (row.approval !== 0) {
+    if (row.transporterBalance > 0) {
         return '70% Paid'
-    }
+    } else return 'Pending'
 }
 
 function getTableHead() {

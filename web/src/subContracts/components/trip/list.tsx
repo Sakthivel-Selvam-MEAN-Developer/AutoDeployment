@@ -24,7 +24,7 @@ const TripList: React.FC = () => {
                     </Button>
                 </Link>
                 <Link to={'/sub/trip/pay'}>
-                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                    <Button color="primary" variant="contained" data-testid={'trip-payment'}>
                         Trip Payment
                     </Button>
                 </Link>
