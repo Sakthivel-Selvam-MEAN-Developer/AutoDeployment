@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import AutoComplete from '../../../form/AutoComplete.tsx'
-import { getTruckByTransporter } from '../../services/truck.ts'
 import { getTripByVehicleNumber } from '../../services/trip.ts'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import NumberInput from '../../../form/NumberInputWithValue.tsx'
@@ -9,9 +8,9 @@ import { Control } from 'react-hook-form'
 
 interface FormFieldsProps {
     control: Control
-    transporter: string[]
     secondPay: number
     firstPay: number
+    trip: []
     tripId: React.Dispatch<React.SetStateAction<number>>
     data: React.Dispatch<React.SetStateAction<number>>
     setFirstPay: React.Dispatch<React.SetStateAction<number>>
@@ -19,24 +18,31 @@ interface FormFieldsProps {
 }
 const PayFormFields: React.FC<FormFieldsProps> = ({
     control,
-    transporter,
     tripId,
     data,
+    trip,
     firstPay,
     secondPay,
     setFirstPay
 }) => {
-    const [listTruck, setListTruck] = useState([])
-    const [transporterName, setTransporterName] = useState<string>('null')
+    const [transporter, setTransporter] = useState([])
     const [truckNumber, setTruckNumber] = useState<string>('')
 
     useEffect(() => {
-        getTruckByTransporter(transporterName).then(setListTruck)
-        getTripByVehicleNumber(truckNumber).then(({ id, totalTransporterAmount }) => {
-            tripId(id)
-            data(totalTransporterAmount)
-        })
-    }, [transporterName, truckNumber])
+        getTripByVehicleNumber(truckNumber).then(
+            ({
+                id,
+                totalTransporterAmount,
+                truck: {
+                    transporter: { name }
+                }
+            }) => {
+                setTransporter(name)
+                tripId(id)
+                data(totalTransporterAmount)
+            }
+        )
+    }, [truckNumber])
 
     return (
         <div
@@ -49,20 +55,25 @@ const PayFormFields: React.FC<FormFieldsProps> = ({
         >
             <AutoComplete
                 control={control}
-                fieldName="transporterName"
-                label="Transporter"
-                options={transporter}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    setTransporterName(newValue)
-                }}
-            />
-            <AutoComplete
-                control={control}
                 fieldName="truck"
                 label="Truck Number"
-                options={listTruck.map(({ vehicleNumber }) => vehicleNumber)}
+                options={trip.map(({ truck: { vehicleNumber } }) => vehicleNumber)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     setTruckNumber(newValue)
+                }}
+            />
+            <InputWithDefaultValue
+                control={control}
+                label="Transporter"
+                fieldName="transporterName"
+                type="string"
+                defaultValue={transporter}
+                value={transporter}
+                InputProps={{
+                    readOnly: true
+                }}
+                InputLabelProps={{
+                    shrink: true
                 }}
             />
             <NumberInput

@@ -7,7 +7,6 @@ import { create as createOrgUnit } from './orgUnit.ts'
 import { create as createEmployee } from './employee.ts'
 import { create as createReason } from './leaveReasons.ts'
 import {
-    create,
     approvedLeaves,
     create as createLeave,
     getAllLeave,
@@ -15,6 +14,7 @@ import {
     rejectedLeaves,
     getHeadLeave
 } from './leaves.ts'
+import { create as createOrgHead } from './orgUnitHeads.ts'
 
 describe('Employee Leave Form model', () => {
     test('should able to access', async () => {
@@ -33,7 +33,7 @@ describe('Employee Leave Form model', () => {
         expect(actual.length).toBe(0)
     })
     test('should get only the rejected leave by employeeId', async () => {
-        const leaveFormToDelete = await create(seedEmployeeLeave)
+        const leaveFormToDelete = await createLeave(seedEmployeeLeave)
         const comment = { ...leaveFormToDelete, deniedComment: 'No comments' }
         await rejectedLeaves(comment.id, comment.employeeId, comment.deniedComment)
         const actual = await getAllLeave('asdf')
@@ -41,7 +41,7 @@ describe('Employee Leave Form model', () => {
         expect(actual[0].approval).toBe(false)
     })
     test('should get only the approved leave by employeeId', async () => {
-        const leaveFormToApprove = await create(seedEmployeeLeave)
+        const leaveFormToApprove = await createLeave(seedEmployeeLeave)
         expect(leaveFormToApprove.approval).toBe(null)
         await approvedLeaves(leaveFormToApprove.id, leaveFormToApprove.employeeId)
         const actual = await getAllLeave('asdf')
@@ -49,8 +49,20 @@ describe('Employee Leave Form model', () => {
         expect(actual[0].approval).toBe(true)
     })
     test('should get only the head leaves', async () => {
-        const leave = await create(seedEmployeeLeave)
-        const actual = await getHeadLeave(leave.id)
-        expect(actual.length).toBe(0)
+        const orgUnit = await createOrgUnit(seedOrgUnit)
+        const reason = await createReason(seedReason)
+        const orgHead = await createEmployee({
+            ...seedEmployee,
+            orgUnitId: orgUnit.id
+        })
+        await createOrgHead({ orgUnitId: orgUnit.id, employeeId: orgHead.id })
+        await createLeave({
+            ...seedEmployeeLeaveWithoutDep,
+            employeeId: orgHead.employeeId,
+            leaveReasonId: reason.id
+        })
+        const actual = await getHeadLeave(orgHead.id)
+        expect(actual.length).toBe(1)
+        expect(actual[0].employeeId).toBe(orgHead.employeeId)
     })
 })

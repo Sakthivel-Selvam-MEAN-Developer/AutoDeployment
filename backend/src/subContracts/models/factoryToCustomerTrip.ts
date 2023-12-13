@@ -56,6 +56,15 @@ export const getTripByVehicleNumber = (trucknumber: string) =>
         },
         select: {
             id: true,
-            totalTransporterAmount: true
+            totalTransporterAmount: true,
+            truck: {
+                select: {
+                    transporter: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            }
         }
     })

@@ -5,7 +5,7 @@ interface TextInputProps {
     control: Control
     label: string
     fieldName: string
-    type: 'number'
+    type: 'number' | 'string'
     value: any
     InputProps: object
     defaultValue: any
