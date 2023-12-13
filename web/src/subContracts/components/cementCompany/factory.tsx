@@ -1,14 +1,14 @@
 import React, { ReactElement, useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import FactoryFormFields from './factoryFormField'
 import { createDeliveryPoint } from '../../services/deliveryPoint'
 import { createFactoryPoint } from '../../services/factory'
 
 const CreateFactory: React.FC = (): ReactElement => {
-    const { handleSubmit, control } = useForm<FormData>()
-    const [companyId, setCompanyId] = useState()
-    const onSubmit: SubmitHandler<FormData> = (data: any) => {
+    const { handleSubmit, control } = useForm<FieldValues>()
+    const [companyId, setCompanyId] = useState(0)
+    const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
         if (data.loadingPoint !== undefined || '') {
             createFactoryPoint({ name: data.loadingPoint, cementCompanyId: companyId })
         }

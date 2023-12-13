@@ -6,5 +6,6 @@ export default {
     transporterAmount: 900,
     totalFreightAmount: 40000,
     totalTransporterAmount: 36000,
-    margin: 4000
+    margin: 4000,
+    transporterBalance: 0
 }

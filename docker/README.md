@@ -11,7 +11,7 @@ ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/d
 ```shell
 docker-compose up
 ## connect to db
-docker compose exec postgres psql
+docker-compose exec postgres psql
 ## connect to db from local
 psql -h 127.0.0.1 -U postgres -p 15432
 ## chumma

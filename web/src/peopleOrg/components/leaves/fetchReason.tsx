@@ -7,7 +7,7 @@ import { getAllLeaveReasons } from '../../services/leaveReasons'
 
 type FetchReasonProps = {
     reason: string
-    setReason: any
+    setReason: React.Dispatch<React.SetStateAction<string>>
 }
 
 const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {

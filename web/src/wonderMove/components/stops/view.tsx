@@ -4,7 +4,7 @@ import { getStopsByVehicle } from '../../services/stops'
 import StopList from './show.js'
 
 interface StopsProps {
-    number: any
+    number: string
 }
 const Stops: React.FC<StopsProps> = ({ number }) => {
     const [stopDetails, setStopDetails] = useState([])

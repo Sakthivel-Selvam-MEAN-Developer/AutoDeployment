@@ -12,7 +12,8 @@ import {
     create as createLeave,
     getAllLeave,
     leavesPendingReview,
-    rejectedLeaves
+    rejectedLeaves,
+    getHeadLeave
 } from './leaves.ts'
 
 describe('Employee Leave Form model', () => {
@@ -46,5 +47,10 @@ describe('Employee Leave Form model', () => {
         const actual = await getAllLeave('asdf')
         expect(actual.length).toBe(1)
         expect(actual[0].approval).toBe(true)
+    })
+    test('should get only the head leaves', async () => {
+        const leave = await create(seedEmployeeLeave)
+        const actual = await getHeadLeave(leave.id)
+        expect(actual.length).toBe(0)
     })
 })

@@ -9,6 +9,7 @@ import CreateCompany from './subContracts/components/cementCompany/company'
 import CreateFactory from './subContracts/components/cementCompany/factory'
 import PricePoint from './subContracts/components/pricePoint'
 import CreatePricepoint from './subContracts/components/pricePoint/list'
+import TransporterPay from './subContracts/components/trip/transporterPay'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -35,6 +36,10 @@ const sunContractRoutes = {
                 {
                     path: 'add',
                     element: <NewTrip />
+                },
+                {
+                    path: 'pay',
+                    element: <TransporterPay />
                 }
             ]
         },

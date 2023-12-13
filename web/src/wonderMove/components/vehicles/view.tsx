@@ -6,7 +6,7 @@ import { reformatVehicleDate } from './reformatVehicleDate.ts'
 
 // UpdateVehicle.propTypes = { vehicle: PropTypes.func }
 interface VehicleProps {
-    number: any
+    number: number
 }
 
 interface VehicleDetails {}

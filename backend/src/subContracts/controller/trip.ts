@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { create, getAllTrip } from '../models/factoryToCustomerTrip.ts'
+import {
+    create,
+    updateTransporterBalance,
+    getAllTrip,
+    getTripByVehicleNumber
+} from '../models/factoryToCustomerTrip.ts'
 
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
@@ -7,4 +12,10 @@ export const listAllTrip = (_req: Request, res: Response) => {
 
 export const createTrip = (req: Request, res: Response) => {
     create(req.body).then((data) => res.status(200).json(data))
+}
+export const updateBalance = (req: Request, res: Response) => {
+    updateTransporterBalance(req.body).then((data) => res.status(200).json(data))
+}
+export const ListTripByVehicleNumber = (req: Request, res: Response) => {
+    getTripByVehicleNumber(req.params.trucknumber).then((data) => res.status(200).json(data))
 }

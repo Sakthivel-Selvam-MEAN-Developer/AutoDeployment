@@ -9,7 +9,7 @@ interface VehicleListProps {}
 const VehicleList: React.FC<VehicleListProps> = () => {
     const navigate = useNavigate()
     const [vehicles, setVehicles] = useState([])
-    const [selectedVehicle, setSelectedVehicle] = useState([0])
+    const [selectedVehicle, setSelectedVehicle] = useState()
 
     useEffect(() => {
         getVehicles().then((data) => {

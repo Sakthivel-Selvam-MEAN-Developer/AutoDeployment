@@ -3,10 +3,11 @@ import AutoComplete from '../../../form/AutoComplete.tsx'
 import InputWithType from '../../../form/InputWithType.tsx'
 import { Checkbox } from '@mui/material'
 import { getAllCementCompany } from '../../services/cementCompany.ts'
+import { Control } from 'react-hook-form'
 
 interface FormFieldsProps {
-    control: any
-    companyId: any
+    control: Control
+    companyId: React.Dispatch<React.SetStateAction<number>>
 }
 interface CompanyProps {
     name: string

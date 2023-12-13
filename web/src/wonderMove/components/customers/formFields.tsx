@@ -2,9 +2,10 @@ import TextInput from '../../../form/TextInput.tsx'
 import BooleanInput from '../../../form/BooleanInput.tsx'
 import Address from '../address/formFields.tsx'
 import React from 'react'
+import { Control } from 'react-hook-form'
 
 interface FormFieldsProps {
-    control: any
+    control: Control
 }
 const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
     return (

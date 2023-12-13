@@ -11,7 +11,7 @@ module.exports = {
     plugins: ['react-refresh'],
     overrides: [
         {
-            files: ['*.test.tsx'],
+            files: ['*.test.tsx', '*.test.ts'],
             rules: {
                 'max-lines': ['error', 500],
                 'max-lines-per-function': ['error', 500],

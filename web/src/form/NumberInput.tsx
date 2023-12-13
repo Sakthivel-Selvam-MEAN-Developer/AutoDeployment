@@ -5,7 +5,7 @@ interface TextInputProps {
     control: Control
     label: string
     fieldName: string
-    InputProps: any
+    InputProps: object
     type: 'number'
 }
 function NumberInput({ control, label, fieldName, InputProps, type }: TextInputProps) {

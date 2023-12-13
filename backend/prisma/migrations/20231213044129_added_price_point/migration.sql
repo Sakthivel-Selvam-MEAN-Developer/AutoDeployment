@@ -21,7 +21,8 @@ ADD COLUMN     "freightAmount" INTEGER NOT NULL,
 ADD COLUMN     "margin" INTEGER NOT NULL,
 ADD COLUMN     "totalFreightAmount" INTEGER NOT NULL,
 ADD COLUMN     "totalTransporterAmount" INTEGER NOT NULL,
-ADD COLUMN     "transporterAmount" INTEGER NOT NULL;
+ADD COLUMN     "transporterAmount" INTEGER NOT NULL,
+ADD COLUMN     "transporterBalance" INTEGER NOT NULL DEFAULT 0;
 
 -- AlterTable
 ALTER TABLE "subContract"."factoryToStockPointTrip" DROP COLUMN "endDate",

@@ -383,6 +383,7 @@ model factoryToCustomerTrip {
   transporterAmount      Int
   totalFreightAmount     Int
   totalTransporterAmount Int
+  transporterBalance     Int           @default(0)
   margin                 Int
   factoryId              Int
   factory                factory       @relation(fields: [factoryId], references: [id])

@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { Controller } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 
 interface SelectInputProps {
-    control: any
+    control: Control
     listValues: string[]
     label: string
     fieldName: string

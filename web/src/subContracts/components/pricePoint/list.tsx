@@ -10,10 +10,10 @@ interface transporter {
 }
 const CreatePricepoint: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
-    const [transporterRate, setTransporterRate] = useState<number>()
+    const [transporterRate, setTransporterRate] = useState<number>(0)
     const [cementCompany, setCementCompany] = useState([])
-    const [factoryId, setFactoryId] = useState()
-    const [deliveryPointId, setDeliveryPointId] = useState()
+    const [factoryId, setFactoryId] = useState<number>(0)
+    const [deliveryPointId, setDeliveryPointId] = useState<number>(0)
     const freightAmount = watch('freightAmount')
     const transporterPercentage = watch('transporterPercentage')
     useEffect(() => {
@@ -50,5 +50,4 @@ const CreatePricepoint: React.FC = (): ReactElement => {
         </form>
     )
 }
-
 export default CreatePricepoint

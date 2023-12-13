@@ -29,8 +29,8 @@ interface Row {
 interface ModalUpdateReasonProps {
     open: boolean
     selectedRow: Array<any>
-    setSelectedRow: (row: Row | null) => void
-    tableState: any
+    setSelectedRow: any
+    tableState: () => void
 }
 const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     open,

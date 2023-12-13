@@ -1,8 +1,9 @@
+import { Control } from 'react-hook-form'
 import InputWithType from '../../../form/InputWithType.tsx'
 import MultiLineInput from '../../../form/MultiLineInput.tsx'
 
 interface FormFieldsProps {
-    control: any
+    control: Control
 }
 const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
     return (

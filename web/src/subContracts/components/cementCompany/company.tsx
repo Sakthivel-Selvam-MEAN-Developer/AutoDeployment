@@ -1,14 +1,14 @@
 import React, { ReactElement } from 'react'
 import { Link } from 'react-router-dom'
 import FormFields from './formField'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { Button } from '@mui/material'
 import { createCompany } from '../../services/cementCompany'
 
 const CreateCompany: React.FC = (): ReactElement => {
-    const { handleSubmit, control, reset } = useForm<FormData>()
-    const onSubmit: SubmitHandler<FormData> = (data: any) => {
+    const { handleSubmit, control, reset } = useForm<FieldValues>()
+    const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
         createCompany(JSON.stringify(data))
         reset()
     }

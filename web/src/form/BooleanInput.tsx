@@ -1,8 +1,8 @@
-import { Controller } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 import { FormControlLabel, Switch } from '@mui/material'
 
 interface BooleanInputProps {
-    control: any
+    control: Control
     label: string
     fieldName: string
 }

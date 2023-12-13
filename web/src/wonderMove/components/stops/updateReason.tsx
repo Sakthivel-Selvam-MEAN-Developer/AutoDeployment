@@ -4,11 +4,12 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import { useEffect, useState } from 'react'
 import { getAllReasons } from '../../services/reason.ts'
+import { RowType } from './secondReason.tsx'
 
 type UpdateReasonProps = {
-    stopInfo: any
+    stopInfo: RowType
     onSelect: (value: any) => void
-    selectedReason: any
+    selectedReason: number
 }
 const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selectedReason }) => {
     const [fetchReason, setFetchReason] = useState([])

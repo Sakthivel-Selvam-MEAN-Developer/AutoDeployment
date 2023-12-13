@@ -12,12 +12,12 @@ import { Control } from 'react-hook-form'
 interface FormFieldProps {
     control: Control
     transporter: string[]
-    truckId: any
-    factoryId: any
-    deliveryPointId: any
+    truckId: React.Dispatch<React.SetStateAction<number>>
+    factoryId: React.Dispatch<React.SetStateAction<number>>
+    deliveryPointId: React.Dispatch<React.SetStateAction<number>>
     cementCompany: string[]
-    freightAmount: any
-    transporterAmount: any
+    freightAmount: number
+    transporterAmount: number
     totalFreightAmount: number | undefined
     totalTransporterAmount: number | undefined
     margin: number | undefined
@@ -35,8 +35,8 @@ const FormField: React.FC<FormFieldProps> = ({
     totalTransporterAmount,
     margin
 }) => {
-    const [transporterName, setTransporterName] = useState<any>()
-    const [cementCompanyName, setCementCompanyName] = useState<any>()
+    const [transporterName, setTransporterName] = useState<string>('null')
+    const [cementCompanyName, setCementCompanyName] = useState<string>('null')
     const [listTruck, setListTruck] = useState([])
     const [factoryList, setFactoryList] = useState([])
     const [deliveryPoint, setDeliveryPoint] = useState([])

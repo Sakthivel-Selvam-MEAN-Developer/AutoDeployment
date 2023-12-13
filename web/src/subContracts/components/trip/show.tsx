@@ -15,6 +15,7 @@ interface Row {
     transporterAmount: number
     totalFreightAmount: number
     totalTransporterAmount: number
+    transporterBalance: number
     truck: {
         vehicleNumber: string
         transporter: {
@@ -31,6 +32,13 @@ interface Row {
     }
     filledLoad: string
     startDate: number
+}
+const paymentStatus = (row: any) => {
+    if (row.transporterBalance === 0) {
+        return 'Pending'
+    } else if (row.approval !== 0) {
+        return '70% Paid'
+    }
 }
 
 function getTableHead() {
@@ -79,7 +87,7 @@ function getTableBody(allTrips: Row[]) {
                     <TableCell align="left">{row.filledLoad}</TableCell>
                     <TableCell align="left">{row.totalFreightAmount}</TableCell>
                     <TableCell align="left">{row.totalTransporterAmount}</TableCell>
-                    <TableCell align="left">-------</TableCell>
+                    <TableCell align="left">{paymentStatus(row)}</TableCell>
                 </TableRow>
             ))}
         </TableBody>

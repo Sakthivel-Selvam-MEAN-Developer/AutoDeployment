@@ -9,7 +9,7 @@ import { epochToDate } from '../epochToTime.ts'
 import UpdateReason from './updateReason.tsx'
 import { overrideStop } from '../../services/stops.ts'
 
-interface RowType {
+export interface RowType {
     id: number
     startTime: number
     endTime: number

@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form'
 import { createVehicle } from '../../services/vehicles.ts'
 import SuccessDialog from '../SuccessDialog.tsx'
 import { useState } from 'react'
@@ -7,10 +7,10 @@ import FormFields from './formFields.tsx'
 import SubmitButton from '../../../form/button.tsx'
 
 export const NewVehicle = () => {
-    const { handleSubmit, control } = useForm<FormData>()
+    const { handleSubmit, control } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const navigate = useNavigate()
-    const onSubmit: SubmitHandler<FormData> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
         createVehicle(JSON.stringify(data)).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {

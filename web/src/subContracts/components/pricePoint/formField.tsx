@@ -4,13 +4,14 @@ import InputWithType from '../../../form/InputWithType.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { getFactoryByCementCompanyName } from '../../services/factory.ts'
 import { getDeliveryPointByCompanyName } from '../../services/deliveryPoint.ts'
+import { Control } from 'react-hook-form'
 
 interface FormFieldsProps {
-    control: any
+    control: Control
     cementCompany: string[]
-    deliveryPointId: any
-    factoryId: any
-    transporterRate: any
+    deliveryPointId: React.Dispatch<React.SetStateAction<number>>
+    factoryId: React.Dispatch<React.SetStateAction<number>>
+    transporterRate: number
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -19,7 +20,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
     deliveryPointId,
     transporterRate
 }) => {
-    const [cementCompanyName, setCementCompanyName] = useState<any>()
+    const [cementCompanyName, setCementCompanyName] = useState<string>('null')
     const [factoryList, setFactoryList] = useState([])
     const [deliveryPoint, setDeliveryPoint] = useState([])
     useEffect(() => {

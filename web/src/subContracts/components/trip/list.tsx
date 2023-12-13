@@ -6,7 +6,6 @@ import { getAllTrip } from '../../services/trip'
 
 const TripList: React.FC = () => {
     const [allTrips, setAllTrips] = useState([])
-
     useEffect(() => {
         getAllTrip().then(setAllTrips)
     }, [])
@@ -22,6 +21,11 @@ const TripList: React.FC = () => {
                 <Link to={'/sub/trip/add'}>
                     <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
                         Assign New Trip
+                    </Button>
+                </Link>
+                <Link to={'/sub/trip/pay'}>
+                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                        Trip Payment
                     </Button>
                 </Link>
             </div>

@@ -1,10 +1,10 @@
 import SelectInput from '../../../form/SelectInput.tsx'
 import TextInput from '../../../form/TextInput.tsx'
 import DateInput from '../../../form/DateInput.tsx'
-
+import { Control } from 'react-hook-form'
 interface FormFieldsProps {
-    control: any
-    listValues: any
+    control: Control
+    listValues: string[]
 }
 const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
     return (
