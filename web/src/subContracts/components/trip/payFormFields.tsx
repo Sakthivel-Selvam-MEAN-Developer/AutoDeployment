@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import AutoComplete from '../../../form/AutoComplete.tsx'
-import { getTripByVehicleNumber } from '../../services/trip.ts'
+import { getTripByTruckNumber } from '../../services/trip.ts'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import NumberInput from '../../../form/NumberInputWithValue.tsx'
 import { InputAdornment } from '@mui/material'
@@ -10,7 +10,7 @@ interface FormFieldsProps {
     control: Control
     secondPay: number
     firstPay: number
-    trip: []
+    trip: any[]
     tripId: React.Dispatch<React.SetStateAction<number>>
     data: React.Dispatch<React.SetStateAction<number>>
     setFirstPay: React.Dispatch<React.SetStateAction<number>>
@@ -29,7 +29,7 @@ const PayFormFields: React.FC<FormFieldsProps> = ({
     const [truckNumber, setTruckNumber] = useState<string>('')
 
     useEffect(() => {
-        getTripByVehicleNumber(truckNumber).then(
+        getTripByTruckNumber(truckNumber).then(
             ({
                 id,
                 totalTransporterAmount,

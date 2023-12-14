@@ -10,7 +10,7 @@ const mockTripByVehicleNumber = vi.fn()
 
 vi.mock('../../services/trip', () => ({
     getAllTrip: () => mockAllTrip(),
-    getTripByVehicleNumber: () => mockTripByVehicleNumber()
+    getTripByTruckNumber: () => mockTripByVehicleNumber()
 }))
 
 const mockTripData = [
