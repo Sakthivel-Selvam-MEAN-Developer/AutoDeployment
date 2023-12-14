@@ -6,7 +6,7 @@ import { getFactoryByCementCompanyName } from '../../services/factory.ts'
 import { getDeliveryPointByCompanyName } from '../../services/deliveryPoint.ts'
 import { Control } from 'react-hook-form'
 
-interface FormFieldsProps {
+export interface FormFieldsProps {
     control: Control
     cementCompany: string[]
     deliveryPointId: React.Dispatch<React.SetStateAction<number>>
@@ -40,6 +40,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 control={control}
                 fieldName="companyName"
                 label="Select Company"
+                data-testid={'select'}
                 options={cementCompany}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     setCementCompanyName(newValue)
