@@ -3,7 +3,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import { useState } from 'react'
-import SuccessDialog from '../SuccessDialog.tsx'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { updateStops } from '../../services/stops.ts'
 
 interface ReasonInfo {

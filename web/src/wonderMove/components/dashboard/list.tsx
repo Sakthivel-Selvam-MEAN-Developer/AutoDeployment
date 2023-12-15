@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import PieChartDetails from './details.tsx'
 import { getVehicles } from '../../services/vehicles.ts'
 import { stopDuration } from '../../services/stops.ts'
-import { formatDuration } from '../epochToTime.ts'
+import { formatDuration } from '../../../commonUtils/epochToTime.ts'
 
 interface DurationData {
     durationInMillis: number

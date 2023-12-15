@@ -10,7 +10,7 @@ interface TextInputProps {
     value: number
     onChange: any
 }
-function NumberInput({
+function NumberInputWithValue({
     control,
     label,
     fieldName,
@@ -37,4 +37,4 @@ function NumberInput({
     )
 }
 
-export default NumberInput
+export default NumberInputWithValue

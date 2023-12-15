@@ -34,7 +34,7 @@ const NewTrip: React.FC = () => {
         setMargin(totalFreightAmount - totalTransporterAmount)
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
-    const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
             truckId: truckId,
             factoryId: factoryId,

@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { updateVehicle } from '../../services/vehicles.ts'
 import FormFields from './formFields.tsx'
-import SuccessDialog from '../SuccessDialog.tsx'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SubmitButton from '../../../form/button.tsx'
@@ -32,7 +32,7 @@ const UpdateVehicle: React.FC<UpdateVehicleProps> = ({ vehicleDetails }) => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FormFields control={control} listValues={undefined} />
+                <FormFields control={control} listValues={[]} />
                 <SubmitButton name="Submit" type="submit" />
             </form>
             <SuccessDialog

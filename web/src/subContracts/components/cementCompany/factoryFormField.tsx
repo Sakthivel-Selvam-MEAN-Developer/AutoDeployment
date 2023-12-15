@@ -9,9 +9,6 @@ interface FormFieldsProps {
     control: Control
     companyId: React.Dispatch<React.SetStateAction<number>>
 }
-interface CompanyProps {
-    name: string
-}
 const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) => {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
     const [cementCompany, setCementCompany] = useState([])
@@ -37,7 +34,7 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) =>
                 options={cementCompany.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id }: any = cementCompany.find(
-                        (company: CompanyProps) => company.name === newValue
+                        (company: { name: string }) => company.name === newValue
                     )
                     companyId(id)
                 }}

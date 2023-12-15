@@ -4,18 +4,26 @@ import SubmitButton from '../../../form/button'
 import FactoryFormFields from './factoryFormField'
 import { createDeliveryPoint } from '../../services/deliveryPoint'
 import { createFactoryPoint } from '../../services/factory'
+import SuccessDialog from '../../../commonUtils/SuccessDialog'
+import { useNavigate } from 'react-router-dom'
 
 const CreateFactory: React.FC = (): ReactElement => {
+    const navigate = useNavigate()
     const { handleSubmit, control } = useForm<FieldValues>()
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [companyId, setCompanyId] = useState(0)
-    const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (data.loadingPoint !== undefined || '') {
             createFactoryPoint({ name: data.loadingPoint, cementCompanyId: companyId })
         }
         if (data.unloadingPoint !== undefined || '') {
             createDeliveryPoint({ name: data.unloadingPoint, cementCompanyId: companyId })
         }
-        window.location.reload()
+        setOpenSuccessDialog(true)
+    }
+    const handleClose = () => {
+        setOpenSuccessDialog(false)
+        navigate('/sub/trip')
     }
     return (
         <>
@@ -23,6 +31,11 @@ const CreateFactory: React.FC = (): ReactElement => {
                 <FactoryFormFields control={control} companyId={setCompanyId} />
                 <SubmitButton name="Save" type="submit" />
             </form>
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={handleClose}
+                message="Factory creation is successful"
+            />
         </>
     )
 }

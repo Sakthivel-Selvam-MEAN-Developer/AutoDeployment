@@ -30,22 +30,19 @@ const TransporterPay: React.FC = (): ReactElement => {
         updateBalance(details).then(() => navigate('/sub/trip'))
     }
     return (
-        <>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <PayFormFields
-                    control={control}
-                    tripId={setTripId}
-                    data={setData}
-                    trip={trip}
-                    firstPay={firstPay}
-                    secondPay={secondPay}
-                    setFirstPay={setFirstPay}
-                    setSecondPay={setSecondPay}
-                />
-                <SubmitButton name="Paid First Payment" type="submit" />
-            </form>
-        </>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <PayFormFields
+                control={control}
+                tripId={setTripId}
+                data={setData}
+                trip={trip}
+                firstPay={firstPay}
+                secondPay={secondPay}
+                setFirstPay={setFirstPay}
+                setSecondPay={setSecondPay}
+            />
+            <SubmitButton name="Paid First Payment" type="submit" />
+        </form>
     )
 }
-
 export default TransporterPay

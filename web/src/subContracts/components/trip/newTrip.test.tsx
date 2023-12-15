@@ -84,6 +84,8 @@ describe('New trip test', () => {
         mockPricePoint.mockResolvedValue(mockPricePointData)
     })
     test('should fetch company data from Db', async () => {
+        expect(mockFactoryByCompanyName).toHaveBeenCalledTimes(0)
+        expect(mockDeliveryPointByCompanyName).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
                 <NewTrip />
@@ -103,9 +105,9 @@ describe('New trip test', () => {
         expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
-        expect(mockTruckByTransporter).toHaveBeenCalledTimes(2)
-        expect(mockFactoryByCompanyName).toHaveBeenCalledTimes(2)
-        expect(mockDeliveryPointByCompanyName).toHaveBeenCalledTimes(2)
+        expect(mockTruckByTransporter).toHaveBeenCalledTimes(0)
+        expect(mockFactoryByCompanyName).toHaveBeenCalledTimes(1)
+        expect(mockDeliveryPointByCompanyName).toHaveBeenCalledTimes(1)
     })
     test('should fetch transporter data from Db', async () => {
         render(
@@ -124,6 +126,7 @@ describe('New trip test', () => {
             name: 'Barath Logistics'
         })
         await userEvent.click(option)
+        expect(mockTruckByTransporter).toHaveBeenCalledTimes(1)
         expect(await screen.findByDisplayValue('Barath Logistics')).toBeInTheDocument()
     })
     test('should fetch truck data by their transporter', async () => {
@@ -132,6 +135,19 @@ describe('New trip test', () => {
                 <NewTrip />
             </BrowserRouter>
         )
+        //  Select Transporter
+        const transporter = screen.getByRole('combobox', {
+            name: 'Transporter'
+        })
+        await userEvent.click(transporter)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const option = screen.getByRole('option', {
+            name: 'Barath Logistics'
+        })
+        await userEvent.click(option)
+        //  Select Truck Number
         const truck = screen.getByRole('combobox', {
             name: 'Truck Number'
         })
@@ -151,6 +167,18 @@ describe('New trip test', () => {
                 <NewTrip />
             </BrowserRouter>
         )
+        //  Select Company Name
+        const companyName = screen.getByRole('combobox', {
+            name: 'Company Name'
+        })
+        await userEvent.click(companyName)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const choice = screen.getByRole('option', {
+            name: 'UltraTech Cements'
+        })
+        await userEvent.click(choice)
 
         //  Select Loading Point
         const loading = screen.getByRole('combobox', {

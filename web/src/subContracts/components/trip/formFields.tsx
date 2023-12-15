@@ -35,16 +35,20 @@ const FormField: React.FC<FormFieldProps> = ({
     totalTransporterAmount,
     margin
 }) => {
-    const [transporterName, setTransporterName] = useState<string>('null')
-    const [cementCompanyName, setCementCompanyName] = useState<string>('null')
+    const [transporterName, setTransporterName] = useState<string>()
+    const [cementCompanyName, setCementCompanyName] = useState<string>()
     const [listTruck, setListTruck] = useState([])
     const [factoryList, setFactoryList] = useState([])
     const [deliveryPoint, setDeliveryPoint] = useState([])
 
     useEffect(() => {
-        getTruckByTransporter(transporterName).then(setListTruck)
-        getFactoryByCementCompanyName(cementCompanyName).then(setFactoryList)
-        getDeliveryPointByCompanyName(cementCompanyName).then(setDeliveryPoint)
+        if (cementCompanyName !== undefined) {
+            getFactoryByCementCompanyName(cementCompanyName).then(setFactoryList)
+            getDeliveryPointByCompanyName(cementCompanyName).then(setDeliveryPoint)
+        }
+        if (transporterName !== undefined) {
+            getTruckByTransporter(transporterName).then(setListTruck)
+        }
     }, [transporterName, cementCompanyName])
 
     return (
@@ -81,7 +85,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 options={listTruck.map(({ vehicleNumber }) => vehicleNumber)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id }: any = listTruck.find(
-                        (truck: any) => truck.vehicleNumber === newValue
+                        (truck: { vehicleNumber: string }) => truck.vehicleNumber === newValue
                     )
                     truckId(id)
                 }}
@@ -93,7 +97,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 options={factoryList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id }: any = factoryList.find(
-                        (factory: any) => factory.name === newValue
+                        (factory: { name: string }) => factory.name === newValue
                     )
                     factoryId(id)
                 }}
@@ -105,7 +109,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 options={deliveryPoint.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id }: any = deliveryPoint.find(
-                        (deliveryPoint: any) => deliveryPoint.name === newValue
+                        (deliveryPoint: { name: string }) => deliveryPoint.name === newValue
                     )
                     deliveryPointId(id)
                 }}

@@ -1,16 +1,23 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FormFields from './formField'
+import { useNavigate } from 'react-router-dom'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { Button } from '@mui/material'
 import { createCompany } from '../../services/cementCompany'
+import SuccessDialog from '../../../commonUtils/SuccessDialog'
 
 const CreateCompany: React.FC = (): ReactElement => {
-    const { handleSubmit, control, reset } = useForm<FieldValues>()
-    const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
-        createCompany(JSON.stringify(data))
-        reset()
+    const navigate = useNavigate()
+    const { handleSubmit, control } = useForm<FieldValues>()
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        createCompany(JSON.stringify(data)).then(() => setOpenSuccessDialog(true))
+    }
+    const handleClose = () => {
+        setOpenSuccessDialog(false)
+        navigate('/sub/trip')
     }
     return (
         <>
@@ -31,8 +38,12 @@ const CreateCompany: React.FC = (): ReactElement => {
                 <FormFields control={control} />
                 <SubmitButton name="Create" type="submit" />
             </form>
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={handleClose}
+                message="Company creation is successful"
+            />
         </>
     )
 }
-
 export default CreateCompany

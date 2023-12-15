@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime.ts'
 import { getAllLeaveWithStatus } from '../../services/employeeLeave'
 import { ActionButton } from './actionButton.tsx'
 import { useAtomValue } from 'jotai/react'

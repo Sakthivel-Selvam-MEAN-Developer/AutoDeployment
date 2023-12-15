@@ -5,9 +5,6 @@ import FormFields from './formField'
 import { getAllCementCompany } from '../../services/cementCompany'
 import { createpricePoint } from '../../services/pricePoint'
 
-interface transporter {
-    name: string
-}
 const CreatePricepoint: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [transporterRate, setTransporterRate] = useState<number>(0)
@@ -18,7 +15,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const transporterPercentage = watch('transporterPercentage')
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
-            setCementCompany(companyData.map(({ name }: transporter) => name))
+            setCementCompany(companyData.map(({ name }: { name: string }) => name))
         )
     }, [])
     useEffect(() => {
@@ -27,7 +24,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 (parseInt(freightAmount) * parseInt(transporterPercentage)) / 100
         )
     }, [freightAmount, transporterPercentage])
-    const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
             factoryId: factoryId,
             deliveryPointId: deliveryPointId,
@@ -42,8 +39,10 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             <FormFields
                 control={control}
                 cementCompany={cementCompany}
-                factoryId={setFactoryId}
-                deliveryPointId={setDeliveryPointId}
+                setFactoryId={setFactoryId}
+                setDeliveryPointId={setDeliveryPointId}
+                factoryId={factoryId}
+                deliveryPointId={deliveryPointId}
                 transporterRate={transporterRate}
             />
             <SubmitButton name="Submit" type="submit" />

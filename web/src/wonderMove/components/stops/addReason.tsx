@@ -4,8 +4,8 @@ import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { useState } from 'react'
 import { updateStops } from '../../services/stops'
-import SuccessDialog from '../SuccessDialog.tsx'
-import AlertDialog from '../confirmationDialog.js'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
+import AlertDialog from '../../../commonUtils/confirmationDialog.js'
 
 interface AddReasonProps {
     stopInfo: any

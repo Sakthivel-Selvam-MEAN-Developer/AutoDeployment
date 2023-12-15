@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { updateCustomer } from '../../services/customer.js'
 import FormFields from './formFields.tsx'
-import SuccessDialog from '../SuccessDialog.tsx'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { FC, useEffect, useState } from 'react'
 import SubmitButton from '../../../form/button.tsx'
 

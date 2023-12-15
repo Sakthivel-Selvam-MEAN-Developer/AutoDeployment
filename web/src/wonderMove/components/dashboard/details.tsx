@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatDuration } from '../epochToTime.ts'
+import { formatDuration } from '../../../commonUtils/epochToTime.ts'
 
 interface SelectedCell {
     name: string

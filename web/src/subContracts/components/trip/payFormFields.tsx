@@ -2,9 +2,9 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import AutoComplete from '../../../form/AutoComplete.tsx'
 import { getTripByTruckNumber } from '../../services/trip.ts'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
-import NumberInput from '../../../form/NumberInputWithValue.tsx'
 import { InputAdornment } from '@mui/material'
 import { Control } from 'react-hook-form'
+import NumberInputWithValue from '../../../form/NumberInputWithValue.tsx'
 
 interface FormFieldsProps {
     control: Control
@@ -76,7 +76,7 @@ const PayFormFields: React.FC<FormFieldsProps> = ({
                     shrink: true
                 }}
             />
-            <NumberInput
+            <NumberInputWithValue
                 control={control}
                 label="Seventy Percentage"
                 fieldName="seventypercentage"

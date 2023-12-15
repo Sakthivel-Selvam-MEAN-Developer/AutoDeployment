@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { createCustomer } from '../../services/customer.ts'
-import SuccessDialog from '../SuccessDialog.tsx'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FormFields from './formFields.tsx'

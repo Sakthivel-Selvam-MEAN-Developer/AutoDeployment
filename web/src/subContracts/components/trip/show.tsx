@@ -5,7 +5,8 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { Button } from '@mui/material'
 
 interface Props {
     allTrips: Row[]
@@ -56,6 +57,7 @@ function getTableHead() {
                 <TableCell align="left">Total Freight Amount</TableCell>
                 <TableCell align="left">Total Transporter Amount</TableCell>
                 <TableCell align="left">Payment Status</TableCell>
+                <TableCell align="left">Edit</TableCell>
             </TableRow>
         </TableHead>
     )
@@ -65,14 +67,7 @@ function getTableBody(allTrips: Row[]) {
     return (
         <TableBody>
             {allTrips.map((row, index) => (
-                <TableRow
-                    key={index}
-                    sx={{
-                        '&:last-child td, &:last-child th': {
-                            border: 0
-                        }
-                    }}
-                >
+                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell> {index + 1} </TableCell>
                     <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
                     <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
@@ -86,6 +81,9 @@ function getTableBody(allTrips: Row[]) {
                     <TableCell align="left">{row.totalFreightAmount}</TableCell>
                     <TableCell align="left">{row.totalTransporterAmount}</TableCell>
                     <TableCell align="left">{paymentStatus(row)}</TableCell>
+                    <TableCell align="left">
+                        <Button>Edit</Button>
+                    </TableCell>
                 </TableRow>
             ))}
         </TableBody>

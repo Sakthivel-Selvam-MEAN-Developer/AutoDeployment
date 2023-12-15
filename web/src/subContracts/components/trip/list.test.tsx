@@ -56,6 +56,7 @@ describe('Trip Test', () => {
             expect(screen.getByText('TN93D5512')).toBeInTheDocument()
             expect(screen.getByText('Oct 10, 2023')).toBeInTheDocument()
             expect(screen.getByText('salem')).toBeInTheDocument()
+            expect(screen.getByText('70% Paid')).toBeInTheDocument()
         })
         expect(mockAllTrip).toHaveBeenCalledTimes(1)
     })
@@ -83,7 +84,5 @@ describe('Trip Test', () => {
 
         expect(screen.getByRole('spinbutton', { name: 'Remaining' }))
         expect(screen.getByDisplayValue('15000')).toBeVisible()
-
-        screen.debug()
     })
 })

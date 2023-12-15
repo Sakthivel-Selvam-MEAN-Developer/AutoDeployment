@@ -16,7 +16,7 @@ import {
     Typography
 } from '@mui/material'
 import { approveLeaves, rejectLeaves } from '../../services/employeeLeave'
-import { epochToMinimalDate } from '../../../wonderMove/components/epochToTime'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime.ts'
 import { Done, Close } from '@mui/icons-material'
 import { getAllLeaveAfterApply } from '../../services/orgHead'
 import { useAtomValue } from 'jotai/react'

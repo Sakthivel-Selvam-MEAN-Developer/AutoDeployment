@@ -59,7 +59,6 @@ const Drawer = styled(MuiDrawer, {
 }))
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
-
     return (
         <Drawer variant="permanent" open={drawerState}>
             <DrawerHeader theme={theme}>

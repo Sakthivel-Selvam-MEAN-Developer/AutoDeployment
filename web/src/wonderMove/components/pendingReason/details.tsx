@@ -6,7 +6,7 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import Table from '@mui/material/Table'
-import { formatDuration, epochToDate } from '../epochToTime.ts'
+import { formatDuration, epochToDate } from '../../../commonUtils/epochToTime.ts'
 import { useEffect, useState } from 'react'
 import { getAllReasons } from '../../services/reason.ts'
 

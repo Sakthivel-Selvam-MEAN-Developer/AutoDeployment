@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { Button, FormControlLabel, Switch, TextField } from '@mui/material'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import dayjs from 'dayjs'
@@ -9,7 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import FetchReason from './fetchReason'
 import { create } from '../../services/employeeLeave'
 import { useNavigate } from 'react-router-dom'
-import SuccessDialog from '../../../wonderMove/components/SuccessDialog'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { useAtomValue } from 'jotai/react'
 import { userIdAtom } from '../layout/userAtom.tsx'
 
@@ -49,7 +49,7 @@ const LeaveForm: React.FC = () => {
         setOpenSuccessDialog(false)
         navigate(-1)
     }
-    const handleChange = (event: any) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setComment(event.target.value)
     }
     const isFormIncomplete = !fromValue || !toValue || !reason || !comment

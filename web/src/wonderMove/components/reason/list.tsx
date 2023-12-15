@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { create, getAllReasons, update } from '../../services/reason.ts'
 import { Edit, Add } from '@mui/icons-material'
-import SuccessDialog from '../SuccessDialog.tsx'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import InputField from './inputField.tsx'
 interface reasonProps {
     id: number

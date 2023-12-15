@@ -5,14 +5,14 @@ import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
-import { epochToDate, formatDuration } from '../epochToTime.ts'
+import { epochToDate, formatDuration } from '../../../commonUtils/epochToTime.ts'
 import { Button } from '@mui/material'
 import { useState } from 'react'
 import * as React from 'react'
 import SecondReason from './secondReason.tsx'
 import { deleteStop } from './deleteStops.ts'
 import { overrideStop } from '../../services/stops.ts'
-import AlertDialog from '../confirmationDialog.tsx'
+import AlertDialog from '../../../commonUtils/confirmationDialog.tsx'
 
 interface Row {
     id: number
