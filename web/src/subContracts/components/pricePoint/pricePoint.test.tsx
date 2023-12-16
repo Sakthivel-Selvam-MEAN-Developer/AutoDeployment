@@ -5,29 +5,29 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 const mockAllCementCompany = vi.fn()
-const mockAllfactory = vi.fn()
-const mockAllDelivery = vi.fn()
+const mockAllLoadingPoint = vi.fn()
+const mockAllUnloadingPoint = vi.fn()
 
 vi.mock('../../services/cementCompany', () => ({
     getAllCementCompany: () => mockAllCementCompany()
 }))
-vi.mock('../../services/factory', () => ({
-    getFactoryByCementCompanyName: () => mockAllfactory()
+vi.mock('../../services/loadingPoint', () => ({
+    getLoadingPointByCompanyName: () => mockAllLoadingPoint()
 }))
-vi.mock('../../services/deliveryPoint', () => ({
-    getDeliveryPointByCompanyName: () => mockAllDelivery()
+vi.mock('../../services/unloadingPoint', () => ({
+    getUnloadingPointByCompanyName: () => mockAllUnloadingPoint()
 }))
 const mockCementData = [
     {
         name: 'UltraTech Cements'
     }
 ]
-const mockfactoryData = [
+const mockLoadingPointData = [
     {
         name: 'Chennai'
     }
 ]
-const mockDeliveryData = [
+const mockUnloadingPointData = [
     {
         name: 'Salem'
     }
@@ -36,8 +36,8 @@ const mockDeliveryData = [
 describe('Trip Test', () => {
     test('checking the component called NewTrip', async () => {
         mockAllCementCompany.mockResolvedValue(mockCementData)
-        mockAllfactory.mockResolvedValue(mockfactoryData)
-        mockAllDelivery.mockResolvedValue(mockDeliveryData)
+        mockAllLoadingPoint.mockResolvedValue(mockLoadingPointData)
+        mockAllUnloadingPoint.mockResolvedValue(mockUnloadingPointData)
         render(
             <BrowserRouter>
                 <CreatePricepoint />
@@ -64,16 +64,16 @@ describe('Trip Test', () => {
         expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
 
-        const factoryPoint = screen.getByRole('combobox', { name: 'Factory Point' })
-        userEvent.click(factoryPoint)
+        const loadingPoint = screen.getByRole('combobox', { name: 'Loading Point' })
+        userEvent.click(loadingPoint)
         await waitFor(() => screen.getByRole('listbox'))
         const opt2 = screen.getByRole('option', { name: 'Chennai' })
         userEvent.click(opt2)
         expect(await screen.findByDisplayValue('Chennai')).toBeInTheDocument()
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
 
-        const deliveryPoint = screen.getByRole('combobox', { name: 'Delivery Point' })
-        userEvent.click(deliveryPoint)
+        const unloadingPoint = screen.getByRole('combobox', { name: 'Unloading Point' })
+        userEvent.click(unloadingPoint)
         await waitFor(() => screen.getByRole('listbox'))
         const opt3 = screen.getByRole('option', { name: 'Salem' })
         userEvent.click(opt3)

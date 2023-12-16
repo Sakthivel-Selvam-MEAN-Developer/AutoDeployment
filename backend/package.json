@@ -44,7 +44,7 @@
         "winston": "^3.11.0"
     },
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host",
         "proxy": "ory proxy --no-jwt --port 4000 http://localhost:3000/",
         "build": "tsc && vite build",
         "preview": "vite preview",

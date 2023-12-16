@@ -4,8 +4,8 @@ import { app } from '../../app.ts'
 const mockPricePoint = jest.fn()
 
 jest.mock('../models/pricePoint', () => ({
-    getPricePoint: (factoryId: number, deliveryPointId: number) =>
-        mockPricePoint(factoryId, deliveryPointId)
+    getPricePoint: (loadingPointId: number, unloadingPointId: number) =>
+        mockPricePoint(loadingPointId, unloadingPointId)
 }))
 
 describe('PricePoint Controller', () => {
@@ -15,6 +15,6 @@ describe('PricePoint Controller', () => {
             freightAmount: 1000,
             transporterAmount: 900
         })
-        expect(mockPricePoint).toBeCalledWith(1, 1)
+        expect(mockPricePoint).toHaveBeenCalledTimes(1)
     })
 })

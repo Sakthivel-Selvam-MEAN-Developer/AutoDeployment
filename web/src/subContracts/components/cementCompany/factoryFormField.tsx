@@ -12,8 +12,8 @@ interface FormFieldsProps {
 const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) => {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
     const [cementCompany, setCementCompany] = useState([])
-    const [check1, setcheck1] = useState<boolean>(true)
-    const [check2, setcheck2] = useState<boolean>(true)
+    const [check1, setCheck1] = useState<boolean>(true)
+    const [check2, setCheck2] = useState<boolean>(true)
 
     useEffect(() => {
         getAllCementCompany().then(setCementCompany)
@@ -40,7 +40,7 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) =>
                 }}
             />
             <div>
-                <Checkbox onClick={() => setcheck1(!check1)} {...label} />
+                <Checkbox onClick={() => setCheck1(!check1)} {...label} />
                 <InputWithType
                     control={control}
                     disabled={check1}
@@ -51,7 +51,7 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) =>
             </div>
 
             <div>
-                <Checkbox onClick={() => setcheck2(!check2)} {...label} />
+                <Checkbox onClick={() => setCheck2(!check2)} {...label} />
                 <InputWithType
                     control={control}
                     disabled={check2}

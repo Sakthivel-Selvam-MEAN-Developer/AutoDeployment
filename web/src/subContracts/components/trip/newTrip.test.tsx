@@ -8,8 +8,8 @@ const mockPricePoint = vi.fn()
 const mockAllTransporter = vi.fn()
 const mockAllCementCompany = vi.fn()
 const mockTruckByTransporter = vi.fn()
-const mockFactoryByCompanyName = vi.fn()
-const mockDeliveryPointByCompanyName = vi.fn()
+const mockLoadingPointByCompanyName = vi.fn()
+const mockUnloadingPointByCompanyName = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
@@ -20,11 +20,11 @@ vi.mock('../../services/cementCompany', () => ({
 vi.mock('../../services/truck', () => ({
     getTruckByTransporter: () => mockTruckByTransporter()
 }))
-vi.mock('../../services/factory', () => ({
-    getFactoryByCementCompanyName: () => mockFactoryByCompanyName()
+vi.mock('../../services/loadingPoint', () => ({
+    getLoadingPointByCompanyName: () => mockLoadingPointByCompanyName()
 }))
-vi.mock('../../services/deliveryPoint', () => ({
-    getDeliveryPointByCompanyName: () => mockDeliveryPointByCompanyName()
+vi.mock('../../services/unloadingPoint', () => ({
+    getUnloadingPointByCompanyName: () => mockUnloadingPointByCompanyName()
 }))
 vi.mock('../../services/pricePoint', () => ({
     getPricePoint: () => mockPricePoint()
@@ -79,13 +79,13 @@ describe('New trip test', () => {
         mockAllTransporter.mockResolvedValue(mockTransporterData)
         mockAllCementCompany.mockResolvedValue(mockCompanyData)
         mockTruckByTransporter.mockResolvedValue(mockTruck)
-        mockFactoryByCompanyName.mockResolvedValue(mockFactory)
-        mockDeliveryPointByCompanyName.mockResolvedValue(mockDeliveryPoint)
+        mockLoadingPointByCompanyName.mockResolvedValue(mockFactory)
+        mockUnloadingPointByCompanyName.mockResolvedValue(mockDeliveryPoint)
         mockPricePoint.mockResolvedValue(mockPricePointData)
     })
     test('should fetch company data from Db', async () => {
-        expect(mockFactoryByCompanyName).toHaveBeenCalledTimes(0)
-        expect(mockDeliveryPointByCompanyName).toHaveBeenCalledTimes(0)
+        expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(0)
+        expect(mockUnloadingPointByCompanyName).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
                 <NewTrip />
@@ -106,8 +106,8 @@ describe('New trip test', () => {
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
         expect(mockTruckByTransporter).toHaveBeenCalledTimes(0)
-        expect(mockFactoryByCompanyName).toHaveBeenCalledTimes(1)
-        expect(mockDeliveryPointByCompanyName).toHaveBeenCalledTimes(1)
+        expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(1)
+        expect(mockUnloadingPointByCompanyName).toHaveBeenCalledTimes(1)
     })
     test('should fetch transporter data from Db', async () => {
         render(
@@ -182,7 +182,7 @@ describe('New trip test', () => {
 
         //  Select Loading Point
         const loading = screen.getByRole('combobox', {
-            name: 'Factory Point'
+            name: 'Loading Point'
         })
         await userEvent.click(loading)
         await waitFor(() => {
@@ -196,7 +196,7 @@ describe('New trip test', () => {
 
         //  Select Unloading
         const unLoading = screen.getByRole('combobox', {
-            name: 'Delivery Point'
+            name: 'Unloading Point'
         })
         await userEvent.click(unLoading)
         await waitFor(() => {

@@ -16,10 +16,10 @@ vi.mock('../../services/trip', () => ({
 const mockTripData = [
     {
         startDate: 1696934739,
-        factory: {
+        loadingPoint: {
             name: 'salem'
         },
-        deliveryPoint: {
+        unloadingPoint: {
             name: 'erode'
         },
         truck: {

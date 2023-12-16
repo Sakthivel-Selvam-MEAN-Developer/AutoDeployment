@@ -4,7 +4,7 @@ import {
     updateBalance,
     createTrip,
     listAllTrip
-} from '../controller/trip.ts'
+} from '../controller/loadingToUnloadingTrip.ts'
 
 const tripRoutes = (router: Router) => {
     router.get('/trip', listAllTrip)

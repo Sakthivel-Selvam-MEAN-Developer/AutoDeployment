@@ -2,8 +2,10 @@ import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
 export const create = (
-    data: Prisma.factoryToCustomerTripCreateInput | Prisma.factoryToCustomerTripUncheckedCreateInput
-) => prisma.factoryToCustomerTrip.create({ data })
+    data:
+        | Prisma.loadingPointToUnloadingPointTripCreateInput
+        | Prisma.loadingPointToUnloadingPointTripUncheckedCreateInput
+) => prisma.loadingPointToUnloadingPointTrip.create({ data })
 
 export const updateTransporterBalance = ({
     tripId,
@@ -12,7 +14,7 @@ export const updateTransporterBalance = ({
     tripId: number
     remaining: number
 }) =>
-    prisma.factoryToCustomerTrip.update({
+    prisma.loadingPointToUnloadingPointTrip.update({
         where: {
             id: tripId
         },
@@ -22,14 +24,14 @@ export const updateTransporterBalance = ({
     })
 
 export const getAllTrip = () =>
-    prisma.factoryToCustomerTrip.findMany({
+    prisma.loadingPointToUnloadingPointTrip.findMany({
         include: {
-            factory: {
+            loadingPoint: {
                 select: {
                     name: true
                 }
             },
-            deliveryPoint: {
+            unloadingPoint: {
                 select: {
                     name: true
                 }
@@ -48,7 +50,7 @@ export const getAllTrip = () =>
     })
 
 export const getTripByVehicleNumber = (trucknumber: string) =>
-    prisma.factoryToCustomerTrip.findFirst({
+    prisma.loadingPointToUnloadingPointTrip.findFirst({
         where: {
             truck: {
                 vehicleNumber: trucknumber

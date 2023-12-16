@@ -4,7 +4,7 @@ import {
     updateTransporterBalance,
     getAllTrip,
     getTripByVehicleNumber
-} from '../models/factoryToCustomerTrip.ts'
+} from '../models/loadingToUnloadingTrip.ts'
 
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))

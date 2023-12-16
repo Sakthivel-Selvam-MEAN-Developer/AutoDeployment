@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import FactoryFormFields from './factoryFormField'
-import { createDeliveryPoint } from '../../services/deliveryPoint'
-import { createFactoryPoint } from '../../services/factory'
+import { createUnloadingPoint } from '../../services/unloadingPoint'
+import { createLoadingPoint } from '../../services/loadingPoint'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,10 +14,10 @@ const CreateFactory: React.FC = (): ReactElement => {
     const [companyId, setCompanyId] = useState(0)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (data.loadingPoint !== undefined || '') {
-            createFactoryPoint({ name: data.loadingPoint, cementCompanyId: companyId })
+            createLoadingPoint({ name: data.loadingPoint, cementCompanyId: companyId })
         }
         if (data.unloadingPoint !== undefined || '') {
-            createDeliveryPoint({ name: data.unloadingPoint, cementCompanyId: companyId })
+            createUnloadingPoint({ name: data.unloadingPoint, cementCompanyId: companyId })
         }
         setOpenSuccessDialog(true)
     }

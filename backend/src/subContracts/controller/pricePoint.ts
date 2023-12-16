@@ -7,7 +7,7 @@ export const createPricePoint = (req: Request, res: Response) => {
 
 export const listPricePoint = (req: Request, res: Response) => {
     getPricePoint(
-        parseInt(req.params.factoryId as string, 10),
-        parseInt(req.params.deliveryPointId as string, 10)
+        parseInt(req.params.loadingPointId as string, 10),
+        parseInt(req.params.unloadingPointId as string, 10)
     ).then((data) => res.status(200).json(data))
 }

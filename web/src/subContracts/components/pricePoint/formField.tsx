@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import AutoComplete from '../../../form/AutoComplete.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
-import { getFactoryByCementCompanyName } from '../../services/factory.ts'
-import { getDeliveryPointByCompanyName } from '../../services/deliveryPoint.ts'
+import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
+import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import { Control } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import InputWithType from '../../../form/InputWithType.tsx'
@@ -10,35 +10,35 @@ import InputWithType from '../../../form/InputWithType.tsx'
 export interface FormFieldsProps {
     control: Control
     cementCompany: string[]
-    setDeliveryPointId: React.Dispatch<React.SetStateAction<number>>
-    setFactoryId: React.Dispatch<React.SetStateAction<number>>
+    setUnloadingPointId: React.Dispatch<React.SetStateAction<number>>
+    setLoadingPointId: React.Dispatch<React.SetStateAction<number>>
     transporterRate: number
-    factoryId: number
-    deliveryPointId: number
+    loadingPointId: number
+    unloadingPointId: number
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
     cementCompany,
-    setFactoryId,
-    setDeliveryPointId,
+    setLoadingPointId,
+    setUnloadingPointId,
     transporterRate,
-    factoryId,
-    deliveryPointId
+    loadingPointId,
+    unloadingPointId
 }) => {
     const [cementCompanyName, setCementCompanyName] = useState<string>('null')
     // const [price, setPrice] = useState<number>(0)
     // const [percentage, setPercentage] = useState<number>(0)
-    const [factoryList, setFactoryList] = useState([])
-    const [deliveryPoint, setDeliveryPoint] = useState([])
+    const [loadingPointList, setLoadingPointList] = useState([])
+    const [unloadingPointList, setUnloadingPointList] = useState([])
     useEffect(() => {
         if (cementCompanyName !== 'null') {
-            getFactoryByCementCompanyName(cementCompanyName).then(setFactoryList)
-            getDeliveryPointByCompanyName(cementCompanyName).then(setDeliveryPoint)
+            getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
+            getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
         }
     }, [cementCompanyName])
     useEffect(() => {
-        if (factoryId && deliveryPointId) {
-            getPricePoint(factoryId, deliveryPointId).then(
+        if (loadingPointId && unloadingPointId) {
+            getPricePoint(loadingPointId, unloadingPointId).then(
                 ({ freightAmount, transporterAmount }) => {
                     // setPrice(freightAmount)
                     // setPercentage(transporterAmount)
@@ -46,7 +46,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 }
             )
         }
-    }, [factoryId, deliveryPointId])
+    }, [loadingPointId, unloadingPointId])
     return (
         <div
             style={{
@@ -68,26 +68,26 @@ const FormFields: React.FC<FormFieldsProps> = ({
             />
             <AutoComplete
                 control={control}
-                fieldName="factoryId"
-                label="Factory Point"
-                options={factoryList.map(({ name }) => name)}
+                fieldName="loadingPointId"
+                label="Loading Point"
+                options={loadingPointList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = factoryList.find(
-                        (factory: { name: string }) => factory.name === newValue
+                    const { id }: any = loadingPointList.find(
+                        (data: { name: string }) => data.name === newValue
                     )
-                    setFactoryId(id)
+                    setLoadingPointId(id)
                 }}
             />
             <AutoComplete
                 control={control}
-                fieldName="deliveryPointId"
-                label="Delivery Point"
-                options={deliveryPoint.map(({ name }) => name)}
+                fieldName="unloadingPointId"
+                label="Unloading Point"
+                options={unloadingPointList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = deliveryPoint.find(
-                        (deliveryPoint: { name: string }) => deliveryPoint.name === newValue
+                    const { id }: any = unloadingPointList.find(
+                        (data: { name: string }) => data.name === newValue
                     )
-                    setDeliveryPointId(id)
+                    setUnloadingPointId(id)
                 }}
             />
             <InputWithType

@@ -5,11 +5,11 @@ export const create = (
     data: Prisma.pricePointCreateInput | Prisma.pricePointUncheckedCreateInput
 ) => prisma.pricePoint.create({ data })
 
-export const getPricePoint = (factoryId: any, deliveryPointId: any) =>
+export const getPricePoint = (loadingPointId: any, unloadingPointId: any) =>
     prisma.pricePoint.findFirst({
         where: {
-            factoryId,
-            deliveryPointId
+            loadingPointId,
+            unloadingPointId
         },
         select: {
             freightAmount: true,

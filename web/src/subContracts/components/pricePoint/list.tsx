@@ -9,8 +9,8 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [transporterRate, setTransporterRate] = useState<number>(0)
     const [cementCompany, setCementCompany] = useState([])
-    const [factoryId, setFactoryId] = useState<number>(0)
-    const [deliveryPointId, setDeliveryPointId] = useState<number>(0)
+    const [loadingPointId, setLoadingPointId] = useState<number>(0)
+    const [unloadingPointId, setUnloadingPointId] = useState<number>(0)
     const freightAmount = watch('freightAmount')
     const transporterPercentage = watch('transporterPercentage')
     useEffect(() => {
@@ -26,8 +26,8 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     }, [freightAmount, transporterPercentage])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
-            factoryId: factoryId,
-            deliveryPointId: deliveryPointId,
+            loadingPointId: loadingPointId,
+            unloadingPointId: unloadingPointId,
             freightAmount: parseInt(data.freightAmount),
             transporterPercentage: parseInt(data.transporterPercentage),
             transporterAmount: transporterRate
@@ -39,10 +39,10 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             <FormFields
                 control={control}
                 cementCompany={cementCompany}
-                setFactoryId={setFactoryId}
-                setDeliveryPointId={setDeliveryPointId}
-                factoryId={factoryId}
-                deliveryPointId={deliveryPointId}
+                setLoadingPointId={setLoadingPointId}
+                setUnloadingPointId={setUnloadingPointId}
+                loadingPointId={loadingPointId}
+                unloadingPointId={unloadingPointId}
                 transporterRate={transporterRate}
             />
             <SubmitButton name="Submit" type="submit" />

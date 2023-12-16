@@ -25,10 +25,10 @@ interface Row {
     }
     endDate: number
     invoiceNumber: string
-    factory: {
+    loadingPoint: {
         name: string
     }
-    deliveryPoint: {
+    unloadingPoint: {
         name: string
     }
     filledLoad: string
@@ -49,8 +49,8 @@ function getTableHead() {
                 <TableCell align="left">Start Date</TableCell>
                 <TableCell align="left">Transporter</TableCell>
                 <TableCell align="left">InvoiceNumber</TableCell>
-                <TableCell align="left">Factory Point</TableCell>
-                <TableCell align="left">Delivery Point</TableCell>
+                <TableCell align="left">Loading Point</TableCell>
+                <TableCell align="left">Unloading Point</TableCell>
                 <TableCell align="left">Freight Amount</TableCell>
                 <TableCell align="left">Transporter amount</TableCell>
                 <TableCell align="left">Quantity Loaded</TableCell>
@@ -73,8 +73,8 @@ function getTableBody(allTrips: Row[]) {
                     <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
                     <TableCell align="left">{row.truck.transporter.name}</TableCell>
                     <TableCell align="left">{row.invoiceNumber}</TableCell>
-                    <TableCell align="left">{row.factory.name}</TableCell>
-                    <TableCell align="left">{row.deliveryPoint.name}</TableCell>
+                    <TableCell align="left">{row.loadingPoint.name}</TableCell>
+                    <TableCell align="left">{row.unloadingPoint.name}</TableCell>
                     <TableCell align="left">{row.freightAmount}</TableCell>
                     <TableCell align="left">{row.transporterAmount}</TableCell>
                     <TableCell align="left">{row.filledLoad}</TableCell>

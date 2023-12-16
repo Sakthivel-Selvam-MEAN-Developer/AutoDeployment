@@ -1,32 +1,35 @@
-import seedFactoryToCustomerTrip from '../seed/factoryToCustomerTrip.ts'
+import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
-import seedFactory from '../seed/factoryWithoutDep.ts'
-import seedDelivery from '../seed/deliveryPointWithoutDep.ts'
+import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
+import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedTruck from '../seed/truck.ts'
 import {
     create,
     getAllTrip,
     getTripByVehicleNumber,
     updateTransporterBalance
-} from './factoryToCustomerTrip.ts'
+} from './loadingToUnloadingTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
-import { create as createFactory } from './factory.ts'
-import { create as createDelivery } from './deliveryPoint.ts'
+import { create as createLoadingPoint } from './loadingPoint.ts'
+import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
 
 describe('Trip model', () => {
     test('should able to create a trip', async () => {
         const company = await createCompany(seedCompany)
         const truck = await createTruck(seedTruck)
-        const factoryPoint = await createFactory({ ...seedFactory, cementCompanyId: company.id })
-        const deliveryPoint = await createDelivery({
-            ...seedDelivery,
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
             cementCompanyId: company.id
         })
         const trip = await create({
             ...seedFactoryToCustomerTrip,
-            factoryId: factoryPoint.id,
-            deliveryPointId: deliveryPoint.id,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
             truckId: truck.id
         })
         const tripByVehicleNumber = await getTripByVehicleNumber('TN93D5512')
@@ -39,15 +42,18 @@ describe('Trip model', () => {
         const balanceToUpdate = 500
         const company = await createCompany(seedCompany)
         const truck = await createTruck(seedTruck)
-        const factoryPoint = await createFactory({ ...seedFactory, cementCompanyId: company.id })
-        const deliveryPoint = await createDelivery({
-            ...seedDelivery,
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
             cementCompanyId: company.id
         })
         const trip = await create({
             ...seedFactoryToCustomerTrip,
-            factoryId: factoryPoint.id,
-            deliveryPointId: deliveryPoint.id,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
             truckId: truck.id
         })
         await updateTransporterBalance({ tripId: trip.id, remaining: balanceToUpdate })

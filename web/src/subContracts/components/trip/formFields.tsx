@@ -4,8 +4,8 @@ import AutoComplete from '../../../form/AutoComplete.tsx'
 import { InputAdornment } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getTruckByTransporter } from '../../services/truck.ts'
-import { getFactoryByCementCompanyName } from '../../services/factory.ts'
-import { getDeliveryPointByCompanyName } from '../../services/deliveryPoint.ts'
+import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
+import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control } from 'react-hook-form'
 
@@ -13,8 +13,8 @@ interface FormFieldProps {
     control: Control
     transporter: string[]
     truckId: React.Dispatch<React.SetStateAction<number>>
-    factoryId: React.Dispatch<React.SetStateAction<number>>
-    deliveryPointId: React.Dispatch<React.SetStateAction<number>>
+    loadingPointId: React.Dispatch<React.SetStateAction<number>>
+    unloadingPointId: React.Dispatch<React.SetStateAction<number>>
     cementCompany: string[]
     freightAmount: number
     transporterAmount: number
@@ -27,8 +27,8 @@ const FormField: React.FC<FormFieldProps> = ({
     transporter,
     truckId,
     cementCompany,
-    factoryId,
-    deliveryPointId,
+    loadingPointId,
+    unloadingPointId,
     freightAmount,
     transporterAmount,
     totalFreightAmount,
@@ -38,13 +38,13 @@ const FormField: React.FC<FormFieldProps> = ({
     const [transporterName, setTransporterName] = useState<string>()
     const [cementCompanyName, setCementCompanyName] = useState<string>()
     const [listTruck, setListTruck] = useState([])
-    const [factoryList, setFactoryList] = useState([])
-    const [deliveryPoint, setDeliveryPoint] = useState([])
+    const [loadingPointList, setLoadingPointList] = useState([])
+    const [unloadingPointList, setUnloadingPointList] = useState([])
 
     useEffect(() => {
         if (cementCompanyName !== undefined) {
-            getFactoryByCementCompanyName(cementCompanyName).then(setFactoryList)
-            getDeliveryPointByCompanyName(cementCompanyName).then(setDeliveryPoint)
+            getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
+            getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
         }
         if (transporterName !== undefined) {
             getTruckByTransporter(transporterName).then(setListTruck)
@@ -92,26 +92,26 @@ const FormField: React.FC<FormFieldProps> = ({
             />
             <AutoComplete
                 control={control}
-                fieldName="factoryId"
-                label="Factory Point"
-                options={factoryList.map(({ name }) => name)}
+                fieldName="loadingPointId"
+                label="Loading Point"
+                options={loadingPointList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = factoryList.find(
-                        (factory: { name: string }) => factory.name === newValue
+                    const { id }: any = loadingPointList.find(
+                        (data: { name: string }) => data.name === newValue
                     )
-                    factoryId(id)
+                    loadingPointId(id)
                 }}
             />
             <AutoComplete
                 control={control}
-                fieldName="deliveryPointId"
-                label="Delivery Point"
-                options={deliveryPoint.map(({ name }) => name)}
+                fieldName="unloadingPointId"
+                label="Unloading Point"
+                options={unloadingPointList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = deliveryPoint.find(
-                        (deliveryPoint: { name: string }) => deliveryPoint.name === newValue
+                    const { id }: any = unloadingPointList.find(
+                        (data: { name: string }) => data.name === newValue
                     )
-                    deliveryPointId(id)
+                    unloadingPointId(id)
                 }}
             />
             <InputWithDefaultValue

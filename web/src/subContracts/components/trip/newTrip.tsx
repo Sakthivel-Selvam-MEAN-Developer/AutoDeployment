@@ -20,8 +20,8 @@ const NewTrip: React.FC = () => {
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
     const [truckId, setTruckId] = useState(0)
-    const [factoryId, setFactoryId] = useState(0)
-    const [deliveryPointId, setDeliveryPointId] = useState(0)
+    const [loadingPointId, setLoadingPointId] = useState(0)
+    const [unloadingPointId, setUnloadingPointId] = useState(0)
     const [freightAmount, setFreightAmount] = useState(0)
     const [transporterAmount, setTransporterAmount] = useState(0)
     const [totalTransporterAmount, setTotalTransporterAmount] = useState(0)
@@ -37,8 +37,8 @@ const NewTrip: React.FC = () => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
             truckId: truckId,
-            factoryId: factoryId,
-            deliveryPointId: deliveryPointId,
+            loadingPointId: loadingPointId,
+            unloadingPointId: unloadingPointId,
             startDate: dayjs().unix(),
             filledLoad: parseInt(data.filledLoad),
             invoiceNumber: data.invoiceNumber,
@@ -59,13 +59,13 @@ const NewTrip: React.FC = () => {
         )
     }, [])
     useEffect(() => {
-        if (factoryId !== undefined && deliveryPointId !== undefined) {
-            getPricePoint(factoryId, deliveryPointId).then((data) => {
+        if (loadingPointId !== undefined && unloadingPointId !== undefined) {
+            getPricePoint(loadingPointId, unloadingPointId).then((data) => {
                 setFreightAmount(data.freightAmount)
                 setTransporterAmount(data.transporterAmount)
             })
         }
-    }, [factoryId, deliveryPointId])
+    }, [loadingPointId, unloadingPointId])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,8 +74,8 @@ const NewTrip: React.FC = () => {
                 transporter={transporter}
                 cementCompany={cementCompany}
                 truckId={setTruckId}
-                factoryId={setFactoryId}
-                deliveryPointId={setDeliveryPointId}
+                loadingPointId={setLoadingPointId}
+                unloadingPointId={setUnloadingPointId}
                 freightAmount={freightAmount}
                 transporterAmount={transporterAmount}
                 totalFreightAmount={totalFreightAmount}
