@@ -1,7 +1,7 @@
 import TextInput from '../../../form/TextInput.tsx'
 import NumberInput from '../../../form/NumberInput.tsx'
 import AutoComplete from '../../../form/AutoComplete.tsx'
-import { InputAdornment } from '@mui/material'
+import { FormControlLabel, InputAdornment, Switch } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getTruckByTransporter } from '../../services/truck.ts'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
@@ -21,6 +21,8 @@ interface FormFieldProps {
     totalFreightAmount: number | undefined
     totalTransporterAmount: number | undefined
     margin: number | undefined
+    fuel: boolean
+    setFuel: React.Dispatch<React.SetStateAction<boolean>>
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -33,7 +35,9 @@ const FormField: React.FC<FormFieldProps> = ({
     transporterAmount,
     totalFreightAmount,
     totalTransporterAmount,
-    margin
+    margin,
+    fuel,
+    setFuel
 }) => {
     const [transporterName, setTransporterName] = useState<string>()
     const [cementCompanyName, setCementCompanyName] = useState<string>()
@@ -133,7 +137,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 label="Transporter Amount"
                 fieldName="transporterAmount"
                 type="number"
-                defaultValue="jj"
+                defaultValue={transporterAmount}
                 value={transporterAmount}
                 InputProps={{
                     readOnly: true
@@ -197,6 +201,10 @@ const FormField: React.FC<FormFieldProps> = ({
                 InputLabelProps={{
                     shrink: true
                 }}
+            />
+            <FormControlLabel
+                control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
+                label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
             />
         </div>
     )

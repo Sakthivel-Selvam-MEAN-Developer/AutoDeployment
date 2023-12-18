@@ -379,6 +379,8 @@ model loadingPointToUnloadingPointTrip {
   fuel                   fuel[]
   startDate              Int
   filledLoad             Int
+  wantFuel               Boolean        @default(false)
+  tripStatus             Boolean        @default(false)
   freightAmount          Int
   transporterAmount      Int
   totalFreightAmount     Int
@@ -469,6 +471,22 @@ model pricePoint {
   transporterPercentage Int
   createdAt             DateTime       @default(now()) @db.Timestamptz(6)
   updatedAt             DateTime       @updatedAt @db.Timestamptz(6)
+
+  @@schema("subContract")
+}
+
+model paymentDues {
+  id               Int      @id @default(autoincrement())
+  transporterName  String
+  tripId           Int
+  type             String
+  status           Boolean  @default(false)
+  transactionId    String
+  paidAmount       Int
+  paidAt           Int
+  remainingBalance Int?
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }

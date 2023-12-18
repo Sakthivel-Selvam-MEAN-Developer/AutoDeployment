@@ -5,7 +5,8 @@ import {
     ChevronLeft,
     LocalShipping,
     Factory,
-    Sell
+    Sell,
+    Receipt
 } from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -93,8 +94,15 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     text="Trip"
                     navigate="/sub/trip"
                     drawerState={drawerState}
-                    index={1}
+                    index={4}
                     icon={<LocalShipping />}
+                />
+                <DrawerListItem
+                    text="Payment Dues"
+                    navigate="/sub/payment-dues"
+                    drawerState={drawerState}
+                    index={5}
+                    icon={<Receipt />}
                 />
             </List>
         </Drawer>

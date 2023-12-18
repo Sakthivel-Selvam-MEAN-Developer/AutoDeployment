@@ -27,6 +27,7 @@ const NewTrip: React.FC = () => {
     const [totalTransporterAmount, setTotalTransporterAmount] = useState(0)
     const [totalFreightAmount, setTotalFreightAmount] = useState(0)
     const [margin, setMargin] = useState(0)
+    const [fuel, setFuel] = useState(false)
     const filledLoad = watch('filledLoad')
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseInt(filledLoad))
@@ -46,7 +47,8 @@ const NewTrip: React.FC = () => {
             transporterAmount: transporterAmount,
             totalFreightAmount: totalFreightAmount,
             totalTransporterAmount: totalTransporterAmount,
-            margin: margin
+            margin: margin,
+            wantFuel: fuel
         }
         createTrip(JSON.stringify(details)).then(() => navigate('/sub/trip'))
     }
@@ -81,6 +83,8 @@ const NewTrip: React.FC = () => {
                 totalFreightAmount={totalFreightAmount}
                 totalTransporterAmount={totalTransporterAmount}
                 margin={margin}
+                fuel={fuel}
+                setFuel={setFuel}
             />
             <SubmitButton name="Start" type="submit" />
         </form>
