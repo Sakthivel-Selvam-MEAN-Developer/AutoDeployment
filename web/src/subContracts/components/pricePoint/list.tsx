@@ -11,7 +11,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [cementCompany, setCementCompany] = useState([])
     const [loadingPointId, setLoadingPointId] = useState<number>(0)
     const [unloadingPointId, setUnloadingPointId] = useState<number>(0)
-    const freightAmount = watch('freightAmount')
+    const [freightAmount, setFreightAmount] = useState<number>(0)
     const transporterPercentage = watch('transporterPercentage')
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
@@ -19,19 +19,20 @@ const CreatePricepoint: React.FC = (): ReactElement => {
         )
     }, [])
     useEffect(() => {
-        setTransporterRate(
-            parseInt(freightAmount) -
-                (parseInt(freightAmount) * parseInt(transporterPercentage)) / 100
+        setTransporterRate(freightAmount -
+                (freightAmount * parseInt(transporterPercentage)) / 100
         )
     }, [freightAmount, transporterPercentage])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
             loadingPointId: loadingPointId,
             unloadingPointId: unloadingPointId,
-            freightAmount: parseInt(data.freightAmount),
+            freightAmount: freightAmount,
             transporterPercentage: parseInt(data.transporterPercentage),
             transporterAmount: transporterRate
         }
+        // console.log(details);
+        
         createpricePoint(JSON.stringify(details))
     }
     return (
@@ -41,6 +42,8 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 cementCompany={cementCompany}
                 setLoadingPointId={setLoadingPointId}
                 setUnloadingPointId={setUnloadingPointId}
+                freightAmount={freightAmount}
+                setFreightAmount={setFreightAmount}
                 loadingPointId={loadingPointId}
                 unloadingPointId={unloadingPointId}
                 transporterRate={transporterRate}

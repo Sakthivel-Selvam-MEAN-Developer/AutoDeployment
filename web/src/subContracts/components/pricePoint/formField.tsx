@@ -6,6 +6,8 @@ import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts
 import { Control } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import InputWithType from '../../../form/InputWithType.tsx'
+import NumberInputWithValue from '../../../form/NumberInputWithValue.tsx'
+import { InputAdornment } from '@mui/material'
 
 export interface FormFieldsProps {
     control: Control
@@ -15,6 +17,8 @@ export interface FormFieldsProps {
     transporterRate: number
     loadingPointId: number
     unloadingPointId: number
+    freightAmount: number
+    setFreightAmount: React.Dispatch<React.SetStateAction<number>>
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -23,11 +27,10 @@ const FormFields: React.FC<FormFieldsProps> = ({
     setUnloadingPointId,
     transporterRate,
     loadingPointId,
-    unloadingPointId
+    unloadingPointId, setFreightAmount,
+    freightAmount
 }) => {
     const [cementCompanyName, setCementCompanyName] = useState<string>('null')
-    // const [price, setPrice] = useState<number>(0)
-    // const [percentage, setPercentage] = useState<number>(0)
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
     useEffect(() => {
@@ -40,8 +43,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
         if (loadingPointId && unloadingPointId) {
             getPricePoint(loadingPointId, unloadingPointId).then(
                 ({ freightAmount, transporterAmount }) => {
-                    // setPrice(freightAmount)
-                    // setPercentage(transporterAmount)
+                    setFreightAmount(freightAmount)
                     console.log(freightAmount, transporterAmount)
                 }
             )
@@ -90,21 +92,14 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     setUnloadingPointId(id)
                 }}
             />
-            <InputWithType
-                control={control}
-                disabled={false}
-                label="Freight Amount"
-                fieldName="freightAmount"
-                type="number"
-            />
-            {/* <NumberInputWithValue
+            <NumberInputWithValue
                 control={control}
                 label="Freight Amount"
                 fieldName="freightAmount"
-                value={price}
+                value={freightAmount}
                 type="number"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    setPrice(parseInt(event.target.value))
+                    setFreightAmount(parseInt(event.target.value))
                 }}
                 InputProps={{
                     startAdornment: (
@@ -113,7 +108,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                         </InputAdornment>
                     )
                 }}
-            /> */}
+            />
             <InputWithType
                 control={control}
                 disabled={false}
@@ -121,23 +116,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 fieldName="transporterPercentage"
                 type="number"
             />
-            {/* <NumberInputWithValue
-                control={control}
-                label="Transporter Percentage"
-                fieldName="transporterPercentage"
-                value={percentage}
-                type="number"
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    setPercentage(parseInt(event.target.value))
-                }}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
-            /> */}
             <InputWithDefaultValue
                 control={control}
                 label="Transporter Amount"
