@@ -27,7 +27,8 @@ const FormFields: React.FC<FormFieldsProps> = ({
     setUnloadingPointId,
     transporterRate,
     loadingPointId,
-    unloadingPointId, setFreightAmount,
+    unloadingPointId,
+    setFreightAmount,
     freightAmount
 }) => {
     const [cementCompanyName, setCementCompanyName] = useState<string>('null')

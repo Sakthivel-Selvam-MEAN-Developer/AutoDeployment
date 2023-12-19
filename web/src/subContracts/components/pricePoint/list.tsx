@@ -4,7 +4,6 @@ import SubmitButton from '../../../form/button'
 import FormFields from './formField'
 import { getAllCementCompany } from '../../services/cementCompany'
 import { createpricePoint } from '../../services/pricePoint'
-
 const CreatePricepoint: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [transporterRate, setTransporterRate] = useState<number>(0)
@@ -19,9 +18,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
         )
     }, [])
     useEffect(() => {
-        setTransporterRate(freightAmount -
-                (freightAmount * parseInt(transporterPercentage)) / 100
-        )
+        setTransporterRate(freightAmount - (freightAmount * parseInt(transporterPercentage)) / 100)
     }, [freightAmount, transporterPercentage])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
@@ -31,8 +28,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             transporterPercentage: parseInt(data.transporterPercentage),
             transporterAmount: transporterRate
         }
-        // console.log(details);
-        
         createpricePoint(JSON.stringify(details))
     }
     return (
