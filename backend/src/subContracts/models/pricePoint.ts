@@ -1,9 +1,4 @@
-import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
-
-export const create = (
-    data: Prisma.pricePointCreateInput | Prisma.pricePointUncheckedCreateInput
-) => prisma.pricePoint.create({ data })
 
 export const getPricePoint = (loadingPointId: any, unloadingPointId: any) =>
     prisma.pricePoint.findFirst({
@@ -16,3 +11,27 @@ export const getPricePoint = (loadingPointId: any, unloadingPointId: any) =>
             transporterAmount: true
         }
     })
+
+export const create = async (data: any) => {
+    const pricePointData = await prisma.pricePoint.findFirst({
+        where: {
+            loadingPointId: data.loadingPointId,
+            unloadingPointId: data.unloadingPointId
+        },
+        select: {
+            id: true
+        }
+    })
+    if (pricePointData !== null) {
+        return prisma.pricePoint.update({
+            where: {
+                id: pricePointData.id
+            },
+            data: {
+                freightAmount: data.freightAmount,
+                transporterAmount: data.transporterAmount
+            }
+        })
+    }
+    return prisma.pricePoint.create({ data })
+}
