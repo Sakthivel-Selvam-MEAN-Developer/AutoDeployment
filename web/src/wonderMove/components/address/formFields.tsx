@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import TextInput from '../../../form/TextInput.tsx'
 
 const Address = ({ control }: any) => {
@@ -24,10 +23,5 @@ const Address = ({ control }: any) => {
             </div>
         </>
     )
-}
-
-Address.propTypes = {
-    control: PropTypes.object,
-    parent: PropTypes.string
 }
 export default Address

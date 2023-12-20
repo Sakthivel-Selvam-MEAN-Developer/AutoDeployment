@@ -15,6 +15,7 @@ import cementCompanyRoutes from './subContracts/routes/cementCompany.ts'
 import factoryRoutes from './subContracts/routes/loadingPoint.ts'
 import deliveryPointRoutes from './subContracts/routes/unloadingPoint.ts'
 import pricePointRoutes from './subContracts/routes/pricePoint.ts'
+import paymentDues from './subContracts/routes/paymentDues.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -38,5 +39,6 @@ factoryRoutes(router)
 cementCompanyRoutes(router)
 deliveryPointRoutes(router)
 pricePointRoutes(router)
+paymentDues(router)
 
 export default router

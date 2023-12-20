@@ -5,55 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87799998-e17a-4bd9-ba26-05a0f407919b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/loadingPoint.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/subContracts/models/loadingPoint.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/subContracts/models/loadingPoint.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/devSeed/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/devSeed/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/deliveryPoint.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/unloadingPoint.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/deliveryPoint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/unloadingPoint.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/factory.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/loadingPoint.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/factory.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/pricePoint.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/pricePoint.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/pricePoint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/controller/pricePoint.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/trip.test.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/controller/trip.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/deliveryPoint.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/unloadingPoint.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/deliveryPoint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/unloadingPoint.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/factory.test.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/factory.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/factoryToCustomerTrip.test.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/factoryToCustomerTrip.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/pricePoint.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/pricePoint.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/models/pricePoint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/models/pricePoint.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/routes/deliveryPoint.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/routes/factory.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/routes/trip.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/schema.prisma" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/seed/deliveryPoint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/seed/unloadingPoint.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/seed/deliveryPointWithoutDep.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/seed/unloadingPointWithoutDep.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/seed/factory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/seed/loadingPoint.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/seed/factoryToCustomerTrip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/seed/loadingToUnloadingTrip.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/subContracts/seed/factoryWithoutDep.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/subContracts/seed/loadingPointWithoutDep.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/testUtils/cleanDb.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/cementCompany/factory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/cementCompany/factory.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/cementCompany/factoryFormField.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/cementCompany/factoryFormField.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/pricePoint/formField.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/pricePoint/formField.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/pricePoint/list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/pricePoint/list.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/pricePoint/pricePoint.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/pricePoint/pricePoint.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/formFields.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/formFields.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/list.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/list.test.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/newTrip.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/newTrip.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/paymentDues/transporterDues.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/paymentDues/transporterDues.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/newTrip.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/newTrip.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/components/trip/show.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/subContracts/components/trip/show.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/services/deliveryPoint.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/subContracts/services/factory.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/address/formFields.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/address/formFields.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/wonderMove/components/stops/view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/wonderMove/components/stops/view.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,36 +53,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "js.last.introduce.type": "CONST",
-    "js.linters.configure.manually.selectedeslint": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/de/work/wonderWhy/web/src/peopleOrg/services",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/de/work/wonderWhy/node_modules/prettier",
-    "project.structure.last.edited": "Facets",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "rest.client.default.execution.environment": "dev",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/de/work/wonderWhy/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;js.last.introduce.type&quot;: &quot;CONST&quot;,
+    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/de/work/wonderWhy/web/src/peopleOrg/services&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/de/work/wonderWhy/node_modules/prettier&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Facets&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;rest.client.default.execution.environment&quot;: &quot;dev&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/muthu/work/WonderWhy/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/web/src/peopleOrg/services" />
@@ -228,6 +188,8 @@
       <workItem from="1701428960699" duration="1396000" />
       <workItem from="1702462076198" duration="231000" />
       <workItem from="1702473156558" duration="13285000" />
+      <workItem from="1702973226201" duration="160000" />
+      <workItem from="1703059531174" duration="550000" />
     </task>
     <servers />
   </component>

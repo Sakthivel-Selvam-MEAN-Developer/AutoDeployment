@@ -8,6 +8,7 @@ import { createTrip } from '../../services/trip.ts'
 import { useNavigate } from 'react-router-dom'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import dayjs from 'dayjs'
+import { createPaymentDues } from '../../services/paymentDues.ts'
 
 interface transporter {
     name: string
@@ -50,7 +51,14 @@ const NewTrip: React.FC = () => {
             margin: margin,
             wantFuel: fuel
         }
-        createTrip(JSON.stringify(details)).then(() => navigate('/sub/trip'))
+        const paymentDues = {
+            name: data.transporterName,
+            type: 'initial pay',
+            payableAmount: (totalTransporterAmount * 70) / 100
+        }
+        createTrip(JSON.stringify(details))
+            .then((tripData) => createPaymentDues({ ...paymentDues, tripId: tripData.id }))
+            .then(() => navigate('/sub/trip'))
     }
     useEffect(() => {
         getAllTransporter().then((transporterData) =>

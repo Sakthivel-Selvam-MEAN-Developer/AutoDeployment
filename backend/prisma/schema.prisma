@@ -477,13 +477,13 @@ model pricePoint {
 
 model paymentDues {
   id               Int      @id @default(autoincrement())
-  transporterName  String
+  name             String
   tripId           Int
   type             String
   status           Boolean  @default(false)
-  transactionId    String
-  paidAmount       Int
-  paidAt           Int
+  payableAmount    Int
+  transactionId    String?
+  paidAt           Int?
   remainingBalance Int?
   createdAt        DateTime @default(now()) @db.Timestamptz(6)
   updatedAt        DateTime @updatedAt @db.Timestamptz(6)
