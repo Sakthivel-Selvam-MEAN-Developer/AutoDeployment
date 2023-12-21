@@ -4,7 +4,7 @@ import seedPaymentDue from '../seed/paymentDue.ts'
 describe('Payment-Due model', () => {
     test('should able to create', async () => {
         await create(seedPaymentDue)
-        const actual = await findTripWithActiveDues(seedPaymentDue.name)
+        const actual = await findTripWithActiveDues()
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
     })

@@ -4,18 +4,21 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
-import { getOnlyActiveDues, listTripWithActiveDues } from '../../services/paymentDues'
+import { getOnlyActiveDues } from '../../services/paymentDues'
 import { ListItemSecondaryAction } from '@mui/material'
 const TransporterDues: React.FC = () => {
     const [transporterDue, setTransporterDue] = useState([])
-    const [tripByDue, setTripByDue] = useState([])
     type dataProp = {
         name: string
-        _count: { tripId: number }
-        _sum: { payableAmount: number }
+        dueDetails: { count: number; totalPayableAmount: number }
+        tripDetails: tripProp[]
+    }
+    type tripProp = {
+        tripId: number
+        payableAmount: number
+        type: string
     }
     const style = { padding: '10px 100px ' }
-    const handleAccordionClick = (name: string) => listTripWithActiveDues(name).then(setTripByDue)
     useEffect(() => {
         getOnlyActiveDues().then(setTransporterDue)
     }, [])
@@ -23,7 +26,7 @@ const TransporterDues: React.FC = () => {
         <>
             {transporterDue.map((data: dataProp) => {
                 return (
-                    <Accordion onClick={() => handleAccordionClick(data.name)}>
+                    <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
@@ -34,25 +37,23 @@ const TransporterDues: React.FC = () => {
                                 <b>{data.name}</b>
                             </Typography>
                             <Typography sx={style}>
-                                Total Trips: <b>{data._count.tripId}</b>
+                                Total Trips: <b>{data.dueDetails.count}</b>
                             </Typography>
                             <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                Total Amount: <b>{data._sum.payableAmount}</b>
+                                Total Amount: <b>{data.dueDetails.totalPayableAmount}</b>
                             </ListItemSecondaryAction>
                         </AccordionSummary>
-                        {tripByDue.map(
-                            (data: { tripId: number; type: string; payableAmount: number }) => {
-                                return (
-                                    <AccordionDetails
-                                        sx={{ display: 'flex', borderBottom: ' 1px solid grey' }}
-                                    >
-                                        <Typography sx={style}> {data.tripId} </Typography>
-                                        <Typography sx={style}> {data.type} </Typography>
-                                        <Typography sx={style}> {data.payableAmount} </Typography>
-                                    </AccordionDetails>
-                                )
-                            }
-                        )}
+                        {data.tripDetails.map((list: tripProp) => {
+                            return (
+                                <AccordionDetails
+                                    sx={{ display: 'flex', borderBottom: ' 1px solid grey' }}
+                                >
+                                    <Typography sx={style}>{list.tripId}</Typography>
+                                    <Typography sx={style}>{list.type} </Typography>
+                                    <Typography sx={style}>{list.payableAmount} </Typography>
+                                </AccordionDetails>
+                            )
+                        })}
                     </Accordion>
                 )
             })}

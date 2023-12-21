@@ -20,15 +20,16 @@ export const getOnlyActiveDuesByName = () =>
         }
     })
 
-export const findTripWithActiveDues = (name: string) =>
+export const findTripWithActiveDues = () =>
     prisma.paymentDues.findMany({
         where: {
-            name,
-            status: false
+            status: false,
+            type: 'initial pay'
         },
         select: {
             payableAmount: true,
             tripId: true,
-            type: true
+            type: true,
+            name: true
         }
     })
