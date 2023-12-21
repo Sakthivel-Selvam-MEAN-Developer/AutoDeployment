@@ -479,12 +479,12 @@ model paymentDues {
   id               Int      @id @default(autoincrement())
   name             String
   tripId           Int
+  dueDate          Int
   type             String
   status           Boolean  @default(false)
   payableAmount    Int
   transactionId    String?
   paidAt           Int?
-  remainingBalance Int?
   createdAt        DateTime @default(now()) @db.Timestamptz(6)
   updatedAt        DateTime @updatedAt @db.Timestamptz(6)
 

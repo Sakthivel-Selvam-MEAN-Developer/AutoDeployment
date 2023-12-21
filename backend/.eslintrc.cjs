@@ -42,6 +42,7 @@ module.exports = {
         'max-depth': ['error', 3],
         'max-lines-per-function': ['error', 35],
         'object-curly-newline': 0,
-        'import/prefer-default-export': 0
+        'import/prefer-default-export': 0,
+        "radix": "off"
     }
 }

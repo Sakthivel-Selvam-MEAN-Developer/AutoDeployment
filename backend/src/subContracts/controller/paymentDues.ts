@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { create, findTripWithActiveDues, getOnlyActiveDuesByName } from '../models/paymentDues.ts'
+import {
+    create,
+    findTripWithActiveDues,
+    getOnlyActiveDuesByName,
+    updatePaymentDues
+} from '../models/paymentDues.ts'
 
 export const createPaymentDues = (req: Request, res: Response) => {
     create(req.body).then(() => res.sendStatus(200))
@@ -18,6 +23,7 @@ const groupDataByName = async (duesData: any[], tripsData: any[]) => {
             },
             tripDetails: matchingTrips.map((matchingTrip) => {
                 const details = {
+                    id: matchingTrip.id,
                     tripId: matchingTrip.tripId,
                     payableAmount: matchingTrip.payableAmount,
                     type: matchingTrip.type
@@ -29,8 +35,13 @@ const groupDataByName = async (duesData: any[], tripsData: any[]) => {
     return groupedData
 }
 
-export const listOnlyActiveDues = async (_req: Request, res: Response) => {
-    const duesData = await getOnlyActiveDuesByName()
-    const tripsData = await findTripWithActiveDues()
+export const listOnlyActiveDues = async (req: Request, res: Response) => {
+    const { duedate } = req.params
+    const duesData = await getOnlyActiveDuesByName(parseInt(duedate))
+    const tripsData = await findTripWithActiveDues(parseInt(duedate))
     await groupDataByName(duesData, tripsData).then((data: any) => res.status(200).json(data))
+}
+
+export const updatePayment = (req: Request, res: Response) => {
+    updatePaymentDues(req.body).then((data) => res.status(200).json(data))
 }

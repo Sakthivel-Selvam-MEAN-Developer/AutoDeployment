@@ -3,24 +3,38 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { useEffect, useState } from 'react'
-import { getOnlyActiveDues } from '../../services/paymentDues'
-import { ListItemSecondaryAction } from '@mui/material'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { getOnlyActiveDues, updatePaymentDues } from '../../services/paymentDues'
+import { Button, ListItemSecondaryAction, TextField } from '@mui/material'
+import dayjs from 'dayjs'
+
 const TransporterDues: React.FC = () => {
     const [transporterDue, setTransporterDue] = useState([])
+    const [transactionId, setTransactionId] = useState<string>()
     type dataProp = {
         name: string
         dueDetails: { count: number; totalPayableAmount: number }
         tripDetails: tripProp[]
     }
     type tripProp = {
+        id: number
         tripId: number
         payableAmount: number
         type: string
+        transactionId: string
+    }
+    const handleClick = (id: number) => {
+        const data = {
+            id,
+            transactionId,
+            paidAt: dayjs().unix()
+        }
+        updatePaymentDues(data).then(() => console.log('Success'))
     }
     const style = { padding: '10px 100px ' }
     useEffect(() => {
-        getOnlyActiveDues().then(setTransporterDue)
+        const todayDate = dayjs().startOf('day').unix()
+        getOnlyActiveDues(todayDate).then(setTransporterDue)
     }, [])
     return (
         <>
@@ -51,6 +65,15 @@ const TransporterDues: React.FC = () => {
                                     <Typography sx={style}>{list.tripId}</Typography>
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
+                                    <TextField
+                                        label="Transaction Id"
+                                        variant="outlined"
+                                        value={transactionId}
+                                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                            setTransactionId(e.target.value)
+                                        }
+                                    />
+                                    <Button onClick={() => handleClick(list.id)}>Pay</Button>
                                 </AccordionDetails>
                             )
                         })}

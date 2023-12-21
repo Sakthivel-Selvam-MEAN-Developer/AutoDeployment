@@ -5,12 +5,15 @@ export const create = (
     data: Prisma.paymentDuesCreateInput | Prisma.paymentDuesUncheckedCreateInput
 ) => prisma.paymentDues.create({ data })
 
-export const getOnlyActiveDuesByName = () =>
+export const getOnlyActiveDuesByName = (dueDate: any) =>
     prisma.paymentDues.groupBy({
         by: ['name'],
         where: {
             status: false,
-            type: 'initial pay'
+            type: 'initial pay',
+            dueDate: {
+                lte: dueDate
+            }
         },
         _count: {
             tripId: true
@@ -20,16 +23,32 @@ export const getOnlyActiveDuesByName = () =>
         }
     })
 
-export const findTripWithActiveDues = () =>
+export const findTripWithActiveDues = (dueDate: any) =>
     prisma.paymentDues.findMany({
         where: {
             status: false,
-            type: 'initial pay'
+            type: 'initial pay',
+            dueDate: {
+                lte: dueDate
+            }
         },
         select: {
+            id: true,
             payableAmount: true,
             tripId: true,
             type: true,
             name: true
+        }
+    })
+
+export const updatePaymentDues = (data: any) =>
+    prisma.paymentDues.update({
+        where: {
+            id: data.id
+        },
+        data: {
+            transactionId: data.transactionId,
+            status: true,
+            paidAt: data.paidAt
         }
     })

@@ -1,9 +1,11 @@
 import supertest from 'supertest'
 import express from 'express'
+import dayjs from 'dayjs'
 
 const mockPaymentDuesByName = jest.fn()
 const mockTripDues = jest.fn()
 const mockgroupData = jest.fn()
+const mockUpdatePayment = jest.fn()
 
 jest.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockPaymentDuesByName(),
@@ -11,7 +13,8 @@ jest.mock('../models/paymentDues', () => ({
 }))
 jest.mock('../controller/paymentDues', () => ({
     groupDataByName: (mockTripWithDues: any, mockDueDetailsByName: any) =>
-        mockgroupData(mockTripWithDues, mockDueDetailsByName)
+        mockgroupData(mockTripWithDues, mockDueDetailsByName),
+    updatePayment: () => mockUpdatePayment
 }))
 
 // const mockTripWithDues = [
@@ -58,6 +61,11 @@ const mockGroupedDueDetails = [
         ]
     }
 ]
+const mockUpdateData = {
+    id: 1,
+    transactionId: 'hgf43',
+    paidAt: dayjs().unix()
+}
 describe('PricePoint Controller', () => {
     let app: any
     beforeEach(() => {
@@ -68,5 +76,10 @@ describe('PricePoint Controller', () => {
         mockgroupData.mockResolvedValue(mockGroupedDueDetails)
         await supertest(app).get('/payment-dues').expect(mockGroupedDueDetails)
         expect(mockgroupData).toHaveBeenCalledTimes(1)
+    })
+    test.skip('should update the paymentDue with transactionId', async () => {
+        mockUpdatePayment.mockResolvedValue(mockUpdateData)
+        await supertest(app).put('/payment-dues')
+        expect(mockUpdatePayment).toHaveBeenCalledTimes(1)
     })
 })

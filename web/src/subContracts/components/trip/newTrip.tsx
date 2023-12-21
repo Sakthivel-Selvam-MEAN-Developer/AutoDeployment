@@ -54,6 +54,7 @@ const NewTrip: React.FC = () => {
         const paymentDues = {
             name: data.transporterName,
             type: 'initial pay',
+            dueDate: dayjs().add(1, 'day').startOf('day').unix(),
             payableAmount: (totalTransporterAmount * 70) / 100
         }
         createTrip(JSON.stringify(details))

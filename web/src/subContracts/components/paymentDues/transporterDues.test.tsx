@@ -14,15 +14,10 @@ const mockPaymentDuesData = [
     {
         name: 'Barath Logistics Pvt Ltd',
         dueDetails: {
-            count: 2,
+            count: 1,
             totalPayableAmount: 138768
         },
         tripDetails: [
-            {
-                tripId: 1,
-                payableAmount: 46368,
-                type: 'initial pay'
-            },
             {
                 tripId: 3,
                 payableAmount: 92400,
@@ -44,9 +39,14 @@ describe('New trip test', () => {
             </BrowserRouter>
         )
         expect(await screen.findByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
+        expect(await screen.findByText('138768')).toBeInTheDocument()
         const transporter = screen.getByText('Barath Logistics Pvt Ltd')
         await userEvent.click(transporter)
-        expect(await screen.findByText('46368')).toBeInTheDocument()
+        expect(await screen.findByText('92400')).toBeInTheDocument()
+
+        await userEvent.type(screen.getByLabelText('Transaction Id'), '12345abc')
+        expect(await screen.findByDisplayValue('12345abc')).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: 'Pay' }))
         expect(mockGroupedDuesByName).toHaveBeenCalledTimes(1)
     })
 })
