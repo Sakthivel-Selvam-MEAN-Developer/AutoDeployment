@@ -21,7 +21,10 @@ const mockPaymentDuesData = [
             {
                 tripId: 3,
                 payableAmount: 92400,
-                type: 'initial pay'
+                type: 'initial pay',
+                vehicleNumber: 'TN93D3445',
+                loadingPoint: 'Chennai',
+                unloadingPoint: 'Salem'
             }
         ]
     }
@@ -42,6 +45,7 @@ describe('New trip test', () => {
         expect(await screen.findByText('138768')).toBeInTheDocument()
         const transporter = screen.getByText('Barath Logistics Pvt Ltd')
         await userEvent.click(transporter)
+        expect(await screen.findByText('TN93D3445')).toBeInTheDocument()
         expect(await screen.findByText('92400')).toBeInTheDocument()
 
         await userEvent.type(screen.getByLabelText('Transaction Id'), '12345abc')

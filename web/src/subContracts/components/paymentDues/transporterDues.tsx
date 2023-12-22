@@ -18,7 +18,9 @@ const TransporterDues: React.FC = () => {
     }
     type tripProp = {
         id: number
-        tripId: number
+        vehicleNumber: string
+        loadingPoint: string
+        unloadingPoint: string
         payableAmount: number
         type: string
         transactionId: string
@@ -31,7 +33,7 @@ const TransporterDues: React.FC = () => {
         }
         updatePaymentDues(data).then(() => console.log('Success'))
     }
-    const style = { padding: '10px 100px ' }
+    const style = { padding: '10px 100px' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate).then(setTransporterDue)
@@ -45,7 +47,7 @@ const TransporterDues: React.FC = () => {
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
                             id="panel1a-header"
-                            sx={{ borderBottom: ' 1px solid grey' }}
+                            sx={{ borderBottom: '1px solid grey' }}
                         >
                             <Typography sx={{ padding: '10px' }}>
                                 <b>{data.name}</b>
@@ -60,9 +62,12 @@ const TransporterDues: React.FC = () => {
                         {data.tripDetails.map((list: tripProp) => {
                             return (
                                 <AccordionDetails
-                                    sx={{ display: 'flex', borderBottom: ' 1px solid grey' }}
+                                    sx={{ display: 'flex', borderBottom: '1px solid grey' }}
                                 >
-                                    <Typography sx={style}>{list.tripId}</Typography>
+                                    <Typography sx={style}>{list.vehicleNumber}</Typography>
+                                    <Typography sx={style}>
+                                        {list.loadingPoint} - {list.unloadingPoint}
+                                    </Typography>
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
                                     <TextField
