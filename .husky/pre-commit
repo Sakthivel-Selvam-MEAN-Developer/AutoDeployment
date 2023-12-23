@@ -3,7 +3,7 @@
 
 yarn u lint
 yarn u format
-yarn u test
+yarn u testOnce
 yarn b lint
 yarn b format
 yarn b testOnce

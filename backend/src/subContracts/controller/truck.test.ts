@@ -2,10 +2,10 @@ import express from 'express'
 import supertest from 'supertest'
 import { listAllTruck, listTruckByTransporter } from './truck.ts'
 
-const mockTruck = jest.fn()
-const mockTruckByTransporter = jest.fn()
+const mockTruck = vi.fn()
+const mockTruckByTransporter = vi.fn()
 
-jest.mock('../models/truck', () => ({
+vi.mock('../models/truck', () => ({
     getAllTruck: () => mockTruck(),
     getTruckByTransporter: () => mockTruckByTransporter()
 }))

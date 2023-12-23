@@ -1,8 +1,8 @@
 import supertest from 'supertest'
 import { app } from '../../app.ts'
 
-const mockEmployee = jest.fn()
-jest.mock('../models/employee.ts', () => ({
+const mockEmployee = vi.fn()
+vi.mock('../models/employee.ts', () => ({
     getEmployeeName: (empId: string) => mockEmployee(empId)
 }))
 

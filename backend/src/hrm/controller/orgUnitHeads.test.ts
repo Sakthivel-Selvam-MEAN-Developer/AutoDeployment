@@ -1,25 +1,25 @@
 import supertest from 'supertest'
 import { app } from '../../app.ts'
 
-const mockOrgUnitHead = jest.fn()
-const mockLeaves = jest.fn()
-const mockChildsOrgUnitHead = jest.fn()
-const mockIsEmployeeHeadOfParentOrg = jest.fn()
-const mockOrgHeadOfEmployees = jest.fn()
-const mockHeadLeaves = jest.fn()
+const mockOrgUnitHead = vi.fn()
+const mockLeaves = vi.fn()
+const mockChildsOrgUnitHead = vi.fn()
+const mockIsEmployeeHeadOfParentOrg = vi.fn()
+const mockOrgHeadOfEmployees = vi.fn()
+const mockHeadLeaves = vi.fn()
 
-jest.mock('../models/orgUnitHeads', () => ({
+vi.mock('../models/orgUnitHeads', () => ({
     isEmployeeInOrgUnitHeads: (employeeId: string) => mockOrgUnitHead(employeeId),
     orgHeadOfEmployees: (childOrgId: string) => mockOrgHeadOfEmployees(childOrgId)
 }))
-jest.mock('../models/leaves', () => ({
+vi.mock('../models/leaves', () => ({
     leavesPendingReview: (orgUnitId: number) => mockLeaves(orgUnitId),
     getHeadLeave: (orgUnitId: number) => mockHeadLeaves(orgUnitId)
 }))
-jest.mock('../models/employee', () => ({
+vi.mock('../models/employee', () => ({
     getEmployeeOrgId: (employeeId: any) => mockChildsOrgUnitHead(employeeId)
 }))
-jest.mock('../models/orgUnitRelations', () => ({
+vi.mock('../models/orgUnitRelations', () => ({
     isEmployeeHeadOfParentOrg: (orgUnitId: any) => mockIsEmployeeHeadOfParentOrg(orgUnitId)
 }))
 

@@ -3,10 +3,10 @@ import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
 import { createCompany, listAllCementCompany } from './cementCompany.ts'
 
-const mockCreateCompany = jest.fn()
-const mockCementCompany = jest.fn()
+const mockCreateCompany = vi.fn()
+const mockCementCompany = vi.fn()
 
-jest.mock('../models/cementCompany', () => ({
+vi.mock('../models/cementCompany', () => ({
     create: (inputs: Prisma.cementCompanyCreateInput) => mockCreateCompany(inputs),
     getAllCementCompany: () => mockCementCompany()
 }))

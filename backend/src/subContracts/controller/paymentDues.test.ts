@@ -2,16 +2,16 @@ import supertest from 'supertest'
 import express from 'express'
 import dayjs from 'dayjs'
 
-const mockPaymentDuesByName = jest.fn()
-const mockTripDues = jest.fn()
-const mockgroupData = jest.fn()
-const mockUpdatePayment = jest.fn()
+const mockPaymentDuesByName = vi.fn()
+const mockTripDues = vi.fn()
+const mockgroupData = vi.fn()
+const mockUpdatePayment = vi.fn()
 
-jest.mock('../models/paymentDues', () => ({
+vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockPaymentDuesByName(),
     findTripWithActiveDues: () => mockTripDues()
 }))
-jest.mock('../controller/paymentDues', () => ({
+vi.mock('../controller/paymentDues', () => ({
     groupDataByName: (mockTripWithDues: any, mockDueDetailsByName: any) =>
         mockgroupData(mockTripWithDues, mockDueDetailsByName),
     updatePayment: () => mockUpdatePayment

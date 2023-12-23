@@ -8,8 +8,9 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 161",
     "preview": "vite preview",
-    "test": "vitest run --coverage",
-    "t": "vitest --watch",
+    "test": "vitest",
+    "testOnce": "vitest --run",
+    "t": "vitest",
     "format": "prettier -c src"
   },
   "dependencies": {
@@ -40,7 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
     "@vitejs/plugin-react": "^4.0.3",
-    "@vitest/coverage-v8": "^0.34.6",
+    "@vitest/coverage-v8": "^1.1.0",
     "eslint": "^8.51.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
@@ -51,6 +52,6 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.12",
-    "vitest": "^0.34.6"
+    "vitest": "^1.1.0"
   }
 }

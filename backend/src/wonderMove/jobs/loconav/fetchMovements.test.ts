@@ -1,27 +1,25 @@
-import { describe, expect, jest } from '@jest/globals'
 import { Prisma } from '@prisma/client'
 import { fetchMovements } from './fetchMovements.ts'
 import { movement } from '../../httpClient/loconav/loconavMovement.ts'
 
-const mockComputeStops = jest.fn()
-const mockLoconavVehicleMap = jest.fn()
-const mockLoconavMomentApi = jest.fn()
-const mockMovementModel = jest.fn()
-const mockStopModel = jest.fn()
+const mockComputeStops = vi.fn()
+const mockLoconavVehicleMap = vi.fn()
+const mockLoconavMomentApi = vi.fn()
+const mockMovementModel = vi.fn()
+const mockStopModel = vi.fn()
 
-jest.mock('../computeStops', () => () => mockComputeStops())
-jest.mock('../../models/loconavDevice', () => ({
+vi.mock('../computeStops', () => ({ default: () => mockComputeStops() }))
+vi.mock('../../models/loconavDevice', () => ({
     getLoconavByVehicleNumber: (number: number) => mockLoconavVehicleMap(number)
 }))
-jest.mock(
-    '../../httpClient/loconav/getMovements',
-    () => (deviceId: number, from: number, to: number, authToken: string) =>
+vi.mock('../../httpClient/loconav/getMovements', () => ({
+    default: (deviceId: number, from: number, to: number, authToken: string) =>
         mockLoconavMomentApi(deviceId, from, to, authToken)
-)
-jest.mock('../../models/movement', () => () => ({
+}))
+vi.mock('../../models/movement', () => () => ({
     createMany: (inputs: Prisma.vehicleMovementsCreateManyInput[]) => mockMovementModel(inputs)
 }))
-jest.mock('../../models/gpsStop', () => ({
+vi.mock('../../models/gpsStop', () => ({
     createMany: (gpsStops: Prisma.gpsStopsCreateManyInput[]) => mockStopModel(gpsStops)
 }))
 

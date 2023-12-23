@@ -11,10 +11,6 @@ export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
         }
     })
 
-export type loconavDeviceByVehicleNumber = Prisma.PromiseReturnType<
-    typeof getLoconavByVehicleNumber
->
-
 export const create = (data: any) => prisma.loconavDevice.create({ data })
 
 const createIfNotExist = (data: any) =>

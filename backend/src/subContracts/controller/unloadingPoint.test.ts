@@ -2,10 +2,10 @@ import express from 'express'
 import supertest from 'supertest'
 import { listAllUnloadingPoint, listUnloadingPonitBycementCompany } from './unloadingPoint.ts'
 
-const mockUnloadingPoint = jest.fn()
-const mockUnloadingPointByCompany = jest.fn()
+const mockUnloadingPoint = vi.fn()
+const mockUnloadingPointByCompany = vi.fn()
 
-jest.mock('../models/unloadingPoint', () => ({
+vi.mock('../models/unloadingPoint', () => ({
     getAllUnloadingPoint: () => mockUnloadingPoint(),
     getUnloadingPointByCompany: () => mockUnloadingPointByCompany()
 }))

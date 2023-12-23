@@ -1,9 +1,9 @@
 import supertest from 'supertest'
 import { app } from '../../app.ts'
 
-const mockPricePoint = jest.fn()
+const mockPricePoint = vi.fn()
 
-jest.mock('../models/pricePoint', () => ({
+vi.mock('../models/pricePoint', () => ({
     getPricePoint: (loadingPointId: number, unloadingPointId: number) =>
         mockPricePoint(loadingPointId, unloadingPointId)
 }))

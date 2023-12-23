@@ -1,23 +1,20 @@
-import { describe, expect, jest } from '@jest/globals'
 import fetchTraccarStops from './fetchTraccarStops.ts'
 
-const mockGetStops = jest.fn()
-const mockCreateGpsStops = jest.fn()
-const mockTraccarDevice = jest.fn()
-const mockGetDefaultReasonId = jest.fn()
+const mockGetStops = vi.fn()
+const mockCreateGpsStops = vi.fn()
+const mockTraccarDevice = vi.fn()
+const mockGetDefaultReasonId = vi.fn()
 
-jest.mock('../models/stopReason', () => ({
+vi.mock('../models/stopReason', () => ({
     getDefaultReason: (a: any) => mockGetDefaultReasonId(a)
 }))
-jest.mock(
-    '../httpClient/traccar/getStops',
-    () => (id: any, from: number, to: number) => mockGetStops(id, from, to)
-)
-
-jest.mock('../models/gpsStop', () => ({
+vi.mock('../httpClient/traccar/getStops', () => ({
+    default: (id: any, from: number, to: number) => mockGetStops(id, from, to)
+}))
+vi.mock('../models/gpsStop', () => ({
     createManyIfNotExist: (a: any) => mockCreateGpsStops(a)
 }))
-jest.mock('../models/traccarDevice', () => ({
+vi.mock('../models/traccarDevice', () => ({
     getTraccarByVehicleNumber: (a: any) => mockTraccarDevice(a)
 }))
 const responseFromApi: any[] = [

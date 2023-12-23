@@ -5,9 +5,14 @@ export default defineConfig({
         globals: true,
         environment: 'node',
         coverage: {
-            provider: 'istanbul' // or 'v8'
+            provider: 'v8',
+            thresholds: {
+                branches: 80,
+                functions: 79,
+                lines: 80,
+                statements: 80
+            }
         },
-        maxConcurrency: 1,
         globalSetup: './src/testUtils/autoDBSync.ts',
         setupFiles: ['./src/testUtils/testGlobalHooks.ts']
     }

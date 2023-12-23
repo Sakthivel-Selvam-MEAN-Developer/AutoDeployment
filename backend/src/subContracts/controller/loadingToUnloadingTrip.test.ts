@@ -2,10 +2,10 @@ import express from 'express'
 import supertest from 'supertest'
 import { listAllTrip } from './loadingToUnloadingTrip.ts'
 
-const mockgetTrip = jest.fn()
-const mockCreateTrip = jest.fn()
+const mockgetTrip = vi.fn()
+const mockCreateTrip = vi.fn()
 
-jest.mock('../models/loadingToUnloadingTrip', () => ({
+vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockgetTrip(),
     createTrip: () => mockCreateTrip()
 }))

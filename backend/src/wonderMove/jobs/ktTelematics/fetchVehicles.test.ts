@@ -1,11 +1,10 @@
-import { describe, jest } from '@jest/globals'
 import { Prisma } from '@prisma/client'
 import { vehicleDetail } from '../../httpClient/ktTelematics/sampleVehicleDetails.ts'
 import { fetchDeviceDetails } from './fetchVehicles.ts'
 
-const mockKtTelematicsApi = jest.fn()
-const mockKtTelematicsModel = jest.fn()
-const mockCreateVehicles = jest.fn()
+const mockKtTelematicsApi = vi.fn()
+const mockKtTelematicsModel = vi.fn()
+const mockCreateVehicles = vi.fn()
 
 const RawDetailsTestData = {
     ktTelematicsDeviceId: 123,
@@ -17,17 +16,16 @@ const allVehicles = [
     { id: 20, number: 'TN52S3555' }
 ]
 
-jest.mock(
-    '../../httpClient/ktTelematics/getAllVehicleDetails',
-    () => (authToken: string) => mockKtTelematicsApi(authToken)
-)
+vi.mock('../../httpClient/ktTelematics/getAllVehicleDetails', () => ({
+    default: (authToken: string) => mockKtTelematicsApi(authToken)
+}))
 
-jest.mock('../../models/ktTelematicsDevice', () => ({
+vi.mock('../../models/ktTelematicsDevice', () => ({
     createManyIfNotExist: (inputs: Prisma.ktTelematicsDeviceCreateManyInput[]) =>
         mockKtTelematicsModel(inputs)
 }))
 
-jest.mock('../../models/vehicle', () => ({
+vi.mock('../../models/vehicle', () => ({
     createManyIfNotExist: (inputs: Prisma.vehiclesCreateManyInput[]) => {
         mockCreateVehicles(inputs)
     },
