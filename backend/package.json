@@ -59,7 +59,7 @@
         "test": "dotenv -e .env.test -- jest --watch --runInBand",
         "testCI": "dotenv -e .env.ci -- jest --runInBand",
         "testOnce": "dotenv -e .env.test -- jest --runInBand",
-        "t": "dotenv -e .env.test -- jest --watch",
+        "t": "dotenv -e .env.test -- jest --watch --coverage=false --silent",
         "format": "prettier -c src",
         "seedDevDb": "vite-node --script src/devSeed/index.ts"
     }

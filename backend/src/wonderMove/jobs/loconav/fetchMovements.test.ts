@@ -2,7 +2,6 @@ import { describe, expect, jest } from '@jest/globals'
 import { Prisma } from '@prisma/client'
 import { fetchMovements } from './fetchMovements.ts'
 import { movement } from '../../httpClient/loconav/loconavMovement.ts'
-import { rawStopTestData } from '../computeStops.test.ts'
 
 const mockComputeStops = jest.fn()
 const mockLoconavVehicleMap = jest.fn()
@@ -40,13 +39,31 @@ describe('loconav movements', () => {
             loconavToken,
             vehicle: { id: 10 }
         })
-        mockComputeStops.mockReturnValue([rawStopTestData])
+        mockComputeStops.mockReturnValue([
+            {
+                startTime: 11,
+                endTime: 12,
+                durationInMillis: 13,
+                latitude: 10,
+                longitude: 10
+            }
+        ])
         // eslint-disable-next-line
         // @ts-ignore
         mockLoconavMomentApi.mockResolvedValue([movement])
         await fetchMovements(from, to, vehicleNumber)
         expect(mockStopModel).toBeCalledWith([
-            { ...rawStopTestData, vehicleId: 10, source: 'loconav' }
+            {
+                ...{
+                    startTime: 11,
+                    endTime: 12,
+                    durationInMillis: 13,
+                    latitude: 10,
+                    longitude: 10
+                },
+                vehicleId: 10,
+                source: 'loconav'
+            }
         ])
         expect(mockLoconavVehicleMap).toBeCalledWith(vehicleNumber)
         expect(mockLoconavMomentApi).toBeCalledWith(loconavDeviceId, from, to, loconavToken)

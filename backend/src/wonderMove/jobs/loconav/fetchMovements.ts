@@ -25,8 +25,8 @@ const enrichStops = (rawStops: RawStop[], vehicleId: number, source: string) =>
 export const fetchMovements = async (from: number, to: number, vehicleNumber: string) => {
     const deviceClient = await getLoconavByVehicleNumber(vehicleNumber)
     const loconavMovements = await fetchMovementFromLoconav(from, to, deviceClient)
-    const genericFormat = convertToGenericFormat(loconavMovements)
-    const rawStops = computeStops(genericFormat)
+    const movementsInGenericFormat = convertToGenericFormat(loconavMovements)
+    const rawStops = computeStops(movementsInGenericFormat)
     const gpsStop = enrichStops(rawStops, deviceClient.vehicle.id, 'loconav')
     await createMany(gpsStop)
     // await createMovements(genericFormat)

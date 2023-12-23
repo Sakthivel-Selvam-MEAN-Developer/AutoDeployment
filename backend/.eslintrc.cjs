@@ -33,7 +33,7 @@ module.exports = {
     ignorePatterns: ['vite.config.js'],
     rules: {
         semi: [2, 'never'],
-        indent: ['error', 4],
+        indent: "off",
         'comma-dangle': ['error', 'never'],
         'operator-linebreak': 0,
         'implicit-arrow-linebreak': 0,
