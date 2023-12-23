@@ -3,6 +3,11 @@ GET https://customer.ktt.io/pandc/list
 Accept: application/json
 X-AT-AccessToken:{{ktAccessToken}}
 
+### history of vehicle
+GET https://customer.ktt.io/pandc/log?vehicle=AL/TM10W-TN33BQ7180&from=2023-12-01 12:00:00&to=2023-12-01 12:30:00
+Accept: application/json
+X-AT-AccessToken:{{ktAccessToken}}
+
 ### user
 GET https://api.kttelematic.com/api/userroles/user/3737
 X-AT-SessionToken: {{ktSessionToken}}
