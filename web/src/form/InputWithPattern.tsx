@@ -5,13 +5,13 @@ interface TextInputProps {
     control: Control
     label: string
     fieldName: string
-    type: 'number' | 'string' | 'email'
+    InputProps: object
     disabled: boolean
 }
-function InputWithType({ control, label, fieldName, type, disabled }: TextInputProps) {
+function TextInputWithPattern({ control, label, fieldName, InputProps, disabled }: TextInputProps) {
     return (
         <Controller
-            render={({ field }) => <TextField {...field} label={label} type={type} />}
+            render={({ field }) => <TextField {...field} label={label} InputProps={InputProps} />}
             name={fieldName}
             control={control}
             disabled={disabled}
@@ -19,4 +19,4 @@ function InputWithType({ control, label, fieldName, type, disabled }: TextInputP
     )
 }
 
-export default InputWithType
+export default TextInputWithPattern

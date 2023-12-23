@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import AutoComplete from '../../../form/AutoComplete.tsx'
-import InputWithType from '../../../form/InputWithType.tsx'
+import TextInputWithPattern from '../../../form/InputWithPattern.tsx'
 import { Checkbox } from '@mui/material'
 import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { Control } from 'react-hook-form'
@@ -41,23 +41,33 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) =>
             />
             <div>
                 <Checkbox onClick={() => setCheck1(!check1)} {...label} />
-                <InputWithType
+                <TextInputWithPattern
                     control={control}
                     disabled={check1}
                     label="Loading Point"
                     fieldName="loadingPoint"
-                    type="string"
+                    InputProps={{
+                        inputProps: {
+                            pattern: '[a-zA-Z\\s]*',
+                            title: 'Only alphabetic characters are allowed'
+                        }
+                    }}
                 />
             </div>
 
             <div>
                 <Checkbox onClick={() => setCheck2(!check2)} {...label} />
-                <InputWithType
+                <TextInputWithPattern
                     control={control}
                     disabled={check2}
                     label="Unloading Point"
                     fieldName="unloadingPoint"
-                    type="string"
+                    InputProps={{
+                        inputProps: {
+                            pattern: '[a-zA-Z\\s]*',
+                            title: 'Only alphabetic characters are allowed'
+                        }
+                    }}
                 />
             </div>
         </div>

@@ -1,18 +1,29 @@
-import express from 'express'
 import supertest from 'supertest'
-import { listAllCementCompany } from './cementCompany.ts'
+import { Prisma } from '@prisma/client'
+import { app } from '../../app.ts'
+import { createCompany, listAllCementCompany } from './cementCompany.ts'
 
+const mockCreateCompany = jest.fn()
 const mockCementCompany = jest.fn()
 
 jest.mock('../models/cementCompany', () => ({
+    create: (inputs: Prisma.cementCompanyCreateInput) => mockCreateCompany(inputs),
     getAllCementCompany: () => mockCementCompany()
 }))
 
+const mockCompany = {
+    name: 'Sankar Cements',
+    gstNo: 'ASD123',
+    emailId: 'sample@gmail.com',
+    contactPersonName: 'Barath',
+    contactPersonNumber: '9876543436',
+    address: 'Salem, TamilNadu'
+}
+
 describe('Cement Company Controller', () => {
-    let app: any
-    beforeEach(() => {
-        app = express()
-        app.use(express.urlencoded({ extended: true }))
+    test.skip('should able to create', async () => {
+        app.post('/cementCompany', createCompany)
+        expect(mockCreateCompany).toBeCalledWith(mockCompany)
     })
     test('should able to access', async () => {
         app.get('/cementCompany', listAllCementCompany)

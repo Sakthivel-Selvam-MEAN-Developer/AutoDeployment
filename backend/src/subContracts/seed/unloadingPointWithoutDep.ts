@@ -1,3 +1,3 @@
 export default {
-    name: 'Salem'
+    name: 'Chennai'
 }

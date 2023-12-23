@@ -1,10 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (
-    data: Prisma.loadingPointCreateInput | Prisma.loadingPointUncheckedCreateInput
-) => prisma.loadingPoint.create({ data })
-
 export const getAllLoadingPoint = () => prisma.loadingPoint.findMany({})
 
 export const getLoadingPointByCompany = (companyName: string) =>
@@ -14,4 +10,17 @@ export const getLoadingPointByCompany = (companyName: string) =>
                 name: companyName
             }
         }
+    })
+
+export const create = (
+    data: Prisma.loadingPointCreateInput | Prisma.loadingPointUncheckedCreateInput
+) =>
+    prisma.loadingPoint.upsert({
+        where: {
+            name: data.name
+        },
+        create: {
+            ...data
+        },
+        update: {}
     })

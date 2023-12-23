@@ -24,7 +24,7 @@ const mockPaymentDuesData = [
     }
 ]
 const mockLoadingPointData = { name: 'goa', cementCompanyId: 1 }
-const mockUnloadingPointData = { name: 'Salem', cementCompanyId: 1 }
+const mockUnloadingPointData = { name: 'salem', cementCompanyId: 1 }
 
 describe('New trip test', () => {
     beforeEach(() => {

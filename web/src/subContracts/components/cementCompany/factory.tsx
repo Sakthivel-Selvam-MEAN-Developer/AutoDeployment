@@ -14,10 +14,16 @@ const CreateFactory: React.FC = (): ReactElement => {
     const [companyId, setCompanyId] = useState(0)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (data.loadingPoint !== undefined || '') {
-            createLoadingPoint({ name: data.loadingPoint, cementCompanyId: companyId })
+            createLoadingPoint({
+                name: data.loadingPoint.toLowerCase(),
+                cementCompanyId: companyId
+            })
         }
         if (data.unloadingPoint !== undefined || '') {
-            createUnloadingPoint({ name: data.unloadingPoint, cementCompanyId: companyId })
+            createUnloadingPoint({
+                name: data.unloadingPoint.toLowerCase(),
+                cementCompanyId: companyId
+            })
         }
         setOpenSuccessDialog(true)
     }
