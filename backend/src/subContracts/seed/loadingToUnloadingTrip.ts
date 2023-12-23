@@ -1,5 +1,5 @@
 export default {
-    startDate: new Date(2023, 11, 27).getTime() / 1000,
+    startDate: new Date(2023, 10, 24).getTime() / 1000,
     filledLoad: 40,
     invoiceNumber: 'ABC123',
     freightAmount: 1000,
