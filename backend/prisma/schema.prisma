@@ -267,6 +267,7 @@ model bankDetails {
   createdAt     DateTime      @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime      @updatedAt @db.Timestamptz(6)
   transporter   transporter[]
+  // bunk          bunk[]
 
   @@schema("subContract")
 }
@@ -416,21 +417,24 @@ model singleTrip {
 }
 
 model bunk {
-  id           Int      @id @default(autoincrement())
-  bunkName     String
-  bunkLocation String
-  createdAt    DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt    DateTime @updatedAt @db.Timestamptz(6)
-  fuel         fuel[]
+  id            Int          @id @default(autoincrement())
+  bunkName      String
+  bunkLocation  String
+  // contactNumber BigInt
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
+  fuel          fuel[]
+  // bankDetailsId Int?
+  // bankDetails   bankDetails? @relation(fields: [bankDetailsId], references: [id])
 
   @@schema("subContract")
 }
 
 model fuel {
   id                                 Int                               @id @default(autoincrement())
-  pricePerliter                      Int
-  quantity                           Int
-  totalprice                         Int
+  pricePerliter                      Float
+  quantity                           Float
+  totalprice                         Float
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
   stockPointToUnloadingPointTripId   Int?

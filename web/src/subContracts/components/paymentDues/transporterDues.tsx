@@ -33,7 +33,7 @@ const TransporterDues: React.FC = () => {
         }
         updatePaymentDues(data).then(() => console.log('Success'))
     }
-    const style = { padding: '10px 100px' }
+    const style = { width: '100%', padding: '10px 10px 0px' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate).then(setTransporterDue)
@@ -49,7 +49,7 @@ const TransporterDues: React.FC = () => {
                             id="panel1a-header"
                             sx={{ borderBottom: '1px solid grey' }}
                         >
-                            <Typography sx={{ padding: '10px' }}>
+                            <Typography sx={{ padding: '0px 20px' }}>
                                 <b>{data.name}</b>
                             </Typography>
                             <Typography sx={style}>
@@ -71,6 +71,7 @@ const TransporterDues: React.FC = () => {
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
                                     <TextField
+                                        sx={style}
                                         label="Transaction Id"
                                         variant="outlined"
                                         value={transactionId}
@@ -78,7 +79,9 @@ const TransporterDues: React.FC = () => {
                                             setTransactionId(e.target.value)
                                         }
                                     />
-                                    <Button onClick={() => handleClick(list.id)}>Pay</Button>
+                                    <Button sx={style} onClick={() => handleClick(list.id)}>
+                                        Pay
+                                    </Button>
                                 </AccordionDetails>
                             )
                         })}

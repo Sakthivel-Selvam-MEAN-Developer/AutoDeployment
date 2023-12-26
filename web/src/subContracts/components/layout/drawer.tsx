@@ -6,7 +6,8 @@ import {
     LocalShipping,
     Factory,
     Sell,
-    Receipt
+    Receipt,
+    LocalGasStation
 } from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -103,6 +104,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     drawerState={drawerState}
                     index={5}
                     icon={<Receipt />}
+                />
+                <DrawerListItem
+                    text="Bunk"
+                    navigate="/sub/bunk"
+                    drawerState={drawerState}
+                    index={5}
+                    icon={<LocalGasStation />}
                 />
             </List>
         </Drawer>

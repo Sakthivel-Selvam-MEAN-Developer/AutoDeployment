@@ -6,7 +6,6 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import { Button } from '@mui/material'
 
 interface Props {
     allTrips: Row[]
@@ -34,11 +33,6 @@ interface Row {
     filledLoad: string
     startDate: number
 }
-const paymentStatus = (row: any) => {
-    if (row.transporterBalance > 0) {
-        return '70% Paid'
-    } else return 'Pending'
-}
 
 function getTableHead() {
     return (
@@ -48,16 +42,10 @@ function getTableHead() {
                 <TableCell align="left">Vehicle Number</TableCell>
                 <TableCell align="left">Start Date</TableCell>
                 <TableCell align="left">Transporter</TableCell>
-                <TableCell align="left">InvoiceNumber</TableCell>
                 <TableCell align="left">Loading Point</TableCell>
                 <TableCell align="left">Unloading Point</TableCell>
                 <TableCell align="left">Freight Amount</TableCell>
-                <TableCell align="left">Transporter amount</TableCell>
-                <TableCell align="left">Quantity Loaded</TableCell>
                 <TableCell align="left">Total Freight Amount</TableCell>
-                <TableCell align="left">Total Transporter Amount</TableCell>
-                <TableCell align="left">Payment Status</TableCell>
-                <TableCell align="left">Edit</TableCell>
             </TableRow>
         </TableHead>
     )
@@ -72,18 +60,10 @@ function getTableBody(allTrips: Row[]) {
                     <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
                     <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
                     <TableCell align="left">{row.truck.transporter.name}</TableCell>
-                    <TableCell align="left">{row.invoiceNumber}</TableCell>
                     <TableCell align="left">{row.loadingPoint.name}</TableCell>
                     <TableCell align="left">{row.unloadingPoint.name}</TableCell>
                     <TableCell align="left">{row.freightAmount}</TableCell>
-                    <TableCell align="left">{row.transporterAmount}</TableCell>
-                    <TableCell align="left">{row.filledLoad}</TableCell>
                     <TableCell align="left">{row.totalFreightAmount}</TableCell>
-                    <TableCell align="left">{row.totalTransporterAmount}</TableCell>
-                    <TableCell align="left">{paymentStatus(row)}</TableCell>
-                    <TableCell align="left">
-                        <Button>Edit</Button>
-                    </TableCell>
                 </TableRow>
             ))}
         </TableBody>

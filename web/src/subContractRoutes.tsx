@@ -9,9 +9,11 @@ import CreateCompany from './subContracts/components/cementCompany/company'
 import CreateFactory from './subContracts/components/cementCompany/factory'
 import PricePoint from './subContracts/components/pricePoint'
 import CreatePricepoint from './subContracts/components/pricePoint/list'
-import TransporterPay from './subContracts/components/trip/transporterPay'
 import PaymentDues from './subContracts/components/paymentDues'
 import PaymentDuesList from './subContracts/components/paymentDues/list'
+import Fuel from './subContracts/components/bunk/fuel'
+import BunkList from './subContracts/components/bunk/list'
+import Bunk from './subContracts/components/bunk'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -38,10 +40,6 @@ const sunContractRoutes = {
                 {
                     path: 'add',
                     element: <NewTrip />
-                },
-                {
-                    path: 'pay',
-                    element: <TransporterPay />
                 }
             ]
         },
@@ -76,6 +74,20 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <PaymentDuesList />
+                }
+            ]
+        },
+        {
+            path: 'bunk',
+            element: <Bunk />,
+            children: [
+                {
+                    path: '',
+                    element: <BunkList />
+                },
+                {
+                    path: 'fuel',
+                    element: <Fuel />
                 }
             ]
         }
