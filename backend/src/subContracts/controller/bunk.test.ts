@@ -3,10 +3,10 @@ import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
 import { createBunk, listAllBunk } from './bunk.ts'
 
-const mockCreateBunk = jest.fn()
-const mockBunkDetails = jest.fn()
+const mockCreateBunk = vi.fn()
+const mockBunkDetails = vi.fn()
 
-jest.mock('../models/bunk', () => ({
+vi.mock('../models/bunk', () => ({
     create: (inputs: Prisma.bunkCreateInput) => mockCreateBunk(inputs),
     getAllBunk: () => mockBunkDetails()
 }))

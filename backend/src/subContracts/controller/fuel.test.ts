@@ -3,10 +3,10 @@ import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
 import { createFuel, listAllFuel } from './fuel.ts'
 
-const mockCreateFuel = jest.fn()
-const mockFuelDetails = jest.fn()
+const mockCreateFuel = vi.fn()
+const mockFuelDetails = vi.fn()
 
-jest.mock('../models/fuel', () => ({
+vi.mock('../models/fuel', () => ({
     create: (inputs: Prisma.fuelCreateInput) => mockCreateFuel(inputs),
     getAllFuel: () => mockFuelDetails()
 }))
