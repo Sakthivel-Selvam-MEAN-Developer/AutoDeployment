@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { create, getAllFuel } from '../models/fuel.ts'
+import { create, getAllFuel, getFuelWithoutTrip } from '../models/fuel.ts'
 import { getOnlyActiveTripByVehicleNumber } from '../models/loadingToUnloadingTrip.ts'
 
 export const createFuel = async (req: Request, res: Response) => {
@@ -12,4 +12,8 @@ export const createFuel = async (req: Request, res: Response) => {
 
 export const listAllFuel = (_req: Request, res: Response) => {
     getAllFuel().then((data) => res.status(200).json(data))
+}
+
+export const listFuelWithoutTripId = (req: Request, res: Response) => {
+    getFuelWithoutTrip(req.params.vehiclenumber).then((data) => res.status(200).json(data))
 }

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import dayjs from 'dayjs'
 import { createPaymentDues } from '../../services/paymentDues.ts'
+// import { listFuelWithoutTripId } from '../../services/fuel.ts'
 
 interface transporter {
     name: string
@@ -20,6 +21,7 @@ const NewTrip: React.FC = () => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
+    // const [vehicleDetails, setVehicleDetails] = useState()
     const [truckId, setTruckId] = useState(0)
     const [loadingPointId, setLoadingPointId] = useState(0)
     const [unloadingPointId, setUnloadingPointId] = useState(0)
@@ -30,11 +32,16 @@ const NewTrip: React.FC = () => {
     const [margin, setMargin] = useState(0)
     const [fuel, setFuel] = useState(false)
     const filledLoad = watch('filledLoad')
+    const vehicleNumber = watch('truckId')
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseInt(filledLoad))
         setTotalTransporterAmount(transporterAmount * parseInt(filledLoad))
         setMargin(totalFreightAmount - totalTransporterAmount)
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
+    useEffect(() => {
+        // listFuelWithoutTripId(vehicleNumber).then(setVehicleDetails)
+        // console.log(vehicleDetails)
+    }, [vehicleNumber])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {

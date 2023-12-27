@@ -1,4 +1,4 @@
-import { create as createFuel, getAllFuel } from './fuel.ts'
+import { create as createFuel, getAllFuel, getFuelWithoutTrip } from './fuel.ts'
 import { create } from './bunk.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -43,5 +43,15 @@ describe('Fuel model', () => {
         const actual = await getAllFuel()
         expect(actual.length).toBe(1)
         expect(actual[0].pricePerliter).toBe(seedFuel.pricePerliter)
+    })
+    test('should able to get fuel without any tripId', async () => {
+        const bunk = await create(seedBunk)
+        const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
+        await createFuel({
+            ...seedFuel,
+            fuelStationId: fuelStation.id
+        })
+        const actual = await getFuelWithoutTrip(seedFuel.vehicleNumber)
+        expect(actual?.vehicleNumber).toBe(seedFuel.vehicleNumber)
     })
 })

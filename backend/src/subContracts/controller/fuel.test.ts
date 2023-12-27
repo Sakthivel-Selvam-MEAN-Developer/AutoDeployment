@@ -1,14 +1,16 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
-import { createFuel, listAllFuel } from './fuel.ts'
+import { createFuel, listAllFuel, listFuelWithoutTripId } from './fuel.ts'
 
 const mockCreateFuel = vi.fn()
 const mockFuelDetails = vi.fn()
+const mockFuelWithoutTrip = vi.fn()
 
 vi.mock('../models/fuel', () => ({
     create: (inputs: Prisma.fuelCreateInput) => mockCreateFuel(inputs),
-    getAllFuel: () => mockFuelDetails()
+    getAllFuel: () => mockFuelDetails(),
+    getFuelWithoutTrip: (vehiclenumber: string) => mockFuelWithoutTrip(vehiclenumber)
 }))
 
 const mockFuel = {
@@ -16,6 +18,13 @@ const mockFuel = {
     pricePerliter: 102.5,
     quantity: 60.754,
     totalprice: 6227.285
+}
+const mockFuelWithoutTripData = {
+    vehicleNumber: 'TN93D5512',
+    pricePerliter: 102.5,
+    quantity: 60.754,
+    totalprice: 6227.285,
+    loadingPointToUnloadingPointTripId: null
 }
 
 describe('Bunk Controller', () => {
@@ -30,5 +39,11 @@ describe('Bunk Controller', () => {
         mockFuelDetails.mockResolvedValue({ pricePerliter: 102 })
         await supertest(app).get('/fuel').expect({ pricePerliter: 102 })
         expect(mockFuelDetails).toBeCalledWith()
+    })
+    test('should able to get the fuel without tripId', async () => {
+        app.get('/fuel/:vehiclenumber', listFuelWithoutTripId)
+        mockFuelWithoutTrip.mockResolvedValue(mockFuelWithoutTripData)
+        await supertest(app).get('/fuel/TN93D5512').expect(mockFuelWithoutTripData)
+        expect(mockFuelWithoutTrip).toBeCalledTimes(1)
     })
 })
