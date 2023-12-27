@@ -1,6 +1,10 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
+interface dataProps {
+    name: string
+    cementCompanyId: number
+}
 
-export const createUnloadingPoint = (data: any) =>
+export const createUnloadingPoint = (data: dataProps) =>
     axiosInstance.post('/unloading-point', data).then(getData)
 
 export const getUnloadingPointByCompanyName = (companyName: string) =>

@@ -12,8 +12,7 @@ vi.mock('../models/bunk', () => ({
 }))
 
 const mockBunk = {
-    bunkName: 'Bharath Petroleum',
-    bunkLocation: 'Erode'
+    bunkName: 'Bharath Petroleum'
 }
 
 describe('Bunk Controller', () => {
@@ -25,8 +24,8 @@ describe('Bunk Controller', () => {
     })
     test('should able to access', async () => {
         app.get('/bunk', listAllBunk)
-        mockBunkDetails.mockResolvedValue({ name: 'Bharath Petroleum' })
-        await supertest(app).get('/bunk').expect({ name: 'Bharath Petroleum' })
+        mockBunkDetails.mockResolvedValue({ bunkName: 'Bharath Petroleum' })
+        await supertest(app).get('/bunk').expect({ bunkName: 'Bharath Petroleum' })
         expect(mockBunkDetails).toBeCalledWith()
     })
 })

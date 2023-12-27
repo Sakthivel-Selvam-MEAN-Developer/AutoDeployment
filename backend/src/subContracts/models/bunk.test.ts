@@ -1,5 +1,5 @@
 import { create, getAllBunk } from './bunk.ts'
-import seedBunk from '../../wonderMove/seed/bunk.ts'
+import seedBunk from '../seed/bunk.ts'
 
 describe('Bunk model', () => {
     test('should able to create', async () => {

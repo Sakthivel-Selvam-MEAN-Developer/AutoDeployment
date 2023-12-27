@@ -14,7 +14,7 @@
     "backend": "yarn workspace backend dev",
     "b": "yarn workspace backend",
     "setUpHusky": "husky install",
-    "all": "yarn u format -w; yarn u lint --fix; yarn u test; yarn b format -w; yarn b lint --fix; yarn b testOnce",
+    "all": "yarn u format -w; yarn u lint --fix; yarn u testOnce; yarn b format -w; yarn b lint --fix; yarn b testOnce",
     "db": "cd docker; docker compose up -d",
     "dbKill": "cd docker; docker compose down",
     "sql": "cd docker; docker compose exec postgres psql -U postgres -d wonderwhy"

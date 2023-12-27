@@ -70,3 +70,18 @@ export const getTripByVehicleNumber = (trucknumber: string) =>
             }
         }
     })
+
+export const getOnlyActiveTrip = () =>
+    prisma.loadingPointToUnloadingPointTrip.findMany({
+        where: {
+            tripStatus: false
+        },
+        select: {
+            id: true,
+            truck: {
+                select: {
+                    vehicleNumber: true
+                }
+            }
+        }
+    })

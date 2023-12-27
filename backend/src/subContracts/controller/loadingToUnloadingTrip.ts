@@ -3,11 +3,16 @@ import {
     create,
     updateTransporterBalance,
     getAllTrip,
-    getTripByVehicleNumber
+    getTripByVehicleNumber,
+    getOnlyActiveTrip
 } from '../models/loadingToUnloadingTrip.ts'
 
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
+}
+
+export const listOnlyActiveTrip = (_req: Request, res: Response) => {
+    getOnlyActiveTrip().then((data) => res.status(200).json(data))
 }
 
 export const createTrip = (req: Request, res: Response) => {

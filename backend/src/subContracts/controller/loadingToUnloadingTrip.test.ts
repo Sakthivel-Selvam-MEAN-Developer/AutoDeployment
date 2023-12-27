@@ -1,21 +1,18 @@
-import express from 'express'
 import supertest from 'supertest'
-import { listAllTrip } from './loadingToUnloadingTrip.ts'
+import { app } from '../../app.ts'
+import { listAllTrip, listOnlyActiveTrip } from './loadingToUnloadingTrip.ts'
 
 const mockgetTrip = vi.fn()
 const mockCreateTrip = vi.fn()
+const mockActiveTrip = vi.fn()
 
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockgetTrip(),
-    createTrip: () => mockCreateTrip()
+    createTrip: () => mockCreateTrip(),
+    getOnlyActiveTrip: () => mockActiveTrip()
 }))
 
 describe('Trip Controller', () => {
-    let app: any
-    beforeEach(() => {
-        app = express()
-        app.use(express.urlencoded({ extended: true }))
-    })
     test('should able to access all trip', async () => {
         app.get('/trip', listAllTrip)
         mockgetTrip.mockResolvedValue([
@@ -46,4 +43,24 @@ describe('Trip Controller', () => {
     //     })
     //     expect(mockCreateTrip).toBeCalledWith()
     // })
+    test('should able to access active trip only', async () => {
+        app.get('/trip/active', listOnlyActiveTrip)
+        mockActiveTrip.mockResolvedValue([
+            {
+                truck: {
+                    vehicleNumber: 'TN93D5512'
+                }
+            }
+        ])
+        await supertest(app)
+            .get('/trip/active')
+            .expect([
+                {
+                    truck: {
+                        vehicleNumber: 'TN93D5512'
+                    }
+                }
+            ])
+        expect(mockActiveTrip).toBeCalledWith()
+    })
 })

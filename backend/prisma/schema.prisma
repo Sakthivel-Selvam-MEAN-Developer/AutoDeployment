@@ -417,15 +417,24 @@ model singleTrip {
 }
 
 model bunk {
-  id            Int          @id @default(autoincrement())
-  bunkName      String
-  bunkLocation  String
+  id          Int           @id @default(autoincrement())
+  bunkName    String
   // contactNumber BigInt
-  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
-  fuel          fuel[]
-  // bankDetailsId Int?
-  // bankDetails   bankDetails? @relation(fields: [bankDetailsId], references: [id])
+  createdAt   DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime      @updatedAt @db.Timestamptz(6)
+  fuelStation fuelStation[]
+
+  @@schema("subContract")
+}
+
+model fuelStation {
+  id        Int      @id @default(autoincrement())
+  location  String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  fuel      fuel[]
+  bunkId    Int
+  bunk      bunk     @relation(fields: [bunkId], references: [id])
 
   @@schema("subContract")
 }
@@ -439,12 +448,12 @@ model fuel {
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
   stockPointToUnloadingPointTripId   Int?
   stockPointToUnloadingPointTrip     stockPointToUnloadingPointTrip?   @relation(fields: [stockPointToUnloadingPointTripId], references: [id])
-  bunkId                             Int
-  bunk                               bunk                              @relation(fields: [bunkId], references: [id])
+  loadingPointToUnloadingPointTripId Int?
+  loadingPointToUnloadingPointTrip   loadingPointToUnloadingPointTrip? @relation(fields: [loadingPointToUnloadingPointTripId], references: [id])
+  fuelStation                        fuelStation                      @relation(fields: [fuelStationId], references: [id])
+  fuelStationId                      Int
   createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
   updatedAt                          DateTime                          @updatedAt @db.Timestamptz(6)
-  loadingPointToUnloadingPointTrip   loadingPointToUnloadingPointTrip? @relation(fields: [loadingPointToUnloadingPointTripId], references: [id])
-  loadingPointToUnloadingPointTripId Int?
 
   @@schema("subContract")
 }

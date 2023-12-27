@@ -5,13 +5,15 @@ import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
+import { create as createStation } from './fuelStation.ts'
 import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedTruck from '../seed/truck.ts'
 import seedFuel from '../seed/fuel.ts'
-import seedBunk from '../../wonderMove/seed/bunk.ts'
+import seedBunk from '../seed/bunk.ts'
+import seedStation from '../seed/fuelStation.ts'
 
 describe('Fuel model', () => {
     test('should able to create', async () => {
@@ -32,9 +34,10 @@ describe('Fuel model', () => {
             truckId: truck.id
         })
         const bunk = await create(seedBunk)
+        const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
         await createFuel({
             ...seedFuel,
-            bunkId: bunk.id,
+            fuelStationId: fuelStation.id,
             loadingPointToUnloadingPointTripId: trip.id
         })
         const actual = await getAllFuel()
