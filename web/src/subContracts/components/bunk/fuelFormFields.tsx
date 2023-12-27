@@ -4,29 +4,21 @@ import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control } from 'react-hook-form'
 import { getAllBunk } from '../../services/bunk.ts'
 import { getAllFuelStationByBunk } from '../../services/fuelStation.ts'
-import { getByActiveTrip } from '../../services/trip.ts'
 import NumberInput from '../../../form/NumberInput.tsx'
 import { InputAdornment } from '@mui/material'
+import { getAllTruck } from '../../services/truck.ts'
 
 interface FormFieldsProps {
     control: Control
     fuelStationId: React.Dispatch<React.SetStateAction<number>>
     totalPrice: number
-    tripId: React.Dispatch<React.SetStateAction<number>>
 }
-interface formtype {
-    truck: { vehicleNumber: string }
-}
-const FuelFormFields: React.FC<FormFieldsProps> = ({
-    control,
-    fuelStationId,
-    totalPrice,
-    tripId
-}) => {
+
+const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, totalPrice }) => {
     const [bunkList, setBunkList] = useState([])
     const [bunkId, setBunkId] = useState(0)
     const [stationList, setStationList] = useState([])
-    const [activeTrip, setActiveTrip] = useState([])
+    const [vehicleList, setvehicleList] = useState([])
     useEffect(() => {
         if (bunkId !== 0) {
             getAllFuelStationByBunk(bunkId).then(setStationList)
@@ -34,7 +26,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
     }, [bunkId])
     useEffect(() => {
         getAllBunk().then(setBunkList)
-        getByActiveTrip().then(setActiveTrip)
+        getAllTruck().then(setvehicleList)
     }, [])
     return (
         <div
@@ -54,7 +46,6 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                     const bId: any = bunkList.find(
                         (bunk: { bunkName: string }) => bunk.bunkName === newValue
                     )
-                    console.log(bId)
                     setBunkId(bId.id)
                 }}
             />
@@ -72,14 +63,11 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
             />
             <AutoComplete
                 control={control}
-                fieldName="loadingPointToUnloadingPointTripId"
+                fieldName="vehicleNumber"
                 label="Vehicle Number"
-                options={activeTrip.map(({ truck: { vehicleNumber } }) => vehicleNumber)}
+                options={vehicleList.map(({ vehicleNumber }) => vehicleNumber)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const trip: any = activeTrip.find(
-                        (trip: formtype) => trip.truck.vehicleNumber === newValue
-                    )
-                    tripId(trip.id)
+                    console.log(newValue)
                 }}
             />
 

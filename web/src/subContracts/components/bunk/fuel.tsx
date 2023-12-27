@@ -8,7 +8,6 @@ const Fuel: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const [fuelStationId, setFuelStationId] = useState(0)
-    const [tripId, setTripId] = useState(0)
 
     const quantity = watch('quantity')
     const pricePerliter = watch('pricePerliter')
@@ -17,20 +16,19 @@ const Fuel: React.FC = (): ReactElement => {
     }, [quantity, pricePerliter])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
-            loadingPointToUnloadingPointTripId: tripId,
+            vehicleNumber: data.vehicleNumber,
             pricePerliter: parseInt(data.pricePerliter),
             quantity: parseInt(data.quantity),
             totalprice: totalPrice,
             fuelStationId: fuelStationId
         }
-        createFuel(JSON.stringify(details))
+        createFuel(details)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FuelFormFields
                 control={control}
                 fuelStationId={setFuelStationId}
-                tripId={setTripId}
                 totalPrice={totalPrice}
             />
             <SubmitButton name="Add Fuel" type="submit" />

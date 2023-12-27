@@ -6,7 +6,7 @@ import seedTruck from '../seed/truck.ts'
 import {
     create,
     getAllTrip,
-    getOnlyActiveTrip,
+    getOnlyActiveTripByVehicleNumber,
     getTripByVehicleNumber,
     updateTransporterBalance
 } from './loadingToUnloadingTrip.ts'
@@ -73,14 +73,13 @@ describe('Trip model', () => {
             ...seedUnloadingPoint,
             cementCompanyId: company.id
         })
-        await create({
+        const trip = await create({
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
             truckId: truck.id
         })
-        const activeTrip = await getOnlyActiveTrip()
-        expect(activeTrip.length).toBe(1)
-        expect(activeTrip[0].truck.vehicleNumber).toBe(truck.vehicleNumber)
+        const activeTrip = await getOnlyActiveTripByVehicleNumber(truck.vehicleNumber)
+        expect(activeTrip?.id).toBe(trip.id)
     })
 })

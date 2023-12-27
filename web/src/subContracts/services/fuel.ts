@@ -1,7 +1,7 @@
 import { axiosInstance, getData } from '../../wonderMove/services'
 
 interface fuelProps {
-    loadingPointToUnloadingPointTripId: number
+    vehicleNumber: string
     pricePerliter: number
     quantity: number
     totalprice: number

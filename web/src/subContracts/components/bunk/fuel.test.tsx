@@ -7,7 +7,7 @@ import Fuel from './fuel'
 const mockCreateFuel = vi.fn()
 const mockAllBunk = vi.fn()
 const mockAllStationByBunk = vi.fn()
-const mockAllActiveTrip = vi.fn()
+const mockAllTruck = vi.fn()
 
 vi.mock('../../services/fuel', () => ({
     createFuel: (inputs: any) => mockCreateFuel(inputs)
@@ -18,12 +18,12 @@ vi.mock('../../services/bunk', () => ({
 vi.mock('../../services/fuelStation', () => ({
     getAllFuelStationByBunk: (bunkId: number) => mockAllStationByBunk(bunkId)
 }))
-vi.mock('../../services/trip', () => ({
-    getByActiveTrip: () => mockAllActiveTrip()
+vi.mock('../../services/truck', () => ({
+    getAllTruck: () => mockAllTruck()
 }))
 
 const mockFuelData = {
-    loadingPointToUnloadingPointTripId: 1,
+    vehicleNumber: 'TN56CC5678',
     pricePerliter: 103,
     quantity: 10,
     totalprice: 1030,
@@ -46,10 +46,9 @@ const mockStationByBunkData = [
         bunkId: 1
     }
 ]
-const mockActiveTripData = [
+const mockTruck = [
     {
-        id: 1,
-        truck: { vehicleNumber: 'TN93D5512' }
+        vehicleNumber: 'TN56CC5678'
     }
 ]
 
@@ -58,12 +57,12 @@ describe('Add Fuel Details', () => {
         mockCreateFuel.mockResolvedValue(mockFuelData)
         mockAllBunk.mockResolvedValue(mockAllBunkData)
         mockAllStationByBunk.mockResolvedValue(mockStationByBunkData)
-        mockAllActiveTrip.mockResolvedValue(mockActiveTripData)
+        mockAllTruck.mockResolvedValue(mockTruck)
     })
     test('should fetch bunk & station data from Db', async () => {
         expect(mockAllBunk).toHaveBeenCalledTimes(0)
         expect(mockAllStationByBunk).toHaveBeenCalledTimes(0)
-        expect(mockAllActiveTrip).toHaveBeenCalledTimes(0)
+        expect(mockAllTruck).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
                 <Fuel />
@@ -99,10 +98,10 @@ describe('Add Fuel Details', () => {
         await userEvent.click(vehicle)
         await waitFor(() => screen.getByRole('listbox'))
         const opt3 = screen.getByRole('option', {
-            name: 'TN93D5512'
+            name: 'TN56CC5678'
         })
         await userEvent.click(opt3)
-        expect(await screen.findByDisplayValue('TN93D5512')).toBeInTheDocument()
+        expect(await screen.findByDisplayValue('TN56CC5678')).toBeInTheDocument()
 
         // Input the Fuel price
         await userEvent.type(screen.getByLabelText('Fuel per Liter'), '103')
@@ -129,10 +128,10 @@ describe('Add Fuel Details', () => {
         const save = screen.getByRole('button', { name: 'Add Fuel' })
         expect(save).toBeInTheDocument()
         await userEvent.click(save)
-        expect(mockCreateFuel).toBeCalledWith(JSON.stringify(mockFuelData))
+        expect(mockCreateFuel).toBeCalledWith(mockFuelData)
 
         expect(mockAllBunk).toHaveBeenCalledTimes(1)
         expect(mockAllStationByBunk).toHaveBeenCalledTimes(1)
-        expect(mockAllActiveTrip).toHaveBeenCalledTimes(1)
+        expect(mockAllTruck).toHaveBeenCalledTimes(1)
     })
 })

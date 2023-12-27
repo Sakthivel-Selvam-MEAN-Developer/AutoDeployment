@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { app } from '../../app.ts'
-import { listAllTrip, listOnlyActiveTrip } from './loadingToUnloadingTrip.ts'
+import { listAllTrip } from './loadingToUnloadingTrip.ts'
 
 const mockgetTrip = vi.fn()
 const mockCreateTrip = vi.fn()
@@ -43,24 +43,4 @@ describe('Trip Controller', () => {
     //     })
     //     expect(mockCreateTrip).toBeCalledWith()
     // })
-    test('should able to access active trip only', async () => {
-        app.get('/trip/active', listOnlyActiveTrip)
-        mockActiveTrip.mockResolvedValue([
-            {
-                truck: {
-                    vehicleNumber: 'TN93D5512'
-                }
-            }
-        ])
-        await supertest(app)
-            .get('/trip/active')
-            .expect([
-                {
-                    truck: {
-                        vehicleNumber: 'TN93D5512'
-                    }
-                }
-            ])
-        expect(mockActiveTrip).toBeCalledWith()
-    })
 })

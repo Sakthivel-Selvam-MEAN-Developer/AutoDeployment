@@ -444,14 +444,15 @@ model fuel {
   pricePerliter                      Float
   quantity                           Float
   totalprice                         Float
+  vehicleNumber                      String
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
   stockPointToUnloadingPointTripId   Int?
   stockPointToUnloadingPointTrip     stockPointToUnloadingPointTrip?   @relation(fields: [stockPointToUnloadingPointTripId], references: [id])
   loadingPointToUnloadingPointTripId Int?
   loadingPointToUnloadingPointTrip   loadingPointToUnloadingPointTrip? @relation(fields: [loadingPointToUnloadingPointTripId], references: [id])
-  fuelStation                        fuelStation                      @relation(fields: [fuelStationId], references: [id])
   fuelStationId                      Int
+  fuelStation                        fuelStation                       @relation(fields: [fuelStationId], references: [id])
   createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
   updatedAt                          DateTime                          @updatedAt @db.Timestamptz(6)
 
