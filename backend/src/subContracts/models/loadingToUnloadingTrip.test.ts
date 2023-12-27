@@ -31,7 +31,8 @@ describe('Trip model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id
+            truckId: truck.id,
+            wantFuel: true
         })
         const tripByVehicleNumber = await getTripByVehicleNumber('TN93D5512')
         expect(tripByVehicleNumber?.totalTransporterAmount).toBe(trip.totalTransporterAmount)

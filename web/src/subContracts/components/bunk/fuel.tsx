@@ -3,6 +3,9 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import FuelFormFields from './fuelFormFields'
 import { createFuel } from '../../services/fuel'
+import { createPaymentDues } from '../../services/paymentDues'
+import { getTripByTruckNumber } from '../../services/trip'
+import dayjs from 'dayjs'
 
 const Fuel: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
@@ -22,7 +25,24 @@ const Fuel: React.FC = (): ReactElement => {
             totalprice: totalPrice,
             fuelStationId: fuelStationId
         }
-        createFuel(details)
+        createFuel(details).then(() => {
+            getTripByTruckNumber(data.vehicleNumber).then((initialDue) => {
+                const paymentDues = {
+                    name: initialDue.truck.transporter.name,
+                    type: 'initial pay',
+                    dueDate: dayjs().add(1, 'day').startOf('day').unix(),
+                    payableAmount: initialDue.totalTransporterAmount - totalPrice,
+                    tripId: initialDue.id
+                }
+                createPaymentDues(paymentDues)
+                createPaymentDues({
+                    ...paymentDues,
+                    name: data.bunkId,
+                    type: 'fuel pay',
+                    payableAmount: totalPrice
+                })
+            })
+        })
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

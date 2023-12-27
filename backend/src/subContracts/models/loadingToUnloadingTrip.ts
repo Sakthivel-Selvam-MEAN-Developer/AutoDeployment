@@ -54,7 +54,9 @@ export const getTripByVehicleNumber = (trucknumber: string) =>
         where: {
             truck: {
                 vehicleNumber: trucknumber
-            }
+            },
+            tripStatus: false,
+            wantFuel: true
         },
         select: {
             id: true,

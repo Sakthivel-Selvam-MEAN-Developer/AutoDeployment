@@ -3,11 +3,14 @@ import { vi } from 'vitest'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import Fuel from './fuel'
+import dayjs from 'dayjs'
 
 const mockCreateFuel = vi.fn()
 const mockAllBunk = vi.fn()
 const mockAllStationByBunk = vi.fn()
 const mockAllTruck = vi.fn()
+const mockAllTripByTruckNumber = vi.fn()
+const mockPaymentDues = vi.fn()
 
 vi.mock('../../services/fuel', () => ({
     createFuel: (inputs: any) => mockCreateFuel(inputs)
@@ -21,6 +24,12 @@ vi.mock('../../services/fuelStation', () => ({
 vi.mock('../../services/truck', () => ({
     getAllTruck: () => mockAllTruck()
 }))
+vi.mock('../../services/trip', () => ({
+    getTripByTruckNumber: (vehicleNumber: string) => mockAllTripByTruckNumber(vehicleNumber)
+}))
+vi.mock('../../services/paymentDues', () => ({
+    createPaymentDues: (inputs: any) => mockPaymentDues(inputs)
+}))
 
 const mockFuelData = {
     vehicleNumber: 'TN56CC5678',
@@ -29,9 +38,16 @@ const mockFuelData = {
     totalprice: 1030,
     fuelStationId: 1
 }
+const mockPaymentDuesData = {
+    name: 'Barath Petroleum',
+    type: 'initial pay',
+    dueDate: dayjs().add(1, 'day').startOf('day').unix(),
+    payableAmount: 28970,
+    tripId: 1
+}
 const mockAllBunkData = [
     {
-        bunkName: 'Barath Petrolium'
+        bunkName: 'Barath Petroleum'
     }
 ]
 const mockStationByBunkData = [
@@ -51,6 +67,15 @@ const mockTruck = [
         vehicleNumber: 'TN56CC5678'
     }
 ]
+const mockActiveTrip = {
+    id: 1,
+    totalTransporterAmount: 30000,
+    truck: {
+        transporter: {
+            name: 'Barath Petroleum'
+        }
+    }
+}
 
 describe('Add Fuel Details', () => {
     beforeEach(() => {
@@ -58,6 +83,8 @@ describe('Add Fuel Details', () => {
         mockAllBunk.mockResolvedValue(mockAllBunkData)
         mockAllStationByBunk.mockResolvedValue(mockStationByBunkData)
         mockAllTruck.mockResolvedValue(mockTruck)
+        mockAllTripByTruckNumber.mockResolvedValue(mockActiveTrip)
+        mockPaymentDues.mockResolvedValue(mockPaymentDuesData)
     })
     test('should fetch bunk & station data from Db', async () => {
         expect(mockAllBunk).toHaveBeenCalledTimes(0)
@@ -74,10 +101,10 @@ describe('Add Fuel Details', () => {
         await userEvent.click(bunkName)
         await waitFor(() => screen.getByRole('listbox'))
         const opt = screen.getByRole('option', {
-            name: 'Barath Petrolium'
+            name: 'Barath Petroleum'
         })
         await userEvent.click(opt)
-        expect(await screen.findByDisplayValue('Barath Petrolium')).toBeInTheDocument()
+        expect(await screen.findByDisplayValue('Barath Petroleum')).toBeInTheDocument()
 
         // Select Fuel Station
         const fuelStation = screen.getByRole('combobox', {
@@ -129,9 +156,11 @@ describe('Add Fuel Details', () => {
         expect(save).toBeInTheDocument()
         await userEvent.click(save)
         expect(mockCreateFuel).toBeCalledWith(mockFuelData)
+        expect(mockPaymentDues).toBeCalledWith(mockPaymentDuesData)
 
         expect(mockAllBunk).toHaveBeenCalledTimes(1)
         expect(mockAllStationByBunk).toHaveBeenCalledTimes(1)
         expect(mockAllTruck).toHaveBeenCalledTimes(1)
+        expect(mockAllTripByTruckNumber).toHaveBeenCalledTimes(1)
     })
 })

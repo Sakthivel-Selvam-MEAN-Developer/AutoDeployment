@@ -61,6 +61,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                     fuelStationId(bId.id)
                 }}
             />
+
             <AutoComplete
                 control={control}
                 fieldName="vehicleNumber"

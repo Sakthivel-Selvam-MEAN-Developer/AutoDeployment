@@ -58,7 +58,11 @@ const NewTrip: React.FC = () => {
             payableAmount: (totalTransporterAmount * 70) / 100
         }
         createTrip(JSON.stringify(details))
-            .then((tripData) => createPaymentDues({ ...paymentDues, tripId: tripData.id }))
+            .then((tripData) => {
+                if (fuel === false) {
+                    return createPaymentDues({ ...paymentDues, tripId: tripData.id })
+                }
+            })
             .then(() => navigate('/sub/trip'))
     }
     useEffect(() => {
