@@ -380,7 +380,7 @@ model loadingPointToUnloadingPointTrip {
   fuel                   fuel[]
   startDate              Int
   filledLoad             Int
-  wantFuel               Boolean
+  wantFuel               Boolean?
   tripStatus             Boolean        @default(false)
   freightAmount          Int
   transporterAmount      Int
