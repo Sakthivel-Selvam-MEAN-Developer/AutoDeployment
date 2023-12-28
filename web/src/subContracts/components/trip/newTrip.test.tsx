@@ -10,6 +10,7 @@ const mockAllCementCompany = vi.fn()
 const mockTruckByTransporter = vi.fn()
 const mockLoadingPointByCompanyName = vi.fn()
 const mockUnloadingPointByCompanyName = vi.fn()
+const mockFuelWithoutTripId = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
@@ -28,6 +29,9 @@ vi.mock('../../services/unloadingPoint', () => ({
 }))
 vi.mock('../../services/pricePoint', () => ({
     getPricePoint: () => mockPricePoint()
+}))
+vi.mock('../../services/fuel', () => ({
+    listFuelWithoutTripId: () => mockFuelWithoutTripId()
 }))
 
 const mockCompanyData = [
@@ -73,6 +77,19 @@ const mockPricePointData = {
     freightAmount: 1000,
     transporterAmount: 900
 }
+const mockFuelData = {
+    vehicleNumber: 'TN56CC5678',
+    pricePerliter: 103,
+    quantity: 10,
+    totalprice: 1030,
+    fuelStationId: 1,
+    loadingPointToUnloadingPointTripId: null,
+    fuelStation: {
+        bunk: {
+            bunkName: 'Barath Petroleum'
+        }
+    }
+}
 
 describe('New trip test', () => {
     beforeEach(() => {
@@ -82,6 +99,7 @@ describe('New trip test', () => {
         mockLoadingPointByCompanyName.mockResolvedValue(mockFactory)
         mockUnloadingPointByCompanyName.mockResolvedValue(mockDeliveryPoint)
         mockPricePoint.mockResolvedValue(mockPricePointData)
+        mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
     })
     test('should fetch company data from Db', async () => {
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(0)

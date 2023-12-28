@@ -42,7 +42,7 @@ const mockPaymentDuesData = {
     name: 'Barath Petroleum',
     type: 'initial pay',
     dueDate: dayjs().add(1, 'day').startOf('day').unix(),
-    payableAmount: 28970,
+    payableAmount: 19970,
     tripId: 1
 }
 const mockAllBunkData = [

@@ -1,4 +1,9 @@
-import { create as createFuel, getAllFuel, getFuelWithoutTrip } from './fuel.ts'
+import {
+    create as createFuel,
+    getAllFuel,
+    getFuelWithoutTrip,
+    updateFuelWithTripId
+} from './fuel.ts'
 import { create } from './bunk.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -13,6 +18,7 @@ import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedTruck from '../seed/truck.ts'
 import seedFuel from '../seed/fuel.ts'
 import seedBunk from '../seed/bunk.ts'
+import seedBunkWithoutDep from '../seed/bunkWithoutDep.ts'
 import seedStation from '../seed/fuelStation.ts'
 
 describe('Fuel model', () => {
@@ -45,7 +51,7 @@ describe('Fuel model', () => {
         expect(actual[0].pricePerliter).toBe(seedFuel.pricePerliter)
     })
     test('should able to get fuel without any tripId', async () => {
-        const bunk = await create(seedBunk)
+        const bunk = await create(seedBunkWithoutDep)
         const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
         await createFuel({
             ...seedFuel,
@@ -53,5 +59,34 @@ describe('Fuel model', () => {
         })
         const actual = await getFuelWithoutTrip(seedFuel.vehicleNumber)
         expect(actual?.vehicleNumber).toBe(seedFuel.vehicleNumber)
+    })
+    test('should able to update fuel with tripId', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
+        const fuel = await createFuel({
+            ...seedFuel,
+            fuelStationId: fuelStation.id
+        })
+        expect(fuel.loadingPointToUnloadingPointTripId).toBe(null)
+
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id
+        })
+        const trip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id
+        })
+
+        const actual = await updateFuelWithTripId({ id: fuel.id, tripId: trip.id })
+        expect(actual.loadingPointToUnloadingPointTripId).toBe(trip.id)
     })
 })

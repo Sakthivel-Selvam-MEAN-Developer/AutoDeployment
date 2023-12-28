@@ -11,5 +11,26 @@ export const getFuelWithoutTrip = (vehicleNumber: string) =>
         where: {
             vehicleNumber,
             loadingPointToUnloadingPointTripId: null
+        },
+        include: {
+            fuelStation: {
+                select: {
+                    bunk: {
+                        select: {
+                            bunkName: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+export const updateFuelWithTripId = (data: any) =>
+    prisma.fuel.update({
+        where: {
+            id: data.id
+        },
+        data: {
+            loadingPointToUnloadingPointTripId: data.tripId
         }
     })

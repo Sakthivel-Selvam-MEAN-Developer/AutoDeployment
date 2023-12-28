@@ -25,23 +25,25 @@ const Fuel: React.FC = (): ReactElement => {
             totalprice: totalPrice,
             fuelStationId: fuelStationId
         }
-        createFuel(details).then(() => {
-            getTripByTruckNumber(data.vehicleNumber).then((initialDue) => {
-                const paymentDues = {
-                    name: initialDue.truck.transporter.name,
-                    type: 'initial pay',
-                    dueDate: dayjs().add(1, 'day').startOf('day').unix(),
-                    payableAmount: initialDue.totalTransporterAmount - totalPrice,
-                    tripId: initialDue.id
-                }
-                createPaymentDues(paymentDues)
-                createPaymentDues({
-                    ...paymentDues,
-                    name: data.bunkId,
-                    type: 'fuel pay',
-                    payableAmount: totalPrice
+        createFuel(details).then((fuelDetails) => {
+            if (fuelDetails.loadingPointToUnloadingPointTripId !== null) {
+                getTripByTruckNumber(data.vehicleNumber).then((initialDue) => {
+                    const paymentDues = {
+                        name: initialDue.truck.transporter.name,
+                        type: 'initial pay',
+                        dueDate: dayjs().add(1, 'day').startOf('day').unix(),
+                        payableAmount: (initialDue.totalTransporterAmount * 70) / 100 - totalPrice,
+                        tripId: initialDue.id
+                    }
+                    createPaymentDues(paymentDues)
+                    createPaymentDues({
+                        ...paymentDues,
+                        name: data.bunkId,
+                        type: 'fuel pay',
+                        payableAmount: totalPrice
+                    })
                 })
-            })
+            }
         })
     }
     return (
