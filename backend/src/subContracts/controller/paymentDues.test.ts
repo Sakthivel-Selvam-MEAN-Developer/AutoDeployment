@@ -66,7 +66,7 @@ const mockUpdateData = {
     transactionId: 'hgf43',
     paidAt: dayjs().unix()
 }
-describe('PricePoint Controller', () => {
+describe('Payment Due Controller', () => {
     let app: any
     beforeEach(() => {
         app = express()

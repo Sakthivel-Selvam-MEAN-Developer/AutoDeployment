@@ -36,7 +36,7 @@ const TransporterDues: React.FC = () => {
     const style = { width: '100%', padding: '10px 10px 0px' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
-        getOnlyActiveDues(todayDate).then(setTransporterDue)
+        getOnlyActiveDues(todayDate, 'initial pay').then(setTransporterDue)
     }, [])
     return (
         <>

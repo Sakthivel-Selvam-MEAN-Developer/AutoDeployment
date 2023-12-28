@@ -5,12 +5,12 @@ export const create = (
     data: Prisma.paymentDuesCreateInput | Prisma.paymentDuesUncheckedCreateInput
 ) => prisma.paymentDues.create({ data })
 
-export const getOnlyActiveDuesByName = (dueDate: any) =>
+export const getOnlyActiveDuesByName = (dueDate: number, type: string) =>
     prisma.paymentDues.groupBy({
         by: ['name'],
         where: {
             status: false,
-            type: 'initial pay',
+            type,
             dueDate: {
                 lte: dueDate
             }
@@ -23,11 +23,11 @@ export const getOnlyActiveDuesByName = (dueDate: any) =>
         }
     })
 
-export const findTripWithActiveDues = (dueDate: any) =>
+export const findTripWithActiveDues = (dueDate: number, type: string) =>
     prisma.paymentDues.findMany({
         where: {
             status: false,
-            type: 'initial pay',
+            type,
             dueDate: {
                 lte: dueDate
             }

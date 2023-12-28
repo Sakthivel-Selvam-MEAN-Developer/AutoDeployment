@@ -32,8 +32,10 @@ const groupDataByName = async (duesData: any[], tripsData: any[], tripDetails: a
                     type: matchingTrip.type,
                     vehicleNumber: tripData[0].truck.vehicleNumber,
                     loadingPoint: tripData[0].loadingPoint.name,
-                    unloadingPoint: tripData[0].unloadingPoint.name
+                    unloadingPoint: tripData[0].unloadingPoint.name,
+                    stationLocation: tripData[0].fuel[0]
                 }
+
                 return details
             })
         }
@@ -41,10 +43,10 @@ const groupDataByName = async (duesData: any[], tripsData: any[], tripDetails: a
     return groupedData
 }
 
-export const listOnlyActiveDues = async (req: Request, res: Response) => {
-    const { duedate } = req.params
-    const duesData = await getOnlyActiveDuesByName(parseInt(duedate))
-    const tripsData = await findTripWithActiveDues(parseInt(duedate))
+export const listOnlyActiveTransporterDues = async (req: Request, res: Response) => {
+    const { duedate, type } = req.params
+    const duesData = await getOnlyActiveDuesByName(parseInt(duedate), type)
+    const tripsData = await findTripWithActiveDues(parseInt(duedate), type)
     const tripDetails = await getAllTrip()
     await groupDataByName(duesData, tripsData, tripDetails).then((data: any) =>
         res.status(200).json(data)

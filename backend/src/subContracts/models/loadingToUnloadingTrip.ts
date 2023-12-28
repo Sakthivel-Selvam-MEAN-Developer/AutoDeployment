@@ -45,6 +45,15 @@ export const getAllTrip = () =>
                         }
                     }
                 }
+            },
+            fuel: {
+                select: {
+                    fuelStation: {
+                        select: {
+                            location: true
+                        }
+                    }
+                }
             }
         }
     })
