@@ -37,8 +37,6 @@ const groupDataByName = async (duesData: any[], tripsData: any[], tripDetails: a
                     unloadingPoint: tripData[0].unloadingPoint.name,
                     stationLocation: tripData[0].fuel[0]
                 }
-console.log(details);
-
                 return details
             })
         }
