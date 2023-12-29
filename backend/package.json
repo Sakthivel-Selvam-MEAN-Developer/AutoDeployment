@@ -53,6 +53,7 @@
         "prismaMigrateTest": "dotenv -e .env.test -- prisma migrate deploy",
         "prismaMigrateCi": "dotenv -e .env.ci -- prisma migrate deploy",
         "test": "dotenv -e .env.test -- vitest",
+        "testCI": "dotenv -e .env.ci -- vitest",
         "testOnce": "dotenv -e .env.test -- vitest --run",
         "t": "dotenv -e .env.test -- vitest --poolOptions.threads.singleThread=true --coverage.enabled=false",
         "format": "prettier -c src",
