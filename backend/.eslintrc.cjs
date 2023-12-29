@@ -1,10 +1,9 @@
 /* eslint-env node */
 module.exports = {
-    plugins: ['jest', '@typescript-eslint'],
+    plugins: ['@typescript-eslint'],
     env: {
         browser: true,
         es2021: true,
-        'jest/globals': true
     },
     extends: ['airbnb-base', 'plugin:@typescript-eslint/recommended'],
     overrides: [
