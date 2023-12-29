@@ -44,7 +44,7 @@
         "proxy": "ory proxy --no-jwt --port 4000 http://localhost:3000/",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "lint": "eslint ./src --max-warnings 157",
+        "lint": "eslint ./src --ext ts,tsx --report-unused-disable-directives --max-warnings 72",
         "pris": "yarn prismaUp; yarn prismaMigrateDev; yarn prismaMigrateTest",
         "prismaGen": "prisma migrate dev --create-only --name ",
         "prismaGenCheck": "prisma migrate status ",

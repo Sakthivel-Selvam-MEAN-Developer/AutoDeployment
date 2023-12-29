@@ -2,7 +2,6 @@
 module.exports = {
     plugins: ['@typescript-eslint'],
     env: {
-        browser: true,
         es2021: true,
     },
     extends: ['airbnb-base', 'plugin:@typescript-eslint/recommended'],
@@ -17,7 +16,7 @@ module.exports = {
             }
         },
         {
-            files: ['*.test.ts', '*.ts'],
+            files: ['*.test.ts'],
             rules: {
                 'max-lines': ['error', 500],
                 'max-lines-per-function': ['error', 500],
@@ -42,6 +41,7 @@ module.exports = {
         'max-lines-per-function': ['error', 35],
         'object-curly-newline': 0,
         'import/prefer-default-export': 0,
-        "radix": "off"
+        "radix": "off",
+        '@typescript-eslint/no-explicit-any': "warn",
     }
 }

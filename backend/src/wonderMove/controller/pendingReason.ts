@@ -15,7 +15,6 @@ function groupNumber(
         const vehicleData = vehicleDataMap.get(vehicleId)
         if (!acc[vehicleId]) {
             acc[vehicleId] = {
-                // eslint-disable-next-line no-underscore-dangle
                 number: vehicleData.number,
                 _count: 0
             }

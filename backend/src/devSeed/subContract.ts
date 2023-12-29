@@ -17,6 +17,13 @@ import { create } from '../subContracts/models/paymentDues.ts'
 import seedPaymentDue from '../subContracts/seed/paymentDue.ts'
 import prisma from '../../prisma/index.ts'
 
+async function addFuelStations() {
+    await prisma.$executeRaw`INSERT INTO "subContract"."fuelStation" ("location", "createdAt", "updatedAt", "bunkId")
+    VALUES ('Chennai', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."fuelStation" ("location", "createdAt", "updatedAt", "bunkId")
+    VALUES ('Pondicherry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
+}
+
 async function seedSubContract() {
     const loadingPoint = await createLoadingPoint(seedFactory)
     const unloadingPoint = await createUnloadingPoint({
@@ -50,9 +57,6 @@ async function seedSubContract() {
 
     await prisma.$executeRaw`INSERT INTO "subContract"."bunk" ("bunkName", "createdAt", "updatedAt")
     VALUES ('Barath Petroleum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."fuelStation" ("location", "createdAt", "updatedAt", "bunkId")
-    VALUES ('Chennai', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."fuelStation" ("location", "createdAt", "updatedAt", "bunkId")
-    VALUES ('Pondicherry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
+    await addFuelStations()
 }
 export default seedSubContract
