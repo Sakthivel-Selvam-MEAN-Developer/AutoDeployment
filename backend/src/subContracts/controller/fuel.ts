@@ -5,9 +5,9 @@ import { getOnlyActiveTripByVehicleNumber } from '../models/loadingToUnloadingTr
 export const createFuel = async (req: Request, res: Response) => {
     const { vehicleNumber } = req.body
     const activeTrip = await getOnlyActiveTripByVehicleNumber(vehicleNumber)
-    create({ ...req.body, loadingPointToUnloadingPointTripId: activeTrip?.id }).then((data) =>
-        res.status(200).json(data)
-    )
+    create({ ...req.body, loadingPointToUnloadingPointTripId: activeTrip?.id })
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }
 
 export const listAllFuel = (_req: Request, res: Response) => {

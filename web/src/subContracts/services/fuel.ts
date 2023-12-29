@@ -7,7 +7,11 @@ interface fuelProps {
     totalprice: number
     fuelStationId: number
 }
-export const createFuel = (data: fuelProps) => axiosInstance.post('/fuel', data).then(getData)
+export const createFuel = (data: fuelProps) =>
+    axiosInstance
+        .post('/fuel', data)
+        .then(getData)
+        .catch(() => alert('Please provide valid details'))
 
 export const getAllFuel = () => axiosInstance.get(`/fuel`).then(getData)
 

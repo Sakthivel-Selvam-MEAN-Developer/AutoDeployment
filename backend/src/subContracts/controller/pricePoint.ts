@@ -2,7 +2,9 @@ import { Request, Response } from 'express'
 import { create, getPricePoint } from '../models/pricePoint.ts'
 
 export const createPricePoint = (req: Request, res: Response) => {
-    create(req.body).then(() => res.sendStatus(200))
+    create(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.status(500))
 }
 
 export const listPricePoint = (req: Request, res: Response) => {

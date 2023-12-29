@@ -5,7 +5,10 @@ interface dataProps {
 }
 
 export const createUnloadingPoint = (data: dataProps) =>
-    axiosInstance.post('/unloading-point', data).then(getData)
+    axiosInstance
+        .post('/unloading-point', data)
+        .then(getData)
+        .catch(() => alert('Please provide valid details'))
 
 export const getUnloadingPointByCompanyName = (companyName: string) =>
     axiosInstance.get(`/unloading-point/${companyName}`).then(getData)

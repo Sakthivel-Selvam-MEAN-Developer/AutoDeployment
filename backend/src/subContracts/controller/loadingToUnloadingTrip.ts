@@ -11,7 +11,9 @@ export const listAllTrip = (_req: Request, res: Response) => {
 }
 
 export const createTrip = (req: Request, res: Response) => {
-    create(req.body).then((data) => res.status(200).json(data))
+    create(req.body)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }
 export const updateBalance = (req: Request, res: Response) => {
     updateTransporterBalance(req.body).then((data) => res.status(200).json(data))

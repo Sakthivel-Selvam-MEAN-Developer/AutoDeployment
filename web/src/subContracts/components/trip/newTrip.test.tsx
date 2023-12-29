@@ -1,8 +1,9 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
 import NewTrip from './newTrip'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import dayjs from 'dayjs'
 
 const mockPricePoint = vi.fn()
 const mockAllTransporter = vi.fn()
@@ -11,12 +12,18 @@ const mockTruckByTransporter = vi.fn()
 const mockLoadingPointByCompanyName = vi.fn()
 const mockUnloadingPointByCompanyName = vi.fn()
 const mockFuelWithoutTripId = vi.fn()
+const mockCreateTrip = vi.fn()
+const mockUpdateFuelWithTrip = vi.fn()
+const mockPaymentDues = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
 }))
 vi.mock('../../services/cementCompany', () => ({
     getAllCementCompany: () => mockAllCementCompany()
+}))
+vi.mock('../../services/trip', () => ({
+    createTrip: (inputs: any) => mockCreateTrip(inputs)
 }))
 vi.mock('../../services/truck', () => ({
     getTruckByTransporter: () => mockTruckByTransporter()
@@ -30,8 +37,12 @@ vi.mock('../../services/unloadingPoint', () => ({
 vi.mock('../../services/pricePoint', () => ({
     getPricePoint: () => mockPricePoint()
 }))
+vi.mock('../../services/paymentDues', () => ({
+    createPaymentDues: (inputs: any) => mockPaymentDues(inputs)
+}))
 vi.mock('../../services/fuel', () => ({
-    listFuelWithoutTripId: () => mockFuelWithoutTripId()
+    listFuelWithoutTripId: () => mockFuelWithoutTripId(),
+    updateFuelWithTrip: (inputs: any) => mockUpdateFuelWithTrip(inputs)
 }))
 
 const mockCompanyData = [
@@ -78,7 +89,7 @@ const mockPricePointData = {
     transporterAmount: 900
 }
 const mockFuelData = {
-    vehicleNumber: 'TN56CC5678',
+    vehicleNumber: 'TN93D5512',
     pricePerliter: 103,
     quantity: 10,
     totalprice: 1030,
@@ -90,7 +101,93 @@ const mockFuelData = {
         }
     }
 }
+const tripData = {
+    truckId: 1,
+    loadingPointId: 1,
+    unloadingPointId: 1,
+    startDate: dayjs().unix(),
+    filledLoad: 40,
+    invoiceNumber: 'RTD43D',
+    freightAmount: 1000,
+    transporterAmount: 900,
+    totalFreightAmount: 40000,
+    totalTransporterAmount: 36000,
+    margin: 4000,
+    wantFuel: true
+}
+async function newFunction() {
+    render(
+        <BrowserRouter>
+            <NewTrip />
+        </BrowserRouter>
+    )
+    //  Select Company Name
+    const companyName = screen.getByRole('combobox', {
+        name: 'Company Name'
+    })
+    await userEvent.click(companyName)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const choice = screen.getByRole('option', {
+        name: 'UltraTech Cements'
+    })
+    await userEvent.click(choice)
 
+    //  Select Loading Point
+    const loading = screen.getByRole('combobox', {
+        name: 'Loading Point'
+    })
+    await userEvent.click(loading)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const opt = screen.getByRole('option', {
+        name: 'Chennai'
+    })
+    await userEvent.click(opt)
+
+    //  Select Unloading
+    const unLoading = screen.getByRole('combobox', {
+        name: 'Unloading Point'
+    })
+    await userEvent.click(unLoading)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const option = screen.getByRole('option', {
+        name: 'Salem'
+    })
+    await userEvent.click(option)
+
+    //  Select Transporter
+    const transporter = screen.getByRole('combobox', {
+        name: 'Transporter'
+    })
+    await userEvent.click(transporter)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const options = screen.getByRole('option', {
+        name: 'Barath Logistics'
+    })
+    await userEvent.click(options)
+    //  Select Truck Number
+    const truck = screen.getByRole('combobox', {
+        name: 'Truck Number'
+    })
+    await userEvent.click(truck)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const optin = screen.getByRole('option', {
+        name: 'TN93D5512'
+    })
+    await userEvent.click(optin)
+
+    await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
+    await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
+}
 describe('New trip test', () => {
     beforeEach(() => {
         mockAllTransporter.mockResolvedValue(mockTransporterData)
@@ -99,11 +196,12 @@ describe('New trip test', () => {
         mockLoadingPointByCompanyName.mockResolvedValue(mockFactory)
         mockUnloadingPointByCompanyName.mockResolvedValue(mockDeliveryPoint)
         mockPricePoint.mockResolvedValue(mockPricePointData)
-        mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
+        mockCreateTrip.mockResolvedValue(tripData)
     })
     test('should fetch company data from Db', async () => {
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(0)
         expect(mockUnloadingPointByCompanyName).toHaveBeenCalledTimes(0)
+        mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         render(
             <BrowserRouter>
                 <NewTrip />
@@ -128,6 +226,7 @@ describe('New trip test', () => {
         expect(mockUnloadingPointByCompanyName).toHaveBeenCalledTimes(1)
     })
     test('should fetch transporter data from Db', async () => {
+        mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         render(
             <BrowserRouter>
                 <NewTrip />
@@ -148,6 +247,7 @@ describe('New trip test', () => {
         expect(await screen.findByDisplayValue('Barath Logistics')).toBeInTheDocument()
     })
     test('should fetch truck data by their transporter', async () => {
+        mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         render(
             <BrowserRouter>
                 <NewTrip />
@@ -180,6 +280,7 @@ describe('New trip test', () => {
         expect(await screen.findByDisplayValue('TN93D5512')).toBeInTheDocument()
     })
     test('should get price point of loading and unloading point', async () => {
+        mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         render(
             <BrowserRouter>
                 <NewTrip />
@@ -253,5 +354,29 @@ describe('New trip test', () => {
         expect(parseInt(totalFreightValue.value)).toBe(totalFreight)
         expect(parseInt(totalTransporterValue.value)).toBe(totalTransporter)
         expect(parseInt(totalMargin.value)).toBe(totalFreight - totalTransporter)
+    })
+    test('should not create dues untill fuel created, if they need fuel', async () => {
+        mockFuelWithoutTripId.mockResolvedValue(null)
+        await newFunction()
+        const checkbox = screen.getByRole('checkbox')
+        fireEvent.click(checkbox)
+
+        const start = screen.getByRole('button', { name: 'Start' })
+        await userEvent.click(start)
+
+        expect(mockCreateTrip).toHaveBeenCalledTimes(1)
+    })
+    test('should create dues, if they already fueled before trip', async () => {
+        mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
+        await newFunction()
+        const checkbox = screen.getByRole('checkbox')
+        fireEvent.click(checkbox)
+
+        const start = screen.getByRole('button', { name: 'Start' })
+        await userEvent.click(start)
+
+        expect(mockCreateTrip).toHaveBeenCalledTimes(2)
+        expect(mockPaymentDues).toHaveBeenCalledTimes(2)
+        expect(mockUpdateFuelWithTrip).toHaveBeenCalledTimes(1)
     })
 })

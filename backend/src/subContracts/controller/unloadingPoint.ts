@@ -6,7 +6,9 @@ import {
 } from '../models/unloadingPoint.ts'
 
 export const createUnloadingPoint = (req: Request, res: Response) => {
-    create(req.body).then(() => res.sendStatus(200))
+    create(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.status(500))
 }
 
 export const listAllUnloadingPoint = (_req: Request, res: Response) => {

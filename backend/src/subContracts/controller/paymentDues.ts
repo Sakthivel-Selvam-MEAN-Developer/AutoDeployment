@@ -8,7 +8,9 @@ import {
 import { getAllTrip } from '../models/loadingToUnloadingTrip.ts'
 
 export const createPaymentDues = (req: Request, res: Response) => {
-    create(req.body).then(() => res.sendStatus(200))
+    create(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.status(500))
 }
 
 const groupDataByName = async (duesData: any[], tripsData: any[], tripDetails: any[]) => {

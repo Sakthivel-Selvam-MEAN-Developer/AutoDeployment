@@ -2,7 +2,9 @@ import { Request, Response } from 'express'
 import { create, getAllLoadingPoint, getLoadingPointByCompany } from '../models/loadingPoint.ts'
 
 export const createLoadingPoint = (req: Request, res: Response) => {
-    create(req.body).then(() => res.sendStatus(200))
+    create(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.status(500))
 }
 
 export const listAllLoadingPoint = (_req: Request, res: Response) => {

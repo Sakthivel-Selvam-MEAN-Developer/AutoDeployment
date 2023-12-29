@@ -11,7 +11,6 @@ const Fuel: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const [fuelStationId, setFuelStationId] = useState(0)
-
     const quantity = watch('quantity')
     const pricePerliter = watch('pricePerliter')
     useEffect(() => {

@@ -2,7 +2,9 @@ import { Request, Response } from 'express'
 import { create, getAllBunk } from '../models/bunk.ts'
 
 export const createBunk = (req: Request, res: Response) => {
-    create(req.body).then(() => res.sendStatus(200))
+    create(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.status(500))
 }
 
 export const listAllBunk = (_req: Request, res: Response) => {

@@ -162,5 +162,6 @@ describe('Add Fuel Details', () => {
         expect(mockAllStationByBunk).toHaveBeenCalledTimes(1)
         expect(mockAllTruck).toHaveBeenCalledTimes(1)
         expect(mockAllTripByTruckNumber).toHaveBeenCalledTimes(1)
+        expect(mockPaymentDues).toHaveBeenCalledTimes(2)
     })
 })

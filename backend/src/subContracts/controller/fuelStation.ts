@@ -2,7 +2,9 @@ import { Request, Response } from 'express'
 import { create, getAllFuelStationByBunk } from '../models/fuelStation.ts'
 
 export const createFuelStation = (req: Request, res: Response) => {
-    create(req.body).then(() => res.sendStatus(200))
+    create(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.status(500))
 }
 
 export const listAllFuelStationByBunk = (req: Request, res: Response) => {
