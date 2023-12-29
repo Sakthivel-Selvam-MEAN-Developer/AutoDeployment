@@ -1,8 +1,10 @@
-export type Movement = {
-    time: number
+export interface Movement {
+    eventTime: number
     speed: number
     latitude: number
     longitude: number
+    vehicleId: number
+    source: string
 }
 
 export interface RawStop {
@@ -29,15 +31,22 @@ const emptyStop = () => ({
     longitude: 0
 })
 
-const initMoment: Movement = { time: 0, speed: 0, latitude: 0, longitude: 0 }
+const initMoment: Movement = {
+    eventTime: 0,
+    speed: 0,
+    latitude: 0,
+    longitude: 0,
+    vehicleId: 0,
+    source: ''
+}
 
 const isSamePlace = (movement1: Movement, movement2: Movement) =>
     movement1.latitude === movement2.latitude && movement1.longitude === movement2.longitude
 
 const initNewStop = (movement: Movement, previousMovement: Movement) => ({
-    durationInMillis: movement.time - previousMovement.time,
-    startTime: previousMovement.time,
-    endTime: movement.time,
+    durationInMillis: movement.eventTime - previousMovement.eventTime,
+    startTime: previousMovement.eventTime,
+    endTime: movement.eventTime,
     latitude: movement.latitude,
     longitude: movement.longitude
 })
@@ -52,8 +61,8 @@ const updateOngoingStop = (
     }
     return {
         ...ongoingStop,
-        endTime: movement.time,
-        durationInMillis: movement.time - ongoingStop.startTime
+        endTime: movement.eventTime,
+        durationInMillis: movement.eventTime - ongoingStop.startTime
     }
 }
 const addValidOngoingStopToStops = (ongoingStop: RawStop, stops: RawStop[]) => {
