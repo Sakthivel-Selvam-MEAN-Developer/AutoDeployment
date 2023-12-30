@@ -1,13 +1,7 @@
 import { axiosInstance, getData } from '../../wonderMove/services'
-interface dataProps {
-    name: string
-    gstNo: string
-    emailId: string
-    contactPersonName: string
-    contactPersonNumber: string
-    address: string
-}
-export const createCompany = (data: dataProps) =>
+import { FieldValues } from '../components/cementCompany/company.tsx'
+
+export const createCompany = (data: FieldValues) =>
     axiosInstance
         .post('/cementCompany', data)
         .then(getData)

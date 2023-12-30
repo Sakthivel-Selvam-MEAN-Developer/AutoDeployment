@@ -28,7 +28,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             transporterPercentage: parseInt(data.transporterPercentage),
             transporterAmount: transporterRate
         }
-        createpricePoint(JSON.stringify(details))
+        createpricePoint(details)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

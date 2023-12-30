@@ -41,6 +41,6 @@ describe('Create company', () => {
         await userEvent.click(option)
 
         expect(mockCreateCompany).toHaveBeenCalledTimes(1)
-        expect(mockCreateCompany).toBeCalledWith(JSON.stringify(mockCompany))
+        expect(mockCreateCompany).toBeCalledWith(mockCompany)
     })
 })

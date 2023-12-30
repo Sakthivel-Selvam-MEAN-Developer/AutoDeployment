@@ -1,13 +1,13 @@
-import React, { ReactElement } from 'react'
+import { FC, ReactElement, useEffect } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 import { useSetAtom } from 'jotai/react'
 import { userIdAtom } from '../layout/userAtom.tsx'
 
-const HrmDashboard: React.FC = (): ReactElement => {
+const HrmDashboard: FC = (): ReactElement => {
     const setUserId = useSetAtom(userIdAtom)
     const { employeeId } = useParams()
-    React.useEffect(() => {
-        setUserId(employeeId)
+    useEffect(() => {
+        setUserId(employeeId || '')
     }, [employeeId, setUserId])
     return (
         <>

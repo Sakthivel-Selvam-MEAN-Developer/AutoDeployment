@@ -1,9 +1,10 @@
 import { Control } from 'react-hook-form'
 import InputWithType from '../../../form/InputWithType.tsx'
 import MultiLineInput from '../../../form/MultiLineInput.tsx'
+import { FieldValues } from './company.tsx'
 
 interface FormFieldsProps {
-    control: Control
+    control: Control<FieldValues>
 }
 const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
     return (

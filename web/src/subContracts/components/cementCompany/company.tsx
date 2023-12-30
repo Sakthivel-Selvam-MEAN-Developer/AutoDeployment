@@ -2,18 +2,27 @@ import React, { ReactElement, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FormFields from './formField'
 import { useNavigate } from 'react-router-dom'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { Button } from '@mui/material'
-import { createCompany } from '../../services/cementCompany'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
+import { createCompany } from '../../services/cementCompany.ts'
+
+export type FieldValues = {
+    name: string
+    gstNo: string
+    emailId: string
+    contactPersonName: string
+    contactPersonNumber: string
+    address: string
+}
 
 const CreateCompany: React.FC = (): ReactElement => {
     const navigate = useNavigate()
     const { handleSubmit, control } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        createCompany(JSON.stringify(data)).then(() => setOpenSuccessDialog(true))
+        createCompany(data).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)

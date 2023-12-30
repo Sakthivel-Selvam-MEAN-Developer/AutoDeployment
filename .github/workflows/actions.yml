@@ -39,6 +39,7 @@ jobs:
       - run: yarn u format
       - run: yarn b lint
       - run: yarn u lint
+      - run: yarn u build
       - run: yarn u test
       - run: yarn b prismaUp
       - run: yarn b prismaMigrateCi
