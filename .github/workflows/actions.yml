@@ -42,5 +42,5 @@ jobs:
       - run: yarn u test
       - run: yarn b prismaUp
       - run: yarn b prismaMigrateCi
-      - run: yarn b test
+      - run: yarn b testCI
       - run: echo "🍏 This job's status is ${{ job.status }}."
