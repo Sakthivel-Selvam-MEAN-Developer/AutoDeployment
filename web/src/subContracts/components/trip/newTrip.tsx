@@ -8,8 +8,6 @@ import { createTrip } from '../../services/trip.ts'
 import { useNavigate } from 'react-router-dom'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import dayjs from 'dayjs'
-import { createPaymentDues } from '../../services/paymentDues.ts'
-import { listFuelWithoutTripId, updateFuelWithTrip } from '../../services/fuel.ts'
 
 interface transporter {
     name: string
@@ -21,7 +19,6 @@ const NewTrip: React.FC = () => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
-    const [vehicleDetails, setVehicleDetails] = useState<any>({})
     const [truckId, setTruckId] = useState(0)
     const [loadingPointId, setLoadingPointId] = useState(0)
     const [unloadingPointId, setUnloadingPointId] = useState(0)
@@ -32,12 +29,7 @@ const NewTrip: React.FC = () => {
     const [margin, setMargin] = useState(0)
     const [fuel, setFuel] = useState(false)
     const filledLoad = watch('filledLoad')
-    const [vehicleNumber, setVehicleNumber] = useState<string>('')
-    useEffect(() => {
-        if (vehicleNumber !== '') {
-            listFuelWithoutTripId(vehicleNumber).then(setVehicleDetails)
-        }
-    }, [vehicleNumber])
+
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseInt(filledLoad))
         setTotalTransporterAmount(transporterAmount * parseInt(filledLoad))
@@ -59,35 +51,9 @@ const NewTrip: React.FC = () => {
             margin: margin,
             wantFuel: fuel
         }
-        const paymentDues = {
-            name: data.transporterName,
-            type: 'initial pay',
-            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-            payableAmount: (totalTransporterAmount * 70) / 100
-        }
-        createTrip(JSON.stringify(details))
-            .then((tripData) => {
-                if (fuel === false && vehicleDetails === null) {
-                    return createPaymentDues({ ...paymentDues, tripId: tripData.id })
-                }
-                if (vehicleDetails !== null) {
-                    updateFuelWithTrip({ id: vehicleDetails.id, tripId: tripData.id })
-                    createPaymentDues({
-                        ...paymentDues,
-                        name: vehicleDetails.fuelStation.bunk.bunkName,
-                        type: 'fuel pay',
-                        payableAmount: vehicleDetails.totalprice,
-                        tripId: tripData.id
-                    })
-                    createPaymentDues({
-                        ...paymentDues,
-                        payableAmount:
-                            (totalTransporterAmount * 70) / 100 - vehicleDetails.totalprice,
-                        tripId: tripData.id
-                    })
-                }
-            })
+        createTrip(details)
             .then(() => navigate('/sub/trip'))
+            .catch((e) => alert(e))
     }
     useEffect(() => {
         getAllTransporter().then((transporterData) =>
@@ -122,7 +88,6 @@ const NewTrip: React.FC = () => {
                 margin={margin}
                 fuel={fuel}
                 setFuel={setFuel}
-                setVehicleNumber={setVehicleNumber}
             />
             <SubmitButton name="Start" type="submit" />
         </form>

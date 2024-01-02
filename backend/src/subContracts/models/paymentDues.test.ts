@@ -28,9 +28,12 @@ describe('Payment-Due model', () => {
         expect(groupDues[0]._sum.payableAmount).toBe(50000)
     })
     test('should update the payment dues', async () => {
-        const paymentDue = await create(seedPaymentDue)
+        await create(seedPaymentDue)
+        const dueDate = 1706034600
+        const type = 'initial pay'
+        const actual = await findTripWithActiveDues(dueDate, type)
         const wantToUpdate = {
-            id: paymentDue.id,
+            id: actual[0].id,
             transactionId: 'abc',
             paidAt: dayjs().unix()
         }

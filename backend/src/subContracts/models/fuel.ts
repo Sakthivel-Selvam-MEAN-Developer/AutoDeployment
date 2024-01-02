@@ -6,7 +6,7 @@ export const create = (data: Prisma.fuelCreateInput | Prisma.fuelUncheckedCreate
 
 export const getAllFuel = () => prisma.fuel.findMany({})
 
-export const getFuelWithoutTrip = (vehicleNumber: string) =>
+export const getFuelWithoutTrip = (vehicleNumber: any) =>
     prisma.fuel.findFirst({
         where: {
             vehicleNumber,

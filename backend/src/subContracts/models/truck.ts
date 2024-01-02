@@ -11,6 +11,28 @@ export const getTruckByTransporter = (transporterName: string) =>
         where: {
             transporter: {
                 name: transporterName
+            },
+            NOT: {
+                loadingPointToUnloadingPointTrip: {
+                    some: {
+                        tripStatus: false
+                    }
+                }
+            }
+        }
+    })
+
+export const getNumberByTruckId = (id: number) =>
+    prisma.truck.findFirst({
+        where: {
+            id
+        },
+        select: {
+            vehicleNumber: true,
+            transporter: {
+                select: {
+                    name: true
+                }
             }
         }
     })

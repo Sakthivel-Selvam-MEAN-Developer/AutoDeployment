@@ -7,7 +7,7 @@ import {
 } from '../controller/fuel.ts'
 
 const fuelRoutes = (router: Router) => {
-    router.post('/fuel', createFuel)
+    router.post('/fuel/:bunkname', createFuel)
     router.get('/fuel', listAllFuel)
     router.get('/fuel/:vehiclenumber', listFuelWithoutTripId)
     router.put('/fuel-update', updateFuelWithTrip)

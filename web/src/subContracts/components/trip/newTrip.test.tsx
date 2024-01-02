@@ -13,8 +13,6 @@ const mockLoadingPointByCompanyName = vi.fn()
 const mockUnloadingPointByCompanyName = vi.fn()
 const mockFuelWithoutTripId = vi.fn()
 const mockCreateTrip = vi.fn()
-const mockUpdateFuelWithTrip = vi.fn()
-const mockPaymentDues = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
@@ -36,13 +34,6 @@ vi.mock('../../services/unloadingPoint', () => ({
 }))
 vi.mock('../../services/pricePoint', () => ({
     getPricePoint: () => mockPricePoint()
-}))
-vi.mock('../../services/paymentDues', () => ({
-    createPaymentDues: (inputs: any) => mockPaymentDues(inputs)
-}))
-vi.mock('../../services/fuel', () => ({
-    listFuelWithoutTripId: () => mockFuelWithoutTripId(),
-    updateFuelWithTrip: (inputs: any) => mockUpdateFuelWithTrip(inputs)
 }))
 
 const mockCompanyData = [
@@ -376,7 +367,5 @@ describe('New trip test', () => {
         await userEvent.click(start)
 
         expect(mockCreateTrip).toHaveBeenCalledTimes(2)
-        expect(mockPaymentDues).toHaveBeenCalledTimes(2)
-        expect(mockUpdateFuelWithTrip).toHaveBeenCalledTimes(1)
     })
 })

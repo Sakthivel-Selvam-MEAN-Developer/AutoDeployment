@@ -23,7 +23,6 @@ interface FormFieldProps {
     margin: number | undefined
     fuel: boolean
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
-    setVehicleNumber: React.Dispatch<React.SetStateAction<string>>
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -38,8 +37,7 @@ const FormField: React.FC<FormFieldProps> = ({
     totalTransporterAmount,
     margin,
     fuel,
-    setFuel,
-    setVehicleNumber
+    setFuel
 }) => {
     const [transporterName, setTransporterName] = useState<string>()
     const [cementCompanyName, setCementCompanyName] = useState<string>()
@@ -93,7 +91,6 @@ const FormField: React.FC<FormFieldProps> = ({
                     const { id }: any = listTruck.find(
                         (truck: { vehicleNumber: string }) => truck.vehicleNumber === newValue
                     )
-                    setVehicleNumber(newValue)
                     truckId(id)
                 }}
             />

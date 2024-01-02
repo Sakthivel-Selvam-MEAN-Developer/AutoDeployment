@@ -43,5 +43,6 @@ module.exports = {
         'import/prefer-default-export': 0,
         "radix": "off",
         '@typescript-eslint/no-explicit-any': "warn",
+        'consistent-return': 'off'
     }
 }

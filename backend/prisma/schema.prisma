@@ -390,7 +390,7 @@ model loadingPointToUnloadingPointTrip {
   margin                 Int
   loadingPointId         Int
   loadingPoint           loadingPoint   @relation(fields: [loadingPointId], references: [id])
-  invoiceNumber          String
+  invoiceNumber          String         @unique
   createdAt              DateTime       @default(now()) @db.Timestamptz(6)
   updatedAt              DateTime       @updatedAt @db.Timestamptz(6)
   unloadingPoint         unloadingPoint @relation(fields: [unloadingPointId], references: [id])

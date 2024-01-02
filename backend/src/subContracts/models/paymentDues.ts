@@ -1,9 +1,8 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (
-    data: Prisma.paymentDuesCreateInput | Prisma.paymentDuesUncheckedCreateInput
-) => prisma.paymentDues.create({ data })
+export const create = (data: Prisma.paymentDuesCreateManyInput) =>
+    prisma.paymentDues.createMany({ data })
 
 export const getOnlyActiveDuesByName = (dueDate: number, type: string) =>
     prisma.paymentDues.groupBy({

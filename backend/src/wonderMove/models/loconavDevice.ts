@@ -11,7 +11,9 @@ export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
         }
     })
 
-export const create = (data: any) => prisma.loconavDevice.create({ data })
+export const create = (
+    data: Prisma.loconavDeviceCreateInput | Prisma.loconavDeviceUncheckedCreateInput
+) => prisma.loconavDevice.create({ data })
 
 const createIfNotExist = (data: any) =>
     prisma.loconavDevice.upsert({

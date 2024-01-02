@@ -1,7 +1,8 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (data: any) => prisma.vehicles.create({ data })
+export const create = (data: Prisma.vehiclesCreateInput | Prisma.vehiclesUncheckedCreateInput) =>
+    prisma.vehicles.create({ data })
 
 export const fetchVehicleByNumber = (number: string) =>
     prisma.vehicles.findFirst({ where: { number } })
