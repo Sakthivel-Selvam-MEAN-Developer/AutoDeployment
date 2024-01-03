@@ -8,5 +8,7 @@ export const createCompany = (req: Request, res: Response) => {
 }
 
 export const listAllCementCompany = (_req: Request, res: Response) => {
-    getAllCementCompany().then((data) => res.status(200).json(data))
+    getAllCementCompany()
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }

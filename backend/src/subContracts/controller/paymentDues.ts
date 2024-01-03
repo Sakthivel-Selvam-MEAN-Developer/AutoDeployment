@@ -13,7 +13,7 @@ export const createPaymentDues = (req: Request, res: Response) => {
         .catch(() => res.status(500))
 }
 
-const groupDataByName = async (duesData: any[], tripsData: any[], tripDetails: any[]) => {
+export const groupDataByName = async (duesData: any[], tripsData: any[], tripDetails: any[]) => {
     const groupedData = duesData.map((due) => {
         const matchingTrips = tripsData.filter((trip) => trip.name === due.name)
         return {
@@ -49,11 +49,13 @@ export const listOnlyActiveTransporterDues = async (req: Request, res: Response)
     const duesData = await getOnlyActiveDuesByName(parseInt(duedate), type)
     const tripsData = await findTripWithActiveDues(parseInt(duedate), type)
     const tripDetails = await getAllTrip()
-    await groupDataByName(duesData, tripsData, tripDetails).then((data: any) =>
-        res.status(200).json(data)
-    )
+    await groupDataByName(duesData, tripsData, tripDetails)
+        .then((data: any) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }
 
 export const updatePayment = (req: Request, res: Response) => {
-    updatePaymentDues(req.body).then((data) => res.status(200).json(data))
+    updatePaymentDues(req.body)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }

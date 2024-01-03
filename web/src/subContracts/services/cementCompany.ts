@@ -7,4 +7,8 @@ export const createCompany = (data: FieldValues) =>
         .then(getData)
         .catch(() => alert('Please provide valid details'))
 
-export const getAllCementCompany = () => axiosInstance.get('/cementCompany').then(getData)
+export const getAllCementCompany = () =>
+    axiosInstance
+        .get('/cementCompany')
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

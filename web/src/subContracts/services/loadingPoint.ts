@@ -11,4 +11,7 @@ export const createLoadingPoint = (data: dataProps) =>
         .catch(() => alert('Please provide valid details'))
 
 export const getLoadingPointByCompanyName = (companyName: string) =>
-    axiosInstance.get(`/loading-point/${companyName}`).then(getData)
+    axiosInstance
+        .get(`/loading-point/${companyName}`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

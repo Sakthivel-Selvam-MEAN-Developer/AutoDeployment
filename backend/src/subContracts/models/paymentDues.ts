@@ -51,3 +51,21 @@ export const updatePaymentDues = (data: any) =>
             paidAt: data.paidAt
         }
     })
+
+// export const getPaymentDuesWithoutTripId = (vehicleNumber:number) =>
+// prisma.paymentDues.findFirst({
+//     where: {
+//         vehicleNumber,
+//         status:false
+//     }
+// })
+
+// export const updatePaymentDuesWithTripId = (data: any) =>
+// prisma.paymentDues.update({
+//     where: {
+//         id: data.id
+//     },
+//     data: {
+//         tripId:data.tripId
+//     }
+// })

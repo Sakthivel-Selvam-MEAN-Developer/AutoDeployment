@@ -8,5 +8,7 @@ export const createFuelStation = (req: Request, res: Response) => {
 }
 
 export const listAllFuelStationByBunk = (req: Request, res: Response) => {
-    getAllFuelStationByBunk(parseInt(req.params.bunkId)).then((data) => res.status(200).json(data))
+    getAllFuelStationByBunk(parseInt(req.params.bunkId))
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }

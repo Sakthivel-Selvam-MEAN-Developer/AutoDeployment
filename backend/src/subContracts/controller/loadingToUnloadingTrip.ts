@@ -20,11 +20,13 @@ export const createTrip = async (req: Request, res: Response) => {
         transporter: { name }
     }: any = await getNumberByTruckId(req.body.truckId)
     const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
+    // const paymentDetails = await getPaymentDuesWithoutTrip(vehicleNumber)
     const { id } = await create(req.body)
     await tripLogic(req.body, fuelDetails, name, id)
         .then(async (data: any) => {
             if (req.body.wantFuel !== true && fuelDetails !== null) {
                 await updateFuelWithTripId({ id: fuelDetails.id, tripId: id }).then(async () => {
+                    // await updatePaymentDuesWithTripId({ id: paymentDetails.id, tripId: id })
                     await createPaymentDues(data)
                 })
             } else if (req.body.wantFuel !== true && fuelDetails === null) {
@@ -32,7 +34,9 @@ export const createTrip = async (req: Request, res: Response) => {
             }
         })
         .then(() => res.sendStatus(200))
-        .catch((e) => console.log(e))
+        .catch(() => {
+            res.sendStatus(500)
+        })
 }
 
 export const updateBalance = (req: Request, res: Response) => {

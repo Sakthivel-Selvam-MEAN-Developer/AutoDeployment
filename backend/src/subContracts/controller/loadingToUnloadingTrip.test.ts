@@ -5,11 +5,15 @@ import { createTrip, listAllTrip } from './loadingToUnloadingTrip.ts'
 const mockgetTrip = vi.fn()
 const mockCreateTrip = vi.fn()
 const mockActiveTrip = vi.fn()
+const mockgetNumberByTruckId = vi.fn()
+const mockgetFuelWithoutTrip = vi.fn()
 
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockgetTrip(),
     create: (inputs: any) => mockCreateTrip(inputs),
-    getOnlyActiveTrip: () => mockActiveTrip()
+    getOnlyActiveTrip: () => mockActiveTrip(),
+    getNumberByTruckId: () => mockgetNumberByTruckId(),
+    getFuelWithoutTrip: () => mockgetFuelWithoutTrip()
 }))
 
 const mockTripData = {

@@ -1,45 +1,77 @@
 import supertest from 'supertest'
-import express from 'express'
+import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
+import { app } from '../../app.ts'
+import { groupDataByName } from './paymentDues.ts'
 
-const mockPaymentDuesByName = vi.fn()
-const mockTripDues = vi.fn()
-const mockgroupData = vi.fn()
+const mockgetOnlyActiveDuesByName = vi.fn()
+const mockfindTripWithActiveDues = vi.fn()
+const mockGetAllTrip = vi.fn()
+const mockcreatePaymentDues = vi.fn()
 const mockUpdatePayment = vi.fn()
 
 vi.mock('../models/paymentDues', () => ({
-    getOnlyActiveDuesByName: () => mockPaymentDuesByName(),
-    findTripWithActiveDues: () => mockTripDues()
+    getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
+    findTripWithActiveDues: () => mockfindTripWithActiveDues(),
+    create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
+    updatePaymentDues: () => mockUpdatePayment()
 }))
-vi.mock('../controller/paymentDues', () => ({
-    groupDataByName: (mockTripWithDues: any, mockDueDetailsByName: any) =>
-        mockgroupData(mockTripWithDues, mockDueDetailsByName),
-    updatePayment: () => mockUpdatePayment
+vi.mock('../models/loadingToUnloadingTrip', () => ({
+    getAllTrip: () => mockGetAllTrip()
 }))
 
-// const mockTripWithDues = [
-//     {
-//         payableAmount: 20000,
-//         tripId: 1,
-//         type: 'initial pay',
-//         name: 'Barath Logistics Pvt Ltd'
-//     },
-//     {
-//         payableAmount: 30000,
-//         tripId: 3,
-//         type: 'initial pay',
-//         name: 'Barath Logistics Pvt Ltd'
-//     }
-// ]
-// const mockDueDetailsByName = {
-//     name: 'Barath Logistics Pvt Ltd',
-//     _count: {
-//         tripId: 2
-//     },
-//     _sum: {
-//         payableAmount: 50000
-//     }
-// }
+const mockTripWithDues = [
+    {
+        _count: { tripId: 2 },
+        _sum: { payableAmount: 88709 },
+        name: 'Barath Logistics Pvt Ltd'
+    }
+]
+
+const mockAllTrip = [
+    {
+        id: 1,
+        startDate: 1700764200,
+        filledLoad: 40,
+        wantFuel: null,
+        tripStatus: false,
+        freightAmount: 1000,
+        transporterAmount: 900,
+        totalFreightAmount: 40000,
+        totalTransporterAmount: 36000,
+        transporterBalance: 0,
+        margin: 4000,
+        loadingPointId: 1,
+        invoiceNumber: 'ABC123',
+        unloadingPointId: 1,
+        truckId: 1,
+        loadingPoint: { name: 'Chennai' },
+        unloadingPoint: { name: 'Salem' },
+        truck: { vehicleNumber: 'TN93D5512', transporter: [Object] },
+        fuel: []
+    },
+    {
+        id: 2,
+        startDate: 1704265556,
+        filledLoad: 111,
+        wantFuel: false,
+        tripStatus: false,
+        freightAmount: 1000,
+        transporterAmount: 900,
+        totalFreightAmount: 111000,
+        totalTransporterAmount: 99900,
+        transporterBalance: 0,
+        margin: 11100,
+        loadingPointId: 1,
+        invoiceNumber: 'AGTH5312WE',
+        unloadingPointId: 1,
+        truckId: 2,
+        loadingPoint: { name: 'Chennai' },
+        unloadingPoint: { name: 'Salem' },
+        truck: { vehicleNumber: 'TN29B3246', transporter: [Object] },
+        fuel: [[Object]]
+    }
+]
 const mockGroupedDueDetails = [
     {
         name: 'Barath Logistics Pvt Ltd',
@@ -49,37 +81,80 @@ const mockGroupedDueDetails = [
         },
         tripDetails: [
             {
+                id: 1,
                 tripId: 1,
                 payableAmount: 20000,
-                type: 'initial pay'
+                type: 'initial pay',
+                vehicleNumber: 'TN93D5512',
+                loadingPoint: 'Chennai',
+                unloadingPoint: 'Salem'
             },
             {
-                tripId: 3,
-                payableAmount: 30000,
-                type: 'initial pay'
+                id: 2,
+                tripId: 1,
+                payableAmount: 68709,
+                type: 'fuel pay',
+                vehicleNumber: 'TN29B3246',
+                loadingPoint: 'Chennai',
+                unloadingPoint: 'Salem',
+                stationLocation: {
+                    fuelStation: {
+                        location: 'Pondicherry'
+                    }
+                }
             }
         ]
     }
 ]
+const mockActiveTrip = [
+    {
+        id: 1,
+        payableAmount: 20000,
+        tripId: 1,
+        type: 'initial pay',
+        name: 'Barath Logistics Pvt Ltd'
+    },
+    {
+        id: 2,
+        payableAmount: 68709,
+        tripId: 2,
+        type: 'initial pay',
+        name: 'Barath Logistics Pvt Ltd'
+    }
+]
+
 const mockUpdateData = {
     id: 1,
     transactionId: 'hgf43',
     paidAt: dayjs().unix()
 }
+
+const mockCreateDues = {
+    id: 1,
+    tripId: 1,
+    payableAmount: 20000,
+    type: 'initial pay',
+
+    vehicleNumber: 'TN93D5512',
+    loadingPoint: 'Chennai',
+    unloadingPoint: 'Salem'
+}
+
 describe('Payment Due Controller', () => {
-    let app: any
-    beforeEach(() => {
-        app = express()
-        app.use(express.urlencoded({ extended: true }))
+    test('should group the payment dues by name', async () => {
+        const data = groupDataByName(mockTripWithDues, mockActiveTrip, mockAllTrip)
+        // await supertest(app).get('/payment-dues/1704220200/initial%20pay')
+        // .expect(mockGroupedDueDetails)
+        expect(mockGroupedDueDetails).toMatchObject(data)
     })
-    test.skip('should group the payment dues by name', async () => {
-        mockgroupData.mockResolvedValue(mockGroupedDueDetails)
-        await supertest(app).get('/payment-dues').expect(mockGroupedDueDetails)
-        expect(mockgroupData).toHaveBeenCalledTimes(1)
-    })
-    test.skip('should update the paymentDue with transactionId', async () => {
+    test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
         await supertest(app).put('/payment-dues')
         expect(mockUpdatePayment).toHaveBeenCalledTimes(1)
+    })
+    test('should update the paymentDue with transactionId', async () => {
+        mockcreatePaymentDues.mockResolvedValue(mockCreateDues)
+        await supertest(app).post('/payment-dues')
+        expect(mockcreatePaymentDues).toHaveBeenCalledTimes(1)
     })
 })

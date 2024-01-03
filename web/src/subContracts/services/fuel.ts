@@ -13,10 +13,20 @@ export const createFuel = (data: fuelProps, bunkname: any) =>
         .then(getData)
         .catch(() => alert('Please provide valid details'))
 
-export const getAllFuel = () => axiosInstance.get(`/fuel`).then(getData)
+export const getAllFuel = () =>
+    axiosInstance
+        .get(`/fuel`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
 
 export const updateFuelWithTrip = (data: any) =>
-    axiosInstance.put(`/fuel-update`, data).then(getData)
+    axiosInstance
+        .put(`/fuel-update`, data)
+        .then(getData)
+        .catch(() => alert('Error Updating data'))
 
 export const listFuelWithoutTripId = (vehiclenumber: string) =>
-    axiosInstance.get(`/fuel/${vehiclenumber}`).then(getData)
+    axiosInstance
+        .get(`/fuel/${vehiclenumber}`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

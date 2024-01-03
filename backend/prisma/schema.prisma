@@ -338,7 +338,7 @@ model loadingPointToStockPointTrip {
   fuel              fuel[]
   startDate         Int
   filledLoad        Int
-  invoiceNumber     String
+  invoiceNumber     String       @unique
   freightAmount     Int
   transporterAmount Int
   loadingPointId    Int

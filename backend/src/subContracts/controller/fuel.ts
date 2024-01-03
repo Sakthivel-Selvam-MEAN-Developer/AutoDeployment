@@ -15,13 +15,23 @@ export const createFuel = async (req: Request, res: Response) => {
         .then(async (fuel) => {
             const trip = await getTripByVehicleNumber(vehicleNumber)
             await fuelLogics(fuel, trip, bunkname).then((dues: any) => {
-                createPaymentDues(dues)
+                if (trip !== null) {
+                    return createPaymentDues(dues)
+                }
+                // else if (trip === null && dues === undefined) {
+                //     const fuelDue = [{
+                //         name: bunkname,
+                //         type: 'fuel pay',
+                //         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                //         payableAmount: fuel.totalprice,
+                //     }]
+                //     return createPaymentDues(fuelDue)
+                // }
             })
         })
         .then(() => res.sendStatus(200))
-        .catch((e) => {
+        .catch(() => {
             res.sendStatus(500)
-            console.log(e)
         })
 }
 

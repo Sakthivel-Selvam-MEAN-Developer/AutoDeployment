@@ -8,5 +8,7 @@ export const createBunk = (req: Request, res: Response) => {
 }
 
 export const listAllBunk = (_req: Request, res: Response) => {
-    getAllBunk().then((data) => res.status(200).json(data))
+    getAllBunk()
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }

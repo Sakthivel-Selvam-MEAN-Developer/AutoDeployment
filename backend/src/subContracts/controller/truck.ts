@@ -6,5 +6,7 @@ export const listAllTruck = (_req: Request, res: Response) => {
 }
 
 export const listTruckByTransporter = (req: Request, res: Response) => {
-    getTruckByTransporter(req.params.transporterName).then((data) => res.status(200).json(data))
+    getTruckByTransporter(req.params.transporterName)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }
