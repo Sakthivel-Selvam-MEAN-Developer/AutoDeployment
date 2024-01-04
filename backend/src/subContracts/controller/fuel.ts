@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import dayjs from 'dayjs'
 import { create, getAllFuel, getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 import {
     getOnlyActiveTripByVehicleNumber,
@@ -14,21 +15,25 @@ export const createFuel = async (req: Request, res: Response) => {
     await create({ ...req.body, loadingPointToUnloadingPointTripId: activeTrip?.id })
         .then(async (fuel) => {
             const trip = await getTripByVehicleNumber(vehicleNumber)
-            await fuelLogics(fuel, trip, bunkname).then((dues: any) => {
+            await fuelLogics(fuel, trip, bunkname, vehicleNumber).then((dues: any) => {
                 if (trip !== null) {
                     return createPaymentDues(dues)
                 }
-                // else if (trip === null && dues === undefined) {
-                //     const fuelDue = [{
-                //         name: bunkname,
-                //         type: 'fuel pay',
-                //         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                //         payableAmount: fuel.totalprice,
-                //     }]
-                //     return createPaymentDues(fuelDue)
-                // }
+                if (trip === null && dues === undefined) {
+                    const fuelDue = [
+                        {
+                            name: bunkname,
+                            type: 'fuel pay',
+                            vehicleNumber,
+                            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                            payableAmount: fuel.totalprice
+                        }
+                    ]
+                    return createPaymentDues(fuelDue)
+                }
             })
         })
+
         .then(() => res.sendStatus(200))
         .catch(() => {
             res.sendStatus(500)

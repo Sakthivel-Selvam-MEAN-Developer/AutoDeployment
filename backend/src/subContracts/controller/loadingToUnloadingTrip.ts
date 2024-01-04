@@ -7,7 +7,11 @@ import {
 } from '../models/loadingToUnloadingTrip.ts'
 import tripLogic from '../domain/tripLogics.ts'
 import { getNumberByTruckId } from '../models/truck.ts'
-import { create as createPaymentDues } from '../models/paymentDues.ts'
+import {
+    create as createPaymentDues,
+    getPaymentDuesWithoutTripId,
+    updatePaymentDuesWithTripId
+} from '../models/paymentDues.ts'
 import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 
 export const listAllTrip = (_req: Request, res: Response) => {
@@ -20,13 +24,13 @@ export const createTrip = async (req: Request, res: Response) => {
         transporter: { name }
     }: any = await getNumberByTruckId(req.body.truckId)
     const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
-    // const paymentDetails = await getPaymentDuesWithoutTrip(vehicleNumber)
+    const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
     const { id } = await create(req.body)
-    await tripLogic(req.body, fuelDetails, name, id)
+    await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
         .then(async (data: any) => {
             if (req.body.wantFuel !== true && fuelDetails !== null) {
                 await updateFuelWithTripId({ id: fuelDetails.id, tripId: id }).then(async () => {
-                    // await updatePaymentDuesWithTripId({ id: paymentDetails.id, tripId: id })
+                    await updatePaymentDuesWithTripId({ id: paymentDetails?.id, tripId: id })
                     await createPaymentDues(data)
                 })
             } else if (req.body.wantFuel !== true && fuelDetails === null) {

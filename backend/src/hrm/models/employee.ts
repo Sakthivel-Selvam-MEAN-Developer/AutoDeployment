@@ -1,8 +1,6 @@
-import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (data: Prisma.employeesCreateInput | Prisma.employeesUncheckedCreateInput) =>
-    prisma.employees.create({ data })
+export const create = (data: any) => prisma.employees.create({ data })
 
 export const getEmployeeOrgId = (employeeId: string) =>
     prisma.employees.findUnique({

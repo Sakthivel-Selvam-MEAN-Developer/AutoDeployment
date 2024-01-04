@@ -23,6 +23,7 @@ const mockPaymentDuesData = [
                 tripId: 4,
                 payableAmount: 1200,
                 type: 'fuel pay',
+                number: 'TN29B3246',
                 vehicleNumber: 'TN29B3246',
                 loadingPoint: 'Chennai',
                 unloadingPoint: 'Salem',

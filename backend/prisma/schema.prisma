@@ -492,7 +492,8 @@ model pricePoint {
 model paymentDues {
   id            Int      @id @default(autoincrement())
   name          String
-  tripId        Int
+  tripId        Int?
+  vehicleNumber String
   dueDate       Int
   type          String
   status        Boolean  @default(false)

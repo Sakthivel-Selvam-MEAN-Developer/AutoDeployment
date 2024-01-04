@@ -1,8 +1,6 @@
-import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (data: Prisma.paymentDuesCreateManyInput) =>
-    prisma.paymentDues.createMany({ data })
+export const create = (data: any) => prisma.paymentDues.createMany({ data })
 
 export const getOnlyActiveDuesByName = (dueDate: number, type: string) =>
     prisma.paymentDues.groupBy({
@@ -15,7 +13,7 @@ export const getOnlyActiveDuesByName = (dueDate: number, type: string) =>
             }
         },
         _count: {
-            tripId: true
+            status: true
         },
         _sum: {
             payableAmount: true
@@ -36,7 +34,9 @@ export const findTripWithActiveDues = (dueDate: number, type: string) =>
             payableAmount: true,
             tripId: true,
             type: true,
-            name: true
+            name: true,
+            status: true,
+            vehicleNumber: true
         }
     })
 
@@ -52,20 +52,21 @@ export const updatePaymentDues = (data: any) =>
         }
     })
 
-// export const getPaymentDuesWithoutTripId = (vehicleNumber:number) =>
-// prisma.paymentDues.findFirst({
-//     where: {
-//         vehicleNumber,
-//         status:false
-//     }
-// })
+export const getPaymentDuesWithoutTripId = (vehicleNumber: string) =>
+    prisma.paymentDues.findFirst({
+        where: {
+            vehicleNumber,
+            status: false,
+            tripId: null
+        }
+    })
 
-// export const updatePaymentDuesWithTripId = (data: any) =>
-// prisma.paymentDues.update({
-//     where: {
-//         id: data.id
-//     },
-//     data: {
-//         tripId:data.tripId
-//     }
-// })
+export const updatePaymentDuesWithTripId = (data: any) =>
+    prisma.paymentDues.update({
+        where: {
+            id: data.id
+        },
+        data: {
+            tripId: data.tripId
+        }
+    })

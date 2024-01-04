@@ -18,13 +18,12 @@ const BunkDues: React.FC = () => {
     }
     type tripProp = {
         id: number
-        vehicleNumber: string
+        number: string
         loadingPoint: string
         unloadingPoint: string
         payableAmount: number
         type: string
         transactionId: string
-        stationLocation: any
     }
     const handleClick = (id: number) => {
         const data = {
@@ -61,17 +60,16 @@ const BunkDues: React.FC = () => {
                             </ListItemSecondaryAction>
                         </AccordionSummary>
                         {data.tripDetails.map((list: tripProp) => {
-                            console.log(list)
                             return (
                                 <AccordionDetails
                                     sx={{ display: 'flex', borderBottom: '1px solid grey' }}
                                 >
-                                    <Typography sx={style}>{list.vehicleNumber}</Typography>
-                                    {list.stationLocation && (
+                                    <Typography sx={style}>{list.number}</Typography>
+                                    {/* {list.stationLocation && (
                                         <Typography sx={style}>
                                             {list.stationLocation.fuelStation.location}
                                         </Typography>
-                                    )}
+                                    )} */}
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
                                     <TextField

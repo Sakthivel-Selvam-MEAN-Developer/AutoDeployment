@@ -9,15 +9,17 @@ describe('Trip Logics Test', async () => {
         }
         const fuelDetails = null
         const transporterName = 'Barath Logistics Pvt Ltd'
+        const vehicleNumber = 'TN93D5512'
         const id = 1
 
-        const actual = await tripLogic(data, fuelDetails, transporterName, id)
+        const actual = await tripLogic(data, fuelDetails, transporterName, id, vehicleNumber)
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 tripId: 1,
+                vehicleNumber: 'TN93D5512',
                 payableAmount: 7000
             }
         ])
@@ -36,23 +38,18 @@ describe('Trip Logics Test', async () => {
             }
         }
         const transporterName = 'Barath Logistics Pvt Ltd'
+        const vehicleNumber = 'TN93D5512'
         const id = 1
 
-        const actual = await tripLogic(data, fuelDetails, transporterName, id)
+        const actual = await tripLogic(data, fuelDetails, transporterName, id, vehicleNumber)
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
                 type: 'initial pay',
                 dueDate: dayjs().startOf('day').unix(),
                 tripId: 1,
+                vehicleNumber: 'TN93D5512',
                 payableAmount: 6000
-            },
-            {
-                name: 'Barath Petroleum',
-                type: 'fuel pay',
-                dueDate: dayjs().startOf('day').unix(),
-                tripId: 1,
-                payableAmount: 1000
             }
         ])
     })
