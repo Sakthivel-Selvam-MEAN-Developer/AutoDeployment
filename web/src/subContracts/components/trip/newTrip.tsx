@@ -8,6 +8,7 @@ import { createTrip } from '../../services/trip.ts'
 import { useNavigate } from 'react-router-dom'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import dayjs from 'dayjs'
+import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
 
 interface transporter {
     name: string
@@ -28,6 +29,7 @@ const NewTrip: React.FC = () => {
     const [totalFreightAmount, setTotalFreightAmount] = useState(0)
     const [margin, setMargin] = useState(0)
     const [fuel, setFuel] = useState(false)
+    const [stockPoint, setStockPoint] = useState(false)
     const filledLoad = watch('filledLoad')
 
     useEffect(() => {
@@ -40,7 +42,6 @@ const NewTrip: React.FC = () => {
         const details = {
             truckId: truckId,
             loadingPointId: loadingPointId,
-            unloadingPointId: unloadingPointId,
             startDate: dayjs().unix(),
             filledLoad: parseInt(data.filledLoad),
             invoiceNumber: data.invoiceNumber,
@@ -51,9 +52,15 @@ const NewTrip: React.FC = () => {
             margin: margin,
             wantFuel: fuel
         }
-        createTrip(details)
-            .then(() => navigate('/sub/trip'))
-            .catch((e) => alert(e))
+        if (stockPoint) {
+            createStockPointTrip({ ...details, stockPointId: unloadingPointId })
+                .then(() => navigate('/sub/trip'))
+                .catch((e) => alert(e))
+        } else {
+            createTrip({ ...details, unloadingPointId: unloadingPointId })
+                .then(() => navigate('/sub/trip'))
+                .catch((e) => alert(e))
+        }
     }
     useEffect(() => {
         getAllTransporter().then((transporterData) =>
@@ -88,6 +95,8 @@ const NewTrip: React.FC = () => {
                 margin={margin}
                 fuel={fuel}
                 setFuel={setFuel}
+                stockPoint={stockPoint}
+                setStockPoint={setStockPoint}
             />
             <SubmitButton name="Start" type="submit" />
         </form>

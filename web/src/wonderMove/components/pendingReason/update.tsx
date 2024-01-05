@@ -38,7 +38,7 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) =
                 >
                     {allReasons.map((reason, index) => (
                         <MenuItem key={index} value={reason.id}>
-                            {reason.name}
+                            {reason.name}{' '}
                         </MenuItem>
                     ))}
                 </Select>

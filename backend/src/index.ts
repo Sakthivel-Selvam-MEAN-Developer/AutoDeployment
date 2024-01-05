@@ -10,9 +10,11 @@ import orgUnitHeads from './hrm/routes/orgUnits.ts'
 import truckRoutes from './subContracts/routes/truck.ts'
 import transporterRoutes from './subContracts/routes/transporter.ts'
 import tripRoutes from './subContracts/routes/loadingToUnloadingTrip.ts'
+import stockTripRoutes from './subContracts/routes/loadingToStockPointTrip.ts'
 import employeeRoutes from './hrm/routes/employees.ts'
 import cementCompanyRoutes from './subContracts/routes/cementCompany.ts'
 import factoryRoutes from './subContracts/routes/loadingPoint.ts'
+import stockRoutes from './subContracts/routes/stockPoint.ts'
 import deliveryPointRoutes from './subContracts/routes/unloadingPoint.ts'
 import pricePointRoutes from './subContracts/routes/pricePoint.ts'
 import paymentDues from './subContracts/routes/paymentDues.ts'
@@ -38,7 +40,9 @@ employeeRoutes(router)
 truckRoutes(router)
 transporterRoutes(router)
 tripRoutes(router)
+stockTripRoutes(router)
 factoryRoutes(router)
+stockRoutes(router)
 cementCompanyRoutes(router)
 deliveryPointRoutes(router)
 pricePointRoutes(router)

@@ -7,7 +7,7 @@ interface fuelProps {
     totalprice: number
     fuelStationId: number
 }
-export const createFuel = (data: fuelProps, bunkname: any) =>
+export const createFuel = (data: fuelProps, bunkname: string) =>
     axiosInstance
         .post(`/fuel/${bunkname}`, data)
         .then(getData)

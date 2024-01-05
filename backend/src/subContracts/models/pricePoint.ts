@@ -1,6 +1,6 @@
 import prisma from '../../../prisma/index.ts'
 
-export const getPricePoint = (loadingPointId: any, unloadingPointId: any) =>
+export const getPricePoint = (loadingPointId: number, unloadingPointId: number) =>
     prisma.pricePoint.findFirst({
         where: {
             loadingPointId,

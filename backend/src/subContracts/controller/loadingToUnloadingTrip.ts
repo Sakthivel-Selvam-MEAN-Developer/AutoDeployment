@@ -1,10 +1,5 @@
 import { Request, Response } from 'express'
-import {
-    create,
-    updateTransporterBalance,
-    getAllTrip,
-    getTripByVehicleNumber
-} from '../models/loadingToUnloadingTrip.ts'
+import { create, getAllTrip, getTripByVehicleNumber } from '../models/loadingToUnloadingTrip.ts'
 import tripLogic from '../domain/tripLogics.ts'
 import { getNumberByTruckId } from '../models/truck.ts'
 import {
@@ -41,10 +36,6 @@ export const createTrip = async (req: Request, res: Response) => {
         .catch(() => {
             res.sendStatus(500)
         })
-}
-
-export const updateBalance = (req: Request, res: Response) => {
-    updateTransporterBalance(req.body).then((data) => res.status(200).json(data))
 }
 
 export const ListTripByVehicleNumber = (req: Request, res: Response) => {

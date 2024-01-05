@@ -9,6 +9,7 @@ import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 
 interface Props {
     allTrips: Row[]
+    allStockTrips: any[]
 }
 interface Row {
     freightAmount: number
@@ -51,32 +52,54 @@ function getTableHead() {
     )
 }
 
-function getTableBody(allTrips: Row[]) {
+function getTableBody(allTrips: Row[], allStockTrips: any) {
     return (
-        <TableBody>
-            {allTrips.map((row, index) => (
-                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell> {index + 1} </TableCell>
-                    <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
-                    <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
-                    <TableCell align="left">{row.truck.transporter.name}</TableCell>
-                    <TableCell align="left">{row.loadingPoint.name}</TableCell>
-                    <TableCell align="left">{row.unloadingPoint.name}</TableCell>
-                    <TableCell align="left">{row.freightAmount}</TableCell>
-                    <TableCell align="left">{row.totalFreightAmount}</TableCell>
-                </TableRow>
-            ))}
-        </TableBody>
+        <>
+            <TableBody>
+                {allTrips.map((row, index) => (
+                    <TableRow
+                        key={index}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell> {index + 1} </TableCell>
+                        <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
+                        <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
+                        <TableCell align="left">{row.truck.transporter.name}</TableCell>
+                        <TableCell align="left">{row.loadingPoint.name}</TableCell>
+                        <TableCell align="left">{row.unloadingPoint.name}</TableCell>
+                        <TableCell align="left">{row.freightAmount}</TableCell>
+                        <TableCell align="left">{row.totalFreightAmount}</TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+            <TableBody>
+                {allStockTrips.map((row: any, index: number) => (
+                    <TableRow
+                        key={index}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell> {index + 1} </TableCell>
+                        <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
+                        <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
+                        <TableCell align="left">{row.truck.transporter.name}</TableCell>
+                        <TableCell align="left">{row.loadingPoint.name}</TableCell>
+                        <TableCell align="left">{row.stockPoint.name}</TableCell>
+                        <TableCell align="left">{row.freightAmount}</TableCell>
+                        <TableCell align="left">{row.totalFreightAmount}</TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </>
     )
 }
 
-const ListAllTrip: React.FC<Props> = ({ allTrips }) => {
+const ListAllTrip: React.FC<Props> = ({ allTrips, allStockTrips }) => {
     return (
         <>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 600 }} aria-label="simple table">
                     {getTableHead()}
-                    {getTableBody(allTrips)}
+                    {getTableBody(allTrips, allStockTrips)}
                 </Table>
             </TableContainer>
         </>

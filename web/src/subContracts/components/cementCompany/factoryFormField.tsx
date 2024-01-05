@@ -14,6 +14,7 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) =>
     const [cementCompany, setCementCompany] = useState([])
     const [check1, setCheck1] = useState<boolean>(true)
     const [check2, setCheck2] = useState<boolean>(true)
+    const [check3, setCheck3] = useState<boolean>(true)
 
     useEffect(() => {
         getAllCementCompany().then(setCementCompany)
@@ -62,6 +63,21 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) =>
                     disabled={check2}
                     label="Unloading Point"
                     fieldName="unloadingPoint"
+                    InputProps={{
+                        inputProps: {
+                            pattern: '[a-zA-Z\\s]*',
+                            title: 'Only alphabetic characters are allowed'
+                        }
+                    }}
+                />
+            </div>
+            <div>
+                <Checkbox onClick={() => setCheck3(!check3)} {...label} />
+                <TextInputWithPattern
+                    control={control}
+                    disabled={check3}
+                    label="Stock Point"
+                    fieldName="stockPoint"
                     InputProps={{
                         inputProps: {
                             pattern: '[a-zA-Z\\s]*',

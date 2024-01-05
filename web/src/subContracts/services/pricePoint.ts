@@ -12,7 +12,7 @@ export const createpricePoint = (data: dataProps) =>
         .then(getData)
         .catch(() => alert('Please provide valid details'))
 
-export const getPricePoint = (loadingPointId: any, unloadingPointId: any) =>
+export const getPricePoint = (loadingPointId: number, unloadingPointId: number) =>
     axiosInstance
         .get(`/price-point/${loadingPointId}/${unloadingPointId}`)
         .then(getData)

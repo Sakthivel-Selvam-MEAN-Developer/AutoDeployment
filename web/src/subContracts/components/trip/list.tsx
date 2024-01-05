@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom'
 import ListAllTrip from './show'
 import { useEffect, useState } from 'react'
 import { getAllTrip } from '../../services/trip'
+import { getAllStockPointTrip } from '../../services/stockPointTrip'
 
 const TripList: React.FC = () => {
     const [allTrips, setAllTrips] = useState([])
+    const [allStockTrips, setAllStockTrips] = useState([])
     useEffect(() => {
         getAllTrip().then(setAllTrips)
+        getAllStockPointTrip().then(setAllStockTrips)
     }, [])
     return (
         <>
@@ -25,7 +28,7 @@ const TripList: React.FC = () => {
                 </Link>
             </div>
             <p>List Of Trips</p>
-            <ListAllTrip allTrips={allTrips} />
+            <ListAllTrip allTrips={allTrips} allStockTrips={allStockTrips} />
         </>
     )
 }

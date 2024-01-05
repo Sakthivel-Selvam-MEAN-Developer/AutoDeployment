@@ -291,9 +291,7 @@ describe('New trip test', () => {
         await userEvent.click(choice)
 
         //  Select Loading Point
-        const loading = screen.getByRole('combobox', {
-            name: 'Loading Point'
-        })
+        const loading = screen.getByRole('combobox', { name: 'Loading Point' })
         await userEvent.click(loading)
         await waitFor(() => {
             screen.getByRole('listbox')
@@ -349,7 +347,7 @@ describe('New trip test', () => {
     test('should not create dues untill fuel created, if they need fuel', async () => {
         mockFuelWithoutTripId.mockResolvedValue(null)
         await newFunction()
-        const checkbox = screen.getByRole('checkbox')
+        const checkbox = screen.getByTestId('want-fuel')
         fireEvent.click(checkbox)
 
         const start = screen.getByRole('button', { name: 'Start' })
@@ -360,7 +358,7 @@ describe('New trip test', () => {
     test('should create dues, if they already fueled before trip', async () => {
         mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         await newFunction()
-        const checkbox = screen.getByRole('checkbox')
+        const checkbox = screen.getByTestId('want-fuel')
         fireEvent.click(checkbox)
 
         const start = screen.getByRole('button', { name: 'Start' })

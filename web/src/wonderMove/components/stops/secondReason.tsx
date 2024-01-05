@@ -35,7 +35,6 @@ const SecondReason: React.FC<SecondReasonProps> = ({
 }) => {
     const [value, setValue] = useState<dayjs.Dayjs | null>(null)
     const [selectedReason, setSelectedReason] = useState(row.reason.id)
-
     const handleMenuItemSelect = (selectedReasonId: number) => setSelectedReason(selectedReasonId)
     const handleClose = () => onClose()
     const disableUpdate =

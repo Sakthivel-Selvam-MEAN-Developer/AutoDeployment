@@ -1,8 +1,8 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
+
 interface dataProps {
     truckId: number
     loadingPointId: number
-    unloadingPointId: number
     startDate: number
     filledLoad: number
     invoiceNumber: string
@@ -12,16 +12,17 @@ interface dataProps {
     totalTransporterAmount: number
     margin: number
     wantFuel: boolean
+    stockPointId: number
 }
 
-export const getAllTrip = () =>
+export const createStockPointTrip = (data: dataProps) =>
     axiosInstance
-        .get(`/trip`)
+        .post(`/stock-trip`, data)
+        .then(getData)
+        .catch((e) => alert(e))
+
+export const getAllStockPointTrip = () =>
+    axiosInstance
+        .get(`/stock-trip`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-
-export const createTrip = (data: dataProps) =>
-    axiosInstance
-        .post(`/trip`, data)
-        .then(getData)
-        .catch((e) => console.log(e))

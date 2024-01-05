@@ -7,22 +7,6 @@ export const create = (
         | Prisma.loadingPointToUnloadingPointTripUncheckedCreateInput
 ) => prisma.loadingPointToUnloadingPointTrip.create({ data })
 
-export const updateTransporterBalance = ({
-    tripId,
-    remaining
-}: {
-    tripId: number
-    remaining: number
-}) =>
-    prisma.loadingPointToUnloadingPointTrip.update({
-        where: {
-            id: tripId
-        },
-        data: {
-            transporterBalance: remaining
-        }
-    })
-
 export const getAllTrip = () =>
     prisma.loadingPointToUnloadingPointTrip.findMany({
         include: {
@@ -42,15 +26,6 @@ export const getAllTrip = () =>
                     transporter: {
                         select: {
                             name: true
-                        }
-                    }
-                }
-            },
-            fuel: {
-                select: {
-                    fuelStation: {
-                        select: {
-                            location: true
                         }
                     }
                 }

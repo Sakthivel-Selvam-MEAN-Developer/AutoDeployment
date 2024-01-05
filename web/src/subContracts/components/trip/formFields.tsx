@@ -23,6 +23,8 @@ interface FormFieldProps {
     margin: number | undefined
     fuel: boolean
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
+    stockPoint: any
+    setStockPoint: any
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -37,7 +39,9 @@ const FormField: React.FC<FormFieldProps> = ({
     totalTransporterAmount,
     margin,
     fuel,
-    setFuel
+    setFuel,
+    stockPoint,
+    setStockPoint
 }) => {
     const [transporterName, setTransporterName] = useState<string>()
     const [cementCompanyName, setCementCompanyName] = useState<string>()
@@ -203,8 +207,15 @@ const FormField: React.FC<FormFieldProps> = ({
                 }}
             />
             <FormControlLabel
+                data-testid={'want-fuel'}
                 control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
                 label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
+            />
+            <FormControlLabel
+                control={
+                    <Switch checked={stockPoint} onChange={() => setStockPoint(!stockPoint)} />
+                }
+                label={stockPoint ? 'StockPoint' : 'UnloadingPoint'}
             />
         </div>
     )

@@ -7,8 +7,7 @@ import {
     create,
     getAllTrip,
     getOnlyActiveTripByVehicleNumber,
-    getTripByVehicleNumber,
-    updateTransporterBalance
+    getTripByVehicleNumber
 } from './loadingToUnloadingTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -39,29 +38,6 @@ describe('Trip model', () => {
         const actual = await getAllTrip()
         expect(actual.length).toBe(1)
         expect(actual[0].filledLoad).toBe(trip.filledLoad)
-    })
-    test('should able to update a transporterBalance', async () => {
-        const balanceToUpdate = 500
-        const company = await createCompany(seedCompany)
-        const truck = await createTruck(seedTruck)
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id
-        })
-        const deliveryPoint = await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id
-        })
-        const trip = await create({
-            ...seedFactoryToCustomerTrip,
-            loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            truckId: truck.id
-        })
-        await updateTransporterBalance({ tripId: trip.id, remaining: balanceToUpdate })
-        const actual = await getAllTrip()
-        expect(actual.length).toBe(1)
-        expect(actual[0].transporterBalance).toBe(balanceToUpdate)
     })
     test('should able to get only active trips', async () => {
         const company = await createCompany(seedCompany)

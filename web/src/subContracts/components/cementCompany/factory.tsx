@@ -6,6 +6,7 @@ import { createUnloadingPoint } from '../../services/unloadingPoint'
 import { createLoadingPoint } from '../../services/loadingPoint'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { useNavigate } from 'react-router-dom'
+import { createStockPoint } from '../../services/stockPoint'
 
 const CreateFactory: React.FC = (): ReactElement => {
     const navigate = useNavigate()
@@ -22,6 +23,12 @@ const CreateFactory: React.FC = (): ReactElement => {
         if (data.unloadingPoint) {
             createUnloadingPoint({
                 name: data.unloadingPoint.toLowerCase(),
+                cementCompanyId: companyId
+            })
+        }
+        if (data.stockPoint) {
+            createStockPoint({
+                name: data.stockPoint.toLowerCase(),
                 cementCompanyId: companyId
             })
         }
