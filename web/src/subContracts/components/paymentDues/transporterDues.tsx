@@ -10,7 +10,8 @@ import dayjs from 'dayjs'
 
 const TransporterDues: React.FC = () => {
     const [transporterDue, setTransporterDue] = useState([])
-    const [transactionId, setTransactionId] = useState<string>()
+    const [transactionIds, setTransactionIds] = useState<Record<number, string>>({})
+    const [refresh, setRefresh] = useState<boolean>(false)
     type dataProp = {
         name: string
         dueDetails: { count: number; totalPayableAmount: number }
@@ -25,19 +26,32 @@ const TransporterDues: React.FC = () => {
         type: string
         transactionId: string
     }
+    const handleTransactionIdChange = (id: number, value: string) => {
+        setTransactionIds((prevIds) => ({
+            ...prevIds,
+            [id]: value
+        }))
+    }
     const handleClick = (id: number) => {
+        const transactionId = transactionIds[id] || ''
         const data = {
             id,
             transactionId,
             paidAt: dayjs().unix()
         }
-        updatePaymentDues(data).then(() => console.log('Success'))
+        updatePaymentDues(data).then(() => {
+            setRefresh(!refresh)
+            setTransactionIds((prevIds) => ({
+                ...prevIds,
+                [id]: ''
+            }))
+        })
     }
     const style = { width: '100%', padding: '10px 10px 0px' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate, 'initial pay').then(setTransporterDue)
-    }, [])
+    }, [refresh])
     return (
         <>
             {transporterDue.map((data: dataProp) => {
@@ -74,12 +88,15 @@ const TransporterDues: React.FC = () => {
                                         sx={style}
                                         label="Transaction Id"
                                         variant="outlined"
-                                        value={transactionId}
                                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                            setTransactionId(e.target.value)
+                                            handleTransactionIdChange(list.id, e.target.value)
                                         }
                                     />
-                                    <Button sx={style} onClick={() => handleClick(list.id)}>
+                                    <Button
+                                        sx={style}
+                                        onClick={() => handleClick(list.id)}
+                                        disabled={!transactionIds[list.id]}
+                                    >
                                         Pay
                                     </Button>
                                 </AccordionDetails>

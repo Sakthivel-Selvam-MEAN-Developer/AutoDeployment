@@ -3,11 +3,14 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import FuelFormFields from './fuelFormFields'
 import { createFuel } from '../../services/fuel'
-
+import SuccessDialog from '../../../commonUtils/SuccessDialog'
+import { useNavigate } from 'react-router-dom'
 const Fuel: React.FC = (): ReactElement => {
+    const navigate = useNavigate()
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const [fuelStationId, setFuelStationId] = useState(0)
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const quantity = watch('quantity')
     const pricePerliter = watch('pricePerliter')
     useEffect(() => {
@@ -21,17 +24,27 @@ const Fuel: React.FC = (): ReactElement => {
             totalprice: totalPrice,
             fuelStationId: fuelStationId
         }
-        createFuel(details, data.bunkId)
+        createFuel(details, data.bunkId).then(() => setOpenSuccessDialog(true))
     }
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <FuelFormFields
-                control={control}
-                fuelStationId={setFuelStationId}
-                totalPrice={totalPrice}
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FuelFormFields
+                    control={control}
+                    fuelStationId={setFuelStationId}
+                    totalPrice={totalPrice}
+                />
+                <SubmitButton name="Add Fuel" type="submit" />
+            </form>
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={() => {
+                    setOpenSuccessDialog(false)
+                    navigate('/sub/trip')
+                }}
+                message="Fuel Created Succesfully"
             />
-            <SubmitButton name="Add Fuel" type="submit" />
-        </form>
+        </>
     )
 }
 export default Fuel

@@ -28,6 +28,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
         getAllBunk().then(setBunkList)
         getAllTruck().then(setvehicleList)
     }, [])
+
     return (
         <div
             style={{

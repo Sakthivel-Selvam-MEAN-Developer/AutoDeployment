@@ -1,11 +1,10 @@
 import { Request, Response } from 'express'
-import dayjs from 'dayjs'
 import { create, getAllFuel, getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 import {
     getOnlyActiveTripByVehicleNumber,
     getTripByVehicleNumber
 } from '../models/loadingToUnloadingTrip.ts'
-import fuelLogics from '../domain/fuelLogics.ts'
+import fuelLogics, { fuelDues } from '../domain/fuelLogics.ts'
 import { create as createPaymentDues } from '../models/paymentDues.ts'
 
 export const createFuel = async (req: Request, res: Response) => {
@@ -20,20 +19,11 @@ export const createFuel = async (req: Request, res: Response) => {
                     return createPaymentDues(dues)
                 }
                 if (trip === null && dues === undefined) {
-                    const fuelDue = [
-                        {
-                            name: bunkname,
-                            type: 'fuel pay',
-                            vehicleNumber,
-                            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                            payableAmount: fuel.totalprice
-                        }
-                    ]
+                    const fuelDue = fuelDues(bunkname, vehicleNumber, fuel)
                     return createPaymentDues(fuelDue)
                 }
             })
         })
-
         .then(() => res.sendStatus(200))
         .catch(() => {
             res.sendStatus(500)

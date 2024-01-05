@@ -24,7 +24,7 @@ interface FormFieldProps {
     fuel: boolean
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
     stockPoint: any
-    setStockPoint: any
+    setStockPoint: React.Dispatch<React.SetStateAction<boolean>>
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,

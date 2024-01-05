@@ -9,7 +9,8 @@ import dayjs from 'dayjs'
 import { getOnlyActiveDues, updatePaymentDues } from '../../services/paymentDues'
 const BunkDues: React.FC = () => {
     const [bunkDue, setBunkDue] = useState([])
-    const [transactionId, setTransactionId] = useState<string>()
+    const [transactionIds, setTransactionIds] = useState<Record<number, string>>({})
+    const [refresh, setRefresh] = useState<boolean>(false)
     const style = { width: '100%', padding: '10px 10px 0px' }
     type dataProp = {
         name: string
@@ -25,18 +26,31 @@ const BunkDues: React.FC = () => {
         type: string
         transactionId: string
     }
+    const handleTransactionIdChange = (id: number, value: string) => {
+        setTransactionIds((prevIds) => ({
+            ...prevIds,
+            [id]: value
+        }))
+    }
     const handleClick = (id: number) => {
+        const transactionId = transactionIds[id] || ''
         const data = {
             id,
             transactionId,
             paidAt: dayjs().unix()
         }
-        updatePaymentDues(data).then(() => console.log('Success'))
+        updatePaymentDues(data).then(() => {
+            setRefresh(!refresh)
+            setTransactionIds((prevIds) => ({
+                ...prevIds,
+                [id]: ''
+            }))
+        })
     }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate, 'fuel pay').then(setBunkDue)
-    }, [])
+    }, [refresh])
 
     return (
         <>
@@ -65,23 +79,21 @@ const BunkDues: React.FC = () => {
                                     sx={{ display: 'flex', borderBottom: '1px solid grey' }}
                                 >
                                     <Typography sx={style}>{list.number}</Typography>
-                                    {/* {list.stationLocation && (
-                                        <Typography sx={style}>
-                                            {list.stationLocation.fuelStation.location}
-                                        </Typography>
-                                    )} */}
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
                                     <TextField
                                         sx={style}
                                         label="Transaction Id"
                                         variant="outlined"
-                                        value={transactionId}
                                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                            setTransactionId(e.target.value)
+                                            handleTransactionIdChange(list.id, e.target.value)
                                         }
                                     />
-                                    <Button sx={style} onClick={() => handleClick(list.id)}>
+                                    <Button
+                                        sx={style}
+                                        onClick={() => handleClick(list.id)}
+                                        disabled={!transactionIds[list.id]}
+                                    >
                                         Pay
                                     </Button>
                                 </AccordionDetails>

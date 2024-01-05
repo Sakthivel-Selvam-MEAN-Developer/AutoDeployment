@@ -18,6 +18,12 @@ import seedPaymentDue from '../subContracts/seed/paymentDue.ts'
 import prisma from '../../prisma/index.ts'
 
 async function addFuelStations() {
+    await prisma.$executeRaw`INSERT INTO "subContract"."bunk" ("bunkName", "createdAt", "updatedAt")
+    VALUES ('Barath Petroleum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
+    VALUES ('TN22E3456',50,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
+    VALUES ('TN12R9456',50,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
     await prisma.$executeRaw`INSERT INTO "subContract"."fuelStation" ("location", "createdAt", "updatedAt", "bunkId")
     VALUES ('Chennai', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
     await prisma.$executeRaw`INSERT INTO "subContract"."fuelStation" ("location", "createdAt", "updatedAt", "bunkId")
@@ -55,8 +61,6 @@ async function seedSubContract() {
     })
     await create({ ...seedPaymentDue, tripId: trip.id })
 
-    await prisma.$executeRaw`INSERT INTO "subContract"."bunk" ("bunkName", "createdAt", "updatedAt")
-    VALUES ('Barath Petroleum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
     await addFuelStations()
 }
 export default seedSubContract
