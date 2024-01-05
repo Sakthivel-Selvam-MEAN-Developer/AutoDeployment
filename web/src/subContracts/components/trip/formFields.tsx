@@ -212,6 +212,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
             />
             <FormControlLabel
+                data-testid={'stock-point'}
                 control={
                     <Switch checked={stockPoint} onChange={() => setStockPoint(!stockPoint)} />
                 }

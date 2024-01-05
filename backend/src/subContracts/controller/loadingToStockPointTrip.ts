@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import { create, getAllStockPointTrip } from '../models/loadingToStockPointTrip.ts'
 
 export const createStockPointTrip = (req: Request, res: Response) => {
+    console.log(req.body)
+
     create(req.body)
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))

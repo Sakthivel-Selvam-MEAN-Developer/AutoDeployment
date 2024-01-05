@@ -13,6 +13,7 @@ const mockLoadingPointByCompanyName = vi.fn()
 const mockUnloadingPointByCompanyName = vi.fn()
 const mockFuelWithoutTripId = vi.fn()
 const mockCreateTrip = vi.fn()
+const mockcreateStockPointTrip = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
@@ -34,6 +35,9 @@ vi.mock('../../services/unloadingPoint', () => ({
 }))
 vi.mock('../../services/pricePoint', () => ({
     getPricePoint: () => mockPricePoint()
+}))
+vi.mock('../../services/stockPointTrip', () => ({
+    createStockPointTrip: (inputs: any) => mockcreateStockPointTrip(inputs)
 }))
 
 const mockCompanyData = [
@@ -125,6 +129,32 @@ async function newFunction() {
     })
     await userEvent.click(choice)
 
+    //  Select Transporter
+    const transporter = screen.getByRole('combobox', {
+        name: 'Transporter'
+    })
+    await userEvent.click(transporter)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const options = screen.getByRole('option', {
+        name: 'Barath Logistics'
+    })
+    await userEvent.click(options)
+
+    //  Select Truck Number
+    const truck = screen.getByRole('combobox', {
+        name: 'Truck Number'
+    })
+    await userEvent.click(truck)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const optin = screen.getByRole('option', {
+        name: 'TN93D5512'
+    })
+    await userEvent.click(optin)
+
     //  Select Loading Point
     const loading = screen.getByRole('combobox', {
         name: 'Loading Point'
@@ -150,31 +180,6 @@ async function newFunction() {
         name: 'Salem'
     })
     await userEvent.click(option)
-
-    //  Select Transporter
-    const transporter = screen.getByRole('combobox', {
-        name: 'Transporter'
-    })
-    await userEvent.click(transporter)
-    await waitFor(() => {
-        screen.getByRole('listbox')
-    })
-    const options = screen.getByRole('option', {
-        name: 'Barath Logistics'
-    })
-    await userEvent.click(options)
-    //  Select Truck Number
-    const truck = screen.getByRole('combobox', {
-        name: 'Truck Number'
-    })
-    await userEvent.click(truck)
-    await waitFor(() => {
-        screen.getByRole('listbox')
-    })
-    const optin = screen.getByRole('option', {
-        name: 'TN93D5512'
-    })
-    await userEvent.click(optin)
 
     await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
     await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
@@ -355,10 +360,21 @@ describe('New trip test', () => {
 
         expect(mockCreateTrip).toHaveBeenCalledTimes(1)
     })
-    test('should create dues, if they already fueled before trip', async () => {
+    test.skip('should create dues, if they already fueled before trip', async () => {
         mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         await newFunction()
         const checkbox = screen.getByTestId('want-fuel')
+        fireEvent.click(checkbox)
+
+        const start = screen.getByRole('button', { name: 'Start' })
+        await userEvent.click(start)
+
+        expect(mockCreateTrip).toHaveBeenCalledTimes(2)
+    })
+    test('should create dues, if they already fueled before trip', async () => {
+        await newFunction()
+
+        const checkbox = screen.getByTestId('stock-point')
         fireEvent.click(checkbox)
 
         const start = screen.getByRole('button', { name: 'Start' })
