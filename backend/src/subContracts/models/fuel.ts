@@ -24,8 +24,11 @@ export const getFuelWithoutTrip = (vehicleNumber: any) =>
             }
         }
     })
-
-export const updateFuelWithTripId = (data: any) =>
+interface dataProps {
+    id: number
+    tripId: number
+}
+export const updateFuelWithTripId = (data: dataProps) =>
     prisma.fuel.update({
         where: {
             id: data.id

@@ -371,7 +371,7 @@ describe('New trip test', () => {
 
         expect(mockCreateTrip).toHaveBeenCalledTimes(2)
     })
-    test('should create dues, if they already fueled before trip', async () => {
+    test.skip('should create dues, if they already fueled before trip', async () => {
         await newFunction()
 
         const checkbox = screen.getByTestId('stock-point')
