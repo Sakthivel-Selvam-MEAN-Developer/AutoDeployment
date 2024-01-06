@@ -1,0 +1,43 @@
+- date: 6-1-2023
+  person: deepak
+  planning:
+    - to get backend service running in docker
+    - to get backend service running in docker accessible from nginx
+- date: 6-1-2023
+  person: Barath
+  planning:
+    - to be filled today
+  completed:
+    - fill it the next day
+- date: 6-1-2023
+  person: Sakthivel
+  leave: true
+- date: 6-1-2023
+  person: Muthu
+  leave: true
+- date: 5-1-2023
+  person: Muthu
+  completed:
+    - Testing for creating stockPoint to customerPoint trip
+    - Creating model for stockPoint to customerPoint trip
+- date: 5-1-2023
+  person: Barath
+  completed:
+    - Test for stockPoint, factory to stock point
+    - creating pricePoint for stockpoint.
+    - creating payment dues for factory to stockpoint trip
+- date: 5-1-2023
+  person: Sakthivel
+  leave: true
+- date: 4-1-2023
+  person: Muthu
+  leave: true
+- date: 4-1-2023
+  person: Barath
+  completed:
+    - on factoryToStockPointTrip Creating trip and displaying them.
+    - on StockPoint creating stockPoint.
+- date: 4-1-2023
+  person: Sakthivel
+  completed:
+    - Paired with Barath

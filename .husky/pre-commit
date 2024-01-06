@@ -14,13 +14,8 @@ done
 # Remove duplicate folder names
 unique_folders=($(echo "${folders[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
 
-# Check if "docs" is in the unique_folders array
-if [[ " ${unique_folders[@]} " =~ " docs " ]]; then
-  exit 0
-fi
-
-
 if [[ " ${unique_folders[@]} " =~ "web" ]]; then
+  echo "📚  web folder is being updated, running web pre-commit hook"
   yarn u lint
   yarn u format
   yarn u build
@@ -28,6 +23,7 @@ if [[ " ${unique_folders[@]} " =~ "web" ]]; then
 fi
 
 if [[ " ${unique_folders[@]} " =~ "backend" ]]; then
+  echo "📚  backend folder is being updated, running backend pre-commit hook"
   yarn u lint
   yarn u format
   yarn u build
