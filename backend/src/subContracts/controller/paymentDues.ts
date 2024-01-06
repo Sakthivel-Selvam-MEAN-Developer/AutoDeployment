@@ -53,7 +53,7 @@ export const listOnlyActiveTransporterDues = async (req: Request, res: Response)
     const { duedate, type } = req.params
     const duesData = await getOnlyActiveDuesByName(parseInt(duedate), type)
     const tripsData = await findTripWithActiveDues(parseInt(duedate), type)
-    const tripDetails = await getAllTrip()
+    const tripDetails = await getAllTrip().then()
     await groupDataByName(duesData, tripsData, tripDetails)
         .then((data: any) => res.status(200).json(data))
         .catch(() => res.status(500))

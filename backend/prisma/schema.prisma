@@ -339,6 +339,7 @@ model loadingPointToStockPointTrip {
   startDate                      Int
   filledLoad                     Int
   wantFuel                       Boolean?
+  tripStatus                     Boolean                          @default(false)
   freightAmount                  Int
   transporterAmount              Int
   totalFreightAmount             Int
@@ -362,7 +363,6 @@ model stockPointToUnloadingPointTrip {
   id                             Int                           @id @default(autoincrement())
   startDate                      Int
   invoiceNumber                  String                        @unique
-  tripStatus                     Boolean                       @default(false)
   freightAmount                  Int
   transporterAmount              Int
   createdAt                      DateTime                      @default(now()) @db.Timestamptz(6)
@@ -431,7 +431,6 @@ model fuel {
   vehicleNumber                      String
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
-  stockPointToUnloadingPointTripId   Int?
   loadingPointToUnloadingPointTripId Int?
   loadingPointToUnloadingPointTrip   loadingPointToUnloadingPointTrip? @relation(fields: [loadingPointToUnloadingPointTripId], references: [id])
   fuelStationId                      Int

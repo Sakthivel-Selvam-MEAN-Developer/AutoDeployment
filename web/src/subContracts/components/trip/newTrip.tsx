@@ -53,7 +53,7 @@ const NewTrip: React.FC = () => {
             wantFuel: fuel
         }
         if (stockPoint) {
-            createStockPointTrip({ ...details, stockPointId: unloadingPointId })
+            createStockPointTrip({ ...details, stockPointId: 1 })
                 .then(() => navigate('/sub/trip'))
                 .catch((e) => alert(e))
         } else {

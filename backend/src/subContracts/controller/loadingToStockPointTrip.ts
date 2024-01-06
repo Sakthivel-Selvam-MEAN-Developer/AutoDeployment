@@ -1,12 +1,39 @@
 import { Request, Response } from 'express'
 import { create, getAllStockPointTrip } from '../models/loadingToStockPointTrip.ts'
+import { getNumberByTruckId } from '../models/truck.ts'
+import { getFuelWithoutStockTrip, updateFuelWithTripIdForStockPoint } from '../models/fuel.ts'
+import {
+    create as createPaymentDues,
+    getPaymentDuesWithoutTripId,
+    updatePaymentDuesWithTripId
+} from '../models/paymentDues.ts'
+import tripLogic from '../domain/tripLogics.ts'
 
-export const createStockPointTrip = (req: Request, res: Response) => {
-    console.log(req.body)
-
-    create(req.body)
+export const createStockPointTrip = async (req: Request, res: Response) => {
+    const {
+        vehicleNumber,
+        transporter: { name }
+    }: any = await getNumberByTruckId(req.body.truckId)
+    const fuelDetails = await getFuelWithoutStockTrip(vehicleNumber)
+    const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
+    const { id } = await create(req.body)
+    await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
+        .then(async (data: any) => {
+            if (req.body.wantFuel !== true && fuelDetails !== null) {
+                await updateFuelWithTripIdForStockPoint({ id: fuelDetails.id, tripId: id }).then(
+                    async () => {
+                        await updatePaymentDuesWithTripId({ id: paymentDetails?.id, tripId: id })
+                        await createPaymentDues(data)
+                    }
+                )
+            } else if (req.body.wantFuel !== true && fuelDetails === null) {
+                await createPaymentDues(data)
+            }
+        })
         .then(() => res.sendStatus(200))
-        .catch(() => res.status(500))
+        .catch(() => {
+            res.sendStatus(500)
+        })
 }
 
 export const listAllStockPointTrip = (_req: Request, res: Response) => {

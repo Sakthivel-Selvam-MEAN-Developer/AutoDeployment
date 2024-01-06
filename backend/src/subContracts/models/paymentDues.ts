@@ -39,8 +39,12 @@ export const findTripWithActiveDues = (dueDate: number, type: string) =>
             vehicleNumber: true
         }
     })
-
-export const updatePaymentDues = (data: any) =>
+interface dataProps {
+    id: number
+    transactionId: string
+    paidAt: number
+}
+export const updatePaymentDues = (data: dataProps) =>
     prisma.paymentDues.update({
         where: {
             id: data.id

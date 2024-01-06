@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import { create, getAllStockPoint, getStockPointByCompany } from '../models/stockPoint.ts'
 
 export const createStockPoint = (req: Request, res: Response) => {
-    console.log(req.body)
     create(req.body)
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))

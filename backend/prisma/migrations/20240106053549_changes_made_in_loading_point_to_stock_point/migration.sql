@@ -35,6 +35,7 @@ ALTER TABLE "subContract"."stockPointToUnloadingPointTrip" DROP CONSTRAINT "stoc
 ALTER TABLE "subContract"."loadingPointToStockPointTrip" ADD COLUMN     "margin" INTEGER NOT NULL,
 ADD COLUMN     "totalFreightAmount" INTEGER NOT NULL,
 ADD COLUMN     "totalTransporterAmount" INTEGER NOT NULL,
+ADD COLUMN     "tripStatus" BOOLEAN NOT NULL DEFAULT false,
 ADD COLUMN     "wantFuel" BOOLEAN;
 
 -- AlterTable
@@ -47,8 +48,7 @@ ALTER TABLE "subContract"."pricePoint" ADD COLUMN     "stockPointId" INTEGER;
 ALTER TABLE "subContract"."stockPointToUnloadingPointTrip" DROP COLUMN "filledLoad",
 DROP COLUMN "stockPointId",
 DROP COLUMN "truckId",
-ADD COLUMN     "loadingPointToStockPointTripId" INTEGER,
-ADD COLUMN     "tripStatus" BOOLEAN NOT NULL DEFAULT false;
+ADD COLUMN     "loadingPointToStockPointTripId" INTEGER;
 
 -- DropTable
 DROP TABLE "subContract"."singleTrip";
