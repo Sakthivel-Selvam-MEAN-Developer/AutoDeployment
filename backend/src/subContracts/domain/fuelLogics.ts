@@ -39,7 +39,7 @@ export function fuelDues(
         totalprice: number
         vehicleNumber: string
         loadingPointToStockPointTripId: number | null
-        stockPointToUnloadingPointTripId: number | null
+        // stockPointToUnloadingPointTripId: number | null
         loadingPointToUnloadingPointTripId: number | null
         fuelStationId: number
         createdAt: Date

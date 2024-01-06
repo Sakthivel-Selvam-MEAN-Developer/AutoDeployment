@@ -111,10 +111,15 @@ describe('Stops report', () => {
         const to = 100
         const reason = await createNewReason(seedReason)
         const vehicle = await createNewVehicle(seedVehicle)
+        const gpsStops1 = await createGpsStop({
+            ...seedGpsStopsWithoutDep,
+            vehicleId: vehicle.id
+        })
         const stop = {
             ...seedStop,
             stopReasonId: reason.id,
-            vehicleId: vehicle.id
+            vehicleId: vehicle.id,
+            gpsStopId: gpsStops1.id
         }
         await create({
             ...stop,

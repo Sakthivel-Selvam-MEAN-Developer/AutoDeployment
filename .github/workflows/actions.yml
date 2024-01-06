@@ -35,12 +35,13 @@ jobs:
           ls ${{ github.workspace }}
       - run: pwd
       - run: yarn install
-      - run: yarn b format
-      - run: yarn u format
-      - run: yarn b lint
       - run: yarn u lint
+      - run: yarn u format
       - run: yarn u build
       - run: yarn u test
+      - run: yarn b format
+      - run: yarn b lint
+      - run: yarn b build
       - run: yarn b prismaUp
       - run: yarn b prismaMigrateCi
       - run: yarn b testCI

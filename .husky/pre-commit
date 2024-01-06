@@ -24,8 +24,8 @@ fi
 
 if [[ " ${unique_folders[@]} " =~ "backend" ]]; then
   echo "📚  backend folder is being updated, running backend pre-commit hook"
-  yarn u lint
-  yarn u format
-  yarn u build
-  yarn u testOnce
+  yarn b lint
+  yarn b format
+  yarn b build
+  yarn b testOnce
 fi

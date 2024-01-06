@@ -18,5 +18,11 @@ app.options('*', cors())
 
 setRoutes(app)
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+if (import.meta.env.PROD) {
+    app.listen(8000)
+}
+
 // this is needed for the vite
 export { app }
