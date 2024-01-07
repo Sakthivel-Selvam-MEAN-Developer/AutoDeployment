@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "u": "yarn workspace web",
-    "deployWeb": "yarn workspace web build; cp -R web/dist/* docker/nginx/html",
+    "deployWeb": "yarn workspace web build; cp -R web/dist/* nginx/html",
     "ui": "yarn workspace web dev",
     "backend": "yarn workspace backend dev",
     "b": "yarn workspace backend",

@@ -1,18 +1,14 @@
-FROM keymetrics/pm2:latest-alpine
+FROM node:21.5.0-alpine3.18
 
-# Bundle APP files
-COPY src src/
-COPY package.json .
-COPY ecosystem.config.js .
+# create a directory inside the container'
+RUN mkdir -p /app
+COPY ../ /app/
 
-# Install app dependencies
-ENV NPM_CONFIG_LOGLEVEL warn
-RUN npm install --production
+## Set the working directory to /app
+WORKDIR /app
+
+RUN yarn install
 
 # Expose the listening port of your app
 EXPOSE 8000
 
-# Show current folder structure in logs
-RUN ls -al -R
-
-CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]

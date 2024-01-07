@@ -8,6 +8,6 @@ db-docker-data
 .idea/httpRequests/
 package-lock.json
 .idea/workspace.xml
-docker/nginx/logs/*
-docker/nginx/html/*
+nginx/logs/*
+nginx/html/*
 

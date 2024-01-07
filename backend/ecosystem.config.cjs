@@ -1,8 +1,8 @@
-module.exports = {
+module.exports =  {
     apps: [
         {
             name: 'app',
-            script: './app.js',
+            script: './dist/app.js',
             env: {
                 NODE_ENV: 'development'
             },

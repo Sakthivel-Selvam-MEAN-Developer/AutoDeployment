@@ -9,14 +9,26 @@ services:
     networks:
       - postgres-network
     volumes:
-      - ./db-docker-data/:/var/lib/postgresql/data/
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/db-docker-data/:/var/lib/postgresql/data/
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
-
+  backend:
+    build:
+      context:  backend
+    platform: linux/amd64
+    ports:
+      - 8000:8000
+    networks:
+      - postgres-network
+    volumes:
+      - ./:/app/
+    depends_on:
+      - db
+    command: ["yarn", "b", "runProd"]
   nginx:
     image: "nginx:1.25.3-alpine3.18"
     platform: linux/amd64
