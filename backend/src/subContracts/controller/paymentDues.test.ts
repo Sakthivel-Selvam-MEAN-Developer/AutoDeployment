@@ -119,18 +119,18 @@ const mockCreateDues = {
 describe('Payment Due Controller', () => {
     test.skip('should group the payment dues by name', async () => {
         const data = groupDataByName(mockTripWithDues, mockActiveTrip, mockAllTrip)
-        // await supertest(app).get('/payment-dues/1704220200/initial%20pay')
+        // await supertest(app).get('/api/payment-dues/1704220200/initial%20pay')
         // .expect(mockGroupedDueDetails)
         expect(mockGroupedDueDetails).toMatchObject(data)
     })
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
-        await supertest(app).put('/payment-dues')
+        await supertest(app).put('/api/payment-dues')
         expect(mockUpdatePayment).toHaveBeenCalledTimes(1)
     })
     test('should create the paymentDue with transactionId', async () => {
         mockcreatePaymentDues.mockResolvedValue(mockCreateDues)
-        await supertest(app).post('/payment-dues')
+        await supertest(app).post('/api/payment-dues')
         expect(mockcreatePaymentDues).toHaveBeenCalledTimes(1)
     })
 })

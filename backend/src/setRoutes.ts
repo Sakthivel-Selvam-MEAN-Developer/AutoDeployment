@@ -15,7 +15,7 @@ const nonExistingRoute = (app: Application): void => {
 
 const setRoutes = (app: Application): void => {
     healthRoute(app)
-    app.use('/', routes)
+    app.use('/api', routes)
     nonExistingRoute(app)
 }
 

@@ -14,13 +14,18 @@
    * daily update. docs/DailyUpdate.md
    * read code written by others
 8. Respect lint rules, warning limits and don't change them without discussion.
-9. Name things properly. Be it file name, test name, variable name, function name, table name, field name, etc.
-      * don't use abbreviations
-      * don't use single letter variable names
-      * don't use generic names like `data`, `value`, `result`, etc.
-      * be cognizant about singular vs plural
-10. Add you name/pair's name in the commit message, so that we know who to ask if we have questions.
-11. You should understand every word of code/command that you use or written by you
-12. Constantly look way of improving
+9. Add you name and pair's name in the commit message, so that we know who to ask if we have questions.
+10. You should understand every word of code/command that you use or written by you
+11. Constantly look way of improving
       * yourself by readying unknown topics, getting deep into known topics
       * code by refactoring, removing duplication, improving performance, etc.
+
+### Code
+1. Name things properly. Be it file name, test name, variable name, function name, table name, field name, etc.
+   * don't use abbreviations
+   * don't use single letter variable names
+   * don't use generic names like `data`, `value`, `result`, `helper`,`util`,`common` etc.
+   * be cognizant about singular vs plural
+
+### Test
+1. Asset the mocks are called with expected parameters.

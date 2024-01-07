@@ -1,6 +1,5 @@
 import supertest from 'supertest'
 import { app } from '../../app.ts'
-import { createStockPointToUnloadingPointTrip } from './stockPointToUnloadingPoint.ts'
 
 const mockCreateUnloadingPointTrip = vi.fn()
 
@@ -19,9 +18,8 @@ const mockTripData = {
 
 describe('Trip Controller', () => {
     test('should able to create trip', async () => {
-        app.post('/unloading-trip', createStockPointToUnloadingPointTrip)
         mockCreateUnloadingPointTrip.mockResolvedValue(mockTripData)
-        await supertest(app).post('/unloading-trip').expect(200)
+        await supertest(app).post('/api/unloading-trip').expect(200)
         expect(mockCreateUnloadingPointTrip).toBeCalledTimes(1)
     })
 })

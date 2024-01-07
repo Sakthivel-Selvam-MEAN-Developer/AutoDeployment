@@ -11,7 +11,7 @@ vi.mock('../models/pricePoint', () => ({
 describe('PricePoint Controller', () => {
     test('should able to access', async () => {
         mockPricePoint.mockResolvedValue({ freightAmount: 1000, transporterAmount: 900 })
-        await supertest(app).get('/price-point/1/1/null').expect({
+        await supertest(app).get('/api/price-point/1/1/null').expect({
             freightAmount: 1000,
             transporterAmount: 900
         })

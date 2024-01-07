@@ -22,12 +22,12 @@ const mockCompany = {
 describe('Cement Company Controller', () => {
     test('should able to create', async () => {
         mockCreateCompany.mockResolvedValue(mockCompany)
-        await supertest(app).post('/cementCompany').expect(200)
+        await supertest(app).post('/api/cementCompany').expect(200)
         expect(mockCreateCompany).toBeCalledTimes(1)
     })
     test('should able to access', async () => {
         mockCementCompany.mockResolvedValue({ name: 'UltraTech Cements' })
-        await supertest(app).get('/cementCompany').expect({ name: 'UltraTech Cements' })
+        await supertest(app).get('/api/cementCompany').expect({ name: 'UltraTech Cements' })
         expect(mockCementCompany).toBeCalledWith()
     })
 })
