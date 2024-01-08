@@ -1,3 +1,12 @@
+- date: 8-1-2024
+  person: Muthu
+  planning:
+    - change each trip to overallTrip
+    - change dues logics to overallTrip
+- date: 8-1-2024
+  person: Sakthivel, Barath
+  completed:
+    - Paired with Muthu
 - date: 6-1-2023
   person: deepak
   planning:
@@ -6,9 +15,9 @@
 - date: 6-1-2023
   person: Barath
   planning:
-    - to be filled today
+    - fuel & transporter dues for factory to stock point
   completed:
-    - fill it the next day
+    - fuel & transporter dues for factory to stock point
 - date: 6-1-2023
   person: Sakthivel
   leave: true
