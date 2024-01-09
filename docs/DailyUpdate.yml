@@ -1,8 +1,23 @@
+- date: 9-1-2024
+  person: Muthu
+  planning:
+    - create stock point to unloading point trip
+- date: 9-1-2024
+  person: Sakthivel
+  completed:
+    - Paired with Muthu
+- date: 9-1-2024
+  person: Barath
+  planning:
+    - test for controller and logics
 - date: 8-1-2024
   person: Muthu
   planning:
     - change each trip to overallTrip
     - change dues logics to overallTrip
+  completed:
+    - changed each trip to overallTrip
+    - displayed each trip payment dues
 - date: 8-1-2024
   person: Sakthivel, Barath
   completed:
