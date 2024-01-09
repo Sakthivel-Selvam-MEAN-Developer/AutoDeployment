@@ -5,12 +5,31 @@ import {
     getOnlyActiveDuesByName,
     updatePaymentDues
 } from '../models/paymentDues.ts'
-import { getAllTrip } from '../models/loadingToUnloadingTrip.ts'
+import { getOverallTrip } from '../models/overallTrip.ts'
 
 export const createPaymentDues = (req: Request, res: Response) => {
     create(req.body)
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
+}
+
+function tripInfo(matchingTrip: any, tripData: any) {
+    const details = {
+        id: matchingTrip.id,
+        tripId: matchingTrip.tripId,
+        payableAmount: matchingTrip.payableAmount,
+        type: matchingTrip.type,
+        number: matchingTrip.vehicleNumber,
+        loadingPoint:
+            tripData[0].loadingPointToStockPointTrip !== null
+                ? tripData[0].loadingPointToStockPointTrip.loadingPoint.name
+                : tripData[0].loadingPointToUnloadingPointTrip.loadingPoint.name,
+        unloadingPoint:
+            tripData[0].loadingPointToStockPointTrip !== null
+                ? tripData[0].loadingPointToStockPointTrip.stockPoint.name
+                : tripData[0].loadingPointToUnloadingPointTrip.unloadingPoint.name
+    }
+    return details
 }
 
 export const groupDataByName = async (duesData: any[], tripsData: any[], tripDetails: any[]) => {
@@ -32,17 +51,7 @@ export const groupDataByName = async (duesData: any[], tripsData: any[], tripDet
                             matchingTrip.status === false &&
                             matchingTrip.type === 'fuel pay')
                 )
-                const details = {
-                    id: matchingTrip.id,
-                    tripId: matchingTrip.tripId,
-                    payableAmount: matchingTrip.payableAmount,
-                    type: matchingTrip.type,
-                    number: matchingTrip.vehicleNumber,
-                    vehicleNumber: tripData[0].truck.vehicleNumber,
-                    loadingPoint: tripData[0].loadingPoint.name,
-                    unloadingPoint: tripData[0].unloadingPoint.name
-                }
-                return details
+                return tripInfo(matchingTrip, tripData)
             })
         }
     })
@@ -53,7 +62,7 @@ export const listOnlyActiveTransporterDues = async (req: Request, res: Response)
     const { duedate, type } = req.params
     const duesData = await getOnlyActiveDuesByName(parseInt(duedate), type)
     const tripsData = await findTripWithActiveDues(parseInt(duedate), type)
-    const tripDetails = await getAllTrip()
+    const tripDetails = await getOverallTrip()
     await groupDataByName(duesData, tripsData, tripDetails)
         .then((data: any) => res.status(200).json(data))
         .catch(() => res.status(500))

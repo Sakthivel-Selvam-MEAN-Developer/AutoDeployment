@@ -355,6 +355,7 @@ model loadingPointToStockPointTrip {
   truck                          truck                            @relation(fields: [truckId], references: [id])
   truckId                        Int
   stockPointToUnloadingPointTrip stockPointToUnloadingPointTrip[]
+  overallTrip                    overallTrip[]
 
   @@schema("subContract")
 }
@@ -371,6 +372,7 @@ model stockPointToUnloadingPointTrip {
   unloadingPointId               Int
   loadingPointToStockPointTrip   loadingPointToStockPointTrip? @relation(fields: [loadingPointToStockPointTripId], references: [id])
   loadingPointToStockPointTripId Int?
+  overallTrip                    overallTrip[]
 
   @@schema("subContract")
 }
@@ -396,6 +398,7 @@ model loadingPointToUnloadingPointTrip {
   unloadingPointId       Int
   truck                  truck          @relation(fields: [truckId], references: [id])
   truckId                Int
+  overallTrip            overallTrip[]
 
   @@schema("subContract")
 }
@@ -436,7 +439,9 @@ model fuel {
   fuelStationId                      Int
   fuelStation                        fuelStation                       @relation(fields: [fuelStationId], references: [id])
   createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
-  updatedAt                          DateTime                          @updatedAt @db.Timestamptz(6)
+  updatedAt                          DateTime                          @default(now()) @db.Timestamptz(6)
+  overallTrip                        overallTrip?                      @relation(fields: [overallTripId], references: [id])
+  overallTripId                      Int?
 
   @@schema("subContract")
 }
@@ -485,6 +490,21 @@ model paymentDues {
   paidAt        Int?
   createdAt     DateTime @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+
+  @@schema("subContract")
+}
+
+model overallTrip {
+  id                                 Int                               @id @default(autoincrement())
+  loadingPointToStockPointTripId     Int?
+  loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
+  stockPointToUnloadingPointTripId   Int?
+  stockPointToUnloadingPointTrip     stockPointToUnloadingPointTrip?   @relation(fields: [stockPointToUnloadingPointTripId], references: [id])
+  loadingPointToUnloadingPointTripId Int?
+  loadingPointToUnloadingPointTrip   loadingPointToUnloadingPointTrip? @relation(fields: [loadingPointToUnloadingPointTripId], references: [id])
+  fuel                               fuel[]
+  createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
+  updatedAt                          DateTime                          @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }

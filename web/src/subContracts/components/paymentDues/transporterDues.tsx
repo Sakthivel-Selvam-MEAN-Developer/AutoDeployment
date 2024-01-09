@@ -19,7 +19,7 @@ const TransporterDues: React.FC = () => {
     }
     type tripProp = {
         id: number
-        vehicleNumber: string
+        number: string
         loadingPoint: string
         unloadingPoint: string
         payableAmount: number
@@ -78,7 +78,7 @@ const TransporterDues: React.FC = () => {
                                 <AccordionDetails
                                     sx={{ display: 'flex', borderBottom: '1px solid grey' }}
                                 >
-                                    <Typography sx={style}>{list.vehicleNumber}</Typography>
+                                    <Typography sx={style}>{list.number}</Typography>
                                     <Typography sx={style}>
                                         {list.loadingPoint} - {list.unloadingPoint}
                                     </Typography>

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { create, getAllTrip, getTripByVehicleNumber } from '../models/loadingToUnloadingTrip.ts'
+import { create as createOverallTrip } from '../models/overallTrip.ts'
 import tripLogic from '../domain/tripLogics.ts'
 import { getNumberByTruckId } from '../models/truck.ts'
 import {
@@ -12,7 +13,6 @@ import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
 }
-
 export const createTrip = async (req: Request, res: Response) => {
     const {
         vehicleNumber,
@@ -20,12 +20,21 @@ export const createTrip = async (req: Request, res: Response) => {
     }: any = await getNumberByTruckId(req.body.truckId)
     const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
     const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
-    const { id } = await create(req.body)
+    const { id } = await create(req.body).then(async (data) =>
+        createOverallTrip({ loadingPointToUnloadingPointTripId: data.id })
+    )
+
     await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
         .then(async (data: any) => {
             if (req.body.wantFuel !== true && fuelDetails !== null) {
-                await updateFuelWithTripId({ id: fuelDetails.id, tripId: id }).then(async () => {
-                    await updatePaymentDuesWithTripId({ id: paymentDetails?.id, tripId: id })
+                await updateFuelWithTripId({
+                    id: fuelDetails.id,
+                    tripId: id
+                }).then(async () => {
+                    await updatePaymentDuesWithTripId({
+                        id: paymentDetails?.id,
+                        tripId: id
+                    })
                     await createPaymentDues(data)
                 })
             } else if (req.body.wantFuel !== true && fuelDetails === null) {
@@ -33,9 +42,7 @@ export const createTrip = async (req: Request, res: Response) => {
             }
         })
         .then(() => res.sendStatus(200))
-        .catch(() => {
-            res.sendStatus(500)
-        })
+        .catch(() => res.sendStatus(500))
 }
 
 export const ListTripByVehicleNumber = (req: Request, res: Response) => {

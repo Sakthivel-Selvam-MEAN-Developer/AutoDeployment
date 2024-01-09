@@ -5,16 +5,32 @@ describe('Fuel Logics Test', async () => {
     test('Should get both initial & fuel pay with fuel after trip started', async () => {
         const fuel = {
             totalprice: 5000,
-            loadingPointToUnloadingPointTripId: 1
+            vehicleNumber: 'TN29BA3211',
+            overallTripId: 1
         }
         const trip = {
-            id: 1,
-            truck: {
-                transporter: {
-                    name: 'Barath Logistics Pvt Ltd'
-                }
-            },
-            totalTransporterAmount: 50000
+            id: 3,
+            loadingPointToStockPointTripId: null,
+            stockPointToUnloadingPointTripId: null,
+            loadingPointToUnloadingPointTripId: 1,
+            loadingPointToStockPointTrip: null,
+            loadingPointToUnloadingPointTrip: {
+                id: 1,
+                startDate: 1704781636,
+                filledLoad: 60,
+                wantFuel: true,
+                tripStatus: false,
+                freightAmount: 1000,
+                transporterAmount: 900,
+                totalFreightAmount: 60000,
+                totalTransporterAmount: 54000,
+                margin: 6000,
+                loadingPointId: 1,
+                invoiceNumber: 'FDGT564',
+                unloadingPointId: 1,
+                truckId: 5,
+                truck: { transporter: { name: 'Barath Logistics Pvt Ltd' } }
+            }
         }
         const bunkname = 'Barath Petroleum'
         const vehicleNumber = 'TN29BA3211'
@@ -27,7 +43,7 @@ describe('Fuel Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 tripId: 1,
                 vehicleNumber: 'TN29BA3211',
-                payableAmount: 30000
+                payableAmount: 32800
             },
             {
                 name: 'Barath Petroleum',

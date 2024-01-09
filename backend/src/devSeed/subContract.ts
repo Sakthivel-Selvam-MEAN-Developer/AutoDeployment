@@ -30,6 +30,8 @@ async function addFuelStations() {
     VALUES ('Pondicherry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
     await prisma.$executeRaw`INSERT INTO "subContract"."stockPoint" ("name", "createdAt", "updatedAt","cementCompanyId")
     VALUES ('StockPoint', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId", "createdAt", "updatedAt")
+    VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
 }
 
 async function seedSubContract() {

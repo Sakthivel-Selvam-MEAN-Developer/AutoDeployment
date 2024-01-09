@@ -1,10 +1,17 @@
 import dayjs from 'dayjs'
 
+interface dataProps {
+    wantFuel: boolean
+    totalTransporterAmount: number
+}
+interface fuelProps {
+    totalprice: number
+}
 const transporterPercentage = 70 / 100
 
 const tripLogic = async (
-    data: any,
-    fuelDetails: any,
+    data: dataProps,
+    fuelDetails: fuelProps | null,
     transporterName: string,
     id: number,
     vehicleNumber: string
