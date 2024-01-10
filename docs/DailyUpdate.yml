@@ -1,7 +1,21 @@
+- date: 10-1-2024
+  person: Barath
+  planning:
+    - create stock point to unloading point trip
+- date: 10-1-2024
+  person: Sakthivel
+  planning:
+     - Paired with barath
+- date: 10-1-2024
+  person: muthu
+  leave: true
+
 - date: 9-1-2024
   person: Muthu
   planning:
-    - create stock point to unloading point trip
+    - displayed each trip payment dues
+    completed:
+    - displayed each trip payment dues
 - date: 9-1-2024
   person: Sakthivel
   completed:
@@ -10,6 +24,7 @@
   person: Barath
   planning:
     - test for controller and logics
+
 - date: 8-1-2024
   person: Muthu
   planning:
@@ -17,11 +32,11 @@
     - change dues logics to overallTrip
   completed:
     - changed each trip to overallTrip
-    - displayed each trip payment dues
 - date: 8-1-2024
   person: Sakthivel, Barath
   completed:
     - Paired with Muthu
+
 - date: 6-1-2023
   person: deepak
   planning:
@@ -39,6 +54,7 @@
 - date: 6-1-2023
   person: Muthu
   leave: true
+
 - date: 5-1-2023
   person: Muthu
   completed:
@@ -53,6 +69,7 @@
 - date: 5-1-2023
   person: Sakthivel
   leave: true
+
 - date: 4-1-2023
   person: Muthu
   leave: true
