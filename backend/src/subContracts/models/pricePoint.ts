@@ -8,7 +8,8 @@ export const getPricePoint = (loadingPointId: number, unloadingPointId: number) 
         },
         select: {
             freightAmount: true,
-            transporterAmount: true
+            transporterAmount: true,
+            transporterPercentage: true
         }
     })
 

@@ -1,33 +1,35 @@
 import dayjs from 'dayjs'
 
 const fuelLogics = async (fuel: any, trip: any, bunkname: any, vehicleNumber: string) => {
-    let a: any
-    if (trip.loadingPointToStockPointTrip) {
-        a = trip.loadingPointToStockPointTrip
-    } else if (trip.loadingPointToUnloadingPointTrip) {
-        a = trip.loadingPointToUnloadingPointTrip
-    }
-    const paymentDues = [
-        {
-            name: a.truck.transporter.name,
-            type: 'initial pay',
-            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-            payableAmount: (a.totalTransporterAmount * 70) / 100 - fuel.totalprice,
-            tripId: a.id,
-            vehicleNumber
-        },
-        {
-            name: bunkname,
-            type: 'fuel pay',
-            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-            payableAmount: fuel.totalprice,
-            tripId: a.id,
-            vehicleNumber
+    let tripDetails
+    if (trip !== null) {
+        if (trip.loadingPointToStockPointTrip !== null) {
+            tripDetails = trip.loadingPointToStockPointTrip
+        } else if (trip.loadingPointToUnloadingPointTrip !== null) {
+            tripDetails = trip.loadingPointToUnloadingPointTrip
         }
-    ]
 
-    if (fuel.overallTripId !== null) {
-        return paymentDues
+        const paymentDues = [
+            {
+                name: tripDetails.truck.transporter.name,
+                type: 'initial pay',
+                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                payableAmount: (tripDetails.totalTransporterAmount * 70) / 100 - fuel.totalprice,
+                tripId: tripDetails.id,
+                vehicleNumber
+            },
+            {
+                name: bunkname,
+                type: 'fuel pay',
+                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                payableAmount: fuel.totalprice,
+                tripId: tripDetails.id,
+                vehicleNumber
+            }
+        ]
+        if (fuel.overallTripId !== null) {
+            return paymentDues
+        }
     }
 }
 

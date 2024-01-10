@@ -8,10 +8,11 @@ import { getAllStockPointTrip } from '../../services/stockPointTrip'
 const TripList: React.FC = () => {
     const [allTrips, setAllTrips] = useState([])
     const [allStockTrips, setAllStockTrips] = useState([])
+    const [update, setUpdate] = useState(false)
     useEffect(() => {
         getAllTrip().then(setAllTrips)
         getAllStockPointTrip().then(setAllStockTrips)
-    }, [])
+    }, [update])
     return (
         <>
             <div
@@ -28,9 +29,13 @@ const TripList: React.FC = () => {
                 </Link>
             </div>
             <p>List Of Trips</p>
-            <ListAllTrip allTrips={allTrips} allStockTrips={allStockTrips} />
+            <ListAllTrip
+                allTrips={allTrips}
+                allStockTrips={allStockTrips}
+                setUpdate={setUpdate}
+                update={update}
+            />
         </>
     )
 }
-
 export default TripList

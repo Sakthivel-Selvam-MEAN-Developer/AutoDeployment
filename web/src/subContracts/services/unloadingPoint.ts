@@ -15,3 +15,9 @@ export const getUnloadingPointByCompanyName = (companyName: string) =>
         .get(`/unloading-point/${companyName}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+export const getAllUnloadingPoint = () =>
+    axiosInstance
+        .get(`/unloading-point`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

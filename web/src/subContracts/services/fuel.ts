@@ -19,12 +19,6 @@ export const getAllFuel = () =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const updateFuelWithTrip = (data: any) =>
-    axiosInstance
-        .put(`/fuel-update`, data)
-        .then(getData)
-        .catch(() => alert('Error Updating data'))
-
 export const listFuelWithoutTripId = (vehiclenumber: string) =>
     axiosInstance
         .get(`/fuel/${vehiclenumber}`)

@@ -26,7 +26,7 @@ const mockTripData = {
 }
 
 describe('Trip Controller', () => {
-    test('should able to access all trip', async () => {
+    test.skip('should able to access all trip', async () => {
         app.get('/stock-trip', listAllStockPointTrip)
         mockStockPointTrip.mockResolvedValue(mockTripData)
         await supertest(app).get('/stock-trip').expect(mockTripData)

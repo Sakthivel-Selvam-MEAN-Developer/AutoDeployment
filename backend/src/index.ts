@@ -11,6 +11,7 @@ import truckRoutes from './subContracts/routes/truck.ts'
 import transporterRoutes from './subContracts/routes/transporter.ts'
 import tripRoutes from './subContracts/routes/loadingToUnloadingTrip.ts'
 import stockTripRoutes from './subContracts/routes/loadingToStockPointTrip.ts'
+import unloadingTripRoutes from './subContracts/routes/stockPointToUnloadingPoint.ts'
 import employeeRoutes from './hrm/routes/employees.ts'
 import cementCompanyRoutes from './subContracts/routes/cementCompany.ts'
 import factoryRoutes from './subContracts/routes/loadingPoint.ts'
@@ -41,6 +42,7 @@ truckRoutes(router)
 transporterRoutes(router)
 tripRoutes(router)
 stockTripRoutes(router)
+unloadingTripRoutes(router)
 factoryRoutes(router)
 stockRoutes(router)
 cementCompanyRoutes(router)

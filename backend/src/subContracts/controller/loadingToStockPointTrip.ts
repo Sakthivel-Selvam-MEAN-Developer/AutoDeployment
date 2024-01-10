@@ -38,5 +38,10 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
 }
 
 export const listAllStockPointTrip = (_req: Request, res: Response) => {
-    getAllStockPointTrip().then((data) => res.status(200).json(data))
+    getAllStockPointTrip().then((data) => {
+        const dataWithoutStock = data.filter(
+            (trip) => trip.stockPointToUnloadingPointTrip.length === 0
+        )
+        res.status(200).json(dataWithoutStock)
+    })
 }

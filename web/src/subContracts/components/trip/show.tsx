@@ -6,22 +6,37 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-// import AutoComplete from '../../../form/AutoComplete'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import {
-    Accordion,
-    AccordionSummary,
-    Typography,
-    AccordionDetails,
-    Button,
-    TextField
-} from '@mui/material'
+import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/material'
 import { useState } from 'react'
 import React from 'react'
+import StockToUnloadingFormFields from './stockToUnloadingFormFields'
+
+interface AllStockProps {
+    filledLoad: number
+    freightAmount: number
+    id: number
+    invoiceNumber: string
+    loadingPoint: { name: string }
+    loadingPointId: number
+    margin: number
+    startDate: number
+    stockPoint: { name: string }
+    stockPointId: number
+    totalFreightAmount: number
+    totalTransporterAmount: number
+    transporterAmount: number
+    tripStatus: boolean
+    truck: { vehicleNumber: string; transporter: { name: string } }
+    truckId: number
+    wantFuel: boolean
+}
 
 interface Props {
     allTrips: Row[]
-    allStockTrips: any[]
+    allStockTrips: AllStockProps[]
+    setUpdate: React.Dispatch<React.SetStateAction<boolean>>
+    update: boolean
 }
 interface Row {
     freightAmount: number
@@ -88,27 +103,20 @@ function getTableBody(allTrips: Row[]) {
     )
 }
 
-const GetAllStockTripsAsAAccordion = (allStockTrips: any) => {
-    const [invoiceNumber, setInvoiceNumber] = useState('')
-    const [freightAmount, setFreightAmount] = useState('')
+const GetAllStockTripsAsAAccordion = (
+    allStockTrips: AllStockProps[],
+    setUpdate: React.Dispatch<React.SetStateAction<boolean>>,
+    update: boolean
+) => {
     const [expanded, setExpanded] = useState<number | false>(false)
-
-    const style = { width: '100%', padding: '10px 10px 0px' }
-
-    const handleOnClick = () => {
-        console.log(freightAmount, invoiceNumber)
-    }
-
     const handleAccordionExpand =
         (index: number) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-            setFreightAmount('')
-            setInvoiceNumber('')
             setExpanded(isExpanded ? index : false)
         }
 
     return (
         <>
-            {allStockTrips.map((row: any, index: number) => (
+            {allStockTrips.map((row: AllStockProps, index: number) => (
                 <Accordion
                     key={index}
                     expanded={expanded === index}
@@ -149,33 +157,11 @@ const GetAllStockTripsAsAAccordion = (allStockTrips: any) => {
                         </div>
                     </AccordionSummary>
                     <AccordionDetails sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
-                        <TextField
-                            sx={style}
-                            label="Invoice Number"
-                            variant="outlined"
-                            onChange={(e) => setInvoiceNumber(e.target.value)}
-                            value={invoiceNumber}
+                        <StockToUnloadingFormFields
+                            row={row}
+                            setUpdate={setUpdate}
+                            update={update}
                         />
-                        {/* <AutoComplete
-                                control={control}
-                                fieldName="unloadingPoint"
-                                label="Unloading Point"
-                                data-testid={'select'}                          
-                            /> */}
-                        <TextField
-                            sx={style}
-                            label="Fright Amount"
-                            variant="outlined"
-                            onChange={(e) => setFreightAmount(e.target.value)}
-                            value={freightAmount}
-                        />
-                        <Button
-                            sx={style}
-                            disabled={invoiceNumber == '' || freightAmount == ''}
-                            onClick={handleOnClick}
-                        >
-                            Create Trip
-                        </Button>
                     </AccordionDetails>
                 </Accordion>
             ))}
@@ -183,7 +169,9 @@ const GetAllStockTripsAsAAccordion = (allStockTrips: any) => {
     )
 }
 
-const ListAllTrip: React.FC<Props> = ({ allTrips, allStockTrips }) => {
+const ListAllTrip: React.FC<Props> = ({ allTrips, allStockTrips, setUpdate, update }) => {
+    console.log(allStockTrips)
+
     return (
         <>
             <TableContainer component={Paper}>
@@ -192,7 +180,7 @@ const ListAllTrip: React.FC<Props> = ({ allTrips, allStockTrips }) => {
                     {getTableBody(allTrips)}
                 </Table>
             </TableContainer>
-            {GetAllStockTripsAsAAccordion(allStockTrips)}
+            {GetAllStockTripsAsAAccordion(allStockTrips, setUpdate, update)}
         </>
     )
 }

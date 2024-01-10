@@ -42,12 +42,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
     }, [cementCompanyName])
     useEffect(() => {
         if (loadingPointId && unloadingPointId) {
-            getPricePoint(loadingPointId, unloadingPointId).then(
-                ({ freightAmount, transporterAmount }) => {
-                    setFreightAmount(freightAmount)
-                    console.log(freightAmount, transporterAmount)
-                }
-            )
+            getPricePoint(loadingPointId, unloadingPointId).then(({ freightAmount }) => {
+                setFreightAmount(freightAmount)
+            })
         }
     }, [loadingPointId, unloadingPointId])
     return (

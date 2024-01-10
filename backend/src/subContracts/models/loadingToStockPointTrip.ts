@@ -29,7 +29,8 @@ export const getAllStockPointTrip = () =>
                         }
                     }
                 }
-            }
+            },
+            stockPointToUnloadingPointTrip: true
         }
     })
 

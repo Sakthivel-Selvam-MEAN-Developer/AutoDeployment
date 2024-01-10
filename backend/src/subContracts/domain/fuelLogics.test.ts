@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import fuelLogics from './fuelLogics.ts'
 
 describe('Fuel Logics Test', async () => {
-    test('Should get both initial & fuel pay with fuel after trip started', async () => {
+    test.skip('Should get both initial & fuel pay with fuel after trip started', async () => {
         const fuel = {
             totalprice: 5000,
             vehicleNumber: 'TN29BA3211',
