@@ -6,3 +6,6 @@ export const create = (
         | Prisma.stockPointToUnloadingPointTripCreateInput
         | Prisma.stockPointToUnloadingPointTripUncheckedCreateInput
 ) => prisma.stockPointToUnloadingPointTrip.create({ data })
+
+export const getAllStockToUnloadingPointTrip = () =>
+    prisma.stockPointToUnloadingPointTrip.findMany({})
