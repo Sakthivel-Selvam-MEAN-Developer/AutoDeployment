@@ -1,7 +1,21 @@
+- date: 11-1-2024
+  person: Barath
+  planning:
+    - test for create stock point to unloading point trip
+- date: 11-1-2024
+  person: Sakthivel
+  planning:
+     - Paired with barath
+- date: 11-1-2024
+  person: muthu
+  leave: true
+
 - date: 10-1-2024
   person: Barath
   planning:
     - create stock point to unloading point trip
+  completed:
+    - create stock point to unloading point trip and cleared it from ui
 - date: 10-1-2024
   person: Sakthivel
   planning:
