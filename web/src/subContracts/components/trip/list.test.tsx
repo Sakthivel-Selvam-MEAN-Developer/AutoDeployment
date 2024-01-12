@@ -95,10 +95,11 @@ describe('Trip Test', () => {
         })
         const transporter = screen.getByText('Deepak Logistics Pvt Ltd')
         await userEvent.click(transporter)
-        // await userEvent.type(screen.getByLabelText('Invoice Number'), '12345abc')
-        // expect(await screen.findByDisplayValue('12345abc')).toBeInTheDocument()
+        await userEvent.type(screen.getByLabelText('Invoice Number'), '12345abc')
+        expect(await screen.findByDisplayValue('12345abc')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Freight Amount'), '1')
         expect(await screen.findByDisplayValue('10001')).toBeInTheDocument()
+
         const unLoadingPoint = screen.getByRole('combobox', {
             name: 'Unloading Point'
         })

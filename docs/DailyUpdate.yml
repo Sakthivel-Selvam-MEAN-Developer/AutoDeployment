@@ -1,6 +1,18 @@
+- date: 12-1-2024
+  person: Barath
+  planning:
+    - discussion for acknowledgement
+    - changing loading, stock, unloading point to single location
+- date: 12-1-2024
+  person: Muthu & Sakthivel
+  planning:
+    - paired with barath
+
 - date: 11-1-2024
   person: Barath
   planning:
+    - test for create stock point to unloading point trip
+  completed:
     - test for create stock point to unloading point trip
 - date: 11-1-2024
   person: Sakthivel

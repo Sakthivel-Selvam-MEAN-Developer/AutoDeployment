@@ -170,8 +170,6 @@ const GetAllStockTripsAsAAccordion = (
 }
 
 const ListAllTrip: React.FC<Props> = ({ allTrips, allStockTrips, setUpdate, update }) => {
-    console.log(allStockTrips)
-
     return (
         <>
             <TableContainer component={Paper}>

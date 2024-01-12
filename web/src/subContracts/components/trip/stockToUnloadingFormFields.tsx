@@ -29,7 +29,6 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
             unloadingPointId,
             loadingPointToStockPointTripId: row.id
         }
-        console.log(details)
         createStockTrip(details)
         setUpdate(!update)
         setInvoiceNumber('')
@@ -38,6 +37,8 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
     }
     useEffect(() => {
         getAllUnloadingPoint().then(setUnloadingPointList)
+    }, [])
+    useEffect(() => {
         getPricePoint(row.loadingPointId, row.stockPointId).then((pricePoint) =>
             setTransporterPercentage(pricePoint.transporterPercentage)
         )
