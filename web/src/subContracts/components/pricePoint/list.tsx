@@ -10,8 +10,10 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [cementCompany, setCementCompany] = useState([])
     const [loadingPointId, setLoadingPointId] = useState<number>(0)
     const [unloadingPointId, setUnloadingPointId] = useState<number>(0)
+    const [stockPointId, setStockPointId] = useState<number>(0)
     const [freightAmount, setFreightAmount] = useState<number>(0)
     const transporterPercentage = watch('transporterPercentage')
+    const [category, setCategory] = useState<string>('')
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
             setCementCompany(companyData.map(({ name }: { name: string }) => name))
@@ -28,7 +30,11 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             transporterPercentage: parseInt(data.transporterPercentage),
             transporterAmount: transporterRate
         }
-        createpricePoint(details)
+        if (category === 'Loading - Unloading') createpricePoint(details)
+        console.log(stockPointId)
+
+        // else if (category === 'Loading - Stock') createpricePoint({...details, loadingPointId, stockPointId})
+        // else if (category === 'Stock - Unloading') createpricePoint({...details, stockPointId, unloadingPointId})
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -37,11 +43,14 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 cementCompany={cementCompany}
                 setLoadingPointId={setLoadingPointId}
                 setUnloadingPointId={setUnloadingPointId}
+                setStockPointId={setStockPointId}
                 freightAmount={freightAmount}
                 setFreightAmount={setFreightAmount}
                 loadingPointId={loadingPointId}
                 unloadingPointId={unloadingPointId}
                 transporterRate={transporterRate}
+                category={category}
+                setCategory={setCategory}
             />
             <SubmitButton name="Submit" type="submit" />
         </form>

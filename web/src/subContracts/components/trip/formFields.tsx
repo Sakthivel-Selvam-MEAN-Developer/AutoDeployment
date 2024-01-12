@@ -8,6 +8,7 @@ import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control } from 'react-hook-form'
+import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 
 interface FormFieldProps {
     control: Control
@@ -23,8 +24,9 @@ interface FormFieldProps {
     margin: number | undefined
     fuel: boolean
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
-    stockPoint: any
-    setStockPoint: React.Dispatch<React.SetStateAction<boolean>>
+    setCategory: React.Dispatch<React.SetStateAction<string>>
+    category: string
+    stockPointId: React.Dispatch<React.SetStateAction<number>>
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -40,24 +42,33 @@ const FormField: React.FC<FormFieldProps> = ({
     margin,
     fuel,
     setFuel,
-    stockPoint,
-    setStockPoint
+    setCategory,
+    category,
+    stockPointId
 }) => {
     const [transporterName, setTransporterName] = useState<string>()
     const [cementCompanyName, setCementCompanyName] = useState<string>()
     const [listTruck, setListTruck] = useState([])
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
+    const [stockPointList, setStockPointList] = useState([])
 
     useEffect(() => {
         if (cementCompanyName !== undefined) {
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
-            getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
         }
         if (transporterName !== undefined) {
             getTruckByTransporter(transporterName).then(setListTruck)
         }
     }, [transporterName, cementCompanyName])
+
+    useEffect(() => {
+        if (cementCompanyName !== undefined && category === 'Stock Point') {
+            getStockPointByCompanyName(cementCompanyName).then(setStockPointList)
+        } else if (cementCompanyName !== undefined && category === 'Unloading Point') {
+            getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
+        }
+    }, [category, cementCompanyName])
 
     return (
         <div
@@ -100,6 +111,15 @@ const FormField: React.FC<FormFieldProps> = ({
             />
             <AutoComplete
                 control={control}
+                fieldName="category"
+                label="Select Category"
+                options={['Unloading Point', 'Stock Point']}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    setCategory(newValue)
+                }}
+            />
+            <AutoComplete
+                control={control}
                 fieldName="loadingPointId"
                 label="Loading Point"
                 options={loadingPointList.map(({ name }) => name)}
@@ -110,18 +130,33 @@ const FormField: React.FC<FormFieldProps> = ({
                     loadingPointId(id)
                 }}
             />
-            <AutoComplete
-                control={control}
-                fieldName="unloadingPointId"
-                label="Unloading Point"
-                options={unloadingPointList.map(({ name }) => name)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = unloadingPointList.find(
-                        (data: { name: string }) => data.name === newValue
-                    )
-                    unloadingPointId(id)
-                }}
-            />
+            {category !== 'Stock Point' ? (
+                <AutoComplete
+                    control={control}
+                    fieldName="unloadingPointId"
+                    label="Unloading Point"
+                    options={unloadingPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id }: any = unloadingPointList.find(
+                            (data: { name: string }) => data.name === newValue
+                        )
+                        unloadingPointId(id)
+                    }}
+                />
+            ) : (
+                <AutoComplete
+                    control={control}
+                    fieldName="stockPointId"
+                    label="Stock Point"
+                    options={stockPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id }: any = stockPointList.find(
+                            (data: { name: string }) => data.name === newValue
+                        )
+                        stockPointId(id)
+                    }}
+                />
+            )}
             <InputWithDefaultValue
                 control={control}
                 label="Freight Amount"
@@ -210,13 +245,6 @@ const FormField: React.FC<FormFieldProps> = ({
                 data-testid={'want-fuel'}
                 control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
                 label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
-            />
-            <FormControlLabel
-                data-testid={'stock-point'}
-                control={
-                    <Switch checked={stockPoint} onChange={() => setStockPoint(!stockPoint)} />
-                }
-                label={stockPoint ? 'StockPoint' : 'UnloadingPoint'}
             />
         </div>
     )

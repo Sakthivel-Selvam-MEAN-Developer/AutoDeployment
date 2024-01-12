@@ -178,6 +178,8 @@ const ListAllTrip: React.FC<Props> = ({ allTrips, allStockTrips, setUpdate, upda
                     {getTableBody(allTrips)}
                 </Table>
             </TableContainer>
+            <br />
+            <br />
             {GetAllStockTripsAsAAccordion(allStockTrips, setUpdate, update)}
         </>
     )

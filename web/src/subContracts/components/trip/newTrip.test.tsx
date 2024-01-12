@@ -155,6 +155,19 @@ async function newFunction() {
     })
     await userEvent.click(optin)
 
+    //  Select Category
+    const category = screen.getByRole('combobox', {
+        name: 'Select Category'
+    })
+    await userEvent.click(category)
+    await waitFor(() => {
+        screen.getByRole('listbox')
+    })
+    const list = screen.getByRole('option', {
+        name: 'Unloading Point'
+    })
+    await userEvent.click(list)
+
     //  Select Loading Point
     const loading = screen.getByRole('combobox', {
         name: 'Loading Point'
@@ -219,7 +232,7 @@ describe('New trip test', () => {
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
         expect(mockTruckByTransporter).toHaveBeenCalledTimes(0)
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(1)
-        expect(mockUnloadingPointByCompanyName).toHaveBeenCalledTimes(1)
+        expect(mockUnloadingPointByCompanyName).toHaveBeenCalledTimes(0)
     })
     test('should fetch transporter data from Db', async () => {
         mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
@@ -295,6 +308,19 @@ describe('New trip test', () => {
         })
         await userEvent.click(choice)
 
+        //  Select Category
+        const category = screen.getByRole('combobox', {
+            name: 'Select Category'
+        })
+        await userEvent.click(category)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const list = screen.getByRole('option', {
+            name: 'Unloading Point'
+        })
+        await userEvent.click(list)
+
         //  Select Loading Point
         const loading = screen.getByRole('combobox', { name: 'Loading Point' })
         await userEvent.click(loading)
@@ -360,7 +386,7 @@ describe('New trip test', () => {
 
         expect(mockCreateTrip).toHaveBeenCalledTimes(1)
     })
-    test.skip('should create dues, if they already fueled before trip', async () => {
+    test('should create dues, if they already fueled before trip', async () => {
         mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         await newFunction()
         const checkbox = screen.getByTestId('want-fuel')

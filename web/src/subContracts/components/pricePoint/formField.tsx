@@ -8,36 +8,46 @@ import { getPricePoint } from '../../services/pricePoint.ts'
 import InputWithType from '../../../form/InputWithType.tsx'
 import NumberInputWithValue from '../../../form/NumberInputWithValue.tsx'
 import { InputAdornment } from '@mui/material'
+import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 
 export interface FormFieldsProps {
     control: Control
     cementCompany: string[]
     setUnloadingPointId: React.Dispatch<React.SetStateAction<number>>
     setLoadingPointId: React.Dispatch<React.SetStateAction<number>>
+    setStockPointId: React.Dispatch<React.SetStateAction<number>>
     transporterRate: number
     loadingPointId: number
     unloadingPointId: number
     freightAmount: number
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
+    setCategory: React.Dispatch<React.SetStateAction<string>>
+    category: string
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
     cementCompany,
     setLoadingPointId,
     setUnloadingPointId,
+    setStockPointId,
     transporterRate,
     loadingPointId,
     unloadingPointId,
     setFreightAmount,
-    freightAmount
+    freightAmount,
+    setCategory,
+    category
 }) => {
     const [cementCompanyName, setCementCompanyName] = useState<string>('null')
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
+    const [stockPointList, setStockPointList] = useState([])
+
     useEffect(() => {
         if (cementCompanyName !== 'null') {
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
             getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
+            getStockPointByCompanyName(cementCompanyName).then(setStockPointList)
         }
     }, [cementCompanyName])
     useEffect(() => {
@@ -68,28 +78,59 @@ const FormFields: React.FC<FormFieldsProps> = ({
             />
             <AutoComplete
                 control={control}
-                fieldName="loadingPointId"
-                label="Loading Point"
-                options={loadingPointList.map(({ name }) => name)}
+                fieldName="category"
+                label="Select Category"
+                options={['Loading - Unloading', 'Loading - Stock', 'Stock - Unloading']}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = loadingPointList.find(
-                        (data: { name: string }) => data.name === newValue
-                    )
-                    setLoadingPointId(id)
+                    setCategory(newValue)
                 }}
             />
-            <AutoComplete
-                control={control}
-                fieldName="unloadingPointId"
-                label="Unloading Point"
-                options={unloadingPointList.map(({ name }) => name)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = unloadingPointList.find(
-                        (data: { name: string }) => data.name === newValue
-                    )
-                    setUnloadingPointId(id)
-                }}
-            />
+            {(category === 'Loading - Unloading' ||
+                category === 'Loading - Stock' ||
+                category === '') && (
+                <AutoComplete
+                    control={control}
+                    fieldName="loadingPointId"
+                    label="Loading Point"
+                    options={loadingPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id }: any = loadingPointList.find(
+                            (data: { name: string }) => data.name === newValue
+                        )
+                        setLoadingPointId(id)
+                    }}
+                />
+            )}
+            {(category === 'Stock - Unloading' || category === 'Loading - Stock') && (
+                <AutoComplete
+                    control={control}
+                    fieldName="stockPointId"
+                    label="Stock Point"
+                    options={stockPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id }: any = stockPointList.find(
+                            (data: { name: string }) => data.name === newValue
+                        )
+                        setStockPointId(id)
+                    }}
+                />
+            )}
+            {(category === 'Loading - Unloading' ||
+                category === 'Stock - Unloading' ||
+                category === '') && (
+                <AutoComplete
+                    control={control}
+                    fieldName="unloadingPointId"
+                    label="Unloading Point"
+                    options={unloadingPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id }: any = unloadingPointList.find(
+                            (data: { name: string }) => data.name === newValue
+                        )
+                        setUnloadingPointId(id)
+                    }}
+                />
+            )}
             <NumberInputWithValue
                 control={control}
                 label="Freight Amount"

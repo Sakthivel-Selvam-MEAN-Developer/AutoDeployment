@@ -3,14 +3,14 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { ChangeEvent, useEffect, useState } from 'react'
-import { getOnlyActiveDues, updatePaymentDues } from '../../services/paymentDues'
-import { Button, ListItemSecondaryAction, TextField } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { getOnlyActiveDues } from '../../services/paymentDues'
+import { ListItemSecondaryAction } from '@mui/material'
 import dayjs from 'dayjs'
+import FormField from './formField'
 
 const TransporterDues: React.FC = () => {
     const [transporterDue, setTransporterDue] = useState([])
-    const [transactionIds, setTransactionIds] = useState<Record<number, string>>({})
     const [refresh, setRefresh] = useState<boolean>(false)
     type dataProp = {
         name: string
@@ -25,27 +25,6 @@ const TransporterDues: React.FC = () => {
         payableAmount: number
         type: string
         transactionId: string
-    }
-    const handleTransactionIdChange = (id: number, value: string) => {
-        setTransactionIds((prevIds) => ({
-            ...prevIds,
-            [id]: value
-        }))
-    }
-    const handleClick = (id: number) => {
-        const transactionId = transactionIds[id] || ''
-        const data = {
-            id,
-            transactionId,
-            paidAt: dayjs().unix()
-        }
-        updatePaymentDues(data).then(() => {
-            setRefresh(!refresh)
-            setTransactionIds((prevIds) => ({
-                ...prevIds,
-                [id]: ''
-            }))
-        })
     }
     const style = { width: '100%', padding: '10px 10px 0px' }
     useEffect(() => {
@@ -84,21 +63,11 @@ const TransporterDues: React.FC = () => {
                                     </Typography>
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
-                                    <TextField
-                                        sx={style}
-                                        label="Transaction Id"
-                                        variant="outlined"
-                                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                            handleTransactionIdChange(list.id, e.target.value)
-                                        }
+                                    <FormField
+                                        setRefresh={setRefresh}
+                                        refresh={refresh}
+                                        id={list.id}
                                     />
-                                    <Button
-                                        sx={style}
-                                        onClick={() => handleClick(list.id)}
-                                        disabled={!transactionIds[list.id]}
-                                    >
-                                        Pay
-                                    </Button>
                                 </AccordionDetails>
                             )
                         })}

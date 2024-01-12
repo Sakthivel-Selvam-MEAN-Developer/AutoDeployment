@@ -22,6 +22,7 @@ const NewTrip: React.FC = () => {
     const [cementCompany, setCementCompany] = useState([])
     const [truckId, setTruckId] = useState(0)
     const [loadingPointId, setLoadingPointId] = useState(0)
+    const [stockPointId, setStockPointId] = useState(0)
     const [unloadingPointId, setUnloadingPointId] = useState(0)
     const [freightAmount, setFreightAmount] = useState(0)
     const [transporterAmount, setTransporterAmount] = useState(0)
@@ -29,8 +30,8 @@ const NewTrip: React.FC = () => {
     const [totalFreightAmount, setTotalFreightAmount] = useState(0)
     const [margin, setMargin] = useState(0)
     const [fuel, setFuel] = useState(false)
-    const [stockPoint, setStockPoint] = useState(false)
     const filledLoad = watch('filledLoad')
+    const [category, setCategory] = useState<string>('')
 
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseInt(filledLoad))
@@ -52,14 +53,16 @@ const NewTrip: React.FC = () => {
             margin: margin,
             wantFuel: fuel
         }
-        if (stockPoint) {
-            createStockPointTrip({ ...details, stockPointId: 1 })
+        if (category === 'Stock Point') {
+            createStockPointTrip({ ...details, stockPointId: stockPointId })
                 .then(() => navigate('/sub/trip'))
                 .catch((e) => alert(e))
-        } else {
+        } else if (category === 'Unloading Point') {
             createTrip({ ...details, unloadingPointId: unloadingPointId })
                 .then(() => navigate('/sub/trip'))
                 .catch((e) => alert(e))
+        } else {
+            alert('Select Any Category')
         }
     }
     useEffect(() => {
@@ -95,8 +98,9 @@ const NewTrip: React.FC = () => {
                 margin={margin}
                 fuel={fuel}
                 setFuel={setFuel}
-                stockPoint={stockPoint}
-                setStockPoint={setStockPoint}
+                setCategory={setCategory}
+                category={category}
+                stockPointId={setStockPointId}
             />
             <SubmitButton name="Start" type="submit" />
         </form>
