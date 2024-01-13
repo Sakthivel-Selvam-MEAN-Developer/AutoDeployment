@@ -1,4 +1,3 @@
 export default {
-    name: 'Dalmia Cements',
-    location: 'Salem'
+    name: 'Chennai-south'
 }

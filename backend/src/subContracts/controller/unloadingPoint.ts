@@ -4,9 +4,12 @@ import {
     getAllUnloadingPoint,
     getUnloadingPointByCompany
 } from '../models/unloadingPoint.ts'
+import { create as createPricePointMarker } from '../models/pricePointMarker.ts'
 
-export const createUnloadingPoint = (req: Request, res: Response) => {
-    create(req.body)
+export const createUnloadingPoint = async (req: Request, res: Response) => {
+    const { name, cementCompanyId, location } = req.body
+    await createPricePointMarker({ location })
+        .then((data) => create({ name, cementCompanyId, pricePointMarkerId: data.id }))
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
 }

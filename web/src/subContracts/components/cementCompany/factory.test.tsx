@@ -1,40 +1,47 @@
 import { vi } from 'vitest'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import CreateFactory from './factory'
 
-const mockGetLoadingPoint = vi.fn()
+const mockGetAllCementCompany = vi.fn()
 const mockCreateLoadingPoint = vi.fn()
 const mockCreateUnloadingPoint = vi.fn()
+const mockCreateStockPoint = vi.fn()
 
 vi.mock('../../services/cementCompany', () => ({
-    getAllCementCompany: () => mockGetLoadingPoint()
+    getAllCementCompany: () => mockGetAllCementCompany()
 }))
 vi.mock('../../services/loadingPoint', () => ({
     createLoadingPoint: (inputs: any) => mockCreateLoadingPoint(inputs)
 }))
+vi.mock('../../services/stockPoint', () => ({
+    createStockPoint: (inputs: any) => mockCreateStockPoint(inputs)
+}))
 vi.mock('../../services/unloadingPoint', () => ({
     createUnloadingPoint: (inputs: any) => mockCreateUnloadingPoint(inputs)
 }))
-const mockPaymentDuesData = [
+const mockCementCompanyData = [
     {
         id: 1,
         name: 'UltraTech Cements'
     }
 ]
-const mockLoadingPointData = { name: 'goa', cementCompanyId: 1 }
-const mockUnloadingPointData = { name: 'salem', cementCompanyId: 1 }
+const mockLoadingPointData = { name: 'goa west', cementCompanyId: 1, location: 'goa' }
+const mockStockPointData = { name: 'delhi central', cementCompanyId: 1, location: 'delhi' }
+const mockUnloadingPointData = { name: 'salem attur', cementCompanyId: 1, location: 'salem' }
 
 describe('New trip test', () => {
     beforeEach(() => {
-        mockGetLoadingPoint.mockResolvedValue(mockPaymentDuesData)
+        mockGetAllCementCompany.mockResolvedValue(mockCementCompanyData)
         mockCreateLoadingPoint.mockResolvedValue(mockLoadingPointData)
+        mockCreateStockPoint.mockResolvedValue(mockStockPointData)
         mockCreateUnloadingPoint.mockResolvedValue(mockUnloadingPointData)
     })
-    test('should fetch company data from Db', async () => {
-        expect(mockGetLoadingPoint).toHaveBeenCalledTimes(0)
+    test('should create loading point for a company', async () => {
+        expect(mockGetAllCementCompany).toHaveBeenCalledTimes(0)
         expect(mockCreateLoadingPoint).toHaveBeenCalledTimes(0)
+        expect(mockCreateStockPoint).toHaveBeenCalledTimes(0)
         expect(mockCreateUnloadingPoint).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
@@ -42,37 +49,62 @@ describe('New trip test', () => {
             </BrowserRouter>
         )
 
+        // Select Cement Company
         const options = screen.getByRole('combobox', { name: 'Select Company' })
         userEvent.click(options)
         await waitFor(() => screen.getByRole('listbox'))
         const opt = screen.getByRole('option', { name: 'UltraTech Cements' })
         await userEvent.click(opt)
         expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
-        expect(mockGetLoadingPoint).toHaveBeenCalledTimes(1)
+        expect(mockGetAllCementCompany).toHaveBeenCalledTimes(1)
 
-        const checkbox = screen.getAllByRole('checkbox')
-        expect(checkbox[0]).not.toBeChecked()
-        expect(screen.getByRole('textbox', { name: 'Loading Point' })).toBeDisabled()
-        await fireEvent.click(checkbox[0])
-        expect(checkbox[0]).toBeChecked()
-        expect(screen.getByRole('textbox', { name: 'Loading Point' })).toBeEnabled()
+        // Select Category
+        const category = screen.getByRole('combobox', { name: 'Select Category' })
+        userEvent.click(category)
+        await waitFor(() => screen.getByRole('listbox'))
+        const option = screen.getByRole('option', { name: 'Loading Point' })
+        await userEvent.click(option)
 
-        await userEvent.type(screen.getByLabelText('Loading Point'), 'goa')
-        expect(await screen.findByDisplayValue('goa')).toBeInTheDocument()
+        // Input the values
+        await userEvent.type(screen.getByLabelText('Enter Loading Point'), 'goa west')
+        await userEvent.type(screen.getByLabelText('Enter Location'), 'goa')
 
-        await fireEvent.click(checkbox[1])
-        expect(checkbox[1]).toBeChecked()
-        expect(screen.getByRole('textbox', { name: 'Unloading Point' })).toBeEnabled()
-
-        await userEvent.type(screen.getByLabelText('Unloading Point'), 'Salem')
-        expect(await screen.findByDisplayValue('Salem')).toBeInTheDocument()
         const save = screen.getByRole('button', { name: 'Save' })
-        expect(save).toBeInTheDocument()
         await userEvent.click(save)
 
-        expect(mockCreateLoadingPoint).toBeCalledWith(mockLoadingPointData)
-        expect(mockCreateUnloadingPoint).toBeCalledWith(mockUnloadingPointData)
-        expect(mockCreateUnloadingPoint).toHaveBeenCalledTimes(1)
+        expect(mockCreateLoadingPoint).toHaveBeenCalledWith(mockLoadingPointData)
         expect(mockCreateLoadingPoint).toHaveBeenCalledTimes(1)
+    })
+    test('should create stock point for a company', async () => {
+        render(
+            <BrowserRouter>
+                <CreateFactory />
+            </BrowserRouter>
+        )
+
+        // Select Cement Company
+        const options = screen.getByRole('combobox', { name: 'Select Company' })
+        userEvent.click(options)
+        await waitFor(() => screen.getByRole('listbox'))
+        const opt = screen.getByRole('option', { name: 'UltraTech Cements' })
+        await userEvent.click(opt)
+        expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
+
+        // Select Category
+        const category = screen.getByRole('combobox', { name: 'Select Category' })
+        userEvent.click(category)
+        await waitFor(() => screen.getByRole('listbox'))
+        const option = screen.getByRole('option', { name: 'Stock Point' })
+        await userEvent.click(option)
+
+        // Input the values
+        await userEvent.type(screen.getByLabelText('Enter Stock Point'), 'delhi central')
+        await userEvent.type(screen.getByLabelText('Enter Location'), 'delhi')
+
+        const save = screen.getByRole('button', { name: 'Save' })
+        await userEvent.click(save)
+
+        expect(mockCreateStockPoint).toHaveBeenCalledWith(mockStockPointData)
+        expect(mockCreateStockPoint).toHaveBeenCalledTimes(1)
     })
 })

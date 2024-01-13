@@ -1,8 +1,11 @@
 import { Request, Response } from 'express'
 import { create, getAllLoadingPoint, getLoadingPointByCompany } from '../models/loadingPoint.ts'
+import { create as createPricePointMarker } from '../models/pricePointMarker.ts'
 
-export const createLoadingPoint = (req: Request, res: Response) => {
-    create(req.body)
+export const createLoadingPoint = async (req: Request, res: Response) => {
+    const { name, cementCompanyId, location } = req.body
+    await createPricePointMarker({ location })
+        .then((data) => create({ name, cementCompanyId, pricePointMarkerId: data.id }))
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
 }

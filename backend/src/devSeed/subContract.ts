@@ -1,5 +1,5 @@
 import { create as createLoadingPoint } from '../subContracts/models/loadingPoint.ts'
-import seedFactory from '../subContracts/seed/loadingPoint.ts'
+import seedFactoryWithoutDep from '../subContracts/seed/loadingPointWithoutDep.ts'
 import { create as createUnloadingPoint } from '../subContracts/models/unloadingPoint.ts'
 import seedDeliveryPointWithoutDep from '../subContracts/seed/unloadingPointWithoutDep.ts'
 import { create as createTruck } from '../subContracts/models/truck.ts'
@@ -12,9 +12,13 @@ import seedTransporterWithoutDep from '../subContracts/seed/transporterWithoutDe
 import { create as createPricePoint } from '../subContracts/models/pricePoint.ts'
 import seedPricePoint from '../subContracts/seed/pricePoint.ts'
 import { create as createTrip } from '../subContracts/models/loadingToUnloadingTrip.ts'
+import { create as createPricePointMarker } from '../subContracts/models/pricePointMarker.ts'
 import seedLoadingToUnloadingTrip from '../subContracts/seed/loadingToUnloadingTrip.ts'
 import { create } from '../subContracts/models/paymentDues.ts'
+import { create as createCementCompany } from '../subContracts/models/cementCompany.ts'
 import seedPaymentDue from '../subContracts/seed/paymentDue.ts'
+import seedCementCompany from '../subContracts/seed/cementCompany.ts'
+import seedPricePointMarker from '../subContracts/seed/pricePointMarker.ts'
 import prisma from '../../prisma/index.ts'
 
 async function addFuelStations() {
@@ -28,17 +32,28 @@ async function addFuelStations() {
     VALUES ('Chennai', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
     await prisma.$executeRaw`INSERT INTO "subContract"."fuelStation" ("location", "createdAt", "updatedAt", "bunkId")
     VALUES ('Pondicherry', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."stockPoint" ("name", "createdAt", "updatedAt","cementCompanyId")
-    VALUES ('StockPoint', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."stockPoint" ("name", "createdAt", "updatedAt","cementCompanyId","pricePointMarkerId")
+    VALUES ('StockPoint', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1);`
     await prisma.$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId", "createdAt", "updatedAt")
     VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
 }
 
 async function seedSubContract() {
-    const loadingPoint = await createLoadingPoint(seedFactory)
+    const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+    const unloadingPricePointMarker = await createPricePointMarker({
+        ...seedPricePointMarker,
+        location: 'salem'
+    })
+    const cementCompany = await createCementCompany(seedCementCompany)
+    const loadingPoint = await createLoadingPoint({
+        ...seedFactoryWithoutDep,
+        cementCompanyId: cementCompany.id,
+        pricePointMarkerId: loadingPricePointMarker.id
+    })
     const unloadingPoint = await createUnloadingPoint({
         ...seedDeliveryPointWithoutDep,
-        cementCompanyId: loadingPoint.cementCompanyId
+        cementCompanyId: cementCompany.id,
+        pricePointMarkerId: unloadingPricePointMarker.id
     })
     const truck = await createTruck(seedTruck)
     await createTruck({ ...seedTruckWithoutDep, transporterId: truck.transporterId })

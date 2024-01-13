@@ -6,8 +6,10 @@ import seedTruckWithoutDep from '../seed/truckWithoutDeb.ts'
 import seedTransporter from '../seed/transporterWithoutDep.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
+import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import { create as createTruck, getAllTruck, getTruckByTransporter } from './truck.ts'
 import { create } from './transporter.ts'
+import { create as createPricePointMarker } from './pricePointMarker.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
 import { create as createBank } from './bankDetails.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -34,6 +36,11 @@ describe('Truck model', () => {
         expect(actual[0].transporterId).toBe(transporter.id)
     })
     test('should get only Truck with inactive by Transporter name', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
         const bank = await createBank(seedBank)
         const transporter = await create({ ...seedTransporter, bankDetailsId: bank.id })
         const truckWithActiveTrip = await createTruck({
@@ -50,11 +57,13 @@ describe('Truck model', () => {
         const company = await createCompany(seedCompany)
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
         })
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
         })
         await createTrip({
             ...seedLoadingToUnloadingTrip,

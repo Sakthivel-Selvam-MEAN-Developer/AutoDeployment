@@ -292,7 +292,6 @@ model cementCompany {
 model loadingPoint {
   id                               Int                                @id @default(autoincrement())
   name                             String                             @unique
-  location                         String?
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
@@ -300,6 +299,8 @@ model loadingPoint {
   cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])
   cementCompanyId                  Int
   pricePoint                       pricePoint[]
+  pricePointMarker                 pricePointMarker                   @relation(fields: [pricePointMarkerId], references: [id])
+  pricePointMarkerId               Int
 
   @@schema("subContract")
 }
@@ -307,13 +308,14 @@ model loadingPoint {
 model stockPoint {
   id                           Int                            @id @default(autoincrement())
   name                         String                         @unique
-  location                     String?
   loadingPointToStockPointTrip loadingPointToStockPointTrip[]
   createdAt                    DateTime                       @default(now()) @db.Timestamptz(6)
   updatedAt                    DateTime                       @updatedAt @db.Timestamptz(6)
   cementCompany                cementCompany                  @relation(fields: [cementCompanyId], references: [id])
   cementCompanyId              Int
   pricePoint                   pricePoint[]
+  pricePointMarker             pricePointMarker               @relation(fields: [pricePointMarkerId], references: [id])
+  pricePointMarkerId           Int
 
   @@schema("subContract")
 }
@@ -321,7 +323,6 @@ model stockPoint {
 model unloadingPoint {
   id                               Int                                @id @default(autoincrement())
   name                             String                             @unique
-  location                         String?
   stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
   loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
@@ -329,6 +330,20 @@ model unloadingPoint {
   cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])
   cementCompanyId                  Int
   pricePoint                       pricePoint[]
+  pricePointMarker                 pricePointMarker                   @relation(fields: [pricePointMarkerId], references: [id])
+  pricePointMarkerId               Int
+
+  @@schema("subContract")
+}
+
+model pricePointMarker {
+  id             Int              @id @default(autoincrement())
+  location       String
+  loadingPoint   loadingPoint[]
+  stockPoint     stockPoint[]
+  unloadingPoint unloadingPoint[]
+  createdAt      DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime         @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }

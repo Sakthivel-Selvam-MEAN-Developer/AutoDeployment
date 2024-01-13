@@ -10,27 +10,21 @@ import { createStockPoint } from '../../services/stockPoint'
 
 const CreateFactory: React.FC = (): ReactElement => {
     const navigate = useNavigate()
-    const { handleSubmit, control } = useForm<FieldValues>()
+    const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [companyId, setCompanyId] = useState(0)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        if (data.loadingPoint) {
-            createLoadingPoint({
-                name: data.loadingPoint.toLowerCase(),
-                cementCompanyId: companyId
-            })
+        const details = {
+            name: data.name,
+            cementCompanyId: companyId,
+            location: data.location.toLowerCase()
         }
-        if (data.unloadingPoint) {
-            createUnloadingPoint({
-                name: data.unloadingPoint.toLowerCase(),
-                cementCompanyId: companyId
-            })
-        }
-        if (data.stockPoint) {
-            createStockPoint({
-                name: data.stockPoint.toLowerCase(),
-                cementCompanyId: companyId
-            })
+        if (data.category === 'Loading Point') {
+            createLoadingPoint(details)
+        } else if (data.category === 'Unloading Point') {
+            createUnloadingPoint(details)
+        } else if (data.category === 'Stock Point') {
+            createStockPoint(details)
         }
         setOpenSuccessDialog(true)
     }
@@ -41,7 +35,7 @@ const CreateFactory: React.FC = (): ReactElement => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FactoryFormFields control={control} companyId={setCompanyId} />
+                <FactoryFormFields control={control} companyId={setCompanyId} setValue={setValue} />
                 <SubmitButton name="Save" type="submit" />
             </form>
             <SuccessDialog

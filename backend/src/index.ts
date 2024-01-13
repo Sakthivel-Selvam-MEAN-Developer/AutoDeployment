@@ -22,6 +22,7 @@ import paymentDues from './subContracts/routes/paymentDues.ts'
 import bunkRoutes from './subContracts/routes/bunk.ts'
 import fuelRoutes from './subContracts/routes/fuel.ts'
 import stationRoutes from './subContracts/routes/fuelStation.ts'
+import pointMarkerRoutes from './subContracts/routes/pricePointMarker.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -52,5 +53,6 @@ paymentDues(router)
 bunkRoutes(router)
 fuelRoutes(router)
 stationRoutes(router)
+pointMarkerRoutes(router)
 
 export default router

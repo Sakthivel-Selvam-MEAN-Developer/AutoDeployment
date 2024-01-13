@@ -1,24 +1,25 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import AutoComplete from '../../../form/AutoComplete.tsx'
 import TextInputWithPattern from '../../../form/InputWithPattern.tsx'
-import { Checkbox } from '@mui/material'
 import { getAllCementCompany } from '../../services/cementCompany.ts'
-import { Control } from 'react-hook-form'
+import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 
 interface FormFieldsProps {
     control: Control
     companyId: React.Dispatch<React.SetStateAction<number>>
+    setValue: UseFormSetValue<FieldValues>
 }
-const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) => {
-    const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
+const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId, setValue }) => {
     const [cementCompany, setCementCompany] = useState([])
-    const [check1, setCheck1] = useState<boolean>(true)
-    const [check2, setCheck2] = useState<boolean>(true)
-    const [check3, setCheck3] = useState<boolean>(true)
+    const [category, setCategory] = useState<string>('Loading Point')
 
     useEffect(() => {
         getAllCementCompany().then(setCementCompany)
     }, [])
+    useEffect(() => {
+        setValue('name', '')
+        setValue('location', '')
+    }, [category])
     return (
         <div
             style={{
@@ -40,44 +41,35 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId }) =>
                     companyId(id)
                 }}
             />
+            <AutoComplete
+                control={control}
+                fieldName="category"
+                label="Select Category"
+                options={['Loading Point', 'Stock Point', 'Unloading Point']}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    setCategory(newValue)
+                }}
+            />
             <div>
-                <Checkbox onClick={() => setCheck1(!check1)} {...label} />
                 <TextInputWithPattern
                     control={control}
-                    disabled={check1}
-                    label="Loading Point"
-                    fieldName="loadingPoint"
+                    disabled={false}
+                    label={`Enter ${category}`}
+                    fieldName="name"
                     InputProps={{
                         inputProps: {
-                            pattern: '[a-zA-Z\\s]*',
-                            title: 'Only alphabetic characters are allowed'
-                        }
-                    }}
-                />
-            </div>
-
-            <div>
-                <Checkbox onClick={() => setCheck2(!check2)} {...label} />
-                <TextInputWithPattern
-                    control={control}
-                    disabled={check2}
-                    label="Unloading Point"
-                    fieldName="unloadingPoint"
-                    InputProps={{
-                        inputProps: {
-                            pattern: '[a-zA-Z\\s]*',
+                            pattern: '[a-zA-Z0-9\\s]*',
                             title: 'Only alphabetic characters are allowed'
                         }
                     }}
                 />
             </div>
             <div>
-                <Checkbox onClick={() => setCheck3(!check3)} {...label} />
                 <TextInputWithPattern
                     control={control}
-                    disabled={check3}
-                    label="Stock Point"
-                    fieldName="stockPoint"
+                    disabled={false}
+                    label="Enter Location"
+                    fieldName="location"
                     InputProps={{
                         inputProps: {
                             pattern: '[a-zA-Z\\s]*',

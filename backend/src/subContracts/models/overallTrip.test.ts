@@ -20,19 +20,28 @@ import seedTruck from '../seed/truckWithoutDeb.ts'
 import seedTransporter from '../seed/transporter.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
 import { create as createLoadingToStockTrip } from './loadingToStockPointTrip.ts'
+import { create as createPricePointMarker } from './pricePointMarker.ts'
+import seedPricePointMarker from '../seed/pricePointMarker.ts'
 
 describe('Overall Trip model', () => {
     test('should able to create a overall trip', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
         })
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
         })
         const trip = await createTrip({
             ...seedFactoryToCustomerTrip,
@@ -47,6 +56,15 @@ describe('Overall Trip model', () => {
         expect(actual[0].loadingPointToUnloadingPointTripId).toBe(trip.id)
     })
     test('should able to get only a active overall trip', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
         const unloadingTripTruck = await createTruck({
@@ -60,15 +78,18 @@ describe('Overall Trip model', () => {
         })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
         })
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
         })
         const stockPoint = await createStockpoint({
             ...seedStockPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
         })
         const loadingToUnloadingTrip = await createTrip({
             ...seedFactoryToCustomerTrip,
@@ -91,6 +112,15 @@ describe('Overall Trip model', () => {
         expect(actual?.id).toBe(trip.id)
     })
     test('should able to get only a active overall trip who wants fuel', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
         const unloadingTripTruck = await createTruck({
@@ -104,15 +134,18 @@ describe('Overall Trip model', () => {
         })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
         })
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
         })
         const stockPoint = await createStockpoint({
             ...seedStockPoint,
-            cementCompanyId: company.id
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
         })
         const loadingToUnloadingTrip = await createTrip({
             ...seedFactoryToCustomerTrip,

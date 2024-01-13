@@ -1,6 +1,7 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
 interface dataProps {
     name: string
+    location: string
     cementCompanyId: number
 }
 

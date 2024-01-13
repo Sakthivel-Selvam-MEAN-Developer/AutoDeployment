@@ -3,6 +3,7 @@ import { axiosInstance, getData } from '../../wonderMove/services'
 interface dataProps {
     name: string
     cementCompanyId: number
+    location: string
 }
 export const createLoadingPoint = (data: dataProps) =>
     axiosInstance

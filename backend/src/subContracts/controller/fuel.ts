@@ -17,17 +17,16 @@ interface dataProps {
     updatedAt: Date
 }
 async function createDues(fuel: dataProps, trip: any, bunkname: string, vehicleNumber: string) {
-    return fuelLogics(fuel, trip, bunkname, vehicleNumber)
-        .then((dues: any) => {
-            if (trip !== null) {
-                return createPaymentDues(dues)
-            }
-            if (trip === null && dues === undefined) {
-                const fuelDue = fuelDues(bunkname, vehicleNumber, fuel)
-                return createPaymentDues(fuelDue)
-            }
-        })
-        .catch((e) => console.log(e))
+    return fuelLogics(fuel, trip, bunkname, vehicleNumber).then((dues: any) => {
+        if (trip !== null) {
+            return createPaymentDues(dues)
+        }
+        if (trip === null && dues === undefined) {
+            const fuelDue = fuelDues(bunkname, vehicleNumber, fuel)
+            return createPaymentDues(fuelDue)
+        }
+    })
+    // .catch((e) => console.log(e))
 }
 
 export const createFuel = async (req: Request, res: Response) => {
