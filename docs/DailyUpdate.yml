@@ -1,8 +1,24 @@
+- date: 13-1-2024
+  person: Muthu
+  planning:
+    - add loading - stock price point
+    - testing the final payment dues
+- date: 13-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+- date: 13-1-2024
+  person: Barath
+  planning:
+    - add acknowledgement details & complete the trip
+
 - date: 12-1-2024
   person: Barath
   planning:
     - discussion for acknowledgement
     - changing loading, stock, unloading point to single location
+  completed:
+    - tested for loading - stock price point
 - date: 12-1-2024
   person: Muthu & Sakthivel
   planning:
