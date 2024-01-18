@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import dayjs from 'dayjs'
 
+const mockPricePoint = vi.fn()
 const mockAllTrip = vi.fn()
 const mockAllStockTrip = vi.fn()
 const mockAllUnloadingPoint = vi.fn()
@@ -22,6 +23,9 @@ vi.mock('../../services/unloadingPointTrip', () => ({
 vi.mock('../../services/unloadingPoint', () => ({
     getAllUnloadingPoint: () => mockAllUnloadingPoint()
 }))
+vi.mock('../../services/pricePoint', () => ({
+    getPricePoint: () => mockPricePoint()
+}))
 
 const mockUnloadingPoint = [
     {
@@ -31,6 +35,11 @@ const mockUnloadingPoint = [
         pricePointMarkerId: 2
     }
 ]
+const mockPricePointData = {
+    freightAmount: 1000,
+    transporterAmount: 900,
+    transporterPercentage: 10
+}
 const mockCreateStockPointTrip = {
     startDate: dayjs().unix(),
     invoiceNumber: '12345abc',
@@ -95,6 +104,7 @@ describe('Trip Test', () => {
         mockAllStockTrip.mockResolvedValue(mockStockTripData)
         mockAllUnloadingPoint.mockResolvedValue(mockUnloadingPoint)
         mockCreateStockTrip.mockResolvedValue(mockCreateStockPointTrip)
+        mockPricePoint.mockResolvedValue(mockPricePointData)
     })
     test('should fetch data from Db', async () => {
         render(
