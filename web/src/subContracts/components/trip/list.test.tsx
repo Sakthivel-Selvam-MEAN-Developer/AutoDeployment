@@ -3,9 +3,12 @@ import TripList from './list'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import dayjs from 'dayjs'
 
 const mockAllTrip = vi.fn()
 const mockAllStockTrip = vi.fn()
+const mockAllUnloadingPoint = vi.fn()
+const mockCreateStockTrip = vi.fn()
 
 vi.mock('../../services/trip', () => ({
     getAllTrip: () => mockAllTrip()
@@ -13,7 +16,29 @@ vi.mock('../../services/trip', () => ({
 vi.mock('../../services/stockPointTrip', () => ({
     getAllStockPointTrip: () => mockAllStockTrip()
 }))
+vi.mock('../../services/unloadingPointTrip', () => ({
+    createStockTrip: () => mockCreateStockTrip()
+}))
+vi.mock('../../services/unloadingPoint', () => ({
+    getAllUnloadingPoint: () => mockAllUnloadingPoint()
+}))
 
+const mockUnloadingPoint = [
+    {
+        id: 1,
+        name: 'australia',
+        cementCompanyId: 1,
+        pricePointMarkerId: 2
+    }
+]
+const mockCreateStockPointTrip = {
+    startDate: dayjs().unix(),
+    invoiceNumber: '12345abc',
+    freightAmount: 10001,
+    transporterAmount: 900,
+    unloadingPointId: 1,
+    loadingPointToStockPointTripId: 1
+}
 const mockTripData = [
     {
         startDate: 1696934739,
@@ -68,6 +93,8 @@ describe('Trip Test', () => {
     beforeEach(() => {
         mockAllTrip.mockResolvedValue(mockTripData)
         mockAllStockTrip.mockResolvedValue(mockStockTripData)
+        mockAllUnloadingPoint.mockResolvedValue(mockUnloadingPoint)
+        mockCreateStockTrip.mockResolvedValue(mockCreateStockPointTrip)
     })
     test('should fetch data from Db', async () => {
         render(
@@ -82,24 +109,19 @@ describe('Trip Test', () => {
         })
         expect(mockAllTrip).toHaveBeenCalledTimes(1)
     })
-    test('should fetch data from stock Db', async () => {
+    test('should to able to create stock-unloading trip', async () => {
         render(
             <BrowserRouter>
                 <TripList />
             </BrowserRouter>
         )
+        userEvent.click(await screen.findByText('TN22E3456'))
         await waitFor(() => {
-            expect(screen.getByText('Deepak Logistics Pvt Ltd')).toBeInTheDocument()
-            expect(screen.getByText('StockPoint')).toBeInTheDocument()
-            expect(screen.getByText('TN22E3456')).toBeInTheDocument()
+            expect(screen.getByLabelText('Invoice Number')).toBeInTheDocument()
+            expect(screen.getByLabelText('Freight Amount')).toBeInTheDocument()
         })
-        const transporter = screen.getByText('Deepak Logistics Pvt Ltd')
-        await userEvent.click(transporter)
         await userEvent.type(screen.getByLabelText('Invoice Number'), '12345abc')
-        expect(await screen.findByDisplayValue('12345abc')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Freight Amount'), '1')
-        expect(await screen.findByDisplayValue('10001')).toBeInTheDocument()
-
         const unLoadingPoint = screen.getByRole('combobox', {
             name: 'Unloading Point'
         })
@@ -108,10 +130,10 @@ describe('Trip Test', () => {
             screen.getByRole('listbox')
         })
         const opt = screen.getByRole('option', {
-            name: 'Salem'
+            name: 'australia'
         })
         await userEvent.click(opt)
-        expect(screen.getByRole('button', { name: 'Create' }))
-        expect(mockAllStockTrip).toHaveBeenCalledTimes(2)
+        await userEvent.click(screen.getByRole('button', { name: 'Create' }))
+        expect(mockCreateStockTrip).toHaveBeenCalledTimes(1)
     })
 })
