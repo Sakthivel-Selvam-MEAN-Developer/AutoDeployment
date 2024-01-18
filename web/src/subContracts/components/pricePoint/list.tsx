@@ -8,9 +8,9 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [transporterRate, setTransporterRate] = useState<number>(0)
     const [cementCompany, setCementCompany] = useState([])
-    const [loadingPointId, setLoadingPointId] = useState<number>(0)
-    const [unloadingPointId, setUnloadingPointId] = useState<number>(0)
-    const [stockPointId, setStockPointId] = useState<number>(0)
+    const [loadingPointId, setLoadingPointId] = useState<number | null>(null)
+    const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
+    const [stockPointId, setStockPointId] = useState<number | null>(null)
     const [freightAmount, setFreightAmount] = useState<number>(0)
     const transporterPercentage = watch('transporterPercentage')
     const [category, setCategory] = useState<string>('')
@@ -26,15 +26,16 @@ const CreatePricepoint: React.FC = (): ReactElement => {
         const details = {
             loadingPointId: loadingPointId,
             unloadingPointId: unloadingPointId,
+            stockPointId: stockPointId,
             freightAmount: freightAmount,
             transporterPercentage: parseInt(data.transporterPercentage),
             transporterAmount: transporterRate
         }
-        if (category === 'Loading - Unloading') createpricePoint(details)
-        console.log(stockPointId)
-
-        // else if (category === 'Loading - Stock') createpricePoint({...details, loadingPointId, stockPointId})
-        // else if (category === 'Stock - Unloading') createpricePoint({...details, stockPointId, unloadingPointId})
+        if (category === 'Loading - Unloading') createpricePoint({ ...details, stockPointId: null })
+        else if (category === 'Loading - Stock')
+            createpricePoint({ ...details, unloadingPointId: null })
+        else if (category === 'Stock - Unloading')
+            createpricePoint({ ...details, loadingPointId: null })
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -48,6 +49,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 setFreightAmount={setFreightAmount}
                 loadingPointId={loadingPointId}
                 unloadingPointId={unloadingPointId}
+                stockPointId={stockPointId}
                 transporterRate={transporterRate}
                 category={category}
                 setCategory={setCategory}

@@ -476,18 +476,18 @@ model truck {
 }
 
 model pricePoint {
-  id                    Int            @id @default(autoincrement())
-  loadingPointId        Int
-  loadingPoint          loadingPoint   @relation(fields: [loadingPointId], references: [id])
-  unloadingPointId      Int
-  unloadingPoint        unloadingPoint @relation(fields: [unloadingPointId], references: [id])
+  id                    Int             @id @default(autoincrement())
   freightAmount         Int
   transporterAmount     Int
   transporterPercentage Int
-  createdAt             DateTime       @default(now()) @db.Timestamptz(6)
-  updatedAt             DateTime       @updatedAt @db.Timestamptz(6)
-  stockPoint            stockPoint?    @relation(fields: [stockPointId], references: [id])
+  loadingPointId        Int?
+  loadingPoint          loadingPoint?   @relation(fields: [loadingPointId], references: [id])
+  unloadingPointId      Int?
+  unloadingPoint        unloadingPoint? @relation(fields: [unloadingPointId], references: [id])
   stockPointId          Int?
+  stockPoint            stockPoint?     @relation(fields: [stockPointId], references: [id])
+  createdAt             DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime        @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }

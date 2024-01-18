@@ -14,8 +14,9 @@ interface FormFieldProps {
     control: Control
     transporter: string[]
     truckId: React.Dispatch<React.SetStateAction<number>>
-    loadingPointId: React.Dispatch<React.SetStateAction<number>>
-    unloadingPointId: React.Dispatch<React.SetStateAction<number>>
+    loadingPointId: React.Dispatch<React.SetStateAction<number | null>>
+    unloadingPointId: React.Dispatch<React.SetStateAction<number | null>>
+    stockPointId: React.Dispatch<React.SetStateAction<number | null>>
     cementCompany: string[]
     freightAmount: number
     transporterAmount: number
@@ -26,7 +27,6 @@ interface FormFieldProps {
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
     category: string
-    stockPointId: React.Dispatch<React.SetStateAction<number>>
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,

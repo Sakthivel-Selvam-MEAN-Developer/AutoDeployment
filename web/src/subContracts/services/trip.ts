@@ -1,8 +1,8 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
 interface dataProps {
     truckId: number
-    loadingPointId: number
-    unloadingPointId: number
+    loadingPointId: number | null
+    unloadingPointId: number | null
     startDate: number
     filledLoad: number
     invoiceNumber: string

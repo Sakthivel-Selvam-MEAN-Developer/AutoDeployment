@@ -39,10 +39,10 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
         getAllUnloadingPoint().then(setUnloadingPointList)
     }, [])
     useEffect(() => {
-        getPricePoint(row.loadingPointId, row.stockPointId).then((pricePoint) =>
-            setTransporterPercentage(pricePoint?.transporterPercentage)
+        getPricePoint(row.loadingPointId, row.stockPointId, row.unloadingPointId).then(
+            (pricePoint) => setTransporterPercentage(pricePoint?.transporterPercentage)
         )
-    }, [row.loadingPointId, row.stockPointId])
+    }, [row.loadingPointId, row.stockPointId, row.unloadingPointId])
 
     return (
         <div

@@ -1,7 +1,8 @@
 import { axiosInstance, getData } from '../../wonderMove/services'
 interface dataProps {
-    loadingPointId: number
-    unloadingPointId: number
+    loadingPointId: number | null
+    unloadingPointId: number | null
+    stockPointId: number | null
     freightAmount: number
     transporterPercentage: number
     transporterAmount: number
@@ -10,10 +11,14 @@ export const createpricePoint = (data: dataProps) =>
     axiosInstance
         .post('/price-point', data)
         .then(getData)
-        .catch(() => alert('Please provide valid details'))
+        .catch((e) => alert(e))
 
-export const getPricePoint = (loadingPointId: number, unloadingPointId: number) =>
+export const getPricePoint = (
+    loadingPointId: number | null,
+    unloadingPointId: number | null,
+    stockPointId: number | null
+) =>
     axiosInstance
-        .get(`/price-point/${loadingPointId}/${unloadingPointId}`)
+        .get(`/price-point/${loadingPointId}/${unloadingPointId}/${stockPointId}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))

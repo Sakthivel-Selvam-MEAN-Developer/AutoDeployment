@@ -4,14 +4,14 @@ import { app } from '../../app.ts'
 const mockPricePoint = vi.fn()
 
 vi.mock('../models/pricePoint', () => ({
-    getPricePoint: (loadingPointId: number, unloadingPointId: number) =>
-        mockPricePoint(loadingPointId, unloadingPointId)
+    getPricePoint: (loadingPointId: number, unloadingPointId: number, stockPointId: null) =>
+        mockPricePoint(loadingPointId, unloadingPointId, stockPointId)
 }))
 
 describe('PricePoint Controller', () => {
     test('should able to access', async () => {
         mockPricePoint.mockResolvedValue({ freightAmount: 1000, transporterAmount: 900 })
-        await supertest(app).get('/price-point/1/1').expect({
+        await supertest(app).get('/price-point/1/1/null').expect({
             freightAmount: 1000,
             transporterAmount: 900
         })

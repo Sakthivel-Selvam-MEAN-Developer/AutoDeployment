@@ -1,10 +1,15 @@
 import prisma from '../../../prisma/index.ts'
 
-export const getPricePoint = (loadingPointId: number, unloadingPointId: number) =>
+export const getPricePoint = (
+    loadingPointId: number | null,
+    unloadingPointId: number | null,
+    stockPointId: number | null
+) =>
     prisma.pricePoint.findFirst({
         where: {
             loadingPointId,
-            unloadingPointId
+            unloadingPointId,
+            stockPointId
         },
         select: {
             freightAmount: true,
@@ -17,7 +22,8 @@ export const create = async (data: any) => {
     const pricePointData = await prisma.pricePoint.findFirst({
         where: {
             loadingPointId: data.loadingPointId,
-            unloadingPointId: data.unloadingPointId
+            unloadingPointId: data.unloadingPointId,
+            stockPointId: data.stockPointId
         },
         select: {
             id: true
@@ -30,6 +36,7 @@ export const create = async (data: any) => {
             },
             data: {
                 freightAmount: data.freightAmount,
+                transporterPercentage: data.transporterPercentage,
                 transporterAmount: data.transporterAmount
             }
         })

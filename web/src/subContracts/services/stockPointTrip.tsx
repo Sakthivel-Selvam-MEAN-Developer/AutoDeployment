@@ -2,7 +2,7 @@ import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
 
 interface dataProps {
     truckId: number
-    loadingPointId: number
+    loadingPointId: number | null
     startDate: number
     filledLoad: number
     invoiceNumber: string
@@ -12,7 +12,7 @@ interface dataProps {
     totalTransporterAmount: number
     margin: number
     wantFuel: boolean
-    stockPointId: number
+    stockPointId: number | null
 }
 
 export const createStockPointTrip = (data: dataProps) =>

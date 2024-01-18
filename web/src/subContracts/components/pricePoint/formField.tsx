@@ -13,12 +13,13 @@ import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 export interface FormFieldsProps {
     control: Control
     cementCompany: string[]
-    setUnloadingPointId: React.Dispatch<React.SetStateAction<number>>
-    setLoadingPointId: React.Dispatch<React.SetStateAction<number>>
-    setStockPointId: React.Dispatch<React.SetStateAction<number>>
+    setUnloadingPointId: React.Dispatch<React.SetStateAction<number | null>>
+    setLoadingPointId: React.Dispatch<React.SetStateAction<number | null>>
+    setStockPointId: React.Dispatch<React.SetStateAction<number | null>>
     transporterRate: number
-    loadingPointId: number
-    unloadingPointId: number
+    loadingPointId: number | null
+    unloadingPointId: number | null
+    stockPointId: number | null
     freightAmount: number
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
@@ -33,6 +34,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
     transporterRate,
     loadingPointId,
     unloadingPointId,
+    stockPointId,
     setFreightAmount,
     freightAmount,
     setCategory,
@@ -51,12 +53,16 @@ const FormFields: React.FC<FormFieldsProps> = ({
         }
     }, [cementCompanyName])
     useEffect(() => {
-        if (loadingPointId && unloadingPointId) {
-            getPricePoint(loadingPointId, unloadingPointId).then(({ freightAmount }) => {
-                setFreightAmount(freightAmount)
-            })
+        if (
+            (loadingPointId && unloadingPointId) ||
+            (stockPointId && loadingPointId) ||
+            (stockPointId && unloadingPointId)
+        ) {
+            getPricePoint(loadingPointId, unloadingPointId, stockPointId).then(
+                ({ freightAmount }) => setFreightAmount(freightAmount)
+            )
         }
-    }, [loadingPointId, unloadingPointId])
+    }, [loadingPointId, unloadingPointId, stockPointId])
     return (
         <div
             style={{

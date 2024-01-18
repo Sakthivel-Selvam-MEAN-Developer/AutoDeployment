@@ -21,9 +21,9 @@ const NewTrip: React.FC = () => {
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
     const [truckId, setTruckId] = useState(0)
-    const [loadingPointId, setLoadingPointId] = useState(0)
-    const [stockPointId, setStockPointId] = useState(0)
-    const [unloadingPointId, setUnloadingPointId] = useState(0)
+    const [loadingPointId, setLoadingPointId] = useState<number | null>(null)
+    const [stockPointId, setStockPointId] = useState<number | null>(null)
+    const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
     const [freightAmount, setFreightAmount] = useState(0)
     const [transporterAmount, setTransporterAmount] = useState(0)
     const [totalTransporterAmount, setTotalTransporterAmount] = useState(0)
@@ -74,13 +74,13 @@ const NewTrip: React.FC = () => {
         )
     }, [])
     useEffect(() => {
-        if (loadingPointId !== undefined && unloadingPointId !== undefined) {
-            getPricePoint(loadingPointId, unloadingPointId).then((data) => {
-                setFreightAmount(data.freightAmount)
-                setTransporterAmount(data.transporterAmount)
-            })
-        }
-    }, [loadingPointId, unloadingPointId])
+        // if (loadingPointId !== undefined && unloadingPointId !== undefined) {
+        getPricePoint(loadingPointId, unloadingPointId, stockPointId).then((data) => {
+            setFreightAmount(data.freightAmount)
+            setTransporterAmount(data.transporterAmount)
+        })
+        // }
+    }, [loadingPointId, unloadingPointId, stockPointId])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

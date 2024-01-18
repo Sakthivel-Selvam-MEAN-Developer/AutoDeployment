@@ -32,7 +32,7 @@ describe('Price Point model', () => {
             loadingPointId: loadingPoint.id,
             unloadingPointId: unloadingPoint.id
         })
-        const actual = await getPricePoint(loadingPoint.id, unloadingPoint.id)
+        const actual = await getPricePoint(loadingPoint.id, unloadingPoint.id, null)
         expect(actual?.freightAmount).toBe(pricePoint.freightAmount)
         expect(actual?.transporterAmount).toBe(pricePoint.transporterAmount)
     })

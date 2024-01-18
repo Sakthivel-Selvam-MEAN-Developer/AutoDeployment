@@ -9,8 +9,9 @@ export const createPricePoint = (req: Request, res: Response) => {
 
 export const listPricePoint = (req: Request, res: Response) => {
     getPricePoint(
-        parseInt(req.params.loadingPointId as string, 10),
-        parseInt(req.params.unloadingPointId as string, 10)
+        parseInt(req.params.loadingPointId),
+        parseInt(req.params.unloadingPointId),
+        parseInt(req.params.stockPointId)
     )
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
