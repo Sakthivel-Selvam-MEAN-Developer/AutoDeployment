@@ -7,8 +7,9 @@ import { getTruckByTransporter } from '../../services/truck.ts'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
-import { Control } from 'react-hook-form'
+import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
+import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 
 interface FormFieldProps {
     control: Control
@@ -27,6 +28,7 @@ interface FormFieldProps {
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
     category: string
+    setValue: UseFormSetValue<FieldValues>
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -45,6 +47,7 @@ const FormField: React.FC<FormFieldProps> = ({
     setCategory,
     category,
     stockPointId
+    // setValue
 }) => {
     const [transporterName, setTransporterName] = useState<string>()
     const [cementCompanyName, setCementCompanyName] = useState<string>()
@@ -52,23 +55,34 @@ const FormField: React.FC<FormFieldProps> = ({
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
     const [stockPointList, setStockPointList] = useState([])
+    const [stockPoint, setStockPoint] = useState('')
 
     useEffect(() => {
-        if (cementCompanyName !== undefined) {
+        if (cementCompanyName !== undefined)
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
-        }
-        if (transporterName !== undefined) {
-            getTruckByTransporter(transporterName).then(setListTruck)
-        }
+        if (transporterName !== undefined) getTruckByTransporter(transporterName).then(setListTruck)
     }, [transporterName, cementCompanyName])
 
     useEffect(() => {
-        if (cementCompanyName !== undefined && category === 'Stock Point') {
+        if (cementCompanyName !== undefined && category === 'Stock Point')
             getStockPointByCompanyName(cementCompanyName).then(setStockPointList)
-        } else if (cementCompanyName !== undefined && category === 'Unloading Point') {
+        else if (cementCompanyName !== undefined && category === 'Unloading Point')
             getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
-        }
     }, [category, cementCompanyName])
+
+    useEffect(() => {
+        setStockPoint('')
+        // unloadingPointId(null)
+        // stockPointId(null)
+        // setValue('loadingPointId', '')
+        // setValue('unloadingPointId', '')
+        // setValue('stockPointId', '')
+        // setValue('invoiceNumber', '')
+        // setValue('freightAmount', '')
+        // setValue('transporterAmount', '')
+        // setStockPointList([])
+        // setUnloadingPointList([])
+    }, [category])
 
     return (
         <div
@@ -144,7 +158,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     }}
                 />
             ) : (
-                <AutoComplete
+                <AutoCompleteWithValue
                     control={control}
                     fieldName="stockPointId"
                     label="Stock Point"
@@ -153,13 +167,15 @@ const FormField: React.FC<FormFieldProps> = ({
                         const { id }: any = stockPointList.find(
                             (data: { name: string }) => data.name === newValue
                         )
+                        setStockPoint(newValue)
                         stockPointId(id)
                     }}
+                    value={stockPoint}
                 />
             )}
             <InputWithDefaultValue
                 control={control}
-                label="Freight Amount"
+                label="Company Freight"
                 fieldName="freightAmount"
                 type="number"
                 defaultValue={freightAmount}
@@ -173,7 +189,7 @@ const FormField: React.FC<FormFieldProps> = ({
             />
             <InputWithDefaultValue
                 control={control}
-                label="Transporter Amount"
+                label="Transporter Freight"
                 fieldName="transporterAmount"
                 type="number"
                 defaultValue={transporterAmount}
@@ -201,7 +217,7 @@ const FormField: React.FC<FormFieldProps> = ({
             />
             <InputWithDefaultValue
                 control={control}
-                label="Total Freight Amount"
+                label="Total Company Freight"
                 fieldName="totalFreightAmount"
                 type="number"
                 defaultValue={totalFreightAmount}
@@ -215,7 +231,7 @@ const FormField: React.FC<FormFieldProps> = ({
             />
             <InputWithDefaultValue
                 control={control}
-                label="Total Transporter Amount"
+                label="Total Transporter Freight"
                 fieldName="totalTransporterAmount"
                 type="number"
                 defaultValue={totalTransporterAmount}

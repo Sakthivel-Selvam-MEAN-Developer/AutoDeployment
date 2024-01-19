@@ -12,38 +12,30 @@ const FormField: React.FC<formProps> = ({ setRefresh, refresh, id }): ReactEleme
     const [transactionId, setTransactionId] = useState('')
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const details = {
-            id,
-            transactionId,
-            paidAt: dayjs().unix()
-        }
-        updatePaymentDues(details).then(() => {
+        updatePaymentDues({ id, transactionId, paidAt: dayjs().unix() }).then(() => {
             setRefresh(!refresh)
             setTransactionId('')
         })
     }
-
     return (
-        <>
-            <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
-                <TextField
-                    id="outlined-basic"
-                    label="Transaction Id"
-                    name="transactionId"
-                    variant="outlined"
-                    value={transactionId}
-                    onChange={(e) => setTransactionId(e.target.value)}
-                    sx={{ width: '200px' }}
-                />
-                <Button
-                    disabled={transactionId == ''}
-                    type="submit"
-                    sx={{ width: '100px', margin: '0 10px' }}
-                >
-                    Pay
-                </Button>
-            </form>
-        </>
+        <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
+            <TextField
+                id="outlined-basic"
+                label="Transaction Id"
+                name="transactionId"
+                variant="outlined"
+                value={transactionId}
+                onChange={(e) => setTransactionId(e.target.value)}
+                sx={{ width: '200px' }}
+            />
+            <Button
+                disabled={transactionId == ''}
+                type="submit"
+                sx={{ width: '100px', margin: '0 10px' }}
+            >
+                Pay
+            </Button>
+        </form>
     )
 }
 export default FormField

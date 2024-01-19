@@ -5,11 +5,9 @@ import FactoryFormFields from './factoryFormField'
 import { createUnloadingPoint } from '../../services/unloadingPoint'
 import { createLoadingPoint } from '../../services/loadingPoint'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
-import { useNavigate } from 'react-router-dom'
 import { createStockPoint } from '../../services/stockPoint'
 
 const CreateFactory: React.FC = (): ReactElement => {
-    const navigate = useNavigate()
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [companyId, setCompanyId] = useState(0)
@@ -19,18 +17,10 @@ const CreateFactory: React.FC = (): ReactElement => {
             cementCompanyId: companyId,
             location: data.location.toLowerCase()
         }
-        if (data.category === 'Loading Point') {
-            createLoadingPoint(details)
-        } else if (data.category === 'Unloading Point') {
-            createUnloadingPoint(details)
-        } else if (data.category === 'Stock Point') {
-            createStockPoint(details)
-        }
+        if (data.category === 'Loading Point') createLoadingPoint(details)
+        else if (data.category === 'Unloading Point') createUnloadingPoint(details)
+        else if (data.category === 'Stock Point') createStockPoint(details)
         setOpenSuccessDialog(true)
-    }
-    const handleClose = () => {
-        setOpenSuccessDialog(false)
-        navigate('/sub/trip')
     }
     return (
         <>
@@ -40,7 +30,7 @@ const CreateFactory: React.FC = (): ReactElement => {
             </form>
             <SuccessDialog
                 open={openSuccessDialog}
-                handleClose={handleClose}
+                handleClose={() => setOpenSuccessDialog(false)}
                 message="Factory creation is successful"
             />
         </>

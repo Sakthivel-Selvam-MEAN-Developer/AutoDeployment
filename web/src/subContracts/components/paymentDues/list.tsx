@@ -2,7 +2,6 @@ import { Box, Tab, Tabs, Typography } from '@mui/material'
 import { useState } from 'react'
 import BunkDues from './bunkDues'
 import TransporterDues from './transporterDues'
-
 interface TabPanelProps {
     children?: React.ReactNode
     index: number

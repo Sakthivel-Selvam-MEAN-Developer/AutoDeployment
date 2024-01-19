@@ -1,7 +1,6 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
-import { createCompany, listAllCementCompany } from './cementCompany.ts'
 
 const mockCreateCompany = vi.fn()
 const mockCementCompany = vi.fn()
@@ -22,13 +21,11 @@ const mockCompany = {
 
 describe('Cement Company Controller', () => {
     test('should able to create', async () => {
-        app.post('/cementCompany', createCompany)
         mockCreateCompany.mockResolvedValue(mockCompany)
         await supertest(app).post('/cementCompany').expect(200)
         expect(mockCreateCompany).toBeCalledTimes(1)
     })
     test('should able to access', async () => {
-        app.get('/cementCompany', listAllCementCompany)
         mockCementCompany.mockResolvedValue({ name: 'UltraTech Cements' })
         await supertest(app).get('/cementCompany').expect({ name: 'UltraTech Cements' })
         expect(mockCementCompany).toBeCalledWith()

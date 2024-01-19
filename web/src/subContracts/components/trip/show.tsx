@@ -1,4 +1,5 @@
 import Table from '@mui/material/Table'
+import React from 'react'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
@@ -9,8 +10,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/material'
 import { useState } from 'react'
-import React from 'react'
-import StockToUnloadingFormFields from './stockToUnloadingFormFields'
+
+import StockToUnloadingTrip from './stockToUnloadingTrip.tsx'
 
 interface AllStockProps {
     filledLoad: number
@@ -157,11 +158,7 @@ const GetAllStockTripsAsAAccordion = (
                         </div>
                     </AccordionSummary>
                     <AccordionDetails sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
-                        <StockToUnloadingFormFields
-                            row={row}
-                            setUpdate={setUpdate}
-                            update={update}
-                        />
+                        <StockToUnloadingTrip row={row} setUpdate={setUpdate} update={update} />
                     </AccordionDetails>
                 </Accordion>
             ))}

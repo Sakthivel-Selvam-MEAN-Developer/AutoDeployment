@@ -30,7 +30,7 @@ vi.mock('../../services/pricePoint', () => ({
 const mockUnloadingPoint = [
     {
         id: 1,
-        name: 'australia',
+        name: 'erode',
         cementCompanyId: 1,
         pricePointMarkerId: 2
     }
@@ -43,7 +43,7 @@ const mockPricePointData = {
 const mockCreateStockPointTrip = {
     startDate: dayjs().unix(),
     invoiceNumber: '12345abc',
-    freightAmount: 10001,
+    freightAmount: 1000,
     transporterAmount: 900,
     unloadingPointId: 1,
     loadingPointToStockPointTripId: 1
@@ -128,10 +128,9 @@ describe('Trip Test', () => {
         userEvent.click(await screen.findByText('TN22E3456'))
         await waitFor(() => {
             expect(screen.getByLabelText('Invoice Number')).toBeInTheDocument()
-            expect(screen.getByLabelText('Freight Amount')).toBeInTheDocument()
+            expect(screen.getByLabelText('Company Freight')).toBeInTheDocument()
         })
         await userEvent.type(screen.getByLabelText('Invoice Number'), '12345abc')
-        await userEvent.type(screen.getByLabelText('Freight Amount'), '1')
         const unLoadingPoint = screen.getByRole('combobox', {
             name: 'Unloading Point'
         })
@@ -140,9 +139,10 @@ describe('Trip Test', () => {
             screen.getByRole('listbox')
         })
         const opt = screen.getByRole('option', {
-            name: 'australia'
+            name: 'erode'
         })
         await userEvent.click(opt)
+        expect(screen.getByText('1000')).toBeInTheDocument()
         await userEvent.click(screen.getByRole('button', { name: 'Create' }))
         expect(mockCreateStockTrip).toHaveBeenCalledTimes(1)
     })

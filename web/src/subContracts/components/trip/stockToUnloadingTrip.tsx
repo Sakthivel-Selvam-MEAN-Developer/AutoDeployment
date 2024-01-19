@@ -1,10 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { getAllUnloadingPoint } from '../../services/unloadingPoint.ts'
-import { Autocomplete, TextField } from '@mui/material'
-import SubmitButton from '../../../form/button.tsx'
-import dayjs from 'dayjs'
+import { Autocomplete, Button, TextField } from '@mui/material'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockTrip } from '../../services/unloadingPointTrip.ts'
+import dayjs from 'dayjs'
+
 interface dataProps {
     row: any
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>
@@ -12,37 +12,34 @@ interface dataProps {
 }
 
 const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, update }) => {
-    const [unloadingPointId, setUnloadingPointId] = useState()
-    const [unloadingPointName, setUnloadingPointName] = useState('')
+    const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
+    const [unloadingPointName, setUnloadingPointName] = useState<string>('')
     const [unloadingPointList, setUnloadingPointList] = useState([])
-    const [freightAmount, setFreightAmount] = useState(row.freightAmount)
-    const [transporterPercentage, setTransporterPercentage] = useState<number>(0)
-    const [invoiceNumber, setInvoiceNumber] = useState<string>()
+    const [freightAmount, setFreightAmount] = useState<number>(0)
+    const [transporterAmount, setTransporterAmount] = useState<number>(0)
+    const [invoiceNumber, setInvoiceNumber] = useState<string>('')
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const details = {
             startDate: dayjs().unix(),
-            invoiceNumber: invoiceNumber,
-            freightAmount: freightAmount,
-            transporterAmount: freightAmount - (freightAmount * transporterPercentage) / 100,
+            invoiceNumber,
+            freightAmount,
+            transporterAmount,
             unloadingPointId,
             loadingPointToStockPointTripId: row.id
         }
-        createStockTrip(details)
-        setUpdate(!update)
-        setInvoiceNumber('')
-        setFreightAmount('')
-        setUnloadingPointName('')
+        createStockTrip(details).then(() => setUpdate(!update))
     }
     useEffect(() => {
         getAllUnloadingPoint().then(setUnloadingPointList)
     }, [])
     useEffect(() => {
-        getPricePoint(row.loadingPointId, row.stockPointId, row.unloadingPointId).then(
-            (pricePoint) => setTransporterPercentage(pricePoint?.transporterPercentage)
-        )
-    }, [row.loadingPointId, row.stockPointId, row.unloadingPointId])
+        getPricePoint(null, unloadingPointId, row.stockPointId).then((pricePoint) => {
+            setTransporterAmount(pricePoint.transporterAmount)
+            setFreightAmount(pricePoint.freightAmount)
+        })
+    }, [row.loadingPointId, row.stockPointId, unloadingPointId])
 
     return (
         <div
@@ -82,17 +79,49 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                 <TextField
                     sx={{ marginLeft: '20px' }}
                     id="outlined-number"
-                    label="Freight Amount"
+                    label="Company Freight"
                     name="freightAmount"
                     type="number"
                     value={freightAmount}
-                    onChange={(e) => setFreightAmount(parseInt(e.target.value))}
                     InputLabelProps={{
                         shrink: true
                     }}
+                    InputProps={{
+                        inputProps: {
+                            step: 1,
+                            min: 0,
+                            readOnly: true
+                        },
+                        endAdornment: null
+                    }}
                 />
-                <div style={{ marginLeft: '20px' }}>
-                    <SubmitButton name="Create" type="submit" />
+                <TextField
+                    sx={{ marginLeft: '20px' }}
+                    id="outlined-number"
+                    label="Transporter Freight"
+                    name="transporterAmount"
+                    type="number"
+                    value={transporterAmount}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                    InputProps={{
+                        inputProps: {
+                            step: 1,
+                            min: 0,
+                            readOnly: true
+                        },
+                        endAdornment: null
+                    }}
+                />
+                <div style={{ marginLeft: '20px', display: 'flex' }}>
+                    <Button
+                        disabled={invoiceNumber === '' || unloadingPointName === ''}
+                        type="submit"
+                        sx={{ width: '100px' }}
+                    >
+                        Create
+                    </Button>
                 </div>
             </form>
         </div>

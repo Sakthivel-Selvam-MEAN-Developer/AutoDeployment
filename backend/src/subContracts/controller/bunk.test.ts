@@ -1,7 +1,6 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
-import { createBunk, listAllBunk } from './bunk.ts'
 
 const mockCreateBunk = vi.fn()
 const mockBunkDetails = vi.fn()
@@ -17,13 +16,11 @@ const mockBunk = {
 
 describe('Bunk Controller', () => {
     test('should able to create Bunk', async () => {
-        app.post('/bunk', createBunk)
         mockCreateBunk.mockResolvedValue(mockBunk)
         await supertest(app).post('/bunk').expect(200)
         expect(mockCreateBunk).toBeCalledTimes(1)
     })
     test('should able to access', async () => {
-        app.get('/bunk', listAllBunk)
         mockBunkDetails.mockResolvedValue({ bunkName: 'Bharath Petroleum' })
         await supertest(app).get('/bunk').expect({ bunkName: 'Bharath Petroleum' })
         expect(mockBunkDetails).toBeCalledWith()

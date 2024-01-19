@@ -1,11 +1,11 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
 interface dataProps {
-    startDate: number | undefined
-    invoiceNumber: string | undefined
-    freightAmount: number | undefined
-    transporterAmount: number | undefined
-    unloadingPointId: number | undefined
-    loadingPointToStockPointTripId: number | undefined
+    startDate: number
+    invoiceNumber: string
+    freightAmount: number
+    transporterAmount: number
+    unloadingPointId: number | null
+    loadingPointToStockPointTripId: number
 }
 export const createStockTrip = (data: dataProps) =>
     axiosInstance

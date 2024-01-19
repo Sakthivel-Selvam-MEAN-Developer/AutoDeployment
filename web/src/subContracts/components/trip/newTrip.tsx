@@ -17,7 +17,7 @@ interface transporter {
 }
 const NewTrip: React.FC = () => {
     const navigate = useNavigate()
-    const { handleSubmit, control, watch } = useForm<FieldValues>()
+    const { handleSubmit, control, watch, setValue } = useForm<FieldValues>()
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
     const [truckId, setTruckId] = useState(0)
@@ -101,6 +101,7 @@ const NewTrip: React.FC = () => {
                 setCategory={setCategory}
                 category={category}
                 stockPointId={setStockPointId}
+                setValue={setValue}
             />
             <SubmitButton name="Start" type="submit" />
         </form>

@@ -50,34 +50,30 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId, setV
                     setCategory(newValue)
                 }}
             />
-            <div>
-                <TextInputWithPattern
-                    control={control}
-                    disabled={false}
-                    label={`Enter ${category}`}
-                    fieldName="name"
-                    InputProps={{
-                        inputProps: {
-                            pattern: '[a-zA-Z0-9\\s]*',
-                            title: 'Only alphabetic characters are allowed'
-                        }
-                    }}
-                />
-            </div>
-            <div>
-                <TextInputWithPattern
-                    control={control}
-                    disabled={false}
-                    label="Enter Location"
-                    fieldName="location"
-                    InputProps={{
-                        inputProps: {
-                            pattern: '[a-zA-Z\\s]*',
-                            title: 'Only alphabetic characters are allowed'
-                        }
-                    }}
-                />
-            </div>
+            <TextInputWithPattern
+                control={control}
+                disabled={false}
+                label={`Enter ${category}`}
+                fieldName="name"
+                InputProps={{
+                    inputProps: {
+                        pattern: '[a-zA-Z0-9\\s]*',
+                        title: 'Only alphabetic characters are allowed'
+                    }
+                }}
+            />
+            <TextInputWithPattern
+                control={control}
+                disabled={false}
+                label="Enter Location"
+                fieldName="location"
+                InputProps={{
+                    inputProps: {
+                        pattern: '[a-zA-Z\\s]*',
+                        title: 'Only alphabetic characters are allowed'
+                    }
+                }}
+            />
         </div>
     )
 }
