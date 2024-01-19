@@ -23,7 +23,6 @@ export const createTrip = async (req: Request, res: Response) => {
     const { id } = await create(req.body).then(async (data) =>
         createOverallTrip({ loadingPointToUnloadingPointTripId: data.id })
     )
-
     await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
         .then(async (data: any) => {
             if (req.body.wantFuel !== true && fuelDetails !== null) {

@@ -62,6 +62,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 ({ freightAmount }) => setFreightAmount(freightAmount)
             )
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loadingPointId, unloadingPointId, stockPointId])
     return (
         <div

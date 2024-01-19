@@ -350,7 +350,6 @@ model pricePointMarker {
 
 model loadingPointToStockPointTrip {
   id                             Int                              @id @default(autoincrement())
-  fuel                           fuel[]
   startDate                      Int
   filledLoad                     Int
   wantFuel                       Boolean?
@@ -394,7 +393,6 @@ model stockPointToUnloadingPointTrip {
 
 model loadingPointToUnloadingPointTrip {
   id                     Int            @id @default(autoincrement())
-  fuel                   fuel[]
   startDate              Int
   filledLoad             Int
   wantFuel               Boolean?
@@ -442,21 +440,17 @@ model fuelStation {
 }
 
 model fuel {
-  id                                 Int                               @id @default(autoincrement())
-  pricePerliter                      Float
-  quantity                           Float
-  totalprice                         Float
-  vehicleNumber                      String
-  loadingPointToStockPointTripId     Int?
-  loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
-  loadingPointToUnloadingPointTripId Int?
-  loadingPointToUnloadingPointTrip   loadingPointToUnloadingPointTrip? @relation(fields: [loadingPointToUnloadingPointTripId], references: [id])
-  fuelStationId                      Int
-  fuelStation                        fuelStation                       @relation(fields: [fuelStationId], references: [id])
-  createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
-  updatedAt                          DateTime                          @default(now()) @db.Timestamptz(6)
-  overallTrip                        overallTrip?                      @relation(fields: [overallTripId], references: [id])
-  overallTripId                      Int?
+  id            Int          @id @default(autoincrement())
+  pricePerliter Float
+  quantity      Float
+  totalprice    Float
+  vehicleNumber String
+  fuelStationId Int
+  fuelStation   fuelStation  @relation(fields: [fuelStationId], references: [id])
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @default(now()) @db.Timestamptz(6)
+  overallTrip   overallTrip? @relation(fields: [overallTripId], references: [id])
+  overallTripId Int?
 
   @@schema("subContract")
 }

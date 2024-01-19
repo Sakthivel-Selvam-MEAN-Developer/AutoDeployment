@@ -19,6 +19,7 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId, setV
     useEffect(() => {
         setValue('name', '')
         setValue('location', '')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category])
     return (
         <div

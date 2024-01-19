@@ -88,11 +88,13 @@ const NewTrip: React.FC = () => {
                 control={control}
                 transporter={transporter}
                 cementCompany={cementCompany}
-                truckId={setTruckId}
+                setTruckId={setTruckId}
                 loadingPointId={setLoadingPointId}
                 unloadingPointId={setUnloadingPointId}
                 freightAmount={freightAmount}
+                setFreightAmount={setFreightAmount}
                 transporterAmount={transporterAmount}
+                setTransporterAmount={setTransporterAmount}
                 totalFreightAmount={totalFreightAmount}
                 totalTransporterAmount={totalTransporterAmount}
                 margin={margin}

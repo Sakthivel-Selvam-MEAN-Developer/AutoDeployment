@@ -10,11 +10,12 @@ import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
+import { listFuelWithoutTripId } from '../../services/fuel.ts'
 
 interface FormFieldProps {
     control: Control
     transporter: string[]
-    truckId: React.Dispatch<React.SetStateAction<number>>
+    setTruckId: React.Dispatch<React.SetStateAction<number>>
     loadingPointId: React.Dispatch<React.SetStateAction<number | null>>
     unloadingPointId: React.Dispatch<React.SetStateAction<number | null>>
     stockPointId: React.Dispatch<React.SetStateAction<number | null>>
@@ -27,13 +28,15 @@ interface FormFieldProps {
     fuel: boolean
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
+    setFreightAmount: React.Dispatch<React.SetStateAction<number>>
+    setTransporterAmount: React.Dispatch<React.SetStateAction<number>>
     category: string
     setValue: UseFormSetValue<FieldValues>
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
     transporter,
-    truckId,
+    setTruckId,
     cementCompany,
     loadingPointId,
     unloadingPointId,
@@ -46,8 +49,10 @@ const FormField: React.FC<FormFieldProps> = ({
     setFuel,
     setCategory,
     category,
-    stockPointId
-    // setValue
+    stockPointId,
+    setValue,
+    setFreightAmount,
+    setTransporterAmount
 }) => {
     const [transporterName, setTransporterName] = useState<string>()
     const [cementCompanyName, setCementCompanyName] = useState<string>()
@@ -55,7 +60,11 @@ const FormField: React.FC<FormFieldProps> = ({
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
     const [stockPointList, setStockPointList] = useState([])
-    const [stockPoint, setStockPoint] = useState('')
+    const [vehicleNumber, setVehicleNumber] = useState<string>('')
+    const [disableWantFuel, setDisableWantFuel] = useState<boolean>(false)
+    const [loadingPointName, setLoadingPointName] = useState<string>('')
+    const [stockPointName, setStockPointName] = useState<string>('')
+    const [unloadingPointName, setUnloadingPointName] = useState<string>('')
 
     useEffect(() => {
         if (cementCompanyName !== undefined)
@@ -71,18 +80,28 @@ const FormField: React.FC<FormFieldProps> = ({
     }, [category, cementCompanyName])
 
     useEffect(() => {
-        setStockPoint('')
-        // unloadingPointId(null)
-        // stockPointId(null)
-        // setValue('loadingPointId', '')
-        // setValue('unloadingPointId', '')
-        // setValue('stockPointId', '')
-        // setValue('invoiceNumber', '')
-        // setValue('freightAmount', '')
-        // setValue('transporterAmount', '')
-        // setStockPointList([])
-        // setUnloadingPointList([])
-    }, [category])
+        setLoadingPointName('')
+        setStockPointName('')
+        setUnloadingPointName('')
+        loadingPointId(null)
+        unloadingPointId(null)
+        stockPointId(null)
+        setFreightAmount(0)
+        setTransporterAmount(0)
+        setValue('invoiceNumber', '')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [category, cementCompanyName])
+
+    useEffect(() => {
+        setVehicleNumber('')
+    }, [transporterName])
+
+    useEffect(() => {
+        if (vehicleNumber !== '' && disableWantFuel === false)
+            listFuelWithoutTripId(vehicleNumber).then(() => setDisableWantFuel(true))
+        else setDisableWantFuel(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [vehicleNumber])
 
     return (
         <div
@@ -111,7 +130,8 @@ const FormField: React.FC<FormFieldProps> = ({
                     setTransporterName(newValue)
                 }}
             />
-            <AutoComplete
+            <AutoCompleteWithValue
+                value={vehicleNumber}
                 control={control}
                 fieldName="truckId"
                 label="Truck Number"
@@ -120,10 +140,12 @@ const FormField: React.FC<FormFieldProps> = ({
                     const { id }: any = listTruck.find(
                         (truck: { vehicleNumber: string }) => truck.vehicleNumber === newValue
                     )
-                    truckId(id)
+                    setTruckId(id)
+                    setVehicleNumber(newValue)
                 }}
             />
-            <AutoComplete
+            <AutoCompleteWithValue
+                value={category}
                 control={control}
                 fieldName="category"
                 label="Select Category"
@@ -132,7 +154,8 @@ const FormField: React.FC<FormFieldProps> = ({
                     setCategory(newValue)
                 }}
             />
-            <AutoComplete
+            <AutoCompleteWithValue
+                value={loadingPointName}
                 control={control}
                 fieldName="loadingPointId"
                 label="Loading Point"
@@ -142,10 +165,12 @@ const FormField: React.FC<FormFieldProps> = ({
                         (data: { name: string }) => data.name === newValue
                     )
                     loadingPointId(id)
+                    setLoadingPointName(newValue)
                 }}
             />
             {category !== 'Stock Point' ? (
-                <AutoComplete
+                <AutoCompleteWithValue
+                    value={unloadingPointName}
                     control={control}
                     fieldName="unloadingPointId"
                     label="Unloading Point"
@@ -155,10 +180,12 @@ const FormField: React.FC<FormFieldProps> = ({
                             (data: { name: string }) => data.name === newValue
                         )
                         unloadingPointId(id)
+                        setUnloadingPointName(newValue)
                     }}
                 />
             ) : (
                 <AutoCompleteWithValue
+                    value={stockPointName}
                     control={control}
                     fieldName="stockPointId"
                     label="Stock Point"
@@ -167,10 +194,9 @@ const FormField: React.FC<FormFieldProps> = ({
                         const { id }: any = stockPointList.find(
                             (data: { name: string }) => data.name === newValue
                         )
-                        setStockPoint(newValue)
                         stockPointId(id)
+                        setStockPointName(newValue)
                     }}
-                    value={stockPoint}
                 />
             )}
             <InputWithDefaultValue
@@ -181,7 +207,12 @@ const FormField: React.FC<FormFieldProps> = ({
                 defaultValue={freightAmount}
                 value={freightAmount}
                 InputProps={{
-                    readOnly: true
+                    readOnly: true,
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <b>Rs</b>
+                        </InputAdornment>
+                    )
                 }}
                 InputLabelProps={{
                     shrink: true
@@ -195,7 +226,12 @@ const FormField: React.FC<FormFieldProps> = ({
                 defaultValue={transporterAmount}
                 value={transporterAmount}
                 InputProps={{
-                    readOnly: true
+                    readOnly: true,
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <b>Rs</b>
+                        </InputAdornment>
+                    )
                 }}
                 InputLabelProps={{
                     shrink: true
@@ -223,7 +259,12 @@ const FormField: React.FC<FormFieldProps> = ({
                 defaultValue={totalFreightAmount}
                 value={totalFreightAmount}
                 InputProps={{
-                    readOnly: true
+                    readOnly: true,
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <b>Rs</b>
+                        </InputAdornment>
+                    )
                 }}
                 InputLabelProps={{
                     shrink: true
@@ -237,7 +278,12 @@ const FormField: React.FC<FormFieldProps> = ({
                 defaultValue={totalTransporterAmount}
                 value={totalTransporterAmount}
                 InputProps={{
-                    readOnly: true
+                    readOnly: true,
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <b>Rs</b>
+                        </InputAdornment>
+                    )
                 }}
                 InputLabelProps={{
                     shrink: true
@@ -251,13 +297,19 @@ const FormField: React.FC<FormFieldProps> = ({
                 defaultValue={margin}
                 value={margin}
                 InputProps={{
-                    readOnly: true
+                    readOnly: true,
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <b>Rs</b>
+                        </InputAdornment>
+                    )
                 }}
                 InputLabelProps={{
                     shrink: true
                 }}
             />
             <FormControlLabel
+                disabled={disableWantFuel}
                 data-testid={'want-fuel'}
                 control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
                 label={fuel ? 'Fuel Required' : 'Fuel Not Required'}

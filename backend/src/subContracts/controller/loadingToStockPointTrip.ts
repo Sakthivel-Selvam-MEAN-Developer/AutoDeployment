@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { create, getAllStockPointTrip } from '../models/loadingToStockPointTrip.ts'
 import { getNumberByTruckId } from '../models/truck.ts'
-import { getFuelWithoutStockTrip, updateFuelWithTripIdForStockPoint } from '../models/fuel.ts'
+import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 import { create as createOverallTrip } from '../models/overallTrip.ts'
 import {
     create as createPaymentDues,
@@ -15,7 +15,7 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
         vehicleNumber,
         transporter: { name }
     }: any = await getNumberByTruckId(req.body.truckId)
-    const fuelDetails = await getFuelWithoutStockTrip(vehicleNumber)
+    const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
     const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
     const { id } = await create(req.body).then(async (data) =>
         createOverallTrip({ loadingPointToStockPointTripId: data.id })
@@ -23,12 +23,10 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
     await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
         .then(async (data: any) => {
             if (req.body.wantFuel !== true && fuelDetails !== null) {
-                await updateFuelWithTripIdForStockPoint({ id: fuelDetails.id, tripId: id }).then(
-                    async () => {
-                        await updatePaymentDuesWithTripId({ id: paymentDetails?.id, tripId: id })
-                        await createPaymentDues(data)
-                    }
-                )
+                await updateFuelWithTripId({ id: fuelDetails.id, tripId: id }).then(async () => {
+                    await updatePaymentDuesWithTripId({ id: paymentDetails?.id, tripId: id })
+                    await createPaymentDues(data)
+                })
             } else if (req.body.wantFuel !== true && fuelDetails === null) {
                 await createPaymentDues(data)
             }

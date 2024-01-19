@@ -10,8 +10,7 @@ interface dataProps {
     quantity: number
     totalprice: number
     vehicleNumber: string
-    loadingPointToStockPointTripId: number | null
-    loadingPointToUnloadingPointTripId: number | null
+    overallTripId: number | null
     fuelStationId: number
     createdAt: Date
     updatedAt: Date
@@ -26,7 +25,6 @@ async function createDues(fuel: dataProps, trip: any, bunkname: string, vehicleN
             return createPaymentDues(fuelDue)
         }
     })
-    // .catch((e) => console.log(e))
 }
 
 export const createFuel = async (req: Request, res: Response) => {

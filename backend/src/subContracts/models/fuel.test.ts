@@ -12,6 +12,7 @@ import { create as createTruck } from './truck.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
 import { create as createStation } from './fuelStation.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
+import { create as createOverAllTrip } from './overallTrip.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
@@ -48,12 +49,13 @@ describe('Fuel model', () => {
             unloadingPointId: deliveryPoint.id,
             truckId: truck.id
         })
+        const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
         const bunk = await create(seedBunk)
         const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
         await createFuel({
             ...seedFuel,
             fuelStationId: fuelStation.id,
-            loadingPointToUnloadingPointTripId: trip.id
+            overallTripId: overAllTrip.id
         })
         const actual = await getAllFuel()
         expect(actual.length).toBe(1)
@@ -81,7 +83,7 @@ describe('Fuel model', () => {
             ...seedFuel,
             fuelStationId: fuelStation.id
         })
-        expect(fuel.loadingPointToUnloadingPointTripId).toBe(null)
+        expect(fuel.overallTripId).toBe(null)
 
         const company = await createCompany(seedCompany)
         const truck = await createTruck(seedTruck)
@@ -101,8 +103,9 @@ describe('Fuel model', () => {
             unloadingPointId: deliveryPoint.id,
             truckId: truck.id
         })
+        const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
 
-        const actual = await updateFuelWithTripId({ id: fuel.id, tripId: trip.id })
-        expect(actual.loadingPointToUnloadingPointTripId).toBe(trip.id)
+        const actual = await updateFuelWithTripId({ id: fuel.id, tripId: overAllTrip.id })
+        expect(actual.overallTripId).toBe(overAllTrip.id)
     })
 })

@@ -10,25 +10,7 @@ export const getFuelWithoutTrip = (vehicleNumber: string) =>
     prisma.fuel.findFirst({
         where: {
             vehicleNumber,
-            loadingPointToUnloadingPointTripId: null
-        },
-        include: {
-            fuelStation: {
-                select: {
-                    bunk: {
-                        select: {
-                            bunkName: true
-                        }
-                    }
-                }
-            }
-        }
-    })
-export const getFuelWithoutStockTrip = (vehicleNumber: string) =>
-    prisma.fuel.findFirst({
-        where: {
-            vehicleNumber,
-            loadingPointToStockPointTrip: null
+            overallTripId: null
         },
         include: {
             fuelStation: {
@@ -53,16 +35,6 @@ export const updateFuelWithTripId = (data: dataProps) =>
             id: data.id
         },
         data: {
-            loadingPointToUnloadingPointTripId: data.tripId
-        }
-    })
-
-export const updateFuelWithTripIdForStockPoint = (data: dataProps) =>
-    prisma.fuel.update({
-        where: {
-            id: data.id
-        },
-        data: {
-            loadingPointToStockPointTripId: data.tripId
+            overallTripId: data.tripId
         }
     })

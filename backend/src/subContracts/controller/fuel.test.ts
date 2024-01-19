@@ -1,7 +1,6 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
-import { createFuel, listAllFuel, listFuelWithoutTripId, updateFuelWithTrip } from './fuel.ts'
 
 const mockCreateFuel = vi.fn()
 const mockFuelDetails = vi.fn()
@@ -39,25 +38,21 @@ const mockUpdateFuelWithTripData = {
 
 describe('Bunk Controller', () => {
     test.skip('should able to create Bunk', async () => {
-        app.post('/fuel/:bunkname', createFuel)
         mockCreateFuel.mockResolvedValue(mockFuel)
         await supertest(app).post('/fuel/barath').expect(200)
         expect(mockCreateFuel).toBeCalledTimes(1)
     })
     test('should able to access', async () => {
-        app.get('/fuel', listAllFuel)
         mockFuelDetails.mockResolvedValue({ pricePerliter: 102 })
         await supertest(app).get('/fuel').expect({ pricePerliter: 102 })
         expect(mockFuelDetails).toBeCalledWith()
     })
     test('should able to get the fuel without tripId', async () => {
-        app.get('/fuel/:vehiclenumber', listFuelWithoutTripId)
         mockFuelWithoutTrip.mockResolvedValue(mockFuelWithoutTripData)
         await supertest(app).get('/fuel/TN93D5512').expect(mockFuelWithoutTripData)
         expect(mockFuelWithoutTrip).toBeCalledTimes(1)
     })
     test('should able to update fuel with tripId', async () => {
-        app.put('/fuel-update', updateFuelWithTrip)
         mockUpdateFuelWithTrip.mockResolvedValue(mockUpdateFuelWithTripData)
         await supertest(app).put('/fuel-update').expect(mockUpdateFuelWithTripData)
         expect(mockUpdateFuelWithTrip).toBeCalledTimes(1)
