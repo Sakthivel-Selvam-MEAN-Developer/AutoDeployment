@@ -20,4 +20,7 @@
       * don't use generic names like `data`, `value`, `result`, etc.
       * be cognizant about singular vs plural
 10. Add you name/pair's name in the commit message, so that we know who to ask if we have questions.
-11. You should understand every word of code/commands that you use or written by you
+11. You should understand every word of code/command that you use or written by you
+12. Constantly look way of improving
+      * yourself by readying unknown topics, getting deep into known topics
+      * code by refactoring, removing duplication, improving performance, etc.
