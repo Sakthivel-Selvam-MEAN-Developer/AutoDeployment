@@ -1,8 +1,24 @@
+- date: 19-1-2024
+  person: Muthu
+  planning:
+    - fetch stock-unloading price point while creating trip
+- date: 19-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+- date: 19-1-2024
+  person: barath
+  planning:
+    - add acknowledgement details 
+
 - date: 18-1-2024
   person: Muthu
   planning:
     - fetch stock-unloading price point while creating trip
     - add stock-unloading price point
+  completed:
+    - added stock-unloading price point
+    - fixed build errors
 - date: 18-1-2024
   person: Sakthivel
   planning:
