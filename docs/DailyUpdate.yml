@@ -1,7 +1,23 @@
+- date: 20-1-2024
+  person: Muthu
+  planning:
+    - working on final payment dues
+- date: 20-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+- date: 20-1-2024
+  person: barath
+  planning:
+    - continuing the adding of acknowledgement details
+
 - date: 19-1-2024
   person: Muthu
   planning:
     - fetch stock-unloading price point while creating trip
+  completed:
+    - can fetch stock-unloading price while creating trip
+    - fixed some bugs
 - date: 19-1-2024
   person: Sakthivel
   planning:
@@ -9,7 +25,11 @@
 - date: 19-1-2024
   person: barath
   planning:
-    - add acknowledgement details 
+    - add acknowledgement details
+  completed:
+    - approval for draw.io
+    - discussion with client
+    - backend for acknowledgement
 
 - date: 18-1-2024
   person: Muthu
