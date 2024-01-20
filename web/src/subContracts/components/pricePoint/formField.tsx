@@ -3,12 +3,13 @@ import AutoComplete from '../../../form/AutoComplete.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
-import { Control } from 'react-hook-form'
+import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import InputWithType from '../../../form/InputWithType.tsx'
 import NumberInputWithValue from '../../../form/NumberInputWithValue.tsx'
 import { InputAdornment } from '@mui/material'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
+import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 
 export interface FormFieldsProps {
     control: Control
@@ -24,6 +25,7 @@ export interface FormFieldsProps {
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
     category: string
+    setValue: UseFormSetValue<FieldValues>
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -38,12 +40,16 @@ const FormFields: React.FC<FormFieldsProps> = ({
     setFreightAmount,
     freightAmount,
     setCategory,
-    category
+    category,
+    setValue
 }) => {
     const [cementCompanyName, setCementCompanyName] = useState<string>('null')
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
     const [stockPointList, setStockPointList] = useState([])
+    const [loadingPointName, setLoadingPointName] = useState('')
+    const [unloadingPointName, setUnloadingPointName] = useState('')
+    const [stockPointName, setStockPointName] = useState('')
 
     useEffect(() => {
         if (cementCompanyName !== 'null') {
@@ -52,6 +58,14 @@ const FormFields: React.FC<FormFieldsProps> = ({
             getStockPointByCompanyName(cementCompanyName).then(setStockPointList)
         }
     }, [cementCompanyName])
+    useEffect(() => {
+        setLoadingPointName('')
+        setUnloadingPointName('')
+        setStockPointName('')
+        setFreightAmount(0)
+        setValue('transporterPercentage', '')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [category, cementCompanyName])
     useEffect(() => {
         if (
             (loadingPointId && unloadingPointId) ||
@@ -94,8 +108,10 @@ const FormFields: React.FC<FormFieldsProps> = ({
             />
             {(category === 'Loading - Unloading' ||
                 category === 'Loading - Stock' ||
-                category === '') && (
-                <AutoComplete
+                category === '' ||
+                category === null) && (
+                <AutoCompleteWithValue
+                    value={loadingPointName}
                     control={control}
                     fieldName="loadingPointId"
                     label="Loading Point"
@@ -105,11 +121,13 @@ const FormFields: React.FC<FormFieldsProps> = ({
                             (data: { name: string }) => data.name === newValue
                         )
                         setLoadingPointId(id)
+                        setLoadingPointName(newValue)
                     }}
                 />
             )}
             {(category === 'Stock - Unloading' || category === 'Loading - Stock') && (
-                <AutoComplete
+                <AutoCompleteWithValue
+                    value={stockPointName}
                     control={control}
                     fieldName="stockPointId"
                     label="Stock Point"
@@ -119,13 +137,16 @@ const FormFields: React.FC<FormFieldsProps> = ({
                             (data: { name: string }) => data.name === newValue
                         )
                         setStockPointId(id)
+                        setStockPointName(newValue)
                     }}
                 />
             )}
             {(category === 'Loading - Unloading' ||
                 category === 'Stock - Unloading' ||
-                category === '') && (
-                <AutoComplete
+                category === '' ||
+                category === null) && (
+                <AutoCompleteWithValue
+                    value={unloadingPointName}
                     control={control}
                     fieldName="unloadingPointId"
                     label="Unloading Point"
@@ -135,6 +156,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                             (data: { name: string }) => data.name === newValue
                         )
                         setUnloadingPointId(id)
+                        setUnloadingPointName(newValue)
                     }}
                 />
             )}

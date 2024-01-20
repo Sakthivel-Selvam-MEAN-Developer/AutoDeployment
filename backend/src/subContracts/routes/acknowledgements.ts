@@ -6,7 +6,7 @@ import {
 } from '../controller/acknowledgement.ts'
 
 const acknowledgementRoutes = (router: Router) => {
-    router.put('/acknowledgement', updateAcknowledgementStatusforOverAllTrip)
+    router.put('/acknowledgement/:id', updateAcknowledgementStatusforOverAllTrip)
     router.get('/acknowledgement', listAllActivetripTripToByAcknowledgementStatus)
     router.get('/acknowledgement/:id', OverAllTripById)
 }

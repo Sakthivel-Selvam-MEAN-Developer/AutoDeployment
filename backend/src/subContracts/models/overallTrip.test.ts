@@ -4,7 +4,9 @@ import {
     getOnlyActiveTripByVehicle,
     getOverAllTripByAcknowledgementStatus,
     getOverAllTripById,
-    getOverallTrip
+    getOverAllTripIdByLoadingToStockId,
+    getOverallTrip,
+    updateStockToUnloadingInOverall
 } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -14,6 +16,7 @@ import { create as createTruck } from './truck.ts'
 import { create as createTransporter } from './transporter.ts'
 import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedLoadingToStockTrip from '../seed/loadingToStockTrip.ts'
+import seedStockToUnloadingTrip from '../seed/stockPointToUnloadingPoint.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
@@ -22,6 +25,7 @@ import seedTruck from '../seed/truckWithoutDeb.ts'
 import seedTransporter from '../seed/transporter.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
 import { create as createLoadingToStockTrip } from './loadingToStockPointTrip.ts'
+import { create as createStockToUnloadingTrip } from './stockPointToUnloadingPoint.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
 
@@ -287,5 +291,84 @@ describe('Overall Trip model', () => {
         expect(actual?.loadingPointToUnloadingPointTripId).toBe(
             trip1.loadingPointToUnloadingPointTripId
         )
+    })
+    test('should able to update stockToUnloadingTripId in overall trip', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const unloadingPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const loadingToStockPointTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: false
+        })
+        const stockToUnloadingPointTrip = await createStockToUnloadingTrip({
+            ...seedStockToUnloadingTrip,
+            unloadingPointId: unloadingPoint.id
+        })
+        const overallTrip = await create({
+            loadingPointToStockPointTripId: loadingToStockPointTrip.id
+        })
+        await updateStockToUnloadingInOverall(overallTrip.id, stockToUnloadingPointTrip.id)
+        const actual = await getOverallTrip()
+        expect(actual[0].stockPointToUnloadingPointTripId).toBe(stockToUnloadingPointTrip.id)
+        expect(actual[0].loadingPointToStockPointTripId).toBe(loadingToStockPointTrip.id)
+    })
+    test('should able to get overall trip by LoadingToStockId', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const loadingToStockPointTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: false
+        })
+        const overallTrip = await create({
+            loadingPointToStockPointTripId: loadingToStockPointTrip.id
+        })
+        const actual = await getOverAllTripIdByLoadingToStockId(loadingToStockPointTrip.id)
+        expect(actual?.id).toBe(overallTrip.id)
     })
 })

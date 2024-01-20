@@ -1,12 +1,12 @@
 import TextInput from '../../../form/TextInput.tsx'
 import NumberInput from '../../../form/NumberInput.tsx'
 import AutoComplete from '../../../form/AutoComplete.tsx'
+import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { FormControlLabel, InputAdornment, Switch } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getTruckByTransporter } from '../../services/truck.ts'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
-import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
@@ -97,10 +97,11 @@ const FormField: React.FC<FormFieldProps> = ({
     }, [transporterName])
 
     useEffect(() => {
-        if (vehicleNumber !== '' && disableWantFuel === false)
-            listFuelWithoutTripId(vehicleNumber).then(() => setDisableWantFuel(true))
-        else setDisableWantFuel(false)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (vehicleNumber !== '')
+            listFuelWithoutTripId(vehicleNumber).then((fuelDetails) => {
+                if (fuelDetails !== null) setDisableWantFuel(true)
+                else setDisableWantFuel(false)
+            })
     }, [vehicleNumber])
 
     return (

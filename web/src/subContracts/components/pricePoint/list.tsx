@@ -5,7 +5,7 @@ import FormFields from './formField'
 import { getAllCementCompany } from '../../services/cementCompany'
 import { createpricePoint } from '../../services/pricePoint'
 const CreatePricepoint: React.FC = (): ReactElement => {
-    const { handleSubmit, control, watch } = useForm<FieldValues>()
+    const { handleSubmit, control, watch, setValue } = useForm<FieldValues>()
     const [transporterRate, setTransporterRate] = useState<number>(0)
     const [cementCompany, setCementCompany] = useState([])
     const [loadingPointId, setLoadingPointId] = useState<number | null>(null)
@@ -23,19 +23,28 @@ const CreatePricepoint: React.FC = (): ReactElement => {
         setTransporterRate(freightAmount - (freightAmount * parseInt(transporterPercentage)) / 100)
     }, [freightAmount, transporterPercentage])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const details = {
-            loadingPointId: loadingPointId,
-            unloadingPointId: unloadingPointId,
-            stockPointId: stockPointId,
-            freightAmount: freightAmount,
-            transporterPercentage: parseInt(data.transporterPercentage),
-            transporterAmount: transporterRate
-        }
-        if (category === 'Loading - Unloading') createpricePoint({ ...details, stockPointId: null })
-        else if (category === 'Loading - Stock')
-            createpricePoint({ ...details, unloadingPointId: null })
-        else if (category === 'Stock - Unloading')
-            createpricePoint({ ...details, loadingPointId: null })
+        if (
+            ((loadingPointId && stockPointId) ||
+                (loadingPointId && unloadingPointId) ||
+                (stockPointId && unloadingPointId)) &&
+            freightAmount !== 0 &&
+            transporterPercentage !== ''
+        ) {
+            const details = {
+                loadingPointId: loadingPointId,
+                unloadingPointId: unloadingPointId,
+                stockPointId: stockPointId,
+                freightAmount: freightAmount,
+                transporterPercentage: parseInt(data.transporterPercentage),
+                transporterAmount: transporterRate
+            }
+            if (category === 'Loading - Unloading')
+                createpricePoint({ ...details, stockPointId: null })
+            else if (category === 'Loading - Stock')
+                createpricePoint({ ...details, unloadingPointId: null })
+            else if (category === 'Stock - Unloading')
+                createpricePoint({ ...details, loadingPointId: null })
+        } else alert('All fields Required')
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -53,6 +62,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 transporterRate={transporterRate}
                 category={category}
                 setCategory={setCategory}
+                setValue={setValue}
             />
             <SubmitButton name="Submit" type="submit" />
         </form>

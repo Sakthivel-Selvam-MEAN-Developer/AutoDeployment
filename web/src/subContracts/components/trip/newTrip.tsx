@@ -40,30 +40,35 @@ const NewTrip: React.FC = () => {
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const details = {
-            truckId: truckId,
-            loadingPointId: loadingPointId,
-            startDate: dayjs().unix(),
-            filledLoad: parseInt(data.filledLoad),
-            invoiceNumber: data.invoiceNumber,
-            freightAmount: freightAmount,
-            transporterAmount: transporterAmount,
-            totalFreightAmount: totalFreightAmount,
-            totalTransporterAmount: totalTransporterAmount,
-            margin: margin,
-            wantFuel: fuel
-        }
-        if (category === 'Stock Point') {
-            createStockPointTrip({ ...details, stockPointId: stockPointId })
-                .then(() => navigate('/sub/trip'))
-                .catch((e) => alert(e))
-        } else if (category === 'Unloading Point') {
-            createTrip({ ...details, unloadingPointId: unloadingPointId })
-                .then(() => navigate('/sub/trip'))
-                .catch((e) => alert(e))
-        } else {
-            alert('Select Any Category')
-        }
+        if (
+            truckId !== 0 &&
+            data.invoiceNumber !== '' &&
+            data.filledLoad !== '' &&
+            freightAmount !== 0
+        ) {
+            const details = {
+                truckId: truckId,
+                loadingPointId: loadingPointId,
+                startDate: dayjs().unix(),
+                filledLoad: parseInt(data.filledLoad),
+                invoiceNumber: data.invoiceNumber,
+                freightAmount: freightAmount,
+                transporterAmount: transporterAmount,
+                totalFreightAmount: totalFreightAmount,
+                totalTransporterAmount: totalTransporterAmount,
+                margin: margin,
+                wantFuel: fuel
+            }
+            if (category === 'Stock Point')
+                createStockPointTrip({ ...details, stockPointId: stockPointId }).then(() =>
+                    navigate('/sub/trip')
+                )
+            else if (category === 'Unloading Point')
+                createTrip({ ...details, unloadingPointId: unloadingPointId }).then(() =>
+                    navigate('/sub/trip')
+                )
+            else alert('Select Any Category')
+        } else alert('All fields Required')
     }
     useEffect(() => {
         getAllTransporter().then((transporterData) =>

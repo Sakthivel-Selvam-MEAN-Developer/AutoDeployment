@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-const fuelLogics = async (fuel: any, trip: any, bunkname: any, vehicleNumber: string) => {
+const fuelLogics = async (fuel: any, trip: any, bunkname: string, vehicleNumber: string) => {
     let tripDetails
     if (trip !== null) {
         if (trip.loadingPointToStockPointTrip !== null) {

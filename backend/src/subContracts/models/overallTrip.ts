@@ -137,6 +137,29 @@ export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
         }
     })
 
+export const updateStockToUnloadingInOverall = (
+    overallTripId: number | undefined,
+    stockToUnloadingId: number
+) =>
+    prisma.overallTrip.update({
+        where: {
+            id: overallTripId
+        },
+        data: {
+            stockPointToUnloadingPointTripId: stockToUnloadingId
+        }
+    })
+
+export const getOverAllTripIdByLoadingToStockId = (loadingPointToStockPointTripId: number | null) =>
+    prisma.overallTrip.findFirst({
+        where: {
+            loadingPointToStockPointTripId
+        },
+        select: {
+            id: true
+        }
+    })
+
 export const getOverAllTripById = (id: number) =>
     prisma.overallTrip.findFirst({
         where: {

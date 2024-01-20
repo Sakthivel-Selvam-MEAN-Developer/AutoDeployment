@@ -30,19 +30,11 @@ const CreateCompany: React.FC = (): ReactElement => {
     }
     return (
         <>
-            <div
-                style={{
-                    marginBottom: '30px',
-                    display: 'flex',
-                    justifyContent: 'right'
-                }}
-            >
-                <Link to={'/sub/company/factory'}>
-                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-                        Create Factory
-                    </Button>
-                </Link>
-            </div>
+            <Link to={'/sub/company/factory'}>
+                <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                    Create Factory
+                </Button>
+            </Link>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields control={control} />
                 <SubmitButton name="Create" type="submit" />

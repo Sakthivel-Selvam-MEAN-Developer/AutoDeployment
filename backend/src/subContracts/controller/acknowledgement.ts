@@ -12,8 +12,11 @@ export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, re
 }
 
 export const updateAcknowledgementStatusforOverAllTrip = (req: Request, res: Response) => {
-    closeAcknowledgementStatusforOverAllTrip(req.body.id)
-        .then((data) => res.status(200).json(data))
+    closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
+        .then(() => {
+            // console.log(data)
+            res.status(200)
+        })
         .catch(() => res.status(500))
 }
 
