@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
-import SubmitButton from '../../../form/button'
+import { Button } from '@mui/material'
+import { closeTrip } from '../../services/acknowledgement'
 interface FormFieldProps {
     tripDetails: {
         id: number
@@ -33,7 +34,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
             <p>
                 {tripDetails.loadingPointToStockPointTrip !== null
                     ? tripDetails.loadingPointToStockPointTrip.truck.vehicleNumber
-                    : tripDetails.loadingPointToUnloadingPointTrip.truck.vehicleNumber}{' '}
+                    : tripDetails.loadingPointToUnloadingPointTrip.truck.vehicleNumber}
             </p>
             {tripDetails.loadingPointToStockPointTrip !== null && (
                 <p>
@@ -49,12 +50,26 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
             )}
             <div>
                 <p>Close the active trip</p>:
-                <SubmitButton name="Close" type="submit" />
+                <Button
+                    style={{ marginLeft: '20px', display: 'flex' }}
+                    color="secondary"
+                    variant="contained"
+                    type="submit"
+                    onClick={async () => await closeTrip({ id: tripDetails.id })}
+                >
+                    Close Trip
+                </Button>
             </div>
             <div>
-                {' '}
                 <p>Add Acknowledgement for the Trip</p>:
-                <SubmitButton name="Create Due" type="submit" />
+                <Button
+                    style={{ marginLeft: '20px', display: 'flex' }}
+                    color="secondary"
+                    variant="contained"
+                    type="submit"
+                >
+                    Create Due
+                </Button>
             </div>
         </>
     )

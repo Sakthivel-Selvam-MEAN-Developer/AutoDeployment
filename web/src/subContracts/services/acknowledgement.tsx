@@ -11,3 +11,12 @@ export const getTripById = (id: number) =>
         .get(`/acknowledgement/${id}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+interface dataProps {
+    id: number
+}
+export const closeTrip = (tripDetails: dataProps) =>
+    axiosInstance
+        .put(`/acknowledgement/trip`, tripDetails)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
