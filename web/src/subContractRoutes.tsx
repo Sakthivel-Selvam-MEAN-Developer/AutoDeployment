@@ -14,6 +14,8 @@ import PaymentDuesList from './subContracts/components/paymentDues/list'
 import Fuel from './subContracts/components/bunk/fuel'
 import BunkList from './subContracts/components/bunk/list'
 import Bunk from './subContracts/components/bunk'
+import Acknowledgement from './subContracts/components/acknowledgement'
+import SelectTrip from './subContracts/components/acknowledgement/list'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -88,6 +90,16 @@ const sunContractRoutes = {
                 {
                     path: 'fuel',
                     element: <Fuel />
+                }
+            ]
+        },
+        {
+            path: 'acknowledgement',
+            element: <Acknowledgement />,
+            children: [
+                {
+                    path: '',
+                    element: <SelectTrip />
                 }
             ]
         }

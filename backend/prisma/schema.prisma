@@ -505,6 +505,7 @@ model paymentDues {
 
 model overallTrip {
   id                                 Int                               @id @default(autoincrement())
+  acknowledgementStatus              Boolean                           @default(false)
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
   stockPointToUnloadingPointTripId   Int?

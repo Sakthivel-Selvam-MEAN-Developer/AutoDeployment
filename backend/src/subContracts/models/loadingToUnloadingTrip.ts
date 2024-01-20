@@ -69,3 +69,13 @@ export const getOnlyActiveTripByVehicleNumber = (vehicleNumber: string) =>
             id: true
         }
     })
+
+export const closeTrip = (id: number) =>
+    prisma.loadingPointToUnloadingPointTrip.update({
+        where: {
+            id
+        },
+        data: {
+            tripStatus: true
+        }
+    })

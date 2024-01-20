@@ -70,3 +70,13 @@ export const getStockTripByVehicleNumber = (trucknumber: string) =>
             }
         }
     })
+
+export const closeStockTrip = (id: number) =>
+    prisma.loadingPointToStockPointTrip.update({
+        where: {
+            id
+        },
+        data: {
+            tripStatus: true
+        }
+    })

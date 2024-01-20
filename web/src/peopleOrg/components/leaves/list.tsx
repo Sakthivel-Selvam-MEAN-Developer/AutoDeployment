@@ -13,7 +13,10 @@ import { getAllLeaveWithStatus } from '../../services/employeeLeave'
 import { ActionButton } from './actionButton.tsx'
 import { useAtomValue } from 'jotai/react'
 import { userIdAtom } from '../layout/userAtom.tsx'
-
+interface rowProps {
+    approval: boolean
+    deniedComment: string
+}
 const LeaveList: React.FC = () => {
     const navigate = useNavigate()
     const [allLeave, setAllLeave] = useState([])
@@ -25,14 +28,14 @@ const LeaveList: React.FC = () => {
     const handleListItemClick = (rowId: number) => {
         setSelectedRow(selectedRow === rowId ? null : rowId)
     }
-    const gstStatus = (row: any) => {
+    const gstStatus = (row: rowProps) => {
         if (row.approval === true) {
             return 'Approved'
         } else if (row.approval === false) {
             return 'Rejected'
         } else return 'Pending'
     }
-    const getApprovalStatus = (row: any) => {
+    const getApprovalStatus = (row: rowProps) => {
         if (row.approval === true) {
             return 'Permission Granted'
         } else if (row.approval === false) {

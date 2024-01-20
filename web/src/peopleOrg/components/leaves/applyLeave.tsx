@@ -40,7 +40,7 @@ const LeaveForm: React.FC = () => {
             comments: comment,
             employeeId
         }
-        create(JSON.stringify(details))
+        create(details)
             .then(() => setOpenSuccessDialog(true))
             .catch((err) => alert(err))
     }

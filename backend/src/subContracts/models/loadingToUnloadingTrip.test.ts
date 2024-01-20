@@ -4,6 +4,7 @@ import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedTruck from '../seed/truck.ts'
 import {
+    closeTrip,
     create,
     getAllTrip,
     getOnlyActiveTripByVehicleNumber,
@@ -74,5 +75,32 @@ describe('Trip model', () => {
         })
         const activeTrip = await getOnlyActiveTripByVehicleNumber(truck.vehicleNumber)
         expect(activeTrip?.id).toBe(trip.id)
+    })
+    test('should able to change trip status to true', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await create({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id
+        })
+        const actual = await closeTrip(trip.id)
+        expect(actual.tripStatus).toBe(true)
     })
 })

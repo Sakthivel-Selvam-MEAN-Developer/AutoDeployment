@@ -107,3 +107,55 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
             }
         }
     })
+
+export const getOverAllTripByAcknowledgementStatus = () =>
+    prisma.overallTrip.findMany({
+        where: {
+            acknowledgementStatus: false
+        },
+        include: {
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: true
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: true
+                }
+            }
+        }
+    })
+
+export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
+    prisma.overallTrip.update({
+        where: {
+            id
+        },
+        data: {
+            acknowledgementStatus: true
+        }
+    })
+
+export const getOverAllTripById = (id: number) =>
+    prisma.overallTrip.findFirst({
+        where: {
+            id
+        },
+        include: {
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: true,
+                    loadingPoint: true,
+                    stockPoint: true
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: true,
+                    loadingPoint: true,
+                    unloadingPoint: true
+                }
+            }
+        }
+    })

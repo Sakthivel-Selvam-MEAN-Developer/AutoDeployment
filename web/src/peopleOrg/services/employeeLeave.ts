@@ -1,6 +1,15 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
-
-export const create = (data: any) => axiosInstance.post('/leaves', data).then(getData)
+interface dataProps {
+    isFromHalfDay: boolean
+    isToHalfDay: boolean
+    leaveReasonId: string
+    from: number | undefined
+    to: number | undefined
+    appliedOn: number
+    comments: string
+    employeeId: string
+}
+export const create = (data: dataProps) => axiosInstance.post('/leaves', data).then(getData)
 
 export const getAllLeaveWithStatus = (employeeId: string) =>
     axiosInstance.get(`/all-leaves/${employeeId}`).then(getData)
