@@ -1,7 +1,20 @@
+- date: 22-1-2024
+  person: Barath
+   planning:
+    - changing closing trip by button to closing trip by unloaded Weight
+- date: 22-1-2024
+  person: Muthu
+  planning:
+    - creating final due for transporter
+
 - date: 20-1-2024
   person: Muthu
   planning:
     - working on final payment dues
+  completed:
+    - closing acknowledgement status
+    - updating stocktoUnloadingPointTripId in overallTrip
+
 - date: 20-1-2024
   person: Sakthivel
   planning:
@@ -9,7 +22,12 @@
 - date: 20-1-2024
   person: barath
   planning:
-    - continuing the adding of acknowledgement details
+  - ui code fronted and connecting to backend
+  - closing tripStatus
+  completed:
+    - written ui code for acknowledegement and written model 
+    - test for model, controller and frontend acknowledgement
+    - closing Trip by on Click
 
 - date: 19-1-2024
   person: Muthu
@@ -23,7 +41,7 @@
   planning:
     - paired with muthu
 - date: 19-1-2024
-  person: barath
+  person: Barath
   planning:
     - add acknowledgement details
   completed:
