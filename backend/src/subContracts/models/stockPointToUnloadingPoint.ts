@@ -9,3 +9,22 @@ export const create = (
 
 export const getAllStockToUnloadingPointTrip = () =>
     prisma.stockPointToUnloadingPointTrip.findMany({})
+
+export const closeUnloadingTrip = (id: number) =>
+    prisma.stockPointToUnloadingPointTrip.update({
+        where: {
+            id
+        },
+        data: {
+            tripStatus: true
+        }
+    })
+export const updateUnloadWeightForStockTrip = (id: number, unloadedWeight: number) =>
+    prisma.stockPointToUnloadingPointTrip.update({
+        where: {
+            id
+        },
+        data: {
+            unloadedWeight
+        }
+    })

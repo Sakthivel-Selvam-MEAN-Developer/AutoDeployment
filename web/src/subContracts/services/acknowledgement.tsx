@@ -17,8 +17,10 @@ export const updateAcknowledgementStatus = (id: number) =>
         .put(`/acknowledgement/${id}`)
         .then(getData)
         .catch(() => alert('Error Updating data'))
+
 interface dataProps {
     id: number
+    unload: number
 }
 export const closeTrip = (tripDetails: dataProps) =>
     axiosInstance

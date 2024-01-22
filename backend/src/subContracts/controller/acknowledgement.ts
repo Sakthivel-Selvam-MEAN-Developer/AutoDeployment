@@ -4,8 +4,11 @@ import {
     getOverAllTripByAcknowledgementStatus,
     getOverAllTripById
 } from '../models/overallTrip.ts'
-import { closeTrip } from '../models/loadingToUnloadingTrip.ts'
-import { closeStockTrip } from '../models/loadingToStockPointTrip.ts'
+import { closeTrip, updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
+import {
+    closeUnloadingTrip,
+    updateUnloadWeightForStockTrip
+} from '../models/stockPointToUnloadingPoint.ts'
 
 export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, res: Response) => {
     getOverAllTripByAcknowledgementStatus()
@@ -31,12 +34,20 @@ export const OverAllTripById = (req: Request, res: Response) => {
 export const closeTripById = async (req: Request, res: Response) => {
     await getOverAllTripById(req.body.id)
         .then(async (overAllTripData) => {
-            if (overAllTripData && overAllTripData?.loadingPointToStockPointTrip !== null) {
-                await closeStockTrip(overAllTripData.loadingPointToStockPointTrip.id)
+            if (overAllTripData && overAllTripData?.stockPointToUnloadingPointTrip !== null) {
+                await updateUnloadWeightForStockTrip(
+                    overAllTripData.stockPointToUnloadingPointTrip.id,
+                    req.body.unload
+                )
+                await closeUnloadingTrip(overAllTripData.stockPointToUnloadingPointTrip.id)
             } else if (
                 overAllTripData &&
                 overAllTripData?.loadingPointToUnloadingPointTrip !== null
             ) {
+                await updateUnloadWeightforTrip(
+                    overAllTripData.loadingPointToUnloadingPointTrip.id,
+                    req.body.unload
+                )
                 await closeTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
             }
         })

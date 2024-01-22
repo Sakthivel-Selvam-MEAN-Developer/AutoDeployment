@@ -226,11 +226,10 @@ describe('Overall Trip model', () => {
         const trip1 = await create({
             loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
         })
-        const trip2 = await create({ loadingPointToStockPointTripId: loadingToStockTrip.id })
+        create({ loadingPointToStockPointTripId: loadingToStockTrip.id })
 
         const actual = await getOverAllTripByAcknowledgementStatus()
         expect(actual[0].id).toBe(trip1.id)
-        expect(actual[1].id).toBe(trip2.id)
     })
     test('should able to get only overall trip by id', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

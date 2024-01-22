@@ -111,12 +111,37 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
 export const getOverAllTripByAcknowledgementStatus = () =>
     prisma.overallTrip.findMany({
         where: {
-            acknowledgementStatus: false
+            acknowledgementStatus: false,
+            OR: [
+                {
+                    AND: [
+                        {
+                            NOT: {
+                                stockPointToUnloadingPointTrip: null
+                            }
+                        },
+                        {
+                            NOT: {
+                                loadingPointToStockPointTrip: null
+                            }
+                        }
+                    ]
+                },
+                {
+                    NOT: {
+                        loadingPointToUnloadingPointTrip: null
+                    }
+                }
+            ]
         },
         include: {
-            loadingPointToStockPointTrip: {
+            stockPointToUnloadingPointTrip: {
                 include: {
-                    truck: true
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            truck: true
+                        }
+                    }
                 }
             },
             loadingPointToUnloadingPointTrip: {
@@ -166,11 +191,15 @@ export const getOverAllTripById = (id: number) =>
             id
         },
         include: {
-            loadingPointToStockPointTrip: {
+            stockPointToUnloadingPointTrip: {
                 include: {
-                    truck: true,
-                    loadingPoint: true,
-                    stockPoint: true
+                    unloadingPoint: true,
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            loadingPoint: true,
+                            truck: true
+                        }
+                    }
                 }
             },
             loadingPointToUnloadingPointTrip: {

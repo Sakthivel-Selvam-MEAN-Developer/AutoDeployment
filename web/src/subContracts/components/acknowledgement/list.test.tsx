@@ -17,6 +17,7 @@ const mockOverAllTripData = [
         id: 1,
         acknowledgementStatus: false,
         loadingPointToStockPointTrip: null,
+        stockPointToUnloadingPointTrip: null,
         loadingPointToUnloadingPointTrip: {
             id: 1,
             truck: {
@@ -29,6 +30,7 @@ const mockOverAllTripDataById = {
     id: 1,
     acknowledgementStatus: false,
     loadingPointToStockPointTrip: null,
+    stockPointToUnloadingPointTrip: null,
     loadingPointToUnloadingPointTrip: {
         id: 1,
         truck: {

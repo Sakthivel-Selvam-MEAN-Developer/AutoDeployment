@@ -79,3 +79,12 @@ export const closeTrip = (id: number) =>
             tripStatus: true
         }
     })
+export const updateUnloadWeightforTrip = (id: number, unloadedWeight: number) =>
+    prisma.loadingPointToUnloadingPointTrip.update({
+        where: {
+            id
+        },
+        data: {
+            unloadedWeight
+        }
+    })

@@ -1,24 +1,31 @@
-import React, { ReactElement } from 'react'
-import { Button } from '@mui/material'
-import { closeTrip } from '../../services/acknowledgement'
+import React, { ReactElement, useState } from 'react'
 import { FormFieldProps } from './types'
+import { Button, InputAdornment, TextField } from '@mui/material'
 import { updateAcknowledgementStatus } from '../../services/acknowledgement'
+import { closeTrip } from '../../services/acknowledgement'
 
 const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactElement => {
     const finalDue = (id: number) => {
         updateAcknowledgementStatus(id)
     }
+    const [unload, setUnload] = useState<number>(0)
     return (
         <>
             <p>
-                {tripDetails.loadingPointToStockPointTrip !== null
-                    ? tripDetails.loadingPointToStockPointTrip.truck.vehicleNumber
+                {tripDetails.stockPointToUnloadingPointTrip !== null
+                    ? tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
+                          .vehicleNumber
                     : tripDetails.loadingPointToUnloadingPointTrip.truck.vehicleNumber}
             </p>
-            {tripDetails.loadingPointToStockPointTrip !== null && (
+            {tripDetails.stockPointToUnloadingPointTrip !== null && (
                 <p>
-                    <span>{tripDetails.loadingPointToStockPointTrip.loadingPoint.name}</span>-
-                    <span>{tripDetails.loadingPointToStockPointTrip.stockPoint.name}</span>
+                    <span>
+                        {
+                            tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+                                .loadingPoint.name
+                        }
+                    </span>
+                    -<span>{tripDetails.stockPointToUnloadingPointTrip.unloadingPoint.name}</span>
                 </p>
             )}
             {tripDetails.loadingPointToUnloadingPointTrip !== null && (
@@ -29,12 +36,22 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
             )}
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <p>Close the active trip :</p>
+                <TextField
+                    type="number"
+                    label="Unload Quantity"
+                    sx={{ m: 1, width: '25ch' }}
+                    onChange={({ target: { value } }) => setUnload(parseInt(value))}
+                    InputProps={{
+                        endAdornment: <InputAdornment position="start">Ton</InputAdornment>
+                    }}
+                    variant="outlined"
+                />
                 <Button
                     style={{ marginLeft: '20px', display: 'flex' }}
                     color="secondary"
                     variant="contained"
                     type="submit"
-                    onClick={async () => await closeTrip({ id: tripDetails.id })}
+                    onClick={async () => await closeTrip({ id: tripDetails.id, unload: unload })}
                 >
                     Close Trip
                 </Button>

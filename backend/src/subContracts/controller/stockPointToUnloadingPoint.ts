@@ -11,7 +11,7 @@ export const createStockPointToUnloadingPointTrip = (req: Request, res: Response
             const overallTrip = await getOverAllTripIdByLoadingToStockId(
                 data.loadingPointToStockPointTripId
             )
-            updateStockToUnloadingInOverall(overallTrip?.id, data.id)
+            await updateStockToUnloadingInOverall(overallTrip?.id, data.id)
         })
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))

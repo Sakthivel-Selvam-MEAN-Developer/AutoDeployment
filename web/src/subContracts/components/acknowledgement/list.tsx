@@ -17,10 +17,13 @@ const SelectTrip: React.FC = (): ReactElement => {
     const onSubmit = async () => await getTripById(tripId).then(setTripDetails)
     const onChange = (_event: React.SyntheticEvent<Element, Event>, newValue: string) => {
         const { id }: any = vehicleslist.find((trip: tripProps) =>
-            trip.loadingPointToStockPointTrip !== null
-                ? trip.loadingPointToStockPointTrip.truck.vehicleNumber === newValue
+            trip.stockPointToUnloadingPointTrip !== null
+                ? trip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
+                      .vehicleNumber === newValue
                 : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber === newValue
         )
+        console.log(id)
+
         setTripId(id)
     }
     return (
@@ -30,8 +33,9 @@ const SelectTrip: React.FC = (): ReactElement => {
                     freeSolo
                     disableClearable
                     options={vehicleslist.map((trip: tripProps) =>
-                        trip.loadingPointToStockPointTrip !== null
-                            ? trip.loadingPointToStockPointTrip.truck.vehicleNumber
+                        trip.stockPointToUnloadingPointTrip !== null
+                            ? trip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
+                                  .vehicleNumber
                             : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber
                     )}
                     onChange={(event: React.SyntheticEvent<Element, Event>, newValue: string) =>

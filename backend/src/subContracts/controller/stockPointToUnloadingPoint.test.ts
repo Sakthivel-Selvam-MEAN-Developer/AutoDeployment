@@ -2,9 +2,17 @@ import supertest from 'supertest'
 import { app } from '../../app.ts'
 
 const mockCreateUnloadingPointTrip = vi.fn()
+const mockgetOverAllTripIdByLoadingToStockId = vi.fn()
+const mockupdateStockToUnloadingInOverall = vi.fn()
 
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
     create: (inputs: any) => mockCreateUnloadingPointTrip(inputs)
+}))
+vi.mock('../models/overallTrip', () => ({
+    getOverAllTripIdByLoadingToStockId: (inputs: any) =>
+        mockgetOverAllTripIdByLoadingToStockId(inputs),
+    updateStockToUnloadingInOverall: (inputs: any, data: any) =>
+        mockupdateStockToUnloadingInOverall(inputs, data)
 }))
 
 const mockTripData = {

@@ -378,6 +378,8 @@ model stockPointToUnloadingPointTrip {
   id                             Int                           @id @default(autoincrement())
   startDate                      Int
   invoiceNumber                  String                        @unique
+  tripStatus                     Boolean                       @default(false)
+  unloadedWeight                 Float?
   freightAmount                  Int
   transporterAmount              Int
   createdAt                      DateTime                      @default(now()) @db.Timestamptz(6)
@@ -397,6 +399,7 @@ model loadingPointToUnloadingPointTrip {
   filledLoad             Int
   wantFuel               Boolean?
   tripStatus             Boolean        @default(false)
+  unloadedWeight         Float?
   freightAmount          Int
   transporterAmount      Int
   totalFreightAmount     Int

@@ -1,6 +1,6 @@
 - date: 22-1-2024
   person: Barath
-   planning:
+  planning:
     - changing closing trip by button to closing trip by unloaded Weight
 - date: 22-1-2024
   person: Muthu
@@ -14,13 +14,12 @@
   completed:
     - closing acknowledgement status
     - updating stocktoUnloadingPointTripId in overallTrip
-
 - date: 20-1-2024
   person: Sakthivel
   planning:
     - paired with muthu
 - date: 20-1-2024
-  person: barath
+  person: Barath
   planning:
   - ui code fronted and connecting to backend
   - closing tripStatus
@@ -62,7 +61,7 @@
   planning:
     - paired with muthu
 - date: 18-1-2024
-  person: barath
+  person: Barath
   leave: true
 
 - date: 13-1-2024
@@ -91,7 +90,7 @@
 - date: 12-1-2024
   person: Muthu & Sakthivel
   planning:
-    - paired with barath
+    - paired with Barath
 
 - date: 11-1-2024
   person: Barath
@@ -102,7 +101,7 @@
 - date: 11-1-2024
   person: Sakthivel
   planning:
-     - Paired with barath
+     - Paired with Barath
 - date: 11-1-2024
   person: muthu
   leave: true
@@ -116,7 +115,7 @@
 - date: 10-1-2024
   person: Sakthivel
   planning:
-     - Paired with barath
+     - Paired with Barath
 - date: 10-1-2024
   person: muthu
   leave: true
