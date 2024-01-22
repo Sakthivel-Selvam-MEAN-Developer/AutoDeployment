@@ -32,6 +32,8 @@ services:
   nginx:
     image: "nginx:1.25.3-alpine3.18"
     platform: linux/amd64
+    depends_on:
+      - backend
     ports:
       - 80:80
     volumes:

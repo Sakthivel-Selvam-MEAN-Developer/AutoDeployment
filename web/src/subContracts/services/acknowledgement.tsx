@@ -17,3 +17,11 @@ export const updateAcknowledgementStatus = (id: number) =>
         .put(`/acknowledgement/${id}`)
         .then(getData)
         .catch(() => alert('Error Updating data'))
+interface dataProps {
+    id: number
+}
+export const closeTrip = (tripDetails: dataProps) =>
+    axiosInstance
+        .put(`/acknowledgement/trip`, tripDetails)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

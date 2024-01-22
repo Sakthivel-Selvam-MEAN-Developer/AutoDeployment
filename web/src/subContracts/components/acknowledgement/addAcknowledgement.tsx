@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
-import SubmitButton from '../../../form/button'
-import { FormFieldProps } from './types'
 import { Button } from '@mui/material'
+import { closeTrip } from '../../services/acknowledgement'
+import { FormFieldProps } from './types'
 import { updateAcknowledgementStatus } from '../../services/acknowledgement'
 
 const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactElement => {
@@ -13,7 +13,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
             <p>
                 {tripDetails.loadingPointToStockPointTrip !== null
                     ? tripDetails.loadingPointToStockPointTrip.truck.vehicleNumber
-                    : tripDetails.loadingPointToUnloadingPointTrip.truck.vehicleNumber}{' '}
+                    : tripDetails.loadingPointToUnloadingPointTrip.truck.vehicleNumber}
             </p>
             {tripDetails.loadingPointToStockPointTrip !== null && (
                 <p>
@@ -27,12 +27,19 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
                     <span>{tripDetails.loadingPointToUnloadingPointTrip.unloadingPoint.name}</span>
                 </p>
             )}
-            <div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
                 <p>Close the active trip :</p>
-                <SubmitButton name="Close" type="submit" />
+                <Button
+                    style={{ marginLeft: '20px', display: 'flex' }}
+                    color="secondary"
+                    variant="contained"
+                    type="submit"
+                    onClick={async () => await closeTrip({ id: tripDetails.id })}
+                >
+                    Close Trip
+                </Button>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                {' '}
                 <p>Add Acknowledgement for the Trip :</p>
                 <div
                     style={{

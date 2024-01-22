@@ -17,12 +17,12 @@ const mockBunk = {
 describe('Bunk Controller', () => {
     test('should able to create Bunk', async () => {
         mockCreateBunk.mockResolvedValue(mockBunk)
-        await supertest(app).post('/bunk').expect(200)
+        await supertest(app).post('/api/bunk').expect(200)
         expect(mockCreateBunk).toBeCalledTimes(1)
     })
     test('should able to access', async () => {
         mockBunkDetails.mockResolvedValue({ bunkName: 'Bharath Petroleum' })
-        await supertest(app).get('/bunk').expect({ bunkName: 'Bharath Petroleum' })
+        await supertest(app).get('/api/bunk').expect({ bunkName: 'Bharath Petroleum' })
         expect(mockBunkDetails).toBeCalledWith()
     })
 })

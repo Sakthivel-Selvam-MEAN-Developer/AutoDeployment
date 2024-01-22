@@ -8,11 +8,8 @@ export const createPricePoint = (req: Request, res: Response) => {
 }
 
 export const listPricePoint = (req: Request, res: Response) => {
-    getPricePoint(
-        parseInt(req.params.loadingPointId),
-        parseInt(req.params.unloadingPointId),
-        parseInt(req.params.stockPointId)
-    )
+    const { unloadingPointId, loadingPointId, stockPointId } = req.params
+    getPricePoint(parseInt(loadingPointId), parseInt(unloadingPointId), parseInt(stockPointId))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

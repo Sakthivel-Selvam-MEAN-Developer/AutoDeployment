@@ -9,7 +9,7 @@ vi.mock('../models/employee.ts', () => ({
 describe('should return employee', () => {
     test('should able to access employee details', async () => {
         mockEmployee.mockResolvedValue({ id: 1, name: 'random' })
-        await supertest(app).get('/employees/random').expect({ id: 1, name: 'random' })
+        await supertest(app).get('/api/employees/random').expect({ id: 1, name: 'random' })
         expect(mockEmployee).toBeCalledWith('random')
     })
 })

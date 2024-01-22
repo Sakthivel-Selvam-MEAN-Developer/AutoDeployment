@@ -1,6 +1,5 @@
 import supertest from 'supertest'
 import { app } from '../../app.ts'
-import { createTrip, listAllTrip } from './loadingToUnloadingTrip.ts'
 
 const mockgetTrip = vi.fn()
 const mockCreateTrip = vi.fn()
@@ -33,21 +32,19 @@ const mockTripData = {
 
 describe('Trip Controller', () => {
     test('should able to access all trip', async () => {
-        app.get('/trip', listAllTrip)
         mockgetTrip.mockResolvedValue({
             filledLoad: 40,
             invoiceNumber: 'ABC123'
         })
-        await supertest(app).get('/trip').expect({
+        await supertest(app).get('/api/trip').expect({
             filledLoad: 40,
             invoiceNumber: 'ABC123'
         })
         expect(mockgetTrip).toBeCalledWith()
     })
     test.skip('should able to create trip', async () => {
-        app.post('/trip', createTrip)
         mockCreateTrip.mockResolvedValue(mockTripData)
-        await supertest(app).post('/trip').expect(mockTripData)
+        await supertest(app).post('/api/trip').expect(mockTripData)
         expect(mockCreateTrip).toBeCalledTimes(1)
     })
 })
