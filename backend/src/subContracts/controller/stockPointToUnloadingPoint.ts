@@ -7,11 +7,11 @@ import {
 
 export const createStockPointToUnloadingPointTrip = (req: Request, res: Response) => {
     create(req.body)
-        .then(async (data) => {
+        .then(async (stockToUnloading) => {
             const overallTrip = await getOverAllTripIdByLoadingToStockId(
-                data.loadingPointToStockPointTripId
+                stockToUnloading.loadingPointToStockPointTripId
             )
-            await updateStockToUnloadingInOverall(overallTrip?.id, data.id)
+            await updateStockToUnloadingInOverall(overallTrip?.id, stockToUnloading.id)
         })
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))

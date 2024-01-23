@@ -14,7 +14,7 @@ export const getTripById = (id: number) =>
 
 export const updateAcknowledgementStatus = (id: number) =>
     axiosInstance
-        .put(`/acknowledgement/${id}`)
+        .put(`/acknowledge/${id}`)
         .then(getData)
         .catch(() => alert('Error Updating data'))
 

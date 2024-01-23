@@ -9,6 +9,8 @@ import {
     closeUnloadingTrip,
     updateUnloadWeightForStockTrip
 } from '../models/stockPointToUnloadingPoint.ts'
+import finalDueLogic from '../domain/finalDueLogic.ts'
+import { create as createPaymentDues } from '../models/paymentDues.ts'
 
 export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, res: Response) => {
     getOverAllTripByAcknowledgementStatus()
@@ -16,13 +18,13 @@ export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, re
         .catch(() => res.status(500))
 }
 
-export const updateAcknowledgementStatusforOverAllTrip = (req: Request, res: Response) => {
-    closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
-        .then(() => {
-            // console.log(data)
-            res.status(200)
+export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {
+    await closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
+        .then(async (overallTrip) => {
+            await finalDueLogic(overallTrip).then((data) => createPaymentDues(data))
         })
-        .catch(() => res.status(500))
+        .then(() => res.sendStatus(200))
+        .catch(() => res.sendStatus(500))
 }
 
 export const OverAllTripById = (req: Request, res: Response) => {

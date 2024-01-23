@@ -49,7 +49,7 @@ const BunkDues: React.FC = () => {
     }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
-        getOnlyActiveDues(todayDate, 'fuel pay').then(setBunkDue)
+        getOnlyActiveDues(todayDate).then(setBunkDue)
     }, [refresh])
 
     return (

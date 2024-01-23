@@ -8,7 +8,7 @@ import {
 
 const acknowledgementRoutes = (router: Router) => {
     router.put('/acknowledgement/trip', closeTripById)
-    router.put('/acknowledgement/:id', updateAcknowledgementStatusforOverAllTrip)
+    router.put('/acknowledge/:id', updateAcknowledgementStatusforOverAllTrip)
     router.get('/acknowledgement', listAllActivetripTripToByAcknowledgementStatus)
     router.get('/acknowledgement/:id', OverAllTripById)
 }

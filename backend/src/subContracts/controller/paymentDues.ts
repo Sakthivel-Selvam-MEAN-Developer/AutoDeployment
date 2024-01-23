@@ -59,12 +59,12 @@ export const groupDataByName = async (duesData: any[], tripsData: any[], tripDet
 }
 
 export const listOnlyActiveTransporterDues = async (req: Request, res: Response) => {
-    const { duedate, type } = req.params
-    const duesData = await getOnlyActiveDuesByName(parseInt(duedate), type)
-    const tripsData = await findTripWithActiveDues(parseInt(duedate), type)
+    const { duedate } = req.params
+    const duesData = await getOnlyActiveDuesByName(parseInt(duedate))
+    const tripsData = await findTripWithActiveDues(parseInt(duedate))
     const tripDetails = await getOverallTrip()
     await groupDataByName(duesData, tripsData, tripDetails)
-        .then((data: any) => res.status(200).json(data))
+        .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
 

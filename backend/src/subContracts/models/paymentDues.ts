@@ -2,12 +2,11 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (data: any) => prisma.paymentDues.createMany({ data })
 
-export const getOnlyActiveDuesByName = (dueDate: number, type: string) =>
+export const getOnlyActiveDuesByName = (dueDate: number) =>
     prisma.paymentDues.groupBy({
         by: ['name'],
         where: {
             status: false,
-            type,
             dueDate: {
                 lte: dueDate
             }
@@ -20,11 +19,10 @@ export const getOnlyActiveDuesByName = (dueDate: number, type: string) =>
         }
     })
 
-export const findTripWithActiveDues = (dueDate: number, type: string) =>
+export const findTripWithActiveDues = (dueDate: number) =>
     prisma.paymentDues.findMany({
         where: {
             status: false,
-            type,
             dueDate: {
                 lte: dueDate
             }

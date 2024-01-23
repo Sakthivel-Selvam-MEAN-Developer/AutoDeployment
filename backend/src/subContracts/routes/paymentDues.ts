@@ -7,7 +7,7 @@ import {
 
 const paymentDues = (router: Router) => {
     router.post('/payment-dues', createPaymentDues)
-    router.get('/payment-dues/:duedate/:type', listOnlyActiveTransporterDues)
+    router.get('/payment-dues/:duedate', listOnlyActiveTransporterDues)
     router.put('/payment-dues', updatePayment)
 }
 

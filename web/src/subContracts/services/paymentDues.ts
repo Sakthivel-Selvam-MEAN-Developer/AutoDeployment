@@ -1,8 +1,8 @@
 import { axiosInstance, getData } from '../../wonderMove/services'
 
-export const getOnlyActiveDues = (todayDate: number, type: string) =>
+export const getOnlyActiveDues = (todayDate: number) =>
     axiosInstance
-        .get(`/payment-dues/${todayDate}/${type}`)
+        .get(`/payment-dues/${todayDate}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
 

@@ -159,6 +159,31 @@ export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
         },
         data: {
             acknowledgementStatus: true
+        },
+        include: {
+            loadingPointToStockPointTrip: true,
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    }
+                }
+            },
+            stockPointToUnloadingPointTrip: {
+                include: {
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            truck: {
+                                include: {
+                                    transporter: true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     })
 
