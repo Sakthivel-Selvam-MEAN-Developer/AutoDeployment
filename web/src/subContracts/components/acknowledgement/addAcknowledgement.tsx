@@ -1,8 +1,7 @@
 import React, { ReactElement, useState } from 'react'
 import { FormFieldProps } from './types'
 import { Button, InputAdornment, TextField } from '@mui/material'
-import { updateAcknowledgementStatus } from '../../services/acknowledgement'
-import { closeTrip } from '../../services/acknowledgement'
+import { updateAcknowledgementStatus, closeTrip } from '../../services/acknowledgement'
 
 const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactElement => {
     const finalDue = (id: number) => {

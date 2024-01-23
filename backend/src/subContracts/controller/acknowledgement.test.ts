@@ -13,12 +13,12 @@ vi.mock('../models/overallTrip', () => ({
     getOverAllTripById: (inputs: any) => mockOverAllTripById(inputs)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
-    closeTrip: (inputs: any) => mockcloseStockTrip(inputs),
+    closeTrip: (id: number) => mockcloseStockTrip(id),
     updateUnloadWeightforTrip: (inputs: any, data: any) =>
         mockUpdateWeightForStockTrip(inputs, data)
 }))
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
-    closeUnloadingTrip: (inputs: any) => mockcloseTrip(inputs),
+    closeUnloadingTrip: (id: number) => mockcloseTrip(id),
     updateUnloadWeightForStockTrip: (inputs: any, data: any) =>
         mockUpdateWeightForTrip(inputs, data)
 }))
@@ -68,8 +68,7 @@ const mockOverAllTripByIdData = {
     }
 }
 const mockCloseTripData = {
-    id: 1,
-    tripStatus: true
+    id: 1
 }
 const mockUpdateData = {
     id: 1,
@@ -86,17 +85,17 @@ describe('Acknowledgement Controller', () => {
         await supertest(app).get('/api/acknowledgement/:id').expect(mockOverAllTripByIdData)
         expect(mockOverAllTripById).toBeCalledTimes(1)
     })
-    test.skip('should able to close trip by Id', async () => {
+    test('should able to close trip by Id', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByIdData)
         mockcloseStockTrip.mockResolvedValue(mockCloseTripData)
-        mockcloseTrip.mockResolvedValue(mockCloseTripData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
+        mockcloseTrip.mockResolvedValue(mockCloseTripData)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(2)
-        expect(mockcloseStockTrip).toBeCalledTimes(0)
-        expect(mockcloseTrip).toBeCalledTimes(1)
+        expect(mockcloseStockTrip).toBeCalledTimes(1)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
-        expect(mockUpdateWeightForTrip).toBeCalledTimes(1)
+        expect(mockcloseTrip).toBeCalledTimes(0)
+        expect(mockUpdateWeightForTrip).toBeCalledTimes(0)
     })
 })

@@ -36,7 +36,11 @@ export const OverAllTripById = (req: Request, res: Response) => {
 export const closeTripById = async (req: Request, res: Response) => {
     await getOverAllTripById(req.body.id)
         .then(async (overAllTripData) => {
-            if (overAllTripData && overAllTripData?.stockPointToUnloadingPointTrip !== null) {
+            if (
+                overAllTripData &&
+                overAllTripData?.stockPointToUnloadingPointTrip !== null &&
+                overAllTripData.stockPointToUnloadingPointTripId
+            ) {
                 await updateUnloadWeightForStockTrip(
                     overAllTripData.stockPointToUnloadingPointTrip.id,
                     req.body.unload
@@ -44,7 +48,8 @@ export const closeTripById = async (req: Request, res: Response) => {
                 await closeUnloadingTrip(overAllTripData.stockPointToUnloadingPointTrip.id)
             } else if (
                 overAllTripData &&
-                overAllTripData?.loadingPointToUnloadingPointTrip !== null
+                overAllTripData?.loadingPointToUnloadingPointTrip !== null &&
+                overAllTripData.loadingPointToUnloadingPointTrip
             ) {
                 await updateUnloadWeightforTrip(
                     overAllTripData.loadingPointToUnloadingPointTrip.id,
@@ -53,6 +58,6 @@ export const closeTripById = async (req: Request, res: Response) => {
                 await closeTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
             }
         })
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+        .then(() => res.sendStatus(200))
+        .catch(() => res.sendStatus(500))
 }

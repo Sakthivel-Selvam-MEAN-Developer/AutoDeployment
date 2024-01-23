@@ -6,10 +6,14 @@ import SelectTrip from './list'
 
 const mockActiveTripsByAcknowledgement = vi.fn()
 const mockgetTripById = vi.fn()
+const mockCloseTrip = vi.fn()
+const mockUpdateAcknowledgementStatus = vi.fn()
 
 vi.mock('../../services/acknowledgement', () => ({
     getAllActiveTripsByAcknowledgement: () => mockActiveTripsByAcknowledgement(),
-    getTripById: (inputs: any) => mockgetTripById(inputs)
+    getTripById: (inputs: any) => mockgetTripById(inputs),
+    closeTrip: (inputs: any) => mockCloseTrip(inputs),
+    updateAcknowledgementStatus: (inputs: any) => mockUpdateAcknowledgementStatus(inputs)
 }))
 
 const mockOverAllTripData = [
@@ -68,8 +72,12 @@ describe('Acknowledgement Test', () => {
         })
         await userEvent.click(opt)
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
+        await userEvent.click(screen.getByRole('button', { name: 'Close Trip' }))
+        await userEvent.click(screen.getByRole('button', { name: 'Create Due' }))
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(screen.getByText('salem')).toBeInTheDocument()
+        await userEvent.type(screen.getByLabelText('Unload Quantity'), '40')
+        expect(screen.getByDisplayValue('40')).toBeVisible()
         expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(1)
         expect(mockgetTripById).toHaveBeenCalledTimes(1)
     })

@@ -22,8 +22,6 @@ const SelectTrip: React.FC = (): ReactElement => {
                       .vehicleNumber === newValue
                 : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber === newValue
         )
-        console.log(id)
-
         setTripId(id)
     }
     return (
