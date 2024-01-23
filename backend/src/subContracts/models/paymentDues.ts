@@ -72,3 +72,13 @@ export const updatePaymentDuesWithTripId = (data: any) =>
             tripId: data.tripId
         }
     })
+
+export const getDueByOverallTripId = (tripId: number) =>
+    prisma.paymentDues.findMany({
+        where: {
+            tripId
+        },
+        select: {
+            payableAmount: true
+        }
+    })

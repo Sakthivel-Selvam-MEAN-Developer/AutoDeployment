@@ -7,10 +7,13 @@ const mockcloseStockTrip = vi.fn()
 const mockcloseTrip = vi.fn()
 const mockUpdateWeightForStockTrip = vi.fn()
 const mockUpdateWeightForTrip = vi.fn()
+const mockAcknowledgeStatusforOverAllTrip = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getOverAllTripByAcknowledgementStatus: () => mockAllTripByAcknowledgementStatus(),
-    getOverAllTripById: (inputs: any) => mockOverAllTripById(inputs)
+    getOverAllTripById: (inputs: any) => mockOverAllTripById(inputs),
+    closeAcknowledgementStatusforOverAllTrip: (inputs: any) =>
+        mockAcknowledgeStatusforOverAllTrip(inputs)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     closeTrip: (id: number) => mockcloseStockTrip(id),
@@ -102,6 +105,30 @@ const mockUpdateData = {
     id: 1,
     unloadedWeight: 100
 }
+const mockAcknowledgeStatusforAllTrip = {
+    id: 12,
+    acknowledgementStatus: false,
+    loadingPointToStockPointTrip: null,
+    stockPointToUnloadingPointTrip: null,
+    loadingPointToUnloadingPointTrip: {
+        startDate: new Date(2023, 10, 24).getTime() / 1000,
+        filledLoad: 40,
+        invoiceNumber: 'ABC123',
+        freightAmount: 1000,
+        transporterAmount: 900,
+        totalFreightAmount: 40000,
+        totalTransporterAmount: 36000,
+        margin: 4000,
+        tripStatus: false,
+        wantFuel: false,
+        truck: {
+            vehicleNumber: 'TN30S7777',
+            transporter: {
+                name: 'Muthu Logistics'
+            }
+        }
+    }
+}
 describe('Acknowledgement Controller', () => {
     test('should able to get all vehicle number from overAllTrip', async () => {
         mockAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTrip)
@@ -112,6 +139,9 @@ describe('Acknowledgement Controller', () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
         await supertest(app).get('/api/acknowledgement/:id').expect(mockOverAllTripByStockIdData)
         expect(mockOverAllTripById).toBeCalledTimes(1)
+    })
+    test.skip('should able update acknowledgement status with create final due', async () => {
+        mockAcknowledgeStatusforOverAllTrip.mockResolvedValue(mockAcknowledgeStatusforAllTrip)
     })
     test('should able to close trip by Id for stockTrip', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)

@@ -26,6 +26,8 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
             invoiceNumber,
             freightAmount,
             transporterAmount,
+            totalFreightAmount: row.filledLoad * freightAmount,
+            totalTransporterAmount: row.filledLoad * transporterAmount,
             unloadingPointId,
             loadingPointToStockPointTripId: row.id
         }
@@ -102,6 +104,44 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                     name="transporterAmount"
                     type="number"
                     value={transporterAmount}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                    InputProps={{
+                        inputProps: {
+                            step: 1,
+                            min: 0,
+                            readOnly: true
+                        },
+                        endAdornment: null
+                    }}
+                />
+                <TextField
+                    sx={{ marginLeft: '20px' }}
+                    id="outlined-number"
+                    label="Total Freight Amount"
+                    name="totalFreightAmount"
+                    type="number"
+                    value={row.filledLoad * freightAmount}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                    InputProps={{
+                        inputProps: {
+                            step: 1,
+                            min: 0,
+                            readOnly: true
+                        },
+                        endAdornment: null
+                    }}
+                />
+                <TextField
+                    sx={{ marginLeft: '20px' }}
+                    id="outlined-number"
+                    label="Total Transporter Freight"
+                    name="totalTransporterAmount"
+                    type="number"
+                    value={row.filledLoad * transporterAmount}
                     InputLabelProps={{
                         shrink: true
                     }}

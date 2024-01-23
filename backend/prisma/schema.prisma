@@ -382,6 +382,8 @@ model stockPointToUnloadingPointTrip {
   unloadedWeight                 Float?
   freightAmount                  Int
   transporterAmount              Int
+  totalFreightAmount             Int
+  totalTransporterAmount         Int
   createdAt                      DateTime                      @default(now()) @db.Timestamptz(6)
   updatedAt                      DateTime                      @updatedAt @db.Timestamptz(6)
   unloadingPoint                 unloadingPoint                @relation(fields: [unloadingPointId], references: [id])

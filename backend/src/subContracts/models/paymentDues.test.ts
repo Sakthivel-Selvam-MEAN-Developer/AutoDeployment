@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import {
     create,
     findTripWithActiveDues,
+    getDueByOverallTripId,
     getOnlyActiveDuesByName,
     updatePaymentDues
 } from './paymentDues.ts'
@@ -36,5 +37,18 @@ describe('Payment-Due model', () => {
         }
         const update = await updatePaymentDues(wantToUpdate)
         expect(update.transactionId).toBe(wantToUpdate.transactionId)
+    })
+    test('should able to get due by overallTripId', async () => {
+        const overallTripId = 2
+        await create({ ...seedPaymentDue, tripId: overallTripId })
+        await create({
+            ...seedPaymentDue,
+            type: 'fuel pay',
+            name: 'Barath Petroleum',
+            payableAmount: 5000,
+            tripId: overallTripId
+        })
+        const actual = await getDueByOverallTripId(overallTripId)
+        expect(actual.length).toBe(2)
     })
 })
