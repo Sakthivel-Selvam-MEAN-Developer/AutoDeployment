@@ -3,10 +3,16 @@ import { app } from '../../app.ts'
 
 const mockUnloadingPoint = vi.fn()
 const mockUnloadingPointByCompany = vi.fn()
+const mockCreatePricePointMarker = vi.fn()
+const mockCreateUnloadingPoint = vi.fn()
 
 vi.mock('../models/unloadingPoint', () => ({
     getAllUnloadingPoint: () => mockUnloadingPoint(),
-    getUnloadingPointByCompany: () => mockUnloadingPointByCompany()
+    getUnloadingPointByCompany: () => mockUnloadingPointByCompany(),
+    create: (inputs: any) => mockCreateUnloadingPoint(inputs)
+}))
+vi.mock('../models/pricePointMarker', () => ({
+    create: (inputs: any) => mockCreatePricePointMarker(inputs)
 }))
 
 describe('Delivery point Controller', () => {
@@ -23,5 +29,16 @@ describe('Delivery point Controller', () => {
             location: 'Salem, Tamilnadu'
         })
         expect(mockUnloadingPointByCompany).toBeCalledWith()
+    })
+    test('should get only All the stock point by cement company name', async () => {
+        mockCreatePricePointMarker.mockResolvedValue({
+            location: 'Salem, Tamilnadu'
+        })
+        mockCreateUnloadingPoint.mockResolvedValue({
+            location: 'Salem, Tamilnadu'
+        })
+        await supertest(app).post('/api/unloading-point').expect(200)
+        expect(mockCreateUnloadingPoint).toBeCalledTimes(1)
+        expect(mockCreatePricePointMarker).toBeCalledTimes(1)
     })
 })

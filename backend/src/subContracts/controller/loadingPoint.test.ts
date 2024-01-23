@@ -3,10 +3,16 @@ import { app } from '../../app.ts'
 
 const mockLoadingPoint = vi.fn()
 const mockLoadingPointByCompany = vi.fn()
+const mockCreateLoadingPoint = vi.fn()
+const mockCreatePricePointMarker = vi.fn()
 
 vi.mock('../models/loadingPoint', () => ({
     getAllLoadingPoint: () => mockLoadingPoint(),
-    getLoadingPointByCompany: () => mockLoadingPointByCompany()
+    getLoadingPointByCompany: () => mockLoadingPointByCompany(),
+    create: (inputs: any) => mockCreateLoadingPoint(inputs)
+}))
+vi.mock('../models/pricePointMarker', () => ({
+    create: (inputs: any) => mockCreatePricePointMarker(inputs)
 }))
 
 describe('Factory Controller', () => {
@@ -29,5 +35,17 @@ describe('Factory Controller', () => {
             name: 'UltraTech Cements'
         })
         expect(mockLoadingPointByCompany).toBeCalledWith()
+    })
+    test('should be able to create a loadingPoint', async () => {
+        mockCreatePricePointMarker.mockResolvedValue({
+            loaction: 'UltraTech Cements'
+        })
+        mockCreateLoadingPoint.mockResolvedValue({
+            name: 'UltraTech Cements',
+            cementCompanyId: 1,
+            pricePointMarkerId: 1
+        })
+        await supertest(app).post('/api/loading-point').expect(200)
+        expect(mockCreatePricePointMarker).toBeCalledTimes(1)
     })
 })

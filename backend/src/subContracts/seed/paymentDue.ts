@@ -1,6 +1,5 @@
 export default {
     name: 'Barath Logistics Pvt Ltd',
-    tripId: 10,
     type: 'initial pay',
     status: false,
     payableAmount: 20000,

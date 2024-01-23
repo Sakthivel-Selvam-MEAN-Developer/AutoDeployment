@@ -14,7 +14,8 @@ import { create as createTruck } from './truck.ts'
 import {
     closeUnloadingTrip,
     create,
-    getAllStockToUnloadingPointTrip
+    getAllStockToUnloadingPointTrip,
+    updateUnloadWeightForStockTrip
 } from './stockPointToUnloadingPoint.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
@@ -104,5 +105,48 @@ describe('stock Point to unloading point', () => {
         })
         const actual = await closeUnloadingTrip(unloadingPointTrip.id)
         expect(actual.tripStatus).toBe(!unloadingPointTrip.tripStatus)
+    })
+    test('should able to update UnloadWeight for stockPoint To UnloadingPoint Trip', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const unloadingPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const loadingPointToStockPoint = await createLoadingPointToStockPoint({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: false
+        })
+        const unloadingPointTrip = await create({
+            ...seedStockPointToUnloadingPoint,
+            loadingPointToStockPointTripId: loadingPointToStockPoint.id,
+            unloadingPointId: unloadingPoint.id
+        })
+        const actual = await updateUnloadWeightForStockTrip(unloadingPointTrip.id, 105)
+        const getTrip = await getAllStockToUnloadingPointTrip()
+        expect(actual.unloadedWeight).toBe(getTrip[0].unloadedWeight)
     })
 })

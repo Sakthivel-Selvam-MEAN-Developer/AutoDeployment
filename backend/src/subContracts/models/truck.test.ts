@@ -7,7 +7,12 @@ import seedTransporter from '../seed/transporterWithoutDep.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
-import { create as createTruck, getAllTruck, getTruckByTransporter } from './truck.ts'
+import {
+    create as createTruck,
+    getAllTruck,
+    getNumberByTruckId,
+    getTruckByTransporter
+} from './truck.ts'
 import { create } from './transporter.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
@@ -76,5 +81,16 @@ describe('Truck model', () => {
         expect(actual.length).toBe(1)
         expect(actual[0].transporterId).toBe(transporter.id)
         expect(actual[0].vehicleNumber).toBe(truckWithInActiveTrip.vehicleNumber)
+    })
+    test('should get only Number By TruckId', async () => {
+        const bank = await createBank(seedBank)
+        const transporter = await create({ ...seedTransporter, bankDetailsId: bank.id })
+        const truck = await createTruck({
+            ...seedTruckWithoutDep,
+            vehicleNumber: 'TN33ba1234',
+            transporterId: transporter.id
+        })
+        const actual = await getNumberByTruckId(truck.id)
+        expect(actual?.vehicleNumber).toBe(truck.vehicleNumber)
     })
 })

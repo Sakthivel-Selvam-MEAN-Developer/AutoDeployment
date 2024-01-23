@@ -46,7 +46,7 @@ const mockOverAllTrip = [
         }
     }
 ]
-const mockOverAllTripByIdData = {
+const mockOverAllTripByStockIdData = {
     id: 1,
     acknowledgementStatus: false,
     stockPointToUnloadingPointTripId: null,
@@ -60,6 +60,34 @@ const mockOverAllTripByIdData = {
         loadingPoint: {
             id: 1,
             name: 'Chennai-south'
+        },
+        unloadingPoint: {
+            id: 1,
+            name: 'Salem'
+        }
+    }
+}
+const mockOverAllTripByTripIdData = {
+    id: 1,
+    acknowledgementStatus: false,
+    stockPointToUnloadingPointTripId: 1,
+    loadingPointToUnloadingPointTripId: null,
+    loadingPointToUnloadingPointTrip: null,
+    stockPointToUnloadingPointTrip: {
+        id: 1,
+        truck: {
+            vehicleNumber: 'TN93D5512'
+        },
+        loadingPointToStockPointTrip: {
+            id: 1,
+            loadingPoint: {
+                id: 1,
+                name: 'Salem'
+            },
+            stockPoint: {
+                id: 1,
+                name: 'Salem'
+            }
         },
         unloadingPoint: {
             id: 1,
@@ -81,12 +109,12 @@ describe('Acknowledgement Controller', () => {
         expect(mockAllTripByAcknowledgementStatus).toBeCalledTimes(1)
     })
     test('should able to get trip Details from overAllTrip by Id', async () => {
-        mockOverAllTripById.mockResolvedValue(mockOverAllTripByIdData)
-        await supertest(app).get('/api/acknowledgement/:id').expect(mockOverAllTripByIdData)
+        mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
+        await supertest(app).get('/api/acknowledgement/:id').expect(mockOverAllTripByStockIdData)
         expect(mockOverAllTripById).toBeCalledTimes(1)
     })
-    test('should able to close trip by Id', async () => {
-        mockOverAllTripById.mockResolvedValue(mockOverAllTripByIdData)
+    test('should able to close trip by Id for stockTrip', async () => {
+        mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
         mockcloseStockTrip.mockResolvedValue(mockCloseTripData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
         mockcloseTrip.mockResolvedValue(mockCloseTripData)
@@ -97,5 +125,18 @@ describe('Acknowledgement Controller', () => {
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
         expect(mockcloseTrip).toBeCalledTimes(0)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(0)
+    })
+    test('should able to close trip by Id for trip', async () => {
+        mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
+        mockcloseStockTrip.mockResolvedValue(mockCloseTripData)
+        mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
+        mockcloseTrip.mockResolvedValue(mockCloseTripData)
+        mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
+        await supertest(app).put('/api/acknowledgement/trip').expect(200)
+        expect(mockOverAllTripById).toBeCalledTimes(3)
+        expect(mockcloseStockTrip).toBeCalledTimes(1)
+        expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
+        expect(mockcloseTrip).toBeCalledTimes(1)
+        expect(mockUpdateWeightForTrip).toBeCalledTimes(1)
     })
 })

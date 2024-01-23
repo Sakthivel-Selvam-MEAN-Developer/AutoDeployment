@@ -34,43 +34,6 @@ export const getAllStockPointTrip = () =>
         }
     })
 
-export const getOnlyActiveStockTripByVehicleNumber = (vehicleNumber: string) =>
-    prisma.loadingPointToStockPointTrip.findFirst({
-        where: {
-            tripStatus: false,
-            truck: {
-                vehicleNumber
-            }
-        },
-        select: {
-            id: true
-        }
-    })
-
-export const getStockTripByVehicleNumber = (trucknumber: string) =>
-    prisma.loadingPointToStockPointTrip.findFirst({
-        where: {
-            truck: {
-                vehicleNumber: trucknumber
-            },
-            tripStatus: false,
-            wantFuel: true
-        },
-        select: {
-            id: true,
-            totalTransporterAmount: true,
-            truck: {
-                select: {
-                    transporter: {
-                        select: {
-                            name: true
-                        }
-                    }
-                }
-            }
-        }
-    })
-
 export const closeStockTrip = (id: number) =>
     prisma.loadingPointToStockPointTrip.update({
         where: {
