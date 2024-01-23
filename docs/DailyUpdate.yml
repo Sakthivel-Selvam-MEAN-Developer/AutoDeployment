@@ -1,11 +1,32 @@
+- date: 23-1-2024
+  person: Barath
+  planning:
+    - rewriting test for controller and model.
+- date: 23-1-2024
+  person: Muthu
+  planning:
+    - Displaying final due in ui
+- date: 23-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+
 - date: 22-1-2024
   person: Barath
   planning:
     - changing closing trip by button to closing trip by unloaded Weight
+  completed:
+    - able to close trip status for trip with unloaded weight
 - date: 22-1-2024
   person: Muthu
   planning:
     - creating final due for transporter
+  completed:
+    -able to create final due for a trip
+- date: 22-1-2024
+  person: Sakthivel
+  leave: true
+
 
 - date: 20-1-2024
   person: Muthu
