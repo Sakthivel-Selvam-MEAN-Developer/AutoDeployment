@@ -39,7 +39,7 @@ const mockUpdateFuelWithTripData = {
 describe('Bunk Controller', () => {
     test.skip('should able to create Bunk', async () => {
         mockCreateFuel.mockResolvedValue(mockFuel)
-        await supertest(app).post('/api/fuel/barath').expect(200)
+        await supertest(app).post('/api/fuel/').expect(200)
         expect(mockCreateFuel).toBeCalledTimes(1)
     })
     test('should able to access', async () => {

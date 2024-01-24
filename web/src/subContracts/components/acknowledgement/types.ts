@@ -2,10 +2,12 @@ export interface FormFieldProps {
     tripDetails: {
         id: number
         stockPointToUnloadingPointTrip: {
+            startDate: number
             unloadingPoint: {
                 name: string
             }
             loadingPointToStockPointTrip: {
+                startDate: number
                 truck: {
                     vehicleNumber: string
                 }
@@ -15,6 +17,7 @@ export interface FormFieldProps {
             }
         }
         loadingPointToUnloadingPointTrip: {
+            startDate: number
             truck: {
                 vehicleNumber: string
             }

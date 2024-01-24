@@ -11,10 +11,18 @@ const SelectTrip: React.FC = (): ReactElement => {
     const [vehicleslist, setVehicleslist] = useState([])
     const [tripId, setTripId] = useState<number>(0)
     const [tripDetails, setTripDetails] = useState(null)
+    const [vehicleNumber, setVehicleNumber] = useState<string>('')
+    const [active, setActive] = useState<boolean>(false)
     useEffect(() => {
         getAllActiveTripsByAcknowledgement().then(setVehicleslist)
     }, [])
-    const onSubmit = async () => await getTripById(tripId).then(setTripDetails)
+    useEffect(() => {
+        setActive(false)
+    }, [vehicleNumber])
+    const onSubmit = async () => {
+        await getTripById(tripId).then(setTripDetails)
+        setActive(true)
+    }
     const onChange = (_event: React.SyntheticEvent<Element, Event>, newValue: string) => {
         const { id }: any = vehicleslist.find((trip: tripProps) =>
             trip.stockPointToUnloadingPointTrip !== null
@@ -28,6 +36,7 @@ const SelectTrip: React.FC = (): ReactElement => {
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Autocomplete
+                    value={vehicleNumber}
                     freeSolo
                     disableClearable
                     options={vehicleslist.map((trip: tripProps) =>
@@ -36,9 +45,10 @@ const SelectTrip: React.FC = (): ReactElement => {
                                   .vehicleNumber
                             : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber
                     )}
-                    onChange={(event: React.SyntheticEvent<Element, Event>, newValue: string) =>
+                    onChange={(event: React.SyntheticEvent<Element, Event>, newValue: string) => {
+                        setVehicleNumber(newValue)
                         onChange(event, newValue)
-                    }
+                    }}
                     renderInput={(params) => (
                         <TextField
                             {...params}
@@ -52,7 +62,7 @@ const SelectTrip: React.FC = (): ReactElement => {
                 />
                 <SubmitButton name="Submit" type="submit" />
             </form>
-            {tripDetails && <AddAcknowledgement tripDetails={tripDetails} />}
+            {active && tripDetails && <AddAcknowledgement tripDetails={tripDetails} />}
         </>
     )
 }

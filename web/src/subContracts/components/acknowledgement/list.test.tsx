@@ -37,6 +37,7 @@ const mockOverAllTripDataById = {
     stockPointToUnloadingPointTrip: null,
     loadingPointToUnloadingPointTrip: {
         id: 1,
+        startDate: 1705989708,
         truck: {
             vehicleNumber: 'TN93D5512'
         },
@@ -75,7 +76,7 @@ describe('Acknowledgement Test', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Close Trip' }))
         await userEvent.click(screen.getByRole('button', { name: 'Create Due' }))
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
-        expect(screen.getByText('salem')).toBeInTheDocument()
+        expect(screen.getByText(': salem')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Unload Quantity'), '40')
         expect(screen.getByDisplayValue('40')).toBeVisible()
         expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(1)
