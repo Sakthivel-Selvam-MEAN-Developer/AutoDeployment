@@ -1,11 +1,29 @@
+- date: 24-1-2024
+  person: Barath
+  planning:
+    - clearing data after submit & styling
+    - discussion with client to generate invoice for customer, paired with team
+- date: 24-1-2024
+  person: Muthu
+  planning:
+    - disable closing acknowledgement button until 24hrs after closed the trip
+- date: 24-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+
 - date: 23-1-2024
   person: Barath
   planning:
     - rewriting test for controller and model.
+  completed:
+    - written test for controller and model and for ui.
 - date: 23-1-2024
   person: Muthu
   planning:
     - Displaying final due in ui
+  completed:
+    - Displayed final due in ui
 - date: 23-1-2024
   person: Sakthivel
   planning:
