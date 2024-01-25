@@ -1,12 +1,31 @@
+- date: 25-1-2024
+  person: Barath
+  planning:
+    - discussion with client to generate invoice for customer, paired with team
+    - starting coding for the story
+- date: 25-1-2024
+  person: Muthu
+  planning:
+    - close trip should not able available after trip is closed
+- date: 25-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+
 - date: 24-1-2024
   person: Barath
   planning:
     - clearing data after submit & styling
     - discussion with client to generate invoice for customer, paired with team
+  completed:
+    - clearing data after submit & styling
+    - got sample invoice for customer from client
 - date: 24-1-2024
   person: Muthu
   planning:
     - disable closing acknowledgement button until 24hrs after closed the trip
+  completed:
+    -  disable closing acknowledgement button until 24hrs after closed the trip
 - date: 24-1-2024
   person: Sakthivel
   planning:
