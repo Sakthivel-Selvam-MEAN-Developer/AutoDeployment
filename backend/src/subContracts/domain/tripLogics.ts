@@ -24,24 +24,24 @@ const tripLogic = async (
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 tripId: id,
                 vehicleNumber,
-                payableAmount: data.totalTransporterAmount * transporterPercentage
+                payableAmount: Math.round(data.totalTransporterAmount * transporterPercentage)
             }
         ]
         return paymentDues
     }
     if (data.wantFuel === false && fuelDetails !== null) {
-        const paymentDues = [
+        return [
             {
                 name: transporterName,
                 type: 'initial pay',
                 dueDate: dayjs().startOf('day').unix(),
                 tripId: id,
                 vehicleNumber,
-                payableAmount:
+                payableAmount: Math.round(
                     data.totalTransporterAmount * transporterPercentage - fuelDetails.totalprice
+                )
             }
         ]
-        return paymentDues
     }
 }
 
