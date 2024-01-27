@@ -9,6 +9,7 @@ const mockfindTripWithActiveDues = vi.fn()
 const mockGetAllTrip = vi.fn()
 const mockcreatePaymentDues = vi.fn()
 const mockUpdatePayment = vi.fn()
+const mockOverAllTrip = vi.fn()
 
 vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
@@ -19,44 +20,157 @@ vi.mock('../models/paymentDues', () => ({
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockGetAllTrip()
 }))
+vi.mock('../models/overallTrip', () => ({
+    getOverallTrip: () => mockOverAllTrip()
+}))
 
-const mockTripWithDues = [
+const mockGroupedDuesData = [
     {
-        _count: { tripId: 2 },
-        _sum: { payableAmount: 88709 },
+        _count: { status: 1 },
+        _sum: { payableAmount: 27940 },
+        name: 'Deepak Logistics Pvt Ltd'
+    },
+    {
+        _count: { status: 1 },
+        _sum: { payableAmount: 2300 },
+        name: 'Barath Petroleum'
+    },
+    {
+        _count: { status: 1 },
+        _sum: { payableAmount: 20000 },
         name: 'Barath Logistics Pvt Ltd'
     }
 ]
-
-const mockAllTrip = [
+const mockTripDuesData = [
     {
         id: 1,
-        startDate: 1700764200,
-        filledLoad: 40,
-        wantFuel: null,
-        tripStatus: false,
-        freightAmount: 1000,
-        transporterAmount: 900,
-        totalFreightAmount: 40000,
-        totalTransporterAmount: 36000,
-        transporterBalance: 0,
-        margin: 4000,
-        loadingPointId: 1,
-        invoiceNumber: 'ABC123',
-        unloadingPointId: 1,
-        truckId: 1,
-        loadingPoint: { name: 'Chennai' },
-        unloadingPoint: { name: 'Salem' },
-        truck: { vehicleNumber: 'TN93D5512', transporter: [Object] }
+        payableAmount: 20000,
+        tripId: 1,
+        type: 'initial pay',
+        name: 'Barath Logistics Pvt Ltd',
+        status: false,
+        vehicleNumber: 'TN93D5512'
+    },
+    {
+        id: 3,
+        payableAmount: 2300,
+        tripId: 2,
+        type: 'fuel pay',
+        name: 'Barath Petroleum',
+        status: false,
+        vehicleNumber: 'TN29B3246'
+    },
+    {
+        id: 4,
+        payableAmount: 27940,
+        tripId: 2,
+        type: 'initial pay',
+        name: 'Deepak Logistics Pvt Ltd',
+        status: false,
+        vehicleNumber: 'TN29B3246'
     }
 ]
+const mockOverallTripData = [
+    {
+        id: 1,
+        acknowledgementStatus: false,
+        loadingPointToStockPointTripId: null,
+        stockPointToUnloadingPointTripId: null,
+        loadingPointToUnloadingPointTripId: 1,
+        loadingPointToStockPointTrip: null,
+        loadingPointToUnloadingPointTrip: {
+            id: 1,
+            startDate: 1700764200,
+            filledLoad: 40,
+            wantFuel: null,
+            tripStatus: false,
+            unloadedWeight: null,
+            acknowledgeDueTime: null,
+            freightAmount: 1000,
+            transporterAmount: 900,
+            totalFreightAmount: 40000,
+            totalTransporterAmount: 36000,
+            margin: 4000,
+            loadingPointId: 1,
+            invoiceNumber: 'ABC123',
+            unloadingPointId: 1,
+            truckId: 1,
+            loadingPoint: { name: 'Chennai' },
+            unloadingPoint: { name: 'Salem' },
+            truck: { vehicleNumber: 'TN93D5512', transporter: { name: 'Barath Logistics Pvt Ltd' } }
+        }
+    },
+    {
+        id: 2,
+        acknowledgementStatus: false,
+        loadingPointToStockPointTripId: null,
+        stockPointToUnloadingPointTripId: null,
+        loadingPointToUnloadingPointTripId: 2,
+        loadingPointToStockPointTrip: null,
+        loadingPointToUnloadingPointTrip: {
+            id: 2,
+            startDate: 1706339785,
+            filledLoad: 48,
+            wantFuel: false,
+            tripStatus: false,
+            unloadedWeight: null,
+            acknowledgeDueTime: null,
+            freightAmount: 1000,
+            transporterAmount: 900,
+            totalFreightAmount: 48000,
+            totalTransporterAmount: 43200,
+            margin: 4800,
+            loadingPointId: 1,
+            invoiceNumber: 'FDGT',
+            unloadingPointId: 1,
+            truckId: 3,
+            loadingPoint: { name: 'Chennai' },
+            unloadingPoint: { name: 'Salem' },
+            truck: { vehicleNumber: 'TN29B3246', transporter: { name: 'Deepak Logistics Pvt Ltd' } }
+        }
+    }
+]
+
 const mockGroupedDueDetails = [
     {
-        name: 'Barath Logistics Pvt Ltd',
+        name: 'Deepak Logistics Pvt Ltd',
         dueDetails: {
-            count: 2,
-            totalPayableAmount: 50000
+            count: 1,
+            totalPayableAmount: 27940
         },
+        tripDetails: [
+            {
+                id: 4,
+                tripId: 2,
+                payableAmount: 27940,
+                type: 'initial pay',
+                number: 'TN29B3246',
+                loadingPoint: 'Chennai',
+                unloadingPoint: 'Salem'
+            }
+        ]
+    },
+    {
+        name: 'Barath Petroleum',
+        dueDetails: {
+            count: 1,
+            totalPayableAmount: 2300
+        },
+        tripDetails: [
+            {
+                id: 3,
+                tripId: 2,
+                payableAmount: 2300,
+                type: 'fuel pay',
+                number: 'TN29B3246',
+                loadingPoint: 'Chennai',
+                unloadingPoint: 'Salem'
+            }
+        ]
+    },
+    {
+        name: 'Barath Logistics Pvt Ltd',
+        dueDetails: { count: 1, totalPayableAmount: 20000 },
         tripDetails: [
             {
                 id: 1,
@@ -66,38 +180,8 @@ const mockGroupedDueDetails = [
                 number: 'TN93D5512',
                 loadingPoint: 'Chennai',
                 unloadingPoint: 'Salem'
-            },
-            {
-                id: 2,
-                tripId: 1,
-                payableAmount: 68709,
-                type: 'fuel pay',
-                number: 'TN29B3246',
-                loadingPoint: 'Chennai',
-                unloadingPoint: 'Salem',
-                stationLocation: {
-                    fuelStation: {
-                        location: 'Pondicherry'
-                    }
-                }
             }
         ]
-    }
-]
-const mockActiveTrip = [
-    {
-        id: 1,
-        payableAmount: 20000,
-        tripId: 1,
-        type: 'initial pay',
-        name: 'Barath Logistics Pvt Ltd'
-    },
-    {
-        id: 2,
-        payableAmount: 68709,
-        tripId: 2,
-        type: 'initial pay',
-        name: 'Barath Logistics Pvt Ltd'
     }
 ]
 
@@ -117,12 +201,6 @@ const mockCreateDues = {
 }
 
 describe('Payment Due Controller', () => {
-    test.skip('should group the payment dues by name', async () => {
-        const data = groupDataByName(mockTripWithDues, mockActiveTrip, mockAllTrip)
-        // await supertest(app).get('/api/payment-dues/1704220200/initial%20pay')
-        // .expect(mockGroupedDueDetails)
-        expect(mockGroupedDueDetails).toMatchObject(data)
-    })
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
         await supertest(app).put('/api/payment-dues')
@@ -132,5 +210,20 @@ describe('Payment Due Controller', () => {
         mockcreatePaymentDues.mockResolvedValue(mockCreateDues)
         await supertest(app).post('/api/payment-dues')
         expect(mockcreatePaymentDues).toHaveBeenCalledTimes(1)
+    })
+    test('should get the active transporter payment dues', async () => {
+        mockgetOnlyActiveDuesByName.mockResolvedValue(mockGroupedDuesData)
+        mockfindTripWithActiveDues.mockResolvedValue(mockTripDuesData)
+        mockOverAllTrip.mockResolvedValue(mockOverallTripData)
+        await supertest(app).get('/api/payment-dues/1706340529').expect(200)
+        const actual = await groupDataByName(
+            mockGroupedDuesData,
+            mockTripDuesData,
+            mockOverallTripData
+        )
+        expect(actual).toEqual(mockGroupedDueDetails)
+        expect(mockgetOnlyActiveDuesByName).toHaveBeenCalledTimes(1)
+        expect(mockfindTripWithActiveDues).toHaveBeenCalledTimes(1)
+        expect(mockOverAllTrip).toHaveBeenCalledTimes(1)
     })
 })
