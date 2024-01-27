@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client'
+import dayjs from 'dayjs'
 import prisma from '../../../prisma/index.ts'
 
 export const create = (
@@ -70,21 +71,14 @@ export const getOnlyActiveTripByVehicleNumber = (vehicleNumber: string) =>
         }
     })
 
-export const closeTrip = (id: number) =>
-    prisma.loadingPointToUnloadingPointTrip.update({
-        where: {
-            id
-        },
-        data: {
-            tripStatus: true
-        }
-    })
 export const updateUnloadWeightforTrip = (id: number, unloadedWeight: number) =>
     prisma.loadingPointToUnloadingPointTrip.update({
         where: {
             id
         },
         data: {
-            unloadedWeight
+            unloadedWeight,
+            tripStatus: true,
+            acknowledgeDueTime: dayjs().add(1, 'minute').unix()
         }
     })

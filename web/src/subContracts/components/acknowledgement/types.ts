@@ -6,6 +6,8 @@ export interface FormFieldProps {
             unloadingPoint: {
                 name: string
             }
+            tripStatus: boolean
+            acknowledgeDueTime: number
             loadingPointToStockPointTrip: {
                 startDate: number
                 truck: {
@@ -18,6 +20,7 @@ export interface FormFieldProps {
         }
         loadingPointToUnloadingPointTrip: {
             startDate: number
+            acknowledgeDueTime: number
             truck: {
                 vehicleNumber: string
             }
@@ -27,6 +30,7 @@ export interface FormFieldProps {
             unloadingPoint: {
                 name: string
             }
+            tripStatus: boolean
         }
     }
 }

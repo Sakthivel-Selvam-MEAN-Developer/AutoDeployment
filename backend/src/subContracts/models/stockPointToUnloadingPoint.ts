@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client'
+import dayjs from 'dayjs'
 import prisma from '../../../prisma/index.ts'
 
 export const create = (
@@ -10,21 +11,14 @@ export const create = (
 export const getAllStockToUnloadingPointTrip = () =>
     prisma.stockPointToUnloadingPointTrip.findMany({})
 
-export const closeUnloadingTrip = (id: number) =>
-    prisma.stockPointToUnloadingPointTrip.update({
-        where: {
-            id
-        },
-        data: {
-            tripStatus: true
-        }
-    })
 export const updateUnloadWeightForStockTrip = (id: number, unloadedWeight: number) =>
     prisma.stockPointToUnloadingPointTrip.update({
         where: {
             id
         },
         data: {
-            unloadedWeight
+            unloadedWeight,
+            tripStatus: true,
+            acknowledgeDueTime: dayjs().add(1, 'minute').unix()
         }
     })

@@ -4,11 +4,8 @@ import {
     getOverAllTripByAcknowledgementStatus,
     getOverAllTripById
 } from '../models/overallTrip.ts'
-import { closeTrip, updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
-import {
-    closeUnloadingTrip,
-    updateUnloadWeightForStockTrip
-} from '../models/stockPointToUnloadingPoint.ts'
+import { updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
+import { updateUnloadWeightForStockTrip } from '../models/stockPointToUnloadingPoint.ts'
 import finalDueLogic from '../domain/finalDueLogic.ts'
 import { create as createPaymentDues, getDueByOverallTripId } from '../models/paymentDues.ts'
 
@@ -48,7 +45,6 @@ export const closeTripById = async (req: Request, res: Response) => {
                     overAllTripData.stockPointToUnloadingPointTrip.id,
                     req.body.unload
                 )
-                await closeUnloadingTrip(overAllTripData.stockPointToUnloadingPointTrip.id)
             } else if (
                 overAllTripData &&
                 overAllTripData?.loadingPointToUnloadingPointTrip !== null &&
@@ -58,7 +54,6 @@ export const closeTripById = async (req: Request, res: Response) => {
                     overAllTripData.loadingPointToUnloadingPointTrip.id,
                     req.body.unload
                 )
-                await closeTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
             }
         })
         .then(() => res.sendStatus(200))

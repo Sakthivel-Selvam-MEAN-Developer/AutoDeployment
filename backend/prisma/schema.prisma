@@ -380,6 +380,7 @@ model stockPointToUnloadingPointTrip {
   invoiceNumber                  String                        @unique
   tripStatus                     Boolean                       @default(false)
   unloadedWeight                 Float?
+  acknowledgeDueTime             Int?
   freightAmount                  Int
   transporterAmount              Int
   totalFreightAmount             Int
@@ -402,6 +403,7 @@ model loadingPointToUnloadingPointTrip {
   wantFuel               Boolean?
   tripStatus             Boolean        @default(false)
   unloadedWeight         Float?
+  acknowledgeDueTime     Int?
   freightAmount          Int
   transporterAmount      Int
   totalFreightAmount     Int

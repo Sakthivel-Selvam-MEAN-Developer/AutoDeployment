@@ -46,16 +46,38 @@ const mockOverAllTripDataById = {
         },
         unloadingPoint: {
             name: 'erode'
-        }
+        },
+        tripStatus: false
+    }
+}
+const mockOverAllTripDataByIdAfterTripClosed = {
+    id: 1,
+    acknowledgementStatus: false,
+    loadingPointToStockPointTrip: null,
+    stockPointToUnloadingPointTrip: null,
+    loadingPointToUnloadingPointTrip: {
+        id: 1,
+        startDate: 1705989708,
+        truck: {
+            vehicleNumber: 'TN93D5512'
+        },
+        loadingPoint: {
+            name: 'salem'
+        },
+        unloadingPoint: {
+            name: 'erode'
+        },
+        tripStatus: true,
+        acknowledgeDueTime: 1706338250
     }
 }
 
 describe('Acknowledgement Test', () => {
     beforeEach(() => {
         mockActiveTripsByAcknowledgement.mockResolvedValue(mockOverAllTripData)
-        mockgetTripById.mockResolvedValue(mockOverAllTripDataById)
     })
-    test('should fetch vehicle Number from Db', async () => {
+    test('should able to close the trip', async () => {
+        mockgetTripById.mockResolvedValue(mockOverAllTripDataById)
         render(
             <BrowserRouter>
                 <SelectTrip />
@@ -74,12 +96,38 @@ describe('Acknowledgement Test', () => {
         await userEvent.click(opt)
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
         await userEvent.click(screen.getByRole('button', { name: 'Close Trip' }))
-        await userEvent.click(screen.getByRole('button', { name: 'Create Due' }))
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(screen.getByText(': salem')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Unload Quantity'), '40')
         expect(screen.getByDisplayValue('40')).toBeVisible()
         expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(1)
         expect(mockgetTripById).toHaveBeenCalledTimes(1)
+        expect(mockCloseTrip).toHaveBeenCalledTimes(1)
+    })
+    test('should able to add the acknowledgement due for the trip', async () => {
+        mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterTripClosed)
+        render(
+            <BrowserRouter>
+                <SelectTrip />
+            </BrowserRouter>
+        )
+        const truckNumber = screen.getByRole('combobox', {
+            name: 'Search vehicle by number to act on it'
+        })
+        await userEvent.click(truckNumber)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const opt = screen.getByRole('option', {
+            name: 'TN93D5512'
+        })
+        await userEvent.click(opt)
+        await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
+        expect(screen.getByText('TN93D5512')).toBeInTheDocument()
+        expect(screen.getByText(': salem')).toBeInTheDocument()
+        await userEvent.click(screen.getByRole('button', { name: 'Create Due' }))
+        expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(2)
+        expect(mockgetTripById).toHaveBeenCalledTimes(2)
+        expect(mockUpdateAcknowledgementStatus).toHaveBeenCalledTimes(1)
     })
 })

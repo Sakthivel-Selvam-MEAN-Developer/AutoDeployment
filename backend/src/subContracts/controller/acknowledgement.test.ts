@@ -3,8 +3,6 @@ import { app } from '../../app.ts'
 
 const mockAllTripByAcknowledgementStatus = vi.fn()
 const mockOverAllTripById = vi.fn()
-const mockcloseStockTrip = vi.fn()
-const mockcloseTrip = vi.fn()
 const mockUpdateWeightForStockTrip = vi.fn()
 const mockUpdateWeightForTrip = vi.fn()
 const mockAcknowledgeStatusforOverAllTrip = vi.fn()
@@ -16,12 +14,10 @@ vi.mock('../models/overallTrip', () => ({
         mockAcknowledgeStatusforOverAllTrip(inputs)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
-    closeTrip: (id: number) => mockcloseStockTrip(id),
     updateUnloadWeightforTrip: (inputs: any, data: any) =>
         mockUpdateWeightForStockTrip(inputs, data)
 }))
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
-    closeUnloadingTrip: (id: number) => mockcloseTrip(id),
     updateUnloadWeightForStockTrip: (inputs: any, data: any) =>
         mockUpdateWeightForTrip(inputs, data)
 }))
@@ -98,9 +94,6 @@ const mockOverAllTripByTripIdData = {
         }
     }
 }
-const mockCloseTripData = {
-    id: 1
-}
 const mockUpdateData = {
     id: 1,
     unloadedWeight: 100
@@ -145,28 +138,20 @@ describe('Acknowledgement Controller', () => {
     })
     test('should able to close trip by Id for stockTrip', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
-        mockcloseStockTrip.mockResolvedValue(mockCloseTripData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
-        mockcloseTrip.mockResolvedValue(mockCloseTripData)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(2)
-        expect(mockcloseStockTrip).toBeCalledTimes(1)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
-        expect(mockcloseTrip).toBeCalledTimes(0)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(0)
     })
     test('should able to close trip by Id for trip', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
-        mockcloseStockTrip.mockResolvedValue(mockCloseTripData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
-        mockcloseTrip.mockResolvedValue(mockCloseTripData)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(3)
-        expect(mockcloseStockTrip).toBeCalledTimes(1)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
-        expect(mockcloseTrip).toBeCalledTimes(1)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(1)
     })
 })
