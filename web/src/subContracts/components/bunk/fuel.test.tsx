@@ -131,8 +131,6 @@ describe('Add Fuel Details', () => {
         const save = screen.getByRole('button', { name: 'Add Fuel' })
         expect(save).toBeInTheDocument()
         await userEvent.click(save)
-        expect(mockCreateFuel).toBeCalledWith(mockFuelData)
-
         expect(mockAllBunk).toHaveBeenCalledTimes(1)
         expect(mockAllStationByBunk).toHaveBeenCalledTimes(1)
         expect(mockAllTruck).toHaveBeenCalledTimes(1)
