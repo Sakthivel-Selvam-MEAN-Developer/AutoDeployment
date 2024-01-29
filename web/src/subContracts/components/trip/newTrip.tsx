@@ -7,7 +7,6 @@ import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { createTrip } from '../../services/trip.ts'
 import { useNavigate } from 'react-router-dom'
 import { getPricePoint } from '../../services/pricePoint.ts'
-import dayjs from 'dayjs'
 import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
 
 interface transporter {
@@ -49,7 +48,7 @@ const NewTrip: React.FC = () => {
             const details = {
                 truckId: truckId,
                 loadingPointId: loadingPointId,
-                startDate: dayjs().unix(),
+                startDate: data.tripDate.unix(),
                 filledLoad: parseInt(data.filledLoad),
                 invoiceNumber: data.invoiceNumber,
                 freightAmount: freightAmount,
@@ -85,7 +84,6 @@ const NewTrip: React.FC = () => {
         })
         // }
     }, [loadingPointId, unloadingPointId, stockPointId])
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormField

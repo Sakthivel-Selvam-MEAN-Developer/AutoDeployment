@@ -1,9 +1,10 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getAllUnloadingPoint } from '../../services/unloadingPoint.ts'
 import { Autocomplete, Button, TextField } from '@mui/material'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockTrip } from '../../services/unloadingPointTrip.ts'
-import dayjs from 'dayjs'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 interface dataProps {
     row: any
@@ -19,10 +20,15 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
     const [transporterAmount, setTransporterAmount] = useState<number>(0)
     const [invoiceNumber, setInvoiceNumber] = useState<string>('')
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault()
+        const formattedDays =
+            e.target.stockDate !== undefined && e.target.stockDate.value.split('/')
+        const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
+        const stockDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
+
         const details = {
-            startDate: dayjs().unix(),
+            startDate: stockDate,
             invoiceNumber,
             freightAmount,
             transporterAmount,
@@ -31,6 +37,8 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
             unloadingPointId,
             loadingPointToStockPointTripId: row.id
         }
+        console.log('hghhh', details)
+
         createStockTrip(details).then(() => setUpdate(!update))
     }
     useEffect(() => {
@@ -57,6 +65,9 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                 onSubmit={handleSubmit}
                 style={{ display: 'flex', justifyContent: 'left', width: '100%' }}
             >
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker label="Stock Point Date" name="stockDate" format="DD/MM/YYYY" />
+                </LocalizationProvider>
                 <TextField
                     id="outlined-basic"
                     label="Invoice Number"
@@ -70,9 +81,9 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                     value={unloadingPointName}
                     options={unloadingPointList.map(({ name }) => name)}
                     onChange={(_event, newValue) => {
-                        const { id, name }: any = unloadingPointList.find(
+                        const { id, name } = unloadingPointList.find(
                             (data: { name: string }) => data.name === newValue
-                        )
+                        ) || { id: 0, name: '' }
                         setUnloadingPointName(name)
                         setUnloadingPointId(id)
                     }}

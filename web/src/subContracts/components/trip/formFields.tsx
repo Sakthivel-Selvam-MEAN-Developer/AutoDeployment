@@ -11,7 +11,7 @@ import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { listFuelWithoutTripId } from '../../services/fuel.ts'
-
+import DateInput from '../../../form/DateInput.tsx'
 interface FormFieldProps {
     control: Control
     transporter: string[]
@@ -131,6 +131,12 @@ const FormField: React.FC<FormFieldProps> = ({
                     setTransporterName(newValue)
                 }}
             />
+            <DateInput
+                control={control}
+                format="DD/MM/YYYY"
+                fieldName="tripDate"
+                label="Trip Start Date"
+            />
             <AutoCompleteWithValue
                 value={vehicleNumber}
                 control={control}
@@ -138,9 +144,9 @@ const FormField: React.FC<FormFieldProps> = ({
                 label="Truck Number"
                 options={listTruck.map(({ vehicleNumber }) => vehicleNumber)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = listTruck.find(
+                    const { id } = listTruck.find(
                         (truck: { vehicleNumber: string }) => truck.vehicleNumber === newValue
-                    )
+                    ) || { id: 0 }
                     setTruckId(id)
                     setVehicleNumber(newValue)
                 }}
@@ -162,9 +168,9 @@ const FormField: React.FC<FormFieldProps> = ({
                 label="Loading Point"
                 options={loadingPointList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = loadingPointList.find(
+                    const { id } = loadingPointList.find(
                         (data: { name: string }) => data.name === newValue
-                    )
+                    ) || { id: 0 }
                     loadingPointId(id)
                     setLoadingPointName(newValue)
                 }}
@@ -177,9 +183,9 @@ const FormField: React.FC<FormFieldProps> = ({
                     label="Unloading Point"
                     options={unloadingPointList.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id }: any = unloadingPointList.find(
+                        const { id } = unloadingPointList.find(
                             (data: { name: string }) => data.name === newValue
-                        )
+                        ) || { id: 0 }
                         unloadingPointId(id)
                         setUnloadingPointName(newValue)
                     }}
@@ -192,9 +198,9 @@ const FormField: React.FC<FormFieldProps> = ({
                     label="Stock Point"
                     options={stockPointList.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id }: any = stockPointList.find(
+                        const { id } = stockPointList.find(
                             (data: { name: string }) => data.name === newValue
-                        )
+                        ) || { id: 0 }
                         stockPointId(id)
                         setStockPointName(newValue)
                     }}

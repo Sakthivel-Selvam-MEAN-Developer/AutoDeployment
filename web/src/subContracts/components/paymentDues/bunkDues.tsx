@@ -7,6 +7,8 @@ import { Button, ListItemSecondaryAction, TextField } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { getOnlyActiveDues, updatePaymentDues } from '../../services/paymentDues'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 const BunkDues: React.FC = () => {
     const [bunkDue, setBunkDue] = useState([])
     const [transactionIds, setTransactionIds] = useState<Record<number, string>>({})
@@ -51,7 +53,6 @@ const BunkDues: React.FC = () => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate).then(setBunkDue)
     }, [refresh])
-
     return (
         <>
             {bunkDue.map((data: dataProp) => {
@@ -89,6 +90,13 @@ const BunkDues: React.FC = () => {
                                             handleTransactionIdChange(list.id, e.target.value)
                                         }
                                     />
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            label="Payment Date"
+                                            name="paymentDate"
+                                            format="DD/MM/YYYY"
+                                        />
+                                    </LocalizationProvider>
                                     <Button
                                         sx={style}
                                         onClick={() => handleClick(list.id)}

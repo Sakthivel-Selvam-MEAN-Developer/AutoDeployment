@@ -249,6 +249,7 @@ model transporter {
   name          String      @unique
   hasGst        Boolean     @default(false)
   gstNumber     Int?
+  hasTds        Boolean     @default(false)
   tdsPercentage Int
   bankDetailsId Int
   bankDetails   bankDetails @relation(fields: [bankDetailsId], references: [id])
@@ -448,6 +449,8 @@ model fuelStation {
 
 model fuel {
   id            Int          @id @default(autoincrement())
+  fueledDate    Int
+  invoiceNumber String       @unique
   pricePerliter Float
   quantity      Float
   totalprice    Float

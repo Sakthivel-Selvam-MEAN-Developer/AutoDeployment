@@ -9,12 +9,13 @@ interface DateInputProps {
     control: Control
     label: string
     fieldName: string
+    format: string
 }
-const DateInput: React.FC<DateInputProps> = ({ control, label, fieldName }) => {
+const DateInput: React.FC<DateInputProps> = ({ control, label, fieldName, format }) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
             <Controller
-                render={({ field }) => <DatePicker {...field} label={label} />}
+                render={({ field }) => <DatePicker {...field} label={label} format={format} />}
                 name={fieldName}
                 control={control}
             />

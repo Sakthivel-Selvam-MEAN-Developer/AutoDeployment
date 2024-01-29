@@ -8,6 +8,7 @@ import { getOnlyActiveDues } from '../../services/paymentDues'
 import { ListItemSecondaryAction } from '@mui/material'
 import dayjs from 'dayjs'
 import FormField from './formField'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 
 const TransporterDues: React.FC = () => {
     const [transporterDue, setTransporterDue] = useState([])
@@ -25,6 +26,9 @@ const TransporterDues: React.FC = () => {
         payableAmount: number
         type: string
         transactionId: string
+        invoiceNumber: string
+        fuelInvoiceNumber: string
+        date: number
     }
     const style = { width: '100%', padding: '10px 10px 0px' }
     useEffect(() => {
@@ -63,6 +67,14 @@ const TransporterDues: React.FC = () => {
                                     </Typography>
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
+                                    {list.type !== 'fuel pay' && (
+                                        <Typography sx={style}>{list.invoiceNumber} </Typography>
+                                    )}
+                                    {list.type !== 'fuel pay' && (
+                                        <Typography sx={style}>
+                                            {epochToMinimalDate(list.date)}{' '}
+                                        </Typography>
+                                    )}
                                     <FormField
                                         setRefresh={setRefresh}
                                         refresh={refresh}

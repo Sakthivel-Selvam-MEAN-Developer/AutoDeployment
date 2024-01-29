@@ -3,7 +3,6 @@ import TripList from './list'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import dayjs from 'dayjs'
 
 const mockPricePoint = vi.fn()
 const mockAllTrip = vi.fn()
@@ -41,7 +40,7 @@ const mockPricePointData = {
     transporterPercentage: 10
 }
 const mockCreateStockPointTrip = {
-    startDate: dayjs().unix(),
+    startDate: 1706580172,
     invoiceNumber: '12345abc',
     freightAmount: 1000,
     transporterAmount: 900,
@@ -130,6 +129,7 @@ describe('Trip Test', () => {
             expect(screen.getByLabelText('Invoice Number')).toBeInTheDocument()
             expect(screen.getByLabelText('Company Freight')).toBeInTheDocument()
         })
+        await userEvent.type(screen.getByLabelText('Stock Point Date'), '30012024')
         await userEvent.type(screen.getByLabelText('Invoice Number'), '12345abc')
         const unLoadingPoint = screen.getByRole('combobox', {
             name: 'Unloading Point'
@@ -143,7 +143,8 @@ describe('Trip Test', () => {
         })
         await userEvent.click(opt)
         expect(screen.getByText('1000')).toBeInTheDocument()
-        await userEvent.click(screen.getByRole('button', { name: 'Create' }))
+        const create = screen.getByRole('button', { name: 'Create' })
+        await userEvent.click(create)
         expect(mockCreateStockTrip).toHaveBeenCalledTimes(1)
     })
 })

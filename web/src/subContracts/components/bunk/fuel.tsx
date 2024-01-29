@@ -22,7 +22,9 @@ const Fuel: React.FC = (): ReactElement => {
             pricePerliter: parseInt(data.pricePerliter),
             quantity: parseInt(data.quantity),
             totalprice: totalPrice,
-            fuelStationId: fuelStationId
+            fuelStationId: fuelStationId,
+            fueledDate: data.fuelDate.unix(),
+            invoiceNumber: data.invoiceNumber
         }
         createFuel(details, data.bunkId).then(() => setOpenSuccessDialog(true))
     }

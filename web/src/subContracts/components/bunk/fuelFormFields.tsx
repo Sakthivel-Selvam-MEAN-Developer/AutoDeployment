@@ -7,6 +7,8 @@ import { getAllFuelStationByBunk } from '../../services/fuelStation.ts'
 import NumberInput from '../../../form/NumberInput.tsx'
 import { InputAdornment } from '@mui/material'
 import { getAllTruck } from '../../services/truck.ts'
+import DateInput from '../../../form/DateInput.tsx'
+import TextInput from '../../../form/TextInput.tsx'
 
 interface FormFieldsProps {
     control: Control
@@ -44,9 +46,9 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                 label="Select Bunk"
                 options={bunkList.map(({ bunkName }) => bunkName)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const bId: any = bunkList.find(
+                    const bId = bunkList.find(
                         (bunk: { bunkName: string }) => bunk.bunkName === newValue
-                    )
+                    ) || { id: 0 }
                     setBunkId(bId.id)
                 }}
             />
@@ -56,13 +58,18 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                 label="Fuel Station"
                 options={stationList.map(({ location }) => location)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const bId: any = stationList.find(
+                    const bId = stationList.find(
                         (bunk: { location: string }) => bunk.location === newValue
-                    )
+                    ) || { id: 0 }
                     fuelStationId(bId.id)
                 }}
             />
-
+            <DateInput
+                control={control}
+                format="DD/MM/YYYY"
+                fieldName="fuelDate"
+                label="Fueled Date"
+            />
             <AutoComplete
                 control={control}
                 fieldName="vehicleNumber"
@@ -72,7 +79,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                     console.log(newValue)
                 }}
             />
-
+            <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
             <NumberInput
                 control={control}
                 label="Fuel per Liter"

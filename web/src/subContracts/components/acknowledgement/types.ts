@@ -41,7 +41,6 @@ export interface FormFieldProps {
     setRender: React.Dispatch<React.SetStateAction<boolean>>
     render: boolean
 }
-
 export interface tripProps {
     stockPointToUnloadingPointTrip: {
         loadingPointToStockPointTrip: {

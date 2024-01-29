@@ -117,9 +117,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     label="Loading Point"
                     options={loadingPointList.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id }: any = loadingPointList.find(
+                        const { id } = loadingPointList.find(
                             (data: { name: string }) => data.name === newValue
-                        )
+                        ) || { id: 0 }
                         setLoadingPointId(id)
                         setLoadingPointName(newValue)
                     }}
@@ -133,9 +133,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     label="Stock Point"
                     options={stockPointList.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id }: any = stockPointList.find(
+                        const { id } = stockPointList.find(
                             (data: { name: string }) => data.name === newValue
-                        )
+                        ) || { id: 0 }
                         setStockPointId(id)
                         setStockPointName(newValue)
                     }}
@@ -152,9 +152,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     label="Unloading Point"
                     options={unloadingPointList.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id }: any = unloadingPointList.find(
+                        const { id } = unloadingPointList.find(
                             (data: { name: string }) => data.name === newValue
-                        )
+                        ) || { id: 0 }
                         setUnloadingPointId(id)
                         setUnloadingPointName(newValue)
                     }}

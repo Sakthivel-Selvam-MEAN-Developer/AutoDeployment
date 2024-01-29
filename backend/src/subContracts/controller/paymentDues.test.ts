@@ -146,7 +146,9 @@ const mockGroupedDueDetails = [
                 type: 'initial pay',
                 number: 'TN29B3246',
                 loadingPoint: 'Chennai',
-                unloadingPoint: 'Salem'
+                unloadingPoint: 'Salem',
+                invoiceNumber: 'FDGT',
+                date: 1706339785
             }
         ]
     },
@@ -164,7 +166,9 @@ const mockGroupedDueDetails = [
                 type: 'fuel pay',
                 number: 'TN29B3246',
                 loadingPoint: 'Chennai',
-                unloadingPoint: 'Salem'
+                unloadingPoint: 'Salem',
+                invoiceNumber: 'FDGT',
+                date: 1706339785
             }
         ]
     },
@@ -179,7 +183,9 @@ const mockGroupedDueDetails = [
                 type: 'initial pay',
                 number: 'TN93D5512',
                 loadingPoint: 'Chennai',
-                unloadingPoint: 'Salem'
+                unloadingPoint: 'Salem',
+                invoiceNumber: 'ABC123',
+                date: 1700764200
             }
         ]
     }
@@ -211,7 +217,7 @@ describe('Payment Due Controller', () => {
         await supertest(app).post('/api/payment-dues')
         expect(mockcreatePaymentDues).toHaveBeenCalledTimes(1)
     })
-    test('should get the active transporter payment dues', async () => {
+    test('should get the active transporter payment dues', async () => {
         mockgetOnlyActiveDuesByName.mockResolvedValue(mockGroupedDuesData)
         mockfindTripWithActiveDues.mockResolvedValue(mockTripDuesData)
         mockOverAllTrip.mockResolvedValue(mockOverallTripData)

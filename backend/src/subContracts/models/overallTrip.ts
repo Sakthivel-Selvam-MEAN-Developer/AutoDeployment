@@ -8,6 +8,7 @@ export const create = (
 export const getOverallTrip = () =>
     prisma.overallTrip.findMany({
         include: {
+            fuel: true,
             loadingPointToStockPointTrip: {
                 include: {
                     loadingPoint: true,

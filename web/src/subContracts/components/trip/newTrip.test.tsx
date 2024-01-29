@@ -196,6 +196,7 @@ async function newFunction() {
 
     await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
     await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
+    await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
 }
 describe('New trip test', () => {
     beforeEach(() => {

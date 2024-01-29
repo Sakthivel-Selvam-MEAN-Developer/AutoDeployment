@@ -33,17 +33,29 @@ const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
             />
             <DateInput
                 control={control}
+                format="DD/MM/YYYY"
                 fieldName="insuranceExpiryDate"
                 label="Insurance Expiry Date"
             />
-            <DateInput control={control} fieldName="taxExpiryDate" label="Tax Expiry Date" />
-            <DateInput control={control} fieldName="npPermitDate" label="Np Permit Date" />
             <DateInput
                 control={control}
+                format="DD/MM/YYYY"
+                fieldName="taxExpiryDate"
+                label="Tax Expiry Date"
+            />
+            <DateInput
+                control={control}
+                format="DD/MM/YYYY"
+                fieldName="npPermitDate"
+                label="Np Permit Date"
+            />
+            <DateInput
+                control={control}
+                format="DD/MM/YYYY"
                 fieldName="fiveYearPermitDate"
                 label="Five Year Permit Date"
             />
-            <DateInput control={control} fieldName="fcDate" label="FC Date" />
+            <DateInput control={control} format="DD/MM/YYYY" fieldName="fcDate" label="FC Date" />
         </div>
     )
 }

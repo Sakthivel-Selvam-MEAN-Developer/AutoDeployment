@@ -54,7 +54,7 @@ describe('New trip test', () => {
         await userEvent.click(transporter)
         expect(await screen.findByText('TN29B3246')).toBeInTheDocument()
         expect(await screen.findByText('1200')).toBeInTheDocument()
-
+        await userEvent.type(screen.getByLabelText('Payment Date'), '30012024')
         await userEvent.type(screen.getByLabelText('Transaction Id'), '12345abc')
         expect(await screen.findByDisplayValue('12345abc')).toBeInTheDocument()
         expect(screen.getByRole('button', { name: 'Pay' }))

@@ -36,9 +36,9 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId, setV
                 label="Select Company"
                 options={cementCompany.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id }: any = cementCompany.find(
+                    const { id } = cementCompany.find(
                         (company: { name: string }) => company.name === newValue
-                    )
+                    ) || { id: 0 }
                     companyId(id)
                 }}
             />

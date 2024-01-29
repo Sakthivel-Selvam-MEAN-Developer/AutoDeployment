@@ -27,7 +27,9 @@ const mockFuelData = {
     pricePerliter: 103,
     quantity: 10,
     totalprice: 1030,
-    fuelStationId: 1
+    fuelStationId: 1,
+    invoiceNumber: 'RTD43D',
+    fueledDate: 1706553000
 }
 const mockAllBunkData = [
     {
@@ -124,7 +126,8 @@ describe('Add Fuel Details', () => {
         expect(parseInt(totalPrice.value)).toBe(
             parseInt(fuelPerLiter.value) * parseInt(totalQuantity.value)
         )
-
+        await userEvent.type(screen.getByLabelText('Fueled Date'), '30012024')
+        await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
         const save = screen.getByRole('button', { name: 'Add Fuel' })
         expect(save).toBeInTheDocument()
         await userEvent.click(save)

@@ -20,6 +20,14 @@ function tripInfo(matchingTrip: any, tripData: any) {
         payableAmount: matchingTrip.payableAmount,
         type: matchingTrip.type,
         number: matchingTrip.vehicleNumber,
+        date:
+            matchingTrip.type !== 'fuel pay' && tripData[0].loadingPointToStockPointTrip !== null
+                ? tripData[0].loadingPointToStockPointTrip.startDate
+                : tripData[0].loadingPointToUnloadingPointTrip.startDate,
+        invoiceNumber:
+            matchingTrip.type !== 'fuel pay' && tripData[0].loadingPointToStockPointTrip !== null
+                ? tripData[0].loadingPointToStockPointTrip.invoiceNumber
+                : tripData[0].loadingPointToUnloadingPointTrip.invoiceNumber,
         loadingPoint:
             tripData[0].loadingPointToStockPointTrip !== null
                 ? tripData[0].loadingPointToStockPointTrip.loadingPoint.name

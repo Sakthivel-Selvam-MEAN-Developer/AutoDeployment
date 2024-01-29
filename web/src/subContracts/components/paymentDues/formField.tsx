@@ -1,7 +1,8 @@
-import React, { FormEvent, ReactElement, useState } from 'react'
-import dayjs from 'dayjs'
+import React, { ReactElement, useState } from 'react'
 import { updatePaymentDues } from '../../services/paymentDues'
 import { Button, TextField } from '@mui/material'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 interface formProps {
     setRefresh: React.Dispatch<React.SetStateAction<boolean>>
@@ -10,15 +11,22 @@ interface formProps {
 }
 const FormField: React.FC<formProps> = ({ setRefresh, refresh, id }): ReactElement => {
     const [transactionId, setTransactionId] = useState('')
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault()
-        updatePaymentDues({ id, transactionId, paidAt: dayjs().unix() }).then(() => {
+        const formattedDays = e.target.paymentDate.value.split('/')
+        const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
+        const paymentDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
+
+        updatePaymentDues({ id, transactionId, paidAt: paymentDate }).then(() => {
             setRefresh(!refresh)
             setTransactionId('')
         })
     }
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker label="Payment Date" name="paymentDate" format="DD/MM/YYYY" />
+            </LocalizationProvider>
             <TextField
                 id="outlined-basic"
                 label="Transaction Id"
