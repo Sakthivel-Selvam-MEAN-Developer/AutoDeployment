@@ -12,20 +12,33 @@ export const getTruckByTransporter = (transporterName: string) =>
             transporter: {
                 name: transporterName
             },
-            NOT: [
+            OR: [
                 {
-                    loadingPointToUnloadingPointTrip: {
-                        some: {
-                            tripStatus: false
+                    NOT: [
+                        {
+                            loadingPointToUnloadingPointTrip: {
+                                some: {
+                                    tripStatus: false
+                                }
+                            }
+                        },
+                        {
+                            loadingPointToStockPointTrip: {
+                                some: {
+                                    OR: [
+                                        {
+                                            stockPointToUnloadingPointTrip: {
+                                                some: {
+                                                    tripStatus: false
+                                                }
+                                            }
+                                        },
+                                        { tripStatus: false }
+                                    ]
+                                }
+                            }
                         }
-                    }
-                },
-                {
-                    loadingPointToStockPointTrip: {
-                        some: {
-                            tripStatus: false
-                        }
-                    }
+                    ]
                 }
             ]
         }

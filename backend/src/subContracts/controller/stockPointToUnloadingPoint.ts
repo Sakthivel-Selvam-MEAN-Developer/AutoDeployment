@@ -4,6 +4,7 @@ import {
     getOverAllTripIdByLoadingToStockId,
     updateStockToUnloadingInOverall
 } from '../models/overallTrip.ts'
+import { closeStockTrip } from '../models/loadingToStockPointTrip.ts'
 
 export const createStockPointToUnloadingPointTrip = (req: Request, res: Response) => {
     create(req.body)
@@ -12,6 +13,9 @@ export const createStockPointToUnloadingPointTrip = (req: Request, res: Response
                 stockToUnloading.loadingPointToStockPointTripId
             )
             await updateStockToUnloadingInOverall(overallTrip?.id, stockToUnloading.id)
+            if (stockToUnloading.loadingPointToStockPointTripId !== null) {
+                await closeStockTrip(stockToUnloading.loadingPointToStockPointTripId)
+            }
         })
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))

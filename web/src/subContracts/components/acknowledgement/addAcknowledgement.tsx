@@ -6,7 +6,11 @@ import AcknowledgementLocation from './acknowledgeLocation'
 import dayjs from 'dayjs'
 import { epochToDate } from '../../../commonUtils/epochToTime'
 
-const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactElement => {
+const AddAcknowledgement: React.FC<FormFieldProps> = ({
+    tripDetails,
+    setRender,
+    render
+}): ReactElement => {
     const [tripStatus, setTripStatus] = useState<boolean>(false)
     const [acknowledgeDueTime, setAcknowledgeDueTime] = useState<number>(0)
     const [unload, setUnload] = useState<number>(0)
@@ -20,6 +24,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
     const currentTime = dayjs().unix()
     const finalDue = (id: number) => {
         updateAcknowledgementStatus(id)
+        setRender(!render)
     }
     useEffect(() => {
         setTripStatus(
@@ -32,7 +37,11 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
                 ? tripDetails.loadingPointToUnloadingPointTrip.acknowledgeDueTime
                 : tripDetails.stockPointToUnloadingPointTrip.acknowledgeDueTime
         )
-    }, [tripDetails])
+    }, [tripDetails, render])
+    const handleCloseTrip = () => {
+        closeTrip({ id: tripDetails.id, unload: unload })
+        setRender(!render)
+    }
     return (
         <div style={style}>
             <p style={{ fontSize: '20px' }}>
@@ -55,13 +64,19 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
                     tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
                         .loadingPoint.name,
                     tripDetails.stockPointToUnloadingPointTrip.unloadingPoint.name,
-                    tripDetails.stockPointToUnloadingPointTrip.startDate
+                    tripDetails.stockPointToUnloadingPointTrip.startDate,
+                    tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+                        .filledLoad,
+                    tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+                        .invoiceNumber
                 )}
             {tripDetails.loadingPointToUnloadingPointTrip !== null &&
                 AcknowledgementLocation(
                     tripDetails.loadingPointToUnloadingPointTrip.loadingPoint.name,
                     tripDetails.loadingPointToUnloadingPointTrip.unloadingPoint.name,
-                    tripDetails.loadingPointToUnloadingPointTrip.startDate
+                    tripDetails.loadingPointToUnloadingPointTrip.startDate,
+                    tripDetails.loadingPointToUnloadingPointTrip.filledLoad,
+                    tripDetails.loadingPointToUnloadingPointTrip.invoiceNumber
                 )}
             <hr
                 style={{
@@ -91,9 +106,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
                             color="secondary"
                             variant="contained"
                             type="submit"
-                            onClick={async () =>
-                                await closeTrip({ id: tripDetails.id, unload: unload })
-                            }
+                            onClick={() => handleCloseTrip()}
                         >
                             Close Trip
                         </Button>
@@ -104,7 +117,8 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
                     <p>Trip Closed</p>
                 </div>
             )}
-            {tripStatus &&
+            {!tripDetails.acknowledgementStatus ? (
+                tripStatus &&
                 (currentTime > acknowledgeDueTime ? (
                     <div style={{ display: 'grid', alignItems: 'center' }}>
                         <h3 style={{ fontWeight: 'normal' }}>Add Acknowledgement for the Trip</h3>
@@ -126,7 +140,10 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({ tripDetails }): ReactEle
                     </div>
                 ) : (
                     <p>Can add Acknowledgement Details after {epochToDate(acknowledgeDueTime)}</p>
-                ))}
+                ))
+            ) : (
+                <p>Acknowledgement Added</p>
+            )}
         </div>
     )
 }

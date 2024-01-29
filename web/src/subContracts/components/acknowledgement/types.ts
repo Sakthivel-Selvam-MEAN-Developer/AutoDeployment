@@ -1,5 +1,6 @@
 export interface FormFieldProps {
     tripDetails: {
+        acknowledgementStatus: boolean
         id: number
         stockPointToUnloadingPointTrip: {
             startDate: number
@@ -16,6 +17,8 @@ export interface FormFieldProps {
                 loadingPoint: {
                     name: string
                 }
+                filledLoad: number
+                invoiceNumber: string
             }
         }
         loadingPointToUnloadingPointTrip: {
@@ -31,8 +34,12 @@ export interface FormFieldProps {
                 name: string
             }
             tripStatus: boolean
+            filledLoad: number
+            invoiceNumber: string
         }
     }
+    setRender: React.Dispatch<React.SetStateAction<boolean>>
+    render: boolean
 }
 
 export interface tripProps {

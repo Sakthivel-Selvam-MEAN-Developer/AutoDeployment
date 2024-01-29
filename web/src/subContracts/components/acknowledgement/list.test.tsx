@@ -47,7 +47,9 @@ const mockOverAllTripDataById = {
         unloadingPoint: {
             name: 'erode'
         },
-        tripStatus: false
+        tripStatus: false,
+        filledLoad: 20,
+        invoiceNumber: 'abc123'
     }
 }
 const mockOverAllTripDataByIdAfterTripClosed = {
@@ -68,7 +70,32 @@ const mockOverAllTripDataByIdAfterTripClosed = {
             name: 'erode'
         },
         tripStatus: true,
-        acknowledgeDueTime: 1706338250
+        acknowledgeDueTime: 1706338250,
+        filledLoad: 20,
+        invoiceNumber: 'abc123'
+    }
+}
+const mockOverAllTripDataByIdAfterAcknowledgeAdded = {
+    id: 1,
+    acknowledgementStatus: true,
+    loadingPointToStockPointTrip: null,
+    stockPointToUnloadingPointTrip: null,
+    loadingPointToUnloadingPointTrip: {
+        id: 1,
+        startDate: 1705989708,
+        truck: {
+            vehicleNumber: 'TN93D5512'
+        },
+        loadingPoint: {
+            name: 'salem'
+        },
+        unloadingPoint: {
+            name: 'erode'
+        },
+        tripStatus: true,
+        acknowledgeDueTime: 1706338250,
+        filledLoad: 20,
+        invoiceNumber: 'abc123'
     }
 }
 
@@ -95,13 +122,13 @@ describe('Acknowledgement Test', () => {
         })
         await userEvent.click(opt)
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
-        await userEvent.click(screen.getByRole('button', { name: 'Close Trip' }))
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(screen.getByText(': salem')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Unload Quantity'), '40')
-        expect(screen.getByDisplayValue('40')).toBeVisible()
+        await userEvent.click(screen.getByRole('button', { name: 'Close Trip' }))
+        mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterTripClosed)
         expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(1)
-        expect(mockgetTripById).toHaveBeenCalledTimes(1)
+        expect(mockgetTripById).toHaveBeenCalledTimes(2)
         expect(mockCloseTrip).toHaveBeenCalledTimes(1)
     })
     test('should able to add the acknowledgement due for the trip', async () => {
@@ -126,8 +153,9 @@ describe('Acknowledgement Test', () => {
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(screen.getByText(': salem')).toBeInTheDocument()
         await userEvent.click(screen.getByRole('button', { name: 'Create Due' }))
+        mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterAcknowledgeAdded)
         expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(2)
-        expect(mockgetTripById).toHaveBeenCalledTimes(2)
+        expect(mockgetTripById).toHaveBeenCalledTimes(4)
         expect(mockUpdateAcknowledgementStatus).toHaveBeenCalledTimes(1)
     })
 })

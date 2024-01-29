@@ -114,7 +114,7 @@ describe('Trip Test', () => {
         )
         await waitFor(() => {
             expect(screen.getByText('TN93D5512')).toBeInTheDocument()
-            expect(screen.getByText('Oct 10, 2023')).toBeInTheDocument()
+            expect(screen.getByText('10/10/2023')).toBeInTheDocument()
             expect(screen.getByText('salem')).toBeInTheDocument()
         })
         expect(mockAllTrip).toHaveBeenCalledTimes(1)

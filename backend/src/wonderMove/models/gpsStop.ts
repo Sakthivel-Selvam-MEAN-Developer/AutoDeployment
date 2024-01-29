@@ -7,8 +7,17 @@ export const createMany = (data: Prisma.gpsStopsCreateManyInput[]) =>
     prisma.gpsStops.createMany({ data })
 
 export const getGpsStops = () => prisma.gpsStops.findMany()
-
-function getGpsStopInPersistableFormat(gpsStop: any) {
+interface gpsStopProps {
+    startTime: number
+    endTime: number
+    durationInMillis: number
+    stopReasonId: number
+    vehicleId: number
+    latitude: number
+    longitude: number
+    source: string
+}
+function getGpsStopInPersistableFormat(gpsStop: gpsStopProps) {
     const {
         startTime,
         endTime,

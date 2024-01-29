@@ -67,7 +67,6 @@ const NewTrip: React.FC = () => {
                 createTrip({ ...details, unloadingPointId: unloadingPointId }).then(() =>
                     navigate('/sub/trip')
                 )
-            else alert('Select Any Category')
         } else alert('All fields Required')
     }
     useEffect(() => {

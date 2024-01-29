@@ -13,12 +13,17 @@ const SelectTrip: React.FC = (): ReactElement => {
     const [tripDetails, setTripDetails] = useState(null)
     const [vehicleNumber, setVehicleNumber] = useState<string>('')
     const [active, setActive] = useState<boolean>(false)
+    const [render, setRender] = useState<boolean>(false)
     useEffect(() => {
         getAllActiveTripsByAcknowledgement().then(setVehicleslist)
     }, [])
     useEffect(() => {
         setActive(false)
     }, [vehicleNumber])
+    useEffect(() => {
+        if (tripId !== 0) getTripById(tripId).then(setTripDetails)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [render])
     const onSubmit = async () => {
         await getTripById(tripId).then(setTripDetails)
         setActive(true)
@@ -62,7 +67,13 @@ const SelectTrip: React.FC = (): ReactElement => {
                 />
                 <SubmitButton name="Submit" type="submit" />
             </form>
-            {active && tripDetails && <AddAcknowledgement tripDetails={tripDetails} />}
+            {active && tripDetails && (
+                <AddAcknowledgement
+                    tripDetails={tripDetails}
+                    setRender={setRender}
+                    render={render}
+                />
+            )}
         </>
     )
 }
