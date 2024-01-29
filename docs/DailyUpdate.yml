@@ -1,8 +1,24 @@
+- date: 29-1-2024
+  person: Barath
+  planning:
+    - making changes in completed stories said by client
+- date: 29-1-2024
+  person: Muthu
+  planning:
+    - after closing trip the acknowledge status will show immediately
+    - quantity shortage calculation
+- date: 29-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+
 - date: 25-1-2024
   person: Barath
   planning:
     - discussion with client to generate invoice for customer, paired with team
     - starting coding for the story
+  completed:
+    - discussed with client
 - date: 25-1-2024
   person: Muthu
   planning:
