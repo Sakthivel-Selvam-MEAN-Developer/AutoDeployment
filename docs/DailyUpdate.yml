@@ -1,12 +1,33 @@
+- date: 30-1-2024
+  person: Barath
+  planning:
+    - creating transporter master
+- date: 30-1-2024
+  person: Muthu
+  planning:
+    - testing for quantity shortage calculation
+- date: 30-1-2024
+  person: Sakthivel
+  planning:
+    - paired with muthu
+
 - date: 29-1-2024
   person: Barath
   planning:
-    - making changes in completed stories said by client
+    - create date field in trip,stockTrip,payment,fuel
+    - invoice field for fuel
+    - display invoice,date in paymentDues
+  completed:
+    - created date field in trip,stockTrip,payment,fuel
+    - invoice field for fuel
+    - displayed invoice,date in paymentDues
 - date: 29-1-2024
   person: Muthu
   planning:
     - after closing trip the acknowledge status will show immediately
     - quantity shortage calculation
+  completed:
+    - after closing trip the acknowledge status will show immediately
 - date: 29-1-2024
   person: Sakthivel
   planning:
