@@ -39,6 +39,8 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId, setV
                     const { id } = cementCompany.find(
                         (company: { name: string }) => company.name === newValue
                     ) || { id: 0 }
+                    console.log(cementCompany)
+
                     companyId(id)
                 }}
             />

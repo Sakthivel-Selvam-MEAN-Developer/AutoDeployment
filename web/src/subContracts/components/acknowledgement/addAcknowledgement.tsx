@@ -45,7 +45,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                       : 0
             )
         } else setShortageQuantity(filledLoad * 1000)
-    }, [unload, approvalType])
+    }, [unload, approvalType, filledLoad])
     useEffect(() => {
         setTripStatus(
             tripDetails.loadingPointToUnloadingPointTrip !== null

@@ -11,12 +11,12 @@ interface formProps {
 }
 const FormField: React.FC<formProps> = ({ setRefresh, refresh, id }): ReactElement => {
     const [transactionId, setTransactionId] = useState('')
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const formattedDays = e.target.paymentDate.value.split('/')
+        const form = e.target as HTMLFormElement
+        const formattedDays = form.paymentDate.value.split('/')
         const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
         const paymentDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
-
         updatePaymentDues({ id, transactionId, paidAt: paymentDate }).then(() => {
             setRefresh(!refresh)
             setTransactionId('')

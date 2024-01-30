@@ -18,6 +18,7 @@ import Acknowledgement from './subContracts/components/acknowledgement'
 import SelectTrip from './subContracts/components/acknowledgement/list'
 import Transporter from './subContracts/components/Transporter'
 import CreateTransporter from './subContracts/components/Transporter/list'
+import AddVehicle from './subContracts/components/Transporter/addVehicle'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -112,6 +113,10 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <CreateTransporter />
+                },
+                {
+                    path: 'addvehicle',
+                    element: <AddVehicle />
                 }
             ]
         }
