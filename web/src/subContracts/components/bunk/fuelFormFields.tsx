@@ -4,11 +4,11 @@ import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control } from 'react-hook-form'
 import { getAllBunk } from '../../services/bunk.ts'
 import { getAllFuelStationByBunk } from '../../services/fuelStation.ts'
-import NumberInput from '../../../form/NumberInput.tsx'
 import { InputAdornment } from '@mui/material'
 import { getAllTruck } from '../../services/truck.ts'
 import DateInput from '../../../form/DateInput.tsx'
 import TextInput from '../../../form/TextInput.tsx'
+import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
 
 interface FormFieldsProps {
     control: Control
@@ -80,11 +80,12 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                 }}
             />
             <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
-            <NumberInput
+            <NumberInputWithProps
                 control={control}
                 label="Fuel per Liter"
                 fieldName="pricePerliter"
                 type="number"
+                inputProps={{ step: 'any', min: '0' }}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">
@@ -93,18 +94,13 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                     )
                 }}
             />
-            <NumberInput
+            <NumberInputWithProps
                 control={control}
                 label="Fuel Quantity"
                 fieldName="quantity"
                 type="number"
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>liter</b>
-                        </InputAdornment>
-                    )
-                }}
+                inputProps={{ step: 'any', min: '0' }}
+                InputProps={''}
             />
             <InputWithDefaultValue
                 control={control}

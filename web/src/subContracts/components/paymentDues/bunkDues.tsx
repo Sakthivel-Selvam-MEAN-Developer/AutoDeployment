@@ -79,7 +79,9 @@ const BunkDues: React.FC = () => {
                                 <AccordionDetails
                                     sx={{ display: 'flex', borderBottom: '1px solid grey' }}
                                 >
-                                    <Typography sx={style}>{list.number}</Typography>
+                                    <Typography sx={style}>
+                                        <b>{list.number}</b>
+                                    </Typography>
                                     <Typography sx={style}>{list.type} </Typography>
                                     <Typography sx={style}>{list.payableAmount} </Typography>
                                     <TextField

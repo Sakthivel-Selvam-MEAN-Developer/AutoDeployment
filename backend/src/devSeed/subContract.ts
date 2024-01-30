@@ -5,8 +5,6 @@ import seedDeliveryPointWithoutDep from '../subContracts/seed/unloadingPointWith
 import { create as createTruck } from '../subContracts/models/truck.ts'
 import seedTruck from '../subContracts/seed/truck.ts'
 import seedTruckWithoutDep from '../subContracts/seed/truckWithoutDeb.ts'
-import { create as createBank } from '../subContracts/models/bankDetails.ts'
-import seedBank from '../subContracts/seed/bankDetails.ts'
 import { create as createTransporter } from '../subContracts/models/transporter.ts'
 import seedTransporterWithoutDep from '../subContracts/seed/transporterWithoutDep.ts'
 import { create as createPricePoint } from '../subContracts/models/pricePoint.ts'
@@ -57,11 +55,7 @@ async function seedSubContract() {
     })
     const truck = await createTruck(seedTruck)
     await createTruck({ ...seedTruckWithoutDep, transporterId: truck.transporterId })
-    const bankDetails = await createBank({ ...seedBank, accountNumber: 9876930 })
-    const transporter = await createTransporter({
-        ...seedTransporterWithoutDep,
-        bankDetailsId: bankDetails.id
-    })
+    const transporter = await createTransporter(seedTransporterWithoutDep)
     await createTruck({
         ...seedTruckWithoutDep,
         vehicleNumber: 'TN30S4325',

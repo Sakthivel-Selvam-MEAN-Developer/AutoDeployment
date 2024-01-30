@@ -19,9 +19,9 @@ const Fuel: React.FC = (): ReactElement => {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
             vehicleNumber: data.vehicleNumber,
-            pricePerliter: parseInt(data.pricePerliter),
-            quantity: parseInt(data.quantity),
-            totalprice: totalPrice,
+            pricePerliter: parseFloat(data.pricePerliter),
+            quantity: parseFloat(data.quantity),
+            totalprice: Math.ceil(totalPrice),
             fuelStationId: fuelStationId,
             fueledDate: data.fuelDate.unix(),
             invoiceNumber: data.invoiceNumber

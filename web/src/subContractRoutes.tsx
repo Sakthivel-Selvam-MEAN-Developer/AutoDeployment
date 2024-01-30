@@ -16,6 +16,8 @@ import BunkList from './subContracts/components/bunk/list'
 import Bunk from './subContracts/components/bunk'
 import Acknowledgement from './subContracts/components/acknowledgement'
 import SelectTrip from './subContracts/components/acknowledgement/list'
+import Transporter from './subContracts/components/Transporter'
+import CreateTransporter from './subContracts/components/Transporter/list'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -100,6 +102,16 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <SelectTrip />
+                }
+            ]
+        },
+        {
+            path: 'transporter',
+            element: <Transporter />,
+            children: [
+                {
+                    path: '',
+                    element: <CreateTransporter />
                 }
             ]
         }

@@ -5,11 +5,11 @@ import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
-import InputWithType from '../../../form/InputWithType.tsx'
 import NumberInputWithValue from '../../../form/NumberInputWithValue.tsx'
 import { InputAdornment } from '@mui/material'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
+import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
 
 export interface FormFieldsProps {
     control: Control
@@ -177,12 +177,13 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     )
                 }}
             />
-            <InputWithType
+            <NumberInputWithProps
                 control={control}
-                disabled={false}
                 label="Transporter Percentage"
                 fieldName="transporterPercentage"
                 type="number"
+                inputProps={{ step: 'any', min: '0' }}
+                InputProps={''}
             />
             <InputWithDefaultValue
                 control={control}

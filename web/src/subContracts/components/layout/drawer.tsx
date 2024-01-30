@@ -120,6 +120,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={5}
                     icon={<LibraryAddCheck />}
                 />
+                <DrawerListItem
+                    text="transporter"
+                    navigate="/sub/transporter"
+                    drawerState={drawerState}
+                    index={5}
+                    icon={<LocalShipping />}
+                />
             </List>
         </Drawer>
     )

@@ -245,30 +245,22 @@ model orgUnitRelations {
 }
 
 model transporter {
-  id            Int         @id @default(autoincrement())
-  name          String      @unique
-  hasGst        Boolean     @default(false)
-  gstNumber     Int?
-  hasTds        Boolean     @default(false)
-  tdsPercentage Int
-  bankDetailsId Int
-  bankDetails   bankDetails @relation(fields: [bankDetailsId], references: [id])
-  createdAt     DateTime    @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime    @updatedAt @db.Timestamptz(6)
-  trucks        truck[]
-
-  @@schema("subContract")
-}
-
-model bankDetails {
-  id            Int           @id @default(autoincrement())
-  accountHolder String
-  accountNumber Int           @unique
-  ifsc          String
-  createdAt     DateTime      @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime      @updatedAt @db.Timestamptz(6)
-  transporter   transporter[]
-  // bunk          bunk[]
+  id                  Int      @id @default(autoincrement())
+  name                String   @unique
+  emailId             String   @unique
+  contactPersonName   String
+  contactPersonNumber String   @unique
+  address             String
+  hasGst              Boolean  @default(false)
+  gstNumber           String?
+  hasTds              Boolean  @default(false)
+  tdsPercentage       Int?
+  accountHolder       String
+  accountNumber       String   @unique
+  ifsc                String
+  createdAt           DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime @updatedAt @db.Timestamptz(6)
+  trucks              truck[]
 
   @@schema("subContract")
 }
@@ -278,7 +270,7 @@ model cementCompany {
   name                String           @unique
   gstNo               String
   address             String
-  emailId             String
+  emailId             String           @unique
   contactPersonName   String
   contactPersonNumber String
   loadingPoints       loadingPoint[]
@@ -483,7 +475,7 @@ model pricePoint {
   id                    Int             @id @default(autoincrement())
   freightAmount         Int
   transporterAmount     Int
-  transporterPercentage Int
+  transporterPercentage Float
   loadingPointId        Int?
   loadingPoint          loadingPoint?   @relation(fields: [loadingPointId], references: [id])
   unloadingPointId      Int?

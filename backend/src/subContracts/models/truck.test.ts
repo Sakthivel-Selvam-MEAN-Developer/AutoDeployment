@@ -1,5 +1,4 @@
 import seedTruck from '../seed/truck.ts'
-import seedBank from '../seed/bankDetails.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingToUnloadingTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedTruckWithoutDep from '../seed/truckWithoutDeb.ts'
@@ -16,7 +15,6 @@ import {
 import { create } from './transporter.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
-import { create as createBank } from './bankDetails.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
@@ -29,8 +27,7 @@ describe('Truck model', () => {
         expect(actual[0].vehicleNumber).toBe(seedTruck.vehicleNumber)
     })
     test('should get only Truck by Transporter name', async () => {
-        const bank = await createBank(seedBank)
-        const transporter = await create({ ...seedTransporter, bankDetailsId: bank.id })
+        const transporter = await create({ ...seedTransporter })
         await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',
@@ -46,8 +43,7 @@ describe('Truck model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const bank = await createBank(seedBank)
-        const transporter = await create({ ...seedTransporter, bankDetailsId: bank.id })
+        const transporter = await create(seedTransporter)
         const truckWithActiveTrip = await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',
@@ -83,8 +79,7 @@ describe('Truck model', () => {
         expect(actual[0].vehicleNumber).toBe(truckWithInActiveTrip.vehicleNumber)
     })
     test('should get only Number By TruckId', async () => {
-        const bank = await createBank(seedBank)
-        const transporter = await create({ ...seedTransporter, bankDetailsId: bank.id })
+        const transporter = await create(seedTransporter)
         const truck = await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',

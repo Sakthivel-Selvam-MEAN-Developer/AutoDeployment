@@ -29,7 +29,8 @@ describe('UnloadingPoint model', () => {
         })
         const cementCompany = await createCementCompany({
             ...seedCementCompany,
-            name: 'Barath Cements'
+            name: 'Barath Cements',
+            emailId: 'gg@gmail.com'
         })
         await create({
             ...seedUnloadingPointWithoutDep,
