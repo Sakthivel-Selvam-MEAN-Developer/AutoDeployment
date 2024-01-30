@@ -19,8 +19,13 @@ export const updateAcknowledgementStatus = (id: number) =>
         .catch(() => alert('Error Updating data'))
 
 interface dataProps {
-    id: number
-    unload: number
+    overallTripId: number
+    shortageQuantity: number
+    shortageAmount: number
+    approvalStatus: boolean | null
+    reason: string | null
+    filledLoad: number
+    unloadedQuantity: number | null
 }
 export const closeTrip = (tripDetails: dataProps) =>
     axiosInstance

@@ -372,7 +372,6 @@ model stockPointToUnloadingPointTrip {
   startDate                      Int
   invoiceNumber                  String                        @unique
   tripStatus                     Boolean                       @default(false)
-  unloadedWeight                 Float?
   acknowledgeDueTime             Int?
   freightAmount                  Int
   transporterAmount              Int
@@ -395,7 +394,6 @@ model loadingPointToUnloadingPointTrip {
   filledLoad             Int
   wantFuel               Boolean?
   tripStatus             Boolean        @default(false)
-  unloadedWeight         Float?
   acknowledgeDueTime     Int?
   freightAmount          Int
   transporterAmount      Int
@@ -501,6 +499,21 @@ model paymentDues {
   paidAt        Int?
   createdAt     DateTime @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+
+  @@schema("subContract")
+}
+
+model shortageQuantity {
+  id               Int      @id @default(autoincrement())
+  overallTripId    Int
+  shortageQuantity Int
+  shortageAmount   Int
+  approvalStatus   Boolean  @default(false)
+  reason           String?
+  filledLoad       Int
+  unloadedQuantity Int
+  createdAt        DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }

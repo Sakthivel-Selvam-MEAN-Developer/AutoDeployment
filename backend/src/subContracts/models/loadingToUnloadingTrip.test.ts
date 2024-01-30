@@ -100,7 +100,7 @@ describe('Trip model', () => {
             unloadingPointId: deliveryPoint.id,
             truckId: truck.id
         })
-        const actual = await updateUnloadWeightforTrip(trip.id, 105.5)
-        expect(actual.unloadedWeight).toBe(105.5)
+        const actual = await updateUnloadWeightforTrip(trip.id)
+        expect(actual.tripStatus).toBe(true)
     })
 })

@@ -71,13 +71,12 @@ export const getOnlyActiveTripByVehicleNumber = (vehicleNumber: string) =>
         }
     })
 
-export const updateUnloadWeightforTrip = (id: number, unloadedWeight: number) =>
+export const updateUnloadWeightforTrip = (id: number) =>
     prisma.loadingPointToUnloadingPointTrip.update({
         where: {
             id
         },
         data: {
-            unloadedWeight,
             tripStatus: true,
             acknowledgeDueTime: dayjs().add(1, 'minute').unix()
         }

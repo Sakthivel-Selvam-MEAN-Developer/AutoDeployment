@@ -29,12 +29,12 @@ const SelectTrip: React.FC = (): ReactElement => {
         setActive(true)
     }
     const onChange = (_event: React.SyntheticEvent<Element, Event>, newValue: string) => {
-        const { id }: any = vehicleslist.find((trip: tripProps) =>
+        const { id } = vehicleslist.find((trip: tripProps) =>
             trip.stockPointToUnloadingPointTrip !== null
                 ? trip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
                       .vehicleNumber === newValue
                 : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber === newValue
-        )
+        ) || { id: 0 }
         setTripId(id)
     }
     return (

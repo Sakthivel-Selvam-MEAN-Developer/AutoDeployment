@@ -35,7 +35,6 @@ export const getOverallTrip = () =>
             }
         }
     })
-
 export const getOnlyActiveTripByVehicle = (vehicleNumber: string) =>
     prisma.overallTrip.findFirst({
         where: {
@@ -62,7 +61,6 @@ export const getOnlyActiveTripByVehicle = (vehicleNumber: string) =>
             id: true
         }
     })
-
 export const getActiveTripByVehicle = (vehicleNumber: string) =>
     prisma.overallTrip.findFirst({
         where: {
@@ -108,7 +106,6 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
             }
         }
     })
-
 export const getOverAllTripByAcknowledgementStatus = () =>
     prisma.overallTrip.findMany({
         where: {
@@ -152,7 +149,6 @@ export const getOverAllTripByAcknowledgementStatus = () =>
             }
         }
     })
-
 export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
     prisma.overallTrip.update({
         where: {
@@ -187,7 +183,6 @@ export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
             }
         }
     })
-
 export const updateStockToUnloadingInOverall = (
     overallTripId: number | undefined,
     stockToUnloadingId: number
@@ -200,7 +195,6 @@ export const updateStockToUnloadingInOverall = (
             stockPointToUnloadingPointTripId: stockToUnloadingId
         }
     })
-
 export const getOverAllTripIdByLoadingToStockId = (loadingPointToStockPointTripId: number | null) =>
     prisma.overallTrip.findFirst({
         where: {
@@ -210,7 +204,6 @@ export const getOverAllTripIdByLoadingToStockId = (loadingPointToStockPointTripI
             id: true
         }
     })
-
 export const getOverAllTripById = (id: number) =>
     prisma.overallTrip.findFirst({
         where: {
@@ -223,14 +216,22 @@ export const getOverAllTripById = (id: number) =>
                     loadingPointToStockPointTrip: {
                         include: {
                             loadingPoint: true,
-                            truck: true
+                            truck: {
+                                include: {
+                                    transporter: true
+                                }
+                            }
                         }
                     }
                 }
             },
             loadingPointToUnloadingPointTrip: {
                 include: {
-                    truck: true,
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    },
                     loadingPoint: true,
                     unloadingPoint: true
                 }

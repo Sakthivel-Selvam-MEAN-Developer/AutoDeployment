@@ -13,6 +13,9 @@ export interface FormFieldProps {
                 startDate: number
                 truck: {
                     vehicleNumber: string
+                    transporter: {
+                        name: string
+                    }
                 }
                 loadingPoint: {
                     name: string
@@ -26,6 +29,9 @@ export interface FormFieldProps {
             acknowledgeDueTime: number
             truck: {
                 vehicleNumber: string
+                transporter: {
+                    name: string
+                }
             }
             loadingPoint: {
                 name: string

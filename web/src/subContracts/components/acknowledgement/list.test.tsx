@@ -39,7 +39,10 @@ const mockOverAllTripDataById = {
         id: 1,
         startDate: 1705989708,
         truck: {
-            vehicleNumber: 'TN93D5512'
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Sakthivel Logistics'
+            }
         },
         loadingPoint: {
             name: 'salem'
@@ -61,7 +64,10 @@ const mockOverAllTripDataByIdAfterTripClosed = {
         id: 1,
         startDate: 1705989708,
         truck: {
-            vehicleNumber: 'TN93D5512'
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Sakthivel Logistics'
+            }
         },
         loadingPoint: {
             name: 'salem'
@@ -84,7 +90,10 @@ const mockOverAllTripDataByIdAfterAcknowledgeAdded = {
         id: 1,
         startDate: 1705989708,
         truck: {
-            vehicleNumber: 'TN93D5512'
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Sakthivel Logistics'
+            }
         },
         loadingPoint: {
             name: 'salem'
@@ -125,6 +134,18 @@ describe('Acknowledgement Test', () => {
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(screen.getByText(': salem')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Unload Quantity'), '40')
+        const approvalType = screen.getByRole('combobox', {
+            name: 'Approval Type'
+        })
+        await userEvent.click(approvalType)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const option = screen.getByRole('option', {
+            name: 'Acceptable'
+        })
+        await userEvent.click(option)
+        await userEvent.type(screen.getByLabelText('Reason for Rejection'), 'No Comments')
         await userEvent.click(screen.getByRole('button', { name: 'Close Trip' }))
         mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterTripClosed)
         expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(1)

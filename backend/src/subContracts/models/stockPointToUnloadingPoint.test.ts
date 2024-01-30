@@ -102,8 +102,7 @@ describe('stock Point to unloading point', () => {
             loadingPointToStockPointTripId: loadingPointToStockPoint.id,
             unloadingPointId: unloadingPoint.id
         })
-        const actual = await updateUnloadWeightForStockTrip(unloadingPointTrip.id, 105)
-        const getTrip = await getAllStockToUnloadingPointTrip()
-        expect(actual.unloadedWeight).toBe(getTrip[0].unloadedWeight)
+        const actual = await updateUnloadWeightForStockTrip(unloadingPointTrip.id)
+        expect(actual.tripStatus).toBe(true)
     })
 })

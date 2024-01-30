@@ -11,13 +11,12 @@ export const create = (
 export const getAllStockToUnloadingPointTrip = () =>
     prisma.stockPointToUnloadingPointTrip.findMany({})
 
-export const updateUnloadWeightForStockTrip = (id: number, unloadedWeight: number) =>
+export const updateUnloadWeightForStockTrip = (id: number) =>
     prisma.stockPointToUnloadingPointTrip.update({
         where: {
             id
         },
         data: {
-            unloadedWeight,
             tripStatus: true,
             acknowledgeDueTime: dayjs().add(1, 'minute').unix()
         }

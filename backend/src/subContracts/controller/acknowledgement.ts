@@ -8,6 +8,7 @@ import { updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
 import { updateUnloadWeightForStockTrip } from '../models/stockPointToUnloadingPoint.ts'
 import finalDueLogic from '../domain/finalDueLogic.ts'
 import { create as createPaymentDues, getDueByOverallTripId } from '../models/paymentDues.ts'
+import { create as createShortageQuantity } from '../models/shortageQuantity.ts'
 
 export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, res: Response) => {
     getOverAllTripByAcknowledgementStatus()
@@ -34,26 +35,23 @@ export const OverAllTripById = (req: Request, res: Response) => {
 }
 
 export const closeTripById = async (req: Request, res: Response) => {
-    await getOverAllTripById(req.body.id)
+    await getOverAllTripById(req.body.overallTripId)
         .then(async (overAllTripData) => {
+            await createShortageQuantity(req.body)
             if (
                 overAllTripData &&
                 overAllTripData?.stockPointToUnloadingPointTrip !== null &&
                 overAllTripData.stockPointToUnloadingPointTripId
             ) {
                 await updateUnloadWeightForStockTrip(
-                    overAllTripData.stockPointToUnloadingPointTrip.id,
-                    req.body.unload
+                    overAllTripData.stockPointToUnloadingPointTrip.id
                 )
             } else if (
                 overAllTripData &&
                 overAllTripData?.loadingPointToUnloadingPointTrip !== null &&
                 overAllTripData.loadingPointToUnloadingPointTrip
             ) {
-                await updateUnloadWeightforTrip(
-                    overAllTripData.loadingPointToUnloadingPointTrip.id,
-                    req.body.unload
-                )
+                await updateUnloadWeightforTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
             }
         })
         .then(() => res.sendStatus(200))

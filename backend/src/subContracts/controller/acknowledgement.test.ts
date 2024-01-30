@@ -6,6 +6,7 @@ const mockOverAllTripById = vi.fn()
 const mockUpdateWeightForStockTrip = vi.fn()
 const mockUpdateWeightForTrip = vi.fn()
 const mockAcknowledgeStatusforOverAllTrip = vi.fn()
+const mockCreateShortageQuantity = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getOverAllTripByAcknowledgementStatus: () => mockAllTripByAcknowledgementStatus(),
@@ -20,6 +21,9 @@ vi.mock('../models/loadingToUnloadingTrip', () => ({
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
     updateUnloadWeightForStockTrip: (inputs: any, data: any) =>
         mockUpdateWeightForTrip(inputs, data)
+}))
+vi.mock('../models/shortageQuantity', () => ({
+    create: (inputs: any) => mockCreateShortageQuantity(inputs)
 }))
 
 const mockOverAllTrip = [
@@ -95,8 +99,7 @@ const mockOverAllTripByTripIdData = {
     }
 }
 const mockUpdateData = {
-    id: 1,
-    unloadedWeight: 100
+    id: 1
 }
 const mockAcknowledgeStatusforAllTrip = {
     id: 12,
@@ -122,6 +125,15 @@ const mockAcknowledgeStatusforAllTrip = {
         }
     }
 }
+const mockShortageQuantityData = {
+    overallTripId: 1,
+    shortageQuantity: 500,
+    shortageAmount: 4000,
+    approvalStatus: true,
+    reason: 'ABC',
+    filledLoad: 40000,
+    unloadedQuantity: 39500
+}
 describe('Acknowledgement Controller', () => {
     test('should able to get all vehicle number from overAllTrip', async () => {
         mockAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTrip)
@@ -140,6 +152,7 @@ describe('Acknowledgement Controller', () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
+        mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(2)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
@@ -149,6 +162,7 @@ describe('Acknowledgement Controller', () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
+        mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(3)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
