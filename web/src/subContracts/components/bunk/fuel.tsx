@@ -17,16 +17,25 @@ const Fuel: React.FC = (): ReactElement => {
         setTotalPrice(quantity * pricePerliter)
     }, [quantity, pricePerliter])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const details = {
-            vehicleNumber: data.vehicleNumber,
-            pricePerliter: parseFloat(data.pricePerliter),
-            quantity: parseFloat(data.quantity),
-            totalprice: Math.ceil(totalPrice),
-            fuelStationId: fuelStationId,
-            fueledDate: data.fuelDate.unix(),
-            invoiceNumber: data.invoiceNumber
-        }
-        createFuel(details, data.bunkId).then(() => setOpenSuccessDialog(true))
+        if (
+            data.fuelStationId !== undefined &&
+            data.vehicleNumber !== undefined &&
+            data.fuelDate !== undefined &&
+            data.pricePerliter !== undefined &&
+            data.quantity !== undefined &&
+            data.invoiceNumber !== undefined
+        ) {
+            const details = {
+                vehicleNumber: data.vehicleNumber,
+                pricePerliter: parseFloat(data.pricePerliter),
+                quantity: parseFloat(data.quantity),
+                totalprice: Math.ceil(totalPrice),
+                fuelStationId: fuelStationId,
+                fueledDate: data.fuelDate.unix(),
+                invoiceNumber: data.invoiceNumber
+            }
+            createFuel(details, data.bunkId).then(() => setOpenSuccessDialog(true))
+        } else alert('All fields are Required')
     }
     return (
         <>

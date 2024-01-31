@@ -12,15 +12,22 @@ const CreateFactory: React.FC = (): ReactElement => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [companyId, setCompanyId] = useState(0)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        const details = {
-            name: data.name,
-            cementCompanyId: companyId,
-            location: data.location.toLowerCase()
-        }
-        if (data.category === 'Loading Point') createLoadingPoint(details)
-        else if (data.category === 'Unloading Point') createUnloadingPoint(details)
-        else if (data.category === 'Stock Point') createStockPoint(details)
-        setOpenSuccessDialog(true)
+        if (
+            data.companyName !== undefined &&
+            data.category !== undefined &&
+            data.name !== '' &&
+            data.location !== ''
+        ) {
+            const details = {
+                name: data.name,
+                cementCompanyId: companyId,
+                location: data.location.toLowerCase()
+            }
+            if (data.category === 'Loading Point') createLoadingPoint(details)
+            else if (data.category === 'Unloading Point') createUnloadingPoint(details)
+            else if (data.category === 'Stock Point') createStockPoint(details)
+            setOpenSuccessDialog(true)
+        } else alert('All fields are Required')
     }
     return (
         <>

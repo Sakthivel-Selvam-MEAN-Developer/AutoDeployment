@@ -46,7 +46,7 @@ const TransporterDues: React.FC = () => {
                             id="panel1a-header"
                             sx={{ borderBottom: '1px solid grey' }}
                         >
-                            <Typography sx={{ padding: '0px 20px' }}>
+                            <Typography sx={{ padding: '10px 10px 0px', width: '350px' }}>
                                 <b>{data.name}</b>
                             </Typography>
                             <Typography sx={style}>

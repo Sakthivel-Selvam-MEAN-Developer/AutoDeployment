@@ -22,7 +22,16 @@ const CreateCompany: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        createCompany(data).then(() => setOpenSuccessDialog(true))
+        if (
+            data.name !== undefined &&
+            data.address !== undefined &&
+            data.contactPersonName !== undefined &&
+            data.contactPersonNumber !== undefined &&
+            data.emailId !== undefined &&
+            data.gstNo !== undefined
+        ) {
+            createCompany(data).then(() => setOpenSuccessDialog(true))
+        } else alert('All fields are Required')
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)
@@ -30,11 +39,13 @@ const CreateCompany: React.FC = (): ReactElement => {
     }
     return (
         <>
-            <Link to={'/sub/company/factory'}>
-                <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-                    Create Factory
-                </Button>
-            </Link>
+            <div style={{ margin: '20px 0', textAlign: 'end' }}>
+                <Link to={'/sub/company/factory'}>
+                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                        Create Factory
+                    </Button>
+                </Link>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields control={control} />
                 <SubmitButton name="Create" type="submit" />

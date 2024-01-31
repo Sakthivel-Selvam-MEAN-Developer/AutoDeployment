@@ -39,8 +39,6 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId, setV
                     const { id } = cementCompany.find(
                         (company: { name: string }) => company.name === newValue
                     ) || { id: 0 }
-                    console.log(cementCompany)
-
                     companyId(id)
                 }}
             />
@@ -56,7 +54,7 @@ const FactoryFormFields: React.FC<FormFieldsProps> = ({ control, companyId, setV
             <TextInputWithPattern
                 control={control}
                 disabled={false}
-                label={`Enter ${category}`}
+                label={`Enter ${category !== null ? category : 'Loading Point'}`}
                 fieldName="name"
                 InputProps={{
                     inputProps: {

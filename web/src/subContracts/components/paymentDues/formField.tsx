@@ -25,7 +25,12 @@ const FormField: React.FC<formProps> = ({ setRefresh, refresh, id }): ReactEleme
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker label="Payment Date" name="paymentDate" format="DD/MM/YYYY" />
+                <DatePicker
+                    label="Payment Date"
+                    name="paymentDate"
+                    format="DD/MM/YYYY"
+                    sx={{ margin: '0 10px' }}
+                />
             </LocalizationProvider>
             <TextField
                 id="outlined-basic"
@@ -34,7 +39,7 @@ const FormField: React.FC<formProps> = ({ setRefresh, refresh, id }): ReactEleme
                 variant="outlined"
                 value={transactionId}
                 onChange={(e) => setTransactionId(e.target.value)}
-                sx={{ width: '200px' }}
+                sx={{ width: '200px', margin: '0 10px' }}
             />
             <Button
                 disabled={transactionId == ''}
