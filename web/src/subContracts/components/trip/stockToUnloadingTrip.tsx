@@ -37,8 +37,6 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
             unloadingPointId,
             loadingPointToStockPointTripId: row.id
         }
-        console.log('hghhh', details)
-
         createStockTrip(details).then(() => setUpdate(!update))
     }
     useEffect(() => {

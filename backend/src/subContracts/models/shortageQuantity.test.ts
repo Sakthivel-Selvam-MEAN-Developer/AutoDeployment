@@ -1,9 +1,10 @@
-import { create } from './shortageQuantity.ts'
+import { create, getShortageQuantityByOverallTripId } from './shortageQuantity.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 
 describe('Shortage Quantity model', () => {
     test('should able to create', async () => {
-        const actual = await create(seedShortageQuantity)
-        expect(actual.reason).toBe(seedShortageQuantity.reason)
+        await create(seedShortageQuantity)
+        const actual = await getShortageQuantityByOverallTripId(seedShortageQuantity.overallTripId)
+        expect(actual?.shortageAmount).toBe(seedShortageQuantity.shortageAmount)
     })
 })

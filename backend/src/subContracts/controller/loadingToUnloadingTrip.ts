@@ -17,7 +17,10 @@ export const createTrip = async (req: Request, res: Response) => {
     const {
         vehicleNumber,
         transporter: { name }
-    }: any = await getNumberByTruckId(req.body.truckId)
+    } = (await getNumberByTruckId(req.body.truckId)) || {
+        vehicleNumber: '',
+        transporter: { name: '' }
+    }
     const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
     const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
     const { id } = await create(req.body).then(async (data) =>

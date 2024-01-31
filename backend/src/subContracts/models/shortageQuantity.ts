@@ -9,5 +9,8 @@ export const getShortageQuantityByOverallTripId = (overallTripId: number) =>
     prisma.shortageQuantity.findFirst({
         where: {
             overallTripId
+        },
+        select: {
+            shortageAmount: true
         }
     })

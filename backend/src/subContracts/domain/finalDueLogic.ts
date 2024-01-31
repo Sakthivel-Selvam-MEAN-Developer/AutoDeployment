@@ -3,25 +3,37 @@ import dayjs from 'dayjs'
 interface dataProps {
     payableAmount: number
 }
-
-const finalDueLogic = async (overallTrip: any, paymentDueDetails: dataProps[]) => {
+const finalDueLogic = async (
+    overallTrip: any,
+    paymentDueDetails: dataProps[],
+    shortageAmount: number,
+    tdsPercentage: number | null
+) => {
     let amount = 0
     let dueDetails
+    let tdsAmount
     paymentDueDetails.forEach((data: dataProps) => {
         amount += data.payableAmount
     })
     if (overallTrip !== null) {
         if (overallTrip.stockPointToUnloadingPointTrip !== null) {
+            tdsAmount =
+                (overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount +
+                    overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+                        .totalTransporterAmount) *
+                (tdsPercentage ? tdsPercentage / 100 : 0)
             dueDetails = overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
             amount =
                 dueDetails.totalTransporterAmount +
                 overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount -
-                amount
+                (amount + shortageAmount + tdsAmount)
         } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
+            tdsAmount =
+                overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount *
+                (tdsPercentage ? tdsPercentage / 100 : 0)
             dueDetails = overallTrip.loadingPointToUnloadingPointTrip
-            amount = dueDetails.totalTransporterAmount - amount
+            amount = dueDetails.totalTransporterAmount - (amount + shortageAmount + tdsAmount)
         }
-
         const paymentDues = [
             {
                 name: dueDetails.truck.transporter.name,
@@ -32,9 +44,7 @@ const finalDueLogic = async (overallTrip: any, paymentDueDetails: dataProps[]) =
                 payableAmount: amount
             }
         ]
-
         return paymentDues
     }
 }
-
 export default finalDueLogic

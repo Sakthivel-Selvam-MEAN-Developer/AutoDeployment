@@ -78,6 +78,6 @@ export const updateUnloadWeightforTrip = (id: number) =>
         },
         data: {
             tripStatus: true,
-            acknowledgeDueTime: dayjs().add(1, 'minute').unix()
+            acknowledgeDueTime: dayjs().add(5, 'seconds').unix()
         }
     })

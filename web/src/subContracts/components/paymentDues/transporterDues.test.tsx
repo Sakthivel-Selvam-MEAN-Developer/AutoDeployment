@@ -47,7 +47,6 @@ describe('New trip test', () => {
         expect(await screen.findByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Payment Date'), '30012024')
         expect(await screen.findByText('138768')).toBeInTheDocument()
-        screen.debug(undefined, 60000)
         expect(await screen.findByText('abcdefg')).toBeInTheDocument()
         const transporter = screen.getByText('Barath Logistics Pvt Ltd')
         await userEvent.click(transporter)

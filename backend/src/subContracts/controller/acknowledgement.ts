@@ -8,7 +8,11 @@ import { updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
 import { updateUnloadWeightForStockTrip } from '../models/stockPointToUnloadingPoint.ts'
 import finalDueLogic from '../domain/finalDueLogic.ts'
 import { create as createPaymentDues, getDueByOverallTripId } from '../models/paymentDues.ts'
-import { create as createShortageQuantity } from '../models/shortageQuantity.ts'
+import {
+    create as createShortageQuantity,
+    getShortageQuantityByOverallTripId
+} from '../models/shortageQuantity.ts'
+import { getTransporterByName } from '../models/transporter.ts'
 
 export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, res: Response) => {
     getOverAllTripByAcknowledgementStatus()
@@ -19,9 +23,28 @@ export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, re
 export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {
     await closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
         .then(async (overallTrip) => {
+            let transporterName = ''
+            if (overallTrip.stockPointToUnloadingPointTrip !== null) {
+                transporterName =
+                    overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
+                        ? overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+                              .truck.transporter.name
+                        : ''
+            } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
+                transporterName =
+                    overallTrip.loadingPointToUnloadingPointTrip !== null
+                        ? overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
+                        : ''
+            }
+            const { tdsPercentage } = (await getTransporterByName(transporterName)) || {
+                tdsPercentage: 0
+            }
             const paymentDueDetails = await getDueByOverallTripId(overallTrip.id)
-            await finalDueLogic(overallTrip, paymentDueDetails).then((data) =>
-                createPaymentDues(data)
+            const { shortageAmount } = (await getShortageQuantityByOverallTripId(
+                overallTrip.id
+            )) || { shortageAmount: 0 }
+            await finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsPercentage).then(
+                (data) => createPaymentDues(data)
             )
         })
         .then(() => res.sendStatus(200))

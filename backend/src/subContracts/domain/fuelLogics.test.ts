@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import fuelLogics from './fuelLogics.ts'
 
 describe('Fuel Logics Test', async () => {
-    test.skip('Should get both initial & fuel pay with fuel after trip started', async () => {
+    test('Should get both initial & fuel pay with fuel after trip started', async () => {
         const fuel = {
             totalprice: 5000,
             vehicleNumber: 'TN29BA3211',
@@ -41,7 +41,7 @@ describe('Fuel Logics Test', async () => {
                 name: 'Barath Logistics Pvt Ltd',
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: 1,
+                tripId: 3,
                 vehicleNumber: 'TN29BA3211',
                 payableAmount: 32800
             },
@@ -49,7 +49,7 @@ describe('Fuel Logics Test', async () => {
                 name: 'Barath Petroleum',
                 type: 'fuel pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: 1,
+                tripId: 3,
                 vehicleNumber: 'TN29BA3211',
                 payableAmount: 5000
             }

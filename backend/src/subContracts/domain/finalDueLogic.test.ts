@@ -35,7 +35,14 @@ describe('Final Due Logics Test', async () => {
                 payableAmount: 1000
             }
         ]
-        const actual = await finalDueLogic(overallTrip, paymentDueDetails)
+        const shortageAmount = 100
+        const tdsPercentage = 2.3
+        const actual = await finalDueLogic(
+            overallTrip,
+            paymentDueDetails,
+            shortageAmount,
+            tdsPercentage
+        )
         expect(actual).toEqual([
             {
                 name: 'Muthu Logistics',
@@ -43,7 +50,7 @@ describe('Final Due Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 tripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
-                payableAmount: 10800
+                payableAmount: 9872
             }
         ])
     })
@@ -54,15 +61,16 @@ describe('Final Due Logics Test', async () => {
             loadingPointToUnloadingPointTripId: null,
             loadingPointToUnloadingPointTrip: null,
             stockPointToUnloadingPointTrip: {
-                freightAmount: 500,
-                transporterAmount: 450,
+                freightAmount: 50,
+                transporterAmount: 45,
                 totalFreightAmount: 500,
                 totalTransporterAmount: 450,
                 unloadingPointId: 1,
                 loadingPointToStockPointTripId: 1,
                 loadingPointToStockPointTrip: {
-                    freightAmount: 1000,
-                    transporterAmount: 900,
+                    freightAmount: 100,
+                    filledLoad: 10,
+                    transporterAmount: 90,
                     totalFreightAmount: 1000,
                     totalTransporterAmount: 900,
                     truck: {
@@ -79,7 +87,14 @@ describe('Final Due Logics Test', async () => {
                 payableAmount: 630
             }
         ]
-        const actual = await finalDueLogic(overallTrip, paymentDueDetails)
+        const shortageAmount = 100
+        const tdsPercentage = 2.3
+        const actual = await finalDueLogic(
+            overallTrip,
+            paymentDueDetails,
+            shortageAmount,
+            tdsPercentage
+        )
         expect(actual).toEqual([
             {
                 name: 'Muthu Logistics',
@@ -87,7 +102,7 @@ describe('Final Due Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 tripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
-                payableAmount: 720
+                payableAmount: 588.95
             }
         ])
     })
