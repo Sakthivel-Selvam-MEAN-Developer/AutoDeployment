@@ -114,6 +114,12 @@ const GetAllStockTripsAsAAccordion = (
         (index: number) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
             setExpanded(isExpanded ? index : false)
         }
+    const style = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        color: '#000000bd'
+    }
 
     return (
         <>
@@ -129,14 +135,7 @@ const GetAllStockTripsAsAAccordion = (
                         id="panel1bh-header"
                         sx={{ borderBottom: '1px solid grey' }}
                     >
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                width: '100%',
-                                color: '#000000bd'
-                            }}
-                        >
+                        <div style={style}>
                             <Typography style={{ fontSize: '15px' }}>{index + 1}</Typography>
                             <Typography sx={{ fontSize: '15px' }}>
                                 {row.truck.vehicleNumber}

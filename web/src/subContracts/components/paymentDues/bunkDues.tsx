@@ -87,17 +87,12 @@ const BunkDues: React.FC = () => {
                                     <TextField
                                         sx={style}
                                         label="Transaction Id"
-                                        variant="outlined"
                                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
                                             handleTransactionIdChange(list.id, e.target.value)
                                         }
                                     />
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DatePicker
-                                            label="Payment Date"
-                                            name="paymentDate"
-                                            format="DD/MM/YYYY"
-                                        />
+                                        <DatePicker label="Payment Date" format="DD/MM/YYYY" />
                                     </LocalizationProvider>
                                     <Button
                                         sx={style}

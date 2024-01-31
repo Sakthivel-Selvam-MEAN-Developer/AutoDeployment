@@ -10,26 +10,26 @@ import dayjs from 'dayjs'
 import FormField from './formField'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 
+interface tripProp {
+    id: number
+    number: string
+    loadingPoint: string
+    unloadingPoint: string
+    payableAmount: number
+    type: string
+    transactionId: string
+    invoiceNumber: string
+    fuelInvoiceNumber: string
+    date: number
+}
+interface dataProp {
+    name: string
+    dueDetails: { count: number; totalPayableAmount: number }
+    tripDetails: tripProp[]
+}
 const TransporterDues: React.FC = () => {
     const [transporterDue, setTransporterDue] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
-    type dataProp = {
-        name: string
-        dueDetails: { count: number; totalPayableAmount: number }
-        tripDetails: tripProp[]
-    }
-    type tripProp = {
-        id: number
-        number: string
-        loadingPoint: string
-        unloadingPoint: string
-        payableAmount: number
-        type: string
-        transactionId: string
-        invoiceNumber: string
-        fuelInvoiceNumber: string
-        date: number
-    }
     const style = { width: '100%', padding: '10px 10px 0px' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()

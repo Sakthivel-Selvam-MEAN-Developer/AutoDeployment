@@ -1,25 +1,25 @@
+interface truck {
+    vehicleNumber: string
+    transporter: {
+        name: string
+    }
+}
+interface pointProps {
+    name: string
+}
 export interface FormFieldProps {
     tripDetails: {
         acknowledgementStatus: boolean
         id: number
         stockPointToUnloadingPointTrip: {
             startDate: number
-            unloadingPoint: {
-                name: string
-            }
+            unloadingPoint: pointProps
             tripStatus: boolean
             acknowledgeDueTime: number
             loadingPointToStockPointTrip: {
                 startDate: number
-                truck: {
-                    vehicleNumber: string
-                    transporter: {
-                        name: string
-                    }
-                }
-                loadingPoint: {
-                    name: string
-                }
+                truck: truck
+                loadingPoint: pointProps
                 filledLoad: number
                 invoiceNumber: string
             }
@@ -27,18 +27,9 @@ export interface FormFieldProps {
         loadingPointToUnloadingPointTrip: {
             startDate: number
             acknowledgeDueTime: number
-            truck: {
-                vehicleNumber: string
-                transporter: {
-                    name: string
-                }
-            }
-            loadingPoint: {
-                name: string
-            }
-            unloadingPoint: {
-                name: string
-            }
+            truck: truck
+            loadingPoint: pointProps
+            unloadingPoint: pointProps
             tripStatus: boolean
             filledLoad: number
             invoiceNumber: string
@@ -50,14 +41,10 @@ export interface FormFieldProps {
 export interface tripProps {
     stockPointToUnloadingPointTrip: {
         loadingPointToStockPointTrip: {
-            truck: {
-                vehicleNumber: string
-            }
+            truck: truck
         }
     }
     loadingPointToUnloadingPointTrip: {
-        truck: {
-            vehicleNumber: string
-        }
+        truck: truck
     }
 }

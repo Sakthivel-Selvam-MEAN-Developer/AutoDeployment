@@ -7,7 +7,6 @@ import SubmitButton from '../../../form/button'
 import { Button } from '@mui/material'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { createCompany } from '../../services/cementCompany.ts'
-
 export type FieldValues = {
     name: string
     gstNo: string
@@ -16,22 +15,12 @@ export type FieldValues = {
     contactPersonNumber: string
     address: string
 }
-
 const CreateCompany: React.FC = (): ReactElement => {
     const navigate = useNavigate()
     const { handleSubmit, control } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        if (
-            data.name !== undefined &&
-            data.address !== undefined &&
-            data.contactPersonName !== undefined &&
-            data.contactPersonNumber !== undefined &&
-            data.emailId !== undefined &&
-            data.gstNo !== undefined
-        ) {
-            createCompany(data).then(() => setOpenSuccessDialog(true))
-        } else alert('All fields are Required')
+        createCompany(data).then(() => setOpenSuccessDialog(true))
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)

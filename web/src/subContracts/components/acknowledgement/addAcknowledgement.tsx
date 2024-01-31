@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { FormFieldProps } from './types'
 import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material'
 import { updateAcknowledgementStatus, closeTrip } from '../../services/acknowledgement'
-import AcknowledgementLocation from './acknowledgeLocation'
+import { AcknowledgementLocation } from './acknowledgeLocation'
 import dayjs from 'dayjs'
 import { epochToDate } from '../../../commonUtils/epochToTime'
 
