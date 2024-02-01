@@ -400,8 +400,8 @@ model loadingPointToUnloadingPointTrip {
   totalFreightAmount     Float          @db.DoublePrecision
   totalTransporterAmount Float          @db.DoublePrecision
   margin                 Float          @db.DoublePrecision
-  loadingPointId         Int
   invoiceNumber          String         @unique
+  loadingPointId         Int
   loadingPoint           loadingPoint   @relation(fields: [loadingPointId], references: [id])
   createdAt              DateTime       @default(now()) @db.Timestamptz(6)
   updatedAt              DateTime       @updatedAt @db.Timestamptz(6)

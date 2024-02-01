@@ -1,7 +1,6 @@
 import React, { ReactElement, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FormFields from './formField'
-import { useNavigate } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { Button } from '@mui/material'
@@ -16,7 +15,6 @@ export type FieldValues = {
     address: string
 }
 const CreateCompany: React.FC = (): ReactElement => {
-    const navigate = useNavigate()
     const { handleSubmit, control } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -24,7 +22,6 @@ const CreateCompany: React.FC = (): ReactElement => {
     }
     const handleClose = () => {
         setOpenSuccessDialog(false)
-        navigate('/sub/trip')
     }
     return (
         <>

@@ -13,6 +13,7 @@ interface dataProps {
 }
 
 const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, update }) => {
+    console.log(row)
     const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
     const [unloadingPointList, setUnloadingPointList] = useState([])

@@ -1,6 +1,9 @@
+import { Control } from 'react-hook-form'
 import TextInput from '../../../form/TextInput.tsx'
-
-const Address = ({ control }: any) => {
+export interface FormFieldsProps {
+    control: Control
+}
+const Address: React.FC<FormFieldsProps> = ({ control }) => {
     return (
         <>
             <div>

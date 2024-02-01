@@ -238,6 +238,87 @@ export const getOverAllTripById = (id: number) =>
             }
         }
     })
+
+export const overallTripByFiltrer = (
+    cementCompanyId: number,
+    transporterId: number,
+    loadingPointId: number
+) =>
+    prisma.overallTrip.findMany({
+        where: {
+            OR: [
+                {
+                    OR: [
+                        {
+                            loadingPointToUnloadingPointTrip: {
+                                loadingPointId
+                            }
+                        },
+                        {
+                            loadingPointToUnloadingPointTrip: {
+                                loadingPoint: {
+                                    cementCompanyId
+                                }
+                            }
+                        },
+                        {
+                            loadingPointToUnloadingPointTrip: {
+                                truck: {
+                                    transporterId
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    OR: [
+                        {
+                            loadingPointToStockPointTrip: {
+                                loadingPointId
+                            }
+                        },
+                        {
+                            loadingPointToStockPointTrip: {
+                                loadingPoint: {
+                                    cementCompanyId
+                                }
+                            }
+                        },
+                        {
+                            loadingPointToStockPointTrip: {
+                                truck: {
+                                    transporterId
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+
+        include: {
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    },
+                    loadingPoint: true
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    },
+                    loadingPoint: true
+                }
+            }
+        }
+    })
 export const getTripDetailsByCompanyName = (name: string) =>
     prisma.overallTrip.findMany({
         where: {

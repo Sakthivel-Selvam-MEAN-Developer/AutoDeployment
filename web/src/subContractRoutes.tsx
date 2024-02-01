@@ -21,6 +21,8 @@ import CreateTransporter from './subContracts/components/Transporter/list'
 import AddVehicle from './subContracts/components/Transporter/addVehicle'
 import Invoice from './subContracts/components/invoice'
 import InvoiceList from './subContracts/components/invoice/list'
+import Report from './subContracts/components/report'
+import ListAllReport from './subContracts/components/report/list'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -129,6 +131,16 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <InvoiceList />
+                }
+            ]
+        },
+        {
+            path: 'reports',
+            element: <Report />,
+            children: [
+                {
+                    path: '',
+                    element: <ListAllReport />
                 }
             ]
         }

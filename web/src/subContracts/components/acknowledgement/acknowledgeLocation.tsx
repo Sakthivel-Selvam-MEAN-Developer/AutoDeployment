@@ -22,17 +22,14 @@ export const AcknowledgementLocation = (
             </div>
             <div>
                 <p style={{ display: 'flex' }}>
-                    <span style={style}> Invoice Number</span>
-                    <span>: {invoiceNumber}</span>
+                    <span style={style}> Invoice Number</span> <span>: {invoiceNumber}</span>
                 </p>
                 <p style={{ display: 'flex' }}>
-                    <span style={style}>Loaded Quantity</span>
-                    <span>: {filledLoad} Tons</span>
+                    <span style={style}>Loaded Quantity</span> <span>: {filledLoad} Tons</span>
                 </p>
             </div>
             <p style={{ display: 'flex' }}>
-                <span style={style}>Date </span>
-                <span>: {epochToMinimalDate(date)}</span>
+                <span style={style}>Date </span> <span>: {epochToMinimalDate(date)}</span>
             </p>
         </div>
     )

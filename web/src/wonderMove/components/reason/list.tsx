@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
@@ -87,7 +87,9 @@ const ReasonList: React.FC = () => {
                                 <Typography variant="body1">{`${index + 1}`}.&nbsp;</Typography>
                                 <InputField
                                     value={oldReason}
-                                    onChange={(e: any) => setNewReason(e.target.value)}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                        setNewReason(e.target.value)
+                                    }
                                     onClear={handleClose}
                                     onSave={handleUpdate}
                                 />
@@ -102,7 +104,9 @@ const ReasonList: React.FC = () => {
                         {reason.length + 1}.&nbsp;
                         <InputField
                             value={newReason}
-                            onChange={(e: any) => setNewReason(e.target.value)}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                setNewReason(e.target.value)
+                            }
                             onClear={handleClose}
                             onSave={handleSave}
                         />

@@ -24,6 +24,7 @@ import bunkRoutes from './subContracts/routes/bunk.ts'
 import fuelRoutes from './subContracts/routes/fuel.ts'
 import stationRoutes from './subContracts/routes/fuelStation.ts'
 import pointMarkerRoutes from './subContracts/routes/pricePointMarker.ts'
+import overallTrip from './subContracts/routes/overallTrip.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -51,6 +52,7 @@ stockRoutes(router)
 cementCompanyRoutes(router)
 deliveryPointRoutes(router)
 pricePointRoutes(router)
+overallTrip(router)
 paymentDues(router)
 bunkRoutes(router)
 fuelRoutes(router)
