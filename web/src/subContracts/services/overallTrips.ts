@@ -9,9 +9,11 @@ export const getOverallTrip = () =>
 export const getOverallTripByFilter = (
     cementCompanyId: number,
     transporterId: number,
-    loadingPointId: number
+    loadingPointId: number,
+    from: number,
+    to: number
 ) =>
     axiosInstance
-        .get(`/overallTrip/${cementCompanyId}/${transporterId}/${loadingPointId}`)
+        .get(`/overallTrip/${cementCompanyId}/${transporterId}/${loadingPointId}/${from}/${to}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))

@@ -39,5 +39,5 @@ export const epochToMinimalDate = (epochTime: number) => {
         year: 'numeric',
         hour12: true
     }
-    return date.toLocaleString('en-US', options)
+    return date.toLocaleString('en-GB', options)
 }

@@ -11,16 +11,24 @@ const ListAllReport: React.FC = (): ReactElement => {
     const [cementCompanyId, setCementCompanyId] = useState<number>(0)
     const [transporterId, setTransporterId] = useState(0)
     const [loadingPointId, setLoadingPointId] = useState(0)
-
     useEffect(() => {
         getOverallTrip().then(setListoverallTrip)
     }, [])
-
-    const onSubmit: SubmitHandler<FieldValues> = async () => {
-        if (cementCompanyId !== 0 || transporterId !== 0 || loadingPointId !== 0) {
-            await getOverallTripByFilter(cementCompanyId, transporterId, loadingPointId).then(
-                setListoverallTrip
-            )
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        if (
+            cementCompanyId !== 0 ||
+            transporterId !== 0 ||
+            loadingPointId !== 0 ||
+            data.from ||
+            data.to
+        ) {
+            await getOverallTripByFilter(
+                cementCompanyId,
+                transporterId,
+                loadingPointId,
+                data.from ? data.from.unix() : 0,
+                data.to ? data.to.unix() : 0
+            ).then(setListoverallTrip)
         }
         setShowDetails(true)
     }
@@ -35,8 +43,6 @@ const ListAllReport: React.FC = (): ReactElement => {
                 />
                 <SubmitButton name="Submit" type="submit" />
             </form>
-            <br />
-            <br />
             {showDetails && <ListAllDetails listoverallTrip={listoverallTrip} />}
         </>
     )

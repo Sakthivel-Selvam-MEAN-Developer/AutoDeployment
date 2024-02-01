@@ -4,6 +4,7 @@ import { Control } from 'react-hook-form'
 import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { getAllTransporter } from '../../services/transporter.ts'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
+import DateInput from '../../../form/DateInput.tsx'
 
 export interface FormFieldsProps {
     control: Control
@@ -76,6 +77,13 @@ const FilterReport: React.FC<FormFieldsProps> = ({
                     setLoadingPointId(id)
                 }}
             />
+            <DateInput
+                control={control}
+                format="DD/MM/YYYY"
+                fieldName="from"
+                label="Trip Start Date"
+            />
+            <DateInput control={control} format="DD/MM/YYYY" fieldName="to" label="Trip End Date" />
         </div>
     )
 }

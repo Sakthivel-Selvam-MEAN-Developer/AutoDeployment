@@ -115,14 +115,14 @@ function getTableBody(allTrips: Props[]) {
 const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip }) => {
     return (
         <>
+            <br />
+            <br />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 600 }} aria-label="simple table">
                     {getTableHead()}
                     {getTableBody(listoverallTrip)}
                 </Table>
             </TableContainer>
-            <br />
-            <br />
         </>
     )
 }
