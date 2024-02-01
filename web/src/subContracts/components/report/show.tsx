@@ -60,7 +60,6 @@ function getTableHead() {
     )
 }
 const getCells = (data: Row, num: number) => {
-    console.log(data)
     return (
         <>
             <TableCell> {num} </TableCell>

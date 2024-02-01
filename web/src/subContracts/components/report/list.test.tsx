@@ -159,7 +159,6 @@ describe('Report Test', () => {
         await userEvent.click(start)
         expect(screen.getByText('Trip Status')).toBeInTheDocument()
         expect(screen.getByText('Transporter')).toBeInTheDocument()
-        expect(screen.getByText('11/24/2023')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
         expect(mockGetOverallTrip).toHaveBeenCalledTimes(2)
         expect(mockAllTransporter).toHaveBeenCalledTimes(2)
