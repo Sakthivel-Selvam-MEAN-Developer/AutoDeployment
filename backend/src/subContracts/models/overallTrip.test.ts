@@ -6,6 +6,7 @@ import {
     getOverAllTripById,
     getOverAllTripIdByLoadingToStockId,
     getOverallTrip,
+    getTripDetailsByCompanyName,
     updateStockToUnloadingInOverall
 } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -369,5 +370,40 @@ describe('Overall Trip model', () => {
         })
         const actual = await getOverAllTripIdByLoadingToStockId(loadingToStockPointTrip.id)
         expect(actual?.id).toBe(overallTrip.id)
+    })
+    test.skip('should able to get overall trip by cementCompany name', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const loadingToStockPointTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: false
+        })
+        await create({
+            loadingPointToStockPointTripId: loadingToStockPointTrip.id
+        })
+        const actual = await getTripDetailsByCompanyName('UltraTech Cements')
+
+        expect(
+            actual[0].stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip?.truckId
+        ).toBe(truck.id)
     })
 })

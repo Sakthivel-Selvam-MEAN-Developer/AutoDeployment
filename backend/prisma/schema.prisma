@@ -344,14 +344,14 @@ model pricePointMarker {
 model loadingPointToStockPointTrip {
   id                             Int                              @id @default(autoincrement())
   startDate                      Int
-  filledLoad                     Int
+  filledLoad                     Float                            @db.DoublePrecision
   wantFuel                       Boolean?
   tripStatus                     Boolean                          @default(false)
-  freightAmount                  Int
-  transporterAmount              Int
-  totalFreightAmount             Int
-  totalTransporterAmount         Int
-  margin                         Int
+  freightAmount                  Float                            @db.DoublePrecision
+  transporterAmount              Float                            @db.DoublePrecision
+  totalFreightAmount             Float                            @db.DoublePrecision
+  totalTransporterAmount         Float                            @db.DoublePrecision
+  margin                         Float                            @db.DoublePrecision
   loadingPointId                 Int
   invoiceNumber                  String                           @unique
   loadingPoint                   loadingPoint                     @relation(fields: [loadingPointId], references: [id])
@@ -373,10 +373,10 @@ model stockPointToUnloadingPointTrip {
   invoiceNumber                  String                        @unique
   tripStatus                     Boolean                       @default(false)
   acknowledgeDueTime             Int?
-  freightAmount                  Int
-  transporterAmount              Int
-  totalFreightAmount             Int
-  totalTransporterAmount         Int
+  freightAmount                  Float                         @db.DoublePrecision
+  transporterAmount              Float                         @db.DoublePrecision
+  totalFreightAmount             Float                         @db.DoublePrecision
+  totalTransporterAmount         Float                         @db.DoublePrecision
   createdAt                      DateTime                      @default(now()) @db.Timestamptz(6)
   updatedAt                      DateTime                      @updatedAt @db.Timestamptz(6)
   unloadingPoint                 unloadingPoint                @relation(fields: [unloadingPointId], references: [id])
@@ -391,15 +391,15 @@ model stockPointToUnloadingPointTrip {
 model loadingPointToUnloadingPointTrip {
   id                     Int            @id @default(autoincrement())
   startDate              Int
-  filledLoad             Int
+  filledLoad             Float          @db.DoublePrecision
   wantFuel               Boolean?
   tripStatus             Boolean        @default(false)
   acknowledgeDueTime     Int?
-  freightAmount          Int
-  transporterAmount      Int
-  totalFreightAmount     Int
-  totalTransporterAmount Int
-  margin                 Int
+  freightAmount          Float          @db.DoublePrecision
+  transporterAmount      Float          @db.DoublePrecision
+  totalFreightAmount     Float          @db.DoublePrecision
+  totalTransporterAmount Float          @db.DoublePrecision
+  margin                 Float          @db.DoublePrecision
   loadingPointId         Int
   invoiceNumber          String         @unique
   loadingPoint           loadingPoint   @relation(fields: [loadingPointId], references: [id])
@@ -441,9 +441,9 @@ model fuel {
   id            Int          @id @default(autoincrement())
   fueledDate    Int
   invoiceNumber String       @unique
-  pricePerliter Float
-  quantity      Float
-  totalprice    Float
+  pricePerliter Float        @db.DoublePrecision
+  quantity      Float        @db.DoublePrecision
+  totalprice    Float        @db.DoublePrecision
   vehicleNumber String
   fuelStationId Int
   fuelStation   fuelStation  @relation(fields: [fuelStationId], references: [id])
@@ -471,9 +471,9 @@ model truck {
 
 model pricePoint {
   id                    Int             @id @default(autoincrement())
-  freightAmount         Int
-  transporterAmount     Int
-  transporterPercentage Float
+  freightAmount         Float           @db.DoublePrecision
+  transporterAmount     Float           @db.DoublePrecision
+  transporterPercentage Float           @db.DoublePrecision
   loadingPointId        Int?
   loadingPoint          loadingPoint?   @relation(fields: [loadingPointId], references: [id])
   unloadingPointId      Int?
@@ -494,7 +494,7 @@ model paymentDues {
   dueDate       Int
   type          String
   status        Boolean  @default(false)
-  payableAmount Int
+  payableAmount Float    @db.DoublePrecision
   transactionId String?
   paidAt        Int?
   createdAt     DateTime @default(now()) @db.Timestamptz(6)

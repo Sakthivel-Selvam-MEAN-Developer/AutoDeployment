@@ -238,3 +238,38 @@ export const getOverAllTripById = (id: number) =>
             }
         }
     })
+export const getTripDetailsByCompanyName = (name: string) =>
+    prisma.overallTrip.findMany({
+        where: {
+            OR: [
+                {
+                    stockPointToUnloadingPointTrip: {
+                        loadingPointToStockPointTrip: {
+                            loadingPoint: {
+                                cementCompany: {
+                                    name
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        loadingPoint: {
+                            cementCompany: {
+                                name
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        include: {
+            stockPointToUnloadingPointTrip: {
+                include: {
+                    loadingPointToStockPointTrip: true
+                }
+            },
+            loadingPointToUnloadingPointTrip: true
+        }
+    })

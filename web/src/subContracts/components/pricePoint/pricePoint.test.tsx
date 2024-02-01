@@ -54,7 +54,7 @@ describe('Trip Test', () => {
         expect(screen.getByDisplayValue('10')).toBeVisible()
 
         expect(screen.getByRole('spinbutton', { name: 'Transporter Amount' }))
-        expect(screen.getByDisplayValue('4500')).toBeVisible()
+        expect(screen.getByDisplayValue('4500.00')).toBeVisible()
 
         const options = screen.getByRole('combobox', { name: 'Select Company' })
         userEvent.click(options)

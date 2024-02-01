@@ -33,8 +33,8 @@ const NewTrip: React.FC = () => {
     const [category, setCategory] = useState<string>('')
 
     useEffect(() => {
-        setTotalFreightAmount(freightAmount * parseInt(filledLoad))
-        setTotalTransporterAmount(transporterAmount * parseInt(filledLoad))
+        setTotalFreightAmount(freightAmount * parseFloat(filledLoad))
+        setTotalTransporterAmount(transporterAmount * parseFloat(filledLoad))
         setMargin(totalFreightAmount - totalTransporterAmount)
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
@@ -45,17 +45,23 @@ const NewTrip: React.FC = () => {
             data.filledLoad !== '' &&
             freightAmount !== 0
         ) {
+            const filledLoad = parseFloat(data.filledLoad).toFixed(2)
+            const freightAmountFloat = freightAmount.toFixed(2)
+            const transporterAmountFloat = transporterAmount.toFixed(2)
+            const totalFreightAmountFloat = totalFreightAmount.toFixed(2)
+            const totalTransporterAmountFloat = totalTransporterAmount.toFixed(2)
+            const marginFloat = margin.toFixed(2)
             const details = {
                 truckId: truckId,
                 loadingPointId: loadingPointId,
                 startDate: data.tripDate.unix(),
-                filledLoad: parseInt(data.filledLoad),
+                filledLoad: parseFloat(filledLoad),
                 invoiceNumber: data.invoiceNumber,
-                freightAmount: freightAmount,
-                transporterAmount: transporterAmount,
-                totalFreightAmount: totalFreightAmount,
-                totalTransporterAmount: totalTransporterAmount,
-                margin: margin,
+                freightAmount: parseFloat(freightAmountFloat),
+                transporterAmount: parseFloat(transporterAmountFloat),
+                totalFreightAmount: parseFloat(totalFreightAmountFloat),
+                totalTransporterAmount: parseFloat(totalTransporterAmountFloat),
+                margin: parseFloat(marginFloat),
                 wantFuel: fuel
             }
             if (category === 'Stock Point')

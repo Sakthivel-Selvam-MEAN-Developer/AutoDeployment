@@ -63,6 +63,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
         setUnloadingPointName('')
         setStockPointName('')
         setFreightAmount(0)
+        setLoadingPointId(null)
+        setUnloadingPointId(null)
+        setStockPointId(null)
         setValue('transporterPercentage', '')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category, cementCompanyName])
@@ -191,7 +194,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 fieldName="transporterAmount"
                 type="number"
                 defaultValue={transporterRate}
-                value={transporterRate}
+                value={transporterRate.toFixed(2)}
                 InputProps={{
                     readOnly: true
                 }}

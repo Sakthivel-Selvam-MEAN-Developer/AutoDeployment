@@ -212,7 +212,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 fieldName="freightAmount"
                 type="number"
                 defaultValue={freightAmount}
-                value={freightAmount}
+                value={freightAmount?.toFixed(2)}
                 InputProps={{
                     readOnly: true,
                     endAdornment: (
@@ -231,7 +231,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 fieldName="transporterAmount"
                 type="number"
                 defaultValue={transporterAmount}
-                value={transporterAmount}
+                value={transporterAmount?.toFixed(2)}
                 InputProps={{
                     readOnly: true,
                     endAdornment: (
@@ -264,7 +264,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 fieldName="totalFreightAmount"
                 type="number"
                 defaultValue={totalFreightAmount}
-                value={totalFreightAmount}
+                value={totalFreightAmount?.toFixed(2)}
                 InputProps={{
                     readOnly: true,
                     endAdornment: (
@@ -283,7 +283,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 fieldName="totalTransporterAmount"
                 type="number"
                 defaultValue={totalTransporterAmount}
-                value={totalTransporterAmount}
+                value={totalTransporterAmount?.toFixed(2)}
                 InputProps={{
                     readOnly: true,
                     endAdornment: (
@@ -302,7 +302,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 fieldName="margin"
                 type="number"
                 defaultValue={margin}
-                value={margin}
+                value={margin?.toFixed(2)}
                 InputProps={{
                     readOnly: true,
                     endAdornment: (

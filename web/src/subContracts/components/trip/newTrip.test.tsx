@@ -347,8 +347,8 @@ describe('New trip test', () => {
         })
         await userEvent.click(option)
         expect(await screen.findByDisplayValue('Salem')).toBeInTheDocument()
-        expect(screen.getByDisplayValue('1000')).toBeVisible()
-        expect(screen.getByDisplayValue('900')).toBeVisible()
+        expect(screen.getByDisplayValue('1000.00')).toBeVisible()
+        expect(screen.getByDisplayValue('900.00')).toBeVisible()
 
         await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
         expect(screen.getByDisplayValue('40')).toBeVisible()

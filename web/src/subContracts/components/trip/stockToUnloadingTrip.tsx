@@ -27,13 +27,17 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
         const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
         const stockDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
 
+        const freightAmountFloat = freightAmount.toFixed(2)
+        const transporterAmountFloat = transporterAmount.toFixed(2)
+        const totalFreightAmountFloat = (row.filledLoad * freightAmount).toFixed(2)
+        const totalTransporterAmountFloat = (row.filledLoad * transporterAmount).toFixed(2)
         const details = {
             startDate: stockDate,
             invoiceNumber,
-            freightAmount,
-            transporterAmount,
-            totalFreightAmount: row.filledLoad * freightAmount,
-            totalTransporterAmount: row.filledLoad * transporterAmount,
+            freightAmount: parseFloat(freightAmountFloat),
+            transporterAmount: parseFloat(transporterAmountFloat),
+            totalFreightAmount: parseFloat(totalFreightAmountFloat),
+            totalTransporterAmount: parseFloat(totalTransporterAmountFloat),
             unloadingPointId,
             loadingPointToStockPointTripId: row.id
         }
@@ -93,7 +97,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                     label="Company Freight"
                     name="freightAmount"
                     type="number"
-                    value={freightAmount}
+                    value={freightAmount?.toFixed(2)}
                     InputLabelProps={{
                         shrink: true
                     }}
@@ -112,7 +116,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                     label="Transporter Freight"
                     name="transporterAmount"
                     type="number"
-                    value={transporterAmount}
+                    value={transporterAmount?.toFixed(2)}
                     InputLabelProps={{
                         shrink: true
                     }}
@@ -131,7 +135,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                     label="Total Freight Amount"
                     name="totalFreightAmount"
                     type="number"
-                    value={row.filledLoad * freightAmount}
+                    value={(row.filledLoad * freightAmount)?.toFixed(2)}
                     InputLabelProps={{
                         shrink: true
                     }}
@@ -150,7 +154,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                     label="Total Transporter Freight"
                     name="totalTransporterAmount"
                     type="number"
-                    value={row.filledLoad * transporterAmount}
+                    value={(row.filledLoad * transporterAmount)?.toFixed(2)}
                     InputLabelProps={{
                         shrink: true
                     }}

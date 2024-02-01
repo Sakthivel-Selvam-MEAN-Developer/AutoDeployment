@@ -108,7 +108,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                 fieldName="totalprice"
                 type="number"
                 defaultValue={totalPrice}
-                value={totalPrice}
+                value={totalPrice.toFixed(2)}
                 InputProps={{
                     readOnly: true,
                     endAdornment: (

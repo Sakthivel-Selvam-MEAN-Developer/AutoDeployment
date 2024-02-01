@@ -25,11 +25,14 @@ const Fuel: React.FC = (): ReactElement => {
             data.quantity !== undefined &&
             data.invoiceNumber !== undefined
         ) {
+            const pricePerliterFloat = parseFloat(data.pricePerliter).toFixed(2)
+            const quantityFloat = parseFloat(data.quantity).toFixed(2)
+            const totalpriceFloat = totalPrice.toFixed(2)
             const details = {
                 vehicleNumber: data.vehicleNumber,
-                pricePerliter: parseFloat(data.pricePerliter),
-                quantity: parseFloat(data.quantity),
-                totalprice: Math.ceil(totalPrice),
+                pricePerliter: parseFloat(pricePerliterFloat),
+                quantity: parseFloat(quantityFloat),
+                totalprice: parseFloat(totalpriceFloat),
                 fuelStationId: fuelStationId,
                 fueledDate: data.fuelDate.unix(),
                 invoiceNumber: data.invoiceNumber

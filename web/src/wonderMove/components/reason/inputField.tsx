@@ -2,7 +2,7 @@ import { Input, IconButton } from '@mui/material'
 import { Done, Clear } from '@mui/icons-material'
 
 interface InputFieldProps {
-    value: any
+    value: string | null
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
     onClear: () => void
     onSave: () => void

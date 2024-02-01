@@ -111,22 +111,29 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     text="Bunk"
                     navigate="/sub/bunk"
                     drawerState={drawerState}
-                    index={5}
+                    index={6}
                     icon={<LocalGasStation />}
                 />
                 <DrawerListItem
                     text="Acknowledgement"
                     navigate="/sub/acknowledgement"
                     drawerState={drawerState}
-                    index={5}
+                    index={7}
                     icon={<LibraryAddCheck />}
                 />
                 <DrawerListItem
                     text="Transporter"
                     navigate="/sub/transporter"
                     drawerState={drawerState}
-                    index={5}
+                    index={8}
                     icon={<DirectionsBus />}
+                />
+                <DrawerListItem
+                    text="Invoice"
+                    navigate="/sub/invoice"
+                    drawerState={drawerState}
+                    index={9}
+                    icon={<Receipt />}
                 />
             </List>
         </Drawer>

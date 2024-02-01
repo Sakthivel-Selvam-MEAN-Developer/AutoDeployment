@@ -19,6 +19,8 @@ import SelectTrip from './subContracts/components/acknowledgement/list'
 import Transporter from './subContracts/components/Transporter'
 import CreateTransporter from './subContracts/components/Transporter/list'
 import AddVehicle from './subContracts/components/Transporter/addVehicle'
+import Invoice from './subContracts/components/invoice'
+import InvoiceList from './subContracts/components/invoice/list'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -117,6 +119,16 @@ const sunContractRoutes = {
                 {
                     path: 'addvehicle',
                     element: <AddVehicle />
+                }
+            ]
+        },
+        {
+            path: 'invoice',
+            element: <Invoice />,
+            children: [
+                {
+                    path: '',
+                    element: <InvoiceList />
                 }
             ]
         }
