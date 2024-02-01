@@ -59,7 +59,7 @@ describe('OverallTrip Controller', () => {
     })
     test('should able to filter trip data', async () => {
         mockOverallTripByFiltrer.mockResolvedValue(mockOverallTripData)
-        await supertest(app).get('/api/overalltrip/1/1/1').expect(200)
+        await supertest(app).get('/api/overalltrip/1/1/1/0/0').expect(200)
         expect(mockOverallTripByFiltrer).toBeCalledTimes(1)
     })
 })

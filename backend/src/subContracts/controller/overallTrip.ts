@@ -8,8 +8,14 @@ export const listOverallTrip = (_req: Request, res: Response) => {
 }
 
 export const listgetOverallTripById = (req: Request, res: Response) => {
-    const { companyId, transporterId, loadingPointId } = req.params
-    overallTripByFiltrer(parseInt(companyId), parseInt(transporterId), parseInt(loadingPointId))
+    const { companyId, transporterId, loadingPointId, from, to } = req.params
+    overallTripByFiltrer(
+        parseInt(companyId),
+        parseInt(transporterId),
+        parseInt(loadingPointId),
+        parseInt(from),
+        parseInt(to)
+    )
         .then((data) => {
             console.log(data)
             res.status(200).json(data)

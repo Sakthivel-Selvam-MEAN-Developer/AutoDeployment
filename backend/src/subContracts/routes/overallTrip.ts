@@ -3,7 +3,10 @@ import { listOverallTrip, listgetOverallTripById } from '../controller/overallTr
 
 const overallTrip = (router: Router) => {
     router.get('/overalltrip', listOverallTrip)
-    router.get('/overalltrip/:companyId/:transporterId/:loadingPointId', listgetOverallTripById)
+    router.get(
+        '/overalltrip/:companyId/:transporterId/:loadingPointId/:from/:to',
+        listgetOverallTripById
+    )
 }
 
 export default overallTrip

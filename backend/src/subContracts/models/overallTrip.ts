@@ -242,13 +242,23 @@ export const getOverAllTripById = (id: number) =>
 export const overallTripByFiltrer = (
     cementCompanyId: number,
     transporterId: number,
-    loadingPointId: number
+    loadingPointId: number,
+    from: number,
+    to: number
 ) =>
     prisma.overallTrip.findMany({
         where: {
             OR: [
                 {
                     OR: [
+                        {
+                            loadingPointToUnloadingPointTrip: {
+                                startDate: {
+                                    gte: from,
+                                    lte: to
+                                }
+                            }
+                        },
                         {
                             loadingPointToUnloadingPointTrip: {
                                 loadingPointId
@@ -272,6 +282,14 @@ export const overallTripByFiltrer = (
                 },
                 {
                     OR: [
+                        {
+                            loadingPointToStockPointTrip: {
+                                startDate: {
+                                    gte: from,
+                                    lte: to
+                                }
+                            }
+                        },
                         {
                             loadingPointToStockPointTrip: {
                                 loadingPointId
