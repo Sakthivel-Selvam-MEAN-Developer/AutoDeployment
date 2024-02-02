@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
-import FormFields, { accountTypeProps } from './formField'
+import FormFields from './formField'
 import { createTransporter } from '../../services/transporter'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { Link } from 'react-router-dom'
@@ -11,7 +11,7 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [gst, setGst] = useState<boolean>(true)
     const [tds, setTds] = useState<boolean>(true)
-    const [accountTypes, setAccountTypes] = useState<accountTypeProps[]>([])
+    const [accountTypes, setAccountTypes] = useState([])
     const [accountTypeNumber, setAccountTypeNumber] = useState<number | undefined>(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {

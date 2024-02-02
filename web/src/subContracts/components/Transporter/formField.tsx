@@ -85,7 +85,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
                         ({ accountTypeName }) => accountTypeName === value
                     ) || { accountTypeNumber: 0 }
                     setAccountTypeNumber(accountTypeNumber)
-                    console.log(accountTypeNumber)
                 }}
                 renderInput={(params) => <TextField {...params} label={'Account Type'} />}
             />

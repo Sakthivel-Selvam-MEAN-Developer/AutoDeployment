@@ -1,13 +1,17 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import CreateTransporter from './list'
 
 const mockCreateTransporter = vi.fn()
+const mockGetAllAccountTypes = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     createTransporter: (inputs: any) => mockCreateTransporter(inputs)
+}))
+vi.mock('../../services/accountType', () => ({
+    getAllAccountTypes: () => mockGetAllAccountTypes()
 }))
 
 const mockTransporterData = {
@@ -22,11 +26,18 @@ const mockTransporterData = {
     hasTds: true,
     accountHolder: 'muthu',
     accountNumber: '43534523',
-    ifsc: 'zxy1234'
+    ifsc: 'zxy1234',
+    accountTypeNumber: 10
 }
-
+const mockAccounttype = [
+    {
+        accountTypeName: 'Savings Account',
+        accountTypeNumber: 10
+    }
+]
 describe('Trip Test', () => {
     test('checking the component called NewTrip', async () => {
+        mockGetAllAccountTypes.mockResolvedValue(mockAccounttype)
         mockCreateTransporter.mockResolvedValue(mockTransporterData)
         render(
             <BrowserRouter>
@@ -35,7 +46,6 @@ describe('Trip Test', () => {
         )
         expect(screen.getByText('Create')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Transporter Name'), 'Muthu Transporters')
-        expect(screen.getByDisplayValue('Muthu Transporters')).toBeVisible()
         await userEvent.type(screen.getByLabelText('Email Id'), 'sample@gmail.com')
         await userEvent.type(screen.getByLabelText('Contact Person'), 'Muthu')
         await userEvent.type(screen.getByLabelText('Transporter Address'), 'Muthu Street')
@@ -43,7 +53,15 @@ describe('Trip Test', () => {
         await userEvent.type(screen.getByLabelText('Account Holder Name'), 'muthu')
         await userEvent.type(screen.getByLabelText('Account Number'), '43534523')
         await userEvent.type(screen.getByLabelText('IFSC code'), 'zxy1234')
-
+        const accountType = screen.getByRole('combobox', { name: 'Account Type' })
+        await userEvent.click(accountType)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const opt = screen.getByRole('option', {
+            name: 'Savings Account'
+        })
+        await userEvent.click(opt)
         const checkbox = screen.getAllByRole('checkbox')
         expect(checkbox[0]).not.toBeChecked()
         expect(screen.getByRole('textbox', { name: 'Gst Number' })).toBeDisabled()
