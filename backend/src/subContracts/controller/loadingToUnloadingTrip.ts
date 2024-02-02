@@ -48,5 +48,7 @@ export const createTrip = async (req: Request, res: Response) => {
 }
 
 export const ListTripByVehicleNumber = (req: Request, res: Response) => {
-    getTripByVehicleNumber(req.params.trucknumber).then((data) => res.status(200).json(data))
+    getTripByVehicleNumber(req.params.trucknumber)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
 }

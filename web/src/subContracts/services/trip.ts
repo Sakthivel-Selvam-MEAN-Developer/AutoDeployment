@@ -24,4 +24,4 @@ export const createTrip = (data: dataProps) =>
     axiosInstance
         .post(`/trip`, data)
         .then(getData)
-        .catch((e) => console.log(e))
+        .catch(() => alert('Error Creating data'))

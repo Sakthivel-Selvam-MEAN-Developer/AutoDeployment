@@ -261,6 +261,17 @@ model transporter {
   createdAt           DateTime @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime @updatedAt @db.Timestamptz(6)
   trucks              truck[]
+  accountTypeNumber   Int
+
+  @@schema("subContract")
+}
+
+model accountType {
+  id                Int      @id @default(autoincrement())
+  accountTypeName   String   @unique
+  accountTypeNumber Int      @unique
+  createdAt         DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }
@@ -497,6 +508,7 @@ model paymentDues {
   payableAmount Float    @db.DoublePrecision
   transactionId String?
   paidAt        Int?
+  invoiceNumber String
   createdAt     DateTime @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @db.Timestamptz(6)
 

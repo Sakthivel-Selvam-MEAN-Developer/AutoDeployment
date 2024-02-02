@@ -40,11 +40,17 @@ export const createFuel = async (req: Request, res: Response) => {
 }
 
 export const listAllFuel = (_req: Request, res: Response) => {
-    getAllFuel().then((data) => res.status(200).json(data))
+    getAllFuel()
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
 }
 export const listFuelWithoutTripId = (req: Request, res: Response) => {
-    getFuelWithoutTrip(req.params.vehiclenumber).then((data) => res.status(200).json(data))
+    getFuelWithoutTrip(req.params.vehiclenumber)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
 }
 export const updateFuelWithTrip = (req: Request, res: Response) => {
-    updateFuelWithTripId(req.body).then((data) => res.status(200).json(data))
+    updateFuelWithTripId(req.body)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
 }

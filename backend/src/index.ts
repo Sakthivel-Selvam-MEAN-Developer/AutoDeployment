@@ -25,6 +25,7 @@ import fuelRoutes from './subContracts/routes/fuel.ts'
 import stationRoutes from './subContracts/routes/fuelStation.ts'
 import pointMarkerRoutes from './subContracts/routes/pricePointMarker.ts'
 import overallTrip from './subContracts/routes/overallTrip.ts'
+import accountTypeRoutes from './subContracts/routes/accountType.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -58,5 +59,6 @@ bunkRoutes(router)
 fuelRoutes(router)
 stationRoutes(router)
 pointMarkerRoutes(router)
+accountTypeRoutes(router)
 
 export default router

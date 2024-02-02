@@ -8,5 +8,6 @@ export default {
     hasTds: false,
     accountHolder: 'muthu',
     accountNumber: '435534523',
-    ifsc: 'zxy1234'
+    ifsc: 'zxy1234',
+    accountTypeNumber: 10
 }

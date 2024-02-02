@@ -34,6 +34,13 @@ async function addFuelStations() {
     VALUES ('StockPoint', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1);`
     await prisma.$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId", "createdAt", "updatedAt")
     VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."accountType" ("accountTypeName","accountTypeNumber", "createdAt", "updatedAt")
+    VALUES ('Current Account',11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Overdraft Account',12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Cash Credit Account',13, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Advances Account',14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('NRE Account',40, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Credit Card',52, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
 }
 
 async function seedSubContract() {

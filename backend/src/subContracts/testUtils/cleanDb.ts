@@ -11,6 +11,7 @@ const cleanData = async () => {
     await prisma.$executeRaw`truncate "subContract"."fuelStation" cascade`
     await prisma.$executeRaw`truncate "subContract"."overallTrip" cascade`
     await prisma.$executeRaw`truncate "subContract"."transporter" cascade`
+    await prisma.$executeRaw`truncate "subContract"."accountType" cascade`
     await prisma.$disconnect()
 }
 
