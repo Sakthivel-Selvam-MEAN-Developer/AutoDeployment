@@ -136,13 +136,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={8}
                     icon={<Summarize />}
                 />
-                <DrawerListItem
+                {/* <DrawerListItem
                     text="Invoice"
                     navigate="/sub/invoice"
                     drawerState={drawerState}
                     index={9}
                     icon={<Receipt />}
-                />
+                /> */}
             </List>
         </Drawer>
     )

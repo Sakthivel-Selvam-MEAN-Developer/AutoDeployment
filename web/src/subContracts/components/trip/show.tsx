@@ -63,7 +63,7 @@ interface Row {
     startDate: number
 }
 
-function getTableHead() {
+const getTableHead = () => {
     return (
         <TableHead>
             <TableRow>
@@ -80,7 +80,7 @@ function getTableHead() {
     )
 }
 
-function getTableBody(allTrips: Row[]) {
+const getTableBody = (allTrips: Row[]) => {
     return (
         <>
             <TableBody>

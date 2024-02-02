@@ -31,63 +31,63 @@ const TransporterDues: React.FC = () => {
     const [transporterDue, setTransporterDue] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
     const style = { width: '100%', padding: '10px 10px 0px' }
+    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate).then(setTransporterDue)
     }, [refresh])
     return (
         <>
-            {transporterDue.map((data: dataProp) => {
-                return (
-                    <Accordion>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                            sx={{ borderBottom: '1px solid grey' }}
-                        >
-                            <Typography sx={{ padding: '10px 10px 0px', width: '350px' }}>
-                                <b>{data.name}</b>
-                            </Typography>
-                            <Typography sx={style}>
-                                Total Trips: <b>{data.dueDetails.count}</b>
-                            </Typography>
-                            <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                Total Amount: <b>{data.dueDetails.totalPayableAmount}</b>
-                            </ListItemSecondaryAction>
-                        </AccordionSummary>
-                        {data.tripDetails.map((list: tripProp) => {
-                            return (
-                                <AccordionDetails
-                                    sx={{ display: 'flex', borderBottom: '1px solid grey' }}
-                                >
-                                    <Typography sx={style}>
-                                        <b>{list.number}</b>
-                                    </Typography>
-                                    <Typography sx={style}>
-                                        {list.loadingPoint} - {list.unloadingPoint}
-                                    </Typography>
-                                    <Typography sx={style}>{list.type} </Typography>
-                                    <Typography sx={style}>{list.payableAmount} </Typography>
-                                    {list.type !== 'fuel pay' && (
-                                        <Typography sx={style}>{list.invoiceNumber} </Typography>
-                                    )}
-                                    {list.type !== 'fuel pay' && (
+            {transporterDue &&
+                transporterDue.map((data: dataProp) => {
+                    return (
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                                sx={{ borderBottom: '1px solid grey' }}
+                            >
+                                <Typography sx={{ padding: '10px 10px 0px', width: '350px' }}>
+                                    <b>{data.name}</b>
+                                </Typography>
+                                <Typography sx={style}>
+                                    Total Trips: <b>{data.dueDetails.count}</b>
+                                </Typography>
+                                <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
+                                    Total Amount: <b>{data.dueDetails.totalPayableAmount}</b>
+                                </ListItemSecondaryAction>
+                            </AccordionSummary>
+                            {data.tripDetails.map((list: tripProp) => {
+                                return (
+                                    <AccordionDetails sx={accordianStyle}>
                                         <Typography sx={style}>
-                                            {epochToMinimalDate(list.date)}{' '}
+                                            <b>{list.number}</b>
                                         </Typography>
-                                    )}
-                                    <FormField
-                                        setRefresh={setRefresh}
-                                        refresh={refresh}
-                                        id={list.id}
-                                    />
-                                </AccordionDetails>
-                            )
-                        })}
-                    </Accordion>
-                )
-            })}
+                                        <Typography sx={style}>
+                                            {list.loadingPoint} - {list.unloadingPoint}
+                                        </Typography>
+                                        <Typography sx={style}>{list.type} </Typography>
+                                        <Typography sx={style}>{list.payableAmount} </Typography>
+                                        {list.type !== 'fuel pay' && (
+                                            <Typography sx={style}>{list.invoiceNumber}</Typography>
+                                        )}
+                                        {list.type !== 'fuel pay' && (
+                                            <Typography sx={style}>
+                                                {epochToMinimalDate(list.date)}
+                                            </Typography>
+                                        )}
+                                        <FormField
+                                            setRefresh={setRefresh}
+                                            refresh={refresh}
+                                            id={list.id}
+                                        />
+                                    </AccordionDetails>
+                                )
+                            })}
+                        </Accordion>
+                    )
+                })}
         </>
     )
 }

@@ -6,6 +6,12 @@ export const getOverallTrip = () =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
+export const getOverallTripByCompany = (company: string) =>
+    axiosInstance
+        .get(`/overalltrip/${company}`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
+
 export const getOverallTripByFilter = (
     cementCompanyId: number,
     transporterId: number,

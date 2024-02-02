@@ -239,7 +239,7 @@ export const getOverAllTripById = (id: number) =>
         }
     })
 
-export const overallTripByFiltrer = (
+export const overallTripByFilter = (
     cementCompanyId: number,
     transporterId: number,
     loadingPointId: number,
@@ -313,7 +313,6 @@ export const overallTripByFiltrer = (
                 }
             ]
         },
-
         include: {
             loadingPointToStockPointTrip: {
                 include: {
@@ -340,6 +339,7 @@ export const overallTripByFiltrer = (
 export const getTripDetailsByCompanyName = (name: string) =>
     prisma.overallTrip.findMany({
         where: {
+            acknowledgementStatus: true,
             OR: [
                 {
                     stockPointToUnloadingPointTrip: {
@@ -366,9 +366,30 @@ export const getTripDetailsByCompanyName = (name: string) =>
         include: {
             stockPointToUnloadingPointTrip: {
                 include: {
-                    loadingPointToStockPointTrip: true
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            truck: {
+                                include: {
+                                    transporter: true
+                                }
+                            },
+                            loadingPoint: true,
+                            stockPoint: true
+                        }
+                    },
+                    unloadingPoint: true
                 }
             },
-            loadingPointToUnloadingPointTrip: true
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    },
+                    loadingPoint: true,
+                    unloadingPoint: true
+                }
+            }
         }
     })
