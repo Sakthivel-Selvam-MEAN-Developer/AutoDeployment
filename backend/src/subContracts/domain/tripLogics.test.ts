@@ -18,7 +18,7 @@ describe('Trip Logics Test', async () => {
                 name: 'Barath Logistics Pvt Ltd',
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: 1,
+                overallTripId: 1,
                 vehicleNumber: 'TN93D5512',
                 payableAmount: 7000
             }
@@ -47,7 +47,7 @@ describe('Trip Logics Test', async () => {
                 name: 'Barath Logistics Pvt Ltd',
                 type: 'initial pay',
                 dueDate: dayjs().startOf('day').unix(),
-                tripId: 1,
+                overallTripId: 1,
                 vehicleNumber: 'TN93D5512',
                 payableAmount: 6000
             }

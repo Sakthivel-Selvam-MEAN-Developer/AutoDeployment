@@ -30,7 +30,7 @@ export const findTripWithActiveDues = (dueDate: number) =>
         select: {
             id: true,
             payableAmount: true,
-            tripId: true,
+            overallTripId: true,
             type: true,
             name: true,
             status: true,
@@ -59,7 +59,7 @@ export const getPaymentDuesWithoutTripId = (vehicleNumber: string) =>
         where: {
             vehicleNumber,
             status: false,
-            tripId: null
+            overallTripId: null
         }
     })
 
@@ -69,14 +69,14 @@ export const updatePaymentDuesWithTripId = (data: any) =>
             id: data.id
         },
         data: {
-            tripId: data.tripId
+            overallTripId: data.overallTripId
         }
     })
 
-export const getDueByOverallTripId = (tripId: number) =>
+export const getDueByOverallTripId = (overallTripId: number) =>
     prisma.paymentDues.findMany({
         where: {
-            tripId
+            overallTripId
         },
         select: {
             payableAmount: true

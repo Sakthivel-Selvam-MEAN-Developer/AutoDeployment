@@ -23,10 +23,15 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
     await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
         .then(async (data) => {
             if (req.body.wantFuel !== true && fuelDetails !== null) {
-                await updateFuelWithTripId({ id: fuelDetails.id, tripId: id }).then(async () => {
-                    await updatePaymentDuesWithTripId({ id: paymentDetails?.id, tripId: id })
-                    await createPaymentDues(data)
-                })
+                await updateFuelWithTripId({ id: fuelDetails.id, overallTripId: id }).then(
+                    async () => {
+                        await updatePaymentDuesWithTripId({
+                            id: paymentDetails?.id,
+                            overallTripId: id
+                        })
+                        await createPaymentDues(data)
+                    }
+                )
             } else if (req.body.wantFuel !== true && fuelDetails === null) {
                 await createPaymentDues(data)
             }

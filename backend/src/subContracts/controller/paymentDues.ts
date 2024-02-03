@@ -16,7 +16,7 @@ export const createPaymentDues = (req: Request, res: Response) => {
 function tripInfo(matchingTrip: any, tripData: any) {
     const details = {
         id: matchingTrip.id,
-        tripId: matchingTrip.tripId,
+        overallTripId: matchingTrip.overallTripId,
         payableAmount: matchingTrip.payableAmount,
         type: matchingTrip.type,
         number: matchingTrip.vehicleNumber,
@@ -54,8 +54,8 @@ export const groupDataByName = async (duesData: any[], tripsData: any[], tripDet
             tripDetails: matchingTrips.map((matchingTrip) => {
                 const tripData = tripDetails.filter(
                     (trip) =>
-                        trip.id === matchingTrip.tripId ||
-                        (matchingTrip.tripId === null &&
+                        trip.id === matchingTrip.overallTripId ||
+                        (matchingTrip.overallTripId === null &&
                             matchingTrip.status === false &&
                             matchingTrip.type === 'fuel pay')
                 )
@@ -71,9 +71,9 @@ export const listOnlyActiveTransporterDues = async (req: Request, res: Response)
     const duesData = await getOnlyActiveDuesByName(parseInt(duedate))
     const tripsData = await findTripWithActiveDues(parseInt(duedate))
     const tripDetails = await getOverallTrip()
-    await groupDataByName(duesData, tripsData, tripDetails)
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+    await groupDataByName(duesData, tripsData, tripDetails).then((data) =>
+        res.status(200).json(data)
+    )
 }
 
 export const updatePayment = (req: Request, res: Response) => {

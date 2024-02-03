@@ -22,7 +22,7 @@ const tripLogic = async (
                 name: transporterName,
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: id,
+                overallTripId: id,
                 vehicleNumber,
                 payableAmount: Math.round(data.totalTransporterAmount * transporterPercentage)
             }
@@ -35,7 +35,7 @@ const tripLogic = async (
                 name: transporterName,
                 type: 'initial pay',
                 dueDate: dayjs().startOf('day').unix(),
-                tripId: id,
+                overallTripId: id,
                 vehicleNumber,
                 payableAmount: Math.round(
                     data.totalTransporterAmount * transporterPercentage - fuelDetails.totalprice

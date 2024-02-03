@@ -48,7 +48,7 @@ describe('Final Due Logics Test', async () => {
                 name: 'Muthu Logistics',
                 type: 'final pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: overallTrip.id,
+                overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 9872
             }
@@ -100,7 +100,7 @@ describe('Final Due Logics Test', async () => {
                 name: 'Muthu Logistics',
                 type: 'final pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: overallTrip.id,
+                overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 588.95
             }

@@ -41,7 +41,7 @@ describe('Fuel Logics Test', async () => {
                 name: 'Barath Logistics Pvt Ltd',
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: 3,
+                overallTripId: 3,
                 vehicleNumber: 'TN29BA3211',
                 payableAmount: 32800
             },
@@ -49,7 +49,7 @@ describe('Fuel Logics Test', async () => {
                 name: 'Barath Petroleum',
                 type: 'fuel pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                tripId: 3,
+                overallTripId: 3,
                 vehicleNumber: 'TN29BA3211',
                 payableAmount: 5000
             }

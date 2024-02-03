@@ -105,7 +105,7 @@ describe('Fuel model', () => {
         })
         const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
 
-        const actual = await updateFuelWithTripId({ id: fuel.id, tripId: overAllTrip.id })
+        const actual = await updateFuelWithTripId({ id: fuel.id, overallTripId: overAllTrip.id })
         expect(actual.overallTripId).toBe(overAllTrip.id)
     })
 })

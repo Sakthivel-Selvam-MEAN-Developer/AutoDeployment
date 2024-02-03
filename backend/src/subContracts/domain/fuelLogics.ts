@@ -15,7 +15,7 @@ const fuelLogics = async (fuel: any, trip: any, bunkname: string, vehicleNumber:
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 payableAmount: (tripDetails.totalTransporterAmount * 70) / 100 - fuel.totalprice,
-                tripId: trip.id,
+                overallTripId: trip.id,
                 vehicleNumber
             },
             {
@@ -23,7 +23,7 @@ const fuelLogics = async (fuel: any, trip: any, bunkname: string, vehicleNumber:
                 type: 'fuel pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 payableAmount: fuel.totalprice,
-                tripId: trip.id,
+                overallTripId: trip.id,
                 vehicleNumber
             }
         ]

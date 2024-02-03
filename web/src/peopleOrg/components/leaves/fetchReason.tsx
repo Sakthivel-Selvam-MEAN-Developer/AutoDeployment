@@ -29,7 +29,7 @@ const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {
                 value={reason}
                 onChange={handleChange}
             >
-                {fetchReason.map((reason: any, index: any) => (
+                {fetchReason.map((reason: any, index: number) => (
                     <MenuItem key={index} value={reason.id}>
                         {reason.name}
                     </MenuItem>

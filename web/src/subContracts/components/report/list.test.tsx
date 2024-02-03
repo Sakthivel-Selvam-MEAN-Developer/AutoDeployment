@@ -33,6 +33,11 @@ const mockStockTripData = [
         stockPointToUnloadingPointTripId: null,
         loadingPointToUnloadingPointTripId: 1,
         fuel: [],
+        paymentDues: [
+            {
+                type: 'initial pay'
+            }
+        ],
         loadingPointToStockPointTrip: null,
         loadingPointToUnloadingPointTrip: {
             id: 1,
@@ -215,6 +220,7 @@ describe('Report Test', () => {
         expect(screen.getByText('Transporter')).toBeInTheDocument()
         expect(screen.getByText('Barath Logistics')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
+        expect(screen.getByText('initial pay')).toBeInTheDocument()
 
         expect(mockGetOverallTrip).toHaveBeenCalledTimes(3)
         expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(1)

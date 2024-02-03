@@ -455,6 +455,7 @@ model fuel {
   pricePerliter Float        @db.DoublePrecision
   quantity      Float        @db.DoublePrecision
   totalprice    Float        @db.DoublePrecision
+  paymentStatus Boolean      @default(false)
   vehicleNumber String
   fuelStationId Int
   fuelStation   fuelStation  @relation(fields: [fuelStationId], references: [id])
@@ -498,19 +499,19 @@ model pricePoint {
 }
 
 model paymentDues {
-  id            Int      @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   name          String
-  tripId        Int?
   vehicleNumber String
   dueDate       Int
   type          String
-  status        Boolean  @default(false)
-  payableAmount Float    @db.DoublePrecision
+  status        Boolean      @default(false)
+  payableAmount Float        @db.DoublePrecision
   transactionId String?
   paidAt        Int?
-  invoiceNumber String
-  createdAt     DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @updatedAt @db.Timestamptz(6)
+  overallTrip   overallTrip? @relation(fields: [overallTripId], references: [id])
+  overallTripId Int?
 
   @@schema("subContract")
 }
@@ -533,6 +534,7 @@ model shortageQuantity {
 model overallTrip {
   id                                 Int                               @id @default(autoincrement())
   acknowledgementStatus              Boolean                           @default(false)
+  paymentDues                        paymentDues[]
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
   stockPointToUnloadingPointTripId   Int?

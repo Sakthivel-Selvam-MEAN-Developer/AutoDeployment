@@ -108,7 +108,7 @@ const mockcreatePaymentDuesData1 = [
         name: 'Barath Logistics Pvt Ltd',
         type: 'initial pay',
         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-        tripId: 1,
+        overallTripId: 1,
         vehicleNumber: 'TN93D5512',
         payableAmount: 30240
     }
@@ -118,7 +118,7 @@ const mockcreatePaymentDuesData2 = [
         name: 'Barath Logistics Pvt Ltd',
         type: 'initial pay',
         dueDate: dayjs().startOf('day').unix(),
-        tripId: 1,
+        overallTripId: 1,
         vehicleNumber: 'TN93D5512',
         payableAmount: 29240
     }

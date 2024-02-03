@@ -5,9 +5,12 @@ import {
     overallTripByFilter
 } from '../models/overallTrip.ts'
 
-export const listOverallTrip = (_req: Request, res: Response) => {
+export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) => {
     getOverallTrip()
-        .then((data) => res.status(200).json(data))
+        .then((data) => {
+            console.log(data)
+            res.status(200).json(data)
+        })
         .catch(() => res.status(500))
 }
 

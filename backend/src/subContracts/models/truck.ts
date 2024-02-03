@@ -17,9 +17,7 @@ export const getTruckByTransporter = (transporterName: string) =>
                     NOT: [
                         {
                             loadingPointToUnloadingPointTrip: {
-                                some: {
-                                    tripStatus: false
-                                }
+                                some: { tripStatus: false }
                             }
                         },
                         {
@@ -28,9 +26,7 @@ export const getTruckByTransporter = (transporterName: string) =>
                                     OR: [
                                         {
                                             stockPointToUnloadingPointTrip: {
-                                                some: {
-                                                    tripStatus: false
-                                                }
+                                                some: { tripStatus: false }
                                             }
                                         },
                                         { tripStatus: false }

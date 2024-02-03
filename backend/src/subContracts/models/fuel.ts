@@ -27,7 +27,7 @@ export const getFuelWithoutTrip = (vehicleNumber: string) =>
 
 interface dataProps {
     id: number
-    tripId: number | null
+    overallTripId: number | null
 }
 export const updateFuelWithTripId = (data: dataProps) =>
     prisma.fuel.update({
@@ -35,6 +35,6 @@ export const updateFuelWithTripId = (data: dataProps) =>
             id: data.id
         },
         data: {
-            overallTripId: data.tripId
+            overallTripId: data.overallTripId
         }
     })

@@ -45,7 +45,7 @@ const mockTripDuesData = [
     {
         id: 1,
         payableAmount: 20000,
-        tripId: 1,
+        overallTripId: 1,
         type: 'initial pay',
         name: 'Barath Logistics Pvt Ltd',
         status: false,
@@ -54,7 +54,7 @@ const mockTripDuesData = [
     {
         id: 3,
         payableAmount: 2300,
-        tripId: 2,
+        overallTripId: 2,
         type: 'fuel pay',
         name: 'Barath Petroleum',
         status: false,
@@ -63,7 +63,7 @@ const mockTripDuesData = [
     {
         id: 4,
         payableAmount: 27940,
-        tripId: 2,
+        overallTripId: 2,
         type: 'initial pay',
         name: 'Deepak Logistics Pvt Ltd',
         status: false,
@@ -141,7 +141,7 @@ const mockGroupedDueDetails = [
         tripDetails: [
             {
                 id: 4,
-                tripId: 2,
+                overallTripId: 2,
                 payableAmount: 27940,
                 type: 'initial pay',
                 number: 'TN29B3246',
@@ -161,7 +161,7 @@ const mockGroupedDueDetails = [
         tripDetails: [
             {
                 id: 3,
-                tripId: 2,
+                overallTripId: 2,
                 payableAmount: 2300,
                 type: 'fuel pay',
                 number: 'TN29B3246',
@@ -178,7 +178,7 @@ const mockGroupedDueDetails = [
         tripDetails: [
             {
                 id: 1,
-                tripId: 1,
+                overallTripId: 1,
                 payableAmount: 20000,
                 type: 'initial pay',
                 number: 'TN93D5512',
@@ -199,7 +199,7 @@ const mockUpdateData = {
 
 const mockCreateDues = {
     id: 1,
-    tripId: 1,
+    overallId: 1,
     payableAmount: 20000,
     type: 'initial pay',
     dueDate: dayjs().unix(),

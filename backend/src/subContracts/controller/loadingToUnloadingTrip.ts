@@ -31,11 +31,11 @@ export const createTrip = async (req: Request, res: Response) => {
             if (req.body.wantFuel !== true && fuelDetails !== null) {
                 await updateFuelWithTripId({
                     id: fuelDetails.id,
-                    tripId: id
+                    overallTripId: id
                 }).then(async () => {
                     await updatePaymentDuesWithTripId({
                         id: paymentDetails?.id,
-                        tripId: id
+                        overallTripId: id
                     })
                     await createPaymentDues(data)
                 })

@@ -12,7 +12,7 @@ import seedPricePoint from '../subContracts/seed/pricePoint.ts'
 import { create as createTrip } from '../subContracts/models/loadingToUnloadingTrip.ts'
 import { create as createPricePointMarker } from '../subContracts/models/pricePointMarker.ts'
 import seedLoadingToUnloadingTrip from '../subContracts/seed/loadingToUnloadingTrip.ts'
-import { create } from '../subContracts/models/paymentDues.ts'
+import { create as createPaymentDues } from '../subContracts/models/paymentDues.ts'
 import { create as createCementCompany } from '../subContracts/models/cementCompany.ts'
 import seedPaymentDue from '../subContracts/seed/paymentDue.ts'
 import seedCementCompany from '../subContracts/seed/cementCompany.ts'
@@ -73,14 +73,13 @@ async function seedSubContract() {
         loadingPointId: loadingPoint.id,
         unloadingPointId: unloadingPoint.id
     })
-    const trip = await createTrip({
+    await createTrip({
         ...seedLoadingToUnloadingTrip,
         loadingPointId: loadingPoint.id,
         unloadingPointId: unloadingPoint.id,
         truckId: truck.id
     })
-    await create({ ...seedPaymentDue, tripId: trip.id })
-
     await addFuelStations()
+    await createPaymentDues({ ...seedPaymentDue, overallTripId: 1 })
 }
 export default seedSubContract
