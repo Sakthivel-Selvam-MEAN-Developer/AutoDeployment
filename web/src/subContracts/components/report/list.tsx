@@ -7,13 +7,25 @@ import { getOverallTrip, getOverallTripByFilter } from '../../services/overallTr
 const ListAllReport: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [listoverallTrip, setListoverallTrip] = useState([])
+    const [tripWithPagination, setTripWithPagination] = useState([])
     const [showDetails, setShowDetails] = useState(false)
     const [cementCompanyId, setCementCompanyId] = useState<number>(0)
     const [transporterId, setTransporterId] = useState(0)
     const [loadingPointId, setLoadingPointId] = useState(0)
+    const [skipNumber, setskipNumber] = useState(1)
     useEffect(() => {
-        getOverallTrip().then(setListoverallTrip)
+        getOverallTrip().then((data) => {
+            setListoverallTrip(data),
+                setTripWithPagination(() => {
+                    return data.slice(0, 1)
+                })
+        })
     }, [])
+    useEffect(() => {
+        const value = skipNumber - 1
+        const Trip = listoverallTrip.slice(value, value + 1)
+        setTripWithPagination(Trip)
+    }, [skipNumber, listoverallTrip])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (
             cementCompanyId !== 0 ||
@@ -43,7 +55,12 @@ const ListAllReport: React.FC = (): ReactElement => {
                 />
                 <SubmitButton name="Submit" type="submit" />
             </form>
-            {showDetails && <ListAllDetails listoverallTrip={listoverallTrip} />}
+            {showDetails && (
+                <ListAllDetails
+                    setskipNumber={setskipNumber}
+                    listoverallTrip={tripWithPagination}
+                />
+            )}
         </>
     )
 }

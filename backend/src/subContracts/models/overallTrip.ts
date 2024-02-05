@@ -315,6 +315,7 @@ export const overallTripByFilter = (
             ]
         },
         include: {
+            paymentDues: true,
             loadingPointToStockPointTrip: {
                 include: {
                     truck: {

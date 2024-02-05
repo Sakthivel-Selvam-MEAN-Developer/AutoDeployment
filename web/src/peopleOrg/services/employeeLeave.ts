@@ -13,8 +13,11 @@ export const create = (data: dataProps) => axiosInstance.post('/leaves', data).t
 
 export const getAllLeaveWithStatus = (employeeId: string) =>
     axiosInstance.get(`/all-leaves/${employeeId}`).then(getData)
-
-export const rejectLeaves = (id: number, data: any) => {
+interface rejectLeavesProps {
+    employeeId: string
+    deniedComment: string
+}
+export const rejectLeaves = (id: number, data: rejectLeavesProps) => {
     return axiosInstance.post(`/reject/${id}`, data)
 }
 

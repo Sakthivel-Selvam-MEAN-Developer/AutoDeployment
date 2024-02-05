@@ -7,20 +7,18 @@ interface SearchCustomerProps {
 }
 const SearchCustomer: React.FC<SearchCustomerProps> = ({ customers, onSelect }) => {
     const [value, setValue] = useState()
-    const onChange = (_event: any, newValue: any | null) => {
-        setValue(newValue)
-        if (newValue) {
-            onSelect(newValue)
-        }
-    }
-
     return (
         <Autocomplete
             freeSolo
             disableClearable
             value={value}
             options={customers.map((data) => data.name)}
-            onChange={onChange}
+            onChange={(_event, newValue: any | null) => {
+                setValue(newValue)
+                if (newValue) {
+                    onSelect(newValue)
+                }
+            }}
             renderInput={(params) => (
                 <TextField
                     {...params}

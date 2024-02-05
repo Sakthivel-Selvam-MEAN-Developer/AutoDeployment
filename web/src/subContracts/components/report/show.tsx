@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { Pagination, Stack } from '@mui/material'
 
 interface Row {
     freightAmount: number
@@ -43,6 +44,7 @@ interface paymentType {
 }
 interface listoverallTripProps {
     listoverallTrip: Props[]
+    setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
 
 function getTableHead() {
@@ -131,7 +133,7 @@ function getTableBody(allTrips: Props[]) {
         </TableBody>
     )
 }
-const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip }) => {
+const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
     return (
         <>
             <br />
@@ -142,6 +144,27 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip }) => 
                     {getTableBody(listoverallTrip)}
                 </Table>
             </TableContainer>
+            <div
+                style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    bottom: '0',
+                    width: '90%',
+                    justifyContent: 'center',
+                    marginBottom: '30px'
+                }}
+            >
+                <Stack spacing={10}>
+                    <Pagination
+                        count={10}
+                        size="large"
+                        color="primary"
+                        onChange={(_e, value) => {
+                            setskipNumber(value)
+                        }}
+                    />
+                </Stack>
+            </div>
         </>
     )
 }
