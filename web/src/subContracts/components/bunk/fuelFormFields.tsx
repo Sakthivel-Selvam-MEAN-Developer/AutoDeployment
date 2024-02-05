@@ -3,8 +3,7 @@ import AutoComplete from '../../../form/AutoComplete.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control } from 'react-hook-form'
 import { getAllBunk } from '../../services/bunk.ts'
-import { getAllFuelStationByBunk } from '../../services/fuelStation.ts'
-import { InputAdornment } from '@mui/material'
+import { InputAdornment, TextField } from '@mui/material'
 import { getAllTruck } from '../../services/truck.ts'
 import DateInput from '../../../form/DateInput.tsx'
 import TextInput from '../../../form/TextInput.tsx'
@@ -12,20 +11,15 @@ import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
 
 interface FormFieldsProps {
     control: Control
-    fuelStationId: React.Dispatch<React.SetStateAction<number>>
+    setBunkId: React.Dispatch<React.SetStateAction<number>>
     totalPrice: number
 }
 
-const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, totalPrice }) => {
+const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPrice }) => {
     const [bunkList, setBunkList] = useState([])
-    const [bunkId, setBunkId] = useState(0)
-    const [stationList, setStationList] = useState([])
+    const [bunkLocation, setBunkLocation] = useState<string>('')
     const [vehicleList, setvehicleList] = useState([])
-    useEffect(() => {
-        if (bunkId !== 0) {
-            getAllFuelStationByBunk(bunkId).then(setStationList)
-        }
-    }, [bunkId])
+
     useEffect(() => {
         getAllBunk().then(setBunkList)
         getAllTruck().then(setvehicleList)
@@ -46,23 +40,19 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, fuelStationId, tot
                 label="Select Bunk"
                 options={bunkList.map(({ bunkName }) => bunkName)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const bId = bunkList.find(
+                    const { id, location } = bunkList.find(
                         (bunk: { bunkName: string }) => bunk.bunkName === newValue
-                    ) || { id: 0 }
-                    setBunkId(bId.id)
+                    ) || { id: 0, location: '' }
+                    setBunkId(id)
+                    setBunkLocation(location)
                 }}
             />
-            <AutoComplete
-                control={control}
-                fieldName="fuelStationId"
-                label="Fuel Station"
-                options={stationList.map(({ location }) => location)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const bId = stationList.find(
-                        (bunk: { location: string }) => bunk.location === newValue
-                    ) || { id: 0 }
-                    fuelStationId(bId.id)
-                }}
+            <TextField
+                value={bunkLocation}
+                type="text"
+                label="Location"
+                variant="outlined"
+                aria-readonly
             />
             <DateInput
                 control={control}

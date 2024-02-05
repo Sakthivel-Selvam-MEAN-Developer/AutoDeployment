@@ -17,3 +17,19 @@ export const getTransporterByName = (name: string) =>
             tdsPercentage: true
         }
     })
+
+export const getTransporterAccountByName = (transporterNames: string[]) =>
+    prisma.transporter.findMany({
+        where: {
+            name: {
+                in: transporterNames
+            }
+        },
+        select: {
+            name: true,
+            accountNumber: true,
+            ifsc: true,
+            address: true,
+            accountTypeNumber: true
+        }
+    })

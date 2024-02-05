@@ -41,7 +41,7 @@ const finalDueLogic = async (
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: overallTrip.id,
                 vehicleNumber: dueDetails.truck.vehicleNumber,
-                payableAmount: amount
+                payableAmount: parseFloat(amount.toFixed(2))
             }
         ]
         return paymentDues

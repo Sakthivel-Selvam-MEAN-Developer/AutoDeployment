@@ -10,6 +10,9 @@ const mockGetAllTrip = vi.fn()
 const mockcreatePaymentDues = vi.fn()
 const mockUpdatePayment = vi.fn()
 const mockOverAllTrip = vi.fn()
+const mockTransporterAccountDetails = vi.fn()
+const mockBunkAccountDetails = vi.fn()
+const mockFuelDetails = vi.fn()
 
 vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
@@ -22,6 +25,15 @@ vi.mock('../models/loadingToUnloadingTrip', () => ({
 }))
 vi.mock('../models/overallTrip', () => ({
     getOverallTrip: () => mockOverAllTrip()
+}))
+vi.mock('../models/transporter', () => ({
+    getTransporterAccountByName: (name: string[]) => mockTransporterAccountDetails(name)
+}))
+vi.mock('../models/bunk', () => ({
+    getBunkAccountByName: (name: string[]) => mockBunkAccountDetails(name)
+}))
+vi.mock('../models/fuel', () => ({
+    getFuelDetailsWithoutTrip: () => mockFuelDetails()
 }))
 
 const mockGroupedDuesData = [
@@ -138,6 +150,15 @@ const mockGroupedDueDetails = [
             count: 1,
             totalPayableAmount: 27940
         },
+        bankDetails: [
+            {
+                name: 'Deepak Logistics Pvt Ltd',
+                accountNumber: '12334523',
+                ifsc: 'HDFC1234',
+                address: 'Salem',
+                accountTypeNumber: 10
+            }
+        ],
         tripDetails: [
             {
                 id: 4,
@@ -148,7 +169,9 @@ const mockGroupedDueDetails = [
                 loadingPoint: 'Chennai',
                 unloadingPoint: 'Salem',
                 invoiceNumber: 'FDGT',
-                date: 1706339785
+                date: 1706339785,
+                fuelId: undefined,
+                location: undefined
             }
         ]
     },
@@ -158,6 +181,16 @@ const mockGroupedDueDetails = [
             count: 1,
             totalPayableAmount: 2300
         },
+        bankDetails: [
+            {
+                bunkName: 'Barath Petroleum',
+                location: 'Erode',
+                accountHolder: 'Barath',
+                accountNumber: '156038718',
+                ifsc: 'HDFC0005627',
+                accountTypeNumber: 11
+            }
+        ],
         tripDetails: [
             {
                 id: 3,
@@ -165,16 +198,27 @@ const mockGroupedDueDetails = [
                 payableAmount: 2300,
                 type: 'fuel pay',
                 number: 'TN29B3246',
-                loadingPoint: 'Chennai',
-                unloadingPoint: 'Salem',
+                loadingPoint: undefined,
+                unloadingPoint: undefined,
                 invoiceNumber: 'FDGT',
-                date: 1706339785
+                date: 1706339785,
+                fuelId: 1,
+                location: 'Erode'
             }
         ]
     },
     {
         name: 'Barath Logistics Pvt Ltd',
         dueDetails: { count: 1, totalPayableAmount: 20000 },
+        bankDetails: [
+            {
+                name: 'Barath Logistics Pvt Ltd',
+                accountNumber: '43534523',
+                ifsc: 'ICIC1234',
+                address: 'Erode',
+                accountTypeNumber: 10
+            }
+        ],
         tripDetails: [
             {
                 id: 1,
@@ -185,9 +229,38 @@ const mockGroupedDueDetails = [
                 loadingPoint: 'Chennai',
                 unloadingPoint: 'Salem',
                 invoiceNumber: 'ABC123',
-                date: 1700764200
+                date: 1700764200,
+                fuelId: undefined,
+                location: undefined
             }
         ]
+    }
+]
+
+const mockTransporterAccountData = [
+    {
+        name: 'Deepak Logistics Pvt Ltd',
+        accountNumber: '12334523',
+        ifsc: 'HDFC1234',
+        address: 'Salem',
+        accountTypeNumber: 10
+    },
+    {
+        name: 'Barath Logistics Pvt Ltd',
+        accountNumber: '43534523',
+        ifsc: 'ICIC1234',
+        address: 'Erode',
+        accountTypeNumber: 10
+    }
+]
+const mockBunkAccountData = [
+    {
+        bunkName: 'Barath Petroleum',
+        location: 'Erode',
+        accountHolder: 'Barath',
+        accountNumber: '156038718',
+        ifsc: 'HDFC0005627',
+        accountTypeNumber: 11
     }
 ]
 
@@ -205,7 +278,29 @@ const mockCreateDues = {
     dueDate: dayjs().unix(),
     vehicleNumber: 'TN93D5512'
 }
-
+const mockFuelData = [
+    {
+        id: 1,
+        fueledDate: 1706339785,
+        invoiceNumber: 'FDGT',
+        pricePerliter: 90,
+        quantity: 10,
+        totalprice: 900,
+        paymentStatus: false,
+        vehicleNumber: 'TN29B3246',
+        bunkId: 1,
+        overallTripId: null,
+        bunk: {
+            id: 1,
+            bunkName: 'Barath Petroleum',
+            location: 'Erode',
+            accountHolder: 'Barath',
+            accountNumber: '156038718',
+            ifsc: 'HDFC0005627',
+            accountTypeNumber: 11
+        }
+    }
+]
 describe('Payment Due Controller', () => {
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
@@ -221,11 +316,17 @@ describe('Payment Due Controller', () => {
         mockgetOnlyActiveDuesByName.mockResolvedValue(mockGroupedDuesData)
         mockfindTripWithActiveDues.mockResolvedValue(mockTripDuesData)
         mockOverAllTrip.mockResolvedValue(mockOverallTripData)
+        mockTransporterAccountDetails.mockResolvedValue(mockTransporterAccountData)
+        mockBunkAccountDetails.mockResolvedValue(mockBunkAccountData)
+        mockFuelDetails.mockResolvedValue(mockFuelData)
         await supertest(app).get('/api/payment-dues/1706340529').expect(200)
         const actual = await groupDataByName(
             mockGroupedDuesData,
             mockTripDuesData,
-            mockOverallTripData
+            mockOverallTripData,
+            mockFuelData,
+            mockTransporterAccountData,
+            mockBunkAccountData
         )
         expect(actual).toEqual(mockGroupedDueDetails)
         expect(mockgetOnlyActiveDuesByName).toHaveBeenCalledTimes(1)

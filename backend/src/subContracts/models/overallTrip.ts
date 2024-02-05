@@ -33,6 +33,9 @@ export const getOverallTrip = () =>
                         }
                     }
                 }
+            },
+            stockPointToUnloadingPointTrip: {
+                include: { unloadingPoint: true }
             }
         }
     })
@@ -43,17 +46,13 @@ export const getOnlyActiveTripByVehicle = (vehicleNumber: string) =>
                 {
                     loadingPointToStockPointTrip: {
                         tripStatus: false,
-                        truck: {
-                            vehicleNumber
-                        }
+                        truck: { vehicleNumber }
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
                         tripStatus: false,
-                        truck: {
-                            vehicleNumber
-                        }
+                        truck: { vehicleNumber }
                     }
                 }
             ]
@@ -69,18 +68,14 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
                 {
                     loadingPointToStockPointTrip: {
                         tripStatus: false,
-                        truck: {
-                            vehicleNumber
-                        },
+                        truck: { vehicleNumber },
                         wantFuel: true
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
                         tripStatus: false,
-                        truck: {
-                            vehicleNumber
-                        },
+                        truck: { vehicleNumber },
                         wantFuel: true
                     }
                 }
@@ -89,20 +84,12 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
         include: {
             loadingPointToStockPointTrip: {
                 include: {
-                    truck: {
-                        select: {
-                            transporter: true
-                        }
-                    }
+                    truck: { select: { transporter: true } }
                 }
             },
             loadingPointToUnloadingPointTrip: {
                 include: {
-                    truck: {
-                        select: {
-                            transporter: true
-                        }
-                    }
+                    truck: { select: { transporter: true } }
                 }
             }
         }
@@ -115,21 +102,15 @@ export const getOverAllTripByAcknowledgementStatus = () =>
                 {
                     AND: [
                         {
-                            NOT: {
-                                stockPointToUnloadingPointTrip: null
-                            }
+                            NOT: { stockPointToUnloadingPointTrip: null }
                         },
                         {
-                            NOT: {
-                                loadingPointToStockPointTrip: null
-                            }
+                            NOT: { loadingPointToStockPointTrip: null }
                         }
                     ]
                 },
                 {
-                    NOT: {
-                        loadingPointToUnloadingPointTrip: null
-                    }
+                    NOT: { loadingPointToUnloadingPointTrip: null }
                 }
             ]
         },
@@ -137,16 +118,12 @@ export const getOverAllTripByAcknowledgementStatus = () =>
             stockPointToUnloadingPointTrip: {
                 include: {
                     loadingPointToStockPointTrip: {
-                        include: {
-                            truck: true
-                        }
+                        include: { truck: true }
                     }
                 }
             },
             loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: true
-                }
+                include: { truck: true }
             }
         }
     })

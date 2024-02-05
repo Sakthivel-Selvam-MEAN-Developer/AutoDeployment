@@ -1,8 +1,8 @@
-import fuelStation from './fuelStation.ts'
-
 export default {
     bunkName: 'Bharath Petroleum',
-    fuelStation: {
-        create: fuelStation
-    }
+    location: 'erode',
+    accountHolder: 'Barath',
+    accountNumber: '3642182',
+    ifsc: 'ICIC0005642',
+    accountTypeNumber: 10
 }

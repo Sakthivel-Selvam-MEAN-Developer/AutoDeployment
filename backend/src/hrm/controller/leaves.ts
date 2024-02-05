@@ -23,13 +23,13 @@ export const rejectLeaves = (req: Request, res: Response) => {
         parseInt(req.params.id as string, 10),
         req.body.employeeId,
         req.body.deniedComment
-    ).then((data: any) => {
+    ).then((data) => {
         res.status(200).json(data)
     })
 }
 
 export const approveLeaves = (req: Request, res: Response) => {
-    approvedLeaves(parseInt(req.params.id as string, 10), req.body.employeeId).then((data: any) => {
+    approvedLeaves(parseInt(req.params.id as string, 10), req.body.employeeId).then((data) => {
         res.status(200).json(data)
     })
 }

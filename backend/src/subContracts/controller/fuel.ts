@@ -6,12 +6,14 @@ import { getActiveTripByVehicle, getOnlyActiveTripByVehicle } from '../models/ov
 
 interface dataProps {
     id: number
+    fueledDate: number
+    invoiceNumber: string
     pricePerliter: number
     quantity: number
     totalprice: number
+    paymentStatus: boolean
     vehicleNumber: string
-    overallTripId: number | null
-    fuelStationId: number
+    bunkId: number
     createdAt: Date
     updatedAt: Date
 }

@@ -22,7 +22,6 @@ import pricePointRoutes from './subContracts/routes/pricePoint.ts'
 import paymentDues from './subContracts/routes/paymentDues.ts'
 import bunkRoutes from './subContracts/routes/bunk.ts'
 import fuelRoutes from './subContracts/routes/fuel.ts'
-import stationRoutes from './subContracts/routes/fuelStation.ts'
 import pointMarkerRoutes from './subContracts/routes/pricePointMarker.ts'
 import overallTrip from './subContracts/routes/overallTrip.ts'
 import accountTypeRoutes from './subContracts/routes/accountType.ts'
@@ -57,7 +56,6 @@ overallTrip(router)
 paymentDues(router)
 bunkRoutes(router)
 fuelRoutes(router)
-stationRoutes(router)
 pointMarkerRoutes(router)
 accountTypeRoutes(router)
 

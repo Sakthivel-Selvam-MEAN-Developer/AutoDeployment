@@ -11,6 +11,7 @@ import FormField from './formField'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 
 interface tripProp {
+    fuelId: number
     id: number
     number: string
     loadingPoint: string
@@ -21,6 +22,7 @@ interface tripProp {
     invoiceNumber: string
     fuelInvoiceNumber: string
     date: number
+    location: string
 }
 interface dataProp {
     name: string
@@ -65,22 +67,22 @@ const TransporterDues: React.FC = () => {
                                             <b>{list.number}</b>
                                         </Typography>
                                         <Typography sx={style}>
-                                            {list.loadingPoint} - {list.unloadingPoint}
+                                            {list.type !== 'fuel pay'
+                                                ? list.loadingPoint + ' - ' + list.unloadingPoint
+                                                : list.location}
                                         </Typography>
                                         <Typography sx={style}>{list.type} </Typography>
                                         <Typography sx={style}>{list.payableAmount} </Typography>
-                                        {list.type !== 'fuel pay' && (
-                                            <Typography sx={style}>{list.invoiceNumber}</Typography>
-                                        )}
-                                        {list.type !== 'fuel pay' && (
-                                            <Typography sx={style}>
-                                                {epochToMinimalDate(list.date)}
-                                            </Typography>
-                                        )}
+                                        <Typography sx={style}>{list.invoiceNumber}</Typography>
+                                        <Typography sx={style}>
+                                            {epochToMinimalDate(list.date)}
+                                        </Typography>
                                         <FormField
                                             setRefresh={setRefresh}
                                             refresh={refresh}
                                             id={list.id}
+                                            type={list.type}
+                                            fuelId={list.fuelId}
                                         />
                                     </AccordionDetails>
                                 )

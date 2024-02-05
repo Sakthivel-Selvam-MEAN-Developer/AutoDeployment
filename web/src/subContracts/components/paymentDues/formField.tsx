@@ -7,8 +7,16 @@ interface formProps {
     setRefresh: React.Dispatch<React.SetStateAction<boolean>>
     refresh: boolean
     id: number
+    fuelId: number
+    type: string
 }
-const FormField: React.FC<formProps> = ({ setRefresh, refresh, id }): ReactElement => {
+const FormField: React.FC<formProps> = ({
+    setRefresh,
+    refresh,
+    id,
+    type,
+    fuelId
+}): ReactElement => {
     const [transactionId, setTransactionId] = useState('')
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -16,7 +24,7 @@ const FormField: React.FC<formProps> = ({ setRefresh, refresh, id }): ReactEleme
         const formattedDays = form.paymentDate.value.split('/')
         const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
         const paymentDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
-        updatePaymentDues({ id, transactionId, paidAt: paymentDate }).then(() => {
+        updatePaymentDues({ id, transactionId, paidAt: paymentDate, type, fuelId }).then(() => {
             setRefresh(!refresh)
             setTransactionId('')
         })

@@ -14,15 +14,18 @@ const fuelLogics = async (fuel: any, trip: any, bunkname: string, vehicleNumber:
                 name: tripDetails.truck.transporter.name,
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                payableAmount: (tripDetails.totalTransporterAmount * 70) / 100 - fuel.totalprice,
+                payableAmount: parseFloat(
+                    ((tripDetails.totalTransporterAmount * 70) / 100 - fuel.totalprice).toFixed(2)
+                ),
                 overallTripId: trip.id,
                 vehicleNumber
             },
             {
                 name: bunkname,
                 type: 'fuel pay',
+                fuelId: fuel.id,
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                payableAmount: fuel.totalprice,
+                payableAmount: parseFloat(fuel.totalprice.toFixed(2)),
                 overallTripId: trip.id,
                 vehicleNumber
             }
@@ -40,12 +43,14 @@ export function fuelDues(
     vehicleNumber: string,
     fuel: {
         id: number
+        fueledDate: number
+        invoiceNumber: string
         pricePerliter: number
         quantity: number
         totalprice: number
+        paymentStatus: boolean
         vehicleNumber: string
-        overallTripId: number | null
-        fuelStationId: number
+        bunkId: number
         createdAt: Date
         updatedAt: Date
     }

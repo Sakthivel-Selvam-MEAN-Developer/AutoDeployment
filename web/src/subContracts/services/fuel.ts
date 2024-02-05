@@ -5,7 +5,7 @@ interface fuelProps {
     pricePerliter: number
     quantity: number
     totalprice: number
-    fuelStationId: number
+    bunkId: number
 }
 export const createFuel = (data: fuelProps, bunkname: string) =>
     axiosInstance

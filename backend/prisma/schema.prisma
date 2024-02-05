@@ -258,10 +258,10 @@ model transporter {
   accountHolder       String
   accountNumber       String   @unique
   ifsc                String
+  accountTypeNumber   Int
   createdAt           DateTime @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime @updatedAt @db.Timestamptz(6)
   trucks              truck[]
-  accountTypeNumber   Int
 
   @@schema("subContract")
 }
@@ -426,24 +426,16 @@ model loadingPointToUnloadingPointTrip {
 }
 
 model bunk {
-  id          Int           @id @default(autoincrement())
-  bunkName    String
-  // contactNumber BigInt
-  createdAt   DateTime      @default(now()) @db.Timestamptz(6)
-  updatedAt   DateTime      @updatedAt @db.Timestamptz(6)
-  fuelStation fuelStation[]
-
-  @@schema("subContract")
-}
-
-model fuelStation {
-  id        Int      @id @default(autoincrement())
-  location  String
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @db.Timestamptz(6)
-  fuel      fuel[]
-  bunkId    Int
-  bunk      bunk     @relation(fields: [bunkId], references: [id])
+  id                Int      @id @default(autoincrement())
+  bunkName          String
+  location          String
+  accountHolder     String
+  accountNumber     String   @unique
+  ifsc              String
+  accountTypeNumber Int
+  createdAt         DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime @updatedAt @db.Timestamptz(6)
+  fuel              fuel[]
 
   @@schema("subContract")
 }
@@ -457,12 +449,12 @@ model fuel {
   totalprice    Float        @db.DoublePrecision
   paymentStatus Boolean      @default(false)
   vehicleNumber String
-  fuelStationId Int
-  fuelStation   fuelStation  @relation(fields: [fuelStationId], references: [id])
-  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime     @default(now()) @db.Timestamptz(6)
+  bunk          bunk         @relation(fields: [bunkId], references: [id])
+  bunkId        Int
   overallTrip   overallTrip? @relation(fields: [overallTripId], references: [id])
   overallTripId Int?
+  createdAt     DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime     @default(now()) @db.Timestamptz(6)
 
   @@schema("subContract")
 }
@@ -503,6 +495,7 @@ model paymentDues {
   name          String
   vehicleNumber String
   dueDate       Int
+  fuelId        Int?
   type          String
   status        Boolean      @default(false)
   payableAmount Float        @db.DoublePrecision

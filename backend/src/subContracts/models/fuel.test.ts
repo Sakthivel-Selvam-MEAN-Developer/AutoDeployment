@@ -10,7 +10,6 @@ import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
-import { create as createStation } from './fuelStation.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import { create as createOverAllTrip } from './overallTrip.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
@@ -22,7 +21,6 @@ import seedTruck from '../seed/truck.ts'
 import seedFuel from '../seed/fuel.ts'
 import seedBunk from '../seed/bunk.ts'
 import seedBunkWithoutDep from '../seed/bunkWithoutDep.ts'
-import seedStation from '../seed/fuelStation.ts'
 
 describe('Fuel model', () => {
     test('should able to create', async () => {
@@ -51,10 +49,9 @@ describe('Fuel model', () => {
         })
         const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
         const bunk = await create(seedBunk)
-        const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
         await createFuel({
             ...seedFuel,
-            fuelStationId: fuelStation.id,
+            bunkId: bunk.id,
             overallTripId: overAllTrip.id
         })
         const actual = await getAllFuel()
@@ -63,10 +60,9 @@ describe('Fuel model', () => {
     })
     test('should able to get fuel without any tripId', async () => {
         const bunk = await create(seedBunkWithoutDep)
-        const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
         await createFuel({
             ...seedFuel,
-            fuelStationId: fuelStation.id
+            bunkId: bunk.id
         })
         const actual = await getFuelWithoutTrip(seedFuel.vehicleNumber)
         expect(actual?.vehicleNumber).toBe(seedFuel.vehicleNumber)
@@ -78,10 +74,9 @@ describe('Fuel model', () => {
             location: 'salem'
         })
         const bunk = await create(seedBunkWithoutDep)
-        const fuelStation = await createStation({ ...seedStation, bunkId: bunk.id })
         const fuel = await createFuel({
             ...seedFuel,
-            fuelStationId: fuelStation.id
+            bunkId: bunk.id
         })
         expect(fuel.overallTripId).toBe(null)
 

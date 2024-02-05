@@ -9,7 +9,7 @@ const Fuel: React.FC = (): ReactElement => {
     const navigate = useNavigate()
     const { handleSubmit, control, watch } = useForm<FieldValues>()
     const [totalPrice, setTotalPrice] = useState<number>(0)
-    const [fuelStationId, setFuelStationId] = useState(0)
+    const [bunkId, setBunkId] = useState(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const quantity = watch('quantity')
     const pricePerliter = watch('pricePerliter')
@@ -18,7 +18,7 @@ const Fuel: React.FC = (): ReactElement => {
     }, [quantity, pricePerliter])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (
-            data.fuelStationId !== undefined &&
+            data.bunkId !== undefined &&
             data.vehicleNumber !== undefined &&
             data.fuelDate !== undefined &&
             data.pricePerliter !== undefined &&
@@ -33,7 +33,7 @@ const Fuel: React.FC = (): ReactElement => {
                 pricePerliter: parseFloat(pricePerliterFloat),
                 quantity: parseFloat(quantityFloat),
                 totalprice: parseFloat(totalpriceFloat),
-                fuelStationId: fuelStationId,
+                bunkId: bunkId,
                 fueledDate: data.fuelDate.unix(),
                 invoiceNumber: data.invoiceNumber
             }
@@ -43,11 +43,7 @@ const Fuel: React.FC = (): ReactElement => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FuelFormFields
-                    control={control}
-                    fuelStationId={setFuelStationId}
-                    totalPrice={totalPrice}
-                />
+                <FuelFormFields control={control} setBunkId={setBunkId} totalPrice={totalPrice} />
                 <SubmitButton name="Add Fuel" type="submit" />
             </form>
             <SuccessDialog

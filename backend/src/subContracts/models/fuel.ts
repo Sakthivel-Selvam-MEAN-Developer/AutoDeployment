@@ -13,13 +13,9 @@ export const getFuelWithoutTrip = (vehicleNumber: string) =>
             overallTripId: null
         },
         include: {
-            fuelStation: {
+            bunk: {
                 select: {
-                    bunk: {
-                        select: {
-                            bunkName: true
-                        }
-                    }
+                    bunkName: true
                 }
             }
         }
@@ -36,5 +32,25 @@ export const updateFuelWithTripId = (data: dataProps) =>
         },
         data: {
             overallTripId: data.overallTripId
+        }
+    })
+
+export const getFuelDetailsWithoutTrip = () =>
+    prisma.fuel.findMany({
+        where: {
+            paymentStatus: false
+        },
+        include: {
+            bunk: true
+        }
+    })
+
+export const updateFuelStatus = (fuelId: number) =>
+    prisma.fuel.update({
+        where: {
+            id: fuelId
+        },
+        data: {
+            paymentStatus: true
         }
     })
