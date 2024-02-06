@@ -12,18 +12,16 @@ const ListAllReport: React.FC = (): ReactElement => {
     const [cementCompanyId, setCementCompanyId] = useState<number>(0)
     const [transporterId, setTransporterId] = useState(0)
     const [loadingPointId, setLoadingPointId] = useState(0)
-    const [skipNumber, setskipNumber] = useState(1)
+    const [skipNumber, setskipNumber] = useState(0)
     useEffect(() => {
         getOverallTrip().then((data) => {
-            setListoverallTrip(data),
-                setTripWithPagination(() => {
-                    return data.slice(0, 1)
-                })
+            setListoverallTrip(data), setTripWithPagination(data)
         })
     }, [])
     useEffect(() => {
-        const value = skipNumber - 1
-        const Trip = listoverallTrip.slice(value, value + 1)
+        const value = skipNumber * 2
+        console.log(value)
+        const Trip = listoverallTrip.slice(value, value + 2)
         setTripWithPagination(Trip)
     }, [skipNumber, listoverallTrip])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {

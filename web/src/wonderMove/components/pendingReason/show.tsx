@@ -5,7 +5,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { useNavigate } from 'react-router-dom'
 interface PendingStop {
     number: string
     _count: number
@@ -14,7 +13,6 @@ interface Props {
     pendingStops: PendingStop[]
 }
 const PendingStops: React.FC<Props> = ({ pendingStops }) => {
-    const navigate = useNavigate()
     const sortedStops = [...pendingStops].sort((a, b) => b._count - a._count)
     return (
         <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
@@ -29,7 +27,6 @@ const PendingStops: React.FC<Props> = ({ pendingStops }) => {
                 <TableBody>
                     {sortedStops.map((row, index) => (
                         <TableRow
-                            onClick={() => navigate(`details/${row.number}`)}
                             key={index}
                             style={{ cursor: 'pointer' }}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

@@ -1,5 +1,4 @@
 import Table from '@mui/material/Table'
-import React from 'react'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
@@ -8,6 +7,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { Pagination, Stack } from '@mui/material'
+import exportFromJSON from 'export-from-json'
 
 interface Row {
     freightAmount: number
@@ -66,6 +66,7 @@ function getTableHead() {
         </TableHead>
     )
 }
+
 const getCells = (data: Row, num: number, type: string | false) => {
     return (
         <>
@@ -133,11 +134,65 @@ function getTableBody(allTrips: Props[]) {
         </TableBody>
     )
 }
+export function download(listoverallTrip: Props[]) {
+    const downloadtripData: object[] = []
+    listoverallTrip.map((row: Props) => {
+        if (
+            row.loadingPointToStockPointTrip !== null &&
+            row.loadingPointToStockPointTrip !== undefined
+        ) {
+            downloadCSV(
+                downloadtripData,
+                row.loadingPointToStockPointTrip,
+                row.paymentDues.length !== 0 ? checkPaymentStatus(row.paymentDues) : false,
+                listoverallTrip.length
+            )
+        }
+        if (
+            row.loadingPointToUnloadingPointTrip !== null &&
+            row.loadingPointToUnloadingPointTrip !== undefined
+        ) {
+            downloadCSV(
+                downloadtripData,
+                row.loadingPointToUnloadingPointTrip,
+                row.paymentDues.length !== 0 ? checkPaymentStatus(row.paymentDues) : false,
+                listoverallTrip.length
+            )
+        }
+    })
+}
+const downloadCSV = (
+    downloadtripData: object[],
+    tripData: Row,
+    type: string | false,
+    num: number
+) => {
+    const addData = {
+        vehicleNumber: tripData.truck.vehicleNumber,
+        startDate: epochToMinimalDate(tripData.startDate),
+        transporter: tripData.truck.transporter.name,
+        loadingPoint: tripData.loadingPoint.name,
+        freightAmount: tripData.freightAmount,
+        tansporterAmount: tripData.transporterAmount,
+        totalFreightAmount: tripData.totalFreightAmount,
+        totalTansporterAmount: tripData.totalTransporterAmount,
+        tripStatus: tripData.tripStatus === false ? 'Running' : 'completed',
+        paymentStatus: type === false ? 'pending' : type
+    }
+    downloadtripData.push(addData)
+    if (downloadtripData.length === num) {
+        const data = downloadtripData
+        const fileName = 'list of Trips'
+        const exportType = exportFromJSON.types.csv
+        exportFromJSON({ data, fileName, exportType })
+    }
+}
 const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
     return (
         <>
             <br />
             <br />
+            <button onClick={() => download(listoverallTrip)}>Download CSV</button>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 600 }} aria-label="simple table">
                     {getTableHead()}
@@ -160,7 +215,7 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
                         size="large"
                         color="primary"
                         onChange={(_e, value) => {
-                            setskipNumber(value)
+                            setskipNumber(value - 1)
                         }}
                     />
                 </Stack>
