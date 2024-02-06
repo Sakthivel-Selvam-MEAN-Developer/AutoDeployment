@@ -97,10 +97,7 @@ function getTableBody(allTrips: Props[]) {
     return (
         <TableBody>
             {allTrips.map((row: Props, index) => {
-                if (
-                    row.loadingPointToStockPointTrip !== null &&
-                    row.loadingPointToStockPointTrip !== undefined
-                ) {
+                if (loadingToStock(row)) {
                     return (
                         <TableRow key={index} sx={style}>
                             {getCells(
@@ -113,10 +110,7 @@ function getTableBody(allTrips: Props[]) {
                         </TableRow>
                     )
                 }
-                if (
-                    row.loadingPointToUnloadingPointTrip !== null &&
-                    row.loadingPointToUnloadingPointTrip !== undefined
-                ) {
+                if (loadingToUnloading(row)) {
                     return (
                         <TableRow key={index} sx={style}>
                             {getCells(
@@ -133,6 +127,13 @@ function getTableBody(allTrips: Props[]) {
         </TableBody>
     )
 }
+const style = {
+    display: 'flex',
+    bottom: '0',
+    width: '90%',
+    justifyContent: 'center',
+    marginBottom: '30px'
+}
 const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
     return (
         <>
@@ -144,16 +145,7 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
                     {getTableBody(listoverallTrip)}
                 </Table>
             </TableContainer>
-            <div
-                style={{
-                    display: 'flex',
-                    position: 'absolute',
-                    bottom: '0',
-                    width: '90%',
-                    justifyContent: 'center',
-                    marginBottom: '30px'
-                }}
-            >
+            <div style={{ ...style, position: 'absolute' }}>
                 <Stack spacing={10}>
                     <Pagination
                         count={10}
@@ -170,3 +162,15 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
 }
 
 export default ListAllDetails
+function loadingToStock(row: Props) {
+    return (
+        row.loadingPointToStockPointTrip !== null && row.loadingPointToStockPointTrip !== undefined
+    )
+}
+
+function loadingToUnloading(row: Props) {
+    return (
+        row.loadingPointToUnloadingPointTrip !== null &&
+        row.loadingPointToUnloadingPointTrip !== undefined
+    )
+}

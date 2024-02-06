@@ -2,11 +2,12 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (data: any) => prisma.paymentDues.createMany({ data })
 
-export const getOnlyActiveDuesByName = (dueDate: number) =>
+export const getOnlyActiveDuesByName = (dueDate: number, status: boolean) =>
     prisma.paymentDues.groupBy({
         by: ['name'],
         where: {
             status: false,
+            NEFTStatus: status,
             dueDate: {
                 lte: dueDate
             }
@@ -19,10 +20,11 @@ export const getOnlyActiveDuesByName = (dueDate: number) =>
         }
     })
 
-export const findTripWithActiveDues = (dueDate: number) =>
+export const findTripWithActiveDues = (dueDate: number, status: boolean) =>
     prisma.paymentDues.findMany({
         where: {
             status: false,
+            NEFTStatus: status,
             dueDate: {
                 lte: dueDate
             }
@@ -34,7 +36,8 @@ export const findTripWithActiveDues = (dueDate: number) =>
             type: true,
             name: true,
             status: true,
-            vehicleNumber: true
+            vehicleNumber: true,
+            fuelId: true
         }
     })
 interface dataProps {
@@ -80,5 +83,16 @@ export const getDueByOverallTripId = (overallTripId: number) =>
         },
         select: {
             payableAmount: true
+        }
+    })
+export const updatePaymentNEFTStatus = (dueId: number[]) =>
+    prisma.paymentDues.updateMany({
+        where: {
+            id: {
+                in: dueId
+            }
+        },
+        data: {
+            NEFTStatus: true
         }
     })

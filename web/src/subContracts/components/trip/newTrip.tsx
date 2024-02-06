@@ -39,12 +39,7 @@ const NewTrip: React.FC = () => {
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        if (
-            truckId !== 0 &&
-            data.invoiceNumber !== '' &&
-            data.filledLoad !== '' &&
-            freightAmount !== 0
-        ) {
+        if (checkCondition(truckId, data, freightAmount)) {
             const filledLoad = parseFloat(data.filledLoad).toFixed(2)
             const freightAmountFloat = freightAmount.toFixed(2)
             const transporterAmountFloat = transporterAmount.toFixed(2)
@@ -65,13 +60,10 @@ const NewTrip: React.FC = () => {
                 wantFuel: fuel
             }
             if (category === 'Stock Point')
-                createStockPointTrip({ ...details, stockPointId: stockPointId }).then(() =>
-                    navigate('/sub/trip')
-                )
+                createStockPointTrip({ ...details, stockPointId: stockPointId })
             else if (category === 'Unloading Point')
-                createTrip({ ...details, unloadingPointId: unloadingPointId }).then(() =>
-                    navigate('/sub/trip')
-                )
+                createTrip({ ...details, unloadingPointId: unloadingPointId })
+            navigate('/sub/trip')
         } else alert('All fields Required')
     }
     useEffect(() => {
@@ -118,3 +110,8 @@ const NewTrip: React.FC = () => {
     )
 }
 export default NewTrip
+function checkCondition(truckId: number, data: FieldValues, freightAmount: number) {
+    return (
+        truckId !== 0 && data.invoiceNumber !== '' && data.filledLoad !== '' && freightAmount !== 0
+    )
+}

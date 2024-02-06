@@ -59,6 +59,7 @@ const mockTripDuesData = [
         payableAmount: 20000,
         overallTripId: 1,
         type: 'initial pay',
+        fuelId: null,
         name: 'Barath Logistics Pvt Ltd',
         status: false,
         vehicleNumber: 'TN93D5512'
@@ -68,6 +69,7 @@ const mockTripDuesData = [
         payableAmount: 2300,
         overallTripId: 2,
         type: 'fuel pay',
+        fuelId: 1,
         name: 'Barath Petroleum',
         status: false,
         vehicleNumber: 'TN29B3246'
@@ -77,6 +79,7 @@ const mockTripDuesData = [
         payableAmount: 27940,
         overallTripId: 2,
         type: 'initial pay',
+        fuelId: null,
         name: 'Deepak Logistics Pvt Ltd',
         status: false,
         vehicleNumber: 'TN29B3246'
@@ -185,7 +188,6 @@ const mockGroupedDueDetails = [
             {
                 bunkName: 'Barath Petroleum',
                 location: 'Erode',
-                accountHolder: 'Barath',
                 accountNumber: '156038718',
                 ifsc: 'HDFC0005627',
                 accountTypeNumber: 11
@@ -257,7 +259,6 @@ const mockBunkAccountData = [
     {
         bunkName: 'Barath Petroleum',
         location: 'Erode',
-        accountHolder: 'Barath',
         accountNumber: '156038718',
         ifsc: 'HDFC0005627',
         accountTypeNumber: 11
@@ -316,10 +317,10 @@ describe('Payment Due Controller', () => {
         mockgetOnlyActiveDuesByName.mockResolvedValue(mockGroupedDuesData)
         mockfindTripWithActiveDues.mockResolvedValue(mockTripDuesData)
         mockOverAllTrip.mockResolvedValue(mockOverallTripData)
+        mockFuelDetails.mockResolvedValue(mockFuelData)
         mockTransporterAccountDetails.mockResolvedValue(mockTransporterAccountData)
         mockBunkAccountDetails.mockResolvedValue(mockBunkAccountData)
-        mockFuelDetails.mockResolvedValue(mockFuelData)
-        await supertest(app).get('/api/payment-dues/1706340529').expect(200)
+        await supertest(app).get('/api/payment-dues/1706340529/true').expect(200)
         const actual = await groupDataByName(
             mockGroupedDuesData,
             mockTripDuesData,

@@ -3,7 +3,8 @@ import {
     create,
     findTripWithActiveDues,
     getOnlyActiveDuesByName,
-    updatePaymentDues
+    updatePaymentDues,
+    updatePaymentNEFTStatus
 } from '../models/paymentDues.ts'
 import { getOverallTrip } from '../models/overallTrip.ts'
 import { getFuelDetailsWithoutTrip, updateFuelStatus } from '../models/fuel.ts'
@@ -31,7 +32,7 @@ export const createPaymentDues = (req: Request, res: Response) => {
         .catch(() => res.status(500))
 }
 function getFuelPayDate(fuelId: string, fuelDetails: any[]) {
-    const fuelTrip = fuelDetails.find((fuel) => fuel.fuelId === fuelId)
+    const fuelTrip = fuelDetails.find((fuel) => fuel.id === fuelId)
     if (fuelTrip) {
         return {
             date: fuelTrip.fueledDate,
@@ -134,10 +135,10 @@ export const groupDataByName = async (
     })
 
 export const listOnlyActiveTransporterDues = async (req: Request, res: Response) => {
-    const { duedate } = req.params
-    const duesData = await getOnlyActiveDuesByName(parseInt(duedate))
+    const { duedate, status } = req.params
+    const duesData = await getOnlyActiveDuesByName(parseInt(duedate), status === 'true')
     const name = duesData.map((data) => data.name)
-    const tripsData = await findTripWithActiveDues(parseInt(duedate))
+    const tripsData = await findTripWithActiveDues(parseInt(duedate), status === 'true')
     const tripDetails = await getOverallTrip()
     const fuelDetails = await getFuelDetailsWithoutTrip()
     const transporterAccounts = await getTransporterAccountByName(name)
@@ -152,7 +153,7 @@ export const listOnlyActiveTransporterDues = async (req: Request, res: Response)
         bunkAccount
     )
         .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+        .catch(() => res.sendStatus(500))
 }
 
 export const updatePayment = (req: Request, res: Response) => {
@@ -161,5 +162,11 @@ export const updatePayment = (req: Request, res: Response) => {
             if (req.body.type === 'fuel pay') await updateFuelStatus(req.body.fuelId)
         })
         .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+        .catch(() => res.sendStatus(500))
+}
+
+export const updateNEFTStatus = (req: Request, res: Response) => {
+    updatePaymentNEFTStatus(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.sendStatus(500))
 }

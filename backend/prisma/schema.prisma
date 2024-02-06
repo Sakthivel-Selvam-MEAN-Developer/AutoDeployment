@@ -498,6 +498,7 @@ model paymentDues {
   fuelId        Int?
   type          String
   status        Boolean      @default(false)
+  NEFTStatus    Boolean      @default(false)
   payableAmount Float        @db.DoublePrecision
   transactionId String?
   paidAt        Int?

@@ -59,6 +59,7 @@ export function fuelDues(
         {
             name: bunkname,
             type: 'fuel pay',
+            fuelId: fuel.id,
             vehicleNumber,
             dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
             payableAmount: fuel.totalprice

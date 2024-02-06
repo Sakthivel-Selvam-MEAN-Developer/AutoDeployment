@@ -13,12 +13,13 @@ export const AcknowledgementLocation = (
             {loadingPointToUnloadingPoint(loadingPoint, unloadingPoint)}
             {InvoiceNumber(invoiceNumber, filledLoad)}
             <p style={{ display: 'flex' }}>
-                <span style={style}>Date </span> <span>: {epochToMinimalDate(date)}</span>
+                <span style={{ display: 'flex', width: '50px', fontWeight: '600' }}>Date </span>
+                <span>: {epochToMinimalDate(date)}</span>
             </p>
         </div>
     )
 }
-function InvoiceNumber(invoiceNumber: string, filledLoad: number) {
+const InvoiceNumber = (invoiceNumber: string, filledLoad: number) => {
     return (
         <div>
             <p style={{ display: 'flex' }}>
@@ -30,8 +31,7 @@ function InvoiceNumber(invoiceNumber: string, filledLoad: number) {
         </div>
     )
 }
-
-function loadingPointToUnloadingPoint(loadingPoint: string, unloadingPoint: string) {
+const loadingPointToUnloadingPoint = (loadingPoint: string, unloadingPoint: string) => {
     return (
         <div>
             <p style={{ display: 'flex' }}>
