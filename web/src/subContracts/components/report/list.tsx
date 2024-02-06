@@ -20,7 +20,6 @@ const ListAllReport: React.FC = (): ReactElement => {
     }, [])
     useEffect(() => {
         const value = skipNumber * 2
-        console.log(value)
         const Trip = listoverallTrip.slice(value, value + 2)
         setTripWithPagination(Trip)
     }, [skipNumber, listoverallTrip])

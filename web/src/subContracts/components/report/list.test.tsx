@@ -35,7 +35,8 @@ const mockStockTripData = [
         fuel: [],
         paymentDues: [
             {
-                type: 'initial pay'
+                type: 'initial pay',
+                status: false
             }
         ],
         loadingPointToStockPointTrip: null,
@@ -220,7 +221,7 @@ describe('Report Test', () => {
         expect(screen.getByText('Transporter')).toBeInTheDocument()
         expect(screen.getByText('Barath Logistics')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
-        expect(screen.getByText('initial pay')).toBeInTheDocument()
+        expect(screen.getByText('Advance Pending')).toBeInTheDocument()
 
         expect(mockGetOverallTrip).toHaveBeenCalledTimes(3)
         expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(1)

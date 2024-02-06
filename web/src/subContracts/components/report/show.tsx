@@ -33,14 +33,20 @@ interface Row {
     filledLoad: string
     startDate: number
 }
+interface fuel {
+    quantity: number
+    totalprice: number
+}
 interface Props {
     acknowledgementStatus: boolean
     loadingPointToStockPointTrip: Row
     loadingPointToUnloadingPointTrip: Row
     paymentDues: paymentType[]
+    fuel: fuel[]
 }
 interface paymentType {
     type: string
+    status: boolean
 }
 interface listoverallTripProps {
     listoverallTrip: Props[]
@@ -54,12 +60,15 @@ function getTableHead() {
                 <TableCell>#</TableCell>
                 <TableCell align="left">Vehicle Number</TableCell>
                 <TableCell align="left">Start Date</TableCell>
+                <TableCell align="left">Invoice Number</TableCell>
                 <TableCell align="left">Transporter</TableCell>
                 <TableCell align="left">Loading Point</TableCell>
-                <TableCell align="left">Freight Amount</TableCell>
-                <TableCell align="left">Tansporter Amount</TableCell>
+                <TableCell align="left">Freight Rate</TableCell>
+                <TableCell align="left">Tansporter Rate</TableCell>
                 <TableCell align="left">Total Freight Amount</TableCell>
                 <TableCell align="left">Total Tansporter Amount</TableCell>
+                <TableCell align="left">Disel Quantity </TableCell>
+                <TableCell align="left">Disel Amount</TableCell>
                 <TableCell align="left">Trip Status</TableCell>
                 <TableCell align="left">Payment Status</TableCell>
             </TableRow>
@@ -67,11 +76,12 @@ function getTableHead() {
     )
 }
 
-const getCells = (data: Row, num: number, type: string | false) => {
+const getCells = (data: Row, num: number, type: string, details: Props) => {
     return (
         <>
             <TableCell> {num} </TableCell>
             <TableCell align="left">{data.truck.vehicleNumber}</TableCell>
+            <TableCell align="left">{data.invoiceNumber}</TableCell>
             <TableCell align="left">{epochToMinimalDate(data.startDate)}</TableCell>
             <TableCell align="left">{data.truck.transporter.name}</TableCell>
             <TableCell align="left">{data.loadingPoint.name}</TableCell>
@@ -80,17 +90,34 @@ const getCells = (data: Row, num: number, type: string | false) => {
             <TableCell align="left">{data.totalFreightAmount}</TableCell>
             <TableCell align="left">{data.totalTransporterAmount}</TableCell>
             <TableCell align="left">
-                {data.tripStatus === false ? 'Running' : 'completed'}
+                {details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity}
             </TableCell>
-            <TableCell align="left">{type === false ? 'pending' : type}</TableCell>
+            <TableCell align="left">
+                {details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].totalprice}
+            </TableCell>
+            <TableCell align="left">
+                {data.tripStatus === false
+                    ? 'Running'
+                    : details.acknowledgementStatus === false
+                      ? 'Waiting For Acknowledgement'
+                      : 'completed'}
+            </TableCell>
+            <TableCell align="left">{type}</TableCell>
         </>
     )
 }
 const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
-    const a = arrayOfDues.filter((due) => {
-        return due.type === 'final pay'
+    const initial = arrayOfDues.filter((due) => {
+        return due.type === 'initial pay' && due.status === true
     })
-    return a.length !== 1 ? 'initial pay' : 'final pay'
+    const final = arrayOfDues.filter((due) => {
+        return due.type === 'final pay' && due.status === true
+    })
+    return initial.length !== 1
+        ? 'Advance Pending'
+        : final.length === 1
+          ? 'GST Pending'
+          : 'Balance Pending'
 }
 function getTableBody(allTrips: Props[]) {
     let number = 0
@@ -104,9 +131,8 @@ function getTableBody(allTrips: Props[]) {
                             {getCells(
                                 row.loadingPointToStockPointTrip,
                                 ++number,
-                                row.paymentDues.length !== 0
-                                    ? checkPaymentStatus(row.paymentDues)
-                                    : false
+                                checkPaymentStatus(row.paymentDues),
+                                row
                             )}
                         </TableRow>
                     )
@@ -117,9 +143,8 @@ function getTableBody(allTrips: Props[]) {
                             {getCells(
                                 row.loadingPointToUnloadingPointTrip,
                                 ++number,
-                                row.paymentDues.length !== 0
-                                    ? checkPaymentStatus(row.paymentDues)
-                                    : false
+                                checkPaymentStatus(row.paymentDues),
+                                row
                             )}
                         </TableRow>
                     )
@@ -139,7 +164,8 @@ export function download(listoverallTrip: Props[]) {
                 downloadtripData,
                 row.loadingPointToStockPointTrip,
                 row.paymentDues.length !== 0 ? checkPaymentStatus(row.paymentDues) : false,
-                listoverallTrip.length
+                listoverallTrip.length,
+                row
             )
         }
         if (
@@ -150,7 +176,8 @@ export function download(listoverallTrip: Props[]) {
                 downloadtripData,
                 row.loadingPointToUnloadingPointTrip,
                 row.paymentDues.length !== 0 ? checkPaymentStatus(row.paymentDues) : false,
-                listoverallTrip.length
+                listoverallTrip.length,
+                row
             )
         }
     })
@@ -159,10 +186,12 @@ const downloadCSV = (
     downloadtripData: object[],
     tripData: Row,
     type: string | false,
-    num: number
+    num: number,
+    details: Props
 ) => {
     const addData = {
         vehicleNumber: tripData.truck.vehicleNumber,
+        invoiceNumber: tripData.invoiceNumber,
         startDate: epochToMinimalDate(tripData.startDate),
         transporter: tripData.truck.transporter.name,
         loadingPoint: tripData.loadingPoint.name,
@@ -170,8 +199,15 @@ const downloadCSV = (
         tansporterAmount: tripData.transporterAmount,
         totalFreightAmount: tripData.totalFreightAmount,
         totalTansporterAmount: tripData.totalTransporterAmount,
-        tripStatus: tripData.tripStatus === false ? 'Running' : 'completed',
-        paymentStatus: type === false ? 'pending' : type
+        diselQuantity: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity,
+        diselAmount: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].totalprice,
+        tripStatus:
+            tripData.tripStatus === false
+                ? 'Running'
+                : details.acknowledgementStatus === false
+                  ? 'Waiting For Acknowledgement'
+                  : 'completed',
+        paymentStatus: type
     }
     downloadtripData.push(addData)
     if (downloadtripData.length === num) {
@@ -226,7 +262,6 @@ function loadingToStock(row: Props) {
         row.loadingPointToStockPointTrip !== null && row.loadingPointToStockPointTrip !== undefined
     )
 }
-
 function loadingToUnloading(row: Props) {
     return (
         row.loadingPointToUnloadingPointTrip !== null &&
