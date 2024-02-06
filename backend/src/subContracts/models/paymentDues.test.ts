@@ -29,7 +29,7 @@ describe('Payment-Due model', () => {
     test('should able to create', async () => {
         await create(seedPaymentDue)
         const dueDate = 1706034600
-        const actual = await findTripWithActiveDues(dueDate)
+        const actual = await findTripWithActiveDues(dueDate, false)
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
     })
@@ -83,7 +83,7 @@ describe('Payment-Due model', () => {
         await create(seedPaymentDue)
         const dueDate = 1706034600
         await create({ ...seedPaymentDue, payableAmount: 30000, overallTripId: id })
-        const groupDues = await getOnlyActiveDuesByName(dueDate)
+        const groupDues = await getOnlyActiveDuesByName(dueDate, false)
         expect(groupDues.length).toBe(1)
         expect(groupDues[0].name).toBe(seedPaymentDue.name)
         // eslint-disable-next-line no-underscore-dangle
@@ -92,7 +92,7 @@ describe('Payment-Due model', () => {
     test('should update the payment dues', async () => {
         await create(seedPaymentDue)
         const dueDate = 1706034600
-        const actual = await findTripWithActiveDues(dueDate)
+        const actual = await findTripWithActiveDues(dueDate, false)
         const wantToUpdate = {
             id: actual[0].id,
             transactionId: 'abc',

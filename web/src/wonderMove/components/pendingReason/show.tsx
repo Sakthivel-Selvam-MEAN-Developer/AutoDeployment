@@ -28,7 +28,6 @@ const PendingStops: React.FC<Props> = ({ pendingStops }) => {
                     {sortedStops.map((row, index) => (
                         <TableRow
                             key={index}
-                            style={{ cursor: 'pointer' }}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell> {index + 1} </TableCell>

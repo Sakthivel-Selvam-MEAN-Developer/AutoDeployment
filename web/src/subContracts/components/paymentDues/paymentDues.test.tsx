@@ -1,7 +1,7 @@
 import { vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import TransporterDues from './transporterDues'
+import TransporterDues from './paymentDues'
 import userEvent from '@testing-library/user-event'
 
 const mockGroupedDuesByName = vi.fn()
@@ -17,6 +17,15 @@ const mockPaymentDuesData = [
             count: 1,
             totalPayableAmount: 138768
         },
+        bankDetails: [
+            {
+                name: 'Barath Logistics Pvt Ltd',
+                accountNumber: '43534523',
+                ifsc: 'HDFC1234',
+                address: 'Goa',
+                accountTypeNumber: 10
+            }
+        ],
         tripDetails: [
             {
                 id: 1,
