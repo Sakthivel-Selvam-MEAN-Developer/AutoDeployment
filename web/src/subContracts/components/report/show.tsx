@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import { Pagination, Stack } from '@mui/material'
+import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 
 interface Row {
@@ -192,7 +192,11 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
         <>
             <br />
             <br />
-            <button onClick={() => download(listoverallTrip)}>Download CSV</button>
+            <div style={{ float: 'right' }}>
+                <Button onClick={() => download(listoverallTrip)} variant="contained">
+                    Download CSV
+                </Button>
+            </div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 600 }} aria-label="simple table">
                     {getTableHead()}
