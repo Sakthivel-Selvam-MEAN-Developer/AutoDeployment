@@ -12,31 +12,36 @@ import {
     create as createShortageQuantity,
     getShortageQuantityByOverallTripId
 } from '../models/shortageQuantity.ts'
-import { getTransporterByName } from '../models/transporter.ts'
+import { getPercentageByTransporter } from '../models/transporter.ts'
+import gstDueLogic from '../domain/gstDueLogic.ts'
 
 export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, res: Response) => {
     getOverAllTripByAcknowledgementStatus()
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
+const getTransporterName = (overallTrip: any) => {
+    let transporterName = ''
+    if (overallTrip.stockPointToUnloadingPointTrip !== null) {
+        transporterName =
+            overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
+                ? overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
+                      .transporter.name
+                : ''
+    } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
+        transporterName =
+            overallTrip.loadingPointToUnloadingPointTrip !== null
+                ? overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
+                : ''
+    }
+    return transporterName
+}
 
 export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {
     await closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
         .then(async (overallTrip) => {
-            let transporterName = ''
-            if (overallTrip.stockPointToUnloadingPointTrip !== null) {
-                transporterName =
-                    overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
-                        ? overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-                              .truck.transporter.name
-                        : ''
-            } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
-                transporterName =
-                    overallTrip.loadingPointToUnloadingPointTrip !== null
-                        ? overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
-                        : ''
-            }
-            const { tdsPercentage } = (await getTransporterByName(transporterName)) || {
+            const transporterName = getTransporterName(overallTrip)
+            const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
                 tdsPercentage: 0
             }
             const paymentDueDetails = await getDueByOverallTripId(overallTrip.id)
@@ -44,7 +49,7 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
                 overallTrip.id
             )) || { shortageAmount: 0 }
             await finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsPercentage).then(
-                (data) => createPaymentDues(data)
+                (finalDue) => createPaymentDues(finalDue)
             )
         })
         .then(() => res.sendStatus(200))
@@ -60,21 +65,69 @@ export const OverAllTripById = (req: Request, res: Response) => {
 export const closeTripById = async (req: Request, res: Response) => {
     await getOverAllTripById(req.body.overallTripId)
         .then(async (overAllTripData) => {
+            let transporterAmount
+            const transporterName = getTransporterName(overAllTripData)
+            const { gstPercentage } = (await getPercentageByTransporter(transporterName)) || {
+                gstPercentage: 0
+            }
             await createShortageQuantity(req.body)
+
             if (
                 overAllTripData &&
                 overAllTripData?.stockPointToUnloadingPointTrip !== null &&
+                overAllTripData?.loadingPointToStockPointTrip !== null &&
                 overAllTripData.stockPointToUnloadingPointTripId
             ) {
+                if (req.body.approvalStatus) {
+                    transporterAmount =
+                        overAllTripData.stockPointToUnloadingPointTrip.totalTransporterAmount +
+                        overAllTripData.loadingPointToStockPointTrip.totalTransporterAmount
+                } else {
+                    transporterAmount =
+                        (overAllTripData.stockPointToUnloadingPointTrip.transporterAmount +
+                            overAllTripData.loadingPointToStockPointTrip.transporterAmount) *
+                        (req.body.unloadedQuantity / 1000)
+                }
+                const vehicleNumber =
+                    overAllTripData.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+                        ?.truck.vehicleNumber
                 await updateUnloadWeightForStockTrip(
                     overAllTripData.stockPointToUnloadingPointTrip.id
                 )
+                if (gstPercentage !== null) {
+                    await gstDueLogic(
+                        gstPercentage,
+                        transporterAmount,
+                        transporterName,
+                        vehicleNumber,
+                        req.body.overallTripId
+                    ).then((gstDue) => createPaymentDues(gstDue))
+                }
             } else if (
                 overAllTripData &&
                 overAllTripData?.loadingPointToUnloadingPointTrip !== null &&
                 overAllTripData.loadingPointToUnloadingPointTrip
             ) {
+                if (req.body.approvalStatus) {
+                    transporterAmount =
+                        overAllTripData.loadingPointToUnloadingPointTrip.totalTransporterAmount
+                } else {
+                    transporterAmount =
+                        overAllTripData.loadingPointToUnloadingPointTrip.transporterAmount *
+                        (req.body.unloadedQuantity / 1000)
+                }
+                const vehicleNumber =
+                    overAllTripData.loadingPointToUnloadingPointTrip?.truck.vehicleNumber
                 await updateUnloadWeightforTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
+                if (gstPercentage !== null) {
+                    await gstDueLogic(
+                        gstPercentage,
+                        transporterAmount,
+                        transporterName,
+                        vehicleNumber,
+                        req.body.overallTripId
+                    ).then((gstDue) => createPaymentDues(gstDue))
+                }
             }
         })
         .then(() => res.sendStatus(200))

@@ -18,7 +18,7 @@ interface dataProps {
     updatedAt: Date
 }
 async function createDues(fuel: dataProps, trip: any, bunkname: string, vehicleNumber: string) {
-    return fuelLogics(fuel, trip, bunkname, vehicleNumber).then((dues: any) => {
+    return fuelLogics(fuel, trip, bunkname, vehicleNumber).then((dues) => {
         if (trip !== null) {
             return createPaymentDues(dues)
         }

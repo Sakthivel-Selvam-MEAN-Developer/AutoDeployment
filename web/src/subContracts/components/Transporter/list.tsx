@@ -19,7 +19,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
             ...data,
             hasGst: gst ? false : true,
             hasTds: tds ? false : true,
-            tdsPercentage: tds ? undefined : parseInt(data.tdsPercentage),
+            tdsPercentage: tds ? undefined : parseFloat(parseFloat(data.tdsPercentage).toFixed(2)),
+            gstPercentage: tds ? undefined : parseFloat(parseFloat(data.gstPercentage).toFixed(2)),
             gstNumber: tds ? undefined : data.gstNumber,
             accountTypeNumber
         }).then(() => setOpenSuccessDialog(true))

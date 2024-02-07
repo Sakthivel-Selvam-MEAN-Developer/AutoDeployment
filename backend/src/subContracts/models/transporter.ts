@@ -7,14 +7,22 @@ export const create = (
 
 export const getAllTransporter = () => prisma.transporter.findMany({})
 
-export const getTransporterByName = (name: string) =>
+export const getPercentageByTransporter = (name: string) =>
     prisma.transporter.findUnique({
         where: {
             name,
-            hasTds: true
+            OR: [
+                {
+                    hasTds: true
+                },
+                {
+                    hasGst: true
+                }
+            ]
         },
         select: {
-            tdsPercentage: true
+            tdsPercentage: true,
+            gstPercentage: true
         }
     })
 

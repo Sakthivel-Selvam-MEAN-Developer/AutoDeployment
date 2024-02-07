@@ -4,6 +4,7 @@ import GenerateForm from './generateForm'
 import PaymentDues from './paymentDues'
 import { exportFile } from './NEFTForm/exportFile.ts'
 import { updateNEFTStatus } from '../../services/paymentDues.ts'
+import GSTDues from './gstDues.tsx'
 interface TabPanelProps {
     children?: React.ReactNode
     index: number
@@ -59,6 +60,7 @@ const PaymentDuesList: React.FC = () => {
                 <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth">
                     <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Generate Form" />
                     <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Payment Dues" />
+                    <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="GST Dues" />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
@@ -83,6 +85,9 @@ const PaymentDuesList: React.FC = () => {
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <PaymentDues />
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+                <GSTDues />
             </CustomTabPanel>
         </>
     )
