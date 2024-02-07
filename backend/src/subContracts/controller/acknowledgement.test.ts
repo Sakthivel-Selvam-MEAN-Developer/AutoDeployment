@@ -1,4 +1,5 @@
 import supertest from 'supertest'
+import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
 
 const mockAllTripByAcknowledgementStatus = vi.fn()
@@ -7,6 +8,8 @@ const mockUpdateWeightForStockTrip = vi.fn()
 const mockUpdateWeightForTrip = vi.fn()
 const mockAcknowledgeStatusforOverAllTrip = vi.fn()
 const mockCreateShortageQuantity = vi.fn()
+const mockGetPercentageByTransporter = vi.fn()
+const mockcreatePaymentDues = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getOverAllTripByAcknowledgementStatus: () => mockAllTripByAcknowledgementStatus(),
@@ -25,6 +28,12 @@ vi.mock('../models/stockPointToUnloadingPoint', () => ({
 vi.mock('../models/shortageQuantity', () => ({
     create: (inputs: any) => mockCreateShortageQuantity(inputs)
 }))
+vi.mock('../models/transporter', () => ({
+    getPercentageByTransporter: (name: any) => mockGetPercentageByTransporter(name)
+}))
+vi.mock('../models/paymentDues', () => ({
+    create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs)
+}))
 
 const mockOverAllTrip = [
     {
@@ -36,7 +45,12 @@ const mockOverAllTrip = [
         loadingPointToUnloadingPointTrip: {
             id: 1,
             truck: {
-                vehicleNumber: 'TN93D5512'
+                vehicleNumber: 'TN93D5512',
+                transporter: {
+                    name: 'Muthu Logistics',
+                    hasGst: true,
+                    gstPercentage: 10
+                }
             },
             loadingPoint: {
                 id: 1,
@@ -45,7 +59,9 @@ const mockOverAllTrip = [
             unloadingPoint: {
                 id: 1,
                 name: 'Salem'
-            }
+            },
+            freightAmount: 1000,
+            transporterAmount: 900
         }
     }
 ]
@@ -53,12 +69,18 @@ const mockOverAllTripByStockIdData = {
     id: 1,
     acknowledgementStatus: false,
     stockPointToUnloadingPointTripId: null,
+    stockPointToUnloadingPointTrip: null,
     loadingPointToUnloadingPointTripId: 1,
     loadingPointToStockPointTrip: null,
     loadingPointToUnloadingPointTrip: {
         id: 1,
         truck: {
-            vehicleNumber: 'TN93D5512'
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Muthu Logistics',
+                hasGst: true,
+                gstPercentage: 10
+            }
         },
         loadingPoint: {
             id: 1,
@@ -67,7 +89,11 @@ const mockOverAllTripByStockIdData = {
         unloadingPoint: {
             id: 1,
             name: 'Salem'
-        }
+        },
+        freightAmount: 1000,
+        transporterAmount: 900,
+        totalFreightAmount: 40000,
+        totalTransporterAmount: 36000
     }
 }
 const mockOverAllTripByTripIdData = {
@@ -75,14 +101,38 @@ const mockOverAllTripByTripIdData = {
     acknowledgementStatus: false,
     stockPointToUnloadingPointTripId: 1,
     loadingPointToUnloadingPointTripId: null,
+    loadingPointToStockPointTrip: {
+        id: 1,
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Muthu Logistics'
+            }
+        },
+        loadingPoint: {
+            id: 1,
+            name: 'Salem'
+        },
+        stockPoint: {
+            id: 1,
+            name: 'Salem'
+        },
+        freightAmount: 1000,
+        transporterAmount: 900,
+        totalFreightAmount: 40000,
+        totalTransporterAmount: 36000
+    },
     loadingPointToUnloadingPointTrip: null,
     stockPointToUnloadingPointTrip: {
         id: 1,
-        truck: {
-            vehicleNumber: 'TN93D5512'
-        },
         loadingPointToStockPointTrip: {
             id: 1,
+            truck: {
+                vehicleNumber: 'TN93D5512',
+                transporter: {
+                    name: 'Muthu Logistics'
+                }
+            },
             loadingPoint: {
                 id: 1,
                 name: 'Salem'
@@ -90,16 +140,27 @@ const mockOverAllTripByTripIdData = {
             stockPoint: {
                 id: 1,
                 name: 'Salem'
-            }
+            },
+            freightAmount: 1000,
+            transporterAmount: 900,
+            totalFreightAmount: 40000,
+            totalTransporterAmount: 36000
         },
         unloadingPoint: {
             id: 1,
             name: 'Salem'
-        }
+        },
+        freightAmount: 500,
+        transporterAmount: 400,
+        totalFreightAmount: 20000,
+        totalTransporterAmount: 16000
     }
 }
 const mockUpdateData = {
     id: 1
+}
+const mockPercentageByTransporterData = {
+    gstPercentage: 10
 }
 const mockAcknowledgeStatusforAllTrip = {
     id: 12,
@@ -134,6 +195,16 @@ const mockShortageQuantityData = {
     filledLoad: 40000,
     unloadedQuantity: 39500
 }
+const mockGstDuesData = [
+    {
+        name: 'Muthu Logistics',
+        type: 'gst pay',
+        dueDate: 1707244200,
+        payableAmount: 3600,
+        overallTripId: 1,
+        vehicleNumber: 'TN93D5512'
+    }
+]
 describe('Acknowledgement Controller', () => {
     test('should able to get all vehicle number from overAllTrip', async () => {
         mockAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTrip)
@@ -150,9 +221,11 @@ describe('Acknowledgement Controller', () => {
     })
     test('should able to close trip by Id for stockTrip', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
+        mockGetPercentageByTransporter.mockResolvedValue(mockPercentageByTransporterData)
+        mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
-        mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
+        mockcreatePaymentDues.mockResolvedValue(mockGstDuesData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(2)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)

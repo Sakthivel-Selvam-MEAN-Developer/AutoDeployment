@@ -64,15 +64,18 @@ describe('Trip Test', () => {
         await userEvent.click(opt)
         const checkbox = screen.getAllByRole('checkbox')
         expect(checkbox[0]).not.toBeChecked()
-        expect(screen.getByRole('textbox', { name: 'Gst Number' })).toBeDisabled()
+        expect(screen.getByRole('textbox', { name: 'GST Number' })).toBeDisabled()
+        expect(screen.getByRole('spinbutton', { name: 'GST Percentage' })).toBeDisabled()
         await fireEvent.click(checkbox[0])
-        await userEvent.type(screen.getByLabelText('Gst Number'), 'abcd123')
+        await userEvent.type(screen.getByLabelText('GST Number'), 'abcd123')
+        await userEvent.type(screen.getByLabelText('GST Percentage'), '10')
+
         expect(screen.getByDisplayValue('abcd123')).toBeVisible()
 
         expect(checkbox[1]).not.toBeChecked()
-        expect(screen.getByRole('spinbutton', { name: 'Tds Percentage' }))
+        expect(screen.getByRole('spinbutton', { name: 'TDS Percentage' }))
         await fireEvent.click(checkbox[1])
-        await userEvent.type(screen.getByLabelText('Tds Percentage'), '11')
+        await userEvent.type(screen.getByLabelText('TDS Percentage'), '11')
         expect(screen.getByDisplayValue('11')).toBeVisible()
 
         const option = screen.getByText('Create')

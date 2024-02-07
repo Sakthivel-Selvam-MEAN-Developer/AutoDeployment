@@ -253,8 +253,9 @@ model transporter {
   address             String
   hasGst              Boolean  @default(false)
   gstNumber           String?
+  gstPercentage       Float?   @db.DoublePrecision
   hasTds              Boolean  @default(false)
-  tdsPercentage       Int?
+  tdsPercentage       Float?   @db.DoublePrecision
   accountHolder       String
   accountNumber       String   @unique
   ifsc                String

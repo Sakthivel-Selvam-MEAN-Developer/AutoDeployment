@@ -135,7 +135,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
             />
             {!tripStatus ? (
                 <div style={{ display: 'grid', alignItems: 'center', marginTop: '20px' }}>
-                    <h3 style={{ fontWeight: 'normal' }}>Close the Active Trip</h3>
+                    <h3 style={{ fontWeight: 'normal' }}>Unload the Active Trip</h3>
                     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                         <TextField
                             value={unload}
@@ -213,13 +213,13 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                             type="submit"
                             onClick={handleCloseTrip}
                         >
-                            Close Trip
+                            Unload
                         </Button>
                     </div>
                 </div>
             ) : (
                 <div>
-                    <p>Trip Closed</p>
+                    <p>Waiting for Acknowledgement...</p>
                 </div>
             )}
             {!tripDetails.acknowledgementStatus ? (
@@ -239,7 +239,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                                 type="button"
                                 onClick={() => finalDue(tripDetails.id)}
                             >
-                                Create Due
+                                Close Trip
                             </Button>
                         </div>
                     </div>
@@ -247,7 +247,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                     <p>Can add Acknowledgement Details after {epochToDate(acknowledgeDueTime)}</p>
                 ))
             ) : (
-                <p>Acknowledgement Added</p>
+                <p>Trip Closed...</p>
             )}
         </div>
     )

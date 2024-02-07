@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import {
     create,
     findTripWithActiveDues,
+    getGstDuesGroupByName,
+    getGstPaymentDues,
     getOnlyActiveDuesByName,
     updatePaymentDues,
     updatePaymentNEFTStatus
@@ -25,7 +27,21 @@ interface bunkAccountProps {
     location: string
     accountTypeNumber: number
 }
-
+interface groupedDuesProps {
+    _count: { status: number }
+    _sum: { payableAmount: number | null }
+    name: string
+}
+interface gstDuesProps {
+    id: number
+    payableAmount: number
+    overallTripId: number | null
+    type: string
+    name: string
+    status: boolean
+    vehicleNumber: string
+    fuelId: number | null
+}
 export const createPaymentDues = (req: Request, res: Response) => {
     create(req.body)
         .then(() => res.sendStatus(200))
@@ -101,8 +117,8 @@ function tripInfo(matchingTrip: any, tripData: any, fuelDetails: any) {
 }
 
 export const groupDataByName = async (
-    duesData: any[],
-    tripsData: any[],
+    duesData: groupedDuesProps[],
+    tripsData: gstDuesProps[],
     tripDetails: any[],
     fuelDetails: any[],
     transporterAccounts: transporterAccountProps[],
@@ -168,5 +184,33 @@ export const updatePayment = (req: Request, res: Response) => {
 export const updateNEFTStatus = (req: Request, res: Response) => {
     updatePaymentNEFTStatus(req.body)
         .then(() => res.sendStatus(200))
+        .catch(() => res.sendStatus(500))
+}
+const groupGstDue = async (groupedGstDues: groupedDuesProps[], gstPaymentDues: gstDuesProps[]) =>
+    groupedGstDues.map((groupedDue) => {
+        const matchingGstDue = gstPaymentDues.filter((due) => groupedDue.name === due.name)
+        return {
+            name: groupedDue.name,
+            dueDetails: {
+                // eslint-disable-next-line no-underscore-dangle
+                count: groupedDue._count.status,
+                // eslint-disable-next-line no-underscore-dangle
+                payableAmount: groupedDue._sum.payableAmount
+            },
+            tripDetails: matchingGstDue.map((matchingTrip) => ({
+                id: matchingTrip.id,
+                vehicleNumber: matchingTrip.vehicleNumber,
+                type: matchingTrip.type,
+                amount: matchingTrip.payableAmount
+            }))
+        }
+    })
+
+export const listGstDuesGroupByName = async (_req: Request, res: Response) => {
+    const groupedGstDues = await getGstDuesGroupByName()
+    const name = groupedGstDues.map((dues) => dues.name)
+    const gstPaymentDues = await getGstPaymentDues(name)
+    await groupGstDue(groupedGstDues, gstPaymentDues)
+        .then((gstDueData) => res.status(200).json(gstDueData))
         .catch(() => res.sendStatus(500))
 }

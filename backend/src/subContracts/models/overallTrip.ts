@@ -213,7 +213,8 @@ export const getOverAllTripById = (id: number) =>
                     loadingPoint: true,
                     unloadingPoint: true
                 }
-            }
+            },
+            loadingPointToStockPointTrip: true
         }
     })
 

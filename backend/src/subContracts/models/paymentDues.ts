@@ -10,6 +10,9 @@ export const getOnlyActiveDuesByName = (dueDate: number, status: boolean) =>
             NEFTStatus: status,
             dueDate: {
                 lte: dueDate
+            },
+            NOT: {
+                type: 'gst pay'
             }
         },
         _count: {
@@ -27,6 +30,9 @@ export const findTripWithActiveDues = (dueDate: number, status: boolean) =>
             NEFTStatus: status,
             dueDate: {
                 lte: dueDate
+            },
+            NOT: {
+                type: 'gst pay'
             }
         },
         select: {
@@ -79,7 +85,10 @@ export const updatePaymentDuesWithTripId = (data: any) =>
 export const getDueByOverallTripId = (overallTripId: number) =>
     prisma.paymentDues.findMany({
         where: {
-            overallTripId
+            overallTripId,
+            NOT: {
+                type: 'gst pay'
+            }
         },
         select: {
             payableAmount: true
@@ -94,5 +103,41 @@ export const updatePaymentNEFTStatus = (dueId: number[]) =>
         },
         data: {
             NEFTStatus: true
+        }
+    })
+
+export const getGstDuesGroupByName = () =>
+    prisma.paymentDues.groupBy({
+        by: ['name'],
+        where: {
+            status: false,
+            type: 'gst pay'
+        },
+        _count: {
+            status: true
+        },
+        _sum: {
+            payableAmount: true
+        }
+    })
+
+export const getGstPaymentDues = (name: string[]) =>
+    prisma.paymentDues.findMany({
+        where: {
+            name: {
+                in: name
+            },
+            status: false,
+            type: 'gst pay'
+        },
+        select: {
+            id: true,
+            payableAmount: true,
+            overallTripId: true,
+            type: true,
+            name: true,
+            vehicleNumber: true,
+            status: true,
+            fuelId: true
         }
     })

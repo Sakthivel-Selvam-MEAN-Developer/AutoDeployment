@@ -17,3 +17,9 @@ export const updateNEFTStatus = (dueId: number[]) =>
         .put('/payment-dues/NEFT', dueId)
         .then(getData)
         .catch(() => alert('Error Updating data'))
+
+export const getGstDues = () =>
+    axiosInstance
+        .get('/payment-dues/gst')
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
