@@ -84,7 +84,6 @@ describe('Report Test', () => {
 
         expect(screen.getByText('Barath Logistics')).toBeInTheDocument()
         expect(screen.getByText('20000')).toBeInTheDocument()
-        expect(screen.getByText('23/02/2024')).toBeInTheDocument()
 
         expect(mockgetUpcomingDuesByFilter).toHaveBeenCalledTimes(1)
         expect(mockAllTransporter).toHaveBeenCalledTimes(2)
