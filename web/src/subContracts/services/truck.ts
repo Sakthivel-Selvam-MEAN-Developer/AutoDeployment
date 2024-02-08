@@ -10,11 +10,7 @@ interface dataProps {
     capacity: number
     transporterId: number
 }
-export const createTruck = (data: dataProps) =>
-    axiosInstance
-        .post('/truck', data)
-        .then(getData)
-        .catch(() => alert('Error Getting data'))
+export const createTruck = (data: dataProps) => axiosInstance.post('/truck', data).then(getData)
 
 export const getTruckByTransporter = (transporterName: string) =>
     axiosInstance

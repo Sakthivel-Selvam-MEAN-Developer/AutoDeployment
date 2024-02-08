@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import AutoComplete from '../../../form/AutoComplete.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
@@ -26,6 +25,8 @@ export interface FormFieldsProps {
     setCategory: React.Dispatch<React.SetStateAction<string>>
     category: string
     setValue: UseFormSetValue<FieldValues>
+    setCementCompanyName: React.Dispatch<React.SetStateAction<string>>
+    cementCompanyName: string
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -41,9 +42,10 @@ const FormFields: React.FC<FormFieldsProps> = ({
     freightAmount,
     setCategory,
     category,
-    setValue
+    setValue,
+    setCementCompanyName,
+    cementCompanyName
 }) => {
-    const [cementCompanyName, setCementCompanyName] = useState<string>('null')
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
     const [stockPointList, setStockPointList] = useState([])
@@ -70,13 +72,15 @@ const FormFields: React.FC<FormFieldsProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category, cementCompanyName])
     useEffect(() => {
+        // console.log(loadingPointId,);
+
         if (
             (loadingPointId && unloadingPointId) ||
             (stockPointId && loadingPointId) ||
             (stockPointId && unloadingPointId)
         ) {
-            getPricePoint(loadingPointId, unloadingPointId, stockPointId).then(
-                ({ freightAmount }) => setFreightAmount(freightAmount)
+            getPricePoint(loadingPointId, unloadingPointId, stockPointId).then((amount) =>
+                amount === null ? setFreightAmount(0) : setFreightAmount(amount.freightAmount)
             )
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,7 +94,8 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 flexWrap: 'wrap'
             }}
         >
-            <AutoComplete
+            <AutoCompleteWithValue
+                value={cementCompanyName}
                 control={control}
                 fieldName="companyName"
                 label="Select Company"
@@ -100,8 +105,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     setCementCompanyName(newValue)
                 }}
             />
-            <AutoComplete
+            <AutoCompleteWithValue
                 control={control}
+                value={category}
                 fieldName="category"
                 label="Select Category"
                 options={['Loading - Unloading', 'Loading - Stock', 'Stock - Unloading']}

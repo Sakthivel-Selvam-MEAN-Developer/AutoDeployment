@@ -15,6 +15,8 @@ export interface FormFieldsProps {
     setTds: React.Dispatch<React.SetStateAction<boolean>>
     accountTypes: accountTypeProps[]
     setAccountTypeNumber: React.Dispatch<React.SetStateAction<number | undefined>>
+    setAccountType: React.Dispatch<React.SetStateAction<string | null>>
+    accountType: string | null
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -23,7 +25,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
     setGst,
     setTds,
     accountTypes,
-    setAccountTypeNumber
+    setAccountTypeNumber,
+    setAccountType,
+    accountType
 }) => {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
     return (
@@ -79,12 +83,14 @@ const FormFields: React.FC<FormFieldsProps> = ({
             />
             <Autocomplete
                 sx={{ width: 200 }}
+                value={accountType}
                 options={accountTypes.map((option) => option.accountTypeName)}
                 onChange={(_event, value) => {
                     const { accountTypeNumber } = accountTypes.find(
                         ({ accountTypeName }) => accountTypeName === value
                     ) || { accountTypeNumber: 0 }
                     setAccountTypeNumber(accountTypeNumber)
+                    setAccountType(value)
                 }}
                 renderInput={(params) => <TextField {...params} label={'Account Type'} />}
             />
@@ -111,14 +117,14 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     fieldName="gstNumber"
                     type="string"
                 />
-                <InputWithType
-                    control={control}
-                    disabled={gst}
-                    label="GST Percentage"
-                    fieldName="gstPercentage"
-                    type="number"
-                />
             </div>
+            <InputWithType
+                control={control}
+                disabled={gst}
+                label="GST Percentage"
+                fieldName="gstPercentage"
+                type="number"
+            />
             <div style={{ display: 'flex' }}>
                 <Checkbox onClick={() => setTds(!tds)} {...label} />
                 <InputWithType

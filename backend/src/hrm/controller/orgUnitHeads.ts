@@ -4,15 +4,15 @@ import { getHeadLeave, leavesPendingReview } from '../models/leaves.ts'
 import { getEmployeeOrgId } from '../models/employee.ts'
 import { isEmployeeHeadOfParentOrg } from '../models/orgUnitRelations.ts'
 
-export const employeeLeavesPerOrg = (req: any, res: any) => {
+export const employeeLeavesPerOrg = (req: Request, res: Response) => {
     isEmployeeInOrgUnitHeads(req.params.employeeId)
-        .then((result: any) => {
+        .then((result) => {
             if (result && result.orgUnitId) {
                 return leavesPendingReview(result.orgUnitId, req.params.employeeId)
             }
             return null
         })
-        .then((data: any) => {
+        .then((data) => {
             res.status(200).json(data)
         })
 }
@@ -31,7 +31,7 @@ export const childOrgLeavesEachOrg = (req: Request, res: Response) => {
     getEmployeeOrgId(req.params.employeeId)
         .then(({ orgUnitId }: any) => isEmployeeHeadOfParentOrg(orgUnitId))
         .then(getOrgHeadLeaveForEachOrg)
-        .then((data: any) => {
+        .then((data) => {
             res.status(200).json(data)
         })
 }

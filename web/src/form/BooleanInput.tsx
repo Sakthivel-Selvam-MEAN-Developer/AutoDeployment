@@ -9,7 +9,7 @@ interface BooleanInputProps {
 function BooleanInput({ control, label, fieldName }: BooleanInputProps) {
     return (
         <Controller
-            render={({ field }: any) => (
+            render={({ field }) => (
                 <FormControlLabel
                     label={label}
                     control={

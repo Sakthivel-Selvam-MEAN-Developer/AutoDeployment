@@ -13,6 +13,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [stockPointId, setStockPointId] = useState<number | null>(null)
     const [freightAmount, setFreightAmount] = useState<number>(0)
     const transporterPercentage = watch('transporterPercentage')
+    const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [category, setCategory] = useState<string>('')
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
@@ -41,11 +42,17 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 transporterAmount: parseFloat(transporterAmountFloat)
             }
             if (category === 'Loading - Unloading')
-                createpricePoint({ ...details, stockPointId: null })
+                createpricePoint({ ...details, stockPointId: null }).then(() =>
+                    clearForm(setCategory, setCementCompanyName)
+                )
             else if (category === 'Loading - Stock')
-                createpricePoint({ ...details, unloadingPointId: null })
+                createpricePoint({ ...details, unloadingPointId: null }).then(() =>
+                    clearForm(setCategory, setCementCompanyName)
+                )
             else if (category === 'Stock - Unloading')
-                createpricePoint({ ...details, loadingPointId: null })
+                createpricePoint({ ...details, loadingPointId: null }).then(() =>
+                    clearForm(setCategory, setCementCompanyName)
+                )
         } else alert('All fields Required')
     }
     return (
@@ -65,9 +72,19 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 category={category}
                 setCategory={setCategory}
                 setValue={setValue}
+                setCementCompanyName={setCementCompanyName}
+                cementCompanyName={cementCompanyName}
             />
             <SubmitButton name="Submit" type="submit" />
         </form>
     )
 }
 export default CreatePricepoint
+
+const clearForm = (
+    setCategory: React.Dispatch<React.SetStateAction<string>>,
+    setCementCompanyName: React.Dispatch<React.SetStateAction<string>>
+) => {
+    setCategory('')
+    setCementCompanyName('')
+}

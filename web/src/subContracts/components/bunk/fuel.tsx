@@ -37,7 +37,9 @@ const Fuel: React.FC = (): ReactElement => {
                 fueledDate: data.fuelDate.unix(),
                 invoiceNumber: data.invoiceNumber
             }
-            createFuel(details, data.bunkId).then(() => setOpenSuccessDialog(true))
+            createFuel(details, data.bunkId)
+                .then(() => setOpenSuccessDialog(true))
+                .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
         } else alert('All fields are Required')
     }
     return (

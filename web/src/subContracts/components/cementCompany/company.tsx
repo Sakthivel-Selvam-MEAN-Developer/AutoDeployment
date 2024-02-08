@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react'
 import { Link } from 'react-router-dom'
 import FormFields from './formField'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, UseFormSetValue, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { Button } from '@mui/material'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
@@ -15,14 +15,15 @@ export type FieldValues = {
     address: string
 }
 const CreateCompany: React.FC = (): ReactElement => {
-    const { handleSubmit, control } = useForm<FieldValues>()
+    const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        createCompany(data).then(() => setOpenSuccessDialog(true))
-    }
-    const handleClose = () => {
-        setOpenSuccessDialog(false)
-    }
+    const onSubmit: SubmitHandler<FieldValues> = (data) =>
+        createCompany(data)
+            .then(() => setOpenSuccessDialog(true))
+            .then(() => clearForm(setValue))
+            .catch(() => alert('Please provide valid details'))
+            .then(() => clearForm(setValue))
+    const handleClose = () => setOpenSuccessDialog(false)
     return (
         <>
             <div style={{ margin: '20px 0', textAlign: 'end' }}>
@@ -45,3 +46,12 @@ const CreateCompany: React.FC = (): ReactElement => {
     )
 }
 export default CreateCompany
+
+const clearForm = (setValue: UseFormSetValue<FieldValues>) => {
+    setValue('name', '')
+    setValue('gstNo', '')
+    setValue('emailId', '')
+    setValue('contactPersonName', '')
+    setValue('contactPersonNumber', '')
+    setValue('address', '')
+}

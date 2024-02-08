@@ -9,7 +9,7 @@ export const listAllTruck = (_req: Request, res: Response) => {
 export const CreateTruck = (req: Request, res: Response) => {
     create(req.body)
         .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+        .catch((error) => res.status(500).json(error))
 }
 export const listTruckByTransporter = (req: Request, res: Response) => {
     getTruckByTransporter(req.params.transporterName)

@@ -128,7 +128,7 @@ function getTableBody(allTrips: Props[]) {
         </TableBody>
     )
 }
-export function download(listoverallTrip: Props[]) {
+function download(listoverallTrip: Props[]) {
     const downloadtripData: object[] = []
     listoverallTrip.map((row: Props) => {
         if (
@@ -191,7 +191,6 @@ const style = {
 const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
     return (
         <>
-            <br />
             <br />
             <div style={{ float: 'right' }}>
                 <Button onClick={() => download(listoverallTrip)} variant="contained">

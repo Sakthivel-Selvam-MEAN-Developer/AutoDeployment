@@ -8,10 +8,7 @@ interface fuelProps {
     bunkId: number
 }
 export const createFuel = (data: fuelProps, bunkname: string) =>
-    axiosInstance
-        .post(`/fuel/${bunkname}`, data)
-        .then(getData)
-        .catch(() => alert('Please provide valid details'))
+    axiosInstance.post(`/fuel/${bunkname}`, data).then(getData)
 
 export const getAllFuel = () =>
     axiosInstance

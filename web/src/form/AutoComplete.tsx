@@ -19,6 +19,7 @@ const AutoComplete: React.FC<AutocompleteProps> = ({
         <Controller
             name={fieldName}
             control={control}
+            defaultValue={null}
             render={({ field: { onChange: onFieldChange, ...field } }) => (
                 <Autocomplete
                     sx={{ width: 300 }}

@@ -11,35 +11,41 @@ import {
 import tripLogic from '../domain/tripLogics.ts'
 
 export const createStockPointTrip = async (req: Request, res: Response) => {
-    const {
-        vehicleNumber,
-        transporter: { name }
-    }: any = await getNumberByTruckId(req.body.truckId)
-    const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
-    const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
-    const { id } = await create(req.body).then(async (data) =>
-        createOverallTrip({ loadingPointToStockPointTripId: data.id })
-    )
-    await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
-        .then(async (data) => {
-            if (req.body.wantFuel !== true && fuelDetails !== null) {
-                await updateFuelWithTripId({ id: fuelDetails.id, overallTripId: id }).then(
-                    async () => {
-                        await updatePaymentDuesWithTripId({
-                            id: paymentDetails?.id,
-                            overallTripId: id
-                        })
-                        await createPaymentDues(data)
-                    }
-                )
-            } else if (req.body.wantFuel !== true && fuelDetails === null) {
-                await createPaymentDues(data)
-            }
-        })
-        .then(() => res.sendStatus(200))
-        .catch(() => res.sendStatus(500))
+    try {
+        const {
+            vehicleNumber,
+            transporter: { name }
+        } = (await getNumberByTruckId(req.body.truckId)) || {
+            vehicleNumber: '',
+            transporter: { name: '' }
+        }
+        const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
+        const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
+        const { id } = await create(req.body).then(async (data) =>
+            createOverallTrip({ loadingPointToStockPointTripId: data.id })
+        )
+        await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
+            .then(async (data) => {
+                if (req.body.wantFuel !== true && fuelDetails !== null) {
+                    await updateFuelWithTripId({ id: fuelDetails.id, overallTripId: id }).then(
+                        async () => {
+                            await updatePaymentDuesWithTripId({
+                                id: paymentDetails?.id,
+                                overallTripId: id
+                            })
+                            await createPaymentDues(data)
+                        }
+                    )
+                } else if (req.body.wantFuel !== true && fuelDetails === null) {
+                    await createPaymentDues(data)
+                }
+            })
+            .then(() => res.sendStatus(200))
+            .catch(() => res.sendStatus(500))
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
-
 export const listAllStockPointTrip = (_req: Request, res: Response) => {
     getAllStockPointTrip()
         .then((data) => {

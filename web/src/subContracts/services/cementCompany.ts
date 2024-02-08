@@ -2,10 +2,7 @@ import { axiosInstance, getData } from '../../wonderMove/services'
 import { FieldValues } from '../components/cementCompany/company.tsx'
 
 export const createCompany = (data: FieldValues) =>
-    axiosInstance
-        .post('/cementCompany', data)
-        .then(getData)
-        .catch(() => alert('Please provide valid details'))
+    axiosInstance.post('/cementCompany', data).then(getData)
 
 export const getAllCementCompany = () =>
     axiosInstance

@@ -61,9 +61,12 @@ const NewTrip: React.FC = () => {
             }
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
+                    .then(() => navigate('/sub/trip'))
+                    .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
             else if (category === 'Unloading Point')
-                createTrip({ ...details, unloadingPointId: unloadingPointId })
-            navigate('/sub/trip')
+                createTrip({ ...details, unloadingPointId: unloadingPointId }).catch((error) =>
+                    alert(`Error in ${error.response.data.meta.target[0]}`)
+                )
         } else alert('All fields Required')
     }
     useEffect(() => {
