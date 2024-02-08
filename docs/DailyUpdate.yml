@@ -1,7 +1,25 @@
+- date: 8-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - reports for upcomming dues
+- date: 8-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - handle loading time
+- date: 8-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - error handling
+
 - date: 6-2-2024
   person: Barath
   project: subContract
   planning:
+    - download reports in csv format
+  completed:
     - download reports in csv format
 - date: 6-2-2024
   person: Muthu
@@ -9,12 +27,17 @@
   planning:
     - generate .txt file for bulk NEFT
     - update and show generated payment dues status
+  completed:
+    - show only payments that generated for NEFT in dues
 - date: 6-2-2024
   person: Sakthivel
   project: subContract
   planning:
     - generate .txt file for bulk NEFT
     - gst calculation
+  completed:
+    - generated .txt file for bulk NEFT
+    - completed gst calculation
 
 - date: 2-2-2024
   person: Barath
