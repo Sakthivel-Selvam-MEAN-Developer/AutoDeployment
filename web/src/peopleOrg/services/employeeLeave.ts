@@ -20,7 +20,9 @@ interface rejectLeavesProps {
 export const rejectLeaves = (id: number, data: rejectLeavesProps) => {
     return axiosInstance.post(`/reject/${id}`, data)
 }
-
-export const approveLeaves = (id: number, data: any) => {
+interface employeeProps {
+    employeeId: string
+}
+export const approveLeaves = (id: number, data: employeeProps) => {
     return axiosInstance.post(`/approve/${id}`, data)
 }

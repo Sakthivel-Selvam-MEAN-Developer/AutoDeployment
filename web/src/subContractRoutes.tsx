@@ -23,6 +23,7 @@ import AddVehicle from './subContracts/components/Transporter/addVehicle'
 // import InvoiceList from './subContracts/components/invoice/list'
 import Report from './subContracts/components/report'
 import ListAllReport from './subContracts/components/report/list'
+import ListAllUpcomingDues from './subContracts/components/report/upcomingTransporterDuesList'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -141,6 +142,10 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <ListAllReport />
+                },
+                {
+                    path: 'upcomingdues',
+                    element: <ListAllUpcomingDues />
                 }
             ]
         }

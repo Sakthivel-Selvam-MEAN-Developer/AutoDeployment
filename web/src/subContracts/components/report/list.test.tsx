@@ -161,7 +161,7 @@ describe('Report Test', () => {
                 <ListAllReport />
             </BrowserRouter>
         )
-        const start = screen.getByRole('button', { name: 'Submit' })
+        const start = screen.getByRole('button', { name: 'Filter' })
         await userEvent.click(start)
         expect(screen.getByText('Trip Status')).toBeInTheDocument()
         expect(screen.getByText('Transporter')).toBeInTheDocument()
@@ -214,7 +214,7 @@ describe('Report Test', () => {
             name: 'Chennai-south'
         })
         await userEvent.click(opt)
-        const start = screen.getByRole('button', { name: 'Submit' })
+        const start = screen.getByRole('button', { name: 'Filter' })
         await userEvent.click(start)
 
         expect(screen.getByText('Trip Status')).toBeInTheDocument()

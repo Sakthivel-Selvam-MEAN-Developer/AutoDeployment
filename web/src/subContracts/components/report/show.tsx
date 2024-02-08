@@ -113,10 +113,15 @@ const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
     const final = arrayOfDues.filter((due) => {
         return due.type === 'final pay' && due.status === true
     })
+    const gst = arrayOfDues.filter((due) => {
+        return due.type === 'gst pay' && due.status === true
+    })
     return initial.length !== 1
         ? 'Advance Pending'
         : final.length === 1
-          ? 'GST Pending'
+          ? gst.length === 1
+              ? 'Completed'
+              : 'GST Pending'
           : 'Balance Pending'
 }
 function getTableBody(allTrips: Props[]) {
@@ -163,7 +168,7 @@ export function download(listoverallTrip: Props[]) {
             downloadCSV(
                 downloadtripData,
                 row.loadingPointToStockPointTrip,
-                row.paymentDues.length !== 0 ? checkPaymentStatus(row.paymentDues) : false,
+                checkPaymentStatus(row.paymentDues),
                 listoverallTrip.length,
                 row
             )
@@ -175,7 +180,7 @@ export function download(listoverallTrip: Props[]) {
             downloadCSV(
                 downloadtripData,
                 row.loadingPointToUnloadingPointTrip,
-                row.paymentDues.length !== 0 ? checkPaymentStatus(row.paymentDues) : false,
+                checkPaymentStatus(row.paymentDues),
                 listoverallTrip.length,
                 row
             )
@@ -185,7 +190,7 @@ export function download(listoverallTrip: Props[]) {
 const downloadCSV = (
     downloadtripData: object[],
     tripData: Row,
-    type: string | false,
+    type: string,
     num: number,
     details: Props
 ) => {
@@ -227,7 +232,6 @@ const style = {
 const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
     return (
         <>
-            <br />
             <br />
             <div style={{ float: 'right' }}>
                 <Button onClick={() => download(listoverallTrip)} variant="contained">

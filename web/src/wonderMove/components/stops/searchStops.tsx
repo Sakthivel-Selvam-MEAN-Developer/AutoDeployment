@@ -2,7 +2,7 @@ import { Autocomplete, TextField } from '@mui/material'
 import { useState } from 'react'
 
 interface SearchStopsProps {
-    onSelect: (selectedStop: any) => void
+    onSelect: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
 const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {

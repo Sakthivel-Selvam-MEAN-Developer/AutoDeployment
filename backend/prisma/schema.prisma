@@ -396,6 +396,8 @@ model stockPointToUnloadingPointTrip {
   loadingPointToStockPointTrip   loadingPointToStockPointTrip? @relation(fields: [loadingPointToStockPointTripId], references: [id])
   loadingPointToStockPointTripId Int?
   overallTrip                    overallTrip[]
+  truck                          truck?                        @relation(fields: [truckId], references: [id])
+  truckId                        Int?
 
   @@schema("subContract")
 }
@@ -470,6 +472,7 @@ model truck {
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
   loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
+  stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
 
   @@schema("subContract")
 }

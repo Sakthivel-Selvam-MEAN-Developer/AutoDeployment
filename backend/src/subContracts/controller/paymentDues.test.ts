@@ -13,12 +13,15 @@ const mockOverAllTrip = vi.fn()
 const mockTransporterAccountDetails = vi.fn()
 const mockBunkAccountDetails = vi.fn()
 const mockFuelDetails = vi.fn()
+const mockgetUpcomingDuesByFilter = vi.fn()
 
 vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
     findTripWithActiveDues: () => mockfindTripWithActiveDues(),
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
-    updatePaymentDues: () => mockUpdatePayment()
+    updatePaymentDues: () => mockUpdatePayment(),
+    getUpcomingDuesByFilter: (name: string, from: number, to: number) =>
+        mockgetUpcomingDuesByFilter(name, from, to)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockGetAllTrip()
@@ -279,6 +282,15 @@ const mockCreateDues = {
     dueDate: dayjs().unix(),
     vehicleNumber: 'TN93D5512'
 }
+const mockTransporterDuesDues = {
+    id: 1,
+    overallId: 1,
+    name: 'Barath Logistics Pvt Ltd',
+    payableAmount: 20000,
+    type: 'final pay',
+    dueDate: 1706725800,
+    vehicleNumber: 'TN93D5512'
+}
 const mockFuelData = [
     {
         id: 1,
@@ -312,6 +324,13 @@ describe('Payment Due Controller', () => {
         mockcreatePaymentDues.mockResolvedValue(mockCreateDues)
         await supertest(app).post('/api/payment-dues')
         expect(mockcreatePaymentDues).toHaveBeenCalledTimes(1)
+    })
+    test('should create the paymentDue with transactionId', async () => {
+        mockgetUpcomingDuesByFilter.mockResolvedValue(mockTransporterDuesDues)
+        await supertest(app).get(
+            '/api/payment-dues/Barath%20Logistics%20Pvt%20Ltd/1706725800/1706725800'
+        )
+        expect(mockgetUpcomingDuesByFilter).toHaveBeenCalledTimes(1)
     })
     test('should get the active transporter payment dues', async () => {
         mockgetOnlyActiveDuesByName.mockResolvedValue(mockGroupedDuesData)
