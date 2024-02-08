@@ -38,7 +38,7 @@ const VehicleFormField: React.FC<FormFieldProps> = ({ control, setTransporterId 
                 fieldName="capacity"
                 type="number"
                 inputProps={{ step: 'any', min: '0' }}
-                InputProps={''}
+                InputProps={{}}
             />
         </div>
     )

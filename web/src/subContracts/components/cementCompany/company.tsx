@@ -22,7 +22,6 @@ const CreateCompany: React.FC = (): ReactElement => {
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
             .catch(() => alert('Please provide valid details'))
-            .then(() => clearForm(setValue))
     const handleClose = () => setOpenSuccessDialog(false)
     return (
         <>
