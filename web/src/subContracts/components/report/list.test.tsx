@@ -35,7 +35,8 @@ const mockStockTripData = [
         fuel: [],
         paymentDues: [
             {
-                type: 'initial pay'
+                type: 'initial pay',
+                status: false
             }
         ],
         loadingPointToStockPointTrip: null,
@@ -160,7 +161,7 @@ describe('Report Test', () => {
                 <ListAllReport />
             </BrowserRouter>
         )
-        const start = screen.getByRole('button', { name: 'Submit' })
+        const start = screen.getByRole('button', { name: 'Filter' })
         await userEvent.click(start)
         expect(screen.getByText('Trip Status')).toBeInTheDocument()
         expect(screen.getByText('Transporter')).toBeInTheDocument()
@@ -213,14 +214,14 @@ describe('Report Test', () => {
             name: 'Chennai-south'
         })
         await userEvent.click(opt)
-        const start = screen.getByRole('button', { name: 'Submit' })
+        const start = screen.getByRole('button', { name: 'Filter' })
         await userEvent.click(start)
 
         expect(screen.getByText('Trip Status')).toBeInTheDocument()
         expect(screen.getByText('Transporter')).toBeInTheDocument()
         expect(screen.getByText('Barath Logistics')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
-        expect(screen.getByText('initial pay')).toBeInTheDocument()
+        expect(screen.getByText('Advance Pending')).toBeInTheDocument()
 
         expect(mockGetOverallTrip).toHaveBeenCalledTimes(3)
         expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(1)

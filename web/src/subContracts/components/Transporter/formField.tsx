@@ -117,14 +117,14 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     fieldName="gstNumber"
                     type="string"
                 />
+                <InputWithType
+                    control={control}
+                    disabled={gst}
+                    label="GST Percentage"
+                    fieldName="gstPercentage"
+                    type="number"
+                />
             </div>
-            <InputWithType
-                control={control}
-                disabled={gst}
-                label="GST Percentage"
-                fieldName="gstPercentage"
-                type="number"
-            />
             <div style={{ display: 'flex' }}>
                 <Checkbox onClick={() => setTds(!tds)} {...label} />
                 <InputWithType

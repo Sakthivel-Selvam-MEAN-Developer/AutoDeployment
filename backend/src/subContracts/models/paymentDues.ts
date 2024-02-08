@@ -141,3 +141,22 @@ export const getGstPaymentDues = (name: string[]) =>
             fuelId: true
         }
     })
+export const getUpcomingDuesByFilter = (name: string, from: number, to: number) =>
+    prisma.paymentDues.findMany({
+        where: {
+            name,
+            type: 'final pay',
+            dueDate: {
+                gte: from,
+                lte: to
+            }
+        },
+        include: {
+            overallTrip: {
+                select: {
+                    loadingPointToStockPointTrip: { select: { startDate: true } },
+                    loadingPointToUnloadingPointTrip: { select: { startDate: true } }
+                }
+            }
+        }
+    })

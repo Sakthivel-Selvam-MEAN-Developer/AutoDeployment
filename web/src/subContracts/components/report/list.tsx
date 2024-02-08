@@ -4,6 +4,13 @@ import SubmitButton from '../../../form/button'
 import FilterReport from './formField'
 import ListAllDetails from './show'
 import { getOverallTrip, getOverallTripByFilter } from '../../services/overallTrips'
+import { Link } from 'react-router-dom'
+import { Button } from '@mui/material'
+const style = {
+    marginBottom: '30px',
+    display: 'flex',
+    justifyContent: 'right'
+}
 const ListAllReport: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [listoverallTrip, setListoverallTrip] = useState([])
@@ -20,7 +27,6 @@ const ListAllReport: React.FC = (): ReactElement => {
     }, [])
     useEffect(() => {
         const value = skipNumber * 2
-        console.log(value)
         const Trip = listoverallTrip.slice(value, value + 2)
         setTripWithPagination(Trip)
     }, [skipNumber, listoverallTrip])
@@ -44,6 +50,13 @@ const ListAllReport: React.FC = (): ReactElement => {
     }
     return (
         <>
+            <div style={style}>
+                <Link to={'/sub/reports/upcomingdues'}>
+                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                        Upcoming Payment Dues
+                    </Button>
+                </Link>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FilterReport
                     control={control}
@@ -51,7 +64,7 @@ const ListAllReport: React.FC = (): ReactElement => {
                     setTransporterId={setTransporterId}
                     setLoadingPointId={setLoadingPointId}
                 />
-                <SubmitButton name="Submit" type="submit" />
+                <SubmitButton name="Filter" type="submit" />
             </form>
             {showDetails && (
                 <ListAllDetails

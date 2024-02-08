@@ -2,17 +2,11 @@ import { Autocomplete, TextField } from '@mui/material'
 import { useState } from 'react'
 
 interface SearchStopsProps {
-    onSelect: (selectedStop: any) => void
+    onSelect: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
 const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
     const [value, setValue] = useState<string>()
-    const onChange = (_event: any, newValue: string) => {
-        setValue(newValue)
-        if (newValue) {
-            onSelect(newValue)
-        }
-    }
     return (
         <>
             <Autocomplete
@@ -20,7 +14,12 @@ const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
                 disableClearable
                 value={value}
                 options={[]}
-                onChange={onChange}
+                onChange={(_event, newValue: string) => {
+                    setValue(newValue)
+                    if (newValue) {
+                        onSelect(newValue)
+                    }
+                }}
                 renderInput={(params) => (
                     <TextField
                         {...params}
