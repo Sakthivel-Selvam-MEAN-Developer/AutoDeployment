@@ -5,17 +5,19 @@ import FormFields from './formField'
 import { createTransporter } from '../../services/transporter'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { Link } from 'react-router-dom'
-import { Button } from '@mui/material'
+import { Box, Button, CircularProgress } from '@mui/material'
 import { getAllAccountTypes } from '../../services/accountType'
 const CreateTransporter: React.FC = (): ReactElement => {
     const [accountType, setAccountType] = useState<string | null>('')
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
+    const [loading, setLoading] = useState(false)
     const [gst, setGst] = useState<boolean>(true)
     const [tds, setTds] = useState<boolean>(true)
     const [accountTypes, setAccountTypes] = useState([])
     const [accountTypeNumber, setAccountTypeNumber] = useState<number | undefined>(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        setLoading(true)
         createTransporter({
             ...data,
             hasGst: gst ? false : true,
@@ -25,10 +27,12 @@ const CreateTransporter: React.FC = (): ReactElement => {
             gstNumber: gst ? null : data.gstNumber,
             accountTypeNumber
         })
+            .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
-            .then(() => clearForm(setValue, setAccountType))
+            .then(() => clearForm(setValue, setAccountType, setGst, setTds))
             .catch(() => alert('Error Creating Transporter'))
-            .then(() => clearForm(setValue, setAccountType))
+            .then(() => setLoading(false))
+            .then(() => clearForm(setValue, setAccountType, setGst, setTds))
     }
     const style = { marginBottom: '30px', display: 'flex', justifyContent: 'right' }
     const handleClose = () => setOpenSuccessDialog(false)
@@ -56,7 +60,13 @@ const CreateTransporter: React.FC = (): ReactElement => {
                     setAccountType={setAccountType}
                     accountType={accountType}
                 />
-                <SubmitButton name="Create" type="submit" />
+                {loading ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <SubmitButton name="Create" type="submit" />
+                )}
             </form>
             <SuccessDialog
                 open={openSuccessDialog}
@@ -70,7 +80,9 @@ export default CreateTransporter
 
 const clearForm = (
     setValue: UseFormSetValue<FieldValues>,
-    setAccountType: React.Dispatch<React.SetStateAction<string | null>>
+    setAccountType: React.Dispatch<React.SetStateAction<string | null>>,
+    setGst: React.Dispatch<React.SetStateAction<boolean>>,
+    setTds: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
     setValue('name', '')
     setValue('emailId', '')
@@ -84,4 +96,7 @@ const clearForm = (
     setValue('tdsPercentage', '')
     setValue('ifsc', '')
     setAccountType('')
+    setValue('csmName', '')
+    setGst(true)
+    setTds(true)
 }

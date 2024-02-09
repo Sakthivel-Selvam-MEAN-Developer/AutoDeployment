@@ -40,7 +40,7 @@ const PaymentDues: React.FC = () => {
     }, [refresh])
     return (
         <>
-            {transporterDue &&
+            {transporterDue.length !== 0 ? (
                 transporterDue.map((data: dataProp) => {
                     return (
                         <Accordion>
@@ -89,7 +89,10 @@ const PaymentDues: React.FC = () => {
                             })}
                         </Accordion>
                     )
-                })}
+                })
+            ) : (
+                <p style={{ textAlign: 'center' }}>No Payment Deus...!</p>
+            )}
         </>
     )
 }

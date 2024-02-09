@@ -7,7 +7,7 @@ export const createLoadingPoint = async (req: Request, res: Response) => {
     await createPricePointMarker({ location })
         .then((data) => create({ name, cementCompanyId, pricePointMarkerId: data.id }))
         .then(() => res.sendStatus(200))
-        .catch(() => res.status(500))
+        .catch((error) => res.status(500).json(error))
 }
 
 export const listAllLoadingPoint = (_req: Request, res: Response) => {

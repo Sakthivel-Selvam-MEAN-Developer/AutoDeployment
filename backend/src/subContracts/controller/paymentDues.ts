@@ -28,6 +28,13 @@ interface bunkAccountProps {
     location: string
     accountTypeNumber: number
 }
+interface gstAccountProps {
+    name: string
+    accountNumber: string
+    ifsc: string
+    address: string
+    accountTypeNumber: number
+}
 interface groupedDuesProps {
     _count: { status: number }
     _sum: { payableAmount: number | null }
@@ -187,9 +194,14 @@ export const updateNEFTStatus = (req: Request, res: Response) => {
         .then(() => res.sendStatus(200))
         .catch(() => res.sendStatus(500))
 }
-const groupGstDue = async (groupedGstDues: groupedDuesProps[], gstPaymentDues: gstDuesProps[]) =>
+const groupGstDue = async (
+    groupedGstDues: groupedDuesProps[],
+    gstPaymentDues: gstDuesProps[],
+    bankDetails: gstAccountProps[]
+) =>
     groupedGstDues.map((groupedDue) => {
         const matchingGstDue = gstPaymentDues.filter((due) => groupedDue.name === due.name)
+        const bankDetail = bankDetails.filter((account) => groupedDue.name === account.name)
         return {
             name: groupedDue.name,
             dueDetails: {
@@ -198,6 +210,7 @@ const groupGstDue = async (groupedGstDues: groupedDuesProps[], gstPaymentDues: g
                 // eslint-disable-next-line no-underscore-dangle
                 payableAmount: groupedDue._sum.payableAmount
             },
+            bankDetails: bankDetail,
             tripDetails: matchingGstDue.map((matchingTrip) => ({
                 id: matchingTrip.id,
                 vehicleNumber: matchingTrip.vehicleNumber,
@@ -210,8 +223,9 @@ const groupGstDue = async (groupedGstDues: groupedDuesProps[], gstPaymentDues: g
 export const listGstDuesGroupByName = async (_req: Request, res: Response) => {
     const groupedGstDues = await getGstDuesGroupByName()
     const name = groupedGstDues.map((dues) => dues.name)
+    const bankDetails = await getTransporterAccountByName(name)
     const gstPaymentDues = await getGstPaymentDues(name)
-    await groupGstDue(groupedGstDues, gstPaymentDues)
+    await groupGstDue(groupedGstDues, gstPaymentDues, bankDetails)
         .then((gstDueData) => res.status(200).json(gstDueData))
         .catch(() => res.sendStatus(500))
 }

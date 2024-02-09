@@ -110,7 +110,7 @@ export const getGstDuesGroupByName = () =>
     prisma.paymentDues.groupBy({
         by: ['name'],
         where: {
-            status: false,
+            NEFTStatus: false,
             type: 'gst pay'
         },
         _count: {
@@ -127,7 +127,7 @@ export const getGstPaymentDues = (name: string[]) =>
             name: {
                 in: name
             },
-            status: false,
+            NEFTStatus: false,
             type: 'gst pay'
         },
         select: {

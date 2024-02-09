@@ -20,7 +20,7 @@ interface rowProps {
 const LeaveList: React.FC = () => {
     const navigate = useNavigate()
     const [allLeave, setAllLeave] = useState([])
-    const [selectedRow, setSelectedRow] = useState<any | null>(null)
+    const [selectedRow, setSelectedRow] = useState<number | null>(null)
     const employeeId = useAtomValue(userIdAtom)
     useEffect(() => {
         getAllLeaveWithStatus(employeeId).then(setAllLeave)

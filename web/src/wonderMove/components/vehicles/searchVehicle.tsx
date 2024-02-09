@@ -8,7 +8,7 @@ interface SearchVehicleProps {
 const SearchVehicle: React.FC<SearchVehicleProps> = ({ vehicles, onSelect }) => {
     const [value, setValue] = useState<string>('')
 
-    const onChange = (_event: any, newValue: string) => {
+    const onChange = (_event: React.SyntheticEvent<Element, Event>, newValue: string) => {
         setValue(newValue)
         if (newValue) {
             onSelect(newValue)

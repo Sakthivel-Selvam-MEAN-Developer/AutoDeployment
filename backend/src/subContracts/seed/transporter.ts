@@ -9,5 +9,6 @@ export default {
     accountHolder: 'muthu',
     accountNumber: '43534523',
     ifsc: 'zxy1234',
-    accountTypeNumber: 10
+    accountTypeNumber: 10,
+    csmName: 'Sakthivel'
 }

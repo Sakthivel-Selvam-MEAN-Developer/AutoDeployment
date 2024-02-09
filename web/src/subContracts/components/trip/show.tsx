@@ -104,30 +104,46 @@ const getTableBody = (allTrips: Row[]) => {
     )
 }
 
+const style = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    color: '#000000bd'
+}
+const ShowTypography = (index: number, row: AllStockProps) => {
+    return (
+        <div style={style}>
+            <Typography style={{ fontSize: '15px' }}>{index + 1}</Typography>
+            <Typography sx={{ fontSize: '15px' }}>{row.truck.vehicleNumber}</Typography>
+            <Typography sx={{ fontSize: '15px' }}>{epochToMinimalDate(row.startDate)}</Typography>
+            <Typography sx={{ fontSize: '15px' }}>{row.truck.transporter.name}</Typography>
+            <Typography sx={{ fontSize: '15px' }}>{row.loadingPoint.name}</Typography>
+            <Typography sx={{ fontSize: '15px' }}>{row.stockPoint.name}</Typography>
+            <Typography sx={{ fontSize: '15px' }}>{row.freightAmount}</Typography>
+            <Typography sx={{ padding: '0px 5% 0 0', fontSize: '15px' }}>
+                {row.totalFreightAmount}
+            </Typography>
+        </div>
+    )
+}
+const handleAccordionExpand =
+    (index: number, setExpanded: React.Dispatch<React.SetStateAction<number | false>>) =>
+    (_event: React.SyntheticEvent, isExpanded: boolean) => {
+        setExpanded(isExpanded ? index : false)
+    }
 const GetAllStockTripsAsAAccordion = (
     allStockTrips: AllStockProps[],
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>,
     update: boolean
 ) => {
     const [expanded, setExpanded] = useState<number | false>(false)
-    const handleAccordionExpand =
-        (index: number) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-            setExpanded(isExpanded ? index : false)
-        }
-    const style = {
-        display: 'flex',
-        justifyContent: 'space-between',
-        width: '100%',
-        color: '#000000bd'
-    }
-
     return (
         <>
             {allStockTrips.map((row: AllStockProps, index: number) => (
                 <Accordion
                     key={index}
                     expanded={expanded === index}
-                    onChange={handleAccordionExpand(index)}
+                    onChange={handleAccordionExpand(index, setExpanded)}
                 >
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -135,26 +151,7 @@ const GetAllStockTripsAsAAccordion = (
                         id="panel1bh-header"
                         sx={{ borderBottom: '1px solid grey' }}
                     >
-                        <div style={style}>
-                            <Typography style={{ fontSize: '15px' }}>{index + 1}</Typography>
-                            <Typography sx={{ fontSize: '15px' }}>
-                                {row.truck.vehicleNumber}
-                            </Typography>
-                            <Typography sx={{ fontSize: '15px' }}>
-                                {epochToMinimalDate(row.startDate)}
-                            </Typography>
-                            <Typography sx={{ fontSize: '15px' }}>
-                                {row.truck.transporter.name}
-                            </Typography>
-                            <Typography sx={{ fontSize: '15px' }}>
-                                {row.loadingPoint.name}
-                            </Typography>
-                            <Typography sx={{ fontSize: '15px' }}>{row.stockPoint.name}</Typography>
-                            <Typography sx={{ fontSize: '15px' }}>{row.freightAmount}</Typography>
-                            <Typography sx={{ padding: '0px 5% 0 0', fontSize: '15px' }}>
-                                {row.totalFreightAmount}
-                            </Typography>
-                        </div>
+                        {ShowTypography(index, row)}
                     </AccordionSummary>
                     <AccordionDetails sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
                         <StockToUnloadingTrip row={row} setUpdate={setUpdate} update={update} />

@@ -6,10 +6,7 @@ interface dataProps {
 }
 
 export const createStockPoint = (data: dataProps) =>
-    axiosInstance
-        .post('/stock-point', data)
-        .then(getData)
-        .catch(() => alert('Please provide valid details'))
+    axiosInstance.post('/stock-point', data).then(getData)
 
 export const getStockPointByCompanyName = (companyName: string) =>
     axiosInstance

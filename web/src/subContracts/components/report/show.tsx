@@ -129,32 +129,18 @@ function getTableBody(allTrips: Props[]) {
     const style = { '&:last-child td, &:last-child th': { border: 0 } }
     return (
         <TableBody>
-            {allTrips.map((row: Props, index) => {
-                if (loadingToStock(row)) {
-                    return (
-                        <TableRow key={index} sx={style}>
-                            {getCells(
-                                row.loadingPointToStockPointTrip,
-                                ++number,
-                                checkPaymentStatus(row.paymentDues),
-                                row
-                            )}
-                        </TableRow>
-                    )
-                }
-                if (loadingToUnloading(row)) {
-                    return (
-                        <TableRow key={index} sx={style}>
-                            {getCells(
-                                row.loadingPointToUnloadingPointTrip,
-                                ++number,
-                                checkPaymentStatus(row.paymentDues),
-                                row
-                            )}
-                        </TableRow>
-                    )
-                }
-            })}
+            {allTrips.map((row: Props, index) => (
+                <TableRow key={index} sx={style}>
+                    {getCells(
+                        loadingToStock(row)
+                            ? row.loadingPointToStockPointTrip
+                            : row.loadingPointToUnloadingPointTrip,
+                        ++number,
+                        checkPaymentStatus(row.paymentDues),
+                        row
+                    )}
+                </TableRow>
+            ))}
         </TableBody>
     )
 }
@@ -266,9 +252,9 @@ function loadingToStock(row: Props) {
         row.loadingPointToStockPointTrip !== null && row.loadingPointToStockPointTrip !== undefined
     )
 }
-function loadingToUnloading(row: Props) {
-    return (
-        row.loadingPointToUnloadingPointTrip !== null &&
-        row.loadingPointToUnloadingPointTrip !== undefined
-    )
-}
+// function loadingToUnloading(row: Props) {
+//     return (
+//         row.loadingPointToUnloadingPointTrip !== null &&
+//         row.loadingPointToUnloadingPointTrip !== undefined
+//     )
+// }

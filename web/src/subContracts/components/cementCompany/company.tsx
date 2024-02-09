@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import FormFields from './formField'
 import { SubmitHandler, UseFormSetValue, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
-import { Button } from '@mui/material'
+import { Box, Button, CircularProgress } from '@mui/material'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { createCompany } from '../../services/cementCompany.ts'
 export type FieldValues = {
@@ -14,14 +14,28 @@ export type FieldValues = {
     contactPersonNumber: string
     address: string
 }
+
+const clearForm = (setValue: UseFormSetValue<FieldValues>) => {
+    setValue('name', '')
+    setValue('gstNo', '')
+    setValue('emailId', '')
+    setValue('contactPersonName', '')
+    setValue('contactPersonNumber', '')
+    setValue('address', '')
+}
 const CreateCompany: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
+    const [loading, setLoading] = useState(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const onSubmit: SubmitHandler<FieldValues> = (data) =>
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        setLoading(true)
         createCompany(data)
+            .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
             .catch(() => alert('Please provide valid details'))
+            .then(() => setLoading(false))
+    }
     const handleClose = () => setOpenSuccessDialog(false)
     return (
         <>
@@ -34,7 +48,13 @@ const CreateCompany: React.FC = (): ReactElement => {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields control={control} />
-                <SubmitButton name="Create" type="submit" />
+                {loading ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <SubmitButton name="Create" type="submit" />
+                )}
             </form>
             <SuccessDialog
                 open={openSuccessDialog}
@@ -45,12 +65,3 @@ const CreateCompany: React.FC = (): ReactElement => {
     )
 }
 export default CreateCompany
-
-const clearForm = (setValue: UseFormSetValue<FieldValues>) => {
-    setValue('name', '')
-    setValue('gstNo', '')
-    setValue('emailId', '')
-    setValue('contactPersonName', '')
-    setValue('contactPersonNumber', '')
-    setValue('address', '')
-}

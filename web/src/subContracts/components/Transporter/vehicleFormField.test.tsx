@@ -22,7 +22,6 @@ const mockTruckData = {
 const mockTransporterData = [
     {
         name: 'Barath Logistics',
-
         trucks: mockTruckData
     }
 ]

@@ -3,7 +3,7 @@ import config from '../../../config.ts'
 
 export const axiosInstance: AxiosInstance = axios.create({
     baseURL: config.backendUrl,
-    timeout: 1000,
+    timeout: 2000,
     headers: {
         'Content-Type': 'application/json'
     }

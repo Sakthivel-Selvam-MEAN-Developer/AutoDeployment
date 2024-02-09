@@ -30,7 +30,7 @@ interface dataProp {
     tripDetails: tripProp[]
     bankDetails: bankDetailsProps[]
 }
-interface GenerateFormProps {
+export interface GenerateFormProps {
     NEFTDetails: NEFTDetailsProps[]
     setNEFTDetails: React.Dispatch<React.SetStateAction<NEFTDetailsProps[]>>
     paymentDueId: number[]
@@ -48,6 +48,10 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     const [transporterDue, setTransporterDue] = useState([])
     const style = { width: '100%', padding: '10px 10px 0px' }
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
+    useEffect(() => {
+        setNEFTDetails([])
+        setPaymentDueId([])
+    }, [])
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate, false)

@@ -6,10 +6,7 @@ interface dataProps {
     location: string
 }
 export const createLoadingPoint = (data: dataProps) =>
-    axiosInstance
-        .post('/loading-point', data)
-        .then(getData)
-        .catch(() => alert('Please provide valid details'))
+    axiosInstance.post('/loading-point', data).then(getData)
 
 export const getLoadingPointByCompanyName = (companyName: string) =>
     axiosInstance

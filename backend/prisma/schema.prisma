@@ -247,6 +247,7 @@ model orgUnitRelations {
 model transporter {
   id                  Int      @id @default(autoincrement())
   name                String   @unique
+  csmName             String
   emailId             String   @unique
   contactPersonName   String
   contactPersonNumber String   @unique

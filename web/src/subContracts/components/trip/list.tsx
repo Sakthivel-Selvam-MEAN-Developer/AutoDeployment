@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Box, Button, CircularProgress } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ListAllTrip from './show'
 import { useEffect, useState } from 'react'
@@ -15,8 +15,11 @@ const TripList: React.FC = () => {
     const [allTrips, setAllTrips] = useState([])
     const [allStockTrips, setAllStockTrips] = useState([])
     const [update, setUpdate] = useState(false)
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
-        getAllTrip().then(setAllTrips)
+        getAllTrip()
+            .then(setAllTrips)
+            .then(() => setLoading(false))
         getAllStockPointTrip().then(setAllStockTrips)
     }, [update])
     return (
@@ -29,12 +32,18 @@ const TripList: React.FC = () => {
                 </Link>
             </div>
             <p>List Of Trips</p>
-            <ListAllTrip
-                allTrips={allTrips}
-                allStockTrips={allStockTrips}
-                setUpdate={setUpdate}
-                update={update}
-            />
+            {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <ListAllTrip
+                    allTrips={allTrips}
+                    allStockTrips={allStockTrips}
+                    setUpdate={setUpdate}
+                    update={update}
+                />
+            )}
         </>
     )
 }

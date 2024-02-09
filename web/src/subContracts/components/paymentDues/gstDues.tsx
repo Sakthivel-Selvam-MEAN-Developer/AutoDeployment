@@ -5,8 +5,7 @@ import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
 import { getGstDues } from '../../services/paymentDues'
-import { ListItemSecondaryAction } from '@mui/material'
-import FormField from './formField'
+import { Checkbox, ListItemSecondaryAction } from '@mui/material'
 
 interface tripProp {
     fuelId: number
@@ -16,68 +15,75 @@ interface tripProp {
     type: string
     transactionId: string
 }
+interface bankDetailProps {
+    name: string
+    accountNumber: string
+    ifsc: string
+    address: string
+    accountTypeNumber: number
+}
 interface dataProp {
     name: string
     dueDetails: { count: number; payableAmount: number }
     tripDetails: tripProp[]
+    bankDetails: bankDetailProps[]
 }
-const GSTDues: React.FC = () => {
-    const [gstDues, setGstDues] = useState([])
-    const [refresh, setRefresh] = useState<boolean>(false)
-    const style = { width: '100%', padding: '10px 10px 0px' }
-    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
-    useEffect(() => {
-        getGstDues().then(setGstDues)
-    }, [refresh])
-    return (
-        <>
-            {gstDues &&
-                gstDues.map((data: dataProp) => {
-                    return (
-                        <Accordion>
-                            {accordionSummary(data, style)}
-                            {data.tripDetails.map((list: tripProp) => {
-                                return accordionDetails(
-                                    accordianStyle,
-                                    style,
-                                    list,
-                                    setRefresh,
-                                    refresh
-                                )
-                            })}
-                        </Accordion>
-                    )
-                })}
-        </>
-    )
+export interface gstNEFTDetailsProps {
+    id: number
+    bankDetails: bankDetailProps[]
+    type: string
+    payableAmount: number
 }
-export default GSTDues
+interface GenerateFormProps {
+    gstNEFTDetails: gstNEFTDetailsProps[]
+    setGstNEFTDetails: React.Dispatch<React.SetStateAction<gstNEFTDetailsProps[]>>
+    paymentDueId: number[]
+    setPaymentDueId: React.Dispatch<React.SetStateAction<number[]>>
+    refresh: boolean
+}
+const style = { width: '100%', padding: '10px 10px 0px' }
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 function accordionDetails(
     accordianStyle: { display: string; borderBottom: string },
     style: { width: string; padding: string },
     list: tripProp,
-    setRefresh: React.Dispatch<React.SetStateAction<boolean>>,
-    refresh: boolean
+    data: dataProp,
+    gstNEFTDetails: gstNEFTDetailsProps[],
+    setGstNEFTDetails: React.Dispatch<React.SetStateAction<gstNEFTDetailsProps[]>>,
+    paymentDueId: number[],
+    setPaymentDueId: React.Dispatch<React.SetStateAction<number[]>>
 ) {
+    const handleClick = (list: tripProp, data: dataProp) => {
+        const obj = {
+            id: list.id,
+            bankDetails: data.bankDetails,
+            type: list.type,
+            payableAmount: list.amount
+        }
+        if (gstNEFTDetails.find((detail) => detail.id === obj.id)) {
+            setGstNEFTDetails(gstNEFTDetails.filter((detail) => detail.id !== obj.id))
+            setPaymentDueId(paymentDueId.filter((id) => id !== obj.id))
+        } else {
+            setGstNEFTDetails((prevDetails) => [...prevDetails, obj])
+            setPaymentDueId((prevId) => [...prevId, obj.id])
+        }
+        console.log(gstNEFTDetails)
+    }
     return (
         <AccordionDetails sx={accordianStyle}>
+            <Typography>
+                <Checkbox onClick={() => handleClick(list, data)} {...label} />
+            </Typography>
             <Typography sx={style}>
                 <b>{list.vehicleNumber}</b>
             </Typography>
             <Typography sx={style}>{list.type} </Typography>
             <Typography sx={style}>{list.amount} </Typography>
-            <FormField
-                setRefresh={setRefresh}
-                refresh={refresh}
-                id={list.id}
-                fuelId={0}
-                type={list.type}
-            />
         </AccordionDetails>
     )
 }
 
-function accordionSummary(data: dataProp, style: { width: string; padding: string }) {
+function accordionSummary(data: dataProp) {
     return (
         <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -97,3 +103,48 @@ function accordionSummary(data: dataProp, style: { width: string; padding: strin
         </AccordionSummary>
     )
 }
+const GSTDues: React.FC<GenerateFormProps> = ({
+    gstNEFTDetails,
+    setGstNEFTDetails,
+    paymentDueId,
+    setPaymentDueId,
+    refresh
+}) => {
+    const [gstDues, setGstDues] = useState([])
+    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
+    useEffect(() => {
+        setGstNEFTDetails([])
+        setPaymentDueId([])
+    }, [])
+    useEffect(() => {
+        getGstDues().then(setGstDues)
+    }, [refresh])
+    return (
+        <>
+            {gstDues.length !== 0 ? (
+                gstDues.map((data: dataProp) => {
+                    return (
+                        <Accordion>
+                            {accordionSummary(data)}
+                            {data.tripDetails.map((list: tripProp) => {
+                                return accordionDetails(
+                                    accordianStyle,
+                                    style,
+                                    list,
+                                    data,
+                                    gstNEFTDetails,
+                                    setGstNEFTDetails,
+                                    paymentDueId,
+                                    setPaymentDueId
+                                )
+                            })}
+                        </Accordion>
+                    )
+                })
+            ) : (
+                <p style={{ textAlign: 'center' }}>No GST Dues..!</p>
+            )}
+        </>
+    )
+}
+export default GSTDues

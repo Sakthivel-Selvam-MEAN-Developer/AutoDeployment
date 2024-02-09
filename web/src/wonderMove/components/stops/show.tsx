@@ -28,22 +28,22 @@ interface StopListProps {
     tableState: any
 }
 const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
-    const [selectedRows, setSelectedRows] = useState(null)
+    const [selectedRows, setSelectedRows] = useState<StopDetails[]>([])
     const [allReasons, setAllReasons] = useState([])
 
     useEffect(() => {
         getAllReasons().then(setAllReasons)
     }, [])
 
-    let sortedDetails: any = []
+    let sortedDetails: StopDetails[] = []
     if (stopDetails && stopDetails.length > 0) {
-        sortedDetails = stopDetails.slice().sort((a: any, b: any) => a.startTime - b.startTime)
+        sortedDetails = stopDetails.slice().sort((a, b) => a.startTime - b.startTime)
     }
     const handleEditClick = (row: StopDetails) => {
         const rowsWithSameGpsStopId = stopDetails.filter(
             (item) => item.gpsStop.id === row.gpsStop.id
         )
-        setSelectedRows(rowsWithSameGpsStopId as any)
+        setSelectedRows(rowsWithSameGpsStopId)
     }
 
     return (
@@ -62,7 +62,7 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortedDetails.map((row: any, index: number) => (
+                        {sortedDetails.map((row: StopDetails, index: number) => (
                             <TableRow
                                 key={row.id}
                                 sx={{

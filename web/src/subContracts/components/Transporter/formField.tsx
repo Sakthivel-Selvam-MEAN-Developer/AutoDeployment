@@ -108,8 +108,15 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 type="string"
                 rows={1}
             />
+            <InputWithType
+                control={control}
+                disabled={false}
+                label="CSM Name"
+                fieldName="csmName"
+                type="string"
+            />
             <div style={{ display: 'flex' }}>
-                <Checkbox onClick={() => setGst(!gst)} {...label} />
+                <Checkbox onClick={() => setGst(!gst)} {...label} checked={!gst} />
                 <InputWithType
                     control={control}
                     disabled={gst}
@@ -117,16 +124,16 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     fieldName="gstNumber"
                     type="string"
                 />
-                <InputWithType
-                    control={control}
-                    disabled={gst}
-                    label="GST Percentage"
-                    fieldName="gstPercentage"
-                    type="number"
-                />
             </div>
+            <InputWithType
+                control={control}
+                disabled={gst}
+                label="GST Percentage"
+                fieldName="gstPercentage"
+                type="number"
+            />
             <div style={{ display: 'flex' }}>
-                <Checkbox onClick={() => setTds(!tds)} {...label} />
+                <Checkbox onClick={() => setTds(!tds)} {...label} checked={!tds} />
                 <InputWithType
                     control={control}
                     disabled={tds}
