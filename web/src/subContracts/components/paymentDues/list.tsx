@@ -5,6 +5,7 @@ import PaymentDues from './paymentDues'
 import { exportFile } from './NEFTForm/exportFile.ts'
 import { updateNEFTStatus } from '../../services/paymentDues.ts'
 import GSTDues, { gstNEFTDetailsProps } from './gstDues.tsx'
+import GSTPaymentDues from './gstPaymentDues.tsx'
 interface TabPanelProps {
     children?: React.ReactNode
     index: number
@@ -82,7 +83,10 @@ const PaymentDuesList: React.FC = () => {
                             indicatorColor="secondary"
                         >
                             <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Generate Form" />
-                            <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Payment Dues" />
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Add Transaction ID"
+                            />
                         </Tabs>
                     </Box>
                 </div>
@@ -111,24 +115,49 @@ const PaymentDuesList: React.FC = () => {
                 </CustomTabPanel>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        data-testid={'new-trip-button'}
-                        onClick={handleClick}
-                        disabled={gstNEFTDetails.length === 0}
-                    >
-                        Generate Form
-                    </Button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ width: '700px', bgcolor: 'background.paper' }}>
+                        <Tabs
+                            value={valueInner}
+                            onChange={handleChangeInner}
+                            textColor="inherit"
+                            variant="fullWidth"
+                            indicatorColor="secondary"
+                        >
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Generate Form (GST)"
+                            />
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Add Transaction ID (GST)"
+                            />
+                        </Tabs>
+                    </Box>
                 </div>
-                <GSTDues
-                    gstNEFTDetails={gstNEFTDetails}
-                    setGstNEFTDetails={setGstNEFTDetails}
-                    paymentDueId={paymentDueId}
-                    setPaymentDueId={setPaymentDueId}
-                    refresh={refresh}
-                />
+                <CustomTabPanel value={valueInner} index={0}>
+                    <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            data-testid={'new-trip-button'}
+                            onClick={handleClick}
+                            disabled={gstNEFTDetails.length === 0}
+                        >
+                            Generate Form
+                        </Button>
+                    </div>
+                    <GSTDues
+                        gstNEFTDetails={gstNEFTDetails}
+                        setGstNEFTDetails={setGstNEFTDetails}
+                        paymentDueId={paymentDueId}
+                        setPaymentDueId={setPaymentDueId}
+                        refresh={refresh}
+                    />
+                </CustomTabPanel>
+                <CustomTabPanel value={valueInner} index={1}>
+                    <GSTPaymentDues />
+                </CustomTabPanel>
             </CustomTabPanel>
         </>
     )

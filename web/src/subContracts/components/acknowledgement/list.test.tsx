@@ -52,7 +52,8 @@ const mockOverAllTripDataById = {
         },
         tripStatus: false,
         filledLoad: 20,
-        invoiceNumber: 'abc123'
+        invoiceNumber: 'abc123',
+        unloadedDate: 1709145000
     }
 }
 const mockOverAllTripDataByIdAfterTripClosed = {
@@ -78,7 +79,8 @@ const mockOverAllTripDataByIdAfterTripClosed = {
         tripStatus: true,
         acknowledgeDueTime: 1706338250,
         filledLoad: 20,
-        invoiceNumber: 'abc123'
+        invoiceNumber: 'abc123',
+        unloadedDate: 1709145000
     }
 }
 const mockOverAllTripDataByIdAfterAcknowledgeAdded = {
@@ -104,7 +106,8 @@ const mockOverAllTripDataByIdAfterAcknowledgeAdded = {
         tripStatus: true,
         acknowledgeDueTime: 1706338250,
         filledLoad: 20,
-        invoiceNumber: 'abc123'
+        invoiceNumber: 'abc123',
+        unloadedDate: 1709145000
     }
 }
 

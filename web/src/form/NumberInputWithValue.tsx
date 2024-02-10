@@ -1,5 +1,6 @@
 import { Control, Controller } from 'react-hook-form'
 import { TextField } from '@mui/material'
+import { ChangeEvent } from 'react'
 
 interface TextInputProps {
     control: Control
@@ -8,7 +9,7 @@ interface TextInputProps {
     InputProps: any
     type: 'number'
     value: number
-    onChange: any
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 function NumberInputWithValue({
     control,

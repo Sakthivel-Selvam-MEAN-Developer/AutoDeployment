@@ -1,16 +1,19 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { FormFieldProps } from './types'
 import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { updateAcknowledgementStatus, closeTrip } from '../../services/acknowledgement'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { AcknowledgementLocation } from './acknowledgeLocation'
-import dayjs from 'dayjs'
+import { FormFieldProps } from './types'
 import { epochToDate } from '../../../commonUtils/epochToTime'
+import dayjs from 'dayjs'
+import DateInput from '../../../form/DateInput'
 
 const AddAcknowledgement: React.FC<FormFieldProps> = ({
     tripDetails,
     setRender,
     render
 }): ReactElement => {
+    const { handleSubmit, control } = useForm<FieldValues>()
     const [tripStatus, setTripStatus] = useState<boolean>(false)
     const [acknowledgeDueTime, setAcknowledgeDueTime] = useState<number>(0)
     const [unload, setUnload] = useState<number | null>(null)
@@ -58,7 +61,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                 : tripDetails.stockPointToUnloadingPointTrip.acknowledgeDueTime
         )
     }, [tripDetails, render])
-    const handleCloseTrip = async () => {
+    const handleCloseTrip: SubmitHandler<FieldValues> = async (data) => {
         const details = {
             overallTripId: tripDetails.id,
             shortageQuantity,
@@ -66,7 +69,8 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
             approvalStatus: approvalType === 'Acceptable' ? true : false,
             reason,
             filledLoad: filledLoad * 1000,
-            unloadedQuantity: unload
+            unloadedQuantity: unload,
+            unloadedDate: data.unloadedDate !== undefined ? data.unloadedDate.unix() : 0
         }
         await closeTrip(details)
         setRender(!render)
@@ -134,7 +138,10 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                 }}
             />
             {!tripStatus ? (
-                <div style={{ display: 'grid', alignItems: 'center', marginTop: '20px' }}>
+                <form
+                    style={{ display: 'grid', alignItems: 'center', marginTop: '20px' }}
+                    onSubmit={handleSubmit(handleCloseTrip)}
+                >
                     <h3 style={{ fontWeight: 'normal' }}>Unload the Active Trip</h3>
                     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                         <TextField
@@ -162,6 +169,12 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                             InputProps={{
                                 endAdornment: <InputAdornment position="start">KG</InputAdornment>
                             }}
+                        />
+                        <DateInput
+                            control={control}
+                            format="DD/MM/YYYY"
+                            fieldName="unloadedDate"
+                            label="Trip Start Date"
                         />
                         <Autocomplete
                             sx={{ width: '200px', margin: '10px 20px 10px 0' }}
@@ -211,12 +224,11 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                             color="secondary"
                             variant="contained"
                             type="submit"
-                            onClick={handleCloseTrip}
                         >
                             Unload
                         </Button>
                     </div>
-                </div>
+                </form>
             ) : (
                 <div>
                     <p>Waiting for Acknowledgement...</p>

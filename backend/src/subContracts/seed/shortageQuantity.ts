@@ -5,5 +5,6 @@ export default {
     approvalStatus: true,
     reason: 'ABC',
     filledLoad: 40000,
-    unloadedQuantity: 39500
+    unloadedQuantity: 39500,
+    unloadedDate: 1709145000
 }
