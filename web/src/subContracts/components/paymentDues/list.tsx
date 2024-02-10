@@ -46,11 +46,14 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 const PaymentDuesList: React.FC = () => {
     const [value, setValue] = useState(0)
-    const [valueInner, setValueInner] = useState(0)
+    const [valueDues, setValueDues] = useState(0)
+    const [valueGst, setValueGst] = useState(0)
     const [refresh, setRefresh] = useState<boolean>(false)
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => setValue(newValue)
-    const handleChangeInner = (_event: React.SyntheticEvent, newValue: number) =>
-        setValueInner(newValue)
+    const handleChangeGst = (_event: React.SyntheticEvent, newValue: number) =>
+        setValueGst(newValue)
+    const handleChangeDues = (_event: React.SyntheticEvent, newValue: number) =>
+        setValueDues(newValue)
     const handleClick = async () => {
         if (NEFTDetails.length !== 0)
             await exportFile(NEFTDetails)
@@ -76,8 +79,8 @@ const PaymentDuesList: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Box sx={{ width: '700px', bgcolor: 'background.paper' }}>
                         <Tabs
-                            value={valueInner}
-                            onChange={handleChangeInner}
+                            value={valueDues}
+                            onChange={handleChangeDues}
                             textColor="inherit"
                             variant="fullWidth"
                             indicatorColor="secondary"
@@ -90,7 +93,7 @@ const PaymentDuesList: React.FC = () => {
                         </Tabs>
                     </Box>
                 </div>
-                <CustomTabPanel value={valueInner} index={0}>
+                <CustomTabPanel value={valueDues} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
                         <Button
                             variant="contained"
@@ -110,7 +113,7 @@ const PaymentDuesList: React.FC = () => {
                         refresh={refresh}
                     />
                 </CustomTabPanel>
-                <CustomTabPanel value={valueInner} index={1}>
+                <CustomTabPanel value={valueDues} index={1}>
                     <PaymentDues />
                 </CustomTabPanel>
             </CustomTabPanel>
@@ -118,8 +121,8 @@ const PaymentDuesList: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Box sx={{ width: '700px', bgcolor: 'background.paper' }}>
                         <Tabs
-                            value={valueInner}
-                            onChange={handleChangeInner}
+                            value={valueGst}
+                            onChange={handleChangeGst}
                             textColor="inherit"
                             variant="fullWidth"
                             indicatorColor="secondary"
@@ -135,7 +138,7 @@ const PaymentDuesList: React.FC = () => {
                         </Tabs>
                     </Box>
                 </div>
-                <CustomTabPanel value={valueInner} index={0}>
+                <CustomTabPanel value={valueGst} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
                         <Button
                             variant="contained"
@@ -155,7 +158,7 @@ const PaymentDuesList: React.FC = () => {
                         refresh={refresh}
                     />
                 </CustomTabPanel>
-                <CustomTabPanel value={valueInner} index={1}>
+                <CustomTabPanel value={valueGst} index={1}>
                     <GSTPaymentDues />
                 </CustomTabPanel>
             </CustomTabPanel>

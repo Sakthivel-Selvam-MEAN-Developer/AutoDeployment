@@ -42,7 +42,7 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
         .then(async (overallTrip) => {
             const transporterName = getTransporterName(overallTrip)
             const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
-                tdsPercentage: 0
+                tdsPercentage: null
             }
             const paymentDueDetails = await getDueByOverallTripId(overallTrip.id)
             const { shortageAmount } = (await getShortageQuantityByOverallTripId(
@@ -68,7 +68,7 @@ export const closeTripById = async (req: Request, res: Response) => {
             let transporterAmount
             const transporterName = getTransporterName(overAllTripData)
             const { gstPercentage } = (await getPercentageByTransporter(transporterName)) || {
-                gstPercentage: 0
+                gstPercentage: null
             }
             await createShortageQuantity(req.body)
 

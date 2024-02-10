@@ -4,44 +4,33 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
-import { getOnlyActiveDues } from '../../services/paymentDues'
+import { getGstDues } from '../../services/paymentDues'
 import { ListItemSecondaryAction } from '@mui/material'
-import dayjs from 'dayjs'
 import FormField from './formField'
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 
 interface tripProp {
-    fuelId: number
     id: number
-    number: string
-    loadingPoint: string
-    unloadingPoint: string
-    payableAmount: number
+    vehicleNumber: string
     type: string
-    transactionId: string
-    invoiceNumber: string
-    fuelInvoiceNumber: string
-    date: number
-    location: string
+    amount: number
 }
 interface dataProp {
     name: string
-    dueDetails: { count: number; totalPayableAmount: number }
+    dueDetails: { count: number; payableAmount: number }
     tripDetails: tripProp[]
 }
 const GSTPaymentDues: React.FC = () => {
-    const [transporterDue, setTransporterDue] = useState([])
+    const [gstDues, setGstDues] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
     const style = { width: '100%', padding: '10px 10px 0px' }
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
     useEffect(() => {
-        const todayDate = dayjs().startOf('day').unix()
-        getOnlyActiveDues(todayDate, true).then(setTransporterDue)
+        getGstDues(true).then(setGstDues)
     }, [refresh])
     return (
         <>
-            {transporterDue.length !== 0 ? (
-                transporterDue.map((data: dataProp) => {
+            {gstDues.length !== 0 ? (
+                gstDues.map((data: dataProp) => {
                     return (
                         <Accordion>
                             <AccordionSummary
@@ -57,31 +46,22 @@ const GSTPaymentDues: React.FC = () => {
                                     Total Trips: <b>{data.dueDetails.count}</b>
                                 </Typography>
                                 <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                    Total Amount: <b>{data.dueDetails.totalPayableAmount}</b>
+                                    Total Amount: <b>{data.dueDetails.payableAmount}</b>
                                 </ListItemSecondaryAction>
                             </AccordionSummary>
                             {data.tripDetails.map((list: tripProp) => {
                                 return (
                                     <AccordionDetails sx={accordianStyle}>
                                         <Typography sx={style}>
-                                            <b>{list.number}</b>
-                                        </Typography>
-                                        <Typography sx={style}>
-                                            {list.type !== 'fuel pay'
-                                                ? list.loadingPoint + ' - ' + list.unloadingPoint
-                                                : list.location}
+                                            <b>{list.vehicleNumber}</b>
                                         </Typography>
                                         <Typography sx={style}>{list.type} </Typography>
-                                        <Typography sx={style}>{list.payableAmount} </Typography>
-                                        <Typography sx={style}>{list.invoiceNumber}</Typography>
-                                        <Typography sx={style}>
-                                            {epochToMinimalDate(list.date)}
-                                        </Typography>
+                                        <Typography sx={style}>{list.amount}</Typography>
                                         <FormField
                                             setRefresh={setRefresh}
                                             refresh={refresh}
                                             id={list.id}
-                                            fuelId={list.fuelId}
+                                            fuelId={list.id}
                                             type={list.type}
                                         />
                                     </AccordionDetails>

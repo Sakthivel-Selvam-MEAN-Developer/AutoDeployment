@@ -34,7 +34,7 @@ export interface gstNEFTDetailsProps {
     type: string
     payableAmount: number
 }
-interface GenerateFormProps {
+export interface GenerateFormProps {
     gstNEFTDetails: gstNEFTDetailsProps[]
     setGstNEFTDetails: React.Dispatch<React.SetStateAction<gstNEFTDetailsProps[]>>
     paymentDueId: number[]
@@ -67,7 +67,6 @@ function accordionDetails(
             setGstNEFTDetails((prevDetails) => [...prevDetails, obj])
             setPaymentDueId((prevId) => [...prevId, obj.id])
         }
-        console.log(gstNEFTDetails)
     }
     return (
         <AccordionDetails sx={accordianStyle}>
@@ -117,7 +116,7 @@ const GSTDues: React.FC<GenerateFormProps> = ({
         setPaymentDueId([])
     }, [])
     useEffect(() => {
-        getGstDues().then(setGstDues)
+        getGstDues(false).then(setGstDues)
     }, [refresh])
     return (
         <>

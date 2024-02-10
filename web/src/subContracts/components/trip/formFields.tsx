@@ -1,6 +1,5 @@
 import TextInput from '../../../form/TextInput.tsx'
 import NumberInput from '../../../form/NumberInput.tsx'
-import AutoComplete from '../../../form/AutoComplete.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { FormControlLabel, InputAdornment, Switch } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -32,6 +31,7 @@ interface FormFieldProps {
     setTransporterAmount: React.Dispatch<React.SetStateAction<number>>
     category: string
     setValue: UseFormSetValue<FieldValues>
+    clear: boolean
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -52,10 +52,11 @@ const FormField: React.FC<FormFieldProps> = ({
     stockPointId,
     setValue,
     setFreightAmount,
-    setTransporterAmount
+    setTransporterAmount,
+    clear
 }) => {
-    const [transporterName, setTransporterName] = useState<string>()
-    const [cementCompanyName, setCementCompanyName] = useState<string>()
+    const [transporterName, setTransporterName] = useState<string | null>('')
+    const [cementCompanyName, setCementCompanyName] = useState<string | null>('')
     const [listTruck, setListTruck] = useState([])
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
@@ -67,18 +68,28 @@ const FormField: React.FC<FormFieldProps> = ({
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
 
     useEffect(() => {
-        if (cementCompanyName !== undefined)
+        if (cementCompanyName !== null && cementCompanyName !== '')
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
-        if (transporterName !== undefined) getTruckByTransporter(transporterName).then(setListTruck)
+        if (transporterName !== null && transporterName !== '')
+            getTruckByTransporter(transporterName).then(setListTruck)
     }, [transporterName, cementCompanyName])
 
     useEffect(() => {
-        if (cementCompanyName !== undefined && category === 'Stock Point')
+        if (cementCompanyName !== null && cementCompanyName !== '' && category === 'Stock Point')
             getStockPointByCompanyName(cementCompanyName).then(setStockPointList)
-        else if (cementCompanyName !== undefined && category === 'Unloading Point')
+        else if (
+            cementCompanyName !== null &&
+            cementCompanyName !== '' &&
+            category === 'Unloading Point'
+        )
             getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
     }, [category, cementCompanyName])
+    useEffect(() => {
+        console.log(clear)
 
+        setCementCompanyName(null)
+        setTransporterName(null)
+    }, [clear])
     useEffect(() => {
         setLoadingPointName('')
         setStockPointName('')
@@ -113,8 +124,9 @@ const FormField: React.FC<FormFieldProps> = ({
                 flexWrap: 'wrap'
             }}
         >
-            <AutoComplete
+            <AutoCompleteWithValue
                 control={control}
+                value={cementCompanyName !== null ? cementCompanyName : ''}
                 fieldName="companyName"
                 label="Company Name"
                 options={cementCompany}
@@ -122,8 +134,9 @@ const FormField: React.FC<FormFieldProps> = ({
                     setCementCompanyName(newValue)
                 }}
             />
-            <AutoComplete
+            <AutoCompleteWithValue
                 control={control}
+                value={transporterName !== null ? transporterName : ''}
                 fieldName="transporterName"
                 label="Transporter"
                 options={transporter}

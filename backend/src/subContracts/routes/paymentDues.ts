@@ -13,7 +13,7 @@ const paymentDues = (router: Router) => {
     router.get('/payment-dues/:duedate/:status', listOnlyActiveTransporterDues)
     router.put('/payment-dues', updatePayment)
     router.put('/payment-dues/NEFT', updateNEFTStatus)
-    router.get('/payment-dues/gst', listGstDuesGroupByName)
+    router.get('/payment-dues/:status', listGstDuesGroupByName)
     router.get('/payment-dues/:name/:from/:to', listAllUpcomingTransporterDues)
 }
 

@@ -220,11 +220,11 @@ const groupGstDue = async (
         }
     })
 
-export const listGstDuesGroupByName = async (_req: Request, res: Response) => {
-    const groupedGstDues = await getGstDuesGroupByName()
+export const listGstDuesGroupByName = async (req: Request, res: Response) => {
+    const groupedGstDues = await getGstDuesGroupByName(req.params.status === 'true')
     const name = groupedGstDues.map((dues) => dues.name)
-    const bankDetails = await getTransporterAccountByName(name)
-    const gstPaymentDues = await getGstPaymentDues(name)
+    const bankDetails = req.params.status === 'false' ? await getTransporterAccountByName(name) : []
+    const gstPaymentDues = await getGstPaymentDues(name, req.params.status === 'true')
     await groupGstDue(groupedGstDues, gstPaymentDues, bankDetails)
         .then((gstDueData) => res.status(200).json(gstDueData))
         .catch(() => res.sendStatus(500))

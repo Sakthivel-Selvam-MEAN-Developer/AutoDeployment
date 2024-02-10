@@ -106,11 +106,12 @@ export const updatePaymentNEFTStatus = (dueId: number[]) =>
         }
     })
 
-export const getGstDuesGroupByName = () =>
+export const getGstDuesGroupByName = (status: boolean) =>
     prisma.paymentDues.groupBy({
         by: ['name'],
         where: {
-            NEFTStatus: false,
+            status: false,
+            NEFTStatus: status,
             type: 'gst pay'
         },
         _count: {
@@ -121,13 +122,14 @@ export const getGstDuesGroupByName = () =>
         }
     })
 
-export const getGstPaymentDues = (name: string[]) =>
+export const getGstPaymentDues = (name: string[], status: boolean) =>
     prisma.paymentDues.findMany({
         where: {
             name: {
                 in: name
             },
-            NEFTStatus: false,
+            status: false,
+            NEFTStatus: status,
             type: 'gst pay'
         },
         select: {

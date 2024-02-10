@@ -6,14 +6,19 @@ import { AcknowledgementLocation } from './acknowledgeLocation'
 import { FormFieldProps } from './types'
 import { epochToDate } from '../../../commonUtils/epochToTime'
 import dayjs from 'dayjs'
-import DateInput from '../../../form/DateInput'
+import { DatePicker } from '@mui/x-date-pickers'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
+interface dateProps {
+    $d: number
+}
 const AddAcknowledgement: React.FC<FormFieldProps> = ({
     tripDetails,
     setRender,
     render
 }): ReactElement => {
-    const { handleSubmit, control } = useForm<FieldValues>()
+    const { handleSubmit } = useForm<FieldValues>()
     const [tripStatus, setTripStatus] = useState<boolean>(false)
     const [acknowledgeDueTime, setAcknowledgeDueTime] = useState<number>(0)
     const [unload, setUnload] = useState<number | null>(null)
@@ -21,6 +26,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
     const [reason, setReason] = useState<string>('')
     const [shortageAmount, setShortageAmount] = useState<number>(0)
     const [shortageQuantity, setShortageQuantity] = useState<number>(0)
+    const [unloadedDate, setUnloadedDate] = useState<Date | null>(null)
     const style = {
         padding: ' 0 20px 20px 20px',
         margin: '30px 20%',
@@ -61,7 +67,8 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                 : tripDetails.stockPointToUnloadingPointTrip.acknowledgeDueTime
         )
     }, [tripDetails, render])
-    const handleCloseTrip: SubmitHandler<FieldValues> = async (data) => {
+    const handleCloseTrip: SubmitHandler<FieldValues> = async () => {
+        const date = dayjs((unloadedDate as unknown as dateProps)?.$d).format('DD/MM/YYYY')
         const details = {
             overallTripId: tripDetails.id,
             shortageQuantity,
@@ -70,7 +77,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
             reason,
             filledLoad: filledLoad * 1000,
             unloadedQuantity: unload,
-            unloadedDate: data.unloadedDate !== undefined ? data.unloadedDate.unix() : 0
+            unloadedDate: dayjs(date, 'DD/MM/YYYY').unix()
         }
         await closeTrip(details)
         setRender(!render)
@@ -170,12 +177,13 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                                 endAdornment: <InputAdornment position="start">KG</InputAdornment>
                             }}
                         />
-                        <DateInput
-                            control={control}
-                            format="DD/MM/YYYY"
-                            fieldName="unloadedDate"
-                            label="Trip Start Date"
-                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
+                            <DatePicker
+                                label="Unloaded Date"
+                                value={unloadedDate}
+                                onChange={(newValue) => setUnloadedDate(newValue)}
+                            />
+                        </LocalizationProvider>
                         <Autocomplete
                             sx={{ width: '200px', margin: '10px 20px 10px 0' }}
                             value={approvalType}
@@ -214,6 +222,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
                         <Button
                             disabled={
                                 unload === null ||
+                                unloadedDate === null ||
                                 unload === 0 ||
                                 approvalType === '' ||
                                 approvalType === 'Rejectable'

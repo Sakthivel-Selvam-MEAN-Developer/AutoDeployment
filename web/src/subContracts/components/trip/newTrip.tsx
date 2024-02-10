@@ -1,11 +1,10 @@
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form'
+import { useForm, SubmitHandler, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { getAllTransporter } from '../../services/transporter.ts'
 import FormField from './formFields.tsx'
 import SubmitButton from '../../../form/button.tsx'
 import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { createTrip } from '../../services/trip.ts'
-import { useNavigate } from 'react-router-dom'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
 
@@ -15,7 +14,6 @@ interface transporter {
     freightAmount: number
 }
 const NewTrip: React.FC = () => {
-    const navigate = useNavigate()
     const { handleSubmit, control, watch, setValue } = useForm<FieldValues>()
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
@@ -31,6 +29,7 @@ const NewTrip: React.FC = () => {
     const [fuel, setFuel] = useState(false)
     const filledLoad = watch('filledLoad')
     const [category, setCategory] = useState<string>('')
+    const [clear, setClear] = useState<boolean>(false)
 
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseFloat(filledLoad))
@@ -61,12 +60,12 @@ const NewTrip: React.FC = () => {
             }
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
-                    .then(() => navigate('/sub/trip'))
+                    .then(() => clearForm(clear, setClear, setCategory, setValue))
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
             else if (category === 'Unloading Point')
-                createTrip({ ...details, unloadingPointId: unloadingPointId }).catch((error) =>
-                    alert(`Error in ${error.response.data.meta.target[0]}`)
-                )
+                createTrip({ ...details, unloadingPointId: unloadingPointId })
+                    .then(() => clearForm(clear, setClear, setCategory, setValue))
+                    .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
         } else alert('All fields Required')
     }
     useEffect(() => {
@@ -107,6 +106,7 @@ const NewTrip: React.FC = () => {
                 category={category}
                 stockPointId={setStockPointId}
                 setValue={setValue}
+                clear={clear}
             />
             <SubmitButton name="Start" type="submit" />
         </form>
@@ -117,4 +117,15 @@ function checkCondition(truckId: number, data: FieldValues, freightAmount: numbe
     return (
         truckId !== 0 && data.invoiceNumber !== '' && data.filledLoad !== '' && freightAmount !== 0
     )
+}
+const clearForm = (
+    clear: boolean,
+    setClear: React.Dispatch<React.SetStateAction<boolean>>,
+    setCategory: React.Dispatch<React.SetStateAction<string>>,
+    setValue: UseFormSetValue<FieldValues>
+) => {
+    setClear(!clear)
+    setCategory('')
+    setValue('tripDate', null)
+    setValue('filledLoad', '')
 }
