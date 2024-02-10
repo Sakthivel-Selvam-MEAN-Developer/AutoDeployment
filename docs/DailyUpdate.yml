@@ -1,3 +1,38 @@
+- date: 10-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - reports for acknowledgement aging
+    - adding csm name in list of trips and upcoming dues
+- date: 10-2-2024
+  person: Muthu
+  leave: true
+- date: 10-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - displaying NEFT generated gst dues
+    
+- date: 9-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - dicussion with client
+    - review for reports
+  completed:
+    - review with client for reports
+    - discussion for acknowledgement aging report and discrepancy report
+- date: 9-2-2024
+  person: Muthu
+  leave: true
+- date: 9-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - generate NEFT for gst dues
+  completed:
+    - able to generate NEFT for gst dues
+    
 - date: 8-2-2024
   person: Barath
   project: subContract
