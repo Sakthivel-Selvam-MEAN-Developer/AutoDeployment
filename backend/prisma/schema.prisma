@@ -516,11 +516,12 @@ model paymentDues {
 }
 
 model shortageQuantity {
-  id               Int      @id @default(autoincrement())
-  overallTripId    Int
+  id               Int          @id @default(autoincrement())
+  overallTrip      overallTrip? @relation(fields: [overallTripId], references: [id])
+  overallTripId    Int?
   shortageQuantity Int
   shortageAmount   Int
-  approvalStatus   Boolean  @default(false)
+  approvalStatus   Boolean      @default(false)
   reason           String?
   filledLoad       Int
   unloadedQuantity Int
@@ -544,6 +545,7 @@ model overallTrip {
   fuel                               fuel[]
   createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
   updatedAt                          DateTime                          @updatedAt @db.Timestamptz(6)
+  shortageQuantity                   shortageQuantity[]
 
   @@schema("subContract")
 }

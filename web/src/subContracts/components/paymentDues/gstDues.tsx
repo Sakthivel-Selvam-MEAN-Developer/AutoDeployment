@@ -71,10 +71,12 @@ function accordionDetails(
     return (
         <AccordionDetails sx={accordianStyle}>
             <Typography>
+                {' '}
                 <Checkbox onClick={() => handleClick(list, data)} {...label} />
             </Typography>
             <Typography sx={style}>
-                <b>{list.vehicleNumber}</b>
+                {' '}
+                <b>{list.vehicleNumber}</b>{' '}
             </Typography>
             <Typography sx={style}>{list.type} </Typography>
             <Typography sx={style}>{list.amount} </Typography>
@@ -114,6 +116,7 @@ const GSTDues: React.FC<GenerateFormProps> = ({
     useEffect(() => {
         setGstNEFTDetails([])
         setPaymentDueId([])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
         getGstDues(false).then(setGstDues)

@@ -15,10 +15,18 @@ interface Props {
     payableAmount: number
     overallTrip: {
         loadingPointToUnloadingPointTrip: {
-            startDate: number
+            truck: {
+                transporter: {
+                    csmName: string
+                }
+            }
         }
         loadingPointToStockPointTrip: {
-            startDate: number
+            truck: {
+                transporter: {
+                    csmName: string
+                }
+            }
         }
     }
 }
@@ -34,17 +42,19 @@ function getTableHead() {
             <TableRow>
                 <TableCell>#</TableCell>
                 <TableCell align="left">Transporter Name</TableCell>
+                <TableCell align="left">CSM Name</TableCell>
                 <TableCell align="left">Due Date</TableCell>
                 <TableCell align="left">Amount</TableCell>
             </TableRow>
         </TableHead>
     )
 }
-const getCells = (data: Props, num: number) => {
+const getCells = (data: Props, num: number, trip: any) => {
     return (
         <>
             <TableCell> {num} </TableCell>
             <TableCell align="left">{data.name}</TableCell>
+            <TableCell align="left">{trip.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{epochToMinimalDate(data.dueDate)}</TableCell>
             <TableCell align="left">{data.payableAmount}</TableCell>
         </>
@@ -58,14 +68,22 @@ function getTableBody(allTrips: Props[]) {
             {allTrips.map((row, index) => {
                 return (
                     <TableRow key={index} sx={style}>
-                        {getCells(row, ++number)}
+                        {getCells(
+                            row,
+                            ++number,
+                            row.overallTrip.loadingPointToStockPointTrip !== null
+                                ? row.overallTrip.loadingPointToStockPointTrip
+                                : row.overallTrip.loadingPointToUnloadingPointTrip !== null
+                                  ? row.overallTrip.loadingPointToUnloadingPointTrip
+                                  : ''
+                        )}
                     </TableRow>
                 )
             })}
         </TableBody>
     )
 }
-export function download(listoverallTrip: Props[]) {
+function download(listoverallTrip: Props[]) {
     const downloadtripData: object[] = []
     listoverallTrip.map((row: Props) => {
         downloadCSV(row, downloadtripData, listoverallTrip.length)

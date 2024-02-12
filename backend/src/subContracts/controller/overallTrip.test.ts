@@ -3,9 +3,11 @@ import { app } from '../../app.ts'
 
 const mockListOverallTrip = vi.fn()
 const mockOverallTripByFiltrer = vi.fn()
+const mockgetTripByUnloadDate = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getOverallTrip: () => mockListOverallTrip(),
+    getTripByUnloadDate: (inputs: any) => mockgetTripByUnloadDate(inputs),
     overallTripByFiltrer: (id1: number, id2: number, id3: number, id4: number, id5: number) =>
         mockOverallTripByFiltrer(id1, id2, id3, id4, id5)
 }))
@@ -17,6 +19,7 @@ const mockOverallTripData = [
         stockPointToUnloadingPointTripId: null,
         loadingPointToUnloadingPointTripId: 1,
         fuel: [],
+        shortageQuantity: [],
         loadingPointToStockPointTrip: null,
         loadingPointToUnloadingPointTrip: {
             id: 1,
@@ -61,5 +64,10 @@ describe('OverallTrip Controller', () => {
         mockOverallTripByFiltrer.mockResolvedValue(mockOverallTripData)
         await supertest(app).get('/api/overalltrip/1/1/1/1700764100/1700764300').expect(200)
         expect(mockOverallTripByFiltrer).toBeCalledTimes(1)
+    })
+    test('should able to filter trip by unloadDate', async () => {
+        mockgetTripByUnloadDate.mockResolvedValue(mockOverallTripData)
+        await supertest(app).get('/api/overalltrip/acknowledgement/0').expect(200)
+        expect(mockgetTripByUnloadDate).toBeCalledTimes(1)
     })
 })

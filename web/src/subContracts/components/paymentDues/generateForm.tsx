@@ -51,6 +51,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     useEffect(() => {
         setNEFTDetails([])
         setPaymentDueId([])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()

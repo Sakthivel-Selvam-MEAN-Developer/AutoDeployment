@@ -24,6 +24,7 @@ import AddVehicle from './subContracts/components/Transporter/addVehicle'
 import Report from './subContracts/components/report'
 import ListAllReport from './subContracts/components/report/list'
 import ListAllUpcomingDues from './subContracts/components/report/upcomingTransporterDuesList'
+import ListAllAcknowledgementDues from './subContracts/components/report/acknowledgementAgingReport/upcomingTransporterDuesList'
 
 const sunContractRoutes = {
     path: '/sub',
@@ -146,6 +147,10 @@ const sunContractRoutes = {
                 {
                     path: 'upcomingdues',
                     element: <ListAllUpcomingDues />
+                },
+                {
+                    path: 'pendingacknowledgement',
+                    element: <ListAllAcknowledgementDues />
                 }
             ]
         }

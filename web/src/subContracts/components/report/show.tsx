@@ -14,12 +14,14 @@ interface Row {
     transporterAmount: number
     totalFreightAmount: number
     totalTransporterAmount: number
+    margin: number
     transporterBalance: number
     tripStatus: boolean
     truck: {
         vehicleNumber: string
         transporter: {
             name: string
+            csmName: string
         }
     }
     endDate: number
@@ -62,11 +64,13 @@ function getTableHead() {
                 <TableCell align="left">Start Date</TableCell>
                 <TableCell align="left">Invoice Number</TableCell>
                 <TableCell align="left">Transporter</TableCell>
+                <TableCell align="left">CSM Name</TableCell>
                 <TableCell align="left">Loading Point</TableCell>
                 <TableCell align="left">Freight Rate</TableCell>
                 <TableCell align="left">Tansporter Rate</TableCell>
                 <TableCell align="left">Total Freight Amount</TableCell>
                 <TableCell align="left">Total Tansporter Amount</TableCell>
+                <TableCell align="left">Margin</TableCell>
                 <TableCell align="left">Disel Quantity </TableCell>
                 <TableCell align="left">Disel Amount</TableCell>
                 <TableCell align="left">Trip Status</TableCell>
@@ -84,11 +88,13 @@ const getCells = (data: Row, num: number, type: string, details: Props) => {
             <TableCell align="left">{data.invoiceNumber}</TableCell>
             <TableCell align="left">{epochToMinimalDate(data.startDate)}</TableCell>
             <TableCell align="left">{data.truck.transporter.name}</TableCell>
+            <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{data.loadingPoint.name}</TableCell>
             <TableCell align="left">{data.freightAmount}</TableCell>
             <TableCell align="left">{data.transporterAmount}</TableCell>
             <TableCell align="left">{data.totalFreightAmount}</TableCell>
             <TableCell align="left">{data.totalTransporterAmount}</TableCell>
+            <TableCell align="left">{data.margin}</TableCell>
             <TableCell align="left">
                 {details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity}
             </TableCell>
@@ -100,7 +106,7 @@ const getCells = (data: Row, num: number, type: string, details: Props) => {
                     ? 'Running'
                     : details.acknowledgementStatus === false
                       ? 'Waiting For Acknowledgement'
-                      : 'completed'}
+                      : 'Completed'}
             </TableCell>
             <TableCell align="left">{type}</TableCell>
         </>
@@ -190,6 +196,7 @@ const downloadCSV = (
         tansporterAmount: tripData.transporterAmount,
         totalFreightAmount: tripData.totalFreightAmount,
         totalTansporterAmount: tripData.totalTransporterAmount,
+        margin: tripData.margin,
         diselQuantity: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity,
         diselAmount: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].totalprice,
         tripStatus:
@@ -203,7 +210,7 @@ const downloadCSV = (
     downloadtripData.push(addData)
     if (downloadtripData.length === num) {
         const data = downloadtripData
-        const fileName = 'list of Trips'
+        const fileName = 'List of Trips'
         const exportType = exportFromJSON.types.csv
         exportFromJSON({ data, fileName, exportType })
     }
@@ -252,9 +259,3 @@ function loadingToStock(row: Props) {
         row.loadingPointToStockPointTrip !== null && row.loadingPointToStockPointTrip !== undefined
     )
 }
-// function loadingToUnloading(row: Props) {
-//     return (
-//         row.loadingPointToUnloadingPointTrip !== null &&
-//         row.loadingPointToUnloadingPointTrip !== undefined
-//     )
-// }

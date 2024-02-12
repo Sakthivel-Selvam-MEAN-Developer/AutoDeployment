@@ -156,8 +156,38 @@ export const getUpcomingDuesByFilter = (name: string, from: number, to: number) 
         include: {
             overallTrip: {
                 select: {
-                    loadingPointToStockPointTrip: { select: { startDate: true } },
-                    loadingPointToUnloadingPointTrip: { select: { startDate: true } }
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            truck: { include: { transporter: { select: { csmName: true } } } }
+                        }
+                    },
+                    loadingPointToUnloadingPointTrip: {
+                        include: {
+                            truck: { include: { transporter: { select: { csmName: true } } } }
+                        }
+                    }
+                }
+            }
+        }
+    })
+export const getUpcomingDuesByDefault = () =>
+    prisma.paymentDues.findMany({
+        where: {
+            type: 'final pay'
+        },
+        include: {
+            overallTrip: {
+                select: {
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            truck: { include: { transporter: { select: { csmName: true } } } }
+                        }
+                    },
+                    loadingPointToUnloadingPointTrip: {
+                        include: {
+                            truck: { include: { transporter: { select: { csmName: true } } } }
+                        }
+                    }
                 }
             }
         }

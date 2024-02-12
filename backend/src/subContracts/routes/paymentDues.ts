@@ -2,6 +2,7 @@ import { Router } from 'express'
 import {
     createPaymentDues,
     listAllUpcomingTransporterDues,
+    listAllUpcomingTransporterDuesByDefault,
     listGstDuesGroupByName,
     listOnlyActiveTransporterDues,
     updateNEFTStatus,
@@ -15,6 +16,7 @@ const paymentDues = (router: Router) => {
     router.put('/payment-dues/NEFT', updateNEFTStatus)
     router.get('/payment-dues/:status', listGstDuesGroupByName)
     router.get('/payment-dues/:name/:from/:to', listAllUpcomingTransporterDues)
+    router.get('/payment-dues/default', listAllUpcomingTransporterDuesByDefault)
 }
 
 export default paymentDues

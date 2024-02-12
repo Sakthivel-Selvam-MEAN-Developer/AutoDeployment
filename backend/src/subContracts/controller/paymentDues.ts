@@ -5,6 +5,7 @@ import {
     getGstDuesGroupByName,
     getGstPaymentDues,
     getOnlyActiveDuesByName,
+    getUpcomingDuesByDefault,
     getUpcomingDuesByFilter,
     updatePaymentDues,
     updatePaymentNEFTStatus
@@ -232,6 +233,11 @@ export const listGstDuesGroupByName = async (req: Request, res: Response) => {
 export const listAllUpcomingTransporterDues = (req: Request, res: Response) => {
     const { name, from, to } = req.params
     getUpcomingDuesByFilter(name, parseInt(from), parseInt(to))
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+export const listAllUpcomingTransporterDuesByDefault = (_req: Request, res: Response) => {
+    getUpcomingDuesByDefault()
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

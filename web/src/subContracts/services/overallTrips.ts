@@ -12,6 +12,12 @@ export const getOverallTripByCompany = (company: string) =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
+export const getTripByUnloadDate = (date: number) =>
+    axiosInstance
+        .get(`/overalltrip/acknowledgement/${date}`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
+
 export const getOverallTripByFilter = (
     cementCompanyId: number,
     transporterId: number,

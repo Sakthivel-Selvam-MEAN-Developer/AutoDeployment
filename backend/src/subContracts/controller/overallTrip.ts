@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import {
     getOverallTrip,
+    getTripByUnloadDate,
     getTripDetailsByCompanyName,
     overallTripByFilter
 } from '../models/overallTrip.ts'
@@ -26,6 +27,11 @@ export const listgetOverallTripById = (req: Request, res: Response) => {
 
 export const listTripDetailsByCompanyName = (req: Request, res: Response) => {
     getTripDetailsByCompanyName(req.params.company)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+export const listTripDetailsByUnloadDate = (req: Request, res: Response) => {
+    getTripByUnloadDate(parseInt(req.params.date))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

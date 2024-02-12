@@ -2,6 +2,7 @@ import { Router } from 'express'
 import {
     listOverallTripWithPaymentStatus,
     listTripDetailsByCompanyName,
+    listTripDetailsByUnloadDate,
     listgetOverallTripById
 } from '../controller/overallTrip.ts'
 
@@ -12,6 +13,7 @@ const overallTrip = (router: Router) => {
         listgetOverallTripById
     )
     router.get('/overalltrip/:company', listTripDetailsByCompanyName)
+    router.get('/overalltrip/acknowledgement/:date', listTripDetailsByUnloadDate)
 }
 
 export default overallTrip

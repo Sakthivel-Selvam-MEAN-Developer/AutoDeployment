@@ -3,7 +3,10 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import TransporterDuesFilter from './transporterDuesFilter'
 import ListAllTransporterDetails from './transporterShow'
-import { getUpcomingDuesByFilter } from '../../services/paymentDues'
+import {
+    getUpcomingDuesByFilter,
+    getUpcomingDuesByFilterByDefault
+} from '../../services/paymentDues'
 
 const ListAllUpcomingDues: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
@@ -14,18 +17,22 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
     const [transporterName, setTransporterName] = useState('')
 
     useEffect(() => {
+        getUpcomingDuesByFilterByDefault().then((data) => {
+            setTransporterList(data), setTripWithPagination(data)
+        })
+    }, [])
+    useEffect(() => {
         const value = skipNumber * 2
         const Trip = transporterList.slice(value, value + 2)
         setTripWithPagination(Trip)
     }, [skipNumber, transporterList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (transporterName !== '' && data.from && data.to) {
-            console.log(transporterName, data.from.unix(), data.to.unix())
             getUpcomingDuesByFilter(transporterName, data.from.unix(), data.to.unix()).then(
                 setTransporterList
             )
-            setShowDetails(true)
         }
+        setShowDetails(true)
     }
     return (
         <>

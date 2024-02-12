@@ -293,6 +293,7 @@ export const overallTripByFilter = (
             ]
         },
         include: {
+            fuel: true,
             paymentDues: true,
             loadingPointToStockPointTrip: {
                 include: {
@@ -369,6 +370,40 @@ export const getTripDetailsByCompanyName = (name: string) =>
                     },
                     loadingPoint: true,
                     unloadingPoint: true
+                }
+            }
+        }
+    })
+export const getTripByUnloadDate = (date: number) =>
+    prisma.overallTrip.findMany({
+        where: {
+            acknowledgementStatus: false,
+            shortageQuantity: {
+                some: {
+                    unloadedDate: {
+                        gte: date
+                    }
+                }
+            }
+        },
+        include: {
+            shortageQuantity: true,
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    }
+                }
+            },
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    }
                 }
             }
         }
