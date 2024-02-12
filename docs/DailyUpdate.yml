@@ -1,7 +1,26 @@
+- date: 12-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - reports for discrepancy payment report
+- date: 12-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - report for completed payment
+- date: 12-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - generate customer invoice
+
 - date: 10-2-2024
   person: Barath
   project: subContract
   planning:
+    - reports for acknowledgement aging
+    - adding csm name in list of trips and upcoming dues
+  completed:
     - reports for acknowledgement aging
     - adding csm name in list of trips and upcoming dues
 - date: 10-2-2024
@@ -12,6 +31,8 @@
   project: subContract
   planning:
     - displaying NEFT generated gst dues
+  completed:
+    - displayed NEFT generated gst dues
     
 - date: 9-2-2024
   person: Barath
