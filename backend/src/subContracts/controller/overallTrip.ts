@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import {
+    getAllDiscrepancyReport,
     getOverallTrip,
     getTripByUnloadDate,
     getTripDetailsByCompanyName,
@@ -32,6 +33,66 @@ export const listTripDetailsByCompanyName = (req: Request, res: Response) => {
 }
 export const listTripDetailsByUnloadDate = (req: Request, res: Response) => {
     getTripByUnloadDate(parseInt(req.params.date))
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+
+function differenceCalculation(tripData: any, totalPaidAmount: number) {
+    if (tripData.loadingPointToStockPointTrip !== null) {
+        const totalTransporterAmount =
+            tripData.loadingPointToStockPointTrip.totalTransporterAmount +
+            tripData.stockPointToUnloadingPointTrip.totalTransporterAmount
+        return totalTransporterAmount - (totalTransporterAmount - totalPaidAmount)
+    }
+    if (tripData.loadingPointToUnloadingPointTrip !== null) {
+        return (
+            tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount -
+            (tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount - totalPaidAmount)
+        )
+    }
+}
+export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
+    const { from, to } = req.params
+    await getAllDiscrepancyReport(parseInt(from), parseInt(to))
+        .then(async (data) => {
+            const tripDetails = await data.map((overallTrip) => {
+                let dueAmount = 0
+                let tripType
+                overallTrip.paymentDues.forEach((dues) => {
+                    if (dues.type !== 'gst pay') {
+                        dueAmount += dues.payableAmount
+                    }
+                })
+                if (overallTrip.loadingPointToStockPointTrip !== null) {
+                    tripType = overallTrip.loadingPointToStockPointTrip
+                } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
+                    tripType = overallTrip.loadingPointToUnloadingPointTrip
+                }
+                const differenceAmount = differenceCalculation(
+                    overallTrip,
+                    dueAmount - overallTrip.shortageQuantity.length !== 0
+                        ? overallTrip.shortageQuantity[0].shortageAmount
+                        : 0
+                )
+                const details = {
+                    vehicleNumber: tripType !== undefined && tripType.truck.vehicleNumber,
+                    invoiceNumber: tripType !== undefined && tripType.invoiceNumber,
+                    transporterName: tripType !== undefined && tripType.truck.transporter.name,
+                    csmName: tripType !== undefined && tripType.truck.transporter.csmName,
+                    transporterAmount:
+                        tripType !== undefined &&
+                        overallTrip.stockPointToUnloadingPointTrip !== null
+                            ? tripType.transporterAmount +
+                              overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
+                            : tripType?.transporterAmount,
+                    totalPaidAmount: dueAmount,
+                    differenceAmount
+                }
+
+                return details
+            })
+            return tripDetails
+        })
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

@@ -2,8 +2,6 @@ import { saveAs } from 'file-saver'
 import dayjs from 'dayjs'
 
 export const exportFile = async (NEFTData: any[]) => {
-    console.log(NEFTData)
-
     let type = ''
     const date = dayjs().format('DD/MM/YYYY')
     const NEFTDataHeaders =

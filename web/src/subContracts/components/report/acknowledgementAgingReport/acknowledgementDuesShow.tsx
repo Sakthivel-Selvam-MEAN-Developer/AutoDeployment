@@ -59,7 +59,6 @@ function getTableHead() {
                 <TableCell align="left">Invoice Number</TableCell>
                 <TableCell align="left">Transporter Name</TableCell>
                 <TableCell align="left">CSM Name</TableCell>
-                {/* <TableCell align="left">Aging</TableCell> */}
             </TableRow>
         </TableHead>
     )
@@ -73,7 +72,6 @@ const getCells = (data: Row, num: number, unloadDate: number) => {
             <TableCell align="left">{data.invoiceNumber}</TableCell>
             <TableCell align="left">{data.truck.transporter.name}</TableCell>
             <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
-            {/* <TableCell align="left">{'1'}</TableCell> */}
         </>
     )
 }

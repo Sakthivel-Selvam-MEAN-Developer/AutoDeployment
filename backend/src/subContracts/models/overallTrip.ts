@@ -460,3 +460,52 @@ export const getTripByUnloadDate = (date: number) =>
             }
         }
     })
+
+export const getAllDiscrepancyReport = (from: number, to: number) =>
+    prisma.overallTrip.findMany({
+        where: {
+            OR: [
+                {
+                    acknowledgementStatus: true,
+                    loadingPointToStockPointTrip: {
+                        startDate: {
+                            gte: from,
+                            lte: to
+                        }
+                    }
+                },
+                {
+                    acknowledgementStatus: true,
+                    loadingPointToUnloadingPointTrip: {
+                        startDate: {
+                            gte: from,
+                            lte: to
+                        }
+                    }
+                }
+            ]
+        },
+        include: {
+            paymentDues: true,
+            stockPointToUnloadingPointTrip: true,
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    }
+                }
+            },
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    }
+                }
+            },
+            shortageQuantity: true
+        }
+    })

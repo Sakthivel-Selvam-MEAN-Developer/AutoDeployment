@@ -2,6 +2,7 @@ import {
     closeAcknowledgementStatusforOverAllTrip,
     create,
     getActiveTripByVehicle,
+    getAllDiscrepancyReport,
     getOnlyActiveTripByVehicle,
     getOverAllTripByAcknowledgementStatus,
     getOverAllTripById,
@@ -404,7 +405,7 @@ describe('Overall Trip model', () => {
         })
         const overall = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await closeAcknowledgementStatusforOverAllTrip(overall.id)
-        const actual = await getTripDetailsByCompanyName('UltraTech Cements')
+        const actual = await getTripDetailsByCompanyName('UltraTech Cements', 0)
         expect(actual[0].loadingPointToUnloadingPointTrip?.truckId).toBe(truck.id)
     })
     test('should able to get overall trip by filter', async () => {
@@ -469,5 +470,37 @@ describe('Overall Trip model', () => {
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         const actual = await getTripByUnloadDate(seedShortageQuantity.unloadedDate)
         expect(actual[0].shortageQuantity[0].unloadedDate).toBe(seedShortageQuantity.unloadedDate)
+    })
+    test('should able to get overall data by from and to', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id,
+            wantFuel: false,
+            tripStatus: true
+        })
+        const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
+        const closedOverallTrip = await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
+        const actual = await getAllDiscrepancyReport(1700764200, 1700764200)
+        expect(actual[0]?.id).toBe(closedOverallTrip.id)
     })
 })

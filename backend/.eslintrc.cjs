@@ -18,8 +18,8 @@ module.exports = {
         {
             files: ['*.test.ts'],
             rules: {
-                'max-lines': ['warn', 500],
-                'max-lines-per-function': ['warn', 500],
+                'max-lines': ['warn', 600],
+                'max-lines-per-function': ['warn', 600],
                 "@typescript-eslint/no-explicit-any": "off"
             }
         }
@@ -36,7 +36,7 @@ module.exports = {
         'operator-linebreak': 0,
         'implicit-arrow-linebreak': 0,
         'function-paren-newline': 0,
-        'max-lines': ['error', 500],
+        'max-lines': ['error', 600],
         'max-depth': ['error', 3],
         'max-lines-per-function': ['warn', 35],
         'object-curly-newline': 0,

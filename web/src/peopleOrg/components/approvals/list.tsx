@@ -38,7 +38,11 @@ const ApprovalList: FC = () => {
         setRejectRow(row)
         setOpen(true)
     }
-    const approveClick = (row: any) => {
+    interface props {
+        id: number
+        employeeId: string
+    }
+    const approveClick = (row: props) => {
         approveLeaves(row.id, { employeeId: row.employeeId }).then(() =>
             setRefresh((prevState) => !prevState)
         )

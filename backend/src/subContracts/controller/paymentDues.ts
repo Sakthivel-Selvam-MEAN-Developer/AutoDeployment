@@ -56,8 +56,16 @@ export const createPaymentDues = (req: Request, res: Response) => {
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
 }
-function getFuelPayDate(fuelId: string, fuelDetails: any[]) {
-    const fuelTrip = fuelDetails.find((fuel) => fuel.id === fuelId)
+interface fuelprops {
+    id: number
+    fueledDate: number
+    invoiceNumber: string
+    bunk: {
+        location: string
+    }
+}
+function getFuelPayDate(fuelId: number, fuelDetails: fuelprops[]) {
+    const fuelTrip = fuelDetails.find((fuel: fuelprops) => fuel.id === fuelId)
     if (fuelTrip) {
         return {
             date: fuelTrip.fueledDate,

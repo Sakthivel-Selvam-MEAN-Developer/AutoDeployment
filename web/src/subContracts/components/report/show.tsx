@@ -81,6 +81,7 @@ function getTableHead() {
 }
 
 const getCells = (data: Row, num: number, type: string, details: Props) => {
+    const fuel = details.fuel.length !== 1
     return (
         <>
             <TableCell> {num} </TableCell>
@@ -95,12 +96,8 @@ const getCells = (data: Row, num: number, type: string, details: Props) => {
             <TableCell align="left">{data.totalFreightAmount}</TableCell>
             <TableCell align="left">{data.totalTransporterAmount}</TableCell>
             <TableCell align="left">{data.margin}</TableCell>
-            <TableCell align="left">
-                {details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity}
-            </TableCell>
-            <TableCell align="left">
-                {details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].totalprice}
-            </TableCell>
+            <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].quantity} </TableCell>
+            <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].totalprice} </TableCell>
             <TableCell align="left">
                 {data.tripStatus === false
                     ? 'Running'

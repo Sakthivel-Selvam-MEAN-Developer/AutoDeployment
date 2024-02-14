@@ -56,12 +56,13 @@ const ListAllReport: React.FC = (): ReactElement => {
                         Upcoming Payment Dues
                     </Button>
                 </Link>
+                <Link to={'/sub/reports/discrepancydues'}>
+                    <Button color="primary" variant="contained">
+                        Discrepancy Payment Report
+                    </Button>
+                </Link>
                 <Link to={'/sub/reports/pendingacknowledgement'}>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        data-testid={'acknowledgement-button'}
-                    >
+                    <Button color="primary" variant="contained">
                         Acknowledgement Aging Report
                     </Button>
                 </Link>

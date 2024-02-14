@@ -11,9 +11,13 @@ import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { listFuelWithoutTripId } from '../../services/fuel.ts'
 import DateInput from '../../../form/DateInput.tsx'
+interface transporterProps {
+    name: string
+    tdsPercentage: number
+}
 interface FormFieldProps {
     control: Control
-    transporter: string[]
+    transporter: transporterProps[]
     setTruckId: React.Dispatch<React.SetStateAction<number>>
     loadingPointId: React.Dispatch<React.SetStateAction<number | null>>
     unloadingPointId: React.Dispatch<React.SetStateAction<number | null>>
@@ -29,6 +33,7 @@ interface FormFieldProps {
     setCategory: React.Dispatch<React.SetStateAction<string>>
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setTransporterAmount: React.Dispatch<React.SetStateAction<number>>
+    setTdsPercentage: React.Dispatch<React.SetStateAction<number>>
     category: string
     setValue: UseFormSetValue<FieldValues>
     clear: boolean
@@ -53,6 +58,7 @@ const FormField: React.FC<FormFieldProps> = ({
     setValue,
     setFreightAmount,
     setTransporterAmount,
+    setTdsPercentage,
     clear
 }) => {
     const [transporterName, setTransporterName] = useState<string | null>('')
@@ -85,8 +91,6 @@ const FormField: React.FC<FormFieldProps> = ({
             getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
     }, [category, cementCompanyName])
     useEffect(() => {
-        console.log(clear)
-
         setCementCompanyName(null)
         setTransporterName(null)
     }, [clear])
@@ -139,9 +143,14 @@ const FormField: React.FC<FormFieldProps> = ({
                 value={transporterName !== null ? transporterName : ''}
                 fieldName="transporterName"
                 label="Transporter"
-                options={transporter}
+                options={transporter.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     setTransporterName(newValue)
+                    const { tdsPercentage } = transporter.find(
+                        (transporter: transporterProps) => transporter.name === newValue
+                    ) || { tdsPercentage: 0 }
+                    console.log(tdsPercentage)
+                    setTdsPercentage(tdsPercentage)
                 }}
             />
             <DateInput

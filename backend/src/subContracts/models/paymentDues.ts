@@ -71,8 +71,11 @@ export const getPaymentDuesWithoutTripId = (vehicleNumber: string) =>
             overallTripId: null
         }
     })
-
-export const updatePaymentDuesWithTripId = (data: any) =>
+interface props {
+    id: number | undefined
+    overallTripId: number | undefined
+}
+export const updatePaymentDuesWithTripId = (data: props) =>
     prisma.paymentDues.update({
         where: {
             id: data.id

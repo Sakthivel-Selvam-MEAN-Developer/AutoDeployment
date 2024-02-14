@@ -29,6 +29,7 @@ export const getUpcomingDuesByFilter = (name: string, from: number, to: number) 
         .get(`/payment-dues/${name}/${from}/${to}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
 export const getUpcomingDuesByFilterByDefault = () =>
     axiosInstance
         .get(`/payment-dues/default`)

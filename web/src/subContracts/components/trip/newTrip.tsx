@@ -7,7 +7,6 @@ import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { createTrip } from '../../services/trip.ts'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
-
 interface transporter {
     name: string
     transporterAmount: number
@@ -23,6 +22,7 @@ const NewTrip: React.FC = () => {
     const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
     const [freightAmount, setFreightAmount] = useState(0)
     const [transporterAmount, setTransporterAmount] = useState(0)
+    const [tdsPercentage, setTdsPercentage] = useState(0)
     const [totalTransporterAmount, setTotalTransporterAmount] = useState(0)
     const [totalFreightAmount, setTotalFreightAmount] = useState(0)
     const [margin, setMargin] = useState(0)
@@ -33,9 +33,19 @@ const NewTrip: React.FC = () => {
 
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseFloat(filledLoad))
-        setTotalTransporterAmount(transporterAmount * parseFloat(filledLoad))
+        setTotalTransporterAmount(
+            transporterAmount * parseFloat(filledLoad) -
+                (transporterAmount * parseFloat(filledLoad) * tdsPercentage) / 100
+        )
         setMargin(totalFreightAmount - totalTransporterAmount)
-    }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
+    }, [
+        filledLoad,
+        freightAmount,
+        transporterAmount,
+        totalFreightAmount,
+        totalTransporterAmount,
+        tdsPercentage
+    ])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (checkCondition(truckId, data, freightAmount)) {
@@ -43,7 +53,10 @@ const NewTrip: React.FC = () => {
             const freightAmountFloat = freightAmount.toFixed(2)
             const transporterAmountFloat = transporterAmount.toFixed(2)
             const totalFreightAmountFloat = totalFreightAmount.toFixed(2)
-            const totalTransporterAmountFloat = totalTransporterAmount.toFixed(2)
+            const totalTransporterAmountFloat = (
+                totalTransporterAmount -
+                (totalTransporterAmount * tdsPercentage) / 100
+            ).toFixed(2)
             const marginFloat = margin.toFixed(2)
             const details = {
                 truckId: truckId,
@@ -69,9 +82,7 @@ const NewTrip: React.FC = () => {
         } else alert('All fields Required')
     }
     useEffect(() => {
-        getAllTransporter().then((transporterData) =>
-            setTransporter(transporterData.map(({ name }: transporter) => name))
-        )
+        getAllTransporter().then((transporterData) => setTransporter(transporterData))
         getAllCementCompany().then((companyData) =>
             setCementCompany(companyData.map(({ name }: transporter) => name))
         )
@@ -97,6 +108,7 @@ const NewTrip: React.FC = () => {
                 setFreightAmount={setFreightAmount}
                 transporterAmount={transporterAmount}
                 setTransporterAmount={setTransporterAmount}
+                setTdsPercentage={setTdsPercentage}
                 totalFreightAmount={totalFreightAmount}
                 totalTransporterAmount={totalTransporterAmount}
                 margin={margin}
