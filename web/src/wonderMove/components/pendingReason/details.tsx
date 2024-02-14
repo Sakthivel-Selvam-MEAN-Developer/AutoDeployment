@@ -9,9 +9,10 @@ import Table from '@mui/material/Table'
 import { formatDuration, epochToDate } from '../../../commonUtils/epochToTime.ts'
 import { useEffect, useState } from 'react'
 import { getAllReasons } from '../../services/reason.ts'
+import { pendingDetailsProps } from './view.tsx'
 
 interface DetailsListProps {
-    pendingDetails: any
+    pendingDetails: pendingDetailsProps[]
 }
 
 function getTableHead() {
@@ -30,11 +31,13 @@ function getTableHead() {
 }
 
 const DetailsList: React.FC<DetailsListProps> = ({ pendingDetails }) => {
-    const [fetchReason, setFetchReason] = useState<any>([])
+    const [fetchReason, setFetchReason] = useState([])
 
-    let sortedDetails = []
+    let sortedDetails
     if (pendingDetails && pendingDetails.length > 0) {
-        sortedDetails = pendingDetails.slice().sort((a: any, b: any) => a.startTime - b.startTime)
+        sortedDetails = pendingDetails
+            .slice()
+            .sort((a: pendingDetailsProps, b: pendingDetailsProps) => a.startTime - b.startTime)
     }
     useEffect(() => {
         getAllReasons().then(setFetchReason)

@@ -15,7 +15,6 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
     const [transporterList, setTransporterList] = useState([])
     const [showDetails, setShowDetails] = useState(false)
     const [transporterName, setTransporterName] = useState('')
-
     useEffect(() => {
         getUpcomingDuesByFilterByDefault().then((data) => {
             setTransporterList(data), setTripWithPagination(data)

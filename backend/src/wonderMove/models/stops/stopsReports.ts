@@ -52,7 +52,7 @@ export const getDurationStopBeforeFrom = async (from: number, to: number): Promi
             durationInMillis: true
         }
     })
-    stopsBeforeFrom.forEach((stop: any) => {
+    stopsBeforeFrom.forEach((stop: Stop) => {
         const durationInMillis = Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
         if (modifiedAggDuration[stop.stopReasonId]) {
             modifiedAggDuration[stop.stopReasonId].durationInMillis += durationInMillis
@@ -87,7 +87,7 @@ export const getDurationStopAfterTo = async (from: number, to: number): Promise<
             durationInMillis: true
         }
     })
-    stopsAfterTo.forEach((stop: any) => {
+    stopsAfterTo.forEach((stop: Stop) => {
         const durationInMillis = Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
         if (modifiedAggDuration[stop.stopReasonId]) {
             modifiedAggDuration[stop.stopReasonId].durationInMillis += durationInMillis
@@ -121,7 +121,7 @@ export const getDurationGreaterThanFromTo = async (from: number, to: number): Pr
             durationInMillis: true
         }
     })
-    stopsBeyondRange.forEach((stop: any) => {
+    stopsBeyondRange.forEach((stop: Stop) => {
         const durationInMillis = Math.min(to, stop.endTime) - Math.max(from, stop.startTime)
         if (modifiedAggDuration[stop.stopReasonId]) {
             modifiedAggDuration[stop.stopReasonId].durationInMillis += durationInMillis

@@ -48,7 +48,7 @@ const NewTrip: React.FC = () => {
             const details = {
                 truckId: truckId,
                 loadingPointId: loadingPointId,
-                startDate: data.tripDate.unix(),
+                startDate: data.tripDate.startOf('day').unix(),
                 filledLoad: parseFloat(filledLoad),
                 invoiceNumber: data.invoiceNumber,
                 freightAmount: parseFloat(freightAmountFloat),

@@ -62,6 +62,7 @@ const Drawer = styled(MuiDrawer, {
         '& .MuiDrawer-paper': closedMixin(theme)
     })
 }))
+
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
     return (
@@ -136,13 +137,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={8}
                     icon={<Summarize />}
                 />
-                {/* <DrawerListItem
+                <DrawerListItem
                     text="Invoice"
                     navigate="/sub/invoice"
                     drawerState={drawerState}
                     index={9}
                     icon={<Receipt />}
-                /> */}
+                />
             </List>
         </Drawer>
     )

@@ -376,6 +376,7 @@ model loadingPointToStockPointTrip {
   truckId                        Int
   stockPointToUnloadingPointTrip stockPointToUnloadingPointTrip[]
   overallTrip                    overallTrip[]
+  billNo                         String?
 
   @@schema("subContract")
 }
@@ -399,6 +400,7 @@ model stockPointToUnloadingPointTrip {
   overallTrip                    overallTrip[]
   truck                          truck?                        @relation(fields: [truckId], references: [id])
   truckId                        Int?
+  billNo                         String?
 
   @@schema("subContract")
 }
@@ -425,6 +427,7 @@ model loadingPointToUnloadingPointTrip {
   truck                  truck          @relation(fields: [truckId], references: [id])
   truckId                Int
   overallTrip            overallTrip[]
+  billNo                 String?
 
   @@schema("subContract")
 }

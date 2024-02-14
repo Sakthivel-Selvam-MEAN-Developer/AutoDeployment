@@ -5,9 +5,10 @@ import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockTrip } from '../../services/unloadingPointTrip.ts'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AllStockProps } from './show.tsx'
 
 interface dataProps {
-    row: any
+    row: AllStockProps
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>
     update: boolean
 }

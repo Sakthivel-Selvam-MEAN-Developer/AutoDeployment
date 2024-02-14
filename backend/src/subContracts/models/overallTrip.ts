@@ -317,10 +317,58 @@ export const overallTripByFilter = (
             }
         }
     })
-export const getTripDetailsByCompanyName = (name: string) =>
-    prisma.overallTrip.findMany({
-        where: {
-            acknowledgementStatus: true,
+export const getTripDetailsByCompanyName = (name: string, loadedDate: number) => {
+    const whereClause: any = {
+        acknowledgementStatus: true,
+        AND: []
+    }
+
+    if (name !== 'null' && loadedDate !== 0) {
+        whereClause.AND.push({
+            OR: [
+                {
+                    stockPointToUnloadingPointTrip: {
+                        loadingPointToStockPointTrip: {
+                            loadingPoint: {
+                                cementCompany: {
+                                    name
+                                }
+                            },
+                            startDate: { equals: loadedDate }
+                        }
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        loadingPoint: {
+                            cementCompany: {
+                                name
+                            }
+                        },
+                        startDate: { equals: loadedDate }
+                    }
+                }
+            ]
+        })
+    } else if (loadedDate !== 0) {
+        whereClause.AND.push({
+            OR: [
+                {
+                    stockPointToUnloadingPointTrip: {
+                        loadingPointToStockPointTrip: {
+                            startDate: { equals: loadedDate }
+                        }
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        startDate: { equals: loadedDate }
+                    }
+                }
+            ]
+        })
+    } else if (name !== 'null') {
+        whereClause.AND.push({
             OR: [
                 {
                     stockPointToUnloadingPointTrip: {
@@ -343,7 +391,10 @@ export const getTripDetailsByCompanyName = (name: string) =>
                     }
                 }
             ]
-        },
+        })
+    }
+    return prisma.overallTrip.findMany({
+        where: whereClause,
         include: {
             stockPointToUnloadingPointTrip: {
                 include: {
@@ -374,6 +425,7 @@ export const getTripDetailsByCompanyName = (name: string) =>
             }
         }
     })
+}
 export const getTripByUnloadDate = (date: number) =>
     prisma.overallTrip.findMany({
         where: {

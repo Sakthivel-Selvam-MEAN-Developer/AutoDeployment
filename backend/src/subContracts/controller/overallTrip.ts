@@ -26,7 +26,7 @@ export const listgetOverallTripById = (req: Request, res: Response) => {
 }
 
 export const listTripDetailsByCompanyName = (req: Request, res: Response) => {
-    getTripDetailsByCompanyName(req.params.company)
+    getTripDetailsByCompanyName(req.params.company, parseInt(req.params.loadingDate))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

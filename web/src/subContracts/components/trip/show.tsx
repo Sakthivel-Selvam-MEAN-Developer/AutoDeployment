@@ -13,7 +13,7 @@ import { useState } from 'react'
 
 import StockToUnloadingTrip from './stockToUnloadingTrip.tsx'
 
-interface AllStockProps {
+export interface AllStockProps {
     filledLoad: number
     freightAmount: number
     id: number

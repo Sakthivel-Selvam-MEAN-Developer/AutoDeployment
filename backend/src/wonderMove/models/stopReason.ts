@@ -9,8 +9,11 @@ export const getDefaultReason = () =>
 export const create = (
     data: Prisma.stopReasonsCreateInput | Prisma.stopReasonsUncheckedCreateInput
 ) => prisma.stopReasons.create({ data })
-
-export const update = (data: any) =>
+interface dataProps {
+    id: number
+    name: string
+}
+export const update = (data: dataProps) =>
     prisma.stopReasons.update({
         where: {
             id: data.id

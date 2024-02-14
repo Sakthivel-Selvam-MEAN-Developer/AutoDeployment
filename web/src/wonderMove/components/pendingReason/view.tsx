@@ -1,15 +1,24 @@
 import DetailsList from './details.tsx'
 import { useEffect, useState } from 'react'
 import { allPendingSRforSingleVehicle } from '../../services/reason.ts'
-import { useParams } from 'react-router-dom'
-
+import { Params, useParams } from 'react-router-dom'
+export interface pendingDetailsProps {
+    id: number
+    startTime: number
+    endTime: number
+    durationInMillis: number
+    vehicleId: number
+    latitude: number
+    longitude: number
+    source: string
+}
 interface DetailsProps {}
 const Details: React.FC<DetailsProps> = () => {
-    const { number }: any = useParams()
-    const [pendingDetails, setPendingDetails] = useState()
+    const { number }: Readonly<Params<string>> = useParams()
+    const [pendingDetails, setPendingDetails] = useState<pendingDetailsProps[]>([])
 
     useEffect(() => {
-        allPendingSRforSingleVehicle(number).then(setPendingDetails)
+        if (number !== undefined) allPendingSRforSingleVehicle(number).then(setPendingDetails)
     }, [number])
 
     return (
