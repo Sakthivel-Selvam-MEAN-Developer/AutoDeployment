@@ -7,13 +7,14 @@ import { updateStops } from '../../services/stops.ts'
 
 interface ReasonInfo {
     id: number
+    name: string
     reason: {
         id: number
     }
 }
 interface UpdateReasonProps {
     reasonInfo: ReasonInfo
-    allReasons: Array<any>
+    allReasons: ReasonInfo[]
 }
 const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) => {
     const [selectedReason, setSelectedReason] = useState<string | number>(reasonInfo.reason.id)
@@ -34,7 +35,7 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ reasonInfo, allReasons }) =
             >
                 {allReasons.map((reason, index) => (
                     <MenuItem key={index} value={reason.id}>
-                        {reason.name}{' '}
+                        {reason.name}
                     </MenuItem>
                 ))}
             </Select>

@@ -1,5 +1,7 @@
+import { stopsProps } from './modalUpdateReason'
+
 const calculateUpdatedStops = (
-    stop: any,
+    stop: stopsProps,
     index: number,
     deleteRowIndex: number,
     stopToDelete: {

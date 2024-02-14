@@ -24,7 +24,7 @@ interface SecondReasonProps {
     row: RowType
     onClose: () => void
     tableState: () => void
-    rowWithSameGpsId: any
+    rowWithSameGpsId: RowType[]
 }
 
 const SecondReason: React.FC<SecondReasonProps> = ({

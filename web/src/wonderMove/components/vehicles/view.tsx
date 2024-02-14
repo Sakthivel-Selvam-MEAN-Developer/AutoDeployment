@@ -4,7 +4,6 @@ import { getVehicleDetails } from '../../services/vehicles.ts'
 import UpdateVehicle from './update.tsx'
 import { reformatVehicleDate } from './reformatVehicleDate.ts'
 
-// UpdateVehicle.propTypes = { vehicle: PropTypes.func }
 interface VehicleProps {
     number: number
 }

@@ -14,7 +14,7 @@ import { deleteStop } from './deleteStops.ts'
 import { overrideStop } from '../../services/stops.ts'
 import AlertDialog from '../../../commonUtils/confirmationDialog.tsx'
 
-interface Row {
+export interface Row {
     id: number
     gpsStopId: number
     stopReasonId: number
@@ -26,9 +26,17 @@ interface Row {
         name: string
     }
 }
+export interface stopsProps {
+    startTime: number
+    endTime: number
+    durationInMillis: number
+    gpsStopId: number
+    stopReasonId: number
+}
+
 interface ModalUpdateReasonProps {
     open: boolean
-    selectedRow: Array<any>
+    selectedRow: any
     setSelectedRow: any
     tableState: () => void
 }
@@ -38,10 +46,10 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
     setSelectedRow,
     tableState
 }) => {
-    const [expandedRow, setExpandedRow] = useState<any | null>(null)
-    const [remainingStop, setRemainingStop] = useState<any>()
+    const [expandedRow, setExpandedRow] = useState<number | null>(null)
+    const [remainingStop, setRemainingStop] = useState<stopsProps[]>([])
     const [openAlertDialog, setOpenAlertDialog] = useState(false)
-    const [gpsStopId, setGpsStopId] = useState<any>()
+    const [gpsStopId, setGpsStopId] = useState<number>(0)
     let sortedRows: any
     if (selectedRow && selectedRow.length > 0) {
         sortedRows = selectedRow.slice().sort((a: Row, b: Row) => a.startTime - b.startTime)
@@ -120,8 +128,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                         <TableCell align="left">{row.reason.name}</TableCell>
                                         <TableCell align="left">
                                             <Button onClick={() => splitStopAccordion(row.id)}>
-                                                {' '}
-                                                Split{' '}
+                                                Split
                                             </Button>
                                         </TableCell>
                                         {sortedRows.length > 1 && (
@@ -129,8 +136,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                                                 <Button
                                                     onClick={() => handleDeleteClick(row, index)}
                                                 >
-                                                    {' '}
-                                                    Delete{' '}
+                                                    Delete
                                                 </Button>
                                             </TableCell>
                                         )}

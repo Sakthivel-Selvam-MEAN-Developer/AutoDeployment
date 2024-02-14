@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import {
     create,
     findTripWithActiveDues,
+    getCompletedDues,
     getGstDuesGroupByName,
     getGstPaymentDues,
     getOnlyActiveDuesByName,
@@ -203,7 +204,7 @@ export const updateNEFTStatus = (req: Request, res: Response) => {
         .then(() => res.sendStatus(200))
         .catch(() => res.sendStatus(500))
 }
-const groupGstDue = async (
+export const groupGstDue = async (
     groupedGstDues: groupedDuesProps[],
     gstPaymentDues: gstDuesProps[],
     bankDetails: gstAccountProps[]
@@ -246,6 +247,13 @@ export const listAllUpcomingTransporterDues = (req: Request, res: Response) => {
 }
 export const listAllUpcomingTransporterDuesByDefault = (_req: Request, res: Response) => {
     getUpcomingDuesByDefault()
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+
+export const listAllCompletedDues = (req: Request, res: Response) => {
+    const { name, date, page } = req.params
+    getCompletedDues(name, parseInt(date), parseInt(page))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

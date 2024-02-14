@@ -35,3 +35,9 @@ export const getUpcomingDuesByFilterByDefault = () =>
         .get(`/payment-dues/default`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+export const getCompletedDues = (name: string, date: number, page: number) =>
+    axiosInstance
+        .get(`/payment/${name}/${date}/${page}`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

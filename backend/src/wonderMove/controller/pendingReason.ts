@@ -42,7 +42,5 @@ export const pendingStopReason = (_req: Request, res: Response) => {
     getDefaultReason()
         .then(({ id }: any) => groupByStopReason(id))
         .then(mapNumberToVehicle)
-        .then((data: any) => {
-            res.status(200).json(data)
-        })
+        .then((data) => res.status(200).json(data))
 }

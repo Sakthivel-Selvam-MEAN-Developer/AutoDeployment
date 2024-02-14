@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 import { app } from '../../app.ts'
-import { groupDataByName } from './paymentDues.ts'
+import { groupDataByName, groupGstDue } from './paymentDues.ts'
 
 const mockgetOnlyActiveDuesByName = vi.fn()
 const mockfindTripWithActiveDues = vi.fn()
@@ -14,6 +14,9 @@ const mockTransporterAccountDetails = vi.fn()
 const mockBunkAccountDetails = vi.fn()
 const mockFuelDetails = vi.fn()
 const mockgetUpcomingDuesByFilter = vi.fn()
+const mockgetGstDuesGroupByName = vi.fn()
+const mockgetTransporterAccountByName = vi.fn()
+const mockgetGstPaymentDues = vi.fn()
 
 vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
@@ -21,7 +24,10 @@ vi.mock('../models/paymentDues', () => ({
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
     updatePaymentDues: () => mockUpdatePayment(),
     getUpcomingDuesByFilter: (name: string, from: number, to: number) =>
-        mockgetUpcomingDuesByFilter(name, from, to)
+        mockgetUpcomingDuesByFilter(name, from, to),
+    getGstDuesGroupByName: () => mockgetGstDuesGroupByName(),
+    getTransporterAccountByName: () => mockgetTransporterAccountByName(),
+    getGstPaymentDues: () => mockgetGstPaymentDues()
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockGetAllTrip()
@@ -314,6 +320,64 @@ const mockFuelData = [
         }
     }
 ]
+
+const mockgroupedGSTDues = [
+    {
+        _count: { status: 1 },
+        _sum: { payableAmount: 2376 },
+        name: 'Dalmia Cements'
+    }
+]
+
+const mockBankDetails = [
+    {
+        name: 'Dalmia Cements',
+        accountNumber: '3242343',
+        ifsc: '234',
+        address: '34234',
+        accountTypeNumber: 12
+    }
+]
+
+const mockGstPaymentDues = [
+    {
+        id: 9,
+        payableAmount: 2376,
+        overallTripId: 4,
+        type: 'gst pay',
+        name: 'Dalmia Cements',
+        vehicleNumber: 'KR10S1290',
+        status: false,
+        fuelId: null
+    }
+]
+
+const mockGroupedGSTDetails = [
+    {
+        name: 'Dalmia Cements',
+        dueDetails: {
+            count: 1,
+            payableAmount: 2376
+        },
+        bankDetails: [
+            {
+                name: 'Dalmia Cements',
+                accountNumber: '3242343',
+                ifsc: '234',
+                address: '34234',
+                accountTypeNumber: 12
+            }
+        ],
+        tripDetails: [
+            {
+                id: 9,
+                vehicleNumber: 'KR10S1290',
+                type: 'gst pay',
+                amount: 2376
+            }
+        ]
+    }
+]
 describe('Payment Due Controller', () => {
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
@@ -352,5 +416,15 @@ describe('Payment Due Controller', () => {
         expect(mockgetOnlyActiveDuesByName).toHaveBeenCalledTimes(1)
         expect(mockfindTripWithActiveDues).toHaveBeenCalledTimes(1)
         expect(mockOverAllTrip).toHaveBeenCalledTimes(1)
+    })
+    test('should get active gst payment dues', async () => {
+        mockgetGstDuesGroupByName.mockResolvedValue(mockgroupedGSTDues)
+        mockgetTransporterAccountByName.mockResolvedValue(mockBankDetails)
+        mockgetGstPaymentDues.mockResolvedValue(mockGstPaymentDues)
+        await supertest(app).get('/api/payment-dues/false').expect(200)
+        const actual = await groupGstDue(mockgroupedGSTDues, mockGstPaymentDues, mockBankDetails)
+        expect(actual).toEqual(mockGroupedGSTDetails)
+        expect(mockgetGstDuesGroupByName).toHaveBeenCalledTimes(1)
+        expect(mockgetGstPaymentDues).toHaveBeenCalledTimes(1)
     })
 })

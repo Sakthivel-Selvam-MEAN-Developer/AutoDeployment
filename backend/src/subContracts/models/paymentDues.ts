@@ -195,3 +195,42 @@ export const getUpcomingDuesByDefault = () =>
             }
         }
     })
+export const getCompletedDues = (name: string, date: number, page: number) => {
+    const whereCondition: any = {
+        status: true,
+        AND: []
+    }
+    if (name !== 'null' && date !== 0) {
+        whereCondition.AND.push({ name, paidAt: date })
+    } else if (name !== 'null') {
+        whereCondition.AND.push({ name })
+    } else if (date !== 0) {
+        whereCondition.AND.push({ paidAt: date })
+    }
+    return prisma.paymentDues.findMany({
+        where: whereCondition,
+        select: {
+            name: true,
+            paidAt: true,
+            transactionId: true,
+            type: true,
+            payableAmount: true,
+            overallTrip: {
+                select: {
+                    loadingPointToStockPointTrip: {
+                        select: {
+                            truck: { select: { transporter: { select: { csmName: true } } } }
+                        }
+                    },
+                    loadingPointToUnloadingPointTrip: {
+                        select: {
+                            truck: { select: { transporter: { select: { csmName: true } } } }
+                        }
+                    }
+                }
+            }
+        },
+        skip: (page - 1) * 10,
+        take: 10
+    })
+}

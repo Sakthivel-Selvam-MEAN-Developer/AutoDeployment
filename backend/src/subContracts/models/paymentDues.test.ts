@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import {
     create,
     findTripWithActiveDues,
+    getCompletedDues,
     getDueByOverallTripId,
     getOnlyActiveDuesByName,
     getUpcomingDuesByFilter,
@@ -218,5 +219,18 @@ describe('Payment-Due model', () => {
         const actual = await getUpcomingDuesByFilter('Barath Logistics', 1700634419, 1700893619)
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(5000)
+    })
+    test('should get only completed the payment dues', async () => {
+        await create(seedPaymentDue)
+        const dueDate = 1706034600
+        const dues = await findTripWithActiveDues(dueDate, false)
+        const wantToUpdate = {
+            id: dues[0].id,
+            transactionId: 'abc',
+            paidAt: dayjs().unix()
+        }
+        await updatePaymentDues(wantToUpdate)
+        const actual = await getCompletedDues(seedPaymentDue.name, wantToUpdate.paidAt, 1)
+        expect(actual[0].transactionId).toBe('abc')
     })
 })

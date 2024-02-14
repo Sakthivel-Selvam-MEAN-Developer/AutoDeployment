@@ -66,6 +66,11 @@ const ListAllReport: React.FC = (): ReactElement => {
                         Acknowledgement Aging Report
                     </Button>
                 </Link>
+                <Link to={'/sub/reports/completedpayment'}>
+                    <Button color="primary" variant="contained">
+                        Completed Payments
+                    </Button>
+                </Link>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FilterReport

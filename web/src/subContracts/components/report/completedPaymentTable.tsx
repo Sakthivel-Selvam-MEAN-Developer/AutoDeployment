@@ -1,0 +1,141 @@
+import Table from '@mui/material/Table'
+import TableContainer from '@mui/material/TableContainer'
+import Paper from '@mui/material/Paper'
+import { Button, Pagination, Stack, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import exportFromJSON from 'export-from-json'
+
+interface Props {
+    completedPayments: completedPaymentsProps[]
+    setPage: React.Dispatch<React.SetStateAction<number>>
+}
+interface completedPaymentsProps {
+    name: string
+    dueDate: number
+    paidAt: number
+    transactionId: string
+    type: string
+    payableAmount: string
+    overallTrip: {
+        loadingPointToStockPointTrip: {
+            truck: { transporter: { csmName: string } }
+        }
+        loadingPointToUnloadingPointTrip: {
+            truck: { transporter: { csmName: string } }
+        }
+    }
+}
+const style = {
+    display: 'flex',
+    bottom: '0',
+    width: '90%',
+    justifyContent: 'center',
+    marginBottom: '30px'
+}
+const getTableHead = () => {
+    return (
+        <TableHead>
+            <TableRow>
+                <TableCell>#</TableCell>
+                <TableCell align="left">Transporter Name</TableCell>
+                <TableCell align="left">Payment Date</TableCell>
+                <TableCell align="left">Payment Type</TableCell>
+                <TableCell align="left">Transaction Id</TableCell>
+                <TableCell align="left">Amount</TableCell>
+                <TableCell align="left">CSM Name</TableCell>
+            </TableRow>
+        </TableHead>
+    )
+}
+
+const getTableBody = (allTrips: completedPaymentsProps[]) => {
+    return (
+        <>
+            <TableBody>
+                {allTrips.map((row: completedPaymentsProps, index: number) => (
+                    <TableRow
+                        key={index}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell> {index + 1} </TableCell>
+                        <TableCell align="left">{row.name}</TableCell>
+                        <TableCell align="left">{epochToMinimalDate(row.paidAt)}</TableCell>
+                        <TableCell align="left">{row.type}</TableCell>
+                        <TableCell align="left">{row.transactionId}</TableCell>
+                        <TableCell align="left">{row.payableAmount}</TableCell>
+                        <TableCell align="left">
+                            {row.overallTrip.loadingPointToUnloadingPointTrip !== null
+                                ? row.overallTrip.loadingPointToUnloadingPointTrip.truck.transporter
+                                      .csmName
+                                : row.overallTrip.loadingPointToStockPointTrip.truck.transporter
+                                      .csmName}
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </>
+    )
+}
+function download(completedPayments: completedPaymentsProps[]) {
+    const downloadDueData: object[] = []
+    completedPayments.map((data) => {
+        downloadCSV(data, downloadDueData, completedPayments.length)
+    })
+}
+const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], num: number) => {
+    const addData = {
+        name: data.name,
+        paidAt: epochToMinimalDate(data.paidAt),
+        type: data.type,
+        transactionId: data.transactionId,
+        payableAmount: data.payableAmount
+    }
+    downloadtripData.push(addData)
+    if (downloadtripData.length === num) {
+        const data = downloadtripData
+        const fileName = 'Completed Payments'
+        const exportType = exportFromJSON.types.csv
+        exportFromJSON({ data, fileName, exportType })
+    }
+}
+const CompletedPaymentTable: React.FC<Props> = ({ completedPayments, setPage }) => {
+    return (
+        <>
+            <div
+                style={{
+                    marginBottom: '30px',
+                    display: 'flex',
+                    justifyContent: 'right'
+                }}
+            >
+                <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => download(completedPayments)}
+                >
+                    Download CSV
+                </Button>
+            </div>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 600 }} aria-label="simple table">
+                    {getTableHead()}
+                    {getTableBody(completedPayments)}
+                </Table>
+            </TableContainer>
+            <div style={{ ...style, position: 'absolute' }}>
+                <Stack spacing={10}>
+                    <Pagination
+                        count={10}
+                        size="large"
+                        color="primary"
+                        onChange={(_e, value) => {
+                            setPage(value)
+                        }}
+                    />
+                </Stack>
+            </div>
+        </>
+    )
+}
+
+export default CompletedPaymentTable
