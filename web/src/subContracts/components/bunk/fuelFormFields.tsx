@@ -90,7 +90,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                 fieldName="quantity"
                 type="number"
                 inputProps={{ step: 'any', min: '0' }}
-                InputProps={''}
+                InputProps={{}}
             />
             <InputWithDefaultValue
                 control={control}

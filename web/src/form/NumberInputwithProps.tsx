@@ -5,9 +5,9 @@ interface TextInputProps {
     control: Control
     label: string
     fieldName: string
-    inputProps: any
+    inputProps: object
     type: 'number' | 'string'
-    InputProps: any
+    InputProps: object
 }
 function NumberInputWithProps({
     control,

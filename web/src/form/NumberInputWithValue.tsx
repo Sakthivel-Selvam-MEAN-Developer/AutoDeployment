@@ -6,7 +6,7 @@ interface TextInputProps {
     control: Control
     label: string
     fieldName: string
-    InputProps: any
+    InputProps: object
     type: 'number'
     value: number
     onChange: (event: ChangeEvent<HTMLInputElement>) => void

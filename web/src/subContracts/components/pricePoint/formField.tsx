@@ -192,7 +192,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 fieldName="transporterPercentage"
                 type="number"
                 inputProps={{ step: 'any', min: '0' }}
-                InputProps={''}
+                InputProps={{}}
             />
             <InputWithDefaultValue
                 control={control}

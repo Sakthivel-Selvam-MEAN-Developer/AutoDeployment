@@ -6,9 +6,9 @@ interface TextInputProps {
     label: string
     fieldName: string
     type: 'number' | 'string'
-    value: any
+    value: number | string | undefined
     InputProps: object
-    defaultValue: any
+    defaultValue: number | string | undefined
     InputLabelProps: any
 }
 function InputWithDefaultValue({
