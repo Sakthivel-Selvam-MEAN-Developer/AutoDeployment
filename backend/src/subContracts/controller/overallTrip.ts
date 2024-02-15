@@ -42,12 +42,13 @@ function differenceCalculation(tripData: any, totalPaidAmount: number) {
         const totalTransporterAmount =
             tripData.loadingPointToStockPointTrip.totalTransporterAmount +
             tripData.stockPointToUnloadingPointTrip.totalTransporterAmount
-        return totalTransporterAmount - (totalTransporterAmount - totalPaidAmount)
+        return totalTransporterAmount - totalPaidAmount - totalTransporterAmount
     }
     if (tripData.loadingPointToUnloadingPointTrip !== null) {
         return (
             tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount -
-            (tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount - totalPaidAmount)
+            totalPaidAmount -
+            tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount
         )
     }
 }
