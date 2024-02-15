@@ -11,11 +11,11 @@ const ListAllDiscrepancyReport: React.FC = (): ReactElement => {
     const [tripWithPagination, setTripWithPagination] = useState([])
     const [discrepencyList, setDiscrepencyList] = useState([])
     const [showDetails, setShowDetails] = useState(false)
-    // useEffect(() => {
-    //     getTripByUnloadDate(0).then((data) => {
-    //         setDiscrepencyList(data), setTripWithPagination(data)
-    //     })
-    // }, [])
+    useEffect(() => {
+        getAllDiscrepancyReport(0, 2000000000).then((data) => {
+            setDiscrepencyList(data), setTripWithPagination(data)
+        })
+    }, [])
     useEffect(() => {
         const value = skipNumber * 2
         const Trip = discrepencyList.slice(value, value + 2)

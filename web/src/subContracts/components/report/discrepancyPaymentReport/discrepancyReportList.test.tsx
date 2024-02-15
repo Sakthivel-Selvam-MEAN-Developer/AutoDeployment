@@ -39,6 +39,7 @@ describe('Report Test', () => {
         expect(screen.getByText('CSM Name')).toBeInTheDocument()
         expect(screen.getByText('Invoice Number')).toBeInTheDocument()
         expect(screen.getByText('Difference Amount')).toBeInTheDocument()
+        expect(mockGetAllDiscrepancyReport).toHaveBeenCalledTimes(2)
     })
 })
 test('should to able to filter overalltrip with user input', async () => {
@@ -58,6 +59,5 @@ test('should to able to filter overalltrip with user input', async () => {
     expect(screen.getByText('Invoice Number')).toBeInTheDocument()
     expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
     expect(screen.getByText('Sakthivel')).toBeInTheDocument()
-
-    expect(mockGetAllDiscrepancyReport).toHaveBeenCalledTimes(2)
+    expect(mockGetAllDiscrepancyReport).toHaveBeenCalledTimes(4)
 })

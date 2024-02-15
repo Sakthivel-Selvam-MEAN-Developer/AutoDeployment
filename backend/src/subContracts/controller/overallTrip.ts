@@ -82,10 +82,12 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                     transporterAmount:
                         tripType !== undefined &&
                         overallTrip.stockPointToUnloadingPointTrip !== null
-                            ? tripType.transporterAmount +
-                              overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
-                            : tripType?.transporterAmount,
-                    totalPaidAmount: dueAmount,
+                            ? (
+                                  tripType.totalTransporterAmount +
+                                  overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
+                              ).toFixed(2)
+                            : tripType?.totalTransporterAmount.toFixed(2),
+                    totalPaidAmount: dueAmount.toFixed(2),
                     differenceAmount
                 }
 
