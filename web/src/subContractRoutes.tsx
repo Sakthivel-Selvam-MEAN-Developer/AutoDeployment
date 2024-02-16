@@ -23,10 +23,10 @@ import ListAllReport from './subContracts/components/report/list'
 import ListAllUpcomingDues from './subContracts/components/report/upcomingTransporterDuesList'
 import ListAllAcknowledgementDues from './subContracts/components/report/acknowledgementAgingReport/upcomingTransporterDuesList'
 import ListAllDiscrepancyReport from './subContracts/components/report/discrepancyPaymentReport/discrepancyReportList'
-import CompletedPayment from './subContracts/components/report/completedPayment'
 import Transporter from './subContracts/components/transporter'
 import CreateTransporter from './subContracts/components/transporter/list'
 import AddVehicle from './subContracts/components/transporter/addVehicle'
+import CompletedPayment from './subContracts/components/report/completedPayment'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
