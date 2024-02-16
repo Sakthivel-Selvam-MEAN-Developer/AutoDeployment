@@ -1,0 +1,96 @@
+.main * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.main {
+    color: black !important;
+    margin: 20px 30px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.header .magnum-address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 !important;
+}
+
+.header .details {
+    display: flex;
+    margin: 10px 0 !important;
+}
+
+.header .details p {
+    margin: 0 10px !important;
+}
+
+.header .tax {
+    margin: 10px 0 !important;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}
+
+.place-of-supply {
+    margin: 50px 0 !important;
+    display: flex;
+    justify-content: space-between;
+}
+
+.address {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address .customer .state-details {
+    margin-top: 20px !important;
+}
+
+.address .vendor .flag {
+    margin-top: 20px !important;
+}
+
+.main td,
+.main th {
+    padding: 5px !important;
+    text-align: center;
+}
+
+.main table,
+.main th,
+.main td {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+.main table {
+    margin: 40px 0 !important;
+}
+.table {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.pay-GST {
+    margin: 20px 0 !important;
+}
+
+.digital-signature {
+    margin-top: 30px !important;
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    align-items: end;
+}

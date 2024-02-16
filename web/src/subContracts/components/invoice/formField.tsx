@@ -25,6 +25,7 @@ const FormField: React.FC<FormFieldsProps> = ({
 }) => {
     useEffect(() => {
         getAllCementCompany().then(setCementCompany)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <div

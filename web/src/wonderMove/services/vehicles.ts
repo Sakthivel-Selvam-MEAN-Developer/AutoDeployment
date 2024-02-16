@@ -6,5 +6,5 @@ export const updateVehicle = (number: string, vehicle: string) => {
 
 export const createVehicle = (vehicle: string) => axiosInstance.post('/vehicles', vehicle)
 export const getVehicles = () => axiosInstance.get('/vehicles').then(getData)
-export const getVehicleDetails = (number: number) =>
+export const getVehicleDetails = (number: string) =>
     axiosInstance.get(`/vehicles/${number}`).then(getData)

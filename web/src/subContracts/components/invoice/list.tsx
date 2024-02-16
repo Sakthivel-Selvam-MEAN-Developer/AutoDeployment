@@ -5,6 +5,7 @@ import { useState } from 'react'
 import ListAllTripForInvoice from './show'
 import dayjs from 'dayjs'
 import { Button } from '@mui/material'
+import InvoiceDialog from './invoiceDialog'
 interface dateProps {
     $d: number
 }
@@ -30,6 +31,7 @@ const InvoiceList: React.FC = () => {
     const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [tripId, setTripId] = useState<tripDetailsProps[]>([])
     const [message, setMessage] = useState<string>('Select Date or Cement Comapany to List Data..!')
+    const [activate, setActivate] = useState<boolean>(false)
     const onSubmit: SubmitHandler<FieldValues> = () => {
         const date =
             loadingDate !== null
@@ -40,6 +42,9 @@ const InvoiceList: React.FC = () => {
                 .then(setTripDetails)
                 .then(() => tripId.length === 0 && setMessage('No Records Found..!'))
         else alert('Any one field Required..!')
+    }
+    const handleClick = async () => {
+        setActivate(true)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,6 +69,8 @@ const InvoiceList: React.FC = () => {
                     variant="contained"
                     type="button"
                     style={{ margin: '10px' }}
+                    onClick={handleClick}
+                    disabled={tripId.length === 0}
                 >
                     Generate Invoice
                 </Button>
@@ -77,6 +84,7 @@ const InvoiceList: React.FC = () => {
             ) : (
                 <p style={{ marginTop: '30px' }}>{message}</p>
             )}
+            {activate && <InvoiceDialog tripId={tripId} company={cementCompanyName} />}
         </form>
     )
 }

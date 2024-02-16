@@ -6,7 +6,7 @@ interface SearchCustomerProps {
     onSelect: (selectedVehicle: any) => void
 }
 const SearchCustomer: React.FC<SearchCustomerProps> = ({ customers, onSelect }) => {
-    const [value, setValue] = useState<string>('')
+    const [value, setValue] = useState<string>()
     return (
         <Autocomplete
             freeSolo

@@ -1,3 +1,57 @@
+export interface loadingPointToStockPointTrip {
+    id: number
+    startDate: number
+    filledLoad: number
+    wantFuel: boolean
+    tripStatus: boolean
+    freightAmount: number
+    transporterAmount: number
+    totalFreightAmount: number
+    totalTransporterAmount: number
+    margin: number
+    loadingPointId: number
+    invoiceNumber: string
+    stockPointId: number
+    truckId: number
+    billNo: string | null
+    truck: {
+        id: number
+        vehicleNumber: string
+        capacity: number
+        transporterId: number
+        transporter: {
+            id: number
+            name: string
+            csmName: string
+            emailId: string
+            contactPersonName: string
+            contactPersonNumber: number
+            address: string
+            hasGst: boolean
+            gstNumber: null
+            gstPercentage: null
+            hasTds: boolean
+            tdsPercentage: null
+            accountHolder: string
+            accountNumber: number
+            ifsc: string
+            accountTypeNumber: number
+        }
+    }
+    loadingPoint: {
+        id: number
+        name: string
+        cementCompanyId: number
+        pricePointMarkerId: number
+    }
+    stockPoint: {
+        id: number
+        name: string
+        cementCompanyId: number
+        pricePointMarkerId: number
+    }
+}
+
 export interface tripDetailProps {
     id: number
     acknowledgementStatus: true
@@ -20,59 +74,7 @@ export interface tripDetailProps {
         unloadingPointId: number
         truckId: number
         billNo: string
-        loadingPointToStockPointTrip: {
-            id: number
-            startDate: number
-            filledLoad: number
-            wantFuel: boolean
-            tripStatus: boolean
-            freightAmount: number
-            transporterAmount: number
-            totalFreightAmount: number
-            totalTransporterAmount: number
-            margin: number
-            loadingPointId: number
-            invoiceNumber: string
-            stockPointId: number
-            truckId: number
-            billNo: string | null
-            truck: {
-                id: number
-                vehicleNumber: string
-                capacity: number
-                transporterId: number
-                transporter: {
-                    id: number
-                    name: string
-                    csmName: string
-                    emailId: string
-                    contactPersonName: string
-                    contactPersonNumber: number
-                    address: string
-                    hasGst: boolean
-                    gstNumber: null
-                    gstPercentage: null
-                    hasTds: boolean
-                    tdsPercentage: null
-                    accountHolder: string
-                    accountNumber: number
-                    ifsc: string
-                    accountTypeNumber: number
-                }
-            }
-            loadingPoint: {
-                id: number
-                name: string
-                cementCompanyId: number
-                pricePointMarkerId: number
-            }
-            stockPoint: {
-                id: number
-                name: string
-                cementCompanyId: number
-                pricePointMarkerId: number
-            }
-        }
+        loadingPointToStockPointTrip: loadingPointToStockPointTrip
         unloadingPoint: {
             id: number
             name: string
@@ -80,6 +82,7 @@ export interface tripDetailProps {
             pricePointMarkerId: number
         }
     }
+    loadingPointToStockPointTrip: loadingPointToStockPointTrip
     loadingPointToUnloadingPointTrip: {
         id: number
         startDate: number

@@ -25,7 +25,7 @@ import { userIdAtom } from '../layout/userAtom.tsx'
 const ApprovalList: FC = () => {
     const [allList, setAllList] = useState([])
     const [selectedRow, setSelectedRow] = useState<any | null>(null)
-    const [rejectRow, setRejectRow] = useState<any | null>(null)
+    const [rejectRow, setRejectRow] = useState<null>(null)
     const [open, setOpen] = useState(false)
     const [rejectionReason, setRejectionReason] = useState('')
     const [refresh, setRefresh] = useState(false)

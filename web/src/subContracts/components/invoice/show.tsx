@@ -25,7 +25,6 @@ const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, tripId }
                 )
             )
         else setTripId((prev: tripDetailsProps[]) => [...prev, obj])
-        console.log(tripId)
     }
     return (
         <TableContainer component={Paper} sx={{ marginTop: '30px' }}>

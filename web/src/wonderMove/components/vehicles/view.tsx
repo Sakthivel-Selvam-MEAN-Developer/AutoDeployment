@@ -5,7 +5,7 @@ import UpdateVehicle from './update.tsx'
 import { reformatVehicleDate } from './reformatVehicleDate.ts'
 
 interface VehicleProps {
-    number: number
+    number: string
 }
 
 interface VehicleDetails {}

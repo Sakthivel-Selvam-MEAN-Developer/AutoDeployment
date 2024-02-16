@@ -1,14 +1,18 @@
 import { stopsProps } from './modalUpdateReason'
+interface stopProps {
+    id: number
+    startTime: number
+    durationInMillis: number
+    endTime: number
+    gpsStopId: number
+    stopReasonId: number
+}
 
 const calculateUpdatedStops = (
     stop: stopsProps,
     index: number,
     deleteRowIndex: number,
-    stopToDelete: {
-        startTime: number
-        durationInMillis: number
-        endTime: number
-    }
+    stopToDelete: stopProps
 ) => {
     const { startTime, endTime, durationInMillis, gpsStopId, stopReasonId } = stop
     if (index === 0 && deleteRowIndex === 0) {
@@ -36,7 +40,11 @@ const calculateUpdatedStops = (
         stopReasonId
     }
 }
-export const deleteStop = (stopToDelete: any, deleteRowIndex: number, allStops: any[]) => {
+export const deleteStop = (
+    stopToDelete: stopProps,
+    deleteRowIndex: number,
+    allStops: stopProps[]
+) => {
     const remainingStops = allStops
         .filter((deleteRow) => deleteRow.id !== stopToDelete.id)
         .map((stop, index) => calculateUpdatedStops(stop, index, deleteRowIndex, stopToDelete))
