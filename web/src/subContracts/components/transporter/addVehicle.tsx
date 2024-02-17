@@ -4,27 +4,38 @@ import { createTruck } from '../../services/truck.ts'
 import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { useState } from 'react'
 import VehicleFormField from './vehicleFormField.tsx'
+import { Box, CircularProgress } from '@mui/material'
 
 const AddVehicle: React.FC = () => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterId, setTransporterId] = useState<number>(0)
+    const [loading, setLoading] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        transporterId !== 0 && setLoading(true)
         createTruck({
             vehicleNumber: data.vehicleNumber,
             transporterId: transporterId,
             capacity: parseFloat(data.capacity)
         })
+            .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
             .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
+            .then(() => setLoading(false))
     }
     const handleClose = () => setOpenSuccessDialog(false)
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <VehicleFormField control={control} setTransporterId={setTransporterId} />
-                <SubmitButton name="Create" type="submit" />
+                {loading ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <SubmitButton name="Create" type="submit" />
+                )}
             </form>
             <SuccessDialog
                 open={openSuccessDialog}

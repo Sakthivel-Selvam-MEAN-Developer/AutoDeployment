@@ -252,8 +252,8 @@ export const listAllUpcomingTransporterDuesByDefault = (_req: Request, res: Resp
 }
 
 export const listAllCompletedDues = (req: Request, res: Response) => {
-    const { name, date, page } = req.params
-    getCompletedDues(name, parseInt(date), parseInt(page))
+    const { name, from, to, page } = req.params
+    getCompletedDues(name, parseInt(from), parseInt(to), parseInt(page))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

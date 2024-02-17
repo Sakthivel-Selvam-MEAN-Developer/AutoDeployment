@@ -3,45 +3,89 @@ import { useEffect, useState } from 'react'
 import CompletedPaymentForm from './completedPaymentForm'
 import { getCompletedDues } from '../../services/paymentDues'
 import CompletedPaymentTable from './completedPaymentTable'
+import { Box, CircularProgress, Pagination, Stack } from '@mui/material'
 
-export interface transporterProps {
+export interface vendorProps {
+    bunkName: string
     name: string
+}
+const style = {
+    display: 'flex',
+    bottom: '0',
+    width: '90%',
+    justifyContent: 'center',
+    marginBottom: '30px'
 }
 const CompletedPayment: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
+    const [loading, setLoading] = useState(false)
     const [completedPayments, setCompletedPayments] = useState([])
-    const [transporter, setTransporter] = useState<transporterProps[]>([])
+    const [vendor, setVendor] = useState<vendorProps[]>([])
     const [page, setPage] = useState(1)
     const [name, setName] = useState('')
-    const [date, setDate] = useState(0)
+    const [from, setFrom] = useState(0)
+    const [to, setTo] = useState(0)
     const [message, setMessage] = useState<string>('Please Select Any One...')
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setPage(1)
-        const date = data.date !== undefined ? data.date.unix() : 0
-        setDate(date)
-        setName(data.name)
-        getCompletedDues(data.name, date, page)
-            .then(setCompletedPayments)
-            .then(() => completedPayments.length === 0 && setMessage('No Records Found...'))
+        const from = data.from !== undefined ? data.from.unix() : 0
+        const to = data.to !== undefined ? data.to.unix() : 0
+        setFrom(from)
+        setTo(to)
+        if (name !== '' || (from !== 0 && to !== 0)) {
+            setLoading(true)
+            getCompletedDues(name !== '' ? name : 'null', from, to, page)
+                .then(setCompletedPayments)
+                .then(() => {
+                    completedPayments.length === 0 && setMessage('No Records Found...')
+                    setLoading(false)
+                })
+        } else if (from === 0 && to === 0 && name === '')
+            alert('Please Select Valid Date Or Name...')
     }
     useEffect(() => {
-        if (name !== '' || date !== 0) getCompletedDues(name, date, page).then(setCompletedPayments)
+        if (name !== '' || (from !== 0 && to !== 0)) {
+            setLoading(true)
+            getCompletedDues(name, from, to, page)
+                .then(setCompletedPayments)
+                .then(() => {
+                    completedPayments.length === 0 && setMessage('No Records Found...')
+                    setLoading(false)
+                })
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page])
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <CompletedPaymentForm
                 control={control}
-                transporter={transporter}
-                setTransporter={setTransporter}
+                setName={setName}
+                vendor={vendor}
+                setVendor={setVendor}
             />
             <br />
-            {completedPayments.length !== 0 ? (
-                <CompletedPaymentTable completedPayments={completedPayments} setPage={setPage} />
+            {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                    <CircularProgress />
+                </Box>
+            ) : completedPayments.length !== 0 ? (
+                <CompletedPaymentTable completedPayments={completedPayments} />
             ) : (
                 <p style={{ marginTop: '30px', textAlign: 'center' }}>{message}</p>
             )}
+            <div style={{ ...style, position: 'absolute' }}>
+                <Stack spacing={10}>
+                    <Pagination
+                        count={10}
+                        size="large"
+                        color="primary"
+                        onChange={(_e, value) => {
+                            setPage(value)
+                        }}
+                    />
+                </Stack>
+            </div>
         </form>
     )
 }

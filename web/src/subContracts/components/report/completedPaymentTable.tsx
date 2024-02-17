@@ -1,13 +1,12 @@
 import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
-import { Button, Pagination, Stack, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Button, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import exportFromJSON from 'export-from-json'
 
 interface Props {
     completedPayments: completedPaymentsProps[]
-    setPage: React.Dispatch<React.SetStateAction<number>>
 }
 interface completedPaymentsProps {
     name: string
@@ -24,13 +23,6 @@ interface completedPaymentsProps {
             truck: { transporter: { csmName: string } }
         }
     }
-}
-const style = {
-    display: 'flex',
-    bottom: '0',
-    width: '90%',
-    justifyContent: 'center',
-    marginBottom: '30px'
 }
 const getTableHead = () => {
     return (
@@ -64,11 +56,13 @@ const getTableBody = (allTrips: completedPaymentsProps[]) => {
                         <TableCell align="left">{row.transactionId}</TableCell>
                         <TableCell align="left">{row.payableAmount}</TableCell>
                         <TableCell align="left">
-                            {row.overallTrip.loadingPointToUnloadingPointTrip !== null
-                                ? row.overallTrip.loadingPointToUnloadingPointTrip.truck.transporter
-                                      .csmName
-                                : row.overallTrip.loadingPointToStockPointTrip.truck.transporter
-                                      .csmName}
+                            {row.type !== 'fuel pay'
+                                ? row.overallTrip.loadingPointToUnloadingPointTrip !== null
+                                    ? row.overallTrip.loadingPointToUnloadingPointTrip.truck
+                                          .transporter.csmName
+                                    : row.overallTrip.loadingPointToStockPointTrip.truck.transporter
+                                          .csmName
+                                : ''}
                         </TableCell>
                     </TableRow>
                 ))}
@@ -98,7 +92,7 @@ const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], n
         exportFromJSON({ data, fileName, exportType })
     }
 }
-const CompletedPaymentTable: React.FC<Props> = ({ completedPayments, setPage }) => {
+const CompletedPaymentTable: React.FC<Props> = ({ completedPayments }) => {
     return (
         <>
             <div
@@ -122,18 +116,6 @@ const CompletedPaymentTable: React.FC<Props> = ({ completedPayments, setPage }) 
                     {getTableBody(completedPayments)}
                 </Table>
             </TableContainer>
-            <div style={{ ...style, position: 'absolute' }}>
-                <Stack spacing={10}>
-                    <Pagination
-                        count={10}
-                        size="large"
-                        color="primary"
-                        onChange={(_e, value) => {
-                            setPage(value)
-                        }}
-                    />
-                </Stack>
-            </div>
         </>
     )
 }

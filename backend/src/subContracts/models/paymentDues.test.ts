@@ -227,10 +227,10 @@ describe('Payment-Due model', () => {
         const wantToUpdate = {
             id: dues[0].id,
             transactionId: 'abc',
-            paidAt: dayjs().unix()
+            paidAt: 1706034600
         }
         await updatePaymentDues(wantToUpdate)
-        const actual = await getCompletedDues(seedPaymentDue.name, wantToUpdate.paidAt, 1)
+        const actual = await getCompletedDues(seedPaymentDue.name, dueDate, dueDate, 1)
         expect(actual[0].transactionId).toBe('abc')
     })
 })

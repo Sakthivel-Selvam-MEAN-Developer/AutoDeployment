@@ -5,6 +5,13 @@ export const create = (data: Prisma.bunkCreateInput) => prisma.bunk.create({ dat
 
 export const getAllBunk = () => prisma.bunk.findMany({})
 
+export const getAllBunkName = () =>
+    prisma.bunk.findMany({
+        select: {
+            bunkName: true
+        }
+    })
+
 export const getBunkAccountByName = (bunkName: string[]) =>
     prisma.bunk.findMany({
         where: {

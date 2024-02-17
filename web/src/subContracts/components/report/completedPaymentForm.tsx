@@ -1,23 +1,31 @@
-import { useEffect } from 'react'
+import { ChangeEvent, useEffect } from 'react'
 import { Control } from 'react-hook-form'
 import AutoComplete from '../../../form/AutoComplete.tsx'
 import { Button } from '@mui/material'
-import { transporterProps } from './completedPayment.tsx'
+import { vendorProps } from './completedPayment.tsx'
 import DateInput from '../../../form/DateInput.tsx'
-import { getAllTransporter } from '../../services/transporter.ts'
+import { getAllTransporterName } from '../../services/transporter.ts'
+import { getAllBunkName } from '../../services/bunk.ts'
 
 interface FormFieldsProps {
     control: Control
-    transporter: transporterProps[]
-    setTransporter: React.Dispatch<React.SetStateAction<transporterProps[]>>
+    vendor: vendorProps[]
+    setName: React.Dispatch<React.SetStateAction<string>>
+    setVendor: React.Dispatch<React.SetStateAction<vendorProps[]>>
 }
 const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
     control,
-    transporter,
-    setTransporter
+    vendor,
+    setVendor,
+    setName
 }) => {
     useEffect(() => {
-        getAllTransporter().then(setTransporter)
+        getAllTransporterName().then((data) => setVendor(data))
+        getAllBunkName().then((data) => {
+            data.map((bunk: vendorProps) =>
+                setVendor((prev) => [...prev, { ...bunk, name: bunk.bunkName }])
+            )
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
@@ -33,15 +41,18 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
             <DateInput
                 control={control}
                 format="DD/MM/YYYY"
-                fieldName="date"
-                label="Payment Date"
+                fieldName="from"
+                label="Payment From"
             />
+            <DateInput control={control} format="DD/MM/YYYY" fieldName="to" label="Payment To" />
             <AutoComplete
                 control={control}
                 fieldName="name"
-                label="Select Transporter"
-                options={transporter.map(({ name }) => name)}
-                onChange={{}}
+                label="Select Vendor"
+                options={vendor.map(({ name }) => name)}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
+                    setName(value)
+                }}
             />
             <Button
                 color="secondary"

@@ -43,7 +43,7 @@ export interface GenerateFormProps {
 }
 const style = { width: '100%', padding: '10px 10px 0px' }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-function accordionDetails(
+const accordionDetails = (
     accordianStyle: { display: string; borderBottom: string },
     style: { width: string; padding: string },
     list: tripProp,
@@ -52,7 +52,7 @@ function accordionDetails(
     setGstNEFTDetails: React.Dispatch<React.SetStateAction<gstNEFTDetailsProps[]>>,
     paymentDueId: number[],
     setPaymentDueId: React.Dispatch<React.SetStateAction<number[]>>
-) {
+) => {
     const handleClick = (list: tripProp, data: dataProp) => {
         const obj = {
             id: list.id,
@@ -71,12 +71,10 @@ function accordionDetails(
     return (
         <AccordionDetails sx={accordianStyle}>
             <Typography>
-                {' '}
                 <Checkbox onClick={() => handleClick(list, data)} {...label} />
             </Typography>
             <Typography sx={style}>
-                {' '}
-                <b>{list.vehicleNumber}</b>{' '}
+                <b>{list.vehicleNumber}</b>
             </Typography>
             <Typography sx={style}>{list.type} </Typography>
             <Typography sx={style}>{list.amount} </Typography>
