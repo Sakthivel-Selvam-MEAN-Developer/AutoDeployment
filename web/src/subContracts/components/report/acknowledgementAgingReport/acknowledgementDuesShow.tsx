@@ -150,7 +150,7 @@ const ListAllAcknowledgementDueDetails: React.FC<listoverallTripProps> = ({
             <div style={{ ...style, position: 'absolute' }}>
                 <Stack spacing={10}>
                     <Pagination
-                        count={10}
+                        count={100}
                         size="large"
                         color="primary"
                         onChange={(_e, value) => setskipNumber(value - 1)}

@@ -13,6 +13,7 @@ import SecondReason from './secondReason.tsx'
 import { deleteStop } from './deleteStops.ts'
 import { overrideStop } from '../../services/stops.ts'
 import AlertDialog from '../../../commonUtils/confirmationDialog.tsx'
+import { StopDetails } from './show.tsx'
 
 export interface Row {
     id: number
@@ -37,7 +38,7 @@ export interface stopsProps {
 interface ModalUpdateReasonProps {
     open: boolean
     selectedRow: any
-    setSelectedRow: any
+    setSelectedRow: React.Dispatch<React.SetStateAction<StopDetails[] | null>>
     tableState: () => void
 }
 const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({

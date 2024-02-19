@@ -128,7 +128,7 @@ const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, se
             <div style={{ ...style, position: 'absolute' }}>
                 <Stack spacing={10}>
                     <Pagination
-                        count={10}
+                        count={100}
                         size="large"
                         color="primary"
                         onChange={(_e, value) => {

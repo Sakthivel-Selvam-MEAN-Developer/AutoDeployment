@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import ModalUpdateReason from './modalUpdateReason.tsx'
 import { getAllReasons } from '../../services/reason.js'
 
-interface StopDetails {
+export interface StopDetails {
     id: number
     startTime: number
     endTime: number
@@ -28,7 +28,7 @@ interface StopListProps {
     tableState: any
 }
 const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
-    const [selectedRows, setSelectedRows] = useState<StopDetails[]>([])
+    const [selectedRows, setSelectedRows] = useState<StopDetails[] | null>([])
     const [allReasons, setAllReasons] = useState([])
 
     useEffect(() => {

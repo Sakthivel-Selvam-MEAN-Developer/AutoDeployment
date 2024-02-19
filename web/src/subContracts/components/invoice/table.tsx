@@ -2,6 +2,7 @@ import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { tripDetailsProps } from './list'
 import { stockToUnloadingProps } from './interface'
+
 export const getTableHead = () => {
     return (
         <TableHead>

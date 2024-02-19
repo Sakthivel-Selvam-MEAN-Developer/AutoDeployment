@@ -14,6 +14,12 @@ import { ActionButton } from './actionButton.tsx'
 import { useAtomValue } from 'jotai/react'
 import { userIdAtom } from '../layout/userAtom.tsx'
 interface rowProps {
+    id: number
+    from: number
+    to: number
+    leaveReason: {
+        name: string
+    }
     approval: boolean
     deniedComment: string
 }
@@ -46,7 +52,7 @@ const LeaveList: React.FC = () => {
         <>
             <ActionButton onClick={() => navigate('apply')} displayText="Apply Leave" />
             <List>
-                {allLeave.map((row: any) => (
+                {allLeave.map((row: rowProps) => (
                     <React.Fragment key={row.id}>
                         <ListItem
                             key={row.id}
