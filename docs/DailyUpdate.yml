@@ -1,8 +1,128 @@
+- date: 20-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - authorization with keycloak for backend
+- date: 20-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - create template for dalmia invoice
+- date: 20-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - generate invoice for chettinad
+
+- date: 19-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - authorization with keycloak for frontend
+  completed:
+    - completed authorization with keycloak for frontend
+- date: 19-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - connect nginx with frontend in docker
+- date: 19-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - create chettinad invoice template
+  completed:
+    - created chettinad invoice template
+
+- date: 17-2-2024
+  person: Barath, Muthu, Sakthivel
+  project: subContract
+  planning:
+    - dockerise the whole project
+    
+- date: 16-2-2024
+  person: Barath, Muthu, Sakthivel
+  project: subContract
+  planning:
+    - discussion for driver salary generator with client
+  completed:
+    - discussed about the driver salary generator
+    - finalised the approaching method for driver salary generator
+
+- date: 15-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - review with client for discrepancy payment report
+  completed:
+    - changes made after client review
+- date: 15-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - review with client for completed payments reports
+  completed:
+    - date range & by bunk filter for completed payment
+- date: 15-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - review with client for preview for generate invoice
+  completed:
+    - can download the invoice in pdf format
+    
+- date: 14-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - discrepancy report with test for backend
+  completed:
+    - completed discrepancy report with test for both frontend and backend
+- date: 14-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - can generate reports completed payments in csv format
+  completed:
+    - can download completed payments
+- date: 14-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should be able to select details to generate invoice
+  completed:
+    - displayed and able to select details to generate invoice
+
+- date: 13-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should create frontend for discrepancy payment report
+  completed:
+    - completed frontend for discrepancy payment report with test
+- date: 13-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - report for completed payment
+  completed:
+    - displayed completed payment with pagination
+- date: 13-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - able to select details to generate invoice
+  completed:
+    - able to select details to generate invoice
+
 - date: 12-2-2024
   person: Barath
   project: subContract
   planning:
-    - reports for discrepancy payment report
+    - discussed for discrepancy payment report
+  completed:
+    - completed discussion for discrepancy payment report
+    - started discrepancy payment report
 - date: 12-2-2024
   person: Muthu
   project: subContract
