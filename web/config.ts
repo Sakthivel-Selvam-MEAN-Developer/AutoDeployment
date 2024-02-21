@@ -6,10 +6,10 @@ const config: Record<string, Config> = {
         backendUrl: `http://${window.location.hostname}/api`,
     },
     dev: {
-        backendUrl: `http://${window.location.hostname}:3000/api`,
+        backendUrl: `http://${window.location.hostname}:8000/api`,
     },
     test: {
-        backendUrl: `http://${window.location.hostname}:3000/api`,
+        backendUrl: `http://${window.location.hostname}:8000/api`,
     },
 }
 const env = 'dev'
