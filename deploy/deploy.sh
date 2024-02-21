@@ -1,7 +1,7 @@
  #exit if error
 set -e
 
-export IP=18.215.179.172
+export IP=54.226.32.11
 
 echo "remove old copy"
 rm -rf WonderWhy
@@ -20,7 +20,7 @@ ssh -i ~/.ssh/awsww.pem ec2-user@"$IP"  << EOF
   sudo yum update
   sudo yum install -y docker
   curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-aarch64 -o ~/docker-compose
-  chmod +x ~/.local/bin/docker-compose
+  chmod +x ~/docker-compose
   ~/docker-compose version
   echo "install docker complete"
   sudo systemctl enable docker.service
