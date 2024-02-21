@@ -1,3 +1,20 @@
+- date: 21-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - model for magnum trip
+    - ui for creating magnum trip
+- date: 21-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - snapshot test for ui
+- date: 21-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - snapshot test for ui
+    
 - date: 20-2-2024
   person: Barath
   project: subContract
