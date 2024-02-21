@@ -15,6 +15,7 @@ rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' WonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/WonderWhy/backend/.env
 rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/web/dist  ec2-user@"$IP":~/WonderWhy/web/dist
+rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/backend/dist  ec2-user@"$IP":~/WonderWhy/backend/dist
 echo "install all dependencies"
 ssh -i ~/.ssh/awsww.pem ec2-user@"$IP"  << EOF
   set -e

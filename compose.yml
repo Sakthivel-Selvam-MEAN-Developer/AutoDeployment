@@ -32,11 +32,10 @@ services:
     command: ["yarn", "b", "prismaMigrateDev" ]
 
   backend:
-    image: node:21.5.0-alpine3.18
+    image: arm64v8/node:21.5.0-alpine3.18
     volumes:
       - ./:/app/
     working_dir: /app
-    platform: linux/amd64
     ports:
       - 8000:8000
     networks:
@@ -44,10 +43,7 @@ services:
     command: ["yarn", "b", "runProd"]
 
   nginx:
-    image: "nginx:1.25.3-alpine3.18"
-    build:
-      context: web
-    platform: linux/amd64
+    image: arm64v8/nginx:1.25.3-alpine3.18
     depends_on:
       - backend
     ports:
