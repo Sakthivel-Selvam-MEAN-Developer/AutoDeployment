@@ -7,8 +7,6 @@ COPY ../ /app/
 ## Set the working directory to /app
 WORKDIR /app
 
-RUN yarn install
-
 # Expose the listening port of your app
 EXPOSE 8000
 

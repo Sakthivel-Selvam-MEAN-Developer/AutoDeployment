@@ -10,4 +10,5 @@ package-lock.json
 .idea/workspace.xml
 nginx/logs/*
 nginx/html/*
-
+.terragrunt-cache
+.terraform.lock.hcl

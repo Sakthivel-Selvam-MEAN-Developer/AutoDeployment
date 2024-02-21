@@ -16,6 +16,21 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  setup:
+    image: node:21.5.0-alpine3.18
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    command: ["./deploy/setup.sh"]
+
+  migrate:
+    image: node:21.5.0-alpine3.18
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    command: ["yarn", "b", "prismaMigrateDev" ]
+
   backend:
     build:
       context:  backend
@@ -26,9 +41,8 @@ services:
       - postgres-network
     volumes:
       - ./:/app/
-    depends_on:
-      - db
     command: ["yarn", "b", "runProd"]
+
   nginx:
     image: "nginx:1.25.3-alpine3.18"
     build:
@@ -45,6 +59,19 @@ services:
     networks:
       - postgres-network
     command: [nginx-debug, '-g', 'daemon off;']
+
+  terra:
+    image: "alpine/terragrunt:1.7.3"
+    platform: linux/amd64
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: "us-east-1"
+      TF_LOG: debug
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    command: ["./deploy/terraform.sh"]
 
 networks:
   postgres-network:
