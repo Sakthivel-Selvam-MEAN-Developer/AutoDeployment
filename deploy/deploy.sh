@@ -10,15 +10,11 @@ echo "update pem key permission"
 chmod 400 ~/.ssh/awsww.pem
 echo "clone latest code without history"
 git clone --depth 1 git@github.com:WonderWhyDev/WonderWhy.git
-cd WonderWhy
-docker compose run setup "yarn; yarn u build"
-rm -rf node_modules
-rm -rf backend/node_modules
-rm -rf web/node_modules
 echo "copy code to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' WonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/WonderWhy/backend/.env
+rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/web/dist  ec2-user@"$IP":~/WonderWhy/web/dist
 echo "install all dependencies"
 ssh -i ~/.ssh/awsww.pem ec2-user@"$IP"  << EOF
   set -e
@@ -36,7 +32,7 @@ ssh -i ~/.ssh/awsww.pem ec2-user@"$IP"  << EOF
   echo "start yarn install and prisma setup"
   ~/docker-compose up setup
   echo "start db migration"
-  ~/docker compose up migrate
+  ~/docker-compose up migrate
   echo "start nginx along with backend"
-  ~/docker compose up nginx
+  ~/docker-compose up nginx -d
 EOF
