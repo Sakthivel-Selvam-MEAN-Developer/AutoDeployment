@@ -16,10 +16,11 @@
     "b": "yarn workspace backend",
     "setUpHusky": "husky install",
     "all": "yarn u format -w; yarn u lint --fix; yarn u testOnce; yarn b format -w; yarn b lint --fix; yarn b testOnce",
-    "db": "cd docker; docker compose up -d db",
-    "nginx": "cd docker; docker compose up nginx",
-    "dbKill": "cd docker; docker compose down db",
-    "sql": "cd docker; docker compose exec postgres psql -U postgres -d wonderwhy"
+    "db": "docker compose up -d db",
+    "nginx": "docker compose up nginx",
+    "dbKill": "docker compose down db",
+    "sql": "docker compose exec db psql -U postgres -d wonderwhy",
+    "terra": "docker compose run -it terra bash"
   },
   "devDependencies": {
     "husky": "^8.0.3"

@@ -10,6 +10,11 @@ echo "update pem key permission"
 chmod 400 ~/.ssh/awsww.pem
 echo "clone latest code without history"
 git clone --depth 1 git@github.com:WonderWhyDev/WonderWhy.git
+cd WonderWhy
+docker compose run setup "yarn; yarn u build"
+rm -rf node_modules
+rm -rf backend/node_modules
+rm -rf web/node_modules
 echo "copy code to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' WonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"

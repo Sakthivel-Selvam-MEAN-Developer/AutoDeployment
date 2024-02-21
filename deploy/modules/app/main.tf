@@ -23,7 +23,7 @@ provider "aws" {
 
 variable "instance_type" {
   description = "What kind of servers to run (e.g. t2.large)"
-  default     = "t4g.nano"
+  default     = "t4g.micro"
 }
 
 resource "aws_instance" "app_server" {
