@@ -1,7 +1,7 @@
  #exit if error
 set -e
 
-export IP=54.226.32.11
+IP=$1
 
 echo "remove old copy"
 rm -rf WonderWhy

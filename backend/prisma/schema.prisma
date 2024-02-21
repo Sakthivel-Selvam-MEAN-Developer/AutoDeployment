@@ -7,7 +7,7 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
-  extensions = [postgis, timescaledb]
+  extensions = [postgis]
   schemas    = ["wonderMove", "peopleOrg", "identity", "subContract"]
 }
 

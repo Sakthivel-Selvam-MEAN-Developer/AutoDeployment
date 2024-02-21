@@ -6,7 +6,7 @@
 
 */
 -- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "timescaledb";
+-- CREATE EXTENSION IF NOT EXISTS "timescaledb";
 
 -- DropForeignKey
 ALTER TABLE "peopleOrg"."orgUnitHeads" DROP CONSTRAINT "orgUnitHeads_employeesId_fkey";
