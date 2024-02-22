@@ -1,19 +1,34 @@
+- date: 22-2-2024
+  person: Barath, Muthu, Sakthivel
+  project: subContract
+  planning:
+    - feed data in aws
+
 - date: 21-2-2024
   person: Barath
   project: subContract
   planning:
     - model for magnum trip
     - ui for creating magnum trip
+  completed:
+    - created ui for magnum trip
+    - created fuel for magnum trip backend
 - date: 21-2-2024
   person: Muthu
   project: subContract
   planning:
     - snapshot test for ui
+  completed:
+    - snapshot test for ui
+    - annexure template for chettinad invoice
 - date: 21-2-2024
   person: Sakthivel
   project: subContract
   planning:
     - snapshot test for ui
+  completed:
+    - snapshot test for ui
+    - chettinad direct bill template
     
 - date: 20-2-2024
   person: Barath

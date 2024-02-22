@@ -30,8 +30,6 @@ const ListAllAcknowledgementDues: React.FC = (): ReactElement => {
         const a = date.setDate(date.getDate() - parseInt(data.agingDate))
         data.agingDate &&
             getTripByUnloadDate(parseInt(String(a).slice(0, 10))).then(setAcknowledgementList)
-        console.log(Date.now())
-
         setShowDetails(true)
     }
     return (

@@ -18,6 +18,7 @@ if [[ " ${unique_folders[@]} " =~ "web" ]]; then
   echo "📚  web folder is being updated, running web pre-commit hook"
   yarn u lint
   yarn u format
+  yarn
   yarn u build
   yarn u testOnce
 fi

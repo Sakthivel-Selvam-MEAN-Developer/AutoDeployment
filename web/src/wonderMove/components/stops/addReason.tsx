@@ -13,13 +13,13 @@ interface AddReasonProps {
 }
 const AddReason: React.FC<AddReasonProps> = ({ stopInfo, allReasons }) => {
     const [selectedReason, setSelectedReason] = useState<string>(stopInfo.reason.id)
-    const [temporaryReason, setTemporaryReason] = useState()
+    const [temporaryReason, setTemporaryReason] = useState('')
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [openAlertDialog, setOpenAlertDialog] = useState(false)
 
     const handleChange = (event: SelectChangeEvent) => {
-        const selectedReasonId = event.target.value
-        setTemporaryReason(selectedReasonId as any)
+        const selectedReasonId = event.target.value as string
+        setTemporaryReason(selectedReasonId)
         setOpenAlertDialog(true)
     }
 
