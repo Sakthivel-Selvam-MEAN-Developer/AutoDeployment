@@ -31,7 +31,7 @@ const tripLogic = async (
         ]
         return paymentDues
     }
-    if (data.wantFuel === false && fuelDetails !== null) {
+    if (data.totalTransporterAmount !== 0 && data.wantFuel === false && fuelDetails !== null) {
         return [
             {
                 name: transporterName,

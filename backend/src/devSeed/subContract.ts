@@ -31,6 +31,10 @@ async function addFuelStations() {
     VALUES ('StockPoint', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1);`
     await prisma.$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId", "createdAt", "updatedAt")
     VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."transporter" ("name","emailId","contactPersonName","contactPersonNumber","address","hasGst","hasTds","transporterType","accountHolder","accountNumber","ifsc","accountTypeNumber","csmName", "createdAt", "updatedAt")
+    VALUES ('Magnum Logistics Pvt Ltd','magnum@gmail.com','Magnum', '987675654432','Magnum Street',false,false,'Own','Magnum','635534523','uvx1234',13454350,'Barath',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
+    VALUES ('TN12G9456',70,3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
     await prisma.$executeRaw`INSERT INTO "subContract"."accountType" ("accountTypeName","accountTypeNumber", "createdAt", "updatedAt")
     VALUES ('Current Account',11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('Overdraft Account',12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

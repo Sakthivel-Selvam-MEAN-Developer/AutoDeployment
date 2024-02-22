@@ -6,7 +6,14 @@ describe('Fuel Logics Test', async () => {
         const fuel = {
             totalprice: 5000,
             vehicleNumber: 'TN29BA3211',
-            overallTripId: 1
+            overallTripId: 1,
+            id: 1,
+            fueledDate: 1704781636,
+            invoiceNumber: 'FDGT564',
+            pricePerliter: 123,
+            quantity: 12,
+            paymentStatus: false,
+            bunkId: 1
         }
         const trip = {
             id: 3,

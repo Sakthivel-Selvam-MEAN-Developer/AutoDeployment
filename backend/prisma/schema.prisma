@@ -257,6 +257,7 @@ model transporter {
   gstNumber           String?
   gstPercentage       Float?   @db.DoublePrecision
   hasTds              Boolean  @default(false)
+  transporterType     String  
   tdsPercentage       Float?   @db.DoublePrecision
   accountHolder       String
   accountNumber       String   @unique
@@ -530,8 +531,8 @@ model shortageQuantity {
   filledLoad       Int
   unloadedQuantity Int
   unloadedDate     Int
-  createdAt        DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt        DateTime @updatedAt @db.Timestamptz(6)
+  createdAt        DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime     @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }
@@ -552,4 +553,30 @@ model overallTrip {
   shortageQuantity                   shortageQuantity[]
 
   @@schema("subContract")
+}
+
+// model BettaByTrip {
+//   id               Int             @id @default(autoincrement())
+//   driverBetta      Float           @db.DoublePrecision
+//   loadingPointId   Int?
+//   loadingPoint     loadingPoint?   @relation(fields: [loadingPointId], references: [id])
+//   unloadingPointId Int?
+//   unloadingPoint   unloadingPoint? @relation(fields: [unloadingPointId], references: [id])
+//   stockPointId     Int?
+//   stockPoint       stockPoint?     @relation(fields: [stockPointId], references: [id])
+//   createdAt        DateTime        @default(now()) @db.Timestamptz(6)
+//   updatedAt        DateTime        @updatedAt @db.Timestamptz(6)
+
+//   @@schema("subContract")
+// }
+
+model userRoles {
+  id          Int    @id @default(autoincrement())
+  name        String
+  dateOfBirth Int
+  employeeId  String
+  role        String
+  jobTitle    String
+
+  @@schema("identity")
 }

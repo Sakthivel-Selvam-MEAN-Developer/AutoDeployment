@@ -12,6 +12,7 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [loading, setLoading] = useState(false)
     const [gst, setGst] = useState<boolean>(true)
+    const [transporterType, setTransporterType] = useState('')
     const [tds, setTds] = useState<boolean>(true)
     const [accountTypes, setAccountTypes] = useState([])
     const [accountTypeNumber, setAccountTypeNumber] = useState<number | undefined>(0)
@@ -53,6 +54,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
                     control={control}
                     gst={gst}
                     tds={tds}
+                    setTransporterType={setTransporterType}
+                    transporterType={transporterType}
                     setGst={setGst}
                     setTds={setTds}
                     accountTypes={accountTypes}

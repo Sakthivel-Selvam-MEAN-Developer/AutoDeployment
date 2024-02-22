@@ -17,6 +17,7 @@ const NewTrip: React.FC = () => {
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
     const [truckId, setTruckId] = useState(0)
+    const [ownTruck, setOwnTruck] = useState(false)
     const [loadingPointId, setLoadingPointId] = useState<number | null>(null)
     const [stockPointId, setStockPointId] = useState<number | null>(null)
     const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
@@ -30,6 +31,7 @@ const NewTrip: React.FC = () => {
     const filledLoad = watch('filledLoad')
     const [category, setCategory] = useState<string>('')
     const [clear, setClear] = useState<boolean>(false)
+    const [ownTruckFuel, setownTruckFuel] = useState<boolean>(true)
 
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseFloat(filledLoad))
@@ -65,12 +67,15 @@ const NewTrip: React.FC = () => {
                 filledLoad: parseFloat(filledLoad),
                 invoiceNumber: data.invoiceNumber,
                 freightAmount: parseFloat(freightAmountFloat),
-                transporterAmount: parseFloat(transporterAmountFloat),
+                transporterAmount: ownTruck === false ? parseFloat(transporterAmountFloat) : 0,
                 totalFreightAmount: parseFloat(totalFreightAmountFloat),
-                totalTransporterAmount: parseFloat(totalTransporterAmountFloat),
-                margin: parseFloat(marginFloat),
-                wantFuel: fuel
+                totalTransporterAmount:
+                    ownTruck === false ? parseFloat(totalTransporterAmountFloat) : 0,
+                margin: ownTruck === false ? parseFloat(marginFloat) : 0,
+                wantFuel: ownTruck === false ? fuel : ownTruckFuel
             }
+            console.log(data.exampleInput)
+
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then(() => clearForm(clear, setClear, setCategory, setValue))
@@ -99,12 +104,15 @@ const NewTrip: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormField
                 control={control}
+                ownTruck={ownTruck}
+                setOwnTruck={setOwnTruck}
                 transporter={transporter}
                 cementCompany={cementCompany}
                 setTruckId={setTruckId}
                 loadingPointId={setLoadingPointId}
                 unloadingPointId={setUnloadingPointId}
                 freightAmount={freightAmount}
+                setownTruckFuel={setownTruckFuel}
                 setFreightAmount={setFreightAmount}
                 transporterAmount={transporterAmount}
                 setTransporterAmount={setTransporterAmount}

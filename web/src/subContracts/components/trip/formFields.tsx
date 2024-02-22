@@ -14,6 +14,7 @@ import DateInput from '../../../form/DateInput.tsx'
 interface transporterProps {
     name: string
     tdsPercentage: number
+    transporterType: string
 }
 interface FormFieldProps {
     control: Control
@@ -34,8 +35,11 @@ interface FormFieldProps {
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setTransporterAmount: React.Dispatch<React.SetStateAction<number>>
     setTdsPercentage: React.Dispatch<React.SetStateAction<number>>
+    setOwnTruck: React.Dispatch<React.SetStateAction<boolean>>
+    setownTruckFuel: React.Dispatch<React.SetStateAction<boolean>>
     category: string
     setValue: UseFormSetValue<FieldValues>
+    ownTruck: boolean
     clear: boolean
 }
 const FormField: React.FC<FormFieldProps> = ({
@@ -59,6 +63,9 @@ const FormField: React.FC<FormFieldProps> = ({
     setFreightAmount,
     setTransporterAmount,
     setTdsPercentage,
+    setOwnTruck,
+    ownTruck,
+    setownTruckFuel,
     clear
 }) => {
     const [transporterName, setTransporterName] = useState<string | null>('')
@@ -114,9 +121,15 @@ const FormField: React.FC<FormFieldProps> = ({
     useEffect(() => {
         if (vehicleNumber !== '')
             listFuelWithoutTripId(vehicleNumber).then((fuelDetails) => {
-                if (fuelDetails !== null) setDisableWantFuel(true)
-                else setDisableWantFuel(false)
+                if (fuelDetails !== null) {
+                    setDisableWantFuel(true)
+                    setownTruckFuel(false)
+                } else {
+                    setDisableWantFuel(false)
+                    setownTruckFuel(true)
+                }
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vehicleNumber])
 
     return (
@@ -146,10 +159,13 @@ const FormField: React.FC<FormFieldProps> = ({
                 options={transporter.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     setTransporterName(newValue)
-                    const { tdsPercentage } = transporter.find(
-                        (transporter: transporterProps) => transporter.name === newValue
-                    ) || { tdsPercentage: 0 }
-                    console.log(tdsPercentage)
+                    newValue
+                    const { tdsPercentage } = transporter.find((transporter: transporterProps) => {
+                        transporter.transporterType === 'Own'
+                            ? setOwnTruck(true)
+                            : setOwnTruck(false)
+                        return transporter.name === newValue
+                    }) || { tdsPercentage: 0 }
                     setTdsPercentage(tdsPercentage)
                 }}
             />
@@ -247,25 +263,27 @@ const FormField: React.FC<FormFieldProps> = ({
                     shrink: true
                 }}
             />
-            <InputWithDefaultValue
-                control={control}
-                label="Transporter Freight"
-                fieldName="transporterAmount"
-                type="number"
-                defaultValue={transporterAmount}
-                value={transporterAmount?.toFixed(2)}
-                InputProps={{
-                    readOnly: true,
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-            />
+            {ownTruck === false && (
+                <InputWithDefaultValue
+                    control={control}
+                    label="Transporter Freight"
+                    fieldName="transporterAmount"
+                    type="number"
+                    defaultValue={transporterAmount}
+                    value={transporterAmount?.toFixed(2)}
+                    InputProps={{
+                        readOnly: true,
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Rs</b>
+                            </InputAdornment>
+                        )
+                    }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            )}
             <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
             <NumberInput
                 control={control}
@@ -282,7 +300,7 @@ const FormField: React.FC<FormFieldProps> = ({
             />
             <InputWithDefaultValue
                 control={control}
-                label="Total Company Freight"
+                label="Total Company Amount"
                 fieldName="totalFreightAmount"
                 type="number"
                 defaultValue={totalFreightAmount}
@@ -299,50 +317,56 @@ const FormField: React.FC<FormFieldProps> = ({
                     shrink: true
                 }}
             />
-            <InputWithDefaultValue
-                control={control}
-                label="Total Transporter Freight"
-                fieldName="totalTransporterAmount"
-                type="number"
-                defaultValue={totalTransporterAmount}
-                value={totalTransporterAmount?.toFixed(2)}
-                InputProps={{
-                    readOnly: true,
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-            />
-            <InputWithDefaultValue
-                control={control}
-                label="Total Margin"
-                fieldName="margin"
-                type="number"
-                defaultValue={margin}
-                value={margin?.toFixed(2)}
-                InputProps={{
-                    readOnly: true,
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-            />
-            <FormControlLabel
-                disabled={disableWantFuel}
-                data-testid={'want-fuel'}
-                control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
-                label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
-            />
+            {ownTruck === false && (
+                <InputWithDefaultValue
+                    control={control}
+                    label="Total Transporter Amount"
+                    fieldName="totalTransporterAmount"
+                    type="number"
+                    defaultValue={totalTransporterAmount}
+                    value={totalTransporterAmount?.toFixed(2)}
+                    InputProps={{
+                        readOnly: true,
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Rs</b>
+                            </InputAdornment>
+                        )
+                    }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            )}
+            {ownTruck === false && (
+                <InputWithDefaultValue
+                    control={control}
+                    label="Total Margin"
+                    fieldName="margin"
+                    type="number"
+                    defaultValue={margin}
+                    value={margin?.toFixed(2)}
+                    InputProps={{
+                        readOnly: true,
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Rs</b>
+                            </InputAdornment>
+                        )
+                    }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            )}
+            {ownTruck === false && (
+                <FormControlLabel
+                    disabled={disableWantFuel}
+                    data-testid={'want-fuel'}
+                    control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
+                    label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
+                />
+            )}
         </div>
     )
 }

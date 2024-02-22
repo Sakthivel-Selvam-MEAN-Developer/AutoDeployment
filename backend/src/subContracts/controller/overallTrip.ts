@@ -57,12 +57,10 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
     await getAllDiscrepancyReport(parseInt(from), parseInt(to))
         .then(async (data) => {
             const tripDetails = await data.map((overallTrip) => {
-                let dueAmount = 0
                 let tripType
+                let dueAmount = 0
                 overallTrip.paymentDues.forEach((dues) => {
-                    if (dues.type !== 'gst pay') {
-                        dueAmount += dues.payableAmount
-                    }
+                    if (dues.type !== 'gst pay') dueAmount += dues.payableAmount
                 })
                 if (overallTrip.loadingPointToStockPointTrip !== null) {
                     tripType = overallTrip.loadingPointToStockPointTrip
@@ -91,7 +89,6 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                     totalPaidAmount: dueAmount.toFixed(2),
                     differenceAmount
                 }
-
                 return details
             })
             return tripDetails

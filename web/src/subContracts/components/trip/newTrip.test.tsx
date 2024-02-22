@@ -364,10 +364,10 @@ describe('New trip test', () => {
         const totalFreight = parseInt(quantity.value) * parseInt(freight.value)
         const totalTransporter = parseInt(quantity.value) * parseInt(transporter.value)
         const totalFreightValue = screen.getByRole('spinbutton', {
-            name: 'Total Company Freight'
+            name: 'Total Company Amount'
         }) as HTMLInputElement
         const totalTransporterValue = screen.getByRole('spinbutton', {
-            name: 'Total Transporter Freight'
+            name: 'Total Transporter Amount'
         }) as HTMLInputElement
         const totalMargin = screen.getByRole('spinbutton', {
             name: 'Total Margin'

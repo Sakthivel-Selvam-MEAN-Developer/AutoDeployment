@@ -1,4 +1,11 @@
 import ReactDOM from 'react-dom/client'
 import { App } from './app.tsx'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client } from './keyCloak.tsx'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />)
+const initOptions = { onLoad: 'login-required' }
+ReactDOM.createRoot(document.getElementById('root')!).render(
+    <ReactKeycloakProvider authClient={client} initOptions={initOptions}>
+        <App />
+    </ReactKeycloakProvider>
+)

@@ -1,6 +1,22 @@
 import dayjs from 'dayjs'
 
-const fuelLogics = async (fuel: any, trip: any, bunkname: string, vehicleNumber: string) => {
+const fuelLogics = async (
+    fuel: {
+        id: number
+        fueledDate: number
+        overallTripId: number | null
+        invoiceNumber: string
+        pricePerliter: number
+        quantity: number
+        totalprice: number
+        paymentStatus: boolean
+        vehicleNumber: string
+        bunkId: number
+    },
+    trip: any,
+    bunkname: string,
+    vehicleNumber: string
+) => {
     let tripDetails
     if (trip !== null) {
         if (trip.loadingPointToStockPointTrip !== null) {
@@ -30,7 +46,18 @@ const fuelLogics = async (fuel: any, trip: any, bunkname: string, vehicleNumber:
                 vehicleNumber
             }
         ]
-        if (fuel.overallTripId !== null) {
+        if (tripDetails.totalTransporterAmount === 0) {
+            return {
+                name: bunkname,
+                type: 'fuel pay',
+                fuelId: fuel.id,
+                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                payableAmount: parseFloat(fuel.totalprice.toFixed(2)),
+                overallTripId: trip.id,
+                vehicleNumber
+            }
+        }
+        if (fuel.overallTripId !== null && tripDetails.totalTransporterAmount !== 0) {
             return paymentDues
         }
     }
@@ -51,8 +78,6 @@ export function fuelDues(
         paymentStatus: boolean
         vehicleNumber: string
         bunkId: number
-        createdAt: Date
-        updatedAt: Date
     }
 ) {
     return [

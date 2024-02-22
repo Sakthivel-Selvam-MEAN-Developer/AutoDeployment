@@ -6,6 +6,7 @@ import { getActiveTripByVehicle, getOnlyActiveTripByVehicle } from '../models/ov
 
 interface dataProps {
     id: number
+    overallTripId: number | null
     fueledDate: number
     invoiceNumber: string
     pricePerliter: number

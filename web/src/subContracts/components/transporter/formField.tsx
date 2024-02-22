@@ -2,6 +2,8 @@ import { Control } from 'react-hook-form'
 import InputWithType from '../../../form/InputWithType.tsx'
 import MultiLineInput from '../../../form/MultiLineInput.tsx'
 import { Autocomplete, Checkbox, TextField } from '@mui/material'
+import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
+import { ChangeEvent } from 'react'
 export interface accountTypeProps {
     id: number
     accountTypeNumber: number
@@ -16,6 +18,8 @@ export interface FormFieldsProps {
     accountTypes: accountTypeProps[]
     setAccountTypeNumber: React.Dispatch<React.SetStateAction<number | undefined>>
     setAccountType: React.Dispatch<React.SetStateAction<string | null>>
+    setTransporterType: React.Dispatch<React.SetStateAction<string>>
+    transporterType: string
     accountType: string | null
 }
 const FormFields: React.FC<FormFieldsProps> = ({
@@ -27,7 +31,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
     accountTypes,
     setAccountTypeNumber,
     setAccountType,
-    accountType
+    accountType,
+    setTransporterType,
+    transporterType
 }) => {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
     return (
@@ -80,6 +86,16 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 label="Account Number"
                 fieldName="accountNumber"
                 type="number"
+            />
+            <AutoCompleteWithValue
+                control={control}
+                value={transporterType}
+                fieldName="transporterType"
+                label="Transporter Type"
+                options={['Own Truck', 'Market Transporter']}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    setTransporterType(newValue)
+                }}
             />
             <Autocomplete
                 sx={{ width: 200 }}

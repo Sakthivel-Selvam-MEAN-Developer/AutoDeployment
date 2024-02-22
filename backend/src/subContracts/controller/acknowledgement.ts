@@ -48,8 +48,13 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
             const { shortageAmount } = (await getShortageQuantityByOverallTripId(
                 overallTrip.id
             )) || { shortageAmount: 0 }
+            if (paymentDueDetails.length === 0) return
             await finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsPercentage).then(
-                (finalDue) => createPaymentDues(finalDue)
+                (finalDue) => {
+                    if (finalDue !== null) {
+                        return createPaymentDues(finalDue)
+                    }
+                }
             )
         })
         .then(() => res.sendStatus(200))
