@@ -40,7 +40,6 @@ const getTransporterName = (overallTrip: any) => {
 export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {
     await closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
         .then(async (overallTrip) => {
-            console.log(overallTrip)
             const transporterName = getTransporterName(overallTrip)
             const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
                 tdsPercentage: null
