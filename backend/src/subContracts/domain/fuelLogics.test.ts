@@ -13,7 +13,7 @@ describe('Fuel Logics Test', async () => {
             pricePerliter: 123,
             quantity: 12,
             paymentStatus: false,
-            bunkId: 1,
+            bunkId: 1
         }
         const trip = {
             id: 3,
@@ -60,7 +60,6 @@ describe('Fuel Logics Test', async () => {
                 vehicleNumber: 'TN29BA3211',
                 payableAmount: 5000,
                 fuelId: 1
-
             }
         ])
     })
