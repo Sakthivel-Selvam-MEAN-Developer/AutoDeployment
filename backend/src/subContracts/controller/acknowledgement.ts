@@ -40,6 +40,7 @@ const getTransporterName = (overallTrip: any) => {
 export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {
     await closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
         .then(async (overallTrip) => {
+            console.log(overallTrip)
             const transporterName = getTransporterName(overallTrip)
             const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
                 tdsPercentage: null
@@ -48,7 +49,12 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
             const { shortageAmount } = (await getShortageQuantityByOverallTripId(
                 overallTrip.id
             )) || { shortageAmount: 0 }
-            if (paymentDueDetails.length === 0) return
+            if (
+                paymentDueDetails.length === 0 ||
+                overallTrip.loadingPointToUnloadingPointTrip?.truck.transporter.transporterType ===
+                    'Own' ||
+                overallTrip.loadingPointToStockPointTrip?.totalTransporterAmount !== 0
+            ) return
             await finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsPercentage).then(
                 (finalDue) => {
                     if (finalDue !== null) {

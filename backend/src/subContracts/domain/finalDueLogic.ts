@@ -16,10 +16,7 @@ const finalDueLogic = async (
         amount += data.payableAmount
     })
     if (overallTrip !== null) {
-        if (
-            overallTrip.stockPointToUnloadingPointTrip !== null &&
-            overallTrip.loadingPointToStockPointTrip.totalTransporterAmount !== 0
-        ) {
+        if (overallTrip.stockPointToUnloadingPointTrip !== null ) {
             tdsAmount =
                 (overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount +
                     overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
@@ -30,10 +27,7 @@ const finalDueLogic = async (
                 dueDetails.totalTransporterAmount +
                 overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount -
                 (amount + shortageAmount + tdsAmount)
-        } else if (
-            overallTrip.loadingPointToUnloadingPointTrip !== null &&
-            overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount !== 0
-        ) {
+        } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
             tdsAmount =
                 overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount *
                 (tdsPercentage !== null ? tdsPercentage / 100 : 0)
