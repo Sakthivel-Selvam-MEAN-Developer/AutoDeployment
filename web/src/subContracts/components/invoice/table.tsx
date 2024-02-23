@@ -29,6 +29,7 @@ export const getCells = (
         <>
             <TableCell
                 key={`${data.unloadingPoint ? 'LoadingToUnloading' : 'LoadingToStock'}-${data.id}`}
+                sx={{ textAlign: 'center' }}
             >
                 <Checkbox
                     onClick={() => {
@@ -63,7 +64,7 @@ export const getCellsByStockToUnloading = (
 ) => {
     return (
         <>
-            <TableCell key={`StockToUnloading-${data.id}`}>
+            <TableCell key={`StockToUnloading-${data.id}`} sx={{ textAlign: 'center' }}>
                 <Checkbox
                     onClick={() => {
                         const obj = {

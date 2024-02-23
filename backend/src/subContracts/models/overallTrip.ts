@@ -345,24 +345,8 @@ export const getTripDetailsByCompanyName = (name: string, loadedDate: number) =>
                                 name
                             }
                         },
-                        startDate: { equals: loadedDate }
-                    }
-                }
-            ]
-        })
-    } else if (loadedDate !== 0) {
-        whereClause.AND.push({
-            OR: [
-                {
-                    stockPointToUnloadingPointTrip: {
-                        loadingPointToStockPointTrip: {
-                            startDate: { equals: loadedDate }
-                        }
-                    }
-                },
-                {
-                    loadingPointToUnloadingPointTrip: {
-                        startDate: { equals: loadedDate }
+                        startDate: { equals: loadedDate },
+                        billNo: null
                     }
                 }
             ]
@@ -387,7 +371,8 @@ export const getTripDetailsByCompanyName = (name: string, loadedDate: number) =>
                             cementCompany: {
                                 name
                             }
-                        }
+                        },
+                        billNo: null
                     }
                 }
             ]

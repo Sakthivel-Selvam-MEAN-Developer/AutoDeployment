@@ -21,3 +21,14 @@ export const updateUnloadWeightForStockTrip = (id: number) =>
             acknowledgeDueTime: dayjs().add(1, 'minute').unix()
         }
     })
+export const updateBillNumber = (id: number[], billNo: string) =>
+    prisma.stockPointToUnloadingPointTrip.updateMany({
+        where: {
+            id: {
+                in: id
+            }
+        },
+        data: {
+            billNo
+        }
+    })

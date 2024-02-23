@@ -42,6 +42,8 @@ async function addFuelStations() {
     ('Advances Account',14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('NRE Account',40, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('Credit Card',52, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."billNo" ("id","lastBillNo")
+    VALUES (1,'MGL23A-0');`
 }
 
 async function seedSubContract() {

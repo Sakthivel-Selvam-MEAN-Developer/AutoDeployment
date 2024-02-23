@@ -14,7 +14,7 @@ export const isEmployeeInOrgUnitHeads = (employeeId: string) =>
         }
     })
 
-export const orgHeadOfEmployees = (orgUnitId: any) =>
+export const orgHeadOfEmployees = (orgUnitId: number) =>
     prisma.orgUnitHeads.findFirst({
         where: {
             orgUnitId

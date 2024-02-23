@@ -97,7 +97,7 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
                 <ModalUpdateReason
                     key={tableState}
                     selectedRow={selectedRows}
-                    open={open as any}
+                    open={open as unknown as boolean}
                     setSelectedRow={setSelectedRows}
                     tableState={tableState}
                 />

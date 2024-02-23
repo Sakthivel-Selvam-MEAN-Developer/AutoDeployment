@@ -57,7 +57,7 @@ export const createPaymentDues = (req: Request, res: Response) => {
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
 }
-interface fuelprops {
+export interface fuelprops {
     id: number
     fueledDate: number
     invoiceNumber: string
@@ -77,7 +77,7 @@ function getFuelPayDate(fuelId: number, fuelDetails: fuelprops[]) {
     }
 }
 
-function tripInfo(matchingTrip: any, tripData: any, fuelDetails: any) {
+function tripInfo(matchingTrip: any, tripData: any, fuelDetails: fuelprops[]) {
     let invoice
     let obj
     let loadingPoint
@@ -138,7 +138,7 @@ export const groupDataByName = async (
     duesData: groupedDuesProps[],
     tripsData: gstDuesProps[],
     tripDetails: any[],
-    fuelDetails: any[],
+    fuelDetails: fuelprops[],
     transporterAccounts: transporterAccountProps[],
     bunkAccount: bunkAccountProps[]
 ) =>

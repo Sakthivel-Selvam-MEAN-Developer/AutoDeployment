@@ -570,13 +570,19 @@ model overallTrip {
 //   @@schema("subContract")
 // }
 
-model userRoles {
-  id          Int    @id @default(autoincrement())
-  name        String
-  dateOfBirth Int
-  employeeId  String
-  role        String
-  jobTitle    String
+// model userRoles {
+//   id          Int    @id @default(autoincrement())
+//   name        String
+//   dateOfBirth Int
+//   employeeId  String
+//   role        String
+//   jobTitle    String
 
-  @@schema("identity")
+//   @@schema("identity")
+// }
+model billNo {
+  id         Int    @id
+  lastBillNo String
+
+  @@schema("subContract")
 }

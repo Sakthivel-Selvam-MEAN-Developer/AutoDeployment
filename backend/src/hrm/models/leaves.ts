@@ -36,7 +36,7 @@ export const getAllLeave = (employeeId: string) =>
         }
     })
 
-export const rejectedLeaves = async (id: any, employeeId: any, comment: string) => {
+export const rejectedLeaves = async (id: number, employeeId: string, comment: string) => {
     await prisma.leaves.update({
         where: {
             id,
@@ -49,7 +49,7 @@ export const rejectedLeaves = async (id: any, employeeId: any, comment: string) 
     })
 }
 
-export const approvedLeaves = async (id: any, employeeId: any) => {
+export const approvedLeaves = async (id: number, employeeId: string) => {
     await prisma.leaves.update({
         where: {
             id,
@@ -61,7 +61,7 @@ export const approvedLeaves = async (id: any, employeeId: any) => {
     })
 }
 
-export const getHeadLeave = (employeeId: any) =>
+export const getHeadLeave = (employeeId: number) =>
     prisma.leaves.findMany({
         where: {
             active: true,

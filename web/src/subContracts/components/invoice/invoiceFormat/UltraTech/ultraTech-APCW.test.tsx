@@ -19,7 +19,9 @@ describe('UltraTech_APCW invoice component', () => {
         ]
         const company = 'UltraTech'
 
-        const { asFragment } = render(<UltraTech_APCW tripId={tripId} company={company} />)
+        const { asFragment } = render(
+            <UltraTech_APCW tripId={tripId} company={company} lastBillNumber="MGL23A-1" />
+        )
 
         expect(asFragment()).toMatchSnapshot()
     })

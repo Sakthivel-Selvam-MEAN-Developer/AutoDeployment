@@ -1,11 +1,13 @@
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import FormField from './formField'
 import { getOverallTripByCompany } from '../../services/overallTrips'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ListAllTripForInvoice from './show'
 import dayjs from 'dayjs'
 import { Button } from '@mui/material'
 import InvoiceDialog from './invoiceDialog'
+import { updateInvoiceDetails } from '../../services/invoice'
+import { getLastBillNumber } from '../../services/billNumber'
 interface dateProps {
     $d: number
 }
@@ -30,21 +32,47 @@ const InvoiceList: React.FC = () => {
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
     const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [tripId, setTripId] = useState<tripDetailsProps[]>([])
-    const [message, setMessage] = useState<string>('Select Date or Cement Comapany to List Data..!')
+    const [message, setMessage] = useState<string>('Select Cement Comapany to List Data..!')
     const [activate, setActivate] = useState<boolean>(false)
-    const onSubmit: SubmitHandler<FieldValues> = () => {
+    const [lastBillNumber, setLastBillNumber] = useState<string>('')
+    useEffect(() => {
+        setTripDetails([])
+        setTripId([])
+        setMessage('Select Cement Comapany to List Data..!')
+    }, [cementCompanyName])
+    const onSubmit: SubmitHandler<FieldValues> = async () => {
+        getTripDetails()
+        await generateBillNumber().then(setLastBillNumber)
+    }
+    const handleClick = async () => {
+        setActivate(true)
+    }
+    const generateBillNumber = async () => {
+        return await getLastBillNumber().then((billNo) => {
+            const financialYear =
+                dayjs().month() < 3
+                    ? `${String(dayjs().year() - 1).slice(-2)}`
+                    : `${String(dayjs().year()).slice(-2)}`
+            return `MGL${financialYear}A-${parseInt(billNo.lastBillNo.split('-')[1]) + 1}`
+        })
+    }
+    const getTripDetails = () => {
         const date =
             loadingDate !== null
                 ? dayjs(dayjs((loadingDate as unknown as dateProps)?.$d)).unix()
                 : 0
-        if (loadingDate !== null || cementCompanyName !== '')
+        if ((loadingDate !== null && cementCompanyName !== '') || cementCompanyName !== '')
             getOverallTripByCompany(cementCompanyName !== '' ? cementCompanyName : null, date)
                 .then(setTripDetails)
                 .then(() => tripId.length === 0 && setMessage('No Records Found..!'))
-        else alert('Any one field Required..!')
+        else alert("Cement Company can't be Empty..!")
     }
-    const handleClick = async () => {
-        setActivate(true)
+    const updateInvoice = async () => {
+        const data = {
+            trip: tripId,
+            billNo: lastBillNumber
+        }
+        await updateInvoiceDetails(data).then(getTripDetails)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -84,7 +112,15 @@ const InvoiceList: React.FC = () => {
             ) : (
                 <p style={{ marginTop: '30px' }}>{message}</p>
             )}
-            {activate && <InvoiceDialog tripId={tripId} company={cementCompanyName} />}
+            {activate && (
+                <InvoiceDialog
+                    tripId={tripId}
+                    company={cementCompanyName}
+                    setActivate={setActivate}
+                    updateInvoice={updateInvoice}
+                    lastBillNumber={lastBillNumber}
+                />
+            )}
         </form>
     )
 }
