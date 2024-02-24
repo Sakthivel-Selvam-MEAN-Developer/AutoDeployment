@@ -7,17 +7,17 @@ echo "remove old copy"
 rm -rf WonderWhy
 echo "update pem key permission"
 ## get pem key from secrets using keepass
-chmod 400 ~/.ssh/awsww.pem
+chmod 400 ~/.ssh/wonderwhy.pem
 echo "clone latest code without history"
 git clone --depth 1 git@github.com:WonderWhyDev/WonderWhy.git
 echo "copy code to aws server"
-rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' WonderWhy  ec2-user@"$IP":~/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderwhy.pem' WonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"
-rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/WonderWhy/backend/.env
-rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/web/dist/*  ec2-user@"$IP":~/WonderWhy/web/dist/
-rsync -avz  -e 'ssh -i ~/.ssh/awsww.pem' ~/work/wonderWhy/backend/dist/*  ec2-user@"$IP":~/WonderWhy/backend/dist/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderwhy.pem' ~/work/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/WonderWhy/backend/.env
+rsync -avz  -e 'ssh -i ~/.ssh/wonderwhy.pem' ~/work/wonderWhy/web/dist/*  ec2-user@"$IP":~/WonderWhy/web/dist/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderwhy.pem' ~/work/wonderWhy/backend/dist/*  ec2-user@"$IP":~/WonderWhy/backend/dist/
 echo "install all dependencies"
-ssh -i ~/.ssh/awsww.pem ec2-user@"$IP"  << EOF
+ssh -i ~/.ssh/wonderwhy.pem ec2-user@"$IP"  << EOF
   set -e
   sudo yum update
   sudo yum install -y docker
