@@ -9,17 +9,9 @@ terraform {
       source   = "go-gandi/gandi"
     }
   }
-  backend "local" {
-    path = "terraform.tfstate"
-  }
   required_version = ">= 1.2.0"
+  backend "local" {}
 }
-
-#timeouts {
-#  create = "60m"
-#  delete = "60m"
-#  update = "60m"
-#}
 
 provider "aws" {
   region  = "us-east-1"
