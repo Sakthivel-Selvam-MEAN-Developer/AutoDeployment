@@ -10,10 +10,10 @@ import { Button } from '@mui/material'
 import { useState } from 'react'
 import * as React from 'react'
 import SecondReason from './secondReason.tsx'
+import { deleteStop } from './deleteStops.ts'
 import { overrideStop } from '../../services/stops.ts'
 import AlertDialog from '../../../commonUtils/confirmationDialog.tsx'
 import { StopDetails } from './show.tsx'
-import deleteStop from './deleteStop.ts'
 
 export interface Row {
     id: number

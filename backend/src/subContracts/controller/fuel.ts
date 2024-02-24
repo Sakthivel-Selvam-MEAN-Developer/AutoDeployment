@@ -4,7 +4,7 @@ import fuelLogics, { fuelDues } from '../domain/fuelLogics.ts'
 import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { getActiveTripByVehicle, getOnlyActiveTripByVehicle } from '../models/overallTrip.ts'
 
-export interface dataProps {
+interface dataProps {
     id: number
     overallTripId: number | null
     fueledDate: number
@@ -18,7 +18,6 @@ export interface dataProps {
     createdAt: Date
     updatedAt: Date
 }
-
 async function createDues(fuel: dataProps, trip: any, bunkname: string, vehicleNumber: string) {
     return fuelLogics(fuel, trip, bunkname, vehicleNumber).then((dues) => {
         if (trip !== null) {

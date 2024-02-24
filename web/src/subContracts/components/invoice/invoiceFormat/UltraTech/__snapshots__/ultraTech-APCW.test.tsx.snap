@@ -115,7 +115,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
             Vendor Name:- MAGNUM LOGISTICS
           </h4>
           <h2>
-            Bill No:- MGL23A-1
+            Bill No:- MGL23A-267
           </h2>
         </div>
         <div
@@ -257,7 +257,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
       class="pay-GST"
     >
       <h4>
-        Person Liable to Pay GST : - MAGNUM LOGISTICS
+        Person Liable to Pay GST : - MAGNUM LOGISTIC
       </h4>
     </div>
     <div
@@ -287,7 +287,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
         </h4>
       </div>
       <img
-        alt="signature"
+        alt=""
         src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
       />
       <h5>

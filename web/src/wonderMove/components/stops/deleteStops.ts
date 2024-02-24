@@ -1,5 +1,5 @@
 import { stopsProps } from './modalUpdateReason'
-export interface stopProps {
+interface stopProps {
     id: number
     startTime: number
     durationInMillis: number
@@ -40,5 +40,13 @@ const calculateUpdatedStops = (
         stopReasonId
     }
 }
-
-export default calculateUpdatedStops
+export const deleteStop = (
+    stopToDelete: stopProps,
+    deleteRowIndex: number,
+    allStops: stopProps[]
+) => {
+    const remainingStops = allStops
+        .filter((deleteRow) => deleteRow.id !== stopToDelete.id)
+        .map((stop, index) => calculateUpdatedStops(stop, index, deleteRowIndex, stopToDelete))
+    return remainingStops
+}

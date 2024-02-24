@@ -8,8 +8,7 @@ import {
     getAllTrip,
     getOnlyActiveTripByVehicleNumber,
     getTripByVehicleNumber,
-    updateUnloadWeightforTrip,
-    updateBillNumber
+    updateUnloadWeightforTrip
 } from './loadingToUnloadingTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -17,12 +16,6 @@ import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
-import {
-    closeAcknowledgementStatusforOverAllTrip,
-    create as createOverall,
-    getTripDetailsByCompanyName
-} from './overallTrip.ts'
-import { getInvoiceDetail } from './invoice.ts'
 
 describe('Trip model', () => {
     test('should able to create a trip', async () => {
@@ -109,37 +102,5 @@ describe('Trip model', () => {
         })
         const actual = await updateUnloadWeightforTrip(trip.id)
         expect(actual.tripStatus).toBe(true)
-    })
-    test('should able to update bill number To trip', async () => {
-        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const unloadingPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'salem'
-        })
-        const company = await createCompany(seedCompany)
-        const truck = await createTruck(seedTruck)
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: loadingPricePointMarker.id
-        })
-        const deliveryPoint = await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: unloadingPricePointMarker.id
-        })
-        const trip = await create({
-            ...seedFactoryToCustomerTrip,
-            loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            truckId: truck.id,
-            wantFuel: true
-        })
-        const overall = await createOverall({ loadingPointToUnloadingPointTripId: trip.id })
-        await closeAcknowledgementStatusforOverAllTrip(overall.id)
-        const tripByCompany = await getTripDetailsByCompanyName('UltraTech Cements', 0)
-        const actual = await getInvoiceDetail([tripByCompany[0].id])
-        await updateBillNumber([trip.id], 'MGL23A-1')
-        expect(actual[0].loadingPointToUnloadingPointTrip !== null).toBe(true)
     })
 })

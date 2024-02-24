@@ -5,21 +5,13 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import Chettinad_Ariyalur from './invoiceFormat/Chettinad/chettinadAriyalur'
-import Chettinad_Karikkali_Stock from './invoiceFormat/Chettinad/chettinadKarikali'
-import UltraTech_APCW, { UltraTechProps } from './invoiceFormat/UltraTech/ultraTech-APCW'
-import { downloadPdf } from './invoiceFormat/downloadPdf'
+import jsPDF from 'jspdf'
+import UltraTech_APCW, { UltreaTechProps } from './invoiceFormat/UltraTech/ultraTech-APCW'
+import html2canvas from 'html2canvas'
 
-const InvoiceDialog: React.FC<UltraTechProps> = ({
-    tripId,
-    company,
-    setActivate,
-    updateInvoice,
-    lastBillNumber
-}) => {
+const InvoiceDialog: React.FC<UltreaTechProps> = ({ tripId, company }) => {
     const [open, setOpen] = React.useState(true)
     const handleClose = () => {
-        setActivate(false)
         setOpen(false)
     }
     const descriptionElementRef = React.useRef<HTMLElement>(null)
@@ -31,39 +23,21 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
             }
         }
     }, [open])
-    const handleDownload = async () => {
+    const handleDownload = () => {
         const data: HTMLElement | null = document.getElementById('main')
-        await downloadPdf(data, 'l', 'mm', [1500, 1], company)
-            .then(updateInvoice)
-            .then(() => setOpen(false))
-    }
-    const getContentBasedOnCompany = () => {
-        switch (company) {
-            case 'UltraTech Cements':
-                return (
-                    <UltraTech_APCW
-                        tripId={tripId}
-                        company={company}
-                        lastBillNumber={lastBillNumber}
-                    />
-                )
-            case 'Chettinad Cements Karikali':
-                return (
-                    <Chettinad_Karikkali_Stock
-                        tripId={tripId}
-                        company={company}
-                        lastBillNumber={lastBillNumber}
-                    />
-                )
-            case 'Chettinad Cements Ariyalur':
-                return (
-                    <Chettinad_Ariyalur
-                        tripId={tripId}
-                        company={company}
-                        lastBillNumber={lastBillNumber}
-                    />
-                )
-        }
+        if (data !== null)
+            html2canvas(data).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png')
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: [1500, 1300]
+                })
+                const pdfWidth = pdf.internal.pageSize.getWidth()
+                const pdfHeight = pdf.internal.pageSize.getHeight()
+                pdf.addImage(imgData, 'png', 0, 0, pdfWidth, pdfHeight)
+                pdf.save(`Invoice-${company}.pdf`)
+            })
     }
     return (
         <React.Fragment>
@@ -81,16 +55,12 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                         ref={descriptionElementRef}
                         tabIndex={-1}
                     >
-                        {getContentBasedOnCompany()}
+                        <UltraTech_APCW tripId={tripId} company={company} />
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button onClick={handleClose} variant="outlined">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleDownload} variant="contained">
-                        Download PDF
-                    </Button>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleDownload}>Download</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

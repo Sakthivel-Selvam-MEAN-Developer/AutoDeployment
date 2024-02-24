@@ -1,4 +1,4 @@
-import deleteStop from './deleteStop'
+import { deleteStop } from './deleteStops'
 
 describe('Detete Stops in Stops Page', () => {
     test('delete 1st stop that updates start time and duration for 2nd stop', () => {

@@ -21,7 +21,7 @@ const mockApiCall = () => {
         })
 }
 
-describe.skip('loconav client', () => {
+describe('loconav client', () => {
     it('should call loconav movements api for given vehicle and time range', async () => {
         const scope = mockApiCall()
         const deviceId = 3

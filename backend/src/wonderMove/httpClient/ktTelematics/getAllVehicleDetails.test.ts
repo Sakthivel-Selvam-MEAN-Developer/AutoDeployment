@@ -13,7 +13,7 @@ const mockApiCall = () => {
             results: [vehicleDetail]
         })
 }
-describe.skip('kt telematics client for get vehicle details', () => {
+describe('kt telematics client for get vehicle details', () => {
     it('should get all vehicle details exists in kt telematics db', async () => {
         const scope = mockApiCall()
         const vehicleDetails = await getAllVehicleDetails('authToken')

@@ -43,15 +43,3 @@ export const closeStockTrip = (id: number) =>
             tripStatus: true
         }
     })
-
-export const updateBillNumber = (id: number[], billNo: string) =>
-    prisma.loadingPointToStockPointTrip.updateMany({
-        where: {
-            id: {
-                in: id
-            }
-        },
-        data: {
-            billNo
-        }
-    })
