@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.16"
     }
+    gandi = {
+      version = "2.3.0"
+      source   = "go-gandi/gandi"
+    }
   }
   backend "local" {
     path = "terraform.tfstate"
@@ -20,6 +24,8 @@ terraform {
 provider "aws" {
   region  = "us-east-1"
 }
+
+provider "gandi" {}
 
 variable "instance_type" {
   description = "What kind of servers to run (e.g. t2.large)"
@@ -49,4 +55,13 @@ resource "aws_eip" "ip" {
 
 output "public_ip" {
   value = aws_eip.ip.public_ip
+}
+
+//add a dns record in gandi
+resource "gandi_livedns_record" "www" {
+  name = "@"
+  type = "A"
+  values = [aws_eip.ip.public_ip]
+  ttl = 300
+  zone    = "wondermove.in"
 }
