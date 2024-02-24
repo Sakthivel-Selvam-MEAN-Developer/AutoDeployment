@@ -7,6 +7,5 @@ export default {
     totalFreightAmount: 40000,
     totalTransporterAmount: 36000,
     margin: 4000,
-    tripStatus: false,
-    billNo: 'MGL23A-120'
+    tripStatus: false
 }

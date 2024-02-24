@@ -55,11 +55,11 @@ describe('Fuel Logics Test', async () => {
             {
                 name: 'Barath Petroleum',
                 type: 'fuel pay',
+                fuelId: 1,
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: 3,
                 vehicleNumber: 'TN29BA3211',
-                payableAmount: 5000,
-                fuelId: 1
+                payableAmount: 5000
             }
         ])
     })

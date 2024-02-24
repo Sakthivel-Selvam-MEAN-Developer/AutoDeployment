@@ -4,15 +4,24 @@ import './style.css'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import { stockToUnloadingProps, tripDetailProps } from '../../interface'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
-import { ToWords } from 'to-words'
 import dayjs from 'dayjs'
 // @ts-expect-error import image
 import signature from '../signature.png'
-export interface UltreaTechProps {
+import { toWords } from '../numberToWords'
+import { financialYear } from '../financialYear'
+export interface InvoiceProps {
     tripId: tripDetailsProps[]
     company: string
+    lastBillNumber: string
 }
-const UltraTech_APCW: React.FC<UltreaTechProps> = ({ tripId, company }) => {
+export interface UltraTechProps {
+    tripId: tripDetailsProps[]
+    company: string
+    setActivate: React.Dispatch<React.SetStateAction<boolean>>
+    updateInvoice: () => void
+    lastBillNumber: string
+}
+const UltraTech_APCW: React.FC<InvoiceProps> = ({ tripId, company, lastBillNumber }) => {
     console.log(company)
     const [trip, setTrip] = useState([])
     let totalFilledLoad = 0
@@ -22,29 +31,6 @@ const UltraTech_APCW: React.FC<UltreaTechProps> = ({ tripId, company }) => {
         getInvoiceDetails(id).then(setTrip)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    const financialYear =
-        dayjs().month() < 3
-            ? `${dayjs().year() - 1}-${dayjs().year()}`
-            : `${dayjs().year()}-${dayjs().year() + 1}`
-    const toWords = new ToWords({
-        localeCode: 'en-IN',
-        converterOptions: {
-            currency: true,
-            ignoreDecimal: false,
-            ignoreZeroCurrency: false,
-            doNotAddOnly: false,
-            currencyOptions: {
-                name: 'Rupee',
-                plural: 'Rupees',
-                symbol: '₹',
-                fractionalUnit: {
-                    name: 'Paisa',
-                    plural: 'Paisa',
-                    symbol: ''
-                }
-            }
-        }
-    })
     return (
         <main className="main" id="main">
             <div className="header">
@@ -89,7 +75,7 @@ const UltraTech_APCW: React.FC<UltreaTechProps> = ({ tripId, company }) => {
                         <h4>Generation Date:- {dayjs().format('DD-MM-YYYY')} </h4>
                         <h4>Vendor Code:- 0002406621 </h4>
                         <h4>Vendor Name:- MAGNUM LOGISTICS</h4>
-                        <h2>Bill No:- MGL23A-267</h2>
+                        <h2>Bill No:- {lastBillNumber}</h2>
                     </div>
                     <div className="flag">
                         <h4>FLAG:- Y </h4>
@@ -184,7 +170,7 @@ const UltraTech_APCW: React.FC<UltreaTechProps> = ({ tripId, company }) => {
                 </h4>
             </div>
             <div className="pay-GST">
-                <h4>Person Liable to Pay GST : - MAGNUM LOGISTIC</h4>
+                <h4>Person Liable to Pay GST : - MAGNUM LOGISTICS</h4>
             </div>
             <div className="declaration">
                 <h4>
@@ -206,7 +192,7 @@ const UltraTech_APCW: React.FC<UltreaTechProps> = ({ tripId, company }) => {
                     <h5 style={{ marginRight: '5px' }}>For</h5>
                     <h4>MAGNUM LOGISTICS</h4>
                 </div>
-                <img src={signature} alt="" />
+                <img src={signature} alt="signature" />
                 <h5>Authorized Signatory</h5>
             </div>
         </main>

@@ -6,7 +6,8 @@
     "libs",
     "frontend",
     "backend",
-    "apps", "web"
+    "apps", 
+    "web"
   ],
   "scripts": {
     "u": "yarn workspace web",

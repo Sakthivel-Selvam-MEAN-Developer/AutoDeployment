@@ -16,7 +16,10 @@ const finalDueLogic = async (
         amount += data.payableAmount
     })
     if (overallTrip !== null) {
-        if (overallTrip.stockPointToUnloadingPointTrip !== null) {
+        if (
+            overallTrip.stockPointToUnloadingPointTrip !== null &&
+            overallTrip.loadingPointToStockPointTrip?.totalTransporterAmount !== 0
+        ) {
             tdsAmount =
                 (overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount +
                     overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip

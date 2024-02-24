@@ -1,9 +1,15 @@
 import { axiosInstance, getData } from './index.js'
-
-export const createCustomer = (customer: any) => axiosInstance.post('/customers', customer)
+interface customerProps {
+    id: number
+    name: string
+    email: string
+    mobile: number
+}
+export const createCustomer = (customer: customerProps | string) =>
+    axiosInstance.post('/customers', customer)
 export const getCustomers = () => axiosInstance.get('/customers').then(getData)
 export const getCustomerDetails = (name: string) =>
     axiosInstance.get(`/customers/${name}`).then(getData)
-export const updateCustomer = (name: string, customer: any) => {
+export const updateCustomer = (name: string, customer: customerProps | string) => {
     return axiosInstance.post(`/customers/${name}`, customer)
 }
