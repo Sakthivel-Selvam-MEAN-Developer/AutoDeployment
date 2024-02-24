@@ -46,6 +46,16 @@ services:
 
   keycloak:
     image: "quay.io/keycloak/keycloak:23.0.7-0"
+    networks:
+      - postgres-network
+    ports:
+        - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+    volumes:
+      - ./keycloak:/config
+    command: ["--verbose", "--config-file=/config/keycloak.conf", "start"]
 
 
   nginx:
