@@ -41,4 +41,12 @@ resource "aws_instance" "app_server" {
   vpc_security_group_ids = ["sg-00257a8ff4fef413c"]
 }
 
+// create a elastic ip and associate it with the instance
+resource "aws_eip" "ip" {
+  instance = aws_instance.app_server.id
+  vpc      = true
+}
 
+output "public_ip" {
+  value = aws_eip.ip.public_ip
+}

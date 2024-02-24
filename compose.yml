@@ -44,6 +44,10 @@ services:
       - postgres-network
     command: ["yarn", "b", "runProd"]
 
+  keycloak:
+    image: "quay.io/keycloak/keycloak:23.0.7-0"
+
+
   nginx:
     image: arm64v8/nginx:1.25.3-alpine3.18
     depends_on:
@@ -58,18 +62,18 @@ services:
       - postgres-network
     command: [nginx-debug, '-g', 'daemon off;']
 
-  # terra:
-  #   image: "alpine/terragrunt:1.7.3"
-  #   platform: linux/amd64
-  #   environment:
-  #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-  #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-  #     AWS_DEFAULT_REGION: "us-east-1"
-  #     TF_LOG: info
-  #   volumes:
-  #     - ./:/app/
-  #   working_dir: /app
-  #   command: ["./deploy/terraform.sh"]
+  terra:
+     image: "alpine/terragrunt:1.7.3"
+     platform: linux/amd64
+     environment:
+       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+       AWS_DEFAULT_REGION: "us-east-1"
+       TF_LOG: error
+     volumes:
+       - ./:/app/
+     working_dir: /app
+     command: ["./deploy/terraform.sh"]
 
 networks:
   postgres-network:
