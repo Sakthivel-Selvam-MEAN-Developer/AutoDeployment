@@ -14,13 +14,4 @@ export const getLoadingPointByCompany = (companyName: string) =>
 
 export const create = (
     data: Prisma.loadingPointCreateInput | Prisma.loadingPointUncheckedCreateInput
-) =>
-    prisma.loadingPoint.upsert({
-        where: {
-            name: data.name
-        },
-        create: {
-            ...data
-        },
-        update: {}
-    })
+) => prisma.loadingPoint.create({ data })

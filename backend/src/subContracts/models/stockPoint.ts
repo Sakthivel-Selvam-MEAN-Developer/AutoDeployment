@@ -14,13 +14,4 @@ export const getStockPointByCompany = (companyName: string) =>
 
 export const create = (
     data: Prisma.stockPointCreateInput | Prisma.stockPointUncheckedCreateInput
-) =>
-    prisma.stockPoint.upsert({
-        where: {
-            name: data.name
-        },
-        create: {
-            ...data
-        },
-        update: {}
-    })
+) => prisma.stockPoint.create({ data })

@@ -14,13 +14,4 @@ export const getUnloadingPointByCompany = (companyName: string) =>
 
 export const create = (
     data: Prisma.unloadingPointCreateInput | Prisma.unloadingPointUncheckedCreateInput
-) =>
-    prisma.unloadingPoint.upsert({
-        where: {
-            name: data.name
-        },
-        create: {
-            ...data
-        },
-        update: {}
-    })
+) => prisma.unloadingPoint.create({ data })

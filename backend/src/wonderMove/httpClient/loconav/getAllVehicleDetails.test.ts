@@ -13,7 +13,7 @@ const mockApiCall = () => {
             data: [vehicleDetail]
         })
 }
-describe.skip('locanav client for get vehicle details', () => {
+describe('locanav client for get vehicle details', () => {
     it('should get all vehicle details exists in loconav db', async () => {
         const scope = mockApiCall()
         const vehicleDetails = await getAllVehicleDetails('authToken')

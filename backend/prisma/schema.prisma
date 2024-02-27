@@ -299,7 +299,7 @@ model cementCompany {
 
 model loadingPoint {
   id                               Int                                @id @default(autoincrement())
-  name                             String                             @unique
+  name                             String                             
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
@@ -315,7 +315,7 @@ model loadingPoint {
 
 model stockPoint {
   id                           Int                            @id @default(autoincrement())
-  name                         String                         @unique
+  name                         String                         
   loadingPointToStockPointTrip loadingPointToStockPointTrip[]
   createdAt                    DateTime                       @default(now()) @db.Timestamptz(6)
   updatedAt                    DateTime                       @updatedAt @db.Timestamptz(6)
@@ -330,7 +330,7 @@ model stockPoint {
 
 model unloadingPoint {
   id                               Int                                @id @default(autoincrement())
-  name                             String                             @unique
+  name                             String                             
   stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
   loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)

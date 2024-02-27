@@ -19,7 +19,7 @@ const mockApiCall = () => {
         .reply(200, [traccarStop])
 }
 
-describe.skip('traccar client', () => {
+describe('traccar client', () => {
     it('should call traccar server for given vehicle and time range', async () => {
         const scope = mockApiCall()
         const deviceId = 3
