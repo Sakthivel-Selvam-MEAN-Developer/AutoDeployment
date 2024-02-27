@@ -1,3 +1,18 @@
+- date: 27-2-2024
+  person: Muthu, Sakthivel,Barath
+  project: subContract
+  planning:
+    - seed data to pricePoint
+    - deploying
+    
+- date: 26-2-2024
+  person: Muthu, Sakthivel,Barath
+  project: subContract
+  planning:
+    - seed data to aws rds
+  completed:
+    - seeded in transporter, pricePointMarker, cementCompany, loadingPoint, unloadingPoint, stockPoint
+    
 - date: 24-2-2024
   person: Barath
   project: subContract
