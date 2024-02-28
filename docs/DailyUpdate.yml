@@ -1,10 +1,18 @@
+- date: 28-2-2024
+  person: Muthu, Sakthivel,Barath
+  project: subContract
+  planning:
+    - deploying
+
 - date: 27-2-2024
   person: Muthu, Sakthivel,Barath
   project: subContract
   planning:
     - seed data to pricePoint
     - deploying
-    
+  completed:
+    - seeded data to pricePoint
+
 - date: 26-2-2024
   person: Muthu, Sakthivel,Barath
   project: subContract
@@ -525,7 +533,7 @@
   person: Muthu
   planning:
     - displayed each trip payment dues
-    completed:
+  completed:
     - displayed each trip payment dues
 - date: 9-1-2024
   person: Sakthivel

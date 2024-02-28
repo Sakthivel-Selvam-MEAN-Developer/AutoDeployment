@@ -42,7 +42,7 @@ const CreateCompany: React.FC = (): ReactElement => {
             <div style={{ margin: '20px 0', textAlign: 'end' }}>
                 <Link to={'/sub/company/factory'}>
                     <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-                        Create Factory
+                        Create Locations
                     </Button>
                 </Link>
             </div>
