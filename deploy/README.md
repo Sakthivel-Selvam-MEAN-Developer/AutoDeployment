@@ -13,10 +13,10 @@
 # set compose vars from keepass secret
 y terra
 # install dependencies
-terragrent init
+terragrunt init
 # look for changes
-terragrent plan
+terragrunt plan
 # apply changes
 # be very very careful with this command. this could destroy the entire infrastructure
-terragrent apply
+terragrunt apply
 ```
