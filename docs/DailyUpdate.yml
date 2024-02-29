@@ -1,8 +1,26 @@
+- date: 29-2-2024
+  person: Barath
+  project: subContract
+  planning:
+    - dalmiapuram annexure
+- date: 29-2-2024
+  person: Muthu
+  project: subContract
+  planning:
+    - chettinadu invoice
+- date: 29-2-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - dalmiapuram invoice
+   
 - date: 28-2-2024
   person: Muthu, Sakthivel,Barath
   project: subContract
   planning:
     - deploying
+  completed:
+    - deployed
 
 - date: 27-2-2024
   person: Muthu, Sakthivel,Barath
