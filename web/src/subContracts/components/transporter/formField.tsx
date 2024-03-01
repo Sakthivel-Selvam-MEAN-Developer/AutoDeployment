@@ -94,7 +94,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 label="Transporter Type"
                 options={['Own Truck', 'Market Transporter']}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    setTransporterType(newValue)
+                    setTransporterType(newValue === 'Own Truck' ? 'Own' : 'Market')
                 }}
             />
             <Autocomplete

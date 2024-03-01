@@ -14,7 +14,7 @@ Platform:
   linux arm64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile '/usr/local/share/.cache/yarn/v6/npm-@esbuild-linux-arm64-0.19.10-d82cf2c590faece82d28bbf1cfbe36f22ae25bd2-integrity/node_modules/@esbuild/linux-arm64/README.md' -> '/app/node_modules/@esbuild/linux-arm64/README.md'
+  Error: ENOENT: no such file or directory, copyfile '/usr/local/share/.cache/yarn/v6/npm-@esbuild-linux-arm64-0.19.10-d82cf2c590faece82d28bbf1cfbe36f22ae25bd2-integrity/node_modules/@esbuild/linux-arm64/bin/esbuild' -> '/app/node_modules/@esbuild/linux-arm64/bin/esbuild'
 
 npm manifest: 
   {

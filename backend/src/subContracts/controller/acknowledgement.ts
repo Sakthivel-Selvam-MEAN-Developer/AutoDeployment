@@ -49,11 +49,15 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
                 overallTrip.id
             )) || { shortageAmount: 0 }
             if (
-                paymentDueDetails.length === 0 ||
-                overallTrip.loadingPointToUnloadingPointTrip?.truck.transporter.transporterType ===
-                    'Own' ||
-                overallTrip.loadingPointToStockPointTrip?.totalTransporterAmount !== 0
+                overallTrip.loadingPointToUnloadingPointTrip?.truck.transporter.transporterType !==
+                'Own'
             ) {
+                if (
+                    overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip?.truck
+                        .transporter.transporterType === 'Own'
+                ) {
+                    return
+                }
                 return finalDueLogic(
                     overallTrip,
                     paymentDueDetails,

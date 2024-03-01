@@ -1,6 +1,6 @@
 const ChettinadAnnexure = () => {
     return (
-        <section style={{ padding: '20px' }}>
+        <section style={{ padding: '20px' }} id="main_2">
             <main className="chettinad_main">
                 <div className="header">
                     <div className="magnum-address">

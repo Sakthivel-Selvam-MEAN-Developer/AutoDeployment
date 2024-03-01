@@ -54,7 +54,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
     const [stockPointName, setStockPointName] = useState('')
 
     useEffect(() => {
-        if (cementCompanyName !== 'null') {
+        if (cementCompanyName !== '') {
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
             getUnloadingPointByCompanyName(cementCompanyName).then(setUnloadingPointList)
             getStockPointByCompanyName(cementCompanyName).then(setStockPointList)

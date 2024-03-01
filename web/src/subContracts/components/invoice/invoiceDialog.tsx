@@ -32,10 +32,24 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
         }
     }, [open])
     const handleDownload = async () => {
-        const data: HTMLElement | null = document.getElementById('main')
-        await downloadPdf(data, 'l', 'mm', [1500, 1], company)
-            .then(updateInvoice)
-            .then(() => setOpen(false))
+        let companyId
+        let annexureId = ''
+        switch (company) {
+            case 'UltraTech Cements':
+                companyId = 'main'
+                break
+            case 'Chettinad Cements Karikali':
+                companyId = 'main_1'
+                annexureId = 'main_2'
+                break
+        }
+        if (companyId) {
+            const invoiceData: HTMLElement | null = document.getElementById(companyId)
+            const annexureData: HTMLElement | null = document.getElementById(annexureId)
+            await downloadPdf(invoiceData, annexureData, 'p', 'mm', [1500, 1300], company)
+                .then(updateInvoice)
+                .then(() => setOpen(false))
+        }
     }
     const getContentBasedOnCompany = () => {
         switch (company) {
