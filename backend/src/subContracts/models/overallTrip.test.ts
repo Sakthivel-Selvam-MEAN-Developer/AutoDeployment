@@ -405,7 +405,7 @@ describe('Overall Trip model', () => {
         })
         const overall = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await closeAcknowledgementStatusforOverAllTrip(overall.id)
-        const actual = await getTripDetailsByCompanyName('UltraTech Cements', 0)
+        const actual = await getTripDetailsByCompanyName('UltraTech Cements', 0, 0)
         expect(actual[0].loadingPointToUnloadingPointTrip?.truckId).toBe(truck.id)
     })
     test('should able to get overall trip by filter', async () => {

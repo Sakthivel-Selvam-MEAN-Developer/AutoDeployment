@@ -9,16 +9,20 @@ import { Button } from '@mui/material'
 
 interface FormFieldsProps {
     control: Control
-    setLoadingDate: React.Dispatch<React.SetStateAction<string | null>>
-    loadingDate: string | null
+    setStartDate: React.Dispatch<React.SetStateAction<string | null>>
+    setEndDate: React.Dispatch<React.SetStateAction<string | null>>
+    startDate: string | null
+    endDate: string | null
     cementCompany: cementCompanyProps[]
     setCementCompany: React.Dispatch<React.SetStateAction<cementCompanyProps[]>>
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>
 }
 const FormField: React.FC<FormFieldsProps> = ({
     control,
-    setLoadingDate,
-    loadingDate,
+    setStartDate,
+    setEndDate,
+    startDate,
+    endDate,
     cementCompany,
     setCementCompany,
     setCementCompanyName
@@ -39,9 +43,16 @@ const FormField: React.FC<FormFieldsProps> = ({
         >
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
                 <DatePicker
-                    label="Loading Date"
-                    value={loadingDate}
-                    onChange={(newValue) => setLoadingDate(newValue)}
+                    label="From Date"
+                    value={startDate}
+                    onChange={(newValue) => setStartDate(newValue)}
+                />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
+                <DatePicker
+                    label="To Date"
+                    value={endDate}
+                    onChange={(newValue) => setEndDate(newValue)}
                 />
             </LocalizationProvider>
             <AutoComplete

@@ -317,13 +317,13 @@ export const overallTripByFilter = (
             }
         }
     })
-export const getTripDetailsByCompanyName = (name: string, loadedDate: number) => {
+export const getTripDetailsByCompanyName = (name: string, startDate: number, endDate: number) => {
     const whereClause: any = {
         acknowledgementStatus: true,
         AND: []
     }
 
-    if (name !== 'null' && loadedDate !== 0) {
+    if (name !== 'null' && startDate !== 0 && endDate !== 0) {
         whereClause.AND.push({
             OR: [
                 {
@@ -334,7 +334,7 @@ export const getTripDetailsByCompanyName = (name: string, loadedDate: number) =>
                                     name
                                 }
                             },
-                            startDate: { equals: loadedDate }
+                            startDate: { equals: startDate }
                         }
                     }
                 },
@@ -345,7 +345,42 @@ export const getTripDetailsByCompanyName = (name: string, loadedDate: number) =>
                                 name
                             }
                         },
-                        startDate: { equals: loadedDate },
+                        AND: [
+                            {
+                                startDate: { gte: startDate }
+                            },
+                            {
+                                startDate: { lte: endDate }
+                            }
+                        ],
+                        billNo: null
+                    }
+                }
+            ]
+        })
+    } else if (name !== 'null' && startDate !== 0) {
+        whereClause.AND.push({
+            OR: [
+                {
+                    stockPointToUnloadingPointTrip: {
+                        loadingPointToStockPointTrip: {
+                            loadingPoint: {
+                                cementCompany: {
+                                    name
+                                }
+                            },
+                            startDate: { equals: startDate }
+                        }
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        loadingPoint: {
+                            cementCompany: {
+                                name
+                            }
+                        },
+                        startDate: { gte: startDate },
                         billNo: null
                     }
                 }

@@ -93,9 +93,10 @@ const downloadCSV = (data: Row, num: number, downloadtripData: object[]) => {
 const style = {
     display: 'flex',
     bottom: '0',
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
-    marginBottom: '30px'
+    padding: '10px 0',
+    background: 'white'
 }
 const ListAllDiscrepancyReportDetails: React.FC<listoverallTripProps> = ({
     discrepancyDueDetails,
@@ -114,7 +115,7 @@ const ListAllDiscrepancyReportDetails: React.FC<listoverallTripProps> = ({
                     {getTableHead()} {getTableBody(discrepancyDueDetails)}
                 </Table>
             </TableContainer>
-            <div style={{ ...style, position: 'absolute' }}>
+            <div style={{ ...style, position: 'sticky' }}>
                 <Stack spacing={10}>
                     <Pagination
                         count={100}

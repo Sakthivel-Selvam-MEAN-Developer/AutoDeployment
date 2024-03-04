@@ -6,9 +6,13 @@ export const getOverallTrip = () =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const getOverallTripByCompany = (company: string | null, loadingDate: number) =>
+export const getOverallTripByCompany = (
+    company: string | null,
+    startDate: number,
+    endDate: number
+) =>
     axiosInstance
-        .get(`/overalltrip/${company}/${loadingDate}`)
+        .get(`/overalltrip/${company}/${startDate}/${endDate}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
 

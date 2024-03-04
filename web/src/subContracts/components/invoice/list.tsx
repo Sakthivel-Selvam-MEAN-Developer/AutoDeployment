@@ -27,7 +27,8 @@ export interface tripDetailsProps {
 const InvoiceList: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [tripDetails, setTripDetails] = useState([])
-    const [loadingDate, setLoadingDate] = useState<string | null>(null)
+    const [startDate, setStartDate] = useState<string | null>(null)
+    const [endDate, setEndDate] = useState<string | null>(null)
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
     const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [tripId, setTripId] = useState<tripDetailsProps[]>([])
@@ -55,15 +56,25 @@ const InvoiceList: React.FC = () => {
         })
     }
     const getTripDetails = () => {
-        const date =
-            loadingDate !== null
-                ? dayjs(dayjs((loadingDate as unknown as dateProps)?.$d)).unix()
-                : 0
-        if ((loadingDate !== null && cementCompanyName !== '') || cementCompanyName !== '')
-            getOverallTripByCompany(cementCompanyName !== '' ? cementCompanyName : null, date)
+        if (
+            (endDate !== null && startDate !== null && cementCompanyName !== '') ||
+            (cementCompanyName !== '' && startDate !== null) ||
+            cementCompanyName !== ''
+        ) {
+            const start_date =
+                startDate !== null
+                    ? dayjs(dayjs((startDate as unknown as dateProps)?.$d)).unix()
+                    : 0
+            const end_date =
+                endDate !== null ? dayjs(dayjs((endDate as unknown as dateProps)?.$d)).unix() : 0
+            getOverallTripByCompany(
+                cementCompanyName !== '' ? cementCompanyName : null,
+                start_date,
+                end_date
+            )
                 .then(setTripDetails)
                 .then(() => tripId.length === 0 && setMessage('No Records Found..!'))
-        else alert("Cement Company can't be Empty..!")
+        } else alert("Cement Company can't be Empty..!\nand\nStart Date can't be Empty..!")
     }
     const updateInvoice = async () => {
         const data = {
@@ -84,8 +95,10 @@ const InvoiceList: React.FC = () => {
             >
                 <FormField
                     control={control}
-                    setLoadingDate={setLoadingDate}
-                    loadingDate={loadingDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
+                    startDate={startDate}
+                    endDate={endDate}
                     cementCompany={cementCompany}
                     setCementCompany={setCementCompany}
                     setCementCompanyName={setCementCompanyName}

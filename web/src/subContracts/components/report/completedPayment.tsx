@@ -12,9 +12,10 @@ export interface vendorProps {
 const style = {
     display: 'flex',
     bottom: '0',
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
-    marginBottom: '30px'
+    padding: '10px 0',
+    background: 'white'
 }
 const CompletedPayment: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
@@ -74,7 +75,7 @@ const CompletedPayment: React.FC = () => {
             ) : (
                 <p style={{ marginTop: '30px', textAlign: 'center' }}>{message}</p>
             )}
-            <div style={{ ...style, position: 'absolute' }}>
+            <div style={{ ...style, position: 'sticky' }}>
                 <Stack spacing={10}>
                     <Pagination
                         count={100}

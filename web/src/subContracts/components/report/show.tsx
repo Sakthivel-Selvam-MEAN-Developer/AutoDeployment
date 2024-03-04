@@ -215,9 +215,10 @@ const downloadCSV = (
 const style = {
     display: 'flex',
     bottom: '0',
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
-    marginBottom: '30px'
+    padding: '10px 0',
+    background: 'white'
 }
 const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
     return (
@@ -228,13 +229,15 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
                     Download CSV
                 </Button>
             </div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                    {getTableHead()}
-                    {getTableBody(listoverallTrip)}
-                </Table>
-            </TableContainer>
-            <div style={{ ...style, position: 'absolute' }}>
+            <div style={{ marginBottom: '20px' }}>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 600 }} aria-label="simple table">
+                        {getTableHead()}
+                        {getTableBody(listoverallTrip)}
+                    </Table>
+                </TableContainer>
+            </div>
+            <div style={{ ...style, position: 'sticky' }}>
                 <Stack spacing={10}>
                     <Pagination
                         count={10}

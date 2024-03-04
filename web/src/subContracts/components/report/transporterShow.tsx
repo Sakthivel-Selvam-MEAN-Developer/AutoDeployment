@@ -106,9 +106,10 @@ const downloadCSV = (data: Props, downloadtripData: object[], num: number) => {
 const style = {
     display: 'flex',
     bottom: '0',
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
-    marginBottom: '30px'
+    padding: '10px 0',
+    background: 'white'
 }
 const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, setskipNumber }) => {
     return (
@@ -125,7 +126,7 @@ const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, se
                     {getTableBody(transporterDueData)}
                 </Table>
             </TableContainer>
-            <div style={{ ...style, position: 'absolute' }}>
+            <div style={{ ...style, position: 'sticky' }}>
                 <Stack spacing={10}>
                     <Pagination
                         count={100}

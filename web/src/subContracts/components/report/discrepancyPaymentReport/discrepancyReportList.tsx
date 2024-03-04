@@ -17,8 +17,8 @@ const ListAllDiscrepancyReport: React.FC = (): ReactElement => {
         })
     }, [])
     useEffect(() => {
-        const value = skipNumber * 2
-        const Trip = discrepencyList.slice(value, value + 2)
+        const value = skipNumber * 5
+        const Trip = discrepencyList.slice(value, value + 5)
         setTripWithPagination(Trip)
     }, [skipNumber, discrepencyList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {

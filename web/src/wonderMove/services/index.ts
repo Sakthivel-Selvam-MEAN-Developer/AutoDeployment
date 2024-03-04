@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
-import config from '../../../config.js'
+import config from '../../../config.ts'
 
 export const axiosInstance: AxiosInstance = axios.create({
     baseURL: config.backendUrl,

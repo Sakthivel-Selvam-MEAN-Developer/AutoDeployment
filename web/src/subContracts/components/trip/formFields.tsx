@@ -166,7 +166,6 @@ const FormField: React.FC<FormFieldProps> = ({
                             : setOwnTruck(false)
                         return transporter.name === newValue
                     }) || { tdsPercentage: 0 }
-                    console.log(tdsPercentage)
                     setTdsPercentage(tdsPercentage)
                 }}
             />

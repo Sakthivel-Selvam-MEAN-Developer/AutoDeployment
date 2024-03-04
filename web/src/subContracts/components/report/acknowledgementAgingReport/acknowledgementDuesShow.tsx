@@ -126,9 +126,10 @@ const downloadCSV = (data: Row, date: number, num: number, downloadtripData: obj
 const style = {
     display: 'flex',
     bottom: '0',
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
-    marginBottom: '30px'
+    padding: '10px 0',
+    background: 'white'
 }
 const ListAllAcknowledgementDueDetails: React.FC<listoverallTripProps> = ({
     acknowledgementDueDetails,
@@ -147,7 +148,7 @@ const ListAllAcknowledgementDueDetails: React.FC<listoverallTripProps> = ({
                     {getTableHead()} {getTableBody(acknowledgementDueDetails)}
                 </Table>
             </TableContainer>
-            <div style={{ ...style, position: 'absolute' }}>
+            <div style={{ ...style, position: 'sticky' }}>
                 <Stack spacing={10}>
                     <Pagination
                         count={100}

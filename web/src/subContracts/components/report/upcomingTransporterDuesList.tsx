@@ -21,16 +21,15 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
         })
     }, [])
     useEffect(() => {
-        const value = skipNumber * 2
-        const Trip = transporterList.slice(value, value + 2)
+        const value = skipNumber * 5
+        const Trip = transporterList.slice(value, value + 5)
         setTripWithPagination(Trip)
     }, [skipNumber, transporterList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        if (transporterName !== '' && data.from && data.to) {
+        if (transporterName !== '' && data.from && data.to)
             getUpcomingDuesByFilter(transporterName, data.from.unix(), data.to.unix()).then(
                 setTransporterList
             )
-        }
         setShowDetails(true)
     }
     return (
