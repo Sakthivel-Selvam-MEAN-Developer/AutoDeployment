@@ -21,7 +21,7 @@
     "nginx": "docker compose up nginx",
     "dbKill": "docker compose down db",
     "sql": "docker compose exec db psql -U postgres -d wonderwhy",
-    "terra": "docker compose run -it terra bash"
+    "terra": "docker-compose run -it terra bash"
   },
   "devDependencies": {
     "husky": "^8.0.3"

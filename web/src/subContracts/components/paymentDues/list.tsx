@@ -147,7 +147,7 @@ const PaymentDuesList: React.FC = () => {
                             onClick={handleClick}
                             disabled={gstNEFTDetails.length === 0}
                         >
-                            Generate Form
+                            Generate File
                         </Button>
                     </div>
                     <GSTDues

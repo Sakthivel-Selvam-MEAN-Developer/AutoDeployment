@@ -214,3 +214,59 @@ export interface stockToUnloadingProps {
         pricePointMarkerId: number
     }
 }
+
+export interface AnnexureProps {
+    tripDetails: InvoiceProps[]
+    lastBillNumber: string
+    total: { totalAmount: number; totalFilledLoad: number }
+}
+
+export interface InvoiceProps {
+    loadingPointToUnloadingPointTrip: LoadingToUnloadingPointProps
+    stockPointToUnloadingPointTrip: StockToUnloadingPointProps
+    loadingPointToStockPointTrip: LoadingToStockPointProps
+}
+export interface InvoiceProp {
+    loadingPointToUnloadingPointTrip: LoadingToUnloadingPointProps[]
+    stockPointToUnloadingPointTrip: StockToUnloadingPointProps[]
+    loadingPointToStockPointTrip: LoadingToStockPointProps[]
+}
+
+export interface LoadingToUnloadingPointProps {
+    startDate: number
+    unloadingPoint: {
+        name: string
+    }
+    freightAmount: number
+    truck: {
+        vehicleNumber: string
+    }
+    filledLoad: number
+    invoiceNumber: string
+}
+export interface LoadingToStockPointProps {
+    startDate: number
+    stockPoint: {
+        name: string
+    }
+    filledLoad: number
+    freightAmount: number
+    truck: {
+        vehicleNumber: string
+    }
+    invoiceNumber: string
+}
+export interface StockToUnloadingPointProps {
+    startDate: number
+    unloadingPoint: {
+        name: string
+    }
+    freightAmount: number
+    loadingPointToStockPointTrip: {
+        filledLoad: number
+        truck: {
+            vehicleNumber: string
+        }
+    }
+    invoiceNumber: string
+}

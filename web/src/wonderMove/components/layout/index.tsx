@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { styled, useTheme } from '@mui/material/styles'
-import Box from '@mui/material/Box'
 import MuiAppBar, { AppBarProps } from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -9,6 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import MiniDrawer from './drawer.tsx'
 import { Outlet } from 'react-router-dom'
+import { Box } from '@mui/material'
 
 interface AppBarPropsWithOpen extends AppBarProps {
     open: boolean
@@ -37,35 +37,37 @@ const AppBar = styled((props: AppBarPropsWithOpen) => <MuiAppBar {...props} />, 
 export default function MoveItLayout() {
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
-    const handleDrawerOpen = () => setOpen(true)
-    const handleDrawerClose = () => setOpen(false)
-
     return (
         <Box sx={{ display: 'flex' }}>
             <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{
-                            marginRight: 5,
-                            ...(open && { display: 'none' })
-                        }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        MoveIt
-                    </Typography>
-                </Toolbar>
+                {toolBar(setOpen, open)}
             </AppBar>
-            <MiniDrawer handleDrawerClose={handleDrawerClose} drawerState={open} />
+            <MiniDrawer handleDrawerClose={() => setOpen(false)} drawerState={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader theme={theme} />
                 <Outlet />
             </Box>
         </Box>
+    )
+}
+const toolBar = (setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean) => {
+    return (
+        <Toolbar>
+            <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={() => setOpen(true)}
+                edge="start"
+                sx={{
+                    marginRight: 5,
+                    ...(open && { display: 'none' })
+                }}
+            >
+                <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+                MoveIt
+            </Typography>
+        </Toolbar>
     )
 }

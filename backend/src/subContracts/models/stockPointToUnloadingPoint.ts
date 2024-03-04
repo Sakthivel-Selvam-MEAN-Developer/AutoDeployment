@@ -32,3 +32,32 @@ export const updateBillNumber = (id: number[], billNo: string) =>
             billNo
         }
     })
+
+export const getInvoiceDetails = (id: number[]) =>
+    prisma.stockPointToUnloadingPointTrip.findMany({
+        where: {
+            id: {
+                in: id
+            }
+        },
+        select: {
+            startDate: true,
+            unloadingPoint: {
+                select: {
+                    name: true
+                }
+            },
+            invoiceNumber: true,
+            freightAmount: true,
+            loadingPointToStockPointTrip: {
+                select: {
+                    filledLoad: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            }
+        }
+    })

@@ -1,6 +1,8 @@
 interface Config {
     backendUrl: string;
 }
+
+
 const config: Record<string, Config> = {
     prod: {
         backendUrl: `http://${window.location.hostname}/api`,

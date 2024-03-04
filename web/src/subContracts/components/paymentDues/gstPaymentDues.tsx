@@ -71,7 +71,7 @@ const GSTPaymentDues: React.FC = () => {
                     )
                 })
             ) : (
-                <p style={{ textAlign: 'center' }}>No GST Payment Deus...!</p>
+                <p style={{ textAlign: 'center' }}>No GST Payment Dues...!</p>
             )}
         </>
     )

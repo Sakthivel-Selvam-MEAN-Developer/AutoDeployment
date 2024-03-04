@@ -20,11 +20,7 @@ export const getTableHead = () => {
     )
 }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-export const getCells = (
-    data: any,
-    overallId: number,
-    handleClick: (obj: tripDetailsProps) => void
-) => {
+export const getCells = (data: any, handleClick: (obj: tripDetailsProps) => void) => {
     return (
         <>
             <TableCell
@@ -34,7 +30,6 @@ export const getCells = (
                 <Checkbox
                     onClick={() => {
                         const obj = {
-                            overallTripId: overallId,
                             tripId: data.id,
                             tripName: data.unloadingPoint ? 'LoadingToUnloading' : 'LoadingToStock'
                         }
@@ -59,7 +54,6 @@ export const getCells = (
 }
 export const getCellsByStockToUnloading = (
     data: stockToUnloadingProps,
-    overallId: number,
     handleClick: (obj: tripDetailsProps) => void
 ) => {
     return (
@@ -68,7 +62,6 @@ export const getCellsByStockToUnloading = (
                 <Checkbox
                     onClick={() => {
                         const obj = {
-                            overallTripId: overallId,
                             tripId: data.id,
                             tripName: 'StockToUnloading'
                         }

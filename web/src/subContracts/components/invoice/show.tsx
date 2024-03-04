@@ -37,7 +37,7 @@ const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, tripId }
                                 row.stockPointToUnloadingPointTrip !== null &&
                                 row.stockPointToUnloadingPointTrip !== undefined
                             ) {
-                                return loadingToStockTable(index, row, row.id, handleClick)
+                                return loadingToStockTable(index, row, handleClick)
                             }
                             if (
                                 row.loadingPointToUnloadingPointTrip !== null &&
@@ -50,7 +50,6 @@ const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, tripId }
                                     >
                                         {getCells(
                                             row.loadingPointToUnloadingPointTrip,
-                                            row.id,
                                             handleClick
                                         )}
                                     </TableRow>
@@ -66,7 +65,6 @@ export default ListAllTripForInvoice
 function loadingToStockTable(
     index: number,
     row: tripDetailProps,
-    overallId: number,
     handleClick: (obj: tripDetailsProps) => void
 ) {
     return (
@@ -74,16 +72,11 @@ function loadingToStockTable(
             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 {getCells(
                     row.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip,
-                    overallId,
                     handleClick
                 )}
             </TableRow>
             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                {getCellsByStockToUnloading(
-                    row.stockPointToUnloadingPointTrip,
-                    overallId,
-                    handleClick
-                )}
+                {getCellsByStockToUnloading(row.stockPointToUnloadingPointTrip, handleClick)}
             </TableRow>
         </>
     )

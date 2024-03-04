@@ -10,18 +10,20 @@ vi.mock('to-words', () => ({
 
 describe('UltraTech_APCW invoice component', () => {
     test('renders correctly', () => {
-        const tripId = [
-            {
-                overallTripId: 1,
-                tripId: 1,
-                tripName: 'LoadingToUnloading'
-            }
-        ]
-        const company = 'UltraTech'
+        const getProps = () => ({
+            tripId: [
+                {
+                    overallTripId: 1,
+                    tripId: 1,
+                    tripName: 'LoadingToUnloading'
+                }
+            ],
+            lastBillNumber: 'MGL23A-1',
+            setLoading: vi.fn(),
+            loading: false
+        })
 
-        const { asFragment } = render(
-            <UltraTech_APCW tripId={tripId} company={company} lastBillNumber="MGL23A-1" />
-        )
+        const { asFragment } = render(<UltraTech_APCW {...getProps()} />)
 
         expect(asFragment()).toMatchSnapshot()
     })

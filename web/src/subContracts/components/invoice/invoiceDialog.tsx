@@ -22,6 +22,8 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
         setActivate(false)
         setOpen(false)
     }
+    const [loading, setLoading] = React.useState<boolean>(true)
+
     const descriptionElementRef = React.useRef<HTMLElement>(null)
     React.useEffect(() => {
         if (open) {
@@ -57,57 +59,58 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 return (
                     <UltraTech_APCW
                         tripId={tripId}
-                        company={company}
                         lastBillNumber={lastBillNumber}
+                        setLoading={setLoading}
+                        loading={loading}
                     />
                 )
             case 'Chettinad Cements Karikali':
                 return (
                     <Chettinad_Karikkali_Stock
                         tripId={tripId}
-                        company={company}
                         lastBillNumber={lastBillNumber}
+                        setLoading={setLoading}
+                        loading={loading}
                     />
                 )
             case 'Chettinad Cements Ariyalur':
                 return (
                     <Chettinad_Ariyalur
                         tripId={tripId}
-                        company={company}
                         lastBillNumber={lastBillNumber}
+                        setLoading={setLoading}
+                        loading={loading}
                     />
                 )
         }
     }
     return (
-        <React.Fragment>
-            <Dialog
-                maxWidth={'xl'}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="scroll-dialog-title"
-                aria-describedby="scroll-dialog-description"
-            >
-                <DialogTitle id="scroll-dialog-title">Invoice - {company}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText
-                        id="scroll-dialog-description"
-                        ref={descriptionElementRef}
-                        tabIndex={-1}
-                    >
-                        {getContentBasedOnCompany()}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button onClick={handleClose} variant="outlined">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleDownload} variant="contained">
-                        Download PDF
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </React.Fragment>
+        <Dialog
+            maxWidth={'xl'}
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="scroll-dialog-title"
+            aria-describedby="scroll-dialog-description"
+        >
+            <DialogTitle id="scroll-dialog-title">Invoice - {company}</DialogTitle>
+            <DialogContent>
+                <DialogContentText
+                    id="scroll-dialog-description"
+                    ref={descriptionElementRef}
+                    tabIndex={-1}
+                >
+                    {getContentBasedOnCompany()}
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Button onClick={handleClose} variant="outlined" disabled={loading}>
+                    Cancel
+                </Button>
+                <Button onClick={handleDownload} variant="contained" disabled={loading}>
+                    Download PDF
+                </Button>
+            </DialogActions>
+        </Dialog>
     )
 }
 export default InvoiceDialog

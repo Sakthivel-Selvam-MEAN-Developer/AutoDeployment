@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { getAllUnloadingPoint } from '../../services/unloadingPoint.ts'
 import { Autocomplete, Button, TextField } from '@mui/material'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockTrip } from '../../services/unloadingPointTrip.ts'
@@ -11,12 +10,23 @@ interface dataProps {
     row: AllStockProps
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>
     update: boolean
+    unloadingPointList: unloadingPointProps[]
+}
+interface unloadingPointProps {
+    id: number
+    name: string
+    cementCompanyId: number
+    pricePointMarkerId: number
 }
 
-const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, update }) => {
+const StockToUnloadingFormFields: React.FC<dataProps> = ({
+    row,
+    setUpdate,
+    update,
+    unloadingPointList
+}) => {
     const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
-    const [unloadingPointList, setUnloadingPointList] = useState([])
     const [freightAmount, setFreightAmount] = useState<number>(0)
     const [transporterAmount, setTransporterAmount] = useState<number>(0)
     const [invoiceNumber, setInvoiceNumber] = useState<string>('')
@@ -44,15 +54,15 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
         }
         createStockTrip(details).then(() => setUpdate(!update))
     }
+
     useEffect(() => {
-        getAllUnloadingPoint().then(setUnloadingPointList)
-    }, [])
-    useEffect(() => {
-        getPricePoint(null, unloadingPointId, row.stockPointId).then((pricePoint) => {
-            setTransporterAmount(pricePoint.transporterAmount)
-            setFreightAmount(pricePoint.freightAmount)
-        })
-    }, [row.loadingPointId, row.stockPointId, unloadingPointId])
+        if (unloadingPointId !== null)
+            getPricePoint(null, unloadingPointId, row.stockPointId).then((pricePoint) => {
+                setTransporterAmount(pricePoint.transporterAmount)
+                setFreightAmount(pricePoint.freightAmount)
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [unloadingPointId])
 
     return (
         <div
@@ -69,7 +79,12 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({ row, setUpdate, updat
                 style={{ display: 'flex', justifyContent: 'left', width: '100%' }}
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label="Stock Point Date" name="stockDate" format="DD/MM/YYYY" />
+                    <DatePicker
+                        label="Stock Point Date"
+                        name="stockDate"
+                        format="DD/MM/YYYY"
+                        sx={{ marginRight: '20px' }}
+                    />
                 </LocalizationProvider>
                 <TextField
                     id="outlined-basic"

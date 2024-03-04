@@ -1,7 +1,8 @@
 /* Chettinad Tax Invoice Styles */
 
 .chettinad-main *,
-.chettinad-ariyalur-main * {
+.chettinad-ariyalur-main *,
+#chettinad_annexure * {
     color: #000;
     padding: 0;
     margin: 0;
@@ -93,7 +94,7 @@
 .chettinad_main .margin .magnum-details .list {
     padding: 5px;
     justify-content: space-between;
-    width: 300px;
+    width: 400px;
 }
 
 .chettinad_main td,

@@ -1,4 +1,18 @@
-const ChettinadAnnexure = () => {
+import { FC } from 'react'
+import dayjs from 'dayjs'
+import {
+    AnnexureProps,
+    InvoiceProps,
+    LoadingToStockPointProps,
+    LoadingToUnloadingPointProps,
+    StockToUnloadingPointProps
+} from '../../interface'
+
+// const getFreightAmount = (trip: InvoiceProps) => {
+//     return trip.loadingPointToStockPointTrip !== null ? trip.stockPointToUnloadingPointTrip.freightAmount : trip.loadingPointToUnloadingPointTrip.freightAmount
+// }
+const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
+    console.log(tripDetails)
     return (
         <section style={{ padding: '20px' }} id="main_2">
             <main className="chettinad_main">
@@ -24,14 +38,14 @@ const ChettinadAnnexure = () => {
                                 <div>BILL NO</div>
                                 <div>:</div>
                             </div>
-                            <div>CCKW/23-24/93</div>
+                            <div>{lastBillNumber}</div>
                         </div>
                         <div className="list">
                             <div>
                                 <div>DATE</div>
                                 <div>:</div>
                             </div>
-                            <div>07-02-2024</div>
+                            <div>{dayjs().format('DD-MM-YYYY')}</div>
                         </div>
                         <div className="list">
                             <div>
@@ -70,27 +84,31 @@ const ChettinadAnnexure = () => {
                                 <th>RATE/TON</th>
                                 <th>FREIGHT</th>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>20-01-2024</td>
-                                <td>KW20175903</td>
-                                <td>Chettinad Cement</td>
-                                <td>Chandapura TDP</td>
-                                <td>KA01AJ2855</td>
-                                <td>39.750</td>
-                                <td>1,300.00</td>
-                                <td>51,675.00</td>
-                            </tr>
+                            {tripDetails.map((trip: InvoiceProps, index: number) => {
+                                if (
+                                    trip.stockPointToUnloadingPointTrip !== null &&
+                                    trip.stockPointToUnloadingPointTrip !== undefined
+                                )
+                                    return loadingToStockTable(trip, index)
+                                else if (
+                                    trip.loadingPointToUnloadingPointTrip !== null &&
+                                    trip.loadingPointToUnloadingPointTrip !== undefined
+                                )
+                                    return loadingToUnloadingTable(
+                                        trip.loadingPointToUnloadingPointTrip,
+                                        index
+                                    )
+                            })}
                             <tr>
                                 <td colSpan={6}>
                                     <h4>Total</h4>
                                 </td>
                                 <td>
-                                    <h4>862.35</h4>
+                                    <h4>{total.totalFilledLoad}</h4>
                                 </td>
                                 <td />
                                 <td>
-                                    <h4>11,21,005.0</h4>
+                                    <h4>{total.totalAmount}</h4>
                                 </td>
                             </tr>
                         </tbody>
@@ -100,7 +118,7 @@ const ChettinadAnnexure = () => {
                     <div className="details">
                         <div className="total">
                             <p>No of Challans :</p>
-                            <p>22</p>
+                            <p>{tripDetails.length}</p>
                         </div>
                         <div className="info">
                             <p>GST will be paid by Magnum Logistics</p>
@@ -120,3 +138,51 @@ const ChettinadAnnexure = () => {
 }
 
 export default ChettinadAnnexure
+
+const loadingToUnloadingTable = (
+    trip: LoadingToUnloadingPointProps | LoadingToStockPointProps,
+    index: number
+) => {
+    console.log(index)
+
+    return (
+        <tr>
+            <td>1</td>
+            <td>{trip.startDate}</td>
+            <td>KW20175903</td>
+            <td>Chettinad Cement</td>
+            <td>Chandapura TDP</td>
+            <td>{trip.truck.vehicleNumber}</td>
+            <td>39.750</td>
+            <td>n</td>
+            <td>51,675.00</td>
+        </tr>
+    )
+}
+
+const tableRowForStockToUnloading = (stockTrip: StockToUnloadingPointProps, index: number) => {
+    console.log(stockTrip, index)
+
+    return (
+        <tr>
+            <td>1</td>
+            <td>20-01-2024</td>
+            <td>KW20175903</td>
+            <td>Chettinad Cement</td>
+            <td>Chandapura TDP</td>
+            <td>KA01AJ2855</td>
+            <td>39.750</td>
+            <td>n</td>
+            <td>51,675.00</td>
+        </tr>
+    )
+}
+
+const loadingToStockTable = (trip: InvoiceProps, index: number) => {
+    return (
+        <>
+            {loadingToUnloadingTable(trip.loadingPointToStockPointTrip, index)}
+            {tableRowForStockToUnloading(trip.stockPointToUnloadingPointTrip, index)}
+        </>
+    )
+}

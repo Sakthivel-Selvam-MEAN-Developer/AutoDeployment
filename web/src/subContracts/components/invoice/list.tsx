@@ -21,7 +21,6 @@ export interface cementCompanyProps {
     name: string
 }
 export interface tripDetailsProps {
-    overallTripId: number
     tripId: number
     tripName: string
 }
@@ -44,9 +43,8 @@ const InvoiceList: React.FC = () => {
         getTripDetails()
         await generateBillNumber().then(setLastBillNumber)
     }
-    const handleClick = async () => {
-        setActivate(true)
-    }
+    const handleClick = () => setActivate(true)
+
     const generateBillNumber = async () => {
         return await getLastBillNumber().then((billNo) => {
             const financialYear =

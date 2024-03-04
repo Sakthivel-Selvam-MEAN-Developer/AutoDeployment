@@ -1,7 +1,7 @@
 import { axiosInstance, getData } from '../../wonderMove/services'
 import { tripDetailsProps } from '../components/invoice/list'
 
-export const getInvoiceDetails = (id: number[]) =>
+export const getInvoiceDetails = (id: tripDetailsProps[]) =>
     axiosInstance
         .put('/invoice/', id)
         .then(getData)

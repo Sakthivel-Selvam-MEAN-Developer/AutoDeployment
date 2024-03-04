@@ -69,7 +69,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                     console.log(newValue)
                 }}
             />
-            <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
+            <TextInput control={control} label="Diesel Bill Number" fieldName="invoiceNumber" />
             <NumberInputWithProps
                 control={control}
                 label="Fuel per Liter"

@@ -1,16 +1,14 @@
-import { Box, Button, CircularProgress } from '@mui/material'
+import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
-import ListAllTrip from './show'
 import { useEffect, useState } from 'react'
 import { getAllTrip } from '../../services/trip'
 import { getAllStockPointTrip } from '../../services/stockPointTrip'
-
+import ListTrips from './listTrips'
 const style = {
     marginBottom: '30px',
     display: 'flex',
     justifyContent: 'right'
 }
-
 const TripList: React.FC = () => {
     const [allTrips, setAllTrips] = useState([])
     const [allStockTrips, setAllStockTrips] = useState([])
@@ -31,19 +29,13 @@ const TripList: React.FC = () => {
                     </Button>
                 </Link>
             </div>
-            <p>List Of Trips</p>
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <CircularProgress />
-                </Box>
-            ) : (
-                <ListAllTrip
-                    allTrips={allTrips}
-                    allStockTrips={allStockTrips}
-                    setUpdate={setUpdate}
-                    update={update}
-                />
-            )}
+            <ListTrips
+                allTrips={allTrips}
+                allStockTrips={allStockTrips}
+                setUpdate={setUpdate}
+                update={update}
+                loading={loading}
+            />
         </>
     )
 }

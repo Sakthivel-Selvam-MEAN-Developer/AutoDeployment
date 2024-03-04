@@ -1,25 +1,32 @@
 import { Request, Response } from 'express'
-import { getInvoiceDetail } from '../models/invoice.ts'
-import { updateBillNumber as updateLoadingToUnloading } from '../models/loadingToUnloadingTrip.ts'
-import { updateBillNumber as updateLoadingToStock } from '../models/loadingToStockPointTrip.ts'
-import { updateBillNumber as updateStockToUnloading } from '../models/stockPointToUnloadingPoint.ts'
+import {
+    updateBillNumber as updateLoadingToUnloading,
+    getInvoiceDetails as loadingToUnlaodingInvoice
+} from '../models/loadingToUnloadingTrip.ts'
+import {
+    updateBillNumber as updateLoadingToStock,
+    getInvoiceDetails as loadingToStockInvoice
+} from '../models/loadingToStockPointTrip.ts'
+import {
+    updateBillNumber as updateStockToUnloading,
+    getInvoiceDetails as stockToUnlaodingInvoice
+} from '../models/stockPointToUnloadingPoint.ts'
 import { updateBillNumber } from '../models/billNumber.ts'
 
 interface tripDetailsProps {
-    overallTripId: number
     tripId: number
     tripName: string
 }
-export const getInvoiceDetails = (req: Request, res: Response) => {
-    getInvoiceDetail(req.body)
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+interface invoiceProps {
+    loadingToUnloading: number[]
+    loadingToStock: number[]
+    stockToUnloading: number[]
 }
-export const updateInvoiceDetails = (req: Request, res: Response) => {
+const groupTripId = (tripDetails: tripDetailsProps[]) => {
     const loadingToUnloading: number[] = []
     const loadingToStock: number[] = []
     const stockToUnloading: number[] = []
-    req.body.trip.map((data: tripDetailsProps) => {
+    tripDetails.map((data: tripDetailsProps) => {
         switch (data.tripName) {
             case 'LoadingToUnloading':
                 loadingToUnloading.push(data.tripId)
@@ -31,10 +38,39 @@ export const updateInvoiceDetails = (req: Request, res: Response) => {
                 loadingToStock.push(data.tripId)
                 break
             default:
-                return 0
         }
         return 0
     })
+    return { loadingToUnloading, loadingToStock, stockToUnloading }
+}
+export const getInvoiceDetails = (req: Request, res: Response) => {
+    const { loadingToUnloading, loadingToStock, stockToUnloading }: invoiceProps = groupTripId(
+        req.body
+    )
+    Promise.all([
+        loadingToUnlaodingInvoice(loadingToUnloading),
+        loadingToStockInvoice(loadingToStock),
+        stockToUnlaodingInvoice(stockToUnloading)
+    ])
+        .then((data) => {
+            const [
+                loadingPointToUnloadingPointTrip,
+                loadingPointToStockPointTrip,
+                stockPointToUnloadingPointTrip
+            ] = data
+            return {
+                loadingPointToUnloadingPointTrip,
+                loadingPointToStockPointTrip,
+                stockPointToUnloadingPointTrip
+            }
+        })
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
+}
+export const updateInvoiceDetails = (req: Request, res: Response) => {
+    const { loadingToUnloading, loadingToStock, stockToUnloading }: invoiceProps = groupTripId(
+        req.body.trip
+    )
     Promise.all([
         updateLoadingToStock(loadingToStock, req.body.billNo),
         updateLoadingToUnloading(loadingToUnloading, req.body.billNo),

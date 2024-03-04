@@ -104,7 +104,7 @@ describe('Add Fuel Details', () => {
             parseInt(fuelPerLiter.value) * parseInt(totalQuantity.value)
         )
         await userEvent.type(screen.getByLabelText('Fueled Date'), '30012024')
-        await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
+        await userEvent.type(screen.getByLabelText('Diesel Bill Number'), 'RTD43D')
         const save = screen.getByRole('button', { name: 'Add Fuel' })
         expect(save).toBeInTheDocument()
         await userEvent.click(save)

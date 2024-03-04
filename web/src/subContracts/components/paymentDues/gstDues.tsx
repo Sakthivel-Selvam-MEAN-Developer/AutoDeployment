@@ -142,7 +142,7 @@ const GSTDues: React.FC<GenerateFormProps> = ({
                     )
                 })
             ) : (
-                <p style={{ textAlign: 'center' }}>No GST Dues..!</p>
+                <p style={{ textAlign: 'center' }}>No GST Dues to Generate NEFT File...!</p>
             )}
         </>
     )

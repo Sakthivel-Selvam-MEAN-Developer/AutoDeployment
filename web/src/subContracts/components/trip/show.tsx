@@ -1,5 +1,5 @@
 import Table from '@mui/material/Table'
-import React from 'react'
+import React, { useEffect } from 'react'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
@@ -12,6 +12,7 @@ import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/
 import { useState } from 'react'
 
 import StockToUnloadingTrip from './stockToUnloadingTrip.tsx'
+import { getAllUnloadingPoint } from '../../services/unloadingPoint.ts'
 
 export interface AllStockProps {
     filledLoad: number
@@ -104,26 +105,40 @@ const getTableBody = (allTrips: Row[]) => {
     )
 }
 
-const style = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    color: '#000000bd'
-}
+// const style = {
+//     display: 'flex',
+//     justifyContent: 'space-between',
+//     width: '100%',
+//     color: '#000000bd'
+// }
 const ShowTypography = (index: number, row: AllStockProps) => {
     return (
-        <div style={style}>
-            <Typography style={{ fontSize: '15px' }}>{index + 1}</Typography>
-            <Typography sx={{ fontSize: '15px' }}>{row.truck.vehicleNumber}</Typography>
-            <Typography sx={{ fontSize: '15px' }}>{epochToMinimalDate(row.startDate)}</Typography>
-            <Typography sx={{ fontSize: '15px' }}>{row.truck.transporter.name}</Typography>
-            <Typography sx={{ fontSize: '15px' }}>{row.loadingPoint.name}</Typography>
-            <Typography sx={{ fontSize: '15px' }}>{row.stockPoint.name}</Typography>
-            <Typography sx={{ fontSize: '15px' }}>{row.freightAmount}</Typography>
-            <Typography sx={{ padding: '0px 5% 0 0', fontSize: '15px' }}>
+        <>
+            <Typography style={{ fontSize: '15px', width: '3.5vw', padding: '3px 0' }}>
+                {index + 1}
+            </Typography>
+            <Typography sx={{ fontSize: '15px', width: '12vw', padding: '3px 10px' }}>
+                {row.truck.vehicleNumber}
+            </Typography>
+            <Typography sx={{ fontSize: '15px', width: '9.5vw', padding: '3px 10px' }}>
+                {epochToMinimalDate(row.startDate)}
+            </Typography>
+            <Typography sx={{ fontSize: '15px', width: '17vw', padding: '3px 10px' }}>
+                {row.truck.transporter.name}
+            </Typography>
+            <Typography sx={{ fontSize: '15px', width: '11.7vw', padding: '3px 10px' }}>
+                {row.loadingPoint.name}
+            </Typography>
+            <Typography sx={{ fontSize: '15px', width: '12.5vw', padding: '3px 10px' }}>
+                {row.stockPoint.name}
+            </Typography>
+            <Typography sx={{ fontSize: '15px', width: '12vw', padding: '3px 10px' }}>
+                {row.freightAmount}
+            </Typography>
+            <Typography sx={{ fontSize: '15px', width: '10vw', padding: '3px 10px' }}>
                 {row.totalFreightAmount}
             </Typography>
-        </div>
+        </>
     )
 }
 const handleAccordionExpand =
@@ -137,6 +152,10 @@ const GetAllStockTripsAsAAccordion = (
     update: boolean
 ) => {
     const [expanded, setExpanded] = useState<number | false>(false)
+    const [unloadingPointList, setUnloadingPointList] = useState([])
+    useEffect(() => {
+        getAllUnloadingPoint().then(setUnloadingPointList)
+    }, [])
     return (
         <>
             {allStockTrips.map((row: AllStockProps, index: number) => (
@@ -153,8 +172,15 @@ const GetAllStockTripsAsAAccordion = (
                     >
                         {ShowTypography(index, row)}
                     </AccordionSummary>
-                    <AccordionDetails sx={{ display: 'flex', borderBottom: '1px solid grey' }}>
-                        <StockToUnloadingTrip row={row} setUpdate={setUpdate} update={update} />
+                    <AccordionDetails
+                        sx={{ display: 'flex', borderBottom: '1px solid grey', flex: '1' }}
+                    >
+                        <StockToUnloadingTrip
+                            row={row}
+                            setUpdate={setUpdate}
+                            update={update}
+                            unloadingPointList={unloadingPointList}
+                        />
                     </AccordionDetails>
                 </Accordion>
             ))}

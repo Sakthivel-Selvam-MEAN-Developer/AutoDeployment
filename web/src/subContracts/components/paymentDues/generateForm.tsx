@@ -127,7 +127,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                     )
                 })
             ) : (
-                <p style={{ textAlign: 'center' }}>No Dues to Generate Form...!</p>
+                <p style={{ textAlign: 'center' }}>No Dues to Generate NEFT File...!</p>
             )}
         </>
     )
