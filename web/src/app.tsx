@@ -13,7 +13,7 @@ export const App = () => {
             authorization: `Bearer ${token}`
         }
     }
-    console.log(config)
+    keycloak.token && console.log(config)
     keycloak.token && getAuthorization(config).then(() => console.log('passed'))
     return (
         <>

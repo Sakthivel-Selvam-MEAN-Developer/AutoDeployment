@@ -1,3 +1,15 @@
+- date: 4-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - adding request time in nginx
+    - researching monitoring for server
+- date: 4-3-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - removing unnecessary api calls
+
 - date: 2-3-2024
   person: Barath
   project: subContract
