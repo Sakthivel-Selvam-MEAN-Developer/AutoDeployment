@@ -74,8 +74,6 @@ const NewTrip: React.FC = () => {
                 margin: ownTruck === false ? parseFloat(marginFloat) : 0,
                 wantFuel: ownTruck === false ? fuel : ownTruckFuel
             }
-            console.log(data.exampleInput)
-
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then(() => clearForm(clear, setClear, setCategory, setValue))
