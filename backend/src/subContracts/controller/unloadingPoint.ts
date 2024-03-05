@@ -14,8 +14,8 @@ export const createUnloadingPoint = async (req: Request, res: Response) => {
         .catch(() => res.status(500))
 }
 
-export const listAllUnloadingPoint = (_req: Request, res: Response) => {
-    getAllUnloadingPoint()
+export const listAllUnloadingPoint = (req: Request, res: Response) => {
+    getAllUnloadingPoint(parseInt(req.params.cementCompanyId))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

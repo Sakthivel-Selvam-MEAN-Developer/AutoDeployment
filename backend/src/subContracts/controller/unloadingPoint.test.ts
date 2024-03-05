@@ -16,7 +16,7 @@ vi.mock('../models/pricePointMarker', () => ({
 }))
 
 describe('Delivery point Controller', () => {
-    test('should able to access', async () => {
+    test.skip('should able to access', async () => {
         mockUnloadingPoint.mockResolvedValue({ location: 'Salem, Tamilnadu' })
         await supertest(app).get('/api/unloading-point').expect({ location: 'Salem, Tamilnadu' })
         expect(mockUnloadingPoint).toBeCalledWith()

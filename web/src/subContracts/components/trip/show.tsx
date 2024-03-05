@@ -1,5 +1,5 @@
 import Table from '@mui/material/Table'
-import React, { useEffect } from 'react'
+import React from 'react'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
@@ -19,7 +19,7 @@ export interface AllStockProps {
     freightAmount: number
     id: number
     invoiceNumber: string
-    loadingPoint: { name: string }
+    loadingPoint: { name: string; cementCompanyId: number }
     loadingPointId: number
     margin: number
     startDate: number
@@ -105,12 +105,6 @@ const getTableBody = (allTrips: Row[]) => {
     )
 }
 
-// const style = {
-//     display: 'flex',
-//     justifyContent: 'space-between',
-//     width: '100%',
-//     color: '#000000bd'
-// }
 const ShowTypography = (index: number, row: AllStockProps) => {
     return (
         <>
@@ -141,11 +135,6 @@ const ShowTypography = (index: number, row: AllStockProps) => {
         </>
     )
 }
-const handleAccordionExpand =
-    (index: number, setExpanded: React.Dispatch<React.SetStateAction<number | false>>) =>
-    (_event: React.SyntheticEvent, isExpanded: boolean) => {
-        setExpanded(isExpanded ? index : false)
-    }
 const GetAllStockTripsAsAAccordion = (
     allStockTrips: AllStockProps[],
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>,
@@ -153,16 +142,19 @@ const GetAllStockTripsAsAAccordion = (
 ) => {
     const [expanded, setExpanded] = useState<number | false>(false)
     const [unloadingPointList, setUnloadingPointList] = useState([])
-    useEffect(() => {
-        getAllUnloadingPoint().then(setUnloadingPointList)
-    }, [])
+    const handleAccordionExpand =
+        (index: number, cementCompanyId: number) =>
+        (_event: React.SyntheticEvent, isExpanded: boolean) => {
+            isExpanded && getAllUnloadingPoint(cementCompanyId).then(setUnloadingPointList)
+            setExpanded(isExpanded ? index : false)
+        }
     return (
         <>
             {allStockTrips.map((row: AllStockProps, index: number) => (
                 <Accordion
                     key={index}
                     expanded={expanded === index}
-                    onChange={handleAccordionExpand(index, setExpanded)}
+                    onChange={handleAccordionExpand(index, row.loadingPoint.cementCompanyId)}
                 >
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}

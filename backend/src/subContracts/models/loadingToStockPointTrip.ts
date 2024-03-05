@@ -12,7 +12,8 @@ export const getAllStockPointTrip = () =>
         include: {
             loadingPoint: {
                 select: {
-                    name: true
+                    name: true,
+                    cementCompanyId: true
                 }
             },
             stockPoint: {

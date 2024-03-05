@@ -1,11 +1,19 @@
-.dalmia_main,
-.dalmia_annexure_main {
+.dalmia_kadappa_main,
+.dalmia_annexure_main,
+.dalmia_dalmiapuram_main {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
         Geneva, Verdana, sans-serif;
+    color: black;
 }
 .dalmia_annexure_main table,
 .dalmia_annexure_main th,
-.dalmia_annexure_main td {
+.dalmia_annexure_main td,
+.dalmia_dalmiapuram_main table,
+.dalmia_dalmiapuram_main th,
+.dalmia_dalmiapuram_main td,
+.dalmia_kadappa_main table,
+.dalmia_kadappa_main th,
+.dalmia_kadappa_main td {
     border: 2px solid black;
     border-collapse: collapse;
 }
@@ -16,27 +24,34 @@
     display: flex;
 }
 .border {
-    border: none;
+    border: none !important;
     border-left: 2px solid black !important;
     border-right: 2px solid black !important;
 }
 
 .border-top {
-    border: none;
+    border: none !important;
     border-left: 2px solid black !important;
     border-right: 2px solid black !important;
     border-top: 2px solid black !important;
 }
-
+.border-bottom {
+    border: none !important;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+    border-bottom: 2px solid black !important;
+}
+.bg {
+    background-color: #bfbfbf;
+}
 .p-5 {
     padding: 15px 0 !important;
 }
-
-table,
-tr,
-td {
-    border: 2px solid black;
-    border-collapse: collapse;
+.tc {
+    text-align: center;
+}
+.tr {
+    text-align: right;
 }
 
 td {

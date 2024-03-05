@@ -15,7 +15,7 @@ describe('UnloadingPoint model', () => {
             cementCompanyId: cementCompany.id,
             pricePointMarkerId: pricePointMarker.id
         })
-        const actual = await getAllUnloadingPoint()
+        const actual = await getAllUnloadingPoint(cementCompany.id)
         expect(actual.length).toBe(1)
         expect(actual[0].name).toBe(seedUnloadingPointWithoutDep.name)
     })

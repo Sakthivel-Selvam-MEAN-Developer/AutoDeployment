@@ -7,7 +7,7 @@ import {
 
 const deliveryPointRoutes = (router: Router) => {
     router.post('/unloading-point', createUnloadingPoint)
-    router.get('/unloading-point', listAllUnloadingPoint)
+    router.get('/unloading/:cementCompanyId', listAllUnloadingPoint)
     router.get('/unloading-point/:companyName', listUnloadingPonitBycementCompany)
 }
 
