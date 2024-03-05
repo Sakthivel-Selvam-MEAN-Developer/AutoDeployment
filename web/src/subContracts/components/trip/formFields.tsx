@@ -41,6 +41,8 @@ interface FormFieldProps {
     setValue: UseFormSetValue<FieldValues>
     ownTruck: boolean
     clear: boolean
+    setListTruck: React.Dispatch<React.SetStateAction<never[]>>
+    listTruck: never[]
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -66,11 +68,12 @@ const FormField: React.FC<FormFieldProps> = ({
     setOwnTruck,
     ownTruck,
     setownTruckFuel,
-    clear
+    clear,
+    setListTruck,
+    listTruck
 }) => {
     const [transporterName, setTransporterName] = useState<string | null>('')
     const [cementCompanyName, setCementCompanyName] = useState<string | null>('')
-    const [listTruck, setListTruck] = useState([])
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
     const [stockPointList, setStockPointList] = useState([])
@@ -85,6 +88,7 @@ const FormField: React.FC<FormFieldProps> = ({
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
         if (transporterName !== null && transporterName !== '')
             getTruckByTransporter(transporterName).then(setListTruck)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [transporterName, cementCompanyName])
 
     useEffect(() => {

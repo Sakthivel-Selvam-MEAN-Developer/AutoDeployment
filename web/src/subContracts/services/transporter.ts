@@ -11,6 +11,13 @@ export const getAllTransporterName = () =>
         .get('/transporter_name')
         .then(getData)
         .catch(() => alert('Error Getting data'))
-
-export const createTransporter = (data: any) =>
+interface dataProps {
+    hasGst: boolean
+    hasTds: boolean
+    tdsPercentage: number | null
+    gstPercentage: number | null
+    gstNumber: string
+    accountTypeNumber: number | undefined
+}
+export const createTransporter = (data: dataProps) =>
     axiosInstance.post('/transporter', data).then(getData)

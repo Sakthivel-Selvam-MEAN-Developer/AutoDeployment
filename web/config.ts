@@ -14,7 +14,7 @@ const config: Record<string, Config> = {
         backendUrl: `http://${window.location.hostname}:8000/api`,
     },
 }
-const env = 'prod'
+const env = 'dev'
 // if (import.meta.env.MODE == 'dev') {
 //     env = 'dev'
 // }

@@ -21,6 +21,8 @@ interface bankDetailProps {
     ifsc: string
     address: string
     accountTypeNumber: number
+    bunkName: string
+    location: string
 }
 interface dataProp {
     name: string

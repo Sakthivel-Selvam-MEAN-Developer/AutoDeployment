@@ -58,7 +58,7 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                 <>
                     <section
                         className="chettinad-section"
-                        id="chettinad-section"
+                        id="chettinad-karikali-section"
                         style={{ padding: '20px' }}
                     >
                         <main className="chettinad-main bt bb bl br df-fc">

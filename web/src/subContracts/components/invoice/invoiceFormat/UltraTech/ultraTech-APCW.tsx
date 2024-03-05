@@ -48,7 +48,7 @@ const UltraTech_APCW: React.FC<InvoiceProps> = ({
                     <CircularProgress />
                 </Box>
             ) : (
-                <main className="main" id="main">
+                <main className="main" id="ultratech_main">
                     <div className="header">
                         <p>CIN : 0</p>
                         <p>TAX INVOICE</p>

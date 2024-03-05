@@ -24,7 +24,7 @@ const AddReason: React.FC<AddReasonProps> = ({ stopInfo, allReasons }) => {
     }
 
     const handleAgree = () => {
-        setSelectedReason(temporaryReason as any)
+        setSelectedReason(temporaryReason)
         updateStops(stopInfo.id, { stopReasonId: temporaryReason }).then(() => {
             setOpenAlertDialog(false)
             setOpenSuccessDialog(true)

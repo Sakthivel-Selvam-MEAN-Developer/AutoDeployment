@@ -102,7 +102,7 @@ const PaymentDuesList: React.FC = () => {
                             onClick={handleClick}
                             disabled={NEFTDetails.length === 0}
                         >
-                            Generate Form
+                            Generate File
                         </Button>
                     </div>
                     <GenerateForm

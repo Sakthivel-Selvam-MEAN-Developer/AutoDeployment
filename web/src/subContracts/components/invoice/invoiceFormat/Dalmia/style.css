@@ -1,0 +1,56 @@
+.dalmia_main,
+.dalmia_annexure_main {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
+        Geneva, Verdana, sans-serif;
+}
+.dalmia_annexure_main table,
+.dalmia_annexure_main th,
+.dalmia_annexure_main td {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+.dalmia-head > * {
+    flex: 1;
+}
+.df {
+    display: flex;
+}
+.border {
+    border: none;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+}
+
+.border-top {
+    border: none;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+    border-top: 2px solid black !important;
+}
+
+.p-5 {
+    padding: 15px 0 !important;
+}
+
+table,
+tr,
+td {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 3px;
+}
+
+.tc {
+    text-align: center;
+}
+
+.tl {
+    text-align: left;
+}
+
+.tr {
+    text-align: right;
+}

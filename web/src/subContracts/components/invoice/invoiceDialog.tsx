@@ -34,20 +34,32 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
         }
     }, [open])
     const handleDownload = async () => {
-        let companyId
-        let annexureId = ''
+        let companyTagID
+        let annexureTagID = ''
         switch (company) {
-            case 'UltraTech Cements':
-                companyId = 'main'
+            case 'ULTRATECH CEMENT LIMITED,TADIPATRI':
+                companyTagID = 'ultratech_main'
                 break
-            case 'Chettinad Cements Karikali':
-                companyId = 'main_1'
-                annexureId = 'main_2'
+            case 'Chettinad Cement Corporation Private Ltd. Ariyalur':
+                companyTagID = 'chettinad-ariyalur-section'
+                annexureTagID = 'chettinad_annexure_main'
+                break
+            case 'Chettinad Cement Corporation Private Ltd,Karikkali':
+                companyTagID = 'chettinad-karikali-section'
+                annexureTagID = 'chettinad_annexure_main'
+                break
+            case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
+                companyTagID = 'dalmia_kadappa_section'
+                annexureTagID = 'dalmia_annexure_section'
+                break
+            case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
+                companyTagID = 'dalmia_dalmiapuram_section'
+                annexureTagID = 'dalmia_annexure_section'
                 break
         }
-        if (companyId) {
-            const invoiceData: HTMLElement | null = document.getElementById(companyId)
-            const annexureData: HTMLElement | null = document.getElementById(annexureId)
+        if (companyTagID) {
+            const invoiceData: HTMLElement | null = document.getElementById(companyTagID)
+            const annexureData: HTMLElement | null = document.getElementById(annexureTagID)
             await downloadPdf(invoiceData, annexureData, 'p', 'mm', [1500, 1300], company)
                 .then(updateInvoice)
                 .then(() => setOpen(false))

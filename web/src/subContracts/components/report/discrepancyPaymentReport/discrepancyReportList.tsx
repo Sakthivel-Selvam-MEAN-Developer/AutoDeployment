@@ -22,9 +22,8 @@ const ListAllDiscrepancyReport: React.FC = (): ReactElement => {
         setTripWithPagination(Trip)
     }, [skipNumber, discrepencyList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        if (data.from && data.to) {
+        if (data.from && data.to)
             getAllDiscrepancyReport(data.from.unix(), data.to.unix()).then(setDiscrepencyList)
-        }
         setShowDetails(true)
     }
     return (

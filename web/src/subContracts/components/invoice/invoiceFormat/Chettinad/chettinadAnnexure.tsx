@@ -14,8 +14,8 @@ import {
 const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
     console.log(tripDetails)
     return (
-        <section style={{ padding: '20px' }} id="main_2">
-            <main className="chettinad_main">
+        <section style={{ padding: '20px' }} id="chettinad_annexure_main">
+            <main className="chettinad_annexure_main">
                 <div className="header">
                     <div className="magnum-address">
                         <h2>MAGNUM LOGISTICS</h2>

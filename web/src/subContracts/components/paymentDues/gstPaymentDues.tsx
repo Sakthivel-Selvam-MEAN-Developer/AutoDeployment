@@ -33,22 +33,7 @@ const GSTPaymentDues: React.FC = () => {
                 gstDues.map((data: dataProp) => {
                     return (
                         <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                sx={{ borderBottom: '1px solid grey' }}
-                            >
-                                <Typography sx={{ padding: '10px 10px 0px', width: '350px' }}>
-                                    <b>{data.name}</b>
-                                </Typography>
-                                <Typography sx={style}>
-                                    Total Trips: <b>{data.dueDetails.count}</b>
-                                </Typography>
-                                <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                    Total Amount: <b>{data.dueDetails.payableAmount}</b>
-                                </ListItemSecondaryAction>
-                            </AccordionSummary>
+                            {accordionSummary(data, style)}
                             {data.tripDetails.map((list: tripProp) => {
                                 return (
                                     <AccordionDetails sx={accordianStyle}>
@@ -77,3 +62,24 @@ const GSTPaymentDues: React.FC = () => {
     )
 }
 export default GSTPaymentDues
+
+function accordionSummary(data: dataProp, style: { width: string; padding: string }) {
+    return (
+        <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            sx={{ borderBottom: '1px solid grey' }}
+        >
+            <Typography sx={{ padding: '10px 10px 0px', width: '350px' }}>
+                <b>{data.name}</b>
+            </Typography>
+            <Typography sx={style}>
+                Total Trips: <b>{data.dueDetails.count}</b>
+            </Typography>
+            <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
+                Total Amount: <b>{data.dueDetails.payableAmount}</b>
+            </ListItemSecondaryAction>
+        </AccordionSummary>
+    )
+}

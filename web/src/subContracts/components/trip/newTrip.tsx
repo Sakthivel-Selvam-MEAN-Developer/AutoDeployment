@@ -32,13 +32,10 @@ const NewTrip: React.FC = () => {
     const [category, setCategory] = useState<string>('')
     const [clear, setClear] = useState<boolean>(false)
     const [ownTruckFuel, setownTruckFuel] = useState<boolean>(true)
-
+    const [listTruck, setListTruck] = useState([])
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseFloat(filledLoad))
-        setTotalTransporterAmount(
-            transporterAmount * parseFloat(filledLoad) -
-                (transporterAmount * parseFloat(filledLoad) * tdsPercentage) / 100
-        )
+        setTotalTransporterAmount(transporterAmount * parseFloat(filledLoad))
         setMargin(totalFreightAmount - totalTransporterAmount)
     }, [
         filledLoad,
@@ -76,11 +73,11 @@ const NewTrip: React.FC = () => {
             }
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
-                    .then(() => clearForm(clear, setClear, setCategory, setValue))
+                    .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
             else if (category === 'Unloading Point')
                 createTrip({ ...details, unloadingPointId: unloadingPointId })
-                    .then(() => clearForm(clear, setClear, setCategory, setValue))
+                    .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
         } else alert('All fields Required')
     }
@@ -125,6 +122,8 @@ const NewTrip: React.FC = () => {
                 stockPointId={setStockPointId}
                 setValue={setValue}
                 clear={clear}
+                setListTruck={setListTruck}
+                listTruck={listTruck}
             />
             <SubmitButton name="Start" type="submit" />
         </form>
@@ -140,10 +139,12 @@ const clearForm = (
     clear: boolean,
     setClear: React.Dispatch<React.SetStateAction<boolean>>,
     setCategory: React.Dispatch<React.SetStateAction<string>>,
-    setValue: UseFormSetValue<FieldValues>
+    setValue: UseFormSetValue<FieldValues>,
+    setListTruck: React.Dispatch<React.SetStateAction<never[]>>
 ) => {
     setClear(!clear)
     setCategory('')
     setValue('tripDate', null)
     setValue('filledLoad', '')
+    setListTruck([])
 }

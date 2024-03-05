@@ -49,12 +49,16 @@ function getTableHead() {
         </TableHead>
     )
 }
-const getCells = (data: Props, num: number, trip: any) => {
+const getCells = (
+    data: Props,
+    num: number,
+    trip: { truck: { transporter: { csmName: string } } } | null
+) => {
     return (
         <>
             <TableCell> {num} </TableCell>
             <TableCell align="left">{data.name}</TableCell>
-            <TableCell align="left">{trip.truck.transporter.csmName}</TableCell>
+            <TableCell align="left">{trip?.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{epochToMinimalDate(data.dueDate)}</TableCell>
             <TableCell align="left">{data.payableAmount}</TableCell>
         </>
@@ -75,7 +79,7 @@ function getTableBody(allTrips: Props[]) {
                                 ? row.overallTrip.loadingPointToStockPointTrip
                                 : row.overallTrip.loadingPointToUnloadingPointTrip !== null
                                   ? row.overallTrip.loadingPointToUnloadingPointTrip
-                                  : ''
+                                  : null
                         )}
                     </TableRow>
                 )
