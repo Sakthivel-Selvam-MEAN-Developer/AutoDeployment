@@ -106,7 +106,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
       >
         <div>
           <h4>
-            Generation Date:- 05-03-2024 
+            Generation Date:- 06-03-2024 
           </h4>
           <h4>
             Vendor Code:- 0002406621 
@@ -125,7 +125,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
             FLAG:- Y 
           </h4>
           <h4>
-             Bill Date:- 05-03-2024
+             Bill Date:- 06-03-2024
           </h4>
         </div>
       </div>
