@@ -1,4 +1,3 @@
-import { createBrowserRouter } from 'react-router-dom'
 import MoveItLayout from './wonderMove/components/layout'
 import Dashboard from './wonderMove/components/dashboard'
 import DashboardList from './wonderMove/components/dashboard/list.tsx'
@@ -18,7 +17,7 @@ import ReasonList from './wonderMove/components/reason/list.tsx'
 import hrmRoutes from './hrmRoutes.tsx'
 import sunContractRoutes from './subContractRoutes.tsx'
 
-export const router = createBrowserRouter([
+export const router = [
     {
         path: '/moveit',
         element: <MoveItLayout />,
@@ -99,4 +98,4 @@ export const router = createBrowserRouter([
     },
     hrmRoutes,
     sunContractRoutes
-])
+]

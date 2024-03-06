@@ -1,25 +1,17 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './theme.ts'
-import { RouterProvider } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { router } from './routes.tsx'
-import { useKeycloak } from '@react-keycloak/web'
-import { getAuthorization } from './authService.tsx'
+import useAuthorization from './authorization.tsx'
 
 export const App = () => {
-    const { keycloak } = useKeycloak()
-    const token = keycloak.token
-    const config = {
-        headers: {
-            authorization: `Bearer ${token}`
-        }
-    }
-    keycloak.token && console.log(config)
-    keycloak.token && getAuthorization(config).then(() => console.log('passed'))
+    useAuthorization()
+    const routes = createBrowserRouter(router)
     return (
         <>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-                <RouterProvider router={router} />
+                <RouterProvider router={routes} />
             </ThemeProvider>
         </>
     )
