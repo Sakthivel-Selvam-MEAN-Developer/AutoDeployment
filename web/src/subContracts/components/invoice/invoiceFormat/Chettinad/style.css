@@ -2,13 +2,16 @@
 
 .chettinad-main *,
 .chettinad-ariyalur-main *,
-#chettinad_annexure * {
+.chettinad_annexure_main * {
     color: #000;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
         Geneva, Verdana, sans-serif;
+}
+#chettinad-karikali-section {
+    padding: 100px 50px !important;
 }
 .chettinad-section {
     font-weight: 600;
@@ -40,19 +43,21 @@
 }
 
 /* Chettinad Annexure Styles */
-
-.chettinad_main * {
+#chettinad_annexure_main {
+    padding: 50px 20px !important;
+}
+.chettinad_annexure_main * {
     padding: 0;
     margin: 0;
 }
 
-.chettinad_main .header {
+.chettinad_annexure_main .header {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-.chettinad_main .header .magnum-address {
+.chettinad_annexure_main .header .magnum-address {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,81 +65,82 @@
     padding: 20px !important;
 }
 
-.chettinad_main .header .magnum-address * {
+.chettinad_annexure_main .header .magnum-address * {
     padding: 5px;
 }
 
-.chettinad_main .margin {
+.chettinad_annexure_main .margin {
     padding: 5px;
     display: flex;
     justify-content: end;
 }
 
-.chettinad_main .margin > *,
-.chettinad_main .margin .magnum-details .list > *,
-.chettinad_main .footer .total > * {
+.chettinad_annexure_main .margin > *,
+.chettinad_annexure_main .margin .magnum-details .list > *,
+.chettinad_annexure_main .footer .total > * {
     flex: 1;
 }
 
-.chettinad_main .margin .company-address * {
+.chettinad_annexure_main .margin .company-address * {
     padding: 5px;
 }
 
-.chettinad_main .margin .magnum-details * {
+.chettinad_annexure_main .margin .magnum-details * {
     display: flex;
     align-items: center;
 }
 
-.chettinad_main .margin .magnum-details {
+.chettinad_annexure_main .margin .magnum-details {
     display: flex;
     align-items: end;
     flex-direction: column;
 }
 
-.chettinad_main .margin .magnum-details .list {
+.chettinad_annexure_main .margin .magnum-details .list {
     padding: 5px;
     justify-content: space-between;
     width: 400px;
 }
 
-.chettinad_main td,
-.chettinad_main th {
+.chettinad_annexure_main td,
+.chettinad_annexure_main th {
     padding: 5px !important;
     text-align: center;
 }
 
-.chettinad_main table,
-.chettinad_main th,
-.chettinad_main td {
+.chettinad_annexure_main table,
+.chettinad_annexure_main th,
+.chettinad_annexure_main td {
     border-collapse: collapse;
     border: 1px solid black;
 }
-.chettinad_main table {
+.chettinad_annexure_main table {
     width: 100%;
     margin: 40px 0 !important;
 }
 
-.chettinad_main .footer {
+.chettinad_annexure_main .footer {
     display: flex;
     justify-content: space-between;
 }
 
-.chettinad_main .footer * {
+.chettinad_annexure_main .footer * {
     padding-bottom: 8px;
 }
 
-.chettinad_main .footer .total {
+.chettinad_annexure_main .footer .total {
     display: flex;
     justify-content: space-between;
 }
 
-.chettinad_main .footer .info {
+.chettinad_annexure_main .footer .info {
     display: flex;
     flex-direction: column;
 }
 
-.chettinad_main .footer .sign {
-    padding-top: 90px;
+.chettinad_annexure_main .footer .sign {
+    display: flex;
+    align-items: end;
 }
 
 /* Common Styles */

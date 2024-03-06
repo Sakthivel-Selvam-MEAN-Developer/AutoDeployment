@@ -20,12 +20,15 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
     setName
 }) => {
     useEffect(() => {
-        getAllTransporterName().then((data) => setVendor(data))
-        getAllBunkName().then((data) => {
-            data.map((bunk: vendorProps) =>
-                setVendor((prev) => [...prev, { ...bunk, name: bunk.bunkName }])
+        getAllTransporterName()
+            .then(setVendor)
+            .then(() =>
+                getAllBunkName().then((data) => {
+                    data.map((bunk: vendorProps) =>
+                        setVendor((prev) => [...prev, { ...bunk, name: bunk.bunkName }])
+                    )
+                })
             )
-        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (

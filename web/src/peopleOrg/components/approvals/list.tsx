@@ -24,8 +24,8 @@ import { userIdAtom } from '../layout/userAtom.tsx'
 
 const ApprovalList: FC = () => {
     const [allList, setAllList] = useState([])
-    const [selectedRow, setSelectedRow] = useState<any | null>(null)
-    const [rejectRow, setRejectRow] = useState<null>(null)
+    const [selectedRow, setSelectedRow] = useState<number | null>()
+    const [rejectRow, setRejectRow] = useState<number | null>()
     const [open, setOpen] = useState(false)
     const [rejectionReason, setRejectionReason] = useState('')
     const [refresh, setRefresh] = useState(false)
@@ -34,7 +34,7 @@ const ApprovalList: FC = () => {
     useEffect(() => {
         getAllLeaveAfterApply(employeeId).then(setAllList)
     }, [refresh, employeeId])
-    const rejectClick = (row: any) => {
+    const rejectClick = (row: number) => {
         setRejectRow(row)
         setOpen(true)
     }

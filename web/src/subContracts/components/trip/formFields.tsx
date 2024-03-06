@@ -34,7 +34,6 @@ interface FormFieldProps {
     setCategory: React.Dispatch<React.SetStateAction<string>>
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setTransporterAmount: React.Dispatch<React.SetStateAction<number>>
-    setTdsPercentage: React.Dispatch<React.SetStateAction<number>>
     setOwnTruck: React.Dispatch<React.SetStateAction<boolean>>
     setownTruckFuel: React.Dispatch<React.SetStateAction<boolean>>
     category: string
@@ -64,8 +63,6 @@ const FormField: React.FC<FormFieldProps> = ({
     setValue,
     setFreightAmount,
     setTransporterAmount,
-    setTdsPercentage,
-    setOwnTruck,
     ownTruck,
     setownTruckFuel,
     clear,
@@ -163,14 +160,6 @@ const FormField: React.FC<FormFieldProps> = ({
                 options={transporter.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     setTransporterName(newValue)
-                    newValue
-                    const { tdsPercentage } = transporter.find((transporter: transporterProps) => {
-                        transporter.transporterType === 'Own'
-                            ? setOwnTruck(true)
-                            : setOwnTruck(false)
-                        return transporter.name === newValue
-                    }) || { tdsPercentage: 0 }
-                    setTdsPercentage(tdsPercentage)
                 }}
             />
             <DateInput

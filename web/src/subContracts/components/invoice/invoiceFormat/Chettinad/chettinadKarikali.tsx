@@ -5,15 +5,22 @@ import './style.css'
 import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
 import dayjs from 'dayjs'
 import { getInvoiceDetails } from '../../../../services/invoice'
-import { tripDetailProps } from '../../interface'
+import { InvoiceProp } from '../../interface'
 import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'
 import ChettinadAnnexure from './chettinadAnnexure'
 import { Box, CircularProgress } from '@mui/material'
+import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 
 const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
-    const [total, setTotal] = useState({ totalAmount: 0, totalFilledLoad: 0 })
-    const [trip, setTrip] = useState([])
+    const [total, setTotal] = useState({
+        totalAmount: 0,
+        totalFilledLoad: 0,
+        numberOfTrips: 0,
+        fromDate: 0,
+        endDate: 0
+    })
+    const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
 
     useEffect(() => {
         getInvoiceDetails(tripId)
@@ -22,7 +29,7 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
-        if (trip.length > 0) {
+        if (trip !== null) {
             setTotal(calculateTotals())
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,23 +37,66 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
     const calculateTotals = () => {
         let totalFilledLoad = 0
         let totalAmount = 0
-        trip.forEach((trip: tripDetailProps) => {
-            if (trip.stockPointToUnloadingPointTrip !== null) {
-                totalFilledLoad +=
-                    trip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.filledLoad * 2
+        let numberOfTrips = 0
+        let fromDate = 0
+        let endDate = 0
+        if (trip.loadingPointToStockPointTrip)
+            trip.loadingPointToStockPointTrip.map((loadingToStock) => {
+                fromDate =
+                    fromDate === 0
+                        ? loadingToStock.startDate
+                        : loadingToStock.startDate < fromDate
+                          ? loadingToStock.startDate
+                          : fromDate
+                endDate =
+                    endDate === 0
+                        ? loadingToStock.startDate
+                        : loadingToStock.startDate > endDate
+                          ? loadingToStock.startDate
+                          : endDate
+                numberOfTrips += 1
+                totalAmount += loadingToStock.freightAmount * loadingToStock.filledLoad
+                totalFilledLoad += loadingToStock.filledLoad
+            })
+        if (trip.loadingPointToUnloadingPointTrip)
+            trip.loadingPointToUnloadingPointTrip.map((loadingToUnloading) => {
+                fromDate =
+                    fromDate === 0
+                        ? loadingToUnloading.startDate
+                        : loadingToUnloading.startDate < fromDate
+                          ? loadingToUnloading.startDate
+                          : fromDate
+                endDate =
+                    endDate === 0
+                        ? loadingToUnloading.startDate
+                        : loadingToUnloading.startDate > endDate
+                          ? loadingToUnloading.startDate
+                          : endDate
+                numberOfTrips += 1
+                totalAmount += loadingToUnloading.freightAmount * loadingToUnloading.filledLoad
+                totalFilledLoad += loadingToUnloading.filledLoad
+            })
+        if (trip.stockPointToUnloadingPointTrip)
+            trip.stockPointToUnloadingPointTrip.map((stockToUnloading) => {
+                fromDate =
+                    fromDate === 0
+                        ? stockToUnloading.startDate
+                        : stockToUnloading.startDate < fromDate
+                          ? stockToUnloading.startDate
+                          : fromDate
+                endDate =
+                    endDate === 0
+                        ? stockToUnloading.startDate
+                        : stockToUnloading.startDate > endDate
+                          ? stockToUnloading.startDate
+                          : endDate
+                numberOfTrips += 1
                 totalAmount +=
-                    trip.loadingPointToStockPointTrip.filledLoad *
-                        trip.loadingPointToStockPointTrip.freightAmount +
-                    trip.loadingPointToStockPointTrip.filledLoad *
-                        trip.stockPointToUnloadingPointTrip.freightAmount
-            } else {
-                totalFilledLoad += trip.loadingPointToUnloadingPointTrip.filledLoad
-                totalAmount +=
-                    trip.loadingPointToUnloadingPointTrip.filledLoad *
-                    trip.loadingPointToUnloadingPointTrip.freightAmount
-            }
-        })
-        return { totalAmount, totalFilledLoad }
+                    stockToUnloading.freightAmount *
+                    stockToUnloading.loadingPointToStockPointTrip.filledLoad
+                totalFilledLoad += stockToUnloading.loadingPointToStockPointTrip.filledLoad
+            })
+        return { totalAmount, totalFilledLoad, numberOfTrips, fromDate, endDate }
     }
     return (
         <>
@@ -158,7 +208,10 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                                                 <h4 className="ta p-2">
                                                     Transportation charges for DEPOTS
                                                 </h4>
-                                                <p className="ta p-2">(20-01-2024 to 27-01-2024)</p>
+                                                <p className="ta p-2">
+                                                    ({epochToMinimalDate(total.fromDate)} to{' '}
+                                                    {epochToMinimalDate(total.endDate)})
+                                                </p>
                                             </div>
                                             <div style={{ height: '24px' }}>
                                                 <h3 className="ta p-2 bt">

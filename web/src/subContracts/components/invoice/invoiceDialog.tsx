@@ -9,6 +9,7 @@ import Chettinad_Ariyalur from './invoiceFormat/Chettinad/chettinadAriyalur'
 import Chettinad_Karikkali_Stock from './invoiceFormat/Chettinad/chettinadKarikali'
 import UltraTech_APCW, { UltraTechProps } from './invoiceFormat/UltraTech/ultraTech-APCW'
 import { downloadPdf } from './invoiceFormat/downloadPdf'
+import Dalmia_Dalmiapuram_Invoice from './invoiceFormat/Dalmia/dalmiaDalmiapuram'
 
 const InvoiceDialog: React.FC<UltraTechProps> = ({
     tripId,
@@ -34,17 +35,17 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
         }
     }, [open])
     const handleDownload = async () => {
-        let companyTagID
+        let companyTagID = ''
         let annexureTagID = ''
         switch (company) {
-            case 'ULTRATECH CEMENT LIMITED,TADIPATRI':
+            case 'UltraTech Cements': // ULTRATECH CEMENT LIMITED,TADIPATRI
                 companyTagID = 'ultratech_main'
                 break
             case 'Chettinad Cement Corporation Private Ltd. Ariyalur':
                 companyTagID = 'chettinad-ariyalur-section'
                 annexureTagID = 'chettinad_annexure_main'
                 break
-            case 'Chettinad Cement Corporation Private Ltd,Karikkali':
+            case 'Chettinad Cements Karikali': // Chettinad Cement Corporation Private Ltd,Karikkali
                 companyTagID = 'chettinad-karikali-section'
                 annexureTagID = 'chettinad_annexure_main'
                 break
@@ -57,10 +58,10 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 annexureTagID = 'dalmia_annexure_section'
                 break
         }
-        if (companyTagID) {
+        if (companyTagID !== '') {
             const invoiceData: HTMLElement | null = document.getElementById(companyTagID)
             const annexureData: HTMLElement | null = document.getElementById(annexureTagID)
-            await downloadPdf(invoiceData, annexureData, 'p', 'mm', [1500, 1300], company)
+            await downloadPdf(invoiceData, annexureData, company)
                 .then(updateInvoice)
                 .then(() => setOpen(false))
         }
@@ -94,8 +95,8 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                         loading={loading}
                     />
                 )
-            // case 'Dalmia Cements':
-            //     return <Dalmia_Dalmiapuram_Invoice />
+            case 'Dalmia Cements':
+                return <Dalmia_Dalmiapuram_Invoice />
         }
     }
     return (

@@ -1,8 +1,8 @@
-import { Controller } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 import { TextField } from '@mui/material'
 
 interface TextInputProps {
-    control: any
+    control: Control
     label: string
     fieldName: string
 }

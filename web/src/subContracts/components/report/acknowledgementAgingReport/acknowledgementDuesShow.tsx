@@ -140,7 +140,7 @@ const ListAllAcknowledgementDueDetails: React.FC<listoverallTripProps> = ({
             <br />
             <div style={{ float: 'right' }}>
                 <Button onClick={() => download(acknowledgementDueDetails)} variant="contained">
-                    Download CSV
+                    Generate Form
                 </Button>
             </div>
             <TableContainer component={Paper}>

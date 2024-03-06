@@ -107,7 +107,7 @@ const ListAllDiscrepancyReportDetails: React.FC<listoverallTripProps> = ({
             <br />
             <div style={{ float: 'right' }}>
                 <Button onClick={() => download(discrepancyDueDetails)} variant="contained">
-                    Download CSV
+                    Generate Form
                 </Button>
             </div>
             <TableContainer component={Paper}>

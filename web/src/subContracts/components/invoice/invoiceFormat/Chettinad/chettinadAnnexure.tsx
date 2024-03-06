@@ -1,18 +1,9 @@
 import { FC } from 'react'
 import dayjs from 'dayjs'
-import {
-    AnnexureProps,
-    InvoiceProps,
-    LoadingToStockPointProps,
-    LoadingToUnloadingPointProps,
-    StockToUnloadingPointProps
-} from '../../interface'
+import { AnnexureProps, StockToUnloadingPointProps, rowProps } from '../../interface'
+import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 
-// const getFreightAmount = (trip: InvoiceProps) => {
-//     return trip.loadingPointToStockPointTrip !== null ? trip.stockPointToUnloadingPointTrip.freightAmount : trip.loadingPointToUnloadingPointTrip.freightAmount
-// }
 const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
-    console.log(tripDetails)
     return (
         <section style={{ padding: '20px' }} id="chettinad_annexure_main">
             <main className="chettinad_annexure_main">
@@ -84,21 +75,24 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, tot
                                 <th>RATE/TON</th>
                                 <th>FREIGHT</th>
                             </tr>
-                            {tripDetails.map((trip: InvoiceProps, index: number) => {
-                                if (
-                                    trip.stockPointToUnloadingPointTrip !== null &&
-                                    trip.stockPointToUnloadingPointTrip !== undefined
-                                )
-                                    return loadingToStockTable(trip, index)
-                                else if (
-                                    trip.loadingPointToUnloadingPointTrip !== null &&
-                                    trip.loadingPointToUnloadingPointTrip !== undefined
-                                )
-                                    return loadingToUnloadingTable(
-                                        trip.loadingPointToUnloadingPointTrip,
-                                        index
-                                    )
-                            })}
+                            {tripDetails &&
+                                tripDetails.loadingPointToUnloadingPointTrip.map(
+                                    (loadingToUnloading, index) => {
+                                        return tableRow(loadingToUnloading, index)
+                                    }
+                                )}
+                            {tripDetails &&
+                                tripDetails.loadingPointToStockPointTrip.map(
+                                    (loadingToStock, index) => {
+                                        return tableRow(loadingToStock, index)
+                                    }
+                                )}
+                            {tripDetails &&
+                                tripDetails.stockPointToUnloadingPointTrip.map(
+                                    (stockToUnloading, index) => {
+                                        return tableRowForStockToUnloading(stockToUnloading, index)
+                                    }
+                                )}
                             <tr>
                                 <td colSpan={6}>
                                     <h4>Total</h4>
@@ -118,11 +112,11 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, tot
                     <div className="details">
                         <div className="total">
                             <p>No of Challans :</p>
-                            <p>{tripDetails.length}</p>
+                            <p>{total.numberOfTrips}</p>
                         </div>
                         <div className="info">
                             <p>GST will be paid by Magnum Logistics</p>
-                            <p>GSTIN:33ABBFM2821M2ZD</p>
+                            <p>GSTIN : 33ABBFM2821M2ZD</p>
                         </div>
                         <div>
                             <p>Whether Tax Payment On Reverse charge Basis : NO</p>
@@ -139,50 +133,33 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, tot
 
 export default ChettinadAnnexure
 
-const loadingToUnloadingTable = (
-    trip: LoadingToUnloadingPointProps | LoadingToStockPointProps,
-    index: number
-) => {
-    console.log(index)
-
+const tableRow = (row: rowProps, index: number) => {
     return (
         <tr>
-            <td>1</td>
-            <td>{trip.startDate}</td>
-            <td>KW20175903</td>
-            <td>Chettinad Cement</td>
-            <td>Chandapura TDP</td>
-            <td>{trip.truck.vehicleNumber}</td>
-            <td>39.750</td>
-            <td>n</td>
-            <td>51,675.00</td>
+            <td>{index + 1}</td>
+            <td>{epochToMinimalDate(row.startDate)}</td>
+            <td>{row.invoiceNumber}</td>
+            <td></td>
+            <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
+            <td>{row.truck.vehicleNumber}</td>
+            <td>{row.filledLoad}</td>
+            <td>{row.freightAmount}</td>
+            <td>{row.filledLoad * row.freightAmount}</td>
         </tr>
     )
 }
 
-const tableRowForStockToUnloading = (stockTrip: StockToUnloadingPointProps, index: number) => {
-    console.log(stockTrip, index)
-
+const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
     return (
         <tr>
-            <td>1</td>
-            <td>20-01-2024</td>
-            <td>KW20175903</td>
-            <td>Chettinad Cement</td>
-            <td>Chandapura TDP</td>
-            <td>KA01AJ2855</td>
-            <td>39.750</td>
-            <td>n</td>
-            <td>51,675.00</td>
+            <td>{index + 1}</td>
+            <td>{epochToMinimalDate(row.startDate)}</td>
+            <td>{row.invoiceNumber}</td>
+            <td>{row.unloadingPoint.name}</td>
+            <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
+            <td>{row.loadingPointToStockPointTrip.filledLoad}</td>
+            <td>{row.freightAmount}</td>
+            <td>{row.loadingPointToStockPointTrip.filledLoad * row.freightAmount}</td>
         </tr>
-    )
-}
-
-const loadingToStockTable = (trip: InvoiceProps, index: number) => {
-    return (
-        <>
-            {loadingToUnloadingTable(trip.loadingPointToStockPointTrip, index)}
-            {tableRowForStockToUnloading(trip.stockPointToUnloadingPointTrip, index)}
-        </>
     )
 }

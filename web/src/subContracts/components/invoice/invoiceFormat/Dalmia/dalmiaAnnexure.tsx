@@ -41,7 +41,6 @@ const Dalmia_Annexure = () => {
                             </tbody>
                         </table>
                         <p>
-                            {' '}
                             <b>Bill Sequence: I000-0000126586</b>
                         </p>
                     </div>

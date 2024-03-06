@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 interface ActionButtonParams {
-    onClick: any
+    onClick: () => void
     displayText: string
 }
 

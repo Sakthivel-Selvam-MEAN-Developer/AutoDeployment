@@ -9,7 +9,7 @@ interface TextInputProps {
     value: number | string | undefined
     InputProps: object
     defaultValue: number | string | undefined
-    InputLabelProps: any
+    InputLabelProps: { shrink: boolean }
 }
 function InputWithDefaultValue({
     control,

@@ -26,8 +26,8 @@ const ListAllReport: React.FC = (): ReactElement => {
         })
     }, [])
     useEffect(() => {
-        const value = skipNumber * 5
-        const Trip = listoverallTrip.slice(value, value + 5)
+        const value = skipNumber * 15
+        const Trip = listoverallTrip.slice(value, value + 15)
         setTripWithPagination(Trip)
     }, [skipNumber, listoverallTrip])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {

@@ -36,7 +36,13 @@ describe('Final Due Logics Test', async () => {
             }
         ]
         const shortageAmount = 100
-        const actual = await finalDueLogic(overallTrip, paymentDueDetails, shortageAmount)
+        const tdsPercentage = 2.3
+        const actual = await finalDueLogic(
+            overallTrip,
+            paymentDueDetails,
+            shortageAmount,
+            tdsPercentage
+        )
         expect(actual).toEqual([
             {
                 name: 'Muthu Logistics',
@@ -44,7 +50,7 @@ describe('Final Due Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
-                payableAmount: 10700
+                payableAmount: 9872
             }
         ])
     })
@@ -82,7 +88,13 @@ describe('Final Due Logics Test', async () => {
             }
         ]
         const shortageAmount = 100
-        const actual = await finalDueLogic(overallTrip, paymentDueDetails, shortageAmount)
+        const tdsPercentage = 2.3
+        const actual = await finalDueLogic(
+            overallTrip,
+            paymentDueDetails,
+            shortageAmount,
+            tdsPercentage
+        )
         expect(actual).toEqual([
             {
                 name: 'Muthu Logistics',
@@ -90,7 +102,7 @@ describe('Final Due Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
-                payableAmount: 620
+                payableAmount: 588.95
             }
         ])
     })

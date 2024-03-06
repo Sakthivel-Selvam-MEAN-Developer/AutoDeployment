@@ -7,6 +7,7 @@ import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { createTrip } from '../../services/trip.ts'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
+import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 interface transporter {
     name: string
     transporterAmount: number
@@ -23,7 +24,6 @@ const NewTrip: React.FC = () => {
     const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
     const [freightAmount, setFreightAmount] = useState(0)
     const [transporterAmount, setTransporterAmount] = useState(0)
-    const [tdsPercentage, setTdsPercentage] = useState(0)
     const [totalTransporterAmount, setTotalTransporterAmount] = useState(0)
     const [totalFreightAmount, setTotalFreightAmount] = useState(0)
     const [margin, setMargin] = useState(0)
@@ -33,18 +33,12 @@ const NewTrip: React.FC = () => {
     const [clear, setClear] = useState<boolean>(false)
     const [ownTruckFuel, setownTruckFuel] = useState<boolean>(true)
     const [listTruck, setListTruck] = useState([])
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseFloat(filledLoad))
         setTotalTransporterAmount(transporterAmount * parseFloat(filledLoad))
         setMargin(totalFreightAmount - totalTransporterAmount)
-    }, [
-        filledLoad,
-        freightAmount,
-        transporterAmount,
-        totalFreightAmount,
-        totalTransporterAmount,
-        tdsPercentage
-    ])
+    }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (checkCondition(truckId, data, freightAmount)) {
@@ -52,7 +46,7 @@ const NewTrip: React.FC = () => {
             const freightAmountFloat = freightAmount.toFixed(2)
             const transporterAmountFloat = transporterAmount.toFixed(2)
             const totalFreightAmountFloat = totalFreightAmount.toFixed(2)
-            const totalTransporterAmountFloat = (totalTransporterAmount).toFixed(2)
+            const totalTransporterAmountFloat = totalTransporterAmount.toFixed(2)
             const marginFloat = margin.toFixed(2)
             const details = {
                 truckId: truckId,
@@ -70,10 +64,12 @@ const NewTrip: React.FC = () => {
             }
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
+                    .then(() => setOpenSuccessDialog(true))
                     .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
             else if (category === 'Unloading Point')
                 createTrip({ ...details, unloadingPointId: unloadingPointId })
+                    .then(() => setOpenSuccessDialog(true))
                     .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
         } else alert('All fields Required')
@@ -108,7 +104,6 @@ const NewTrip: React.FC = () => {
                 setFreightAmount={setFreightAmount}
                 transporterAmount={transporterAmount}
                 setTransporterAmount={setTransporterAmount}
-                setTdsPercentage={setTdsPercentage}
                 totalFreightAmount={totalFreightAmount}
                 totalTransporterAmount={totalTransporterAmount}
                 margin={margin}
@@ -123,6 +118,11 @@ const NewTrip: React.FC = () => {
                 listTruck={listTruck}
             />
             <SubmitButton name="Start" type="submit" />
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={() => setOpenSuccessDialog(false)}
+                message="Company creation is successful"
+            />
         </form>
     )
 }

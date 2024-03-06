@@ -2,8 +2,7 @@ import AutoComplete from '../../../form/AutoComplete.tsx'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Control } from 'react-hook-form'
 import { getAllTransporter } from '../../services/transporter.ts'
-import InputWithType from '../../../form/InputWithType.tsx'
-import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
+import VehicleForm from './vehicleForm.tsx'
 interface FormFieldProps {
     control: Control
     setTransporterId: React.Dispatch<React.SetStateAction<number>>
@@ -25,21 +24,7 @@ const VehicleFormField: React.FC<FormFieldProps> = ({ control, setTransporterId 
                     setTransporterId(id)
                 }}
             />
-            <InputWithType
-                control={control}
-                disabled={false}
-                label="Vehicle Number"
-                fieldName="vehicleNumber"
-                type="string"
-            />
-            <NumberInputWithProps
-                control={control}
-                label="Capacity"
-                fieldName="capacity"
-                type="number"
-                inputProps={{ step: 'any', min: '0' }}
-                InputProps={{}}
-            />
+            <VehicleForm control={control} />
         </div>
     )
 }

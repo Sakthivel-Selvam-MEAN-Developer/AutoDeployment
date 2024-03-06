@@ -121,7 +121,7 @@ const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, se
             <br />
             <div style={{ float: 'right' }}>
                 <Button onClick={() => download(transporterDueData)} variant="contained">
-                    Download CSV
+                    Generate Form
                 </Button>
             </div>
             <TableContainer component={Paper}>

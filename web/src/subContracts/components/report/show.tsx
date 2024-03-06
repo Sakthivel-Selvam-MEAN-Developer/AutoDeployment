@@ -38,6 +38,10 @@ interface Row {
 interface fuel {
     quantity: number
     totalprice: number
+    bunk: bunk
+}
+interface bunk {
+    bunkName: string
 }
 interface Props {
     acknowledgementStatus: boolean
@@ -66,11 +70,13 @@ function getTableHead() {
                 <TableCell align="left">Transporter</TableCell>
                 <TableCell align="left">CSM Name</TableCell>
                 <TableCell align="left">Loading Point</TableCell>
+                <TableCell align="left">Filled Load</TableCell>
                 <TableCell align="left">Freight Rate</TableCell>
                 <TableCell align="left">Tansporter Rate</TableCell>
                 <TableCell align="left">Total Freight Amount</TableCell>
                 <TableCell align="left">Total Tansporter Amount</TableCell>
                 <TableCell align="left">Margin</TableCell>
+                <TableCell align="left">Bunk Name</TableCell>
                 <TableCell align="left">Disel Quantity </TableCell>
                 <TableCell align="left">Disel Amount</TableCell>
                 <TableCell align="left">Trip Status</TableCell>
@@ -91,11 +97,15 @@ const getCells = (data: Row, num: number, type: string, details: Props) => {
             <TableCell align="left">{data.truck.transporter.name}</TableCell>
             <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{data.loadingPoint.name}</TableCell>
+            <TableCell align="left">{data.filledLoad}</TableCell>
             <TableCell align="left">{data.freightAmount}</TableCell>
             <TableCell align="left">{data.transporterAmount}</TableCell>
             <TableCell align="left">{data.totalFreightAmount}</TableCell>
             <TableCell align="left">{data.totalTransporterAmount}</TableCell>
             <TableCell align="left">{data.margin}</TableCell>
+            <TableCell align="left">
+                {fuel ? 'Not Fueled' : details.fuel[0].bunk.bunkName}
+            </TableCell>
             <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].quantity} </TableCell>
             <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].totalprice} </TableCell>
             <TableCell align="left">
@@ -226,7 +236,7 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
             <br />
             <div style={{ float: 'right' }}>
                 <Button onClick={() => download(listoverallTrip)} variant="contained">
-                    Download CSV
+                    Generate Form
                 </Button>
             </div>
             <div style={{ marginBottom: '20px' }}>
