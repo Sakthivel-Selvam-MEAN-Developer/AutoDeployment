@@ -6,12 +6,12 @@ interface dataProps {
 const finalDueLogic = async (
     overallTrip: any,
     paymentDueDetails: dataProps[],
-    shortageAmount: number
-    // tdsPercentage: number | null
+    shortageAmount: number,
+    tdsPercentage: number | null
 ) => {
     let amount = 0
     let dueDetails
-    // let tdsAmount
+    let tdsAmount
     paymentDueDetails.forEach((data: dataProps) => {
         amount += data.payableAmount
     })
@@ -20,22 +20,22 @@ const finalDueLogic = async (
             overallTrip.stockPointToUnloadingPointTrip !== null &&
             overallTrip.loadingPointToStockPointTrip?.totalTransporterAmount !== 0
         ) {
-            // tdsAmount =
-            //     (overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount +
-            //         overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-            //             .totalTransporterAmount) *
-            //     (tdsPercentage !== null ? tdsPercentage / 100 : 0)
+            tdsAmount =
+                (overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount +
+                    overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+                        .totalTransporterAmount) *
+                (tdsPercentage !== null ? tdsPercentage / 100 : 0)
             dueDetails = overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
             amount =
                 dueDetails.totalTransporterAmount +
                 overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount -
-                (amount + shortageAmount) // + tdsAmount
+                (amount + shortageAmount + tdsAmount)
         } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
-            // tdsAmount =
-            //     overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount *
-            //     (tdsPercentage !== null ? tdsPercentage / 100 : 0)
+            tdsAmount =
+                overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount *
+                (tdsPercentage !== null ? tdsPercentage / 100 : 0)
             dueDetails = overallTrip.loadingPointToUnloadingPointTrip
-            amount = dueDetails.totalTransporterAmount - (amount + shortageAmount) // + tdsAmount
+            amount = dueDetails.totalTransporterAmount - (amount + shortageAmount + tdsAmount)
         } else if (
             overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount === 0 &&
             overallTrip.loadingPointToStockPointTrip.totalTransporterAmount === 0

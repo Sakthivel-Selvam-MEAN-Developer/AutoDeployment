@@ -52,10 +52,7 @@ const NewTrip: React.FC = () => {
             const freightAmountFloat = freightAmount.toFixed(2)
             const transporterAmountFloat = transporterAmount.toFixed(2)
             const totalFreightAmountFloat = totalFreightAmount.toFixed(2)
-            const totalTransporterAmountFloat = (
-                totalTransporterAmount -
-                (totalTransporterAmount * tdsPercentage) / 100
-            ).toFixed(2)
+            const totalTransporterAmountFloat = (totalTransporterAmount).toFixed(2)
             const marginFloat = margin.toFixed(2)
             const details = {
                 truckId: truckId,

@@ -40,10 +40,10 @@ const getTransporterName = (overallTrip: any) => {
 export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {
     await closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
         .then(async (overallTrip) => {
-            // const transporterName = getTransporterName(overallTrip)
-            // const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
-            //     tdsPercentage: null
-            // }
+            const transporterName = getTransporterName(overallTrip)
+            const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
+                tdsPercentage: null
+            }
             const paymentDueDetails = await getDueByOverallTripId(overallTrip.id)
             const { shortageAmount } = (await getShortageQuantityByOverallTripId(
                 overallTrip.id
@@ -61,8 +61,8 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
                 return finalDueLogic(
                     overallTrip,
                     paymentDueDetails,
-                    shortageAmount
-                    // tdsPercentage
+                    shortageAmount,
+                    tdsPercentage
                 ).then((finalDue) => {
                     if (finalDue !== null) {
                         return createPaymentDues(finalDue)
