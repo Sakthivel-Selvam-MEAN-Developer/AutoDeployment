@@ -121,7 +121,7 @@ const NewTrip: React.FC = () => {
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={() => setOpenSuccessDialog(false)}
-                message="Company creation is successful"
+                message="Trip creation is successful"
             />
         </form>
     )

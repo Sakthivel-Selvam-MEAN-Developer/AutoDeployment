@@ -10,7 +10,8 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
         Geneva, Verdana, sans-serif;
 }
-#chettinad-karikali-section {
+#chettinad-karikali-section,
+#chettinad-ariyalur-section {
     padding: 100px 50px !important;
 }
 .chettinad-section {

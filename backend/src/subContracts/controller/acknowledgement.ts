@@ -54,20 +54,19 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
             ) {
                 if (
                     overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip?.truck
-                        .transporter.transporterType === 'Own'
+                        .transporter.transporterType !== 'Own'
                 ) {
-                    return
+                    return finalDueLogic(
+                        overallTrip,
+                        paymentDueDetails,
+                        shortageAmount,
+                        tdsPercentage
+                    ).then((finalDue) => {
+                        if (finalDue !== null) {
+                            return createPaymentDues(finalDue)
+                        }
+                    })
                 }
-                return finalDueLogic(
-                    overallTrip,
-                    paymentDueDetails,
-                    shortageAmount,
-                    tdsPercentage
-                ).then((finalDue) => {
-                    if (finalDue !== null) {
-                        return createPaymentDues(finalDue)
-                    }
-                })
             }
         })
         .then(() => res.sendStatus(200))

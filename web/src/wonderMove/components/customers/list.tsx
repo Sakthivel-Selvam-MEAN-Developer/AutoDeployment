@@ -9,7 +9,7 @@ interface CustomerListProps {}
 const CustomerList: React.FC<CustomerListProps> = () => {
     const navigate = useNavigate()
     const [customers, setCustomers] = useState<string[]>([])
-    const [selectedCustomer, setSelectedCustomer] = useState()
+    const [selectedCustomer, setSelectedCustomer] = useState<string>()
 
     useEffect(() => {
         getCustomers().then(setCustomers)

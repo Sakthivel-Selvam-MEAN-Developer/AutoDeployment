@@ -224,6 +224,7 @@ export interface AnnexureProps {
         numberOfTrips: number
         fromDate: number
         endDate: number
+        shortageQuantity: number
     }
 }
 export interface InvoiceProp {
@@ -239,12 +240,24 @@ export interface rowProps {
     stockPoint: {
         name: string
     }
+    loadingPoint: {
+        name: string
+    }
     freightAmount: number
     truck: {
         vehicleNumber: string
     }
     filledLoad: number
     invoiceNumber: string
+    overallTrip: [
+        {
+            shortageQuantity: [
+                {
+                    shortageQuantity: number
+                }
+            ]
+        }
+    ]
 }
 export interface LoadingToUnloadingPointProps {
     startDate: number
@@ -254,6 +267,18 @@ export interface LoadingToUnloadingPointProps {
     stockPoint: {
         name: string
     }
+    loadingPoint: {
+        name: string
+    }
+    overallTrip: [
+        {
+            shortageQuantity: [
+                {
+                    shortageQuantity: number
+                }
+            ]
+        }
+    ]
     freightAmount: number
     truck: {
         vehicleNumber: string
@@ -269,6 +294,18 @@ export interface LoadingToStockPointProps {
     unloadingPoint: {
         name: string
     }
+    loadingPoint: {
+        name: string
+    }
+    overallTrip: [
+        {
+            shortageQuantity: [
+                {
+                    shortageQuantity: number
+                }
+            ]
+        }
+    ]
     filledLoad: number
     freightAmount: number
     truck: {
@@ -287,6 +324,18 @@ export interface StockToUnloadingPointProps {
         truck: {
             vehicleNumber: string
         }
+        stockPoint: {
+            name: string
+        }
     }
     invoiceNumber: string
+    overallTrip: [
+        {
+            shortageQuantity: [
+                {
+                    shortageQuantity: number
+                }
+            ]
+        }
+    ]
 }

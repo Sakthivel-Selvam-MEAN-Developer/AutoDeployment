@@ -12,7 +12,7 @@ export function hasRole(role: string) {
         if (token == null) return res.sendStatus(401)
         const decodedToken = await jwt.decode(token)
         const userRoles = decodedToken.realm_access.roles
-        await jwt.verify(token, publickey, { algorithms: ['RS256'] }, async (err: any) => {
+        await jwt.verify(token, publickey, { algorithms: ['RS256'] }, async (err: Error) => {
             if (err) {
                 // decoded: any
                 // console.error('Token verification failed:', err)

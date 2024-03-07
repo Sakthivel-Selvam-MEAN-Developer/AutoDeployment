@@ -10,6 +10,7 @@ import Chettinad_Karikkali_Stock from './invoiceFormat/Chettinad/chettinadKarika
 import UltraTech_APCW, { UltraTechProps } from './invoiceFormat/UltraTech/ultraTech-APCW'
 import { downloadPdf } from './invoiceFormat/downloadPdf'
 import Dalmia_Dalmiapuram_Invoice from './invoiceFormat/Dalmia/dalmiaDalmiapuram'
+import Dalmia_Kadappa_Invoice from './invoiceFormat/Dalmia/dalmiaKadapa'
 
 const InvoiceDialog: React.FC<UltraTechProps> = ({
     tripId,
@@ -41,7 +42,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
             case 'UltraTech Cements': // ULTRATECH CEMENT LIMITED,TADIPATRI
                 companyTagID = 'ultratech_main'
                 break
-            case 'Chettinad Cement Corporation Private Ltd. Ariyalur':
+            case 'Chettinad Cements Ariyalur': // Chettinad Cement Corporation Private Ltd. Ariyalur
                 companyTagID = 'chettinad-ariyalur-section'
                 annexureTagID = 'chettinad_annexure_main'
                 break
@@ -49,11 +50,11 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 companyTagID = 'chettinad-karikali-section'
                 annexureTagID = 'chettinad_annexure_main'
                 break
-            case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
+            case 'Dalmia Cements Kadappa': // Dalmia Cement (Bharat) Limited,Dalmapuram
                 companyTagID = 'dalmia_kadappa_section'
                 annexureTagID = 'dalmia_annexure_section'
                 break
-            case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
+            case 'Dalmia Cements': // Dalmia Cement (Bharat) Limited,Jammalmadugu
                 companyTagID = 'dalmia_dalmiapuram_section'
                 annexureTagID = 'dalmia_annexure_section'
                 break
@@ -96,7 +97,23 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                     />
                 )
             case 'Dalmia Cements':
-                return <Dalmia_Dalmiapuram_Invoice />
+                return (
+                    <Dalmia_Dalmiapuram_Invoice
+                        tripId={tripId}
+                        lastBillNumber={lastBillNumber}
+                        setLoading={setLoading}
+                        loading={loading}
+                    />
+                )
+            case 'Dalmia Cements Kadappa':
+                return (
+                    <Dalmia_Kadappa_Invoice
+                        tripId={tripId}
+                        lastBillNumber={lastBillNumber}
+                        setLoading={setLoading}
+                        loading={loading}
+                    />
+                )
         }
     }
     return (

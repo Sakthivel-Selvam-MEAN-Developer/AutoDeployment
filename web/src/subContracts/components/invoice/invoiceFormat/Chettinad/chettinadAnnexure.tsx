@@ -75,19 +75,19 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, tot
                                 <th>RATE/TON</th>
                                 <th>FREIGHT</th>
                             </tr>
-                            {tripDetails &&
+                            {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToUnloadingPointTrip.map(
                                     (loadingToUnloading, index) => {
                                         return tableRow(loadingToUnloading, index)
                                     }
                                 )}
-                            {tripDetails &&
+                            {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToStockPointTrip.map(
                                     (loadingToStock, index) => {
                                         return tableRow(loadingToStock, index)
                                     }
                                 )}
-                            {tripDetails &&
+                            {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.stockPointToUnloadingPointTrip.map(
                                     (stockToUnloading, index) => {
                                         return tableRowForStockToUnloading(stockToUnloading, index)

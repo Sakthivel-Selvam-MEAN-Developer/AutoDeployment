@@ -1,0 +1,1668 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] = `
+<DocumentFragment>
+  <section
+    id="chettinad-ariyalur-section"
+    style="padding: 20px;"
+  >
+    <main
+      class="chettinad-ariyalur-main bb bt br bl"
+    >
+      <div
+        class="df jsp bb"
+      >
+        <div
+          style="width: 60vw;"
+        >
+          <h4
+            class="p-2"
+          >
+            GSTIN NO : 33ABBFM2821M2ZD
+          </h4>
+          <p
+            class="p-2"
+          >
+            Tax Is Payable On Reverse Charge : (Yes/No) : No
+          </p>
+          <h4
+            class="p-2"
+          >
+            Vendor Code : 3600428
+          </h4>
+        </div>
+        <div
+          class="bl pr"
+          style="width: 40vw;"
+        >
+          <h4
+            class="p-2"
+          >
+            INVOICE NO : AW/ML/24-24/48
+          </h4>
+          <h4
+            class="p-2"
+          >
+            DATE : 31/05/2021
+          </h4>
+          <h4
+            class="p-2"
+          >
+            PAN No : ABBFM2821M2
+          </h4>
+        </div>
+      </div>
+      <div
+        class="df jsp bb"
+      >
+        <div
+          style="width: 60vw;"
+        >
+          <div
+            class="pl pt pb pr bb bg"
+          >
+            <h4
+              class="ta"
+            >
+              Details of Service Receiver(Billed to)
+            </h4>
+          </div>
+          <div
+            class="pl"
+          >
+            <p
+              class="df p-2"
+            >
+              M/s Chettinad Cement Corporation Private Ltd.
+            </p>
+            <p
+              class="p-2"
+            >
+              Ariyalur Trichy Road, Keelapaluvur (p.o),
+            </p>
+            <p
+              class="p-2"
+            >
+              Ariyalur District - 621707
+            </p>
+            <p
+              class="p-2"
+            >
+              Tamilnadu, India.
+            </p>
+            <p
+              class="p-2"
+            >
+              State Code : 33
+            </p>
+            <p
+              class="p-2"
+            >
+              GSTIN Number : 33AAACC3130A1ZQ
+            </p>
+          </div>
+        </div>
+        <div
+          class="bl pb other-details"
+          style="width: 40vw;"
+        >
+          <div
+            class="pt pb pr bb"
+            style="background-color: rgba(0, 0, 0, 0.129);"
+          >
+            <h4
+              class="ta"
+            >
+              Other Details
+            </h4>
+          </div>
+          <div
+            class="pl details df-fc"
+          >
+            <div
+              class="df p-2"
+            >
+              <p>
+                PO Reference
+              </p>
+              <p>
+                -
+              </p>
+            </div>
+            <div
+              class="df p-2"
+            >
+              <p>
+                PO Date
+              </p>
+              <p>
+                -
+              </p>
+            </div>
+            <div
+              class="df p-2"
+            >
+              <p>
+                Product Transported
+              </p>
+              <p>
+                Cement
+              </p>
+            </div>
+            <div
+              class="df p-2"
+            >
+              <p>
+                Vessel Name
+              </p>
+              <p>
+                -
+              </p>
+            </div>
+            <div
+              class="df p-2"
+            >
+              <p>
+                Mode of Transpot
+              </p>
+              <p>
+                By Truck
+              </p>
+            </div>
+            <div
+              class="df p-2"
+            >
+              <p>
+                Financial Year
+              </p>
+              <p>
+                2023-2024
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="df bb"
+        style="height: 154px;"
+      >
+        <div
+          class="br"
+          style="width: 7vw;"
+        >
+          <div
+            style="height: 130px;"
+          >
+            <h4
+              class="df jc ai bb bg"
+              style="height: 24px;"
+            >
+              S.NO
+            </h4>
+            <p
+              class="ta"
+            >
+              1
+            </p>
+          </div>
+          <p
+            class="bt bg bb"
+            style="height: 24px;"
+          />
+        </div>
+        <div
+          class="br"
+          style="width: 24vw;"
+        >
+          <div
+            style="height: 130px;"
+          >
+            <h4
+              class="df jc ai bb bg"
+              style="height: 24px;"
+            >
+              Description of Servics
+            </h4>
+            <div>
+              <p
+                class="pl pt pb"
+              >
+                TRANSPORTATION CHARGES
+              </p>
+              <small
+                class="p-2"
+              >
+                Period:
+              </small>
+              <br />
+              <small
+                class="p-2"
+              >
+                From : 01/01/1970
+              </small>
+              <br />
+              <small
+                class="p-2"
+              >
+                To : 01/01/1970
+              </small>
+            </div>
+          </div>
+          <p
+            class="df jc ai bt bg bb"
+            style="height: 24px;"
+          />
+        </div>
+        <div
+          class="br"
+          style="width: 9vw;"
+        >
+          <div
+            style="height: 130px;"
+          >
+            <h5
+              class="df jc ai bb bg"
+              style="height: 24px;"
+            >
+              HSN/SAC
+            </h5>
+            <p
+              class="ta df jc ai"
+              style="height: 50px;"
+            >
+              996791
+            </p>
+          </div>
+          <p
+            class="df jc ai bt bg bb"
+            style="height: 24px;"
+          />
+        </div>
+        <div
+          class="br"
+          style="width: 9vw;"
+        >
+          <div
+            style="height: 130px;"
+          >
+            <h4
+              class="df jc ai bb bg"
+              style="height: 24px;"
+            >
+              Qty
+            </h4>
+            <p
+              class="ta df jc ai"
+              style="height: 50px;"
+            >
+              0
+            </p>
+          </div>
+          <p
+            class="df jc ai ta bt bg bb"
+            style="height: 24px;"
+          >
+            0
+          </p>
+        </div>
+        <div
+          class="br"
+          style="width: 7vw;"
+        >
+          <div
+            style="height: 130px;"
+          >
+            <h4
+              class="df jc ai bb bg"
+              style="height: 24px;"
+            >
+              UOM
+            </h4>
+            <p />
+          </div>
+          <p
+            class="df jc ai bt bg bb"
+            style="height: 24px;"
+          />
+        </div>
+        <div
+          class="df-fc"
+        >
+          <div
+            class="df"
+            style="height: 145px;"
+          >
+            <div
+              class="br bb"
+              style="width: 7vw;"
+            >
+              <h4
+                class="df jc ai bb bg"
+                style="height: 24px;"
+              >
+                Rate
+              </h4>
+              <p
+                class="ta df jc ai"
+                style="height: 50px;"
+              >
+                As Per Annexure
+              </p>
+            </div>
+            <div
+              class="br bb"
+              style="width: 13vw;"
+            >
+              <h4
+                class="df jc ai bb bg"
+                style="height: 24px;"
+              >
+                Total
+              </h4>
+              <p
+                class="ta df jc ai"
+                style="height: 50px;"
+              >
+                0
+              </p>
+            </div>
+            <div
+              class="br bb"
+              style="width: 9vw;"
+            >
+              <h4
+                class="df jc ai bb bg"
+                style="height: 24px;"
+              >
+                Discount
+              </h4>
+              <p
+                class="ta df jc ai"
+                style="height: 50px;"
+              >
+                -
+              </p>
+            </div>
+            <div
+              class="bb"
+              style="width: 15vw;"
+            >
+              <h4
+                class="df jc ai bb bg"
+                style="height: 24px;"
+              >
+                Taxable value
+              </h4>
+              <p
+                class="df je ai pr"
+                style="height: 50px;"
+              >
+                0
+              </p>
+            </div>
+          </div>
+          <div
+            class="df jsp bg"
+            style="height: 20px;"
+          >
+            <p
+              class="df jc ai pl"
+            >
+              Total Amount Before Tax
+            </p>
+            <p
+              class="df jc ai pr"
+            >
+               0
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="df-fc"
+      >
+        <div
+          class="df jsp"
+        >
+          <div
+            class="br"
+            style="width: 70vw;"
+          >
+            <h5
+              class="ta p-2 bb bg"
+              style="height: 24px;"
+            >
+              Total Invoice Value (Rupees In Words)
+            </h5>
+            <h4
+              class="df jc ai"
+              style="height: 100px;"
+            >
+              Ten Lakhs Only
+            </h4>
+          </div>
+          <div
+            class="df"
+          >
+            <div
+              class="df-fc br jsp"
+              style="width: 15vw; height: 150px;"
+            >
+              <div
+                class="df jsp gst"
+              >
+                <div>
+                  <h5
+                    class="ta p-2 bb br bg"
+                    style="height: 24px;"
+                  >
+                    GST
+                  </h5>
+                  <p
+                    class="ta p-2"
+                  >
+                    SGST
+                  </p>
+                  <p
+                    class="ta p-2"
+                  >
+                    CGST
+                  </p>
+                </div>
+                <div>
+                  <h5
+                    class="ta p-2 bb bg"
+                    style="height: 24px;"
+                  >
+                    Rate
+                  </h5>
+                  <p
+                    class="ta p-2"
+                  >
+                    6%
+                  </p>
+                  <p
+                    class="ta p-2"
+                  >
+                    6%
+                  </p>
+                </div>
+              </div>
+              <div
+                class="pl"
+              >
+                <h5
+                  class="p-2"
+                >
+                  Total TAX Amount
+                </h5>
+                <h5
+                  class="p-2"
+                >
+                  Round Off
+                </h5>
+              </div>
+            </div>
+            <div
+              class="df-fc jsp"
+              style="width: 15vw; height: 150px;"
+            >
+              <div>
+                <p
+                  class="te bb bg"
+                  style="height: 24px;"
+                />
+                <p
+                  class="te p-2"
+                >
+                  0
+                </p>
+                <p
+                  class="te p-2"
+                >
+                  0
+                </p>
+              </div>
+              <div>
+                <p
+                  class="te p-2"
+                >
+                  0.00
+                </p>
+                <p
+                  class="te p-2"
+                >
+                  0.00
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="df je bt"
+        >
+          <h5
+            class="te p-2 br"
+          >
+            Total Amount After TAX
+          </h5>
+          <h4
+            class="df je p-2"
+            style="width: 15vw;"
+          >
+            0.00
+          </h4>
+        </div>
+      </div>
+      <div
+        class="bg bt p-2"
+      >
+        <p>
+          GST is payable by the service recipitent.
+        </p>
+      </div>
+      <div
+        class="bg bt p-2"
+      >
+        <p>
+          Certified that the Particulars given above are true and correct.
+        </p>
+      </div>
+      <div
+        class="bt p-2"
+      >
+        <p>
+          We have taken registration under the CGST Act,2017 and have exercised the option to pay tax on services of GTA in relation to transport of Goods supplied by us during the financial year 2023-2024 under the forward charge.
+        </p>
+      </div>
+      <div
+        class="df jsp bt"
+      >
+        <div
+          class="br"
+          style="width: 70vw;"
+        >
+          <h4
+            class="ta p-2 bb bg"
+          >
+            BANK DETAILS
+          </h4>
+          <div
+            class="df-fc jc"
+            style="height: 150px;"
+          >
+            <p
+              class="p-2"
+            >
+              Bank Name : Indian Overseas Bank
+            </p>
+            <p
+              class="p-2"
+            >
+              Branch : Kollampalayam
+            </p>
+            <p
+              class="p-2"
+            >
+              Acount No: 159433000055555
+            </p>
+            <p
+              class="p-2"
+            >
+              IFCS Code : IOBA0001594
+            </p>
+          </div>
+        </div>
+        <div
+          style="width: 30vw;"
+        >
+          <h4
+            class="ta p-2 bb bg"
+          >
+            for MAGNUM LOGISTICS
+          </h4>
+          <img
+            alt="signature"
+            class="p-2"
+            src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
+            style="padding: 15px; width: inherit;"
+          />
+          <div>
+            <h5
+              class="p-2 ta bg bt bb"
+            >
+              Authorised Signatory
+            </h5>
+            <div
+              class="pb pt pl"
+            >
+              <h5
+                class="p-2"
+              >
+                Name : Sureshkumar V
+              </h5>
+              <h5
+                class="p-2"
+              >
+                Designation : MANAGER
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+  <hr
+    style="margin: 0px 20px;"
+  />
+  <section
+    id="chettinad_annexure_main"
+    style="padding: 20px;"
+  >
+    <main
+      class="chettinad_annexure_main"
+    >
+      <div
+        class="header"
+      >
+        <div
+          class="magnum-address"
+        >
+          <h2>
+            MAGNUM LOGISTICS
+          </h2>
+          <p>
+            30/A, Attayampalayam, Anthetti Thottam, Gangapuram
+          </p>
+          <p>
+            Erode(Dt), Tamilnadu-638 102, Ph: 8220018402
+          </p>
+          <p>
+            Email Id : magnumlogistics.erd@gmail.com
+          </p>
+        </div>
+      </div>
+      <div
+        class="margin"
+      >
+        <div
+          class="company-address"
+        >
+          <h4>
+            TO
+          </h4>
+          <p>
+            Chettinad Cement Corpn Ltd.,
+          </p>
+          <p>
+            Rani Meyyammai Nagar,Karikkali,
+          </p>
+          <p>
+            Vedasandur.TK, Dindigul.DT-62470
+          </p>
+          <p>
+            Karikkali.
+          </p>
+        </div>
+        <div
+          class="magnum-details"
+        >
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                BILL NO
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              MGL23A-1
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                DATE
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              31-05-2021
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                PAN No
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              ABBFM2821M2
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                GST No
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              33ABBFM2821M2ZD
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                Vendor Code
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              3600428
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="table"
+      >
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                S.NO
+              </th>
+              <th>
+                DATE
+              </th>
+              <th>
+                INVOICE NO
+              </th>
+              <th>
+                PARTY NAME
+              </th>
+              <th>
+                DESTINATION
+              </th>
+              <th>
+                TRUCK NO
+              </th>
+              <th>
+                Inv Qty
+              </th>
+              <th>
+                RATE/TON
+              </th>
+              <th>
+                FREIGHT
+              </th>
+            </tr>
+            <tr>
+              <td
+                colspan="6"
+              >
+                <h4>
+                  Total
+                </h4>
+              </td>
+              <td>
+                <h4>
+                  0
+                </h4>
+              </td>
+              <td />
+              <td>
+                <h4>
+                  0
+                </h4>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="details"
+        >
+          <div
+            class="total"
+          >
+            <p>
+              No of Challans :
+            </p>
+            <p>
+              0
+            </p>
+          </div>
+          <div
+            class="info"
+          >
+            <p>
+              GST will be paid by Magnum Logistics
+            </p>
+            <p>
+              GSTIN : 33ABBFM2821M2ZD
+            </p>
+          </div>
+          <div>
+            <p>
+              Whether Tax Payment On Reverse charge Basis : NO
+            </p>
+          </div>
+        </div>
+        <div
+          class="sign"
+        >
+          <p>
+            For Magnum Logistics
+          </p>
+        </div>
+      </div>
+    </main>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] = `
+<DocumentFragment>
+  <section
+    class="chettinad-section"
+    id="chettinad-karikali-section"
+    style="padding: 20px;"
+  >
+    <main
+      class="chettinad-main bt bb bl br df-fc"
+    >
+      <div
+        class="head bb pt pb"
+      >
+        <h1>
+          TAX INVOICE
+        </h1>
+      </div>
+      <div
+        class="transportation df-fc bb"
+      >
+        <div
+          class="pan df jc"
+        >
+          <div
+            class="df-fc"
+          >
+            <h2
+              class="ta bb br p-2"
+            >
+              TRANSPORTATION BILL
+            </h2>
+            <p
+              class="p-5 bb br"
+            >
+              PAN.NO : ABBFM2821M
+            </p>
+          </div>
+          <div
+            class="date df-fc jsp"
+          >
+            <div
+              class="df jsp bb"
+            >
+              <p
+                class="p-5 br"
+              >
+                Bill No
+              </p>
+              <p
+                class="p-5"
+              >
+                MGL23A-1
+              </p>
+            </div>
+            <div
+              class="df jsp bb"
+            >
+              <p
+                class="p-5 br"
+              >
+                Date
+              </p>
+              <p
+                class="p-5"
+              >
+                31/05/2021
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p
+            class="p-5 bb"
+          >
+            GSTIN : 33ABBFM2821M2ZD
+          </p>
+        </div>
+        <div>
+          <p
+            class="p-5"
+          >
+            Tax is payable on reverse charges : NO
+          </p>
+        </div>
+      </div>
+      <div
+        class="df"
+      >
+        <div
+          class="billing-address bb br df-fc"
+        >
+          <div
+            class="bb"
+          >
+            <h3
+              class="ta p-2"
+            >
+              BILLING ADDRESS
+            </h3>
+          </div>
+          <div>
+            <div
+              class="p-5"
+            >
+              <h4
+                class="p-2"
+              >
+                M/s . Chettinad Cement Corporation Private Ltd
+              </h4>
+              <p
+                class="p-2"
+              >
+                Rani Meyyammai nagar, Karikkali,
+              </p>
+              <p
+                class="p-2"
+              >
+                Vedasandur.TK, Dindigul.DT-624703
+              </p>
+              <p
+                class="p-2"
+              >
+                Tamilnadu (state code: 33)
+              </p>
+            </div>
+            <div>
+              <h3
+                class="pl pb"
+              >
+                GSTIN: 33AAACC3130A1ZQ, PAN :AAACC3130A
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div
+          class="shipping-details bb"
+        >
+          <div
+            class="bb"
+          >
+            <h3
+              class="ta p-2"
+            >
+              Shipping details
+            </h3>
+          </div>
+          <div
+            class="df-fc ai p-5"
+          >
+            <div
+              class="df jc p-2"
+            >
+              <h3
+                style="text-decoration: underline;"
+              >
+                Commodity
+              </h3>
+              <span>
+                 : 
+              </span>
+              <p>
+                Cement
+              </p>
+            </div>
+            <div
+              class="df ai jc p-2"
+            >
+              <h2
+                style="text-decoration: underline;"
+              >
+                Vendor Code
+              </h2>
+              <span>
+                 : 
+              </span>
+              <h2>
+                3600428
+              </h2>
+            </div>
+            <h4
+              class="p-2"
+              style="text-decoration: underline;"
+            >
+              Area of Transport
+            </h4>
+            <p
+              class="p-2"
+            >
+              Karnataka
+            </p>
+          </div>
+          <div
+            class="pb bt pt"
+          >
+            <p
+              class="ta"
+            >
+              (Details enclosed)
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="amount df bb"
+      >
+        <div
+          class="description-of-service"
+        >
+          <div
+            class="df bb br"
+          >
+            <h3
+              class="ta br"
+              style="width: 100px;"
+            >
+              S.NO
+            </h3>
+            <h3
+              class="ta"
+              style="width: 100%;"
+            >
+              Description of service
+            </h3>
+          </div>
+          <div
+            class="df br"
+            style="height: 100px;"
+          >
+            <p
+              class="ta br pt pb"
+              style="width: 100px;"
+            >
+              1
+            </p>
+            <div
+              class="df-fc pt pb jsp"
+            >
+              <div>
+                <h4
+                  class="ta p-2"
+                >
+                  Transportation charges for DEPOTS
+                </h4>
+                <p
+                  class="ta p-2"
+                >
+                  (01/01/1970 to 01/01/1970)
+                </p>
+              </div>
+              <div
+                style="height: 24px;"
+              >
+                <h3
+                  class="ta p-2 bt"
+                >
+                  Total Amount Before Tax
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="df"
+        >
+          <div
+            class="df-fc jsp br"
+          >
+            <div>
+              <h3
+                class="ta bb"
+              >
+                SAC
+              </h3>
+              <p
+                class="ta pt"
+              >
+                996791
+              </p>
+            </div>
+            <p
+              class="pb bt"
+              style="height: 29px;"
+            />
+          </div>
+          <div
+            class="df-fc jsp br"
+          >
+            <div>
+              <h3
+                class="ta bb"
+              >
+                Qty
+              </h3>
+              <p
+                class="ta pt"
+              >
+                0
+              </p>
+            </div>
+            <h3
+              class="ta p-2 bt"
+              style="height: 29px;"
+            >
+              0
+            </h3>
+          </div>
+          <div
+            class="df-fc jsp br"
+          >
+            <div>
+              <h3
+                class="ta bb"
+              >
+                UOM
+              </h3>
+              <p
+                class="ta pt"
+              >
+                MTS
+              </p>
+            </div>
+            <p
+              class="p-2 bt"
+              style="height: 29px;"
+            />
+          </div>
+          <div
+            class="df-fc jsp"
+          >
+            <div>
+              <h3
+                class="ta bb"
+                style="width: 200px;"
+              >
+                Taxable Value
+              </h3>
+              <p
+                class="te pt pr"
+              >
+                0
+              </p>
+            </div>
+            <h3
+              class="te p-2 bt"
+              style="height: 29px; width: 200px;"
+            >
+              0
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div
+        class="df"
+      >
+        <div />
+        <div
+          class="df-fc bl"
+        >
+          <div
+            class="df jsp bb"
+          >
+            <p
+              class="p-2"
+            >
+              Add : CGST
+            </p>
+            <p
+              class="p-2"
+            >
+              6%
+            </p>
+            <p
+              class="te p-2 bl"
+              style="width: 202px;"
+            >
+              0
+            </p>
+          </div>
+          <div
+            class="df jsp bb"
+          >
+            <p
+              class="p-2"
+            >
+              Add : SGST
+            </p>
+            <p
+              class="p-2"
+            >
+              6%
+            </p>
+            <p
+              class="te p-2 bl"
+              style="width: 202px;"
+            >
+              0
+            </p>
+          </div>
+          <div
+            class="df jsp bb"
+          >
+            <p
+              class="p-2"
+            >
+              Add : IGST
+            </p>
+            <p
+              class="p-2"
+            >
+              12%
+            </p>
+            <p
+              class="te p-2 bl"
+              style="width: 202px;"
+            />
+          </div>
+          <div
+            class="df jsp bb"
+          >
+            <p
+              class="p-2"
+            >
+              Total Tax Amount : GST
+            </p>
+            <p
+              class="te p-2 bl"
+              style="width: 202px;"
+            >
+              0
+            </p>
+          </div>
+          <div
+            class="df jsp bb"
+          >
+            <p
+              class="p-2"
+            >
+              Round Off
+            </p>
+            <p
+              class="te p-2 bl"
+              style="width: 202px;"
+            >
+              0.00
+            </p>
+          </div>
+          <div
+            class="df jsp"
+          >
+            <h4
+              class="p-2"
+            >
+              Total Amount After Tax
+            </h4>
+            <h3
+              class="te p-2 bl"
+              style="width: 202px;"
+            >
+              0.00
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bt pt pb pl pr"
+      >
+        <h4>
+          Total invoice value ( in words) :Ten Lakhs Only
+        </h4>
+      </div>
+      <div
+        class="bt pt pb pl pr"
+      >
+        <p>
+          We have taken registration under the CGST Act,2017 and have exercised the option to pay tax on services of GTA in relation to transport of Goods supplied by us during the financial year 2023-2024 under the forward charge.
+        </p>
+      </div>
+      <div
+        class="bt pt pb pl pr"
+      >
+        <p>
+          Certified that the particulars given above are true and correct.
+        </p>
+      </div>
+      <div
+        class="df bt"
+      >
+        <div
+          class="br"
+        >
+          <h4
+            class="bb p-2 ta"
+          >
+            Kindly pass the above bill and credit the
+          </h4>
+          <div
+            class="pt pb pr pl"
+          >
+            <h4
+              class="pb"
+            >
+              BANK DETAILS
+            </h4>
+            <h4
+              class="p-2"
+            >
+              Bank Name : Indian Overseas Bank
+            </h4>
+            <h4
+              class="p-2"
+            >
+              Branch : Kollampalayam
+            </h4>
+            <h4
+              class="p-2"
+            >
+              Acount No: 159433000055555
+            </h4>
+            <h4
+              class="p-2"
+            >
+              IFCS Code : IOBA0001594
+            </h4>
+          </div>
+        </div>
+        <div
+          class="df-fc jsp ai"
+        >
+          <h3
+            class="ta p-2"
+          >
+            For Magnum Logistics
+          </h3>
+          <img
+            alt="signature"
+            src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
+            style="width: 300px;"
+          />
+          <h4
+            class="ta pb"
+          >
+            Authorised Signatory
+          </h4>
+        </div>
+      </div>
+    </main>
+  </section>
+  <hr
+    style="margin: 0px 20px;"
+  />
+  <section
+    id="chettinad_annexure_main"
+    style="padding: 20px;"
+  >
+    <main
+      class="chettinad_annexure_main"
+    >
+      <div
+        class="header"
+      >
+        <div
+          class="magnum-address"
+        >
+          <h2>
+            MAGNUM LOGISTICS
+          </h2>
+          <p>
+            30/A, Attayampalayam, Anthetti Thottam, Gangapuram
+          </p>
+          <p>
+            Erode(Dt), Tamilnadu-638 102, Ph: 8220018402
+          </p>
+          <p>
+            Email Id : magnumlogistics.erd@gmail.com
+          </p>
+        </div>
+      </div>
+      <div
+        class="margin"
+      >
+        <div
+          class="company-address"
+        >
+          <h4>
+            TO
+          </h4>
+          <p>
+            Chettinad Cement Corpn Ltd.,
+          </p>
+          <p>
+            Rani Meyyammai Nagar,Karikkali,
+          </p>
+          <p>
+            Vedasandur.TK, Dindigul.DT-62470
+          </p>
+          <p>
+            Karikkali.
+          </p>
+        </div>
+        <div
+          class="magnum-details"
+        >
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                BILL NO
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              MGL23A-1
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                DATE
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              31-05-2021
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                PAN No
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              ABBFM2821M2
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                GST No
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              33ABBFM2821M2ZD
+            </div>
+          </div>
+          <div
+            class="list"
+          >
+            <div>
+              <div>
+                Vendor Code
+              </div>
+              <div>
+                :
+              </div>
+            </div>
+            <div>
+              3600428
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="table"
+      >
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                S.NO
+              </th>
+              <th>
+                DATE
+              </th>
+              <th>
+                INVOICE NO
+              </th>
+              <th>
+                PARTY NAME
+              </th>
+              <th>
+                DESTINATION
+              </th>
+              <th>
+                TRUCK NO
+              </th>
+              <th>
+                Inv Qty
+              </th>
+              <th>
+                RATE/TON
+              </th>
+              <th>
+                FREIGHT
+              </th>
+            </tr>
+            <tr>
+              <td
+                colspan="6"
+              >
+                <h4>
+                  Total
+                </h4>
+              </td>
+              <td>
+                <h4>
+                  0
+                </h4>
+              </td>
+              <td />
+              <td>
+                <h4>
+                  0
+                </h4>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="details"
+        >
+          <div
+            class="total"
+          >
+            <p>
+              No of Challans :
+            </p>
+            <p>
+              0
+            </p>
+          </div>
+          <div
+            class="info"
+          >
+            <p>
+              GST will be paid by Magnum Logistics
+            </p>
+            <p>
+              GSTIN : 33ABBFM2821M2ZD
+            </p>
+          </div>
+          <div>
+            <p>
+              Whether Tax Payment On Reverse charge Basis : NO
+            </p>
+          </div>
+        </div>
+        <div
+          class="sign"
+        >
+          <p>
+            For Magnum Logistics
+          </p>
+        </div>
+      </div>
+    </main>
+  </section>
+</DocumentFragment>
+`;

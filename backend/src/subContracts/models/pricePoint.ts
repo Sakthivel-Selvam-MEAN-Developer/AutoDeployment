@@ -17,7 +17,6 @@ export const getPricePoint = (
             transporterPercentage: true
         }
     })
-
 export const create = async (data: any) => {
     const pricePointData = await prisma.pricePoint.findFirst({
         where: {

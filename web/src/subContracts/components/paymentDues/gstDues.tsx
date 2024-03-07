@@ -99,7 +99,7 @@ function accordionSummary(data: dataProp) {
                 Total Trips: <b>{data.dueDetails.count}</b>
             </Typography>
             <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                Total Amount: <b>{data.dueDetails.payableAmount}</b>
+                Total Amount: <b>{data.dueDetails.payableAmount.toFixed(2)}</b>
             </ListItemSecondaryAction>
         </AccordionSummary>
     )

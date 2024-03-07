@@ -11,6 +11,7 @@ import { financialYear } from '../financialYear'
 import ChettinadAnnexure from './chettinadAnnexure'
 import { Box, CircularProgress } from '@mui/material'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
+import calculateTotals from '../calculateTotal'
 
 const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
     const [total, setTotal] = useState({
@@ -18,10 +19,10 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
         totalFilledLoad: 0,
         numberOfTrips: 0,
         fromDate: 0,
-        endDate: 0
+        endDate: 0,
+        shortageQuantity: 0
     })
     const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
-
     useEffect(() => {
         getInvoiceDetails(tripId)
             .then((data) => setTrip({ ...data }))
@@ -29,75 +30,9 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
-        if (trip !== null) {
-            setTotal(calculateTotals())
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (trip !== null) setTotal(calculateTotals(trip))
     }, [trip])
-    const calculateTotals = () => {
-        let totalFilledLoad = 0
-        let totalAmount = 0
-        let numberOfTrips = 0
-        let fromDate = 0
-        let endDate = 0
-        if (trip.loadingPointToStockPointTrip)
-            trip.loadingPointToStockPointTrip.map((loadingToStock) => {
-                fromDate =
-                    fromDate === 0
-                        ? loadingToStock.startDate
-                        : loadingToStock.startDate < fromDate
-                          ? loadingToStock.startDate
-                          : fromDate
-                endDate =
-                    endDate === 0
-                        ? loadingToStock.startDate
-                        : loadingToStock.startDate > endDate
-                          ? loadingToStock.startDate
-                          : endDate
-                numberOfTrips += 1
-                totalAmount += loadingToStock.freightAmount * loadingToStock.filledLoad
-                totalFilledLoad += loadingToStock.filledLoad
-            })
-        if (trip.loadingPointToUnloadingPointTrip)
-            trip.loadingPointToUnloadingPointTrip.map((loadingToUnloading) => {
-                fromDate =
-                    fromDate === 0
-                        ? loadingToUnloading.startDate
-                        : loadingToUnloading.startDate < fromDate
-                          ? loadingToUnloading.startDate
-                          : fromDate
-                endDate =
-                    endDate === 0
-                        ? loadingToUnloading.startDate
-                        : loadingToUnloading.startDate > endDate
-                          ? loadingToUnloading.startDate
-                          : endDate
-                numberOfTrips += 1
-                totalAmount += loadingToUnloading.freightAmount * loadingToUnloading.filledLoad
-                totalFilledLoad += loadingToUnloading.filledLoad
-            })
-        if (trip.stockPointToUnloadingPointTrip)
-            trip.stockPointToUnloadingPointTrip.map((stockToUnloading) => {
-                fromDate =
-                    fromDate === 0
-                        ? stockToUnloading.startDate
-                        : stockToUnloading.startDate < fromDate
-                          ? stockToUnloading.startDate
-                          : fromDate
-                endDate =
-                    endDate === 0
-                        ? stockToUnloading.startDate
-                        : stockToUnloading.startDate > endDate
-                          ? stockToUnloading.startDate
-                          : endDate
-                numberOfTrips += 1
-                totalAmount +=
-                    stockToUnloading.freightAmount *
-                    stockToUnloading.loadingPointToStockPointTrip.filledLoad
-                totalFilledLoad += stockToUnloading.loadingPointToStockPointTrip.filledLoad
-            })
-        return { totalAmount, totalFilledLoad, numberOfTrips, fromDate, endDate }
-    }
+
     return (
         <>
             {loading ? (
@@ -128,7 +63,7 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                                         </div>
                                         <div className="df jsp bb">
                                             <p className="p-5 br">Date</p>
-                                            <p className="p-5">{dayjs().format('DD/MM/YY')}</p>
+                                            <p className="p-5">{dayjs().format('DD/MM/YYYY')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -268,14 +203,14 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                                         <p className="p-2">Add : CGST</p>
                                         <p className="p-2">6%</p>
                                         <p style={{ width: '202px' }} className="te p-2 bl">
-                                            {total.totalAmount * 0.06}
+                                            {total.totalAmount * (6 / 100)}
                                         </p>
                                     </div>
                                     <div className="df jsp bb">
                                         <p className="p-2">Add : SGST</p>
                                         <p className="p-2">6%</p>
                                         <p style={{ width: '202px' }} className="te p-2 bl">
-                                            {total.totalAmount * 0.06}
+                                            {total.totalAmount * (6 / 100)}
                                         </p>
                                     </div>
                                     <div className="df jsp bb">
@@ -286,29 +221,44 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                                     <div className="df jsp bb">
                                         <p className="p-2">Total Tax Amount : GST</p>
                                         <p style={{ width: '202px' }} className="te p-2 bl">
-                                            {total.totalAmount * 0.06 * 2}
+                                            {total.totalAmount * (6 / 100) * 2}
                                         </p>
                                     </div>
                                     <div className="df jsp bb">
                                         <p className="p-2">Round Off</p>
                                         <p style={{ width: '202px' }} className="te p-2 bl">
-                                            0.00
+                                            {(
+                                                Math.round(
+                                                    total.totalAmount * (6 / 100) * 2 +
+                                                        total.totalAmount
+                                                ) -
+                                                (total.totalAmount * (6 / 100) * 2 +
+                                                    total.totalAmount)
+                                            ).toFixed(2)}
                                         </p>
                                     </div>
                                     <div className="df jsp">
                                         <h4 className="p-2">Total Amount After Tax</h4>
                                         <h3 style={{ width: '202px' }} className="te p-2 bl">
-                                            {total.totalAmount * 0.06 * 2 + total.totalAmount}
+                                            {Math.round(
+                                                total.totalAmount * (6 / 100) * 2 +
+                                                    total.totalAmount
+                                            ).toFixed(2)}
                                         </h3>
                                     </div>
                                 </div>
                             </div>
                             <div className="bt pt pb pl pr">
                                 <h4>
-                                    Total invoice value ( in words) :{' '}
-                                    {toWords.convert(total.totalAmount * 0.12 + total.totalAmount, {
-                                        currency: true
-                                    })}
+                                    Total invoice value ( in words) :
+                                    {toWords.convert(
+                                        Math.round(
+                                            total.totalAmount * (6 / 100) * 2 + total.totalAmount
+                                        ),
+                                        {
+                                            currency: true
+                                        }
+                                    )}
                                 </h4>
                             </div>
                             <div className="bt pt pb pl pr">
@@ -316,7 +266,7 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                                     We have taken registration under the CGST Act,2017 and have
                                     exercised the option to pay tax on services of GTA in relation
                                     to transport of Goods supplied by us during the financial year{' '}
-                                    {financialYear} .under the forward charge.
+                                    {financialYear} under the forward charge.
                                 </p>
                             </div>
                             <div className="bt pt pb pl pr">

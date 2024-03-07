@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 interface SearchCustomerProps {
     customers: any[]
-    onSelect: (selectedVehicle: any) => void
+    onSelect: (selectedVehicle: string) => void
 }
 const SearchCustomer: React.FC<SearchCustomerProps> = ({ customers, onSelect }) => {
     const [value, setValue] = useState<string>()

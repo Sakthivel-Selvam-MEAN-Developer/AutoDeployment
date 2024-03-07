@@ -1,6 +1,7 @@
 import { vi } from 'vitest'
 import { render } from '@testing-library/react'
 import UltraTech_APCW from './ultraTech-APCW'
+import MockDate from 'mockdate'
 
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
@@ -10,6 +11,7 @@ vi.mock('to-words', () => ({
 
 describe('UltraTech_APCW invoice component', () => {
     test('renders correctly', () => {
+        MockDate.set(new Date('2021-05-31'))
         const getProps = () => ({
             tripId: [
                 {
@@ -22,9 +24,8 @@ describe('UltraTech_APCW invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-
         const { asFragment } = render(<UltraTech_APCW {...getProps()} />)
-
         expect(asFragment()).toMatchSnapshot()
+        MockDate.reset()
     })
 })

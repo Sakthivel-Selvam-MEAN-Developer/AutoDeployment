@@ -1,6 +1,10 @@
+import { FC } from 'react'
 import './style.css'
+import { AnnexureProps, StockToUnloadingPointProps, rowProps } from '../../interface'
+import dayjs from 'dayjs'
+import { toWords } from '../numberToWords'
 
-const Dalmia_Annexure = () => {
+const Dalmia_Annexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
     return (
         <section id="dalmia_annexure_section">
             <div className="dalmia_annexure_main">
@@ -46,16 +50,16 @@ const Dalmia_Annexure = () => {
                     </div>
                 </div>
                 <div style={{ clear: 'left', textAlign: 'left' }}>
-                    <table style={{ width: '300px' }}>
+                    <table style={{ width: '320px' }}>
                         <tbody>
                             <tr>
-                                <th>Bill No: DCD/23-24/52</th>
+                                <th>Bill No: {lastBillNumber}</th>
                             </tr>
                             <tr>
-                                <th>Bill Date: 07/02/2024</th>
+                                <th>Bill Date: {dayjs().format('DD-MM-YYYY')}</th>
                             </tr>
                             <tr>
-                                <th>For Dist. Channel: STOCK TRANSF</th>
+                                <th>For Dist. Channel: STOCK TRANSFER</th>
                             </tr>
                             <tr style={{ height: '50px' }}>
                                 <th>WO Number: </th>
@@ -85,41 +89,45 @@ const Dalmia_Annexure = () => {
                                 <th>SHORTAGE (KG)</th>
                                 <th>REMARKS</th>
                             </tr>
-                            <tr>
-                                <td style={{ textAlign: 'center' }}>1</td>
-                                <td>04-02-2024</td>
-                                <td>8124824344</td>
-                                <td>5212096676</td>
-                                <td>DPM-ATTIBELE_E2E</td>
-                                <td>TN88J3466</td>
-                                <td>40.24</td>
-                                <td>1176.00</td>
-                                <td>47322.24</td>
-                                <td>0</td>
-                                <td />
-                            </tr>
+                            {Object.keys(tripDetails).length !== 0 &&
+                                tripDetails.loadingPointToUnloadingPointTrip.map(
+                                    (loadingToUnloading, index) => {
+                                        return tableRow(loadingToUnloading, index)
+                                    }
+                                )}
+                            {Object.keys(tripDetails).length !== 0 &&
+                                tripDetails.loadingPointToStockPointTrip.map(
+                                    (loadingToStock, index) => {
+                                        return tableRow(loadingToStock, index)
+                                    }
+                                )}
+                            {Object.keys(tripDetails).length !== 0 &&
+                                tripDetails.stockPointToUnloadingPointTrip.map(
+                                    (stockToUnloading, index) => {
+                                        return tableRowForStockToUnloading(stockToUnloading, index)
+                                    }
+                                )}
                             <tr style={{ fontWeight: 'bold' }}>
-                                <td />
-                                <td />
-                                <td />
-                                <td />
-                                <td>TOTAL VALUE:</td>
-                                <td />
-                                <td>80.62</td>
-                                <td />
-                                <td>94809.12</td>
-                                <td>0</td>
-                                <td />
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td className="tc">TOTAL VALUE</td>
+                                <td className="tc">{total.totalFilledLoad}</td>
+                                <td></td>
+                                <td className="tc">{total.totalAmount}</td>
+                                <td className="tc">{total.shortageQuantity}</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div className="footer df " style={{ alignItems: 'end' }}>
                     <div>
-                        <p>No. Of Challans : 2</p>
+                        <p>No. Of Challans : {total.numberOfTrips}</p>
                         <p>
-                            Rupees in Word :
-                            <b> Ninety Four Thousand Eight Hundred Nine And Twelve Paise Only</b>
+                            Rupees in Word :<b>&nbsp;{toWords.convert(total.totalAmount)}</b>
                         </p>
                         <p>
                             <b>GST will be paid by MAGNUM LOGISTICS</b>
@@ -141,3 +149,46 @@ const Dalmia_Annexure = () => {
 }
 
 export default Dalmia_Annexure
+
+const tableRow = (row: rowProps, index: number) => {
+    return (
+        <tr>
+            <td className="tc">{index + 1}</td>
+            <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
+            <td></td>
+            <td></td>
+            <td className="tc">
+                {row.loadingPoint.name} -{' '}
+                {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}
+            </td>
+            <td className="tc">{row.truck.vehicleNumber}</td>
+            <td className="tc">{row.filledLoad}</td>
+            <td className="tc">{row.freightAmount}</td>
+            <td className="tc">{row.filledLoad * row.freightAmount}</td>
+            <td className="tc">{row.overallTrip[0].shortageQuantity[0].shortageQuantity}</td>
+            <td></td>
+        </tr>
+    )
+}
+
+const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
+    return (
+        <tr>
+            <td className="tc">{index + 1}</td>
+            <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
+            <td></td>
+            <td></td>
+            <td className="tc">
+                {row.loadingPointToStockPointTrip.stockPoint.name} - {row.unloadingPoint.name}
+            </td>
+            <td className="tc">{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
+            <td className="tc">{row.loadingPointToStockPointTrip.filledLoad}</td>
+            <td className="tc">{row.freightAmount}</td>
+            <td className="tc">
+                {row.loadingPointToStockPointTrip.filledLoad * row.freightAmount}
+            </td>
+            <td className="tc">{row.overallTrip[0].shortageQuantity[0].shortageQuantity}</td>
+            <td></td>
+        </tr>
+    )
+}

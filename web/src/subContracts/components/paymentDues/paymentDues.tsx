@@ -57,7 +57,8 @@ const PaymentDues: React.FC = () => {
                                     Total Trips: <b>{data.dueDetails.count}</b>
                                 </Typography>
                                 <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                    Total Amount: <b>{data.dueDetails.totalPayableAmount}</b>
+                                    Total Amount:{' '}
+                                    <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
                                 </ListItemSecondaryAction>
                             </AccordionSummary>
                             {data.tripDetails.map((list: tripProp) => {

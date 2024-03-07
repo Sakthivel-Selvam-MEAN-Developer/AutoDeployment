@@ -5,6 +5,7 @@
         Geneva, Verdana, sans-serif;
     color: black;
 }
+
 .dalmia_annexure_main table,
 .dalmia_annexure_main th,
 .dalmia_annexure_main td,
@@ -17,12 +18,21 @@
     border: 2px solid black;
     border-collapse: collapse;
 }
+
+#dalmia_dalmiapuram_section,
+#dalmia_kadappa_section,
+#dalmia_annexure_section {
+    padding: 100px 50px !important;
+}
+
 .dalmia-head > * {
     flex: 1;
 }
+
 .df {
     display: flex;
 }
+
 .border {
     border: none !important;
     border-left: 2px solid black !important;
@@ -35,26 +45,33 @@
     border-right: 2px solid black !important;
     border-top: 2px solid black !important;
 }
+
 .border-bottom {
     border: none !important;
     border-left: 2px solid black !important;
     border-right: 2px solid black !important;
     border-bottom: 2px solid black !important;
 }
-.bg {
+
+.dalmia_annexure_main .bg,
+.dalmia_kadappa_main .bg,
+.dalmia_dalmiapuram_main .bg {
     background-color: #bfbfbf;
 }
+
 .p-15 {
     padding: 15px 0 !important;
 }
 .tc {
     text-align: center;
 }
+
 .tr {
     text-align: right;
 }
 
-td {
+td,
+th {
     padding: 3px;
 }
 
