@@ -57,7 +57,7 @@
         "prismaMigrateCi": "dotenv -e .env.ci -- prisma migrate deploy",
         "test": "dotenv -e .env.test -- vitest",
         "testCI": "dotenv -e .env.ci -- vitest",
-        "testOnce": "dotenv -e .env.test -- vitest --run",
+        "testOnce": "dotenv -e .env.test -- vitest --run --coverage.enabled=true",
         "t": "dotenv -e .env.test -- vitest --poolOptions.threads.singleThread=true --coverage.enabled=false",
         "format": "prettier -c src",
         "seedDevDb": "vite-node --script src/devSeed/index.ts"
