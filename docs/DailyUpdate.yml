@@ -1,14 +1,60 @@
+- date: 7-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should create user role based authorization in backecnd
+- date: 7-3-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should create invoice for dalmia kadappa  
+
+- date: 6-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should create user role based authorization in frontEnd
+  completed:
+    - created user role based authorization in frontEnd
+- date: 6-3-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should create invoice for dalmia dalmiapuram  
+  completed:
+    - created invoice for dalmia dalmiapuram 
+
+- date: 5-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should create keycloak userRoles
+  completed:
+    - created keycloak userRoles
+- date: 5-3-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should make changes in ultratech Invoice
+  completed:
+    - made changes in ultratech Invoice
+
 - date: 4-3-2024
   person: Barath
   project: subContract
   planning:
     - adding request time in nginx
     - researching monitoring for server
+  completed:
+    - added request time in nginx
+    - added alarm for monitoring for server
 - date: 4-3-2024
   person: Sakthivel
   project: subContract
   planning:
     - removing unnecessary api calls
+  completed:
+    - removed unnecessary api calls
 
 - date: 2-3-2024
   person: Barath
