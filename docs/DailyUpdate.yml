@@ -1,8 +1,20 @@
+- date: 8-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should write test for frontend and backend for authorization
+- date: 8-3-2024
+  person: Sakthivel
+  project: subContract
+  leave: true
+
 - date: 7-3-2024
   person: Barath
   project: subContract
   planning:
-    - should create user role based authorization in backecnd
+    - should create user role based authorization in backend
+  completed:
+    - created user role based authorization in backend
 - date: 7-3-2024
   person: Sakthivel
   project: subContract
