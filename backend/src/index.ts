@@ -26,7 +26,6 @@ import pointMarkerRoutes from './subContracts/routes/pricePointMarker.ts'
 import overallTrip from './subContracts/routes/overallTrip.ts'
 import accountTypeRoutes from './subContracts/routes/accountType.ts'
 import invoiceRoutes from './subContracts/routes/invoice.ts'
-import authorization from './authorization.ts'
 import billNumber from './subContracts/routes/billNumber.ts'
 
 // import gpsStopRoutes from './gpsStops'
@@ -62,7 +61,6 @@ fuelRoutes(router)
 pointMarkerRoutes(router)
 accountTypeRoutes(router)
 invoiceRoutes(router)
-authorization(router)
 billNumber(router)
 
 export default router

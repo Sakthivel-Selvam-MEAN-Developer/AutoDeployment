@@ -6,7 +6,21 @@ const mockGetInvoiceDetails = vi.fn()
 vi.mock('../models/invoice', () => ({
     getInvoiceDetail: (inputs: any) => mockGetInvoiceDetails(inputs)
 }))
-
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
 const mockGetInvoiceDetail = [
     {
         loadingPointToUnloadingPointTrip: {

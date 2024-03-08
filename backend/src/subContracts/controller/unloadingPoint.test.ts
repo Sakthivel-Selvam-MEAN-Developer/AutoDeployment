@@ -14,6 +14,21 @@ vi.mock('../models/unloadingPoint', () => ({
 vi.mock('../models/pricePointMarker', () => ({
     create: (inputs: any) => mockCreatePricePointMarker(inputs)
 }))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
 
 describe('Delivery point Controller', () => {
     test.skip('should able to access', async () => {

@@ -9,6 +9,7 @@ import dayjs from 'dayjs'
 import { DatePicker } from '@mui/x-date-pickers'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import useAuthorization from '../../../authorization'
 
 interface dateProps {
     $d: number
@@ -27,6 +28,8 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
     const [shortageAmount, setShortageAmount] = useState<number>(0)
     const [shortageQuantity, setShortageQuantity] = useState<number>(0)
     const [unloadedDate, setUnloadedDate] = useState<Date | null>(null)
+    const token = useAuthorization()
+
     const style = {
         padding: ' 0 20px 20px 20px',
         margin: '30px 20%',
@@ -36,7 +39,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
     }
     const currentTime = dayjs().unix()
     const finalDue = async (id: number) => {
-        await updateAcknowledgementStatus(id)
+        await updateAcknowledgementStatus(id, token)
         setRender(!render)
     }
     const filledLoad =
@@ -79,7 +82,7 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
             unloadedQuantity: unload,
             unloadedDate: dayjs(date, 'DD/MM/YYYY').unix()
         }
-        await closeTrip(details)
+        await closeTrip(details, token)
         setRender(!render)
     }
     return (

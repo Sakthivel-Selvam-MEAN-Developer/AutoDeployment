@@ -3,7 +3,8 @@ import { render } from '@testing-library/react'
 import MockDate from 'mockdate'
 import Dalmia_Dalmiapuram_Invoice from './dalmiaDalmiapuram'
 import Dalmia_Kadappa_Invoice from './dalmiaKadapa'
-
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client, client1 } from '../../../keycloakTest'
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
         convert: vi.fn().mockReturnValue('Ten Lakhs Only')
@@ -25,7 +26,11 @@ describe('Chettinad invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<Dalmia_Dalmiapuram_Invoice {...getProps()} />)
+        const { asFragment } = render(
+            <ReactKeycloakProvider authClient={client}>
+                <Dalmia_Dalmiapuram_Invoice {...getProps()} />
+            </ReactKeycloakProvider>
+        )
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })
@@ -43,7 +48,11 @@ describe('Chettinad invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<Dalmia_Kadappa_Invoice {...getProps()} />)
+        const { asFragment } = render(
+            <ReactKeycloakProvider authClient={client1}>
+                <Dalmia_Kadappa_Invoice {...getProps()} />
+            </ReactKeycloakProvider>
+        )
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })

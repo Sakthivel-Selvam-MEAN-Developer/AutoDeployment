@@ -12,6 +12,7 @@ import ChettinadAnnexure from './chettinadAnnexure'
 import dayjs from 'dayjs'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../numberToWords'
+import useAuthorization from '../../../../../authorization'
 
 const Chettinad_Ariyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
     const [total, setTotal] = useState({
@@ -22,9 +23,10 @@ const Chettinad_Ariyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
         endDate: 0,
         shortageQuantity: 0
     })
+    const token = useAuthorization()
     const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
     useEffect(() => {
-        getInvoiceDetails(tripId)
+        getInvoiceDetails(tripId, token)
             .then((data) => setTrip({ ...data }))
             .then(() => setLoading(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps

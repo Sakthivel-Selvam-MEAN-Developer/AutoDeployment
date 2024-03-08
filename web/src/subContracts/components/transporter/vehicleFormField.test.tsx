@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import AddVehicle from './addVehicle'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client } from '../keycloakTest'
 
 const mockCreateTruck = vi.fn()
 const mockAllTransporter = vi.fn()
@@ -31,7 +33,9 @@ describe('Trip Test', () => {
         mockCreateTruck.mockResolvedValue(mockTruckData)
         render(
             <BrowserRouter>
-                <AddVehicle />
+                <ReactKeycloakProvider authClient={client}>
+                    <AddVehicle />
+                </ReactKeycloakProvider>
             </BrowserRouter>
         )
         const transporter = screen.getByRole('combobox', {

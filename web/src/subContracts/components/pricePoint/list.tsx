@@ -4,6 +4,7 @@ import SubmitButton from '../../../form/button'
 import FormFields from './formField'
 import { getAllCementCompany } from '../../services/cementCompany'
 import { createpricePoint } from '../../services/pricePoint'
+import useAuthorization from '../../../authorization.ts'
 const CreatePricepoint: React.FC = (): ReactElement => {
     const { handleSubmit, control, watch, setValue } = useForm<FieldValues>()
     const [transporterRate, setTransporterRate] = useState<number>(0)
@@ -15,6 +16,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const transporterPercentage = watch('transporterPercentage')
     const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [category, setCategory] = useState<string>('')
+    const token = useAuthorization()
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
             setCementCompany(companyData.map(({ name }: { name: string }) => name))
@@ -42,15 +44,15 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 transporterAmount: parseFloat(transporterAmountFloat)
             }
             if (category === 'Loading - Unloading')
-                createpricePoint({ ...details, stockPointId: null }).then(() =>
+                createpricePoint({ ...details, stockPointId: null }, token).then(() =>
                     clearForm(setCategory, setCementCompanyName)
                 )
             else if (category === 'Loading - Stock')
-                createpricePoint({ ...details, unloadingPointId: null }).then(() =>
+                createpricePoint({ ...details, unloadingPointId: null }, token).then(() =>
                     clearForm(setCategory, setCementCompanyName)
                 )
             else if (category === 'Stock - Unloading')
-                createpricePoint({ ...details, loadingPointId: null }).then(() =>
+                createpricePoint({ ...details, loadingPointId: null }, token).then(() =>
                     clearForm(setCategory, setCementCompanyName)
                 )
         } else alert('All fields Required')

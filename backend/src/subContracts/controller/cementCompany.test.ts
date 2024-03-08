@@ -10,6 +10,22 @@ vi.mock('../models/cementCompany', () => ({
     getAllCementCompany: () => mockCementCompany()
 }))
 
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
+
 const mockCompany = {
     name: 'Sankar Cements',
     gstNo: 'ASD123',

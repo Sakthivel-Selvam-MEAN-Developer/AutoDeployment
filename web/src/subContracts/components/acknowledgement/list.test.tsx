@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import SelectTrip from './list'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client, client1 } from '../keycloakTest'
 
 const mockActiveTripsByAcknowledgement = vi.fn()
 const mockgetTripById = vi.fn()
@@ -119,7 +121,9 @@ describe('Acknowledgement Test', () => {
         mockgetTripById.mockResolvedValue(mockOverAllTripDataById)
         render(
             <BrowserRouter>
-                <SelectTrip />
+                <ReactKeycloakProvider authClient={client}>
+                    <SelectTrip />
+                </ReactKeycloakProvider>
             </BrowserRouter>
         )
         const truckNumber = screen.getByRole('combobox', {
@@ -159,7 +163,9 @@ describe('Acknowledgement Test', () => {
         mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterTripClosed)
         render(
             <BrowserRouter>
-                <SelectTrip />
+                <ReactKeycloakProvider authClient={client1}>
+                    <SelectTrip />
+                </ReactKeycloakProvider>
             </BrowserRouter>
         )
         const truckNumber = screen.getByRole('combobox', {

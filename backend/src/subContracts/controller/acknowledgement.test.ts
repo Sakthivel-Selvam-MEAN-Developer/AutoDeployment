@@ -34,6 +34,21 @@ vi.mock('../models/transporter', () => ({
 vi.mock('../models/paymentDues', () => ({
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs)
 }))
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
 
 const mockOverAllTrip = [
     {

@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router-dom'
 import CreateCompany from './company'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client } from '../keycloakTest'
 
 const mockCreateCompany = vi.fn()
 
@@ -27,7 +29,9 @@ describe('Create company', () => {
         expect(mockCreateCompany).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
-                <CreateCompany />
+                <ReactKeycloakProvider authClient={client}>
+                    <CreateCompany />
+                </ReactKeycloakProvider>
             </BrowserRouter>
         )
         await userEvent.type(screen.getByLabelText('Company Name'), 'Sankar Cements')

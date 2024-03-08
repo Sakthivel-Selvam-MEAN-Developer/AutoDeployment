@@ -12,6 +12,7 @@ import dayjs from 'dayjs'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'
+import useAuthorization from '../../../../../authorization'
 
 const Dalmia_Kadappa_Invoice: FC<InvoiceProps> = ({
     tripId,
@@ -28,8 +29,9 @@ const Dalmia_Kadappa_Invoice: FC<InvoiceProps> = ({
         shortageQuantity: 0
     })
     const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
+    const token = useAuthorization()
     useEffect(() => {
-        getInvoiceDetails(tripId)
+        getInvoiceDetails(tripId, token)
             .then(setTrip)
             .then(() => setLoading(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps

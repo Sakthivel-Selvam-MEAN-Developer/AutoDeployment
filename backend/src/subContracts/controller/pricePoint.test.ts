@@ -10,6 +10,21 @@ vi.mock('../models/pricePoint', () => ({
     create: (inputs: any) => mockCreatePricePoint(inputs)
 }))
 
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
 describe('PricePoint Controller', () => {
     test('should able to access', async () => {
         mockPricePoint.mockResolvedValue({ freightAmount: 1000, transporterAmount: 900 })

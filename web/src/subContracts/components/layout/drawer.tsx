@@ -68,7 +68,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
     let superUser = false
     const { keycloak } = useKeycloak()
-    if (keycloak.hasRealmRole('SuperAdmin')) superUser = true
+    if (keycloak.hasRealmRole('SuperAdmin') || keycloak.hasRealmRole('Admin')) superUser = true
     return (
         <Drawer variant="permanent" open={drawerState}>
             <DrawerHeader theme={theme}>
@@ -85,20 +85,24 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={0}
                     icon={<Dashboard />}
                 />
-                <DrawerListItem
-                    text="Company"
-                    navigate="/sub/company"
-                    drawerState={drawerState}
-                    index={1}
-                    icon={<Factory />}
-                />
-                <DrawerListItem
-                    text="Transporter"
-                    navigate="/sub/transporter"
-                    drawerState={drawerState}
-                    index={2}
-                    icon={<DirectionsBus />}
-                />
+                {superUser && (
+                    <DrawerListItem
+                        text="Company"
+                        navigate="/sub/company"
+                        drawerState={drawerState}
+                        index={1}
+                        icon={<Factory />}
+                    />
+                )}
+                {superUser && (
+                    <DrawerListItem
+                        text="Transporter"
+                        navigate="/sub/transporter"
+                        drawerState={drawerState}
+                        index={2}
+                        icon={<DirectionsBus />}
+                    />
+                )}
                 {superUser && (
                     <DrawerListItem
                         text="Price Point"
@@ -129,13 +133,15 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={6}
                     icon={<LocalGasStation />}
                 />
-                <DrawerListItem
-                    text="Acknowledgement"
-                    navigate="/sub/acknowledgement"
-                    drawerState={drawerState}
-                    index={7}
-                    icon={<LibraryAddCheck />}
-                />
+                {superUser && (
+                    <DrawerListItem
+                        text="Acknowledgement"
+                        navigate="/sub/acknowledgement"
+                        drawerState={drawerState}
+                        index={7}
+                        icon={<LibraryAddCheck />}
+                    />
+                )}
                 <DrawerListItem
                     text="Reports"
                     navigate="/sub/reports"
@@ -143,13 +149,15 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={8}
                     icon={<Summarize />}
                 />
-                <DrawerListItem
-                    text="Invoice"
-                    navigate="/sub/invoice"
-                    drawerState={drawerState}
-                    index={9}
-                    icon={<Receipt />}
-                />
+                {superUser && (
+                    <DrawerListItem
+                        text="Invoice"
+                        navigate="/sub/invoice"
+                        drawerState={drawerState}
+                        index={9}
+                        icon={<Receipt />}
+                    />
+                )}
             </List>
         </Drawer>
     )

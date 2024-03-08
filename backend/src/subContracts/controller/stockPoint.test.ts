@@ -6,6 +6,21 @@ const mockCreatePricePointMarker = vi.fn()
 const mockStockPointByCompany = vi.fn()
 const mockAllStockPoint = vi.fn()
 
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
 vi.mock('../models/stockPoint', () => ({
     getAllStockPoint: () => mockAllStockPoint(),
     getStockPointByCompany: () => mockStockPointByCompany(),

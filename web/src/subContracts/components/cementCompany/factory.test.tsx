@@ -3,6 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import CreateFactory from './factory'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client, client1 } from '../keycloakTest'
 
 const mockGetAllCementCompany = vi.fn()
 const mockCreateLoadingPoint = vi.fn()
@@ -45,7 +47,9 @@ describe('New trip test', () => {
         expect(mockCreateUnloadingPoint).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
-                <CreateFactory />
+                <ReactKeycloakProvider authClient={client}>
+                    <CreateFactory />
+                </ReactKeycloakProvider>
             </BrowserRouter>
         )
 
@@ -78,7 +82,9 @@ describe('New trip test', () => {
     test('should create stock point for a company', async () => {
         render(
             <BrowserRouter>
-                <CreateFactory />
+                <ReactKeycloakProvider authClient={client1}>
+                    <CreateFactory />
+                </ReactKeycloakProvider>
             </BrowserRouter>
         )
 

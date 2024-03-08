@@ -1,4 +1,5 @@
 import { axiosInstance, getData } from '../../wonderMove/services'
+import { tokenProps } from './acknowledgement.tsx'
 
 export const getAllTransporter = () =>
     axiosInstance
@@ -19,5 +20,5 @@ interface dataProps {
     gstNumber: string
     accountTypeNumber: number | undefined
 }
-export const createTransporter = (data: dataProps) =>
-    axiosInstance.post('/transporter', data).then(getData)
+export const createTransporter = (data: dataProps, token: tokenProps | undefined) =>
+    axiosInstance.post('/transporter', data, token).then(getData)

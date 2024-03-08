@@ -1,5 +1,9 @@
 import { axiosInstance, getData } from '../../wonderMove/services'
-
+export interface tokenProps {
+    headers: {
+        authorization: string
+    }
+}
 export const getAllActiveTripsByAcknowledgement = () =>
     axiosInstance
         .get(`/acknowledgement`)
@@ -12,9 +16,9 @@ export const getTripById = (id: number) =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const updateAcknowledgementStatus = (id: number) =>
+export const updateAcknowledgementStatus = (id: number, token: tokenProps | undefined) =>
     axiosInstance
-        .put(`/acknowledge/${id}`)
+        .put(`/acknowledge/${id}`, { hi: 'hi' }, token)
         .then(getData)
         .catch(() => alert('Error Updating data'))
 
@@ -27,8 +31,8 @@ interface dataProps {
     filledLoad: number
     unloadedQuantity: number | null
 }
-export const closeTrip = (tripDetails: dataProps) =>
+export const closeTrip = (tripDetails: dataProps, token: tokenProps | undefined) =>
     axiosInstance
-        .put(`/acknowledgement/trip`, tripDetails)
+        .put(`/acknowledgement/trip`, tripDetails, token)
         .then(getData)
         .catch(() => alert('Error Getting data'))

@@ -1,4 +1,5 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
+import { tokenProps } from './acknowledgement.tsx'
 
 export const getAllTruck = () =>
     axiosInstance
@@ -10,7 +11,8 @@ interface dataProps {
     capacity: number
     transporterId: number
 }
-export const createTruck = (data: dataProps) => axiosInstance.post('/truck', data).then(getData)
+export const createTruck = (data: dataProps, token: tokenProps | undefined) =>
+    axiosInstance.post('/truck', data, token).then(getData)
 
 export const getTruckByTransporter = (transporterName: string) =>
     axiosInstance

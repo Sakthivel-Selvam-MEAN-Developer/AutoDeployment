@@ -3,7 +3,8 @@ import { render } from '@testing-library/react'
 import MockDate from 'mockdate'
 import Chettinad_Ariyalur from './chettinadAriyalur'
 import Chettinad_Karikkali from './chettinadKarikali'
-
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client, client1 } from '../../../keycloakTest'
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
         convert: vi.fn().mockReturnValue('Ten Lakhs Only')
@@ -25,7 +26,11 @@ describe('Chettinad invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<Chettinad_Ariyalur {...getProps()} />)
+        const { asFragment } = render(
+            <ReactKeycloakProvider authClient={client}>
+                <Chettinad_Ariyalur {...getProps()} />
+            </ReactKeycloakProvider>
+        )
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })
@@ -43,7 +48,11 @@ describe('Chettinad invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<Chettinad_Karikkali {...getProps()} />)
+        const { asFragment } = render(
+            <ReactKeycloakProvider authClient={client1}>
+                <Chettinad_Karikkali {...getProps()} />
+            </ReactKeycloakProvider>
+        )
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })

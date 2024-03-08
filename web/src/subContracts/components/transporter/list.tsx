@@ -7,6 +7,7 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { Link } from 'react-router-dom'
 import { Box, Button, CircularProgress } from '@mui/material'
 import { getAllAccountTypes } from '../../services/accountType'
+import useAuthorization from '../../../authorization'
 const CreateTransporter: React.FC = (): ReactElement => {
     const [accountType, setAccountType] = useState<string | null>('')
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
@@ -17,17 +18,21 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const [accountTypes, setAccountTypes] = useState([])
     const [accountTypeNumber, setAccountTypeNumber] = useState<number | undefined>(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const token = useAuthorization()
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setLoading(true)
-        createTransporter({
-            ...data,
-            hasGst: gst ? false : true,
-            hasTds: tds ? false : true,
-            tdsPercentage: tds ? null : parseFloat(parseFloat(data.tdsPercentage).toFixed(2)),
-            gstPercentage: gst ? null : parseFloat(parseFloat(data.gstPercentage).toFixed(2)),
-            gstNumber: gst ? null : data.gstNumber,
-            accountTypeNumber
-        })
+        createTransporter(
+            {
+                ...data,
+                hasGst: gst ? false : true,
+                hasTds: tds ? false : true,
+                tdsPercentage: tds ? null : parseFloat(parseFloat(data.tdsPercentage).toFixed(2)),
+                gstPercentage: gst ? null : parseFloat(parseFloat(data.gstPercentage).toFixed(2)),
+                gstNumber: gst ? null : data.gstNumber,
+                accountTypeNumber
+            },
+            token
+        )
             .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue, setAccountType, setGst, setTds))

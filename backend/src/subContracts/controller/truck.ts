@@ -6,7 +6,7 @@ export const listAllTruck = (_req: Request, res: Response) => {
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
-export const CreateTruck = (req: Request, res: Response) => {
+export const createTruck = (req: Request, res: Response) => {
     create(req.body)
         .then((data) => res.status(200).json(data))
         .catch((error) => res.status(500).json(error))

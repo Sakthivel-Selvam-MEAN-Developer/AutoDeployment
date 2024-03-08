@@ -2,6 +2,8 @@ import { vi } from 'vitest'
 import { render } from '@testing-library/react'
 import UltraTech_APCW from './ultraTech-APCW'
 import MockDate from 'mockdate'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+import { client } from '../../../keycloakTest'
 
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
@@ -24,7 +26,13 @@ describe('UltraTech_APCW invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<UltraTech_APCW {...getProps()} />)
+
+        const { asFragment } = render(
+            <ReactKeycloakProvider authClient={client}>
+                <UltraTech_APCW {...getProps()} />
+            </ReactKeycloakProvider>
+        )
+
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })

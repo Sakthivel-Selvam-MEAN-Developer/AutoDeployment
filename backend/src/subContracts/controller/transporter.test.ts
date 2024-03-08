@@ -8,6 +8,21 @@ vi.mock('../models/transporter', () => ({
     getAllTransporter: () => mockTransporter(),
     create: (inputs: any) => mockCreateTransporter(inputs)
 }))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
 const mockTransporterData = {
     name: 'Barath Logistics Pvt Ltd',
     emailId: 'sample@gmail.com',

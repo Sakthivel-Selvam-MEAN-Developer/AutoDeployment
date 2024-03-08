@@ -5,7 +5,21 @@ const mockLoadingPoint = vi.fn()
 const mockLoadingPointByCompany = vi.fn()
 const mockCreateLoadingPoint = vi.fn()
 const mockCreatePricePointMarker = vi.fn()
-
+vi.mock('../../keycloak-config.ts', () => ({
+    default: {
+        protect: () => (_req: any, _resp: any, next: any) => {
+            next()
+        },
+        middleware: () => (_req: any, _resp: any, next: any) => {
+            next()
+        }
+    }
+}))
+vi.mock('../../authorization', () => ({
+    hasRole: () => (_req: any, _res: any, next: any) => {
+        next()
+    }
+}))
 vi.mock('../models/loadingPoint', () => ({
     getAllLoadingPoint: () => mockLoadingPoint(),
     getLoadingPointByCompany: () => mockLoadingPointByCompany(),

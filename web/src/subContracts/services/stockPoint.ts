@@ -1,12 +1,14 @@
 import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
+import { tokenProps } from './acknowledgement.tsx'
+
 interface dataProps {
     name: string
     location: string
     cementCompanyId: number
 }
 
-export const createStockPoint = (data: dataProps) =>
-    axiosInstance.post('/stock-point', data).then(getData)
+export const createStockPoint = (data: dataProps, token: tokenProps | undefined) =>
+    axiosInstance.post('/stock-point', data, token).then(getData)
 
 export const getStockPointByCompanyName = (companyName: string) =>
     axiosInstance

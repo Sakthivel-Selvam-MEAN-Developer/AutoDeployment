@@ -5,19 +5,24 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { useState } from 'react'
 import VehicleFormField from './vehicleFormField.tsx'
 import { Box, CircularProgress } from '@mui/material'
+import useAuthorization from '../../../authorization.ts'
 
 const AddVehicle: React.FC = () => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterId, setTransporterId] = useState<number>(0)
     const [loading, setLoading] = useState(false)
+    const token = useAuthorization()
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         transporterId !== 0 && setLoading(true)
-        createTruck({
-            vehicleNumber: data.vehicleNumber,
-            transporterId: transporterId,
-            capacity: parseFloat(data.capacity)
-        })
+        createTruck(
+            {
+                vehicleNumber: data.vehicleNumber,
+                transporterId: transporterId,
+                capacity: parseFloat(data.capacity)
+            },
+            token
+        )
             .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
