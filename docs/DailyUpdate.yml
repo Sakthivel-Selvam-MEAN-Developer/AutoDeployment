@@ -1,8 +1,22 @@
+- date: 9-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - make keycloak not to allow user registeration
+    - expose keycloak admin in new domain
+- date: 9-3-2024
+  person: Sakthivel
+  project: subContract
+  leave: true
+  
 - date: 8-3-2024
   person: Barath
   project: subContract
   planning:
     - should write test for frontend and backend for authorization
+  completed:
+    - written test for frontend and backend for authorization
+    - exported keycloak admin data into json file
 - date: 8-3-2024
   person: Sakthivel
   project: subContract
