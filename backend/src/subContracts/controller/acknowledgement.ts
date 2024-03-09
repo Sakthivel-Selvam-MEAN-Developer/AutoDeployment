@@ -29,10 +29,7 @@ export const getTransporterName = (overallTrip: any) => {
                       .transporter.name
                 : ''
     } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
-        transporterName =
-            overallTrip.loadingPointToUnloadingPointTrip !== null
-                ? overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
-                : ''
+        transporterName = overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
     }
     return transporterName
 }

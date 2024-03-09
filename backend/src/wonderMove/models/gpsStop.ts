@@ -17,7 +17,8 @@ interface gpsStopProps {
     longitude: number
     source: string
 }
-function getGpsStopInPersistableFormat(gpsStop: gpsStopProps) {
+
+const getGpsStopInPersistableFormat = (gpsStop: gpsStopProps) => {
     const {
         startTime,
         endTime,

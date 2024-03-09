@@ -153,11 +153,10 @@ function aggregateByReasonId(duration: any) {
             (groupedDurations.get(stopReasonId) || 0) + durationInMillis
         )
     })
-    const mappedDuration = Array.from(groupedDurations, ([stopReasonId, durationInMillis]) => ({
+    return Array.from(groupedDurations, ([stopReasonId, durationInMillis]) => ({
         stopReasonId: Number(stopReasonId),
         durationInMillis
     }))
-    return mappedDuration
 }
 
 export const getCombinedDuration = async (from: number, to: number) => {

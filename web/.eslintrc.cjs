@@ -27,8 +27,9 @@ module.exports = {
         'function-paren-newline': 0,
         'max-lines': ['warn', 50],
         'max-depth': ['error', 3],
-        'max-lines-per-function': ['warn', 30],
+        'max-lines-per-function': ['warn', 10],
         'import/prefer-default-export': 0,
-        '@typescript-eslint/no-explicit-any': 'warn'
+        '@typescript-eslint/no-explicit-any': 'warn',
+        "complexity": ["warn", { "max": 2 }]
     }
 }

@@ -38,11 +38,12 @@ module.exports = {
         'function-paren-newline': 0,
         'max-lines': ['error', 600],
         'max-depth': ['error', 3],
-        'max-lines-per-function': ['warn', 35],
+        'max-lines-per-function': ['warn', 10],
         'object-curly-newline': 0,
         'import/prefer-default-export': 0,
         "radix": "off",
         '@typescript-eslint/no-explicit-any': "warn",
-        'consistent-return': 'off'
+        'consistent-return': 'off',
+        "complexity": ["warn", { "max": 2 }]
     }
 }
