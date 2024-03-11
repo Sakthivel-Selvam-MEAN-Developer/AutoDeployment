@@ -1,3 +1,3 @@
 export default {
-    billNumber: 'MGL23A-0'
+    lastBillNo: 'MGL23A-0'
 }
