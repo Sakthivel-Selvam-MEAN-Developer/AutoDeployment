@@ -1,3 +1,15 @@
+- date: 11-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - test coverage
+- date: 11-3-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - researching keycloak
+    - run keycloak on production
+
 - date: 9-3-2024
   person: Barath
   project: subContract

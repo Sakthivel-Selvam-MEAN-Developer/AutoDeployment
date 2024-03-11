@@ -79,7 +79,7 @@ const mockcreatePaymentDuesData1 = [
     {
         name: 'Barath Logistics Pvt Ltd',
         type: 'initial pay',
-        dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+        dueDate: dayjs().startOf('day').unix(),
         overallTripId: 1,
         vehicleNumber: 'TN93D5512',
         payableAmount: 30240
@@ -104,7 +104,8 @@ const tripdata2 = {
     wantFuel: false,
     totalTransporterAmount: 43200
 }
-const fuelData = {
+const mockFuelData = {
+    id: 1,
     totalprice: 1000
 }
 
@@ -134,7 +135,6 @@ describe('Trip Controller', () => {
         expect(mockGetNumberByTruckId).toBeCalledTimes(1)
         expect(mockCreateOverallTrip).toBeCalledTimes(1)
         expect(mockCreatePaymentDues).toBeCalledTimes(1)
-        expect(mockGetPaymentDuesWithoutTripId).toBeCalledTimes(1)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(1)
     })
     test('should able to create trip with payment dues with fuel', async () => {
@@ -142,11 +142,10 @@ describe('Trip Controller', () => {
         mockGetNumberByTruckId.mockResolvedValue(mockgetNumberByTruckIdData)
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData2)
-        mockGetPaymentDuesWithoutTripId.mockResolvedValue(null)
         await supertest(app).post('/api/trip').expect(200)
         const acutal = await tripLogic(
             tripdata2,
-            fuelData,
+            mockFuelData,
             'Barath Logistics Pvt Ltd',
             1,
             'TN93D5512'
@@ -156,7 +155,6 @@ describe('Trip Controller', () => {
         expect(mockGetNumberByTruckId).toBeCalledTimes(2)
         expect(mockCreateOverallTrip).toBeCalledTimes(2)
         expect(mockCreatePaymentDues).toBeCalledTimes(2)
-        expect(mockGetPaymentDuesWithoutTripId).toBeCalledTimes(2)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(2)
     })
 })

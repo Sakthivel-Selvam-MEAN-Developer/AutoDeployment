@@ -39,22 +39,22 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
         let companyTagID = ''
         let annexureTagID = ''
         switch (company) {
-            case 'UltraTech Cements': // ULTRATECH CEMENT LIMITED,TADIPATRI
+            case 'ULTRATECH CEMENT LIMITED,TADIPATRI':
                 companyTagID = 'ultratech_main'
                 break
-            case 'Chettinad Cements Ariyalur': // Chettinad Cement Corporation Private Ltd. Ariyalur
+            case 'Chettinad Cement Corporation Private Ltd. Ariyalur':
                 companyTagID = 'chettinad-ariyalur-section'
                 annexureTagID = 'chettinad_annexure_main'
                 break
-            case 'Chettinad Cements Karikali': // Chettinad Cement Corporation Private Ltd,Karikkali
+            case 'Chettinad Cement Corporation Private Ltd,Karikkali':
                 companyTagID = 'chettinad-karikali-section'
                 annexureTagID = 'chettinad_annexure_main'
                 break
-            case 'Dalmia Cements Kadappa': // Dalmia Cement (Bharat) Limited,Dalmapuram
+            case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
                 companyTagID = 'dalmia_kadappa_section'
                 annexureTagID = 'dalmia_annexure_section'
                 break
-            case 'Dalmia Cements': // Dalmia Cement (Bharat) Limited,Jammalmadugu
+            case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
                 companyTagID = 'dalmia_dalmiapuram_section'
                 annexureTagID = 'dalmia_annexure_section'
                 break
@@ -69,7 +69,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
     }
     const getContentBasedOnCompany = () => {
         switch (company) {
-            case 'UltraTech Cements':
+            case 'ULTRATECH CEMENT LIMITED,TADIPATRI':
                 return (
                     <UltraTech_APCW
                         tripId={tripId}
@@ -78,7 +78,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                         loading={loading}
                     />
                 )
-            case 'Chettinad Cements Karikali':
+            case 'Chettinad Cement Corporation Private Ltd,Karikkali':
                 return (
                     <Chettinad_Karikkali_Stock
                         tripId={tripId}
@@ -87,7 +87,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                         loading={loading}
                     />
                 )
-            case 'Chettinad Cements Ariyalur':
+            case 'Chettinad Cement Corporation Private Ltd. Ariyalur':
                 return (
                     <Chettinad_Ariyalur
                         tripId={tripId}
@@ -96,7 +96,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                         loading={loading}
                     />
                 )
-            case 'Dalmia Cements':
+            case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
                 return (
                     <Dalmia_Dalmiapuram_Invoice
                         tripId={tripId}
@@ -105,7 +105,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                         loading={loading}
                     />
                 )
-            case 'Dalmia Cements Kadappa':
+            case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
                 return (
                     <Dalmia_Kadappa_Invoice
                         tripId={tripId}

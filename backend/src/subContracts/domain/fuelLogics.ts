@@ -24,7 +24,6 @@ const fuelLogics = async (
         } else if (trip.loadingPointToUnloadingPointTrip !== null) {
             tripDetails = trip.loadingPointToUnloadingPointTrip
         }
-
         const paymentDues = [
             {
                 name: tripDetails.truck.transporter.name,
@@ -46,7 +45,7 @@ const fuelLogics = async (
                 vehicleNumber
             }
         ]
-        if (tripDetails.totalTransporterAmount === 0) {
+        if (tripDetails.truck.transporterType === 'Own') {
             return {
                 name: bunkname,
                 type: 'fuel pay',
@@ -57,7 +56,7 @@ const fuelLogics = async (
                 vehicleNumber
             }
         }
-        if (fuel.overallTripId !== null && tripDetails.totalTransporterAmount !== 0) {
+        if (fuel.overallTripId !== null && tripDetails.truck.transporterType !== 'Own') {
             return paymentDues
         }
     }

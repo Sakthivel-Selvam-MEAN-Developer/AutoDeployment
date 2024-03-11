@@ -16,38 +16,20 @@ const tripLogic = async (
     id: number,
     vehicleNumber: string
 ) => {
-    if (data.wantFuel === false && fuelDetails === null) {
-        const paymentDues = [
-            {
-                name: transporterName,
-                type: 'initial pay',
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                overallTripId: id,
-                vehicleNumber,
-                payableAmount: parseFloat(
-                    (data.totalTransporterAmount * transporterPercentage).toFixed(2)
-                )
-            }
-        ]
-        return paymentDues
-    }
-    if (data.totalTransporterAmount !== 0 && data.wantFuel === false && fuelDetails !== null) {
-        return [
-            {
-                name: transporterName,
-                type: 'initial pay',
-                dueDate: dayjs().startOf('day').unix(),
-                overallTripId: id,
-                vehicleNumber,
-                payableAmount: parseFloat(
-                    (
-                        data.totalTransporterAmount * transporterPercentage -
-                        fuelDetails.totalprice
-                    ).toFixed(2)
-                )
-            }
-        ]
-    }
+    const fuelAmount = fuelDetails ? fuelDetails.totalprice : 0
+    if (data.wantFuel === true && fuelDetails === null) return
+    return [
+        {
+            name: transporterName,
+            type: 'initial pay',
+            dueDate: dayjs().startOf('day').unix(),
+            overallTripId: id,
+            vehicleNumber,
+            payableAmount: parseFloat(
+                (data.totalTransporterAmount * transporterPercentage - fuelAmount).toFixed(2)
+            )
+        }
+    ]
 }
 
 export default tripLogic

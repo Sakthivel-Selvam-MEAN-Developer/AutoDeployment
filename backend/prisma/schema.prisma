@@ -397,8 +397,8 @@ model stockPointToUnloadingPointTrip {
   updatedAt                      DateTime                      @updatedAt @db.Timestamptz(6)
   unloadingPoint                 unloadingPoint                @relation(fields: [unloadingPointId], references: [id])
   unloadingPointId               Int
-  loadingPointToStockPointTrip   loadingPointToStockPointTrip? @relation(fields: [loadingPointToStockPointTripId], references: [id])
-  loadingPointToStockPointTripId Int?
+  loadingPointToStockPointTrip   loadingPointToStockPointTrip @relation(fields: [loadingPointToStockPointTripId], references: [id])
+  loadingPointToStockPointTripId Int
   overallTrip                    overallTrip[]
   truck                          truck?                        @relation(fields: [truckId], references: [id])
   truckId                        Int?
@@ -555,31 +555,6 @@ model overallTrip {
   @@schema("subContract")
 }
 
-// model BettaByTrip {
-//   id               Int             @id @default(autoincrement())
-//   driverBetta      Float           @db.DoublePrecision
-//   loadingPointId   Int?
-//   loadingPoint     loadingPoint?   @relation(fields: [loadingPointId], references: [id])
-//   unloadingPointId Int?
-//   unloadingPoint   unloadingPoint? @relation(fields: [unloadingPointId], references: [id])
-//   stockPointId     Int?
-//   stockPoint       stockPoint?     @relation(fields: [stockPointId], references: [id])
-//   createdAt        DateTime        @default(now()) @db.Timestamptz(6)
-//   updatedAt        DateTime        @updatedAt @db.Timestamptz(6)
-
-//   @@schema("subContract")
-// }
-
-// model userRoles {
-//   id          Int    @id @default(autoincrement())
-//   name        String
-//   dateOfBirth Int
-//   employeeId  String
-//   role        String
-//   jobTitle    String
-
-//   @@schema("identity")
-// }
 model billNo {
   id         Int    @id
   lastBillNo String

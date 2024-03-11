@@ -57,3 +57,11 @@ resource "gandi_livedns_record" "www" {
   ttl = 300
   zone    = "wondermove.in"
 }
+
+resource "gandi_livedns_record" "www" {
+  name = "auth"
+  type = "A"
+  values = [aws_eip.ip.public_ip]
+  ttl = 300
+  zone    = "wondermove.in"
+}

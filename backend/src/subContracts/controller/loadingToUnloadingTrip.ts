@@ -13,36 +13,34 @@ import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
 }
+const updateFuelDetails = (fuelDetails: any, vehicleNumber: string, overallTripId: number) => {
+    if (!fuelDetails) {
+        return
+    }
+    return updateFuelWithTripId({ id: fuelDetails.id, overallTripId })
+        .then(() => getPaymentDuesWithoutTripId(vehicleNumber))
+        .then((paymetDue) => updatePaymentDuesWithTripId({ id: paymetDue?.id, overallTripId }))
+}
+
 export const createTrip = async (req: Request, res: Response) => {
     try {
         const {
             vehicleNumber,
-            transporter: { name }
+            transporter: { name, transporterType }
         } = (await getNumberByTruckId(req.body.truckId)) || {
             vehicleNumber: '',
-            transporter: { name: '' }
+            transporter: { name: '', transporterType: '' }
         }
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
-        const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
-        const { id } = await create(req.body).then(async (data) =>
+        const { id: overallTripId } = await create(req.body).then(async (data) =>
             createOverallTrip({ loadingPointToUnloadingPointTripId: data.id })
         )
-        await tripLogic(req.body, fuelDetails, name, id, vehicleNumber)
-            .then(async (data) => {
-                if (req.body.wantFuel !== true && fuelDetails !== null) {
-                    await updateFuelWithTripId({ id: fuelDetails.id, overallTripId: id }).then(
-                        async () => {
-                            await updatePaymentDuesWithTripId({
-                                id: paymentDetails?.id,
-                                overallTripId: id
-                            })
-                            if (req.body.totalTransporterAmount !== 0) await createPaymentDues(data)
-                        }
-                    )
-                } else if (req.body.wantFuel !== true && fuelDetails === null) {
-                    if (req.body.totalTransporterAmount !== 0) await createPaymentDues(data)
-                }
-            })
+        if (transporterType === 'Own') {
+            return res.sendStatus(200)
+        }
+        await tripLogic(req.body, fuelDetails, name, overallTripId, vehicleNumber)
+            .then((data) => createPaymentDues(data))
+            .then(() => updateFuelDetails(fuelDetails, vehicleNumber, overallTripId))
             .then(() => res.sendStatus(200))
             .catch(() => res.sendStatus(500))
     } catch (error) {

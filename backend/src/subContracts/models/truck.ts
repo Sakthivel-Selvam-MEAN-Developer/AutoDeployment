@@ -49,7 +49,8 @@ export const getNumberByTruckId = (id: number) =>
             vehicleNumber: true,
             transporter: {
                 select: {
-                    name: true
+                    name: true,
+                    transporterType: true
                 }
             }
         }

@@ -335,7 +335,8 @@ describe('Overall Trip model', () => {
         })
         const stockToUnloadingPointTrip = await createStockToUnloadingTrip({
             ...seedStockToUnloadingTrip,
-            unloadingPointId: unloadingPoint.id
+            unloadingPointId: unloadingPoint.id,
+            loadingPointToStockPointTripId: loadingToStockPointTrip.id
         })
         const overallTrip = await create({
             loadingPointToStockPointTripId: loadingToStockPointTrip.id
