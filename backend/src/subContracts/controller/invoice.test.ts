@@ -1,10 +1,28 @@
 import supertest from 'supertest'
 import { app } from '../../app.ts'
 
-const mockGetInvoiceDetails = vi.fn()
+const mockGetInvoiceDetailsD = vi.fn()
+const mockUpdateBillNumberD = vi.fn()
+const mockGetInvoiceDetailsS = vi.fn()
+const mockUpdateBillNumberS = vi.fn()
+const mockGetInvoiceDetailsU = vi.fn()
+const mockUpdateBillNumberU = vi.fn()
+const mockUpdateBillNumberB = vi.fn()
 
-vi.mock('../models/invoice', () => ({
-    getInvoiceDetail: (inputs: any) => mockGetInvoiceDetails(inputs)
+vi.mock('../models/loadingToUnloadingTrip', () => ({
+    updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberD(inputs, billNo),
+    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsD(inputs)
+}))
+vi.mock('../models/loadingToStockPointTrip', () => ({
+    updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberS(inputs, billNo),
+    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsS(inputs)
+}))
+vi.mock('../models/stockPointToUnloadingPoint', () => ({
+    updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberU(inputs, billNo),
+    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsU(inputs)
+}))
+vi.mock('../models/billNumber', () => ({
+    updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberB(inputs, billNo)
 }))
 vi.mock('../../keycloak-config.ts', () => ({
     default: {
@@ -21,29 +39,114 @@ vi.mock('../../authorization', () => ({
         next()
     }
 }))
-const mockGetInvoiceDetail = [
+const mockGetInvoiceDetailsDData = [
     {
-        loadingPointToUnloadingPointTrip: {
-            startDate: 1707417000,
-            unloadingPoint: {
-                name: 'Salem'
-            },
-            freightAmount: 1000,
+        startDate: 1709231400,
+        unloadingPoint: {
+            name: 'Salem'
+        },
+        loadingPoint: {
+            name: 'Chennai-south'
+        },
+        overallTrip: [
+            {
+                shortageQuantity: [
+                    {
+                        shortageQuantity: 0
+                    }
+                ]
+            }
+        ],
+        invoiceNumber: 'asasdcsdc',
+        freightAmount: 1200,
+        truck: {
+            vehicleNumber: 'TN29B3246'
+        },
+        filledLoad: 12
+    }
+]
+const mockGetInvoiceDetailsSData = [
+    {
+        startDate: 1709317800,
+        stockPoint: {
+            name: 'StockPoint'
+        },
+        loadingPoint: {
+            name: 'Chennai-south'
+        },
+        overallTrip: [
+            {
+                shortageQuantity: [
+                    {
+                        shortageQuantity: 0
+                    }
+                ]
+            }
+        ],
+        invoiceNumber: 'wqqwqw',
+        freightAmount: 1200,
+        truck: {
+            vehicleNumber: 'TN29B3246'
+        },
+        filledLoad: 23
+    }
+]
+const mockGetInvoiceDetailsUData = [
+    {
+        startDate: 1709317800,
+        unloadingPoint: {
+            name: 'Salem'
+        },
+        invoiceNumber: 'wqsqwsdsd',
+        freightAmount: 800,
+        loadingPointToStockPointTrip: {
+            filledLoad: 23,
             truck: {
                 vehicleNumber: 'TN29B3246'
             },
-            filledLoad: 12,
-            invoiceNumber: '231212'
+            stockPoint: {
+                name: 'StockPoint'
+            }
         },
-        stockPointToUnloadingPointTrip: null,
-        loadingPointToStockPointTrip: null
+        overallTrip: [
+            {
+                shortageQuantity: [
+                    {
+                        shortageQuantity: 0
+                    }
+                ]
+            }
+        ]
     }
 ]
-
+const mockBody = [
+    { tripId: 1, tripName: 'LoadingToStock' },
+    { tripId: 1, tripName: 'StockToUnloading' },
+    { tripId: 2, tripName: 'LoadingToUnloading' }
+]
+const mockBody2 = {
+    trip: [
+        { tripId: 2, tripName: 'LoadingToUnloading' },
+        { tripId: 1, tripName: 'LoadingToStock' },
+        { tripId: 1, tripName: 'StockToUnloading' }
+    ],
+    billNo: 'MGL23A-1'
+}
 describe('Invoice Controller', async () => {
-    test.skip('should able to get invoice details', async () => {
-        mockGetInvoiceDetails.mockResolvedValue(mockGetInvoiceDetail)
-        await supertest(app).put('/api/invoice').expect(200)
-        expect(mockGetInvoiceDetails).toBeCalledTimes(1)
+    test('should able to get invoice details', async () => {
+        mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
+        mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
+        mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
+        await supertest(app).put('/api/invoice').send(mockBody).expect(200)
+        expect(mockGetInvoiceDetailsD).toBeCalledTimes(1)
+        expect(mockGetInvoiceDetailsS).toBeCalledTimes(1)
+        expect(mockGetInvoiceDetailsU).toBeCalledTimes(1)
+    })
+    test('should able to get invoice details', async () => {
+        await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
+        expect(mockUpdateBillNumberD).toBeCalledTimes(1)
+        expect(mockUpdateBillNumberS).toBeCalledTimes(1)
+        expect(mockUpdateBillNumberU).toBeCalledTimes(1)
+        expect(mockUpdateBillNumberB).toBeCalledTimes(1)
     })
 })

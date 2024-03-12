@@ -10,6 +10,8 @@ const mockAcknowledgeStatusforOverAllTrip = vi.fn()
 const mockCreateShortageQuantity = vi.fn()
 const mockGetPercentageByTransporter = vi.fn()
 const mockcreatePaymentDues = vi.fn()
+const mockGetShortageQuantityByOverallTripId = vi.fn()
+const mockGetDueByOverallTripId = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getOverAllTripByAcknowledgementStatus: () => mockAllTripByAcknowledgementStatus(),
@@ -26,13 +28,16 @@ vi.mock('../models/stockPointToUnloadingPoint', () => ({
         mockUpdateWeightForTrip(inputs, data)
 }))
 vi.mock('../models/shortageQuantity', () => ({
-    create: (inputs: any) => mockCreateShortageQuantity(inputs)
+    create: (inputs: any) => mockCreateShortageQuantity(inputs),
+    getShortageQuantityByOverallTripId: (inputs: any) =>
+        mockGetShortageQuantityByOverallTripId(inputs)
 }))
 vi.mock('../models/transporter', () => ({
-    getPercentageByTransporter: (name: any) => mockGetPercentageByTransporter(name)
+    getPercentageByTransporter: (tds: any) => mockGetPercentageByTransporter(tds)
 }))
 vi.mock('../models/paymentDues', () => ({
-    create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs)
+    create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
+    getDueByOverallTripId: (id: number) => mockGetDueByOverallTripId(id)
 }))
 vi.mock('../../keycloak-config.ts', () => ({
     default: {
@@ -192,11 +197,12 @@ const mockAcknowledgeStatusforAllTrip = {
         totalTransporterAmount: 36000,
         margin: 4000,
         tripStatus: false,
-        wantFuel: false,
+        wantFuel: true,
         truck: {
             vehicleNumber: 'TN30S7777',
             transporter: {
-                name: 'Muthu Logistics'
+                name: 'Muthu Logistics',
+                transporterType: 'Market'
             }
         }
     }
@@ -220,6 +226,8 @@ const mockGstDuesData = [
         vehicleNumber: 'TN93D5512'
     }
 ]
+const mockgetPercentageByTransporterData = { tdsPercentage: 2 }
+const mockGetDueByOverallTripIdData = { shortageAmount: 4000 }
 describe('Acknowledgement Controller', () => {
     test('should able to get all vehicle number from overAllTrip', async () => {
         mockAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTrip)
@@ -229,10 +237,6 @@ describe('Acknowledgement Controller', () => {
     test('should able to get trip Details from overAllTrip by Id', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
         await supertest(app).get('/api/acknowledgement/:id').expect(mockOverAllTripByStockIdData)
-        expect(mockOverAllTripById).toBeCalledTimes(1)
-    })
-    test('should able update acknowledgement status with create final due', async () => {
-        mockAcknowledgeStatusforOverAllTrip.mockResolvedValue(mockAcknowledgeStatusforAllTrip)
         expect(mockOverAllTripById).toBeCalledTimes(1)
     })
     test('should able to close trip by Id for stockTrip', async () => {
@@ -249,12 +253,22 @@ describe('Acknowledgement Controller', () => {
     })
     test('should able to close trip by Id for trip', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
-        mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
-        mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
-        mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(3)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(1)
+    })
+    test('should able update acknowledgement status with create final due', async () => {
+        mockAcknowledgeStatusforOverAllTrip.mockResolvedValue(mockAcknowledgeStatusforAllTrip)
+        mockGetPercentageByTransporter.mockResolvedValue(mockgetPercentageByTransporterData)
+        mockGetDueByOverallTripId.mockResolvedValue([{ ...mockGstDuesData, overallTripId: 12 }])
+        mockGetShortageQuantityByOverallTripId.mockResolvedValue(mockGetDueByOverallTripIdData)
+        mockcreatePaymentDues.mockResolvedValue(mockGstDuesData)
+        await supertest(app).put('/api/acknowledge/12').expect(200)
+        expect(mockAcknowledgeStatusforOverAllTrip).toBeCalledTimes(1)
+        expect(mockGetPercentageByTransporter).toBeCalledTimes(3)
+        expect(mockGetDueByOverallTripId).toBeCalledTimes(1)
+        expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(1)
+        expect(mockcreatePaymentDues).toBeCalledTimes(3)
     })
 })
