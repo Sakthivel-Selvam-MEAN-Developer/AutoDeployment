@@ -20,7 +20,7 @@ export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, re
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
-const getTransporterName = (overallTrip: any) => {
+export const getTransporterName = (overallTrip: any) => {
     let transporterName = ''
     if (overallTrip.stockPointToUnloadingPointTrip !== null) {
         transporterName =

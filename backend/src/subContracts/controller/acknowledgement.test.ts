@@ -231,8 +231,9 @@ describe('Acknowledgement Controller', () => {
         await supertest(app).get('/api/acknowledgement/:id').expect(mockOverAllTripByStockIdData)
         expect(mockOverAllTripById).toBeCalledTimes(1)
     })
-    test.skip('should able update acknowledgement status with create final due', async () => {
+    test('should able update acknowledgement status with create final due', async () => {
         mockAcknowledgeStatusforOverAllTrip.mockResolvedValue(mockAcknowledgeStatusforAllTrip)
+        expect(mockOverAllTripById).toBeCalledTimes(1)
     })
     test('should able to close trip by Id for stockTrip', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)

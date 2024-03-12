@@ -3,12 +3,28 @@
   project: subContract
   planning:
     - test coverage
+    - documentation for driver salary
+- date: 11-3-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - run keycloak on production
+
+- date: 11-3-2024
+  person: Barath
+  project: subContract
+  planning:
+    - test coverage
+  completed:
+    - test coverage
 - date: 11-3-2024
   person: Sakthivel
   project: subContract
   planning:
     - researching keycloak
     - run keycloak on production
+  completed:
+    - researched keycloak
 
 - date: 9-3-2024
   person: Barath

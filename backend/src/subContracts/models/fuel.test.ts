@@ -1,7 +1,9 @@
 import {
     create as createFuel,
     getAllFuel,
+    getFuelDetailsWithoutTrip,
     getFuelWithoutTrip,
+    updateFuelStatus,
     updateFuelWithTripId
 } from './fuel.ts'
 import { create } from './bunk.ts'
@@ -102,5 +104,24 @@ describe('Fuel model', () => {
 
         const actual = await updateFuelWithTripId({ id: fuel.id, overallTripId: overAllTrip.id })
         expect(actual.overallTripId).toBe(overAllTrip.id)
+    })
+    test('should able to update fuel with tripId', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id
+        })
+        const actual = await getFuelDetailsWithoutTrip()
+        expect(actual[0].bunk.id).toBe(bunk.id)
+    })
+    test('should able to update fuel with tripId', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id
+        })
+        const actual = await updateFuelStatus(fuel.id)
+        await getAllFuel()
+        expect(actual.paymentStatus).toBe(true)
     })
 })

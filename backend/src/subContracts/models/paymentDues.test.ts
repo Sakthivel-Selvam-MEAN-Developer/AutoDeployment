@@ -4,9 +4,15 @@ import {
     findTripWithActiveDues,
     getCompletedDues,
     getDueByOverallTripId,
+    getGstDuesGroupByName,
+    getGstPaymentDues,
     getOnlyActiveDuesByName,
+    getPaymentDuesWithoutTripId,
+    getUpcomingDuesByDefault,
     getUpcomingDuesByFilter,
-    updatePaymentDues
+    updatePaymentDues,
+    updatePaymentDuesWithTripId,
+    updatePaymentNEFTStatus
 } from './paymentDues.ts'
 import seedPaymentDue from '../seed/paymentDue.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
@@ -231,6 +237,144 @@ describe('Payment-Due model', () => {
         }
         await updatePaymentDues(wantToUpdate)
         const actual = await getCompletedDues(seedPaymentDue.name, dueDate, dueDate, 1)
+        expect(actual.length).toBe(1)
         expect(actual[0].transactionId).toBe('abc')
+    })
+    test('should be able to get PaymentDues Without TripId', async () => {
+        await create(seedPaymentDue)
+        const actual = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
+        expect(actual?.overallTripId).toBe(null)
+        expect(actual?.status).toBe(false)
+    })
+    test('should be able to update PaymentDues With TripId', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const stockTripTruck = await createTruck({
+            ...seedTruck,
+            vehicleNumber: 'TN52S3555',
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+
+        const loadingToStockTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: stockTripTruck.id,
+            wantFuel: false
+        })
+        const overallTrip: any = await createOverallTrip({
+            loadingPointToStockPointTripId: loadingToStockTrip.id
+        })
+        await create([seedPaymentDue])
+        const paymentDue = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
+        const actual = await updatePaymentDuesWithTripId({
+            id: paymentDue?.id,
+            overallTripId: overallTrip.id
+        })
+        expect(actual.overallTripId).toBe(overallTrip.id)
+    })
+    test('should be able to update Payment NEFT Status', async () => {
+        await create(seedPaymentDue)
+        const paymentDue: any = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
+        await updatePaymentNEFTStatus([paymentDue?.id])
+        const actual = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
+        expect(actual?.NEFTStatus).toBe(true)
+    })
+    test('should be able to get Gst Dues by GroupBy Name', async () => {
+        await create({ ...seedPaymentDue, type: 'gst pay' })
+        const actual = await getGstDuesGroupByName(false)
+        expect(actual.length).toBe(1)
+        // eslint-disable-next-line no-underscore-dangle
+        expect(actual[0]._count.status).toBe(1)
+        // eslint-disable-next-line no-underscore-dangle
+        expect(actual[0]._sum.payableAmount).toBe(seedPaymentDue.payableAmount)
+    })
+    test('should be able to get Gst PaymentDues', async () => {
+        await create({ ...seedPaymentDue, type: 'gst pay', status: false, NEFTStatus: true })
+        const actual = await getGstPaymentDues([seedPaymentDue.name], true)
+        expect(actual.length).toBe(1)
+        expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
+    })
+    test('should be able to get UpcomingDues By Default', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const stockTripTruck = await createTruck({
+            ...seedTruck,
+            vehicleNumber: 'TN52S3555',
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+
+        const loadingToStockTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: stockTripTruck.id,
+            wantFuel: false
+        })
+        const overallTrip: any = await createOverallTrip({
+            loadingPointToStockPointTripId: loadingToStockTrip.id
+        })
+        await create({ ...seedPaymentDue, overallTripId: overallTrip.id, type: 'final pay' })
+        const actual = await getUpcomingDuesByDefault()
+        expect(actual.length).toBe(1)
+        expect(actual[0]?.overallTrip?.loadingPointToStockPointTrip?.invoiceNumber).toBe(
+            loadingToStockTrip.invoiceNumber
+        )
     })
 })
