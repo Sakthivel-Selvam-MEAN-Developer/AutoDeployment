@@ -39,5 +39,13 @@ export default defineWorkspace([
             include: ['src/wonderMove/**/*.test.ts'],
             setupFiles: ['./src/wonderMove/testUtils/testGlobalHooks.ts']
         }
+    },
+    {
+        test: {
+            ...basicConfig,
+            name: 'driverSalary',
+            include: ['src/driverSalary/**/*.test.ts'],
+            setupFiles: ['./src/driverSalary/testUtils/testGlobalHooks.ts']
+        }
     }
 ])

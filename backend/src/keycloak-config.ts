@@ -6,6 +6,5 @@ const keycloakConfig: any = {
     serverUrl: 'http://localhost:8080',
     realm: 'WonderWhy'
 }
-
 const keycloak = new Keycloak({ scope: 'openid' }, keycloakConfig)
 export default keycloak

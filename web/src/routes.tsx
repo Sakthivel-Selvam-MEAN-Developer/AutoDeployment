@@ -16,6 +16,7 @@ import Reason from './wonderMove/components/reason/home.tsx'
 import ReasonList from './wonderMove/components/reason/list.tsx'
 import hrmRoutes from './hrmRoutes.tsx'
 import sunContractRoutes from './subContractRoutes.tsx'
+import driverSalaryRoutes from './driverSalaryRoutes.tsx'
 
 export const router = [
     {
@@ -97,5 +98,6 @@ export const router = [
         ]
     },
     hrmRoutes,
-    sunContractRoutes
+    sunContractRoutes,
+    driverSalaryRoutes
 ]

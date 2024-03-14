@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import CreateFactory from './factory'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client, client1 } from '../keycloakTest'
+import { client, client1 } from '../../../keycloakTest'
 
 const mockGetAllCementCompany = vi.fn()
 const mockCreateLoadingPoint = vi.fn()

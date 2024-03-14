@@ -4,7 +4,7 @@ import CreateCompany from './company'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client } from '../keycloakTest'
+import { client } from '../../../keycloakTest'
 
 const mockCreateCompany = vi.fn()
 

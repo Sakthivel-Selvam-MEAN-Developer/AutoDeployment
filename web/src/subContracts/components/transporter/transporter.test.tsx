@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import CreateTransporter from './list'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client } from '../keycloakTest'
+import { client } from '../../../keycloakTest'
 
 const mockCreateTransporter = vi.fn()
 const mockGetAllAccountTypes = vi.fn()

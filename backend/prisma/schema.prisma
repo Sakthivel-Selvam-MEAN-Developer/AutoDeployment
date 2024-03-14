@@ -8,7 +8,7 @@ datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
   extensions = [postgis]
-  schemas    = ["wonderMove", "peopleOrg", "identity", "subContract"]
+  schemas    = ["wonderMove", "peopleOrg", "identity", "subContract", "driverSalary"]
 }
 
 model customers {
@@ -384,23 +384,23 @@ model loadingPointToStockPointTrip {
 }
 
 model stockPointToUnloadingPointTrip {
-  id                             Int                           @id @default(autoincrement())
+  id                             Int                          @id @default(autoincrement())
   startDate                      Int
-  invoiceNumber                  String                        @unique
-  tripStatus                     Boolean                       @default(false)
+  invoiceNumber                  String                       @unique
+  tripStatus                     Boolean                      @default(false)
   acknowledgeDueTime             Int?
-  freightAmount                  Float                         @db.DoublePrecision
-  transporterAmount              Float                         @db.DoublePrecision
-  totalFreightAmount             Float                         @db.DoublePrecision
-  totalTransporterAmount         Float                         @db.DoublePrecision
-  createdAt                      DateTime                      @default(now()) @db.Timestamptz(6)
-  updatedAt                      DateTime                      @updatedAt @db.Timestamptz(6)
-  unloadingPoint                 unloadingPoint                @relation(fields: [unloadingPointId], references: [id])
+  freightAmount                  Float                        @db.DoublePrecision
+  transporterAmount              Float                        @db.DoublePrecision
+  totalFreightAmount             Float                        @db.DoublePrecision
+  totalTransporterAmount         Float                        @db.DoublePrecision
+  createdAt                      DateTime                     @default(now()) @db.Timestamptz(6)
+  updatedAt                      DateTime                     @updatedAt @db.Timestamptz(6)
+  unloadingPoint                 unloadingPoint               @relation(fields: [unloadingPointId], references: [id])
   unloadingPointId               Int
   loadingPointToStockPointTrip   loadingPointToStockPointTrip @relation(fields: [loadingPointToStockPointTripId], references: [id])
   loadingPointToStockPointTripId Int
   overallTrip                    overallTrip[]
-  truck                          truck?                        @relation(fields: [truckId], references: [id])
+  truck                          truck?                       @relation(fields: [truckId], references: [id])
   truckId                        Int?
   billNo                         String?
 
@@ -560,4 +560,25 @@ model billNo {
   lastBillNo String
 
   @@schema("subContract")
+}
+
+model driver {
+  id                 Int                @id @default(autoincrement())
+  name               String
+  fatherName         String
+  dateofBirth        Int
+  aadharNumber       String             @unique
+  panNumber          String             @unique
+  address            String
+  mobileNumber       String             @unique
+  driverLicense      String             @unique
+  licenseExpriryDate Int
+  bankName           String
+  accountNumber      String             @unique
+  accountBranch      String
+  ifcsCode           String             @unique
+  createdAt          DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(6)
+
+  @@schema("driverSalary")
 }

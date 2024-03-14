@@ -1,9 +1,18 @@
+- date: 14-3-2024
+  person: Barath, Sakthivel
+  project: subContract
+  planning:
+    - run keycloak on production
+
 - date: 13-3-2024
   person: Barath
   project: subContract
   planning:
     - documentation for driver salary
     - starting driver salary
+  completed:
+    - documentation for driver salary
+    - created transporter master with test
 - date: 13-3-2024
   person: Sakthivel
   project: subContract

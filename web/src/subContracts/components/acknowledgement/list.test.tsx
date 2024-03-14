@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import SelectTrip from './list'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client, client1 } from '../keycloakTest'
+import { client, client1 } from '../../../keycloakTest'
 
 const mockActiveTripsByAcknowledgement = vi.fn()
 const mockgetTripById = vi.fn()

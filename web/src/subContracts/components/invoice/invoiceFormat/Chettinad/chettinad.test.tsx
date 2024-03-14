@@ -4,7 +4,7 @@ import MockDate from 'mockdate'
 import Chettinad_Ariyalur from './chettinadAriyalur'
 import Chettinad_Karikkali from './chettinadKarikali'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client, client1 } from '../../../keycloakTest'
+import { client, client1 } from '../../../../../keycloakTest'
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
         convert: vi.fn().mockReturnValue('Ten Lakhs Only')
