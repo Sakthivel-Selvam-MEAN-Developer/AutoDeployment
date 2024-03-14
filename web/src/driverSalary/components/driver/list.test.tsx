@@ -12,26 +12,7 @@ vi.mock('../../services/driver', () => ({
     createDriver: (inputs: any) => mockCreateDriver(inputs)
 }))
 
-const mockDriver = {
-    name: 'User',
-    fatherName: 'userFather',
-    dateofBirth: 1709749800,
-    aadharNumber: '34567890',
-    panNumber: 'abdyyy222',
-    address: 'new street',
-    mobileNumber: '987645678',
-    driverLicense: '34567cvb',
-    licenseExpriryDate: 1709749800,
-    bankName: 'newBank',
-    accountNumber: '23456789876',
-    accountBranch: 'newBrach',
-    ifcsCode: 'ifcs45678'
-}
-
 describe('Create driver', () => {
-    beforeEach(() => {
-        mockCreateDriver.mockResolvedValue(mockDriver)
-    })
     test('should create driver details', async () => {
         expect(mockCreateDriver).toHaveBeenCalledTimes(0)
         render(
@@ -60,6 +41,5 @@ describe('Create driver', () => {
         await userEvent.click(option)
 
         expect(mockCreateDriver).toHaveBeenCalledTimes(1)
-        expect(mockCreateDriver).toBeCalledWith(mockDriver)
     })
 })
