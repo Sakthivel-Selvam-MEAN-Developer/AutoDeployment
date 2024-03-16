@@ -58,7 +58,7 @@ resource "gandi_livedns_record" "www" {
   zone    = "wondermove.in"
 }
 
-resource "gandi_livedns_record" "www" {
+resource "gandi_livedns_record" "auth" {
   name = "auth"
   type = "A"
   values = [aws_eip.ip.public_ip]

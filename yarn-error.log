@@ -14,7 +14,7 @@ Platform:
   linux arm64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile '/usr/local/share/.cache/yarn/v6/npm-axios-1.6.7-integrity/node_modules/axios/dist/axios.js' -> '/app/node_modules/chromedriver/node_modules/axios/dist/axios.js'
+  Error: ENOENT: no such file or directory, copyfile '/usr/local/share/.cache/yarn/v6/npm-@rollup-rollup-linux-arm64-musl-4.9.1-d3a4e1c9f21eef3b9f4e4989f334a519a1341462-integrity/node_modules/@rollup/rollup-linux-arm64-musl/README.md' -> '/app/node_modules/@rollup/rollup-linux-arm64-musl/README.md'
 
 npm manifest: 
   {

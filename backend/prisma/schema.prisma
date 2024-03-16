@@ -1,7 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions", "multiSchema"]
-  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -563,22 +563,22 @@ model billNo {
 }
 
 model driver {
-  id                 Int                @id @default(autoincrement())
+  id                 Int      @id @default(autoincrement())
   name               String
   fatherName         String
   dateofBirth        Int
-  aadharNumber       String             @unique
-  panNumber          String             @unique
+  aadharNumber       String   @unique
+  panNumber          String   @unique
   address            String
-  mobileNumber       String             @unique
-  driverLicense      String             @unique
+  mobileNumber       String   @unique
+  driverLicense      String   @unique
   licenseExpriryDate Int
   bankName           String
-  accountNumber      String             @unique
+  accountNumber      String   @unique
   accountBranch      String
-  ifcsCode           String             @unique
-  createdAt          DateTime           @default(now()) @db.Timestamptz(6)
-  updatedAt          DateTime           @updatedAt @db.Timestamptz(6)
+  ifcsCode           String   @unique
+  createdAt          DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime @updatedAt @db.Timestamptz(6)
 
   @@schema("driverSalary")
 }
