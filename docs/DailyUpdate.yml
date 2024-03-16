@@ -1,9 +1,16 @@
+- date: 16-3-2024
+  person: Barath, Sakthivel
+  project: subContract
+  planning:
+    - fix keycloak sizing error 
+
 - date: 15-3-2024
   person: Barath
   project: subContract
   planning:
     - deploy keycloak
-    - integrating keycloak with driver creation
+  completed: 
+    - deployed keycloak
 - date: 15-3-2024
   person: Sakthivel
   project: subContract
