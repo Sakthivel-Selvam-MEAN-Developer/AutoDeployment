@@ -8,7 +8,7 @@ datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
   extensions = [postgis]
-  schemas    = ["wonderMove", "peopleOrg", "identity", "subContract", "driverSalary"]
+  schemas    = ["wonderMove", "peopleOrg", "identity", "subContract", "driverSalary", "accounting"]
 }
 
 model customers {
@@ -581,4 +581,77 @@ model driver {
   updatedAt          DateTime @updatedAt @db.Timestamptz(6)
 
   @@schema("driverSalary")
+}
+
+model account {
+  id                  Int               @id @default(autoincrement())
+  balance             Float             @default(0)
+  entries             entry[]
+  kind                accountKindEnum
+  transactingEntityId Int
+  transactingEntity   transactingEntity @relation(fields: [transactingEntityId], references: [id])
+
+  @@unique([transactingEntityId, kind])
+  @@schema("accounting")
+}
+
+model transactingEntity {
+  id      Int              @id @default(autoincrement())
+  name    String
+  types   entityTypeEnum[]
+  gst     String?
+  pan     String?
+  address String?
+  contact String?
+  account account[]
+
+  @@schema("accounting")
+}
+
+enum entityTypeEnum {
+  CUSTOMER
+  VENDOR
+  TRANSPORTER
+  EMPLOYEE
+  SELF
+
+  @@schema("accounting")
+}
+
+enum accountKindEnum {
+  RECEIVABLE
+  PAYABLE
+  BANK
+  CASH
+  GST_RECEIVABLE
+  GST_PAYABLE
+
+  @@schema("accounting")
+}
+
+model transaction {
+  id      Int      @id @default(autoincrement())
+  date    DateTime @default(now())
+  entries entry[]
+
+  @@schema("accounting")
+}
+
+model entry {
+  id            Int         @id @default(autoincrement())
+  amount        Float
+  type          entryType
+  accountId     Int
+  transactionId Int
+  account       account     @relation(fields: [accountId], references: [id])
+  transaction   transaction @relation(fields: [transactionId], references: [id])
+
+  @@schema("accounting")
+}
+
+enum entryType {
+  DEBIT
+  CREDIT
+
+  @@schema("accounting")
 }
