@@ -6,7 +6,8 @@ const configs = {
     loconavUrl: process.env.LOCONAV_URL || '',
     ktTelematicsUrl: process.env.KTTELEMATICS_URL || '',
     ORY_SDK_URL: process.env.ORY_SDK_URL || '',
-    PUBLIC_KEY: process.env.PUBLIC_KEY || ''
+    PUBLIC_KEY: process.env.PUBLIC_KEY || '',
+    Keycloak_URL: process.env.KEYCLOAK_URL || ''
 }
 
 export default configs

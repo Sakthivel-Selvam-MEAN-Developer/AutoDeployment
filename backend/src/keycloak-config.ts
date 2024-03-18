@@ -1,9 +1,10 @@
 import Keycloak from 'keycloak-connect'
+import configs from './config.ts'
 
 const keycloakConfig: any = {
     clientId: 'wonderwhyclient',
     bearerOnly: true,
-    serverUrl: 'http://keycloak:8080',
+    serverUrl: `${configs.Keycloak_URL}`,
     realm: 'WonderWhy'
 }
 const keycloak = new Keycloak({ scope: 'openid' }, keycloakConfig)
