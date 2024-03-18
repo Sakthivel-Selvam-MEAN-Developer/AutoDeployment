@@ -14,4 +14,7 @@ const config: Record<string, Config> = {
     }
 }
 
+if(!config[import.meta.env.MODE]) {
+    import.meta.env.MODE = 'development'
+}
 export default config[import.meta.env.MODE]
