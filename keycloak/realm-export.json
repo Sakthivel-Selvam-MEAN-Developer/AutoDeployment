@@ -793,7 +793,9 @@
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
         "http://wondermove.in/",
-        "http://wondermove.in/sub/*"
+        "http://wondermove.in/sub/*",
+        "http://localhost:3000/*",
+        "http://localhost/*"
       ],
       "webOrigins": [
         "http://wondermove.in"

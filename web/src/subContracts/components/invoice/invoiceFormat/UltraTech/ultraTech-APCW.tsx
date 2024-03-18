@@ -6,7 +6,6 @@ import { StockToUnloadingPointProps } from '../../interface'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import dayjs from 'dayjs'
 import { InvoiceProp as tripProps } from '../../interface'
-// @ts-expect-error import image
 import signature from '../signature.png'
 import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'

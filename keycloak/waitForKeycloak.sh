@@ -1,0 +1,37 @@
+echo "Waiting for keycloak to start..."
+FAILED=0
+TIMES=0
+/opt/keycloak/bin/kcadm.sh config credentials  --server http://localhost:8080 --realm master --user $KEYCLOAK_ADMIN --password $KEYCLOAK_ADMIN_PASSWORD``
+while [ $? -ne 0 ]
+do
+  if [ $TIMES -ge 60 ]; then
+    echo "Keycloak did not start within 5 minutes. Exiting..."
+    FAILED=1
+  fi
+  sleep 5
+  TIMES=$((TIMES+1))
+  echo "Waiting for keycloak to start..."
+  /opt/keycloak/bin/kcadm.sh config credentials  --server http://localhost:8080 --realm master --user $KEYCLOAK_ADMIN --password $KEYCLOAK_ADMIN_PASSWORD
+done
+
+if [ $FAILED -eq 1 ]; then
+  exit 1
+fi
+
+echo "Keycloak is up and running"
+
+echo "Check if realm exists"
+/opt/keycloak/bin/kcadm.sh get realms/WonderWhy
+
+if [ $? -eq 1 ]; then
+  echo "Realm does not exists"
+  echo "Creating realm"
+  /opt/keycloak/bin/kcadm.sh  create realms -s realm=WonderWhy -f /config/realm-export.json
+fi
+
+echo "Update realm"
+echo $KEYCLOAK_UPDATE_REALM
+if [ "$KEYCLOAK_UPDATE_REALM" = true ]; then
+  echo "Updating realm"
+  /opt/keycloak/bin/kcadm.sh  update realms/WonderWhy -f /config/realm-export.json
+fi

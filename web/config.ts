@@ -4,18 +4,14 @@ interface Config {
 }
 
 const config: Record<string, Config> = {
-    prod: {
+    production: {
         backendUrl: `http://${window.location.hostname}/api`,
-        keycloakUrl: `http://keycloak:8080/`,
+        keycloakUrl: `http://auth.${window.location.hostname}/`,
     },
-    dev: {
+    development: {
         backendUrl: `http://${window.location.hostname}:3000/api`,
         keycloakUrl: `http://${window.location.hostname}:8080/`,
     }
 }
-const env = 'prod'
-// if (import.meta.env.MODE == 'dev') {
-//     env = 'dev'
-// }
 
-export default config[env]
+export default config[import.meta.env.MODE]

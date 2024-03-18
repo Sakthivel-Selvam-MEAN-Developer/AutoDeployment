@@ -53,6 +53,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+      - KEYCLOAK_UPDATE_REALM=${KEYCLOAK_UPDATE_REALM}
     volumes:
       - ./keycloak:/config
     command: ["--verbose", "--config-file=/config/keycloak.conf", "start"]

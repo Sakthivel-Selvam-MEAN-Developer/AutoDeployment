@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react'
-// @ts-expect-error import image
 import signature from '../signature.png'
 import './style.css'
 import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
