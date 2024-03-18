@@ -55,7 +55,7 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
     volumes:
       - ./keycloak:/config
-    command: ["--verbose", "--config-file=/config/keycloak.conf", "start-dev"]
+    command: ["--verbose", "--config-file=/config/keycloak.conf", "start"]
 
   nginx:
     image: arm64v8/nginx:1.25.3-alpine3.18
