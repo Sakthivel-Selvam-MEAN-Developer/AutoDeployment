@@ -1,5 +1,7 @@
 import supertest from 'supertest'
+import { Request, Response } from 'express'
 import { app } from '../../app.ts'
+import { createTransporter } from './transporter.ts'
 
 const mockTransporter = vi.fn()
 const mockCreateTransporter = vi.fn()
@@ -8,8 +10,10 @@ vi.mock('../models/transporter', () => ({
     getAllTransporter: () => mockTransporter(),
     create: (inputs: any) => mockCreateTransporter(inputs)
 }))
+let actualRole = ''
 vi.mock('../../authorization', () => ({
-    hasRole: () => (_req: any, _res: any, next: any) => {
+    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
+        actualRole = role
         next()
     }
 }))
@@ -23,27 +27,41 @@ vi.mock('../../keycloak-config.ts', () => ({
         }
     }
 }))
-const mockTransporterData = {
-    name: 'Barath Logistics Pvt Ltd',
-    emailId: 'sample@gmail.com',
-    contactPersonName: 'Muthu',
-    contactPersonNumber: '1234',
-    address: 'Muthu Street',
-    hasGst: false,
-    hasTds: false,
-    accountHolder: 'muthu',
-    accountNumber: '43534523',
-    ifsc: 'zxy1234'
-}
+const mockReq = {
+    body: {
+        name: 'Barath Logistics Pvt Ltd',
+        emailId: 'sample@gmail.com',
+        contactPersonName: 'Muthu',
+        contactPersonNumber: '1234',
+        address: 'Muthu Street',
+        hasGst: false,
+        hasTds: false,
+        accountHolder: 'muthu',
+        accountNumber: '43534523',
+        ifsc: 'zxy1234'
+    }
+} as Request
+
+const mockRes = {
+    sendStatus: vi.fn(),
+    status: vi.fn()
+} as unknown as Response
+
 describe('Transporter Controller', () => {
     test('should able to access', async () => {
         mockTransporter.mockResolvedValue({ name: 'Barath Logistics' })
         await supertest(app).get('/api/transporter').expect({ name: 'Barath Logistics' })
         expect(mockTransporter).toBeCalledWith()
     })
-    test('should able to access', async () => {
-        mockCreateTransporter.mockResolvedValue(mockTransporterData)
+    test('should able to create transporter', async () => {
+        mockCreateTransporter.mockResolvedValue(mockReq.body)
+        createTransporter(mockReq, mockRes)
         await supertest(app).post('/api/transporter').expect(200)
-        expect(mockCreateTransporter).toBeCalledTimes(1)
+        expect(mockCreateTransporter).toHaveBeenCalledWith(mockReq.body)
+        expect(mockCreateTransporter).toBeCalledTimes(2)
+    })
+    test('should have super admin role for transporter', async () => {
+        await supertest(app).post('/api/transporter').expect(200)
+        expect(actualRole).toBe('SuperAdmin')
     })
 })

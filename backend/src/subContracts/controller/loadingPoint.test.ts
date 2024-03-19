@@ -15,8 +15,10 @@ vi.mock('../../keycloak-config.ts', () => ({
         }
     }
 }))
+let actualRole = ''
 vi.mock('../../authorization', () => ({
-    hasRole: () => (_req: any, _res: any, next: any) => {
+    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
+        actualRole = role
         next()
     }
 }))
@@ -61,5 +63,9 @@ describe('Factory Controller', () => {
         })
         await supertest(app).post('/api/loading-point').expect(200)
         expect(mockCreatePricePointMarker).toBeCalledTimes(1)
+    })
+    test('should have super admin role for loadingPoint', async () => {
+        await supertest(app).post('/api/loading-point').expect(200)
+        expect(actualRole).toBe('SuperAdmin')
     })
 })

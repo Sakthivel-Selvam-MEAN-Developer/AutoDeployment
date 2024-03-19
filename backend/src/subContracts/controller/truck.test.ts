@@ -1,5 +1,7 @@
 import supertest from 'supertest'
+import { Request, Response } from 'express'
 import { app } from '../../app.ts'
+import { createTruck } from './truck.ts'
 
 const mockTruck = vi.fn()
 const mockTruckByTransporter = vi.fn()
@@ -14,8 +16,10 @@ vi.mock('../../keycloak-config.ts', () => ({
         }
     }
 }))
+let actualRole = ''
 vi.mock('../../authorization', () => ({
-    hasRole: () => (_req: any, _res: any, next: any) => {
+    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
+        actualRole = role
         next()
     }
 }))
@@ -24,11 +28,21 @@ vi.mock('../models/truck', () => ({
     create: (inputs: any) => mockCreateTuck(inputs),
     getTruckByTransporter: () => mockTruckByTransporter()
 }))
-const mockTruckData = {
-    vehicleNumber: 'Tn39cc5647',
-    capacity: 45,
-    transporterId: 1
-}
+
+const mockReq = {
+    body: {
+        vehicleNumber: 'Tn39cc5647',
+        capacity: 45,
+        transporterId: 1
+    }
+} as Request
+
+const mockRes = {
+    sendStatus: vi.fn(),
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn()
+} as unknown as Response
+
 describe('Truck Controller', () => {
     test('should able to access', async () => {
         mockTruck.mockResolvedValue({ vehicleNumber: 'TN93D5512' })
@@ -36,9 +50,15 @@ describe('Truck Controller', () => {
         expect(mockTruck).toBeCalledWith()
     })
     test('should able to create truck', async () => {
-        mockCreateTuck.mockResolvedValue(mockTruckData)
+        mockCreateTuck.mockResolvedValue(mockReq.body)
+        createTruck(mockReq, mockRes)
         await supertest(app).post('/api/truck').expect(200)
-        expect(mockCreateTuck).toBeCalledTimes(1)
+        expect(mockCreateTuck).toHaveBeenCalledWith(mockReq.body)
+        expect(mockCreateTuck).toBeCalledTimes(2)
+    })
+    test('should have super admin role for creating truck', async () => {
+        await supertest(app).post('/api/truck').expect(200)
+        expect(actualRole).toBe('SuperAdmin')
     })
     test('should get only the trucks by transporter name', async () => {
         mockTruckByTransporter.mockResolvedValue({

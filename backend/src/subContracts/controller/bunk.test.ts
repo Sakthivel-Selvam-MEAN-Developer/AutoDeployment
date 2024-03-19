@@ -32,10 +32,12 @@ const mockReq = {
         accountTypeNumber: 121212
     }
 } as Request
+
 const mockRes = {
     sendStatus: vi.fn(),
     status: vi.fn()
 } as unknown as Response
+
 describe('Bunk Controller', () => {
     test('should able to create Bunk', async () => {
         mockCreateBunk.mockResolvedValue(mockBunk)

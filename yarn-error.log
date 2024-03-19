@@ -14,7 +14,7 @@ Platform:
   linux arm64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile '/usr/local/share/.cache/yarn/v6/npm-@rollup-rollup-linux-arm64-musl-4.9.1-d3a4e1c9f21eef3b9f4e4989f334a519a1341462-integrity/node_modules/@rollup/rollup-linux-arm64-musl/README.md' -> '/app/node_modules/@rollup/rollup-linux-arm64-musl/README.md'
+  Error: ENOENT: no such file or directory, lstat '/app/node_modules/@prisma/engines/libquery_engine-linux-musl-arm64-openssl-3.0.x.so.node'
 
 npm manifest: 
   {
@@ -40,7 +40,8 @@ npm manifest:
       "nginx": "docker compose up nginx",
       "dbKill": "docker compose down db",
       "sql": "docker compose exec db psql -U postgres -d wonderwhy",
-      "terra": "docker compose run -it terra bash"
+      "terra": "docker compose run -it terra bash",
+      "kcLogin": "docker compose exec -it keycloak bash;cd opt/keycloak/bin/./kcadm.sh config credentials --server http://localhost:8080 --realm master --user admin --password admin;"
     },
     "devDependencies": {
       "husky": "^8.0.3"

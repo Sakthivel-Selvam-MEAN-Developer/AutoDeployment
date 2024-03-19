@@ -34,8 +34,10 @@ vi.mock('../../keycloak-config.ts', () => ({
         }
     }
 }))
+let actualRole = ''
 vi.mock('../../authorization', () => ({
-    hasRole: () => (_req: any, _res: any, next: any) => {
+    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
+        actualRole = role
         next()
     }
 }))
@@ -148,5 +150,10 @@ describe('Invoice Controller', async () => {
         expect(mockUpdateBillNumberS).toBeCalledTimes(1)
         expect(mockUpdateBillNumberU).toBeCalledTimes(1)
         expect(mockUpdateBillNumberB).toBeCalledTimes(1)
+    })
+    test('should have super admin role for invoice details', async () => {
+        await supertest(app).put('/api/invoice').send(mockBody).expect(200)
+        await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
+        expect(actualRole).toBe('SuperAdmin')
     })
 })

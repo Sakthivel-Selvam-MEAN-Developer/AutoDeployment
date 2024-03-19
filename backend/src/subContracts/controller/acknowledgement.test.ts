@@ -49,12 +49,13 @@ vi.mock('../../keycloak-config.ts', () => ({
         }
     }
 }))
+let actualRole = ''
 vi.mock('../../authorization', () => ({
-    hasRole: () => (_req: any, _res: any, next: any) => {
+    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
+        actualRole = role
         next()
     }
 }))
-
 const mockOverAllTrip = [
     {
         id: 1,
@@ -270,5 +271,11 @@ describe('Acknowledgement Controller', () => {
         expect(mockGetDueByOverallTripId).toBeCalledTimes(1)
         expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(1)
         expect(mockcreatePaymentDues).toBeCalledTimes(3)
+    })
+    test('should have super admin role for stockTrip', async () => {
+        await supertest(app).put('/api/acknowledgement/trip').expect(200)
+        await supertest(app).put('/api/acknowledgement/trip').expect(200)
+        await supertest(app).put('/api/acknowledgement/trip').expect(200)
+        expect(actualRole).toBe('SuperAdmin')
     })
 })
