@@ -55,7 +55,7 @@
         "prismaMigrateDev": "prisma migrate deploy",
         "prismaMigrateTest": "dotenv -e .env.test -- prisma migrate deploy",
         "prismaMigrateCi": "dotenv -e .env.ci -- prisma migrate deploy",
-        "test": "dotenv -e .env.test -- vitest",
+        "test": "dotenv -e .env.test -- vitest --coverage.enabled=true",
         "testCI": "dotenv -e .env.ci -- vitest",
         "testOnce": "dotenv -e .env.test -- vitest --run --coverage.enabled=true",
         "t": "dotenv -e .env.test -- vitest --poolOptions.threads.singleThread=true --coverage.enabled=false",
