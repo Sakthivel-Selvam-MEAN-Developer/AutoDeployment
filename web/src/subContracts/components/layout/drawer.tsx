@@ -18,7 +18,6 @@ import { styled, useTheme, Theme } from '@mui/material/styles'
 import MuiDrawer from '@mui/material/Drawer'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
-import { keycloak } from '../../../auth'
 
 interface MiniDrawerProps {
     handleDrawerClose: () => void
@@ -66,8 +65,6 @@ const Drawer = styled(MuiDrawer, {
 
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
-    let superUser = false
-    if (keycloak.hasRealmRole('SuperAdmin') || keycloak.hasRealmRole('Admin')) superUser = true
     return (
         <Drawer variant="permanent" open={drawerState}>
             <DrawerHeader theme={theme}>
@@ -84,33 +81,27 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={0}
                     icon={<Dashboard />}
                 />
-                {superUser && (
-                    <DrawerListItem
-                        text="Company"
-                        navigate="/sub/company"
-                        drawerState={drawerState}
-                        index={1}
-                        icon={<Factory />}
-                    />
-                )}
-                {superUser && (
-                    <DrawerListItem
-                        text="Transporter"
-                        navigate="/sub/transporter"
-                        drawerState={drawerState}
-                        index={2}
-                        icon={<DirectionsBus />}
-                    />
-                )}
-                {superUser && (
-                    <DrawerListItem
-                        text="Price Point"
-                        navigate="/sub/price-point"
-                        drawerState={drawerState}
-                        index={3}
-                        icon={<Sell />}
-                    />
-                )}
+                <DrawerListItem
+                    text="Company"
+                    navigate="/sub/company"
+                    drawerState={drawerState}
+                    index={1}
+                    icon={<Factory />}
+                />
+                <DrawerListItem
+                    text="Transporter"
+                    navigate="/sub/transporter"
+                    drawerState={drawerState}
+                    index={2}
+                    icon={<DirectionsBus />}
+                />
+                <DrawerListItem
+                    text="Price Point"
+                    navigate="/sub/price-point"
+                    drawerState={drawerState}
+                    index={3}
+                    icon={<Sell />}
+                />
                 <DrawerListItem
                     text="Trip"
                     navigate="/sub/trip"
@@ -132,15 +123,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={6}
                     icon={<LocalGasStation />}
                 />
-                {superUser && (
-                    <DrawerListItem
-                        text="Acknowledgement"
-                        navigate="/sub/acknowledgement"
-                        drawerState={drawerState}
-                        index={7}
-                        icon={<LibraryAddCheck />}
-                    />
-                )}
+                <DrawerListItem
+                    text="Acknowledgement"
+                    navigate="/sub/acknowledgement"
+                    drawerState={drawerState}
+                    index={7}
+                    icon={<LibraryAddCheck />}
+                />
                 <DrawerListItem
                     text="Reports"
                     navigate="/sub/reports"
@@ -148,15 +137,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={8}
                     icon={<Summarize />}
                 />
-                {superUser && (
-                    <DrawerListItem
-                        text="Invoice"
-                        navigate="/sub/invoice"
-                        drawerState={drawerState}
-                        index={9}
-                        icon={<Receipt />}
-                    />
-                )}
+                <DrawerListItem
+                    text="Invoice"
+                    navigate="/sub/invoice"
+                    drawerState={drawerState}
+                    index={9}
+                    icon={<Receipt />}
+                />
             </List>
         </Drawer>
     )
