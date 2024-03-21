@@ -792,8 +792,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://wondermove.in/",
-        "http://wondermove.in/sub/*",
+        "http://wondermove.in/*",
         "http://localhost:3003/*",
         "http://localhost/*"
       ],

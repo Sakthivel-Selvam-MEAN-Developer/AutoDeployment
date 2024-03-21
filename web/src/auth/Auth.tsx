@@ -10,7 +10,7 @@ export interface AuthProps {
 const oidcConfig = {
     authority: `${config.keycloakUrl}/realms/WonderWhy/`,
     client_id: 'wonderwhyclient',
-    redirect_uri: `http://localhost:3003/sub`,
+    redirect_uri: window.location.href,
     responseType: 'code',
     scope: 'openid'
 }

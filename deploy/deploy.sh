@@ -14,6 +14,7 @@ echo "copy code to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' wonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/WonderWhy/backend/.env.aws  ec2-user@"$IP":~/wonderWhy/backend/.env
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/WonderWhy/keycloak/keycloak.aws.conf  ec2-user@"$IP":~/wonderWhy/keycloak/keycloak.conf
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/WonderWhy/web/dist/*  ec2-user@"$IP":~/wonderWhy/nginx/html/
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/WonderWhy/backend/dist/*  ec2-user@"$IP":~/wonderWhy/backend/dist/
 echo "install all dependencies"
@@ -37,6 +38,8 @@ ssh -t -i ~/.ssh/wonderWhy.pem ec2-user@"$IP"  << EOF
   ~/docker-compose up migrate
   echo "start keycloak"
   ~/docker-compose up keycloak -d
+  echo "update keycloak"
+  ~/docker-compose exec keycloak sh -c '/config/waitForKeycloak.sh'
   echo "start nginx along with backend"
   ~/docker-compose up nginx -d
 EOF

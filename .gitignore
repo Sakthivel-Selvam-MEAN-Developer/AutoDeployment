@@ -13,3 +13,4 @@ nginx/html/*
 .terragrunt-cache
 .terraform.lock.hcl
 .idea/copilot
+keycloak/keycloak.aws.conf
