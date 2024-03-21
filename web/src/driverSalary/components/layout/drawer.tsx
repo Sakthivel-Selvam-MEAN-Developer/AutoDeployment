@@ -6,7 +6,6 @@ import { styled, useTheme, Theme } from '@mui/material/styles'
 import MuiDrawer from '@mui/material/Drawer'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
-import { useKeycloak } from '@react-keycloak/web'
 
 interface MiniDrawerProps {
     handleDrawerClose: () => void
@@ -54,9 +53,6 @@ const Drawer = styled(MuiDrawer, {
 
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
-    let superUser = false
-    const { keycloak } = useKeycloak()
-    if (keycloak.hasRealmRole('SuperAdmin') || keycloak.hasRealmRole('Admin')) superUser = true
     return (
         <Drawer variant="permanent" open={drawerState}>
             <DrawerHeader theme={theme}>
@@ -73,15 +69,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={0}
                     icon={<Dashboard />}
                 />
-                {superUser && (
-                    <DrawerListItem
-                        text="Driver"
-                        navigate="/driverSalary/driver"
-                        drawerState={drawerState}
-                        index={1}
-                        icon={<Factory />}
-                    />
-                )}
+                <DrawerListItem
+                    text="Driver"
+                    navigate="/driverSalary/driver"
+                    drawerState={drawerState}
+                    index={1}
+                    icon={<Factory />}
+                />
             </List>
         </Drawer>
     )

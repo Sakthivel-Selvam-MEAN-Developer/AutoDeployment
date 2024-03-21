@@ -3,8 +3,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import CreateTransporter from './list'
-import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client } from '../../../keycloakTest'
 
 const mockCreateTransporter = vi.fn()
 const mockGetAllAccountTypes = vi.fn()
@@ -43,9 +41,7 @@ describe('Trip Test', () => {
         mockCreateTransporter.mockResolvedValue(mockTransporterData)
         render(
             <BrowserRouter>
-                <ReactKeycloakProvider authClient={client}>
-                    <CreateTransporter />
-                </ReactKeycloakProvider>
+                <CreateTransporter />
             </BrowserRouter>
         )
         expect(screen.getByText('Create')).toBeInTheDocument()

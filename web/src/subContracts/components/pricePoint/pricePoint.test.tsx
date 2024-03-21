@@ -3,8 +3,6 @@ import CreatePricepoint from './list'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client } from '../../../keycloakTest'
 
 const mockAllCementCompany = vi.fn()
 const mockAllLoadingPoint = vi.fn()
@@ -42,9 +40,7 @@ describe('Trip Test', () => {
         mockAllUnloadingPoint.mockResolvedValue(mockUnloadingPointData)
         render(
             <BrowserRouter>
-                <ReactKeycloakProvider authClient={client}>
-                    <CreatePricepoint />
-                </ReactKeycloakProvider>
+                <CreatePricepoint />
             </BrowserRouter>
         )
         expect(screen.getByText('Submit')).toBeInTheDocument()

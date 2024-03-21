@@ -2,8 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
-import { ReactKeycloakProvider } from '@react-keycloak/web'
-import { client } from '../../../keycloakTest'
+
 import CreateDriver from './list'
 
 const mockCreateDriver = vi.fn()
@@ -17,9 +16,7 @@ describe('Create driver', () => {
         expect(mockCreateDriver).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
-                <ReactKeycloakProvider authClient={client}>
-                    <CreateDriver />
-                </ReactKeycloakProvider>
+                <CreateDriver />
             </BrowserRouter>
         )
         await userEvent.type(screen.getByLabelText('Name'), 'User')
