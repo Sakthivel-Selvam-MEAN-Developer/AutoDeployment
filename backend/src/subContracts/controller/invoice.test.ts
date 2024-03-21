@@ -1,5 +1,7 @@
 import supertest from 'supertest'
+import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
+import { Role } from '../roles.ts'
 
 const mockGetInvoiceDetailsD = vi.fn()
 const mockUpdateBillNumberD = vi.fn()
@@ -24,23 +26,14 @@ vi.mock('../models/stockPointToUnloadingPoint', () => ({
 vi.mock('../models/billNumber', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberB(inputs, billNo)
 }))
-vi.mock('../../keycloak-config.ts', () => ({
-    default: {
-        protect: () => (_req: any, _resp: any, next: any) => {
-            next()
-        },
-        middleware: () => (_req: any, _resp: any, next: any) => {
-            next()
-        }
-    }
-}))
-let actualRole = ''
-vi.mock('../../authorization', () => ({
-    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
-        actualRole = role
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
         next()
     }
 }))
+
 const mockGetInvoiceDetailsDData = [
     {
         startDate: 1709231400,
@@ -154,6 +147,6 @@ describe('Invoice Controller', async () => {
     test('should have super admin role for invoice details', async () => {
         await supertest(app).put('/api/invoice').send(mockBody).expect(200)
         await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
-        expect(actualRole).toBe('SuperAdmin')
+        expect(mockAuth).toBeCalledWith(['Employee'])
     })
 })

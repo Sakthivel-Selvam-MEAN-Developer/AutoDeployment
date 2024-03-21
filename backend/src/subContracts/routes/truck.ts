@@ -1,11 +1,10 @@
 import { Router } from 'express'
 import { createTruck, listAllTruck, listTruckByTransporter } from '../controller/truck.ts'
-import keycloak from '../../keycloak-config.ts'
-import { hasRole } from '../../authorization.ts'
+import { authorise } from './authorise.ts'
 
 const truckRoutes = (router: Router) => {
     router.get('/truck', listAllTruck)
-    router.post('/truck', keycloak.protect(), hasRole('SuperAdmin'), createTruck)
+    router.post('/truck', authorise(['Employee']), createTruck)
     router.get('/transporter-truck/:transporterName', listTruckByTransporter)
 }
 

@@ -4,7 +4,7 @@ import configs from './config.ts'
 const keycloakConfig: any = {
     clientId: 'wonderwhyclient',
     bearerOnly: true,
-    serverUrl: `${configs.Keycloak_URL}`,
+    serverUrl: `${configs.keycloakUrl}`,
     realm: 'WonderWhy'
 }
 const keycloak = new Keycloak({ scope: 'openid' }, keycloakConfig)

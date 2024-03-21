@@ -1,8 +1,9 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { app } from '../../app.ts'
 import { createCompany } from './cementCompany.ts'
+import { Role } from '../roles.ts'
 
 const mockCreateCompany = vi.fn()
 const mockCementCompany = vi.fn()
@@ -12,21 +13,10 @@ vi.mock('../models/cementCompany', () => ({
     getAllCementCompany: () => mockCementCompany()
 }))
 
-vi.mock('../../keycloak-config.ts', () => ({
-    default: {
-        protect: () => (_req: any, _resp: any, next: any) => {
-            next()
-        },
-        middleware: () => (_req: any, _resp: any, next: any) => {
-            next()
-        }
-    }
-}))
-
-let actualRole = ''
-vi.mock('../../authorization', () => ({
-    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
-        actualRole = role
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
         next()
     }
 }))
@@ -56,7 +46,7 @@ describe('Cement Company Controller', () => {
     })
     test('should have super admin role for create company', async () => {
         await supertest(app).post('/api/cementCompany').expect(200)
-        expect(actualRole).toBe('SuperAdmin')
+        expect(mockAuth).toBeCalledWith(['Employee'])
     })
     test('should able to access', async () => {
         mockCementCompany.mockResolvedValue({ name: 'UltraTech Cements' })

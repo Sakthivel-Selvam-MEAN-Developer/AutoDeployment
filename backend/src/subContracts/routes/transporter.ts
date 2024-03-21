@@ -4,13 +4,12 @@ import {
     createTransporter,
     listAllTransporterName
 } from '../controller/transporter.ts'
-import keycloak from '../../keycloak-config.ts'
-import { hasRole } from '../../authorization.ts'
+import { authorise } from './authorise.ts'
 
 const transporterRoutes = (router: Router) => {
     router.get('/transporter', listAllTransporter)
     router.get('/transporter_name', listAllTransporterName)
-    router.post('/transporter', keycloak.protect(), hasRole('SuperAdmin'), createTransporter)
+    router.post('/transporter', authorise(['Employee']), createTransporter)
 }
 
 export default transporterRoutes

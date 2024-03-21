@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@prisma/client": "5.7.1",
+        "@types/jsonwebtoken": "^9.0.6",
         "axios": "^1.6.3",
         "compression": "^1.7.4",
         "cors": "^2.8.5",
@@ -47,7 +48,7 @@
         "build": "tsc && vite build",
         "runProd": "pm2-runtime start ecosystem.config.cjs --env production",
         "preview": "vite preview",
-        "lint": "eslint ./src --ext ts,tsx --report-unused-disable-directives --max-warnings 187",
+        "lint": "eslint ./src --ext ts,tsx --report-unused-disable-directives --max-warnings 176",
         "pris": "yarn prismaUp; yarn prismaMigrateDev; yarn prismaMigrateTest",
         "prismaGen": "prisma migrate dev --create-only --name ",
         "prismaGenCheck": "prisma migrate status ",

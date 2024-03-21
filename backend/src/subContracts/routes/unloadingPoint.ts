@@ -4,11 +4,10 @@ import {
     listAllUnloadingPoint,
     listUnloadingPonitBycementCompany
 } from '../controller/unloadingPoint.ts'
-import keycloak from '../../keycloak-config.ts'
-import { hasRole } from '../../authorization.ts'
+import { authorise } from './authorise.ts'
 
 const deliveryPointRoutes = (router: Router) => {
-    router.post('/unloading-point', keycloak.protect(), hasRole('SuperAdmin'), createUnloadingPoint)
+    router.post('/unloading-point', authorise(['Employee']), createUnloadingPoint)
     router.get('/unloading/:cementCompanyId', listAllUnloadingPoint)
     router.get('/unloading-point/:companyName', listUnloadingPonitBycementCompany)
 }

@@ -1,10 +1,9 @@
-import { axiosInstance, getData } from '../../wonderMove/services'
+import { axiosInstance, getData } from '../../apiCalls'
 import { tripDetailsProps } from '../components/invoice/list'
-import { tokenProps } from './acknowledgement.tsx'
 
-export const getInvoiceDetails = (id: tripDetailsProps[], token: tokenProps | undefined) =>
+export const getInvoiceDetails = (id: tripDetailsProps[]) =>
     axiosInstance
-        .put('/invoice/', id, token)
+        .put('/invoice/', id)
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
@@ -12,11 +11,8 @@ interface updateInvoiceProps {
     trip: tripDetailsProps[]
     billNo: string
 }
-export const updateInvoiceDetails = (
-    invoiceDetails: updateInvoiceProps,
-    token: tokenProps | undefined
-) =>
+export const updateInvoiceDetails = (invoiceDetails: updateInvoiceProps) =>
     axiosInstance
-        .put('/invoice/update', invoiceDetails, token)
+        .put('/invoice/update', invoiceDetails)
         .then(getData)
         .catch(() => alert('Error Getting data'))

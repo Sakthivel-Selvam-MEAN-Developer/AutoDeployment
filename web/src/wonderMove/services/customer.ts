@@ -1,4 +1,4 @@
-import { axiosInstance, getData } from './index.js'
+import { axiosInstance, getData } from '../../apiCalls'
 interface customerProps {
     id: number
     name: string

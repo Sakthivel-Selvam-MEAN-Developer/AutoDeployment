@@ -1,5 +1,7 @@
 import supertest from 'supertest'
+import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
+import { Role } from '../roles.ts'
 
 const mockUnloadingPoint = vi.fn()
 const mockUnloadingPointByCompany = vi.fn()
@@ -14,10 +16,10 @@ vi.mock('../models/unloadingPoint', () => ({
 vi.mock('../models/pricePointMarker', () => ({
     create: (inputs: any) => mockCreatePricePointMarker(inputs)
 }))
-let actualRole = ''
-vi.mock('../../authorization', () => ({
-    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
-        actualRole = role
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
         next()
     }
 }))
@@ -60,6 +62,6 @@ describe('Delivery point Controller', () => {
     })
     test('should have super admin role for unloadingPoint', async () => {
         await supertest(app).post('/api/unloading-point').expect(200)
-        expect(actualRole).toBe('SuperAdmin')
+        expect(mockAuth).toBeCalledWith(['Employee'])
     })
 })

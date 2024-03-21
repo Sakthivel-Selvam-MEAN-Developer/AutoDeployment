@@ -1,24 +1,16 @@
 import supertest from 'supertest'
+import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
+import { Role } from '../roles.ts'
 
 const mockLoadingPoint = vi.fn()
 const mockLoadingPointByCompany = vi.fn()
 const mockCreateLoadingPoint = vi.fn()
 const mockCreatePricePointMarker = vi.fn()
-vi.mock('../../keycloak-config.ts', () => ({
-    default: {
-        protect: () => (_req: any, _resp: any, next: any) => {
-            next()
-        },
-        middleware: () => (_req: any, _resp: any, next: any) => {
-            next()
-        }
-    }
-}))
-let actualRole = ''
-vi.mock('../../authorization', () => ({
-    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
-        actualRole = role
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
         next()
     }
 }))
@@ -66,6 +58,6 @@ describe('Factory Controller', () => {
     })
     test('should have super admin role for loadingPoint', async () => {
         await supertest(app).post('/api/loading-point').expect(200)
-        expect(actualRole).toBe('SuperAdmin')
+        expect(mockAuth).toBeCalledWith(['Employee'])
     })
 })

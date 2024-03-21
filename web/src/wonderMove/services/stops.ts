@@ -1,4 +1,4 @@
-import { axiosInstance, getData } from './index.js'
+import { axiosInstance, getData } from '../../apiCalls'
 
 export const getStopsByVehicle = (number: string) =>
     axiosInstance.get(`/stops/${number}`).then(getData)

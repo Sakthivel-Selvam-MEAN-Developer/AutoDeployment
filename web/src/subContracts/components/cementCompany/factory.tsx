@@ -6,7 +6,6 @@ import { createUnloadingPoint } from '../../services/unloadingPoint'
 import { createLoadingPoint } from '../../services/loadingPoint'
 import { createStockPoint } from '../../services/stockPoint'
 import { Box, CircularProgress } from '@mui/material'
-import useAuthorization from '../../../authorization'
 const clearForm = (
     reset: (values: Record<string, string>) => void,
     setValue: UseFormSetValue<FieldValues>,
@@ -21,7 +20,7 @@ const CreateFactory: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue, reset } = useForm<FieldValues>()
     const [loading, setLoading] = useState(false)
     const [companyId, setCompanyId] = useState(0)
-    const token = useAuthorization()
+
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (
             data.companyName !== undefined &&
@@ -36,21 +35,21 @@ const CreateFactory: React.FC = (): ReactElement => {
                 location: data.location.toLowerCase()
             }
             if (data.category === 'Loading Point')
-                createLoadingPoint(details, token)
+                createLoadingPoint(details)
                     .then(() => clearForm(reset, setValue, setLoading))
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
                     })
             else if (data.category === 'Unloading Point')
-                createUnloadingPoint(details, token)
+                createUnloadingPoint(details)
                     .then(() => clearForm(reset, setValue, setLoading))
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
                     })
             else if (data.category === 'Stock Point')
-                createStockPoint(details, token)
+                createStockPoint(details)
                     .then(() => clearForm(reset, setValue, setLoading))
                     .catch((e) => {
                         alert(`${e.message}`)

@@ -1,4 +1,4 @@
-import { axiosInstance, getData } from './index.ts'
+import { axiosInstance, getData } from '../../apiCalls'
 
 export const create = (reason: string) => axiosInstance.post('/reason', reason).then(getData)
 export const update = (reason: string) => axiosInstance.post('/reason-update', reason).then(getData)

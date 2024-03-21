@@ -8,7 +8,6 @@ import { Button } from '@mui/material'
 import InvoiceDialog from './invoiceDialog'
 import { updateInvoiceDetails } from '../../services/invoice'
 import { getLastBillNumber } from '../../services/billNumber'
-import useAuthorization from '../../../authorization'
 interface dateProps {
     $d: number
 }
@@ -36,7 +35,7 @@ const InvoiceList: React.FC = () => {
     const [message, setMessage] = useState<string>('Select Cement Comapany to List Data..!')
     const [activate, setActivate] = useState<boolean>(false)
     const [lastBillNumber, setLastBillNumber] = useState<string>('')
-    const token = useAuthorization()
+
     useEffect(() => {
         setTripDetails([])
         setTripId([])
@@ -83,7 +82,7 @@ const InvoiceList: React.FC = () => {
             trip: tripId,
             billNo: lastBillNumber
         }
-        await updateInvoiceDetails(data, token).then(getTripDetails)
+        await updateInvoiceDetails(data).then(getTripDetails)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

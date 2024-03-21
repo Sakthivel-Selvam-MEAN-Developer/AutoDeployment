@@ -2,11 +2,10 @@ import React, { ReactElement } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import FormFields from './formField'
-import useAuthorization from '../../../authorization.ts'
+
 import { createDriver } from '../../services/driver.ts'
 const CreateDriver: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
-    const token = useAuthorization()
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         const details = {
@@ -15,7 +14,7 @@ const CreateDriver: React.FC = (): ReactElement => {
             dateofBirth: data.dateofBirth.unix()
         }
         console.log(details)
-        createDriver(details, token)
+        createDriver(details)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

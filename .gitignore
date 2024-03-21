@@ -12,3 +12,4 @@ nginx/logs/*
 nginx/html/*
 .terragrunt-cache
 .terraform.lock.hcl
+.idea/copilot

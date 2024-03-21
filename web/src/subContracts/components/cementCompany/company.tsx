@@ -6,7 +6,7 @@ import SubmitButton from '../../../form/button'
 import { Box, Button, CircularProgress } from '@mui/material'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { createCompany } from '../../services/cementCompany.ts'
-import useAuthorization from '../../../authorization.ts'
+
 export type FieldValues = {
     name: string
     gstNo: string
@@ -28,10 +28,9 @@ const CreateCompany: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [loading, setLoading] = useState(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const token = useAuthorization()
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setLoading(true)
-        createCompany(data, token)
+        createCompany(data)
             .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))

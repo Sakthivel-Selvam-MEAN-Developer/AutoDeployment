@@ -1,11 +1,10 @@
 import { Router } from 'express'
 import { getInvoiceDetails, updateInvoiceDetails } from '../controller/invoice.ts'
-import keycloak from '../../keycloak-config.ts'
-import { hasRole } from '../../authorization.ts'
+import { authorise } from './authorise.ts'
 
 const invoiceRoutes = (router: Router) => {
-    router.put('/invoice', keycloak.protect(), hasRole('SuperAdmin'), getInvoiceDetails)
-    router.put('/invoice/update', keycloak.protect(), hasRole('SuperAdmin'), updateInvoiceDetails)
+    router.put('/invoice', authorise(['Employee']), getInvoiceDetails)
+    router.put('/invoice/update', authorise(['Employee']), updateInvoiceDetails)
 }
 
 export default invoiceRoutes

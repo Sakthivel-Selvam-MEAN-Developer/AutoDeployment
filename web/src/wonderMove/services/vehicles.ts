@@ -1,4 +1,4 @@
-import { axiosInstance, getData } from './index.ts'
+import { axiosInstance, getData } from '../../apiCalls'
 
 export const updateVehicle = (number: string, vehicle: string) => {
     return axiosInstance.post(`/vehicles/${number}`, vehicle)

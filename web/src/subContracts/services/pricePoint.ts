@@ -1,5 +1,4 @@
-import { axiosInstance, getData } from '../../wonderMove/services'
-import { tokenProps } from './acknowledgement.tsx'
+import { axiosInstance, getData } from '../../apiCalls'
 
 interface dataProps {
     loadingPointId: number | null
@@ -9,9 +8,9 @@ interface dataProps {
     transporterPercentage: number
     transporterAmount: number
 }
-export const createpricePoint = (data: dataProps, token: tokenProps | undefined) =>
+export const createpricePoint = (data: dataProps) =>
     axiosInstance
-        .post('/price-point', data, token)
+        .post('/price-point', data)
         .then(getData)
         .catch((e) => alert(e))
 

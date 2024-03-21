@@ -1,7 +1,8 @@
 import supertest from 'supertest'
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { app } from '../../app.ts'
 import { createTransporter } from './transporter.ts'
+import { Role } from '../roles.ts'
 
 const mockTransporter = vi.fn()
 const mockCreateTransporter = vi.fn()
@@ -10,13 +11,14 @@ vi.mock('../models/transporter', () => ({
     getAllTransporter: () => mockTransporter(),
     create: (inputs: any) => mockCreateTransporter(inputs)
 }))
-let actualRole = ''
-vi.mock('../../authorization', () => ({
-    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
-        actualRole = role
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
         next()
     }
 }))
+
 vi.mock('../../keycloak-config.ts', () => ({
     default: {
         protect: () => (_req: any, _resp: any, next: any) => {
@@ -62,6 +64,6 @@ describe('Transporter Controller', () => {
     })
     test('should have super admin role for transporter', async () => {
         await supertest(app).post('/api/transporter').expect(200)
-        expect(actualRole).toBe('SuperAdmin')
+        expect(mockAuth).toBeCalledWith(['Employee'])
     })
 })

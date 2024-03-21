@@ -4,11 +4,10 @@ import {
     listAllLoadingPoint,
     listLoadingPointByCementCompany
 } from '../controller/loadingPoint.ts'
-import keycloak from '../../keycloak-config.ts'
-import { hasRole } from '../../authorization.ts'
+import { authorise } from './authorise.ts'
 
 const factoryRoutes = (router: Router) => {
-    router.post('/loading-point', keycloak.protect(), hasRole('SuperAdmin'), createLoadingPoint)
+    router.post('/loading-point', authorise(['Employee']), createLoadingPoint)
     router.get('/loading-point', listAllLoadingPoint)
     router.get('/loading-point/:companyName', listLoadingPointByCementCompany)
 }

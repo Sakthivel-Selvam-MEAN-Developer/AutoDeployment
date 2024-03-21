@@ -1,4 +1,4 @@
-import { axiosInstance, getData } from '../../wonderMove/services'
+import { axiosInstance, getData } from '../../apiCalls'
 
 export const getOnlyActiveDues = (todayDate: number, status: boolean) =>
     axiosInstance

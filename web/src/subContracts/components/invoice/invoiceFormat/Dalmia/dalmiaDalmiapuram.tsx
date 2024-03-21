@@ -11,7 +11,6 @@ import { financialYear } from '../financialYear'
 import Dalmia_Annexure from './dalmiaAnnexure'
 import { toWords } from '../numberToWords'
 import { Box, CircularProgress } from '@mui/material'
-import useAuthorization from '../../../../../authorization'
 
 const Dalmia_Dalmiapuram_Invoice: FC<InvoiceProps> = ({
     tripId,
@@ -28,9 +27,9 @@ const Dalmia_Dalmiapuram_Invoice: FC<InvoiceProps> = ({
         shortageQuantity: 0
     })
     const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
-    const token = useAuthorization()
+
     useEffect(() => {
-        getInvoiceDetails(tripId, token)
+        getInvoiceDetails(tripId)
             .then(setTrip)
             .then(() => setLoading(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps

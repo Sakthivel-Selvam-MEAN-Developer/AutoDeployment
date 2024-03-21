@@ -1,6 +1,8 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
+import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
+import { Role } from '../roles.ts'
 
 const mockAllTripByAcknowledgementStatus = vi.fn()
 const mockOverAllTripById = vi.fn()
@@ -39,20 +41,10 @@ vi.mock('../models/paymentDues', () => ({
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
     getDueByOverallTripId: (id: number) => mockGetDueByOverallTripId(id)
 }))
-vi.mock('../../keycloak-config.ts', () => ({
-    default: {
-        protect: () => (_req: any, _resp: any, next: any) => {
-            next()
-        },
-        middleware: () => (_req: any, _resp: any, next: any) => {
-            next()
-        }
-    }
-}))
-let actualRole = ''
-vi.mock('../../authorization', () => ({
-    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
-        actualRole = role
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
         next()
     }
 }))
@@ -274,8 +266,6 @@ describe('Acknowledgement Controller', () => {
     })
     test('should have super admin role for stockTrip', async () => {
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
-        await supertest(app).put('/api/acknowledgement/trip').expect(200)
-        await supertest(app).put('/api/acknowledgement/trip').expect(200)
-        expect(actualRole).toBe('SuperAdmin')
+        expect(mockAuth).toBeCalledWith(['Employee'])
     })
 })

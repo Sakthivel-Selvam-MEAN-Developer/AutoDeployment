@@ -1,28 +1,20 @@
 import supertest from 'supertest'
+import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
+import { Role } from '../roles.ts'
 
 const mockCreateStockPoint = vi.fn()
 const mockCreatePricePointMarker = vi.fn()
 const mockStockPointByCompany = vi.fn()
 const mockAllStockPoint = vi.fn()
-
-vi.mock('../../keycloak-config.ts', () => ({
-    default: {
-        protect: () => (_req: any, _resp: any, next: any) => {
-            next()
-        },
-        middleware: () => (_req: any, _resp: any, next: any) => {
-            next()
-        }
-    }
-}))
-let actualRole = ''
-vi.mock('../../authorization', () => ({
-    hasRole: (role: string) => (_req: any, _res: any, next: any) => {
-        actualRole = role
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
         next()
     }
 }))
+
 vi.mock('../models/stockPoint', () => ({
     getAllStockPoint: () => mockAllStockPoint(),
     getStockPointByCompany: () => mockStockPointByCompany(),
@@ -58,6 +50,6 @@ describe('Stock point Controller', () => {
     })
     test('should have super admin role for stock point', async () => {
         await supertest(app).post('/api/stock-point').expect(200)
-        expect(actualRole).toBe('SuperAdmin')
+        expect(mockAuth).toBeCalledWith(['Employee'])
     })
 })

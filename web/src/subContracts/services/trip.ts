@@ -1,4 +1,4 @@
-import { axiosInstance, getData } from '../../wonderMove/services/index.ts'
+import { axiosInstance, getData } from '../../apiCalls'
 interface dataProps {
     truckId: number
     loadingPointId: number | null

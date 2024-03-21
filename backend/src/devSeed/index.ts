@@ -11,21 +11,20 @@ import seedSubContract from './subContract.ts'
 
 const prisma = new PrismaClient()
 
-const main = async () => {
+const createOrgSetupWithEmployee = async () => {
     const orgUnit = await createOrgUnit(seedOrgUnit)
     const employeeHead = await createEmployee({
         ...seedEmployeeHead,
         orgUnitId: orgUnit.childOrgId
     })
     await createEmployee({ ...seedEmployee, orgUnitId: orgUnit.childOrgId })
-    await createOrgUnitHead({
-        orgUnitId: orgUnit.childOrgId,
-        employeeId: employeeHead.id
-    })
+    await createOrgUnitHead({ orgUnitId: orgUnit.childOrgId, employeeId: employeeHead.id })
+}
+
+const main = async () => {
+    await createOrgSetupWithEmployee()
     await createReason(seedReason)
     await createReason({ name: 'Sick Leave' })
-
-    //  Seed Sub-Contract
     await seedSubContract()
 }
 main()

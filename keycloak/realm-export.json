@@ -3,11 +3,11 @@
   "realm": "WonderWhy",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
-  "revokeRefreshToken": false,
+  "revokeRefreshToken": true,
   "refreshTokenMaxReuse": 0,
-  "accessTokenLifespan": 300,
+  "accessTokenLifespan": 2700,
   "accessTokenLifespanForImplicitFlow": 900,
-  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionIdleTimeout": 2700,
   "ssoSessionMaxLifespan": 36000,
   "ssoSessionIdleTimeoutRememberMe": 0,
   "ssoSessionMaxLifespanRememberMe": 0,
@@ -794,11 +794,15 @@
       "redirectUris": [
         "http://wondermove.in/",
         "http://wondermove.in/sub/*",
-        "http://localhost:3000/*",
+        "http://localhost:3003/*",
         "http://localhost/*"
       ],
       "webOrigins": [
-        "http://wondermove.in"
+        "http://wondermove.in",
+        "http://localhost:3003",
+        "http://localhost",
+        "http://localhost:3000",
+        "http://backend"
       ],
       "notBefore": 0,
       "bearerOnly": false,

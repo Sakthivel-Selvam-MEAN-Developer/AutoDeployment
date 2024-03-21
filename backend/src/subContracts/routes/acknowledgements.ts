@@ -5,15 +5,13 @@ import {
     listAllActivetripTripToByAcknowledgementStatus,
     updateAcknowledgementStatusforOverAllTrip
 } from '../controller/acknowledgement.ts'
-import keycloak from '../../keycloak-config.ts'
-import { hasRole } from '../../authorization.ts'
+import { authorise } from './authorise.ts'
 
 const acknowledgementRoutes = (router: Router) => {
-    router.put('/acknowledgement/trip', keycloak.protect(), hasRole('SuperAdmin'), closeTripById)
+    router.put('/acknowledgement/trip', authorise(['Employee']), closeTripById)
     router.put(
         '/acknowledge/:id',
-        keycloak.protect(),
-        hasRole('SuperAdmin'),
+        authorise(['Employee']),
         updateAcknowledgementStatusforOverAllTrip
     )
     router.get('/acknowledgement', listAllActivetripTripToByAcknowledgementStatus)

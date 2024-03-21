@@ -10,7 +10,6 @@ import signature from '../signature.png'
 import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'
 import { Box, CircularProgress } from '@mui/material'
-import useAuthorization from '../../../../../authorization'
 export interface InvoiceProps {
     tripId: tripDetailsProps[]
     lastBillNumber: string
@@ -31,11 +30,10 @@ const UltraTech_APCW: React.FC<InvoiceProps> = ({
     loading
 }) => {
     const [trip, setTrip] = useState<tripProps>()
-    const token = useAuthorization()
     let totalFilledLoad = 0
     let totalAmount = 0
     useEffect(() => {
-        getInvoiceDetails(tripId, token)
+        getInvoiceDetails(tripId)
             .then((data) => setTrip({ ...data }))
             .then(() => setLoading(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps
