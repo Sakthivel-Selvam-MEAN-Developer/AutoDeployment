@@ -8,8 +8,6 @@ export const AuthContainer = (props: AuthProps) => {
     useEffect(() => {
         auth.user?.access_token && initAxios(auth.user.access_token)
     }, [auth.user])
-    if (auth.isAuthenticated && auth.user) {
-        return <>{props.children}</>
-    }
-    return <button onClick={() => void auth.signinRedirect()}>Log in</button>
+    return <>{props.children}</>
+    // return <button onClick={() => void auth.signinRedirect()}>Log in</button>
 }

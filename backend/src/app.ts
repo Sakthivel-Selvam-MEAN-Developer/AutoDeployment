@@ -4,7 +4,6 @@ import compression from 'compression'
 import cors from 'cors'
 import morgan from 'morgan'
 import setRoutes from './setRoutes.ts'
-import keycloak from './keycloak-config.ts'
 
 const app = express()
 app.use(morgan('combined'))
@@ -14,7 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(compression())
 app.use(cors())
 app.options('*', cors())
-app.use(keycloak.middleware())
+// app.use(keycloak.middleware())
 
 setRoutes(app)
 

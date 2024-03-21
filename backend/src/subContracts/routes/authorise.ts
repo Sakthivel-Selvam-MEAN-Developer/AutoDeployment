@@ -1,12 +1,10 @@
-import keycloak from '../../keycloak-config.ts'
+import { NextFunction, Request, Response } from 'express'
 import { Role } from '../roles.ts'
+import logger from '../../logger.ts'
 
 export const authorise = (roles: Role[] = []) => {
-    const validateTokenRoles = (token: any) => {
-        if (token.isExpired()) return false
-        roles.push('SuperAdmin')
-        const tokenRoles = token.content.realm_access.roles
-        return roles.find((role) => tokenRoles.includes(role)) !== undefined
+    logger.info('role', roles)
+    return (_req: Request, _res: Response, next: NextFunction) => {
+        next()
     }
-    return keycloak.protect(validateTokenRoles)
 }
