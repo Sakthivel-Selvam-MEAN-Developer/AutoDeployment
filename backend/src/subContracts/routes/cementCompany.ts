@@ -4,7 +4,7 @@ import { authorise } from './authorise.ts'
 
 const cementCompanyRoutes = (router: Router) => {
     router.post('/cementCompany', authorise(['Employee']), createCompany)
-    router.get('/cementCompany', listAllCementCompany)
+    router.get('/cementCompany', authorise(['Employee']), listAllCementCompany)
 }
 
 export default cementCompanyRoutes

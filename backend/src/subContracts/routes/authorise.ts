@@ -1,14 +1,12 @@
-import { Token } from 'keycloak-connect'
 import keycloak from '../../keycloak-config.ts'
 import { Role } from '../roles.ts'
 
 export const authorise = (roles: Role[] = []) => {
-    const validateTokenRoles = (token: Token) => {
-        if (token.isExpired()) {
-            return false
-        }
+    const validateTokenRoles = (token: any) => {
+        if (token.isExpired()) return false
         roles.push('SuperAdmin')
-        return roles.find(token.hasRealmRole) !== undefined
+        const tokenRoles = token.content.realm_access.roles
+        return roles.find((role) => tokenRoles.includes(role)) !== undefined
     }
     return keycloak.protect(validateTokenRoles)
 }

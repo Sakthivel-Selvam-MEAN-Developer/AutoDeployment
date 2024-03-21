@@ -5884,6 +5884,13 @@ object.values@^1.1.7:
     define-properties "^1.2.0"
     es-abstract "^1.22.1"
 
+oidc-client-ts@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/oidc-client-ts/-/oidc-client-ts-3.0.1.tgz#be264fb87c89f74f73863646431c32cd06f5ceb7"
+  integrity sha512-xX8unZNtmtw3sOz4FPSqDhkLFnxCDsdo2qhFEH2opgWnF/iXMFoYdBQzkwCxAZVgt3FT3DnuBY3k80EZHT0RYg==
+  dependencies:
+    jwt-decode "^4.0.0"
+
 on-finished@2.4.1:
   version "2.4.1"
   resolved "https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz"
@@ -6453,6 +6460,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-oidc-context@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-oidc-context/-/react-oidc-context-3.0.0.tgz#53de2ce751b975fdce9ae5fb406f9b2b9a452129"
+  integrity sha512-VmSnEGWl3pTMO5zT94pGAwoK58njg6VPVFXbrepUGsLhSM0IVEKN0DtzNJvTtDSUOPA4xnJ6+jiq1fgdrWtHSQ==
 
 react-refresh@^0.14.0:
   version "0.14.0"

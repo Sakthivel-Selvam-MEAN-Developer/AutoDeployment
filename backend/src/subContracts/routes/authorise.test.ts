@@ -20,7 +20,7 @@ describe('authorise function', () => {
         const isExpired = () => false
         const callBackFunction = mockKeycloak.mock.calls[0][0]
         expect(
-            callBackFunction({ hasRealmRole: (role: string) => role === 'SuperAdmin', isExpired })
+            callBackFunction({ content: { realm_access: { roles: ['SuperAdmin'] } }, isExpired })
         ).toBe(true)
     })
     it('should return true if given role is part of the role', () => {
@@ -28,7 +28,7 @@ describe('authorise function', () => {
         const isExpired = () => false
         const callBackFunction = mockKeycloak.mock.calls[0][0]
         expect(
-            callBackFunction({ hasRealmRole: (role: string) => role === 'Employee', isExpired })
+            callBackFunction({ content: { realm_access: { roles: ['Employee'] } }, isExpired })
         ).toBe(true)
     })
     it('should return false if given role is not part of the role', () => {
@@ -36,7 +36,7 @@ describe('authorise function', () => {
         const isExpired = () => false
         const callBackFunction = mockKeycloak.mock.calls[0][0]
         expect(
-            callBackFunction({ hasRealmRole: (role: string) => role === 'DOG', isExpired })
+            callBackFunction({ content: { realm_access: { roles: ['Employees'] } }, isExpired })
         ).toBe(false)
     })
 })
