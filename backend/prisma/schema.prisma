@@ -283,6 +283,7 @@ model accountType {
 model cementCompany {
   id                  Int              @id @default(autoincrement())
   name                String           @unique
+  advanceType         Int              @default(70)
   gstNo               String
   address             String
   emailId             String           @unique
@@ -563,22 +564,87 @@ model billNo {
 }
 
 model driver {
-  id                 Int      @id @default(autoincrement())
+  id                 Int                @id @default(autoincrement())
   name               String
   fatherName         String
   dateofBirth        Int
-  aadharNumber       String   @unique
-  panNumber          String   @unique
+  aadharNumber       String             @unique
+  panNumber          String             @unique
   address            String
-  mobileNumber       String   @unique
-  driverLicense      String   @unique
+  mobileNumber       String             @unique
+  driverLicense      String             @unique
   licenseExpriryDate Int
   bankName           String
-  accountNumber      String   @unique
+  accountNumber      String             @unique
   accountBranch      String
-  ifcsCode           String   @unique
-  createdAt          DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt          DateTime @updatedAt @db.Timestamptz(6)
+  ifcsCode           String             @unique
+  createdAt          DateTime           @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(6)
+  driverTrip         driverTrip[]
+  driverAttendance   driverAttendance[]
+
+  @@schema("driverSalary")
+}
+
+model driverTrip {
+  id            Int      @id @default(autoincrement())
+  tripId        Int
+  tripStartDate Int
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+  driver        driver   @relation(fields: [driverId], references: [id])
+  driverId      Int
+
+  @@schema("driverSalary")
+}
+
+model driverAttendance {
+  id             Int      @id @default(autoincrement())
+  date           Int
+  driverPresence Boolean
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @db.Timestamptz(6)
+  driver         driver   @relation(fields: [driverId], references: [id])
+  driverId       Int
+
+  @@schema("driverSalary")
+}
+
+model expenses {
+  id              Int          @id @default(autoincrement())
+  expenseType     expensesType
+  amount          Int
+  expenseApproval Boolean      @default(false)
+  createdAt       DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime     @updatedAt @db.Timestamptz(6)
+  tripId   Int
+
+  @@schema("driverSalary")
+}
+
+enum expensesType {
+  LOADING_CHARGES
+  UNLOADING_CHARGES
+  TOLL_EXPENSES
+  TRIP_ALLOWANCE
+  CASE_SLIP_EXPENSES
+  ROUTE_ALLOWANCES
+  OFFICE_EXPENSES
+  GREASING_CHARGES
+  AIR_CHECKUP_CHARGES
+  TOOLS_SPARES_CHARGES
+  WORKSHOP_SHOWROOM_CHARGES
+  PHONE_ATM_CHARGES
+  EMAIL_CHRGES
+  PUNCTURE_CHARGES
+  PARKING_CHARGES
+  WEIGHT_BRIDGE_CHARGES
+  OIL_CHARGES
+  ADBLUE_OIL_CHARGES
+  MECHANICAL_EXPENSES
+  SAFETY_EXEPENSES
+  ELECTRICAL_EXPENSES
+  MISCELLANCEOUS_EXPENSES
 
   @@schema("driverSalary")
 }

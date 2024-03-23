@@ -5,7 +5,7 @@ import CreateDriver from './driverSalary/components/driver/list'
 import DriverSalaryLayout from './driverSalary/components/layout'
 
 const driverSalaryRoutes = {
-    path: '/driverSalary',
+    path: '/driversalary',
     element: <DriverSalaryLayout />,
     children: [
         {

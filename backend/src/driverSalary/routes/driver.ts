@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { createDriver } from '../controller/driver.ts'
+import { createDriver, listAllDriver } from '../controller/driver.ts'
 
-const driver = (router: Router) => {
+const driverRoutes = (router: Router) => {
     router.post('/driver', createDriver)
+    router.get('/driver', listAllDriver)
 }
 
-export default driver
+export default driverRoutes

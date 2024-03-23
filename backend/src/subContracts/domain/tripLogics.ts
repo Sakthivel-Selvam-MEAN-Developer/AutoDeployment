@@ -7,22 +7,25 @@ interface dataProps {
 interface fuelProps {
     totalprice: number
 }
-const transporterPercentage = 70 / 100
+let transporterPercentage = 70 / 100
 
 const tripLogic = async (
     data: dataProps,
     fuelDetails: fuelProps | null,
     transporterName: string,
     id: number,
-    vehicleNumber: string
+    vehicleNumber: string,
+    tripType: string,
+    advanceType: number
 ) => {
+    if (tripType === 'LoadingToStock' && advanceType === 100) transporterPercentage = 1
     const fuelAmount = fuelDetails ? fuelDetails.totalprice : 0
     if (data.wantFuel === true && fuelDetails === null) return
     return [
         {
             name: transporterName,
             type: 'initial pay',
-            dueDate: dayjs().startOf('day').unix(),
+            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
             overallTripId: id,
             vehicleNumber,
             payableAmount: parseFloat(

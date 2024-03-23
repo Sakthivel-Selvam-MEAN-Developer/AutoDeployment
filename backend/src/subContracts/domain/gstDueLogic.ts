@@ -12,7 +12,7 @@ const gstDueLogic = async (
         {
             name: transporterName,
             type: 'gst pay',
-            dueDate: dayjs().startOf('day').unix(),
+            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
             payableAmount: amount,
             overallTripId,
             vehicleNumber

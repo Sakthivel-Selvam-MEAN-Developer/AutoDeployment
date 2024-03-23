@@ -14,6 +14,7 @@ const mockUnloadingPointByCompanyName = vi.fn()
 const mockFuelWithoutTripId = vi.fn()
 const mockCreateTrip = vi.fn()
 const mockcreateStockPointTrip = vi.fn()
+const mockGetAllDriver = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
@@ -38,6 +39,9 @@ vi.mock('../../services/pricePoint', () => ({
 }))
 vi.mock('../../services/stockPointTrip', () => ({
     createStockPointTrip: (inputs: any) => mockcreateStockPointTrip(inputs)
+}))
+vi.mock('../../../driverSalary/services/driver.ts', () => ({
+    getAllDriver: () => mockGetAllDriver()
 }))
 
 const mockCompanyData = [
@@ -110,6 +114,13 @@ const tripData = {
     margin: 4000,
     wantFuel: true
 }
+
+const mockGetAllDriverData = [
+    {
+        id: 1,
+        name: 'sakthi'
+    }
+]
 async function newFunction() {
     render(
         <BrowserRouter>
@@ -207,6 +218,7 @@ describe('New trip test', () => {
         mockUnloadingPointByCompanyName.mockResolvedValue(mockDeliveryPoint)
         mockPricePoint.mockResolvedValue(mockPricePointData)
         mockCreateTrip.mockResolvedValue(tripData)
+        mockGetAllDriver.mockResolvedValue(mockGetAllDriverData)
     })
     test('should fetch company data from Db', async () => {
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(0)

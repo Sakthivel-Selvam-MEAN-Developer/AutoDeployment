@@ -8,6 +8,7 @@ import { create as createEmployee } from '../hrm/models/employee.ts'
 import { create as createOrgUnitHead } from '../hrm/models/orgUnitHeads.ts'
 import { create as createReason } from '../hrm/models/leaveReasons.ts'
 import seedSubContract from './subContract.ts'
+import seedDriverSalary from './driverSalary.ts'
 
 const prisma = new PrismaClient()
 
@@ -26,6 +27,7 @@ const main = async () => {
     await createReason(seedReason)
     await createReason({ name: 'Sick Leave' })
     await seedSubContract()
+    await seedDriverSalary()
 }
 main()
     .catch((error) => {

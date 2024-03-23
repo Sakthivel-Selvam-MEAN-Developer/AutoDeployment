@@ -9,6 +9,7 @@ import {
     updatePaymentDuesWithTripId
 } from '../models/paymentDues.ts'
 import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
+import { getCementCompanyByLocation } from '../models/loadingPoint.ts'
 
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
@@ -31,14 +32,21 @@ export const createTrip = async (req: Request, res: Response) => {
             vehicleNumber: '',
             transporter: { name: '', transporterType: '' }
         }
+        const companyDetails = await getCementCompanyByLocation(req.body.loadintPointId)
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
         const { id: overallTripId } = await create(req.body).then(async (data) =>
             createOverallTrip({ loadingPointToUnloadingPointTripId: data.id })
         )
-        if (transporterType === 'Own') {
-            return res.sendStatus(200)
-        }
-        await tripLogic(req.body, fuelDetails, name, overallTripId, vehicleNumber)
+        if (transporterType === 'Own') return res.sendStatus(200)
+        await tripLogic(
+            req.body,
+            fuelDetails,
+            name,
+            overallTripId,
+            vehicleNumber,
+            'LoadingToUnloading',
+            companyDetails[0].cementCompany.advanceType
+        )
             .then((data) => createPaymentDues(data))
             .then(() => updateFuelDetails(fuelDetails, vehicleNumber, overallTripId))
             .then(() => res.sendStatus(200))

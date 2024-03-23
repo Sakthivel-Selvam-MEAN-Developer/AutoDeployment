@@ -27,7 +27,7 @@ import overallTrip from './subContracts/routes/overallTrip.ts'
 import accountTypeRoutes from './subContracts/routes/accountType.ts'
 import invoiceRoutes from './subContracts/routes/invoice.ts'
 import billNumber from './subContracts/routes/billNumber.ts'
-import driver from './driverSalary/routes/driver.ts'
+import driverRoutes from './driverSalary/routes/driver.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -63,6 +63,6 @@ pointMarkerRoutes(router)
 accountTypeRoutes(router)
 invoiceRoutes(router)
 billNumber(router)
-driver(router)
+driverRoutes(router)
 
 export default router

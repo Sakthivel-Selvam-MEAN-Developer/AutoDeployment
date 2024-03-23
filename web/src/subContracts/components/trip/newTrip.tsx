@@ -7,6 +7,7 @@ import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { createTrip } from '../../services/trip.ts'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
+import { getAllDriver } from '../../../driverSalary/services/driver.ts'
 import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 interface transporter {
     name: string
@@ -17,6 +18,7 @@ const NewTrip: React.FC = () => {
     const { handleSubmit, control, watch, setValue } = useForm<FieldValues>()
     const [transporter, setTransporter] = useState([])
     const [cementCompany, setCementCompany] = useState([])
+    const [driversList, setDriversList] = useState([])
     const [truckId, setTruckId] = useState(0)
     const [ownTruck, setOwnTruck] = useState(false)
     const [loadingPointId, setLoadingPointId] = useState<number | null>(null)
@@ -30,6 +32,7 @@ const NewTrip: React.FC = () => {
     const [fuel, setFuel] = useState(false)
     const filledLoad = watch('filledLoad')
     const [category, setCategory] = useState<string>('')
+    const [driverId, setDriverId] = useState(0)
     const [clear, setClear] = useState<boolean>(false)
     const [ownTruckFuel, setownTruckFuel] = useState<boolean>(true)
     const [listTruck, setListTruck] = useState([])
@@ -62,6 +65,7 @@ const NewTrip: React.FC = () => {
                 margin: ownTruck === false ? parseFloat(marginFloat) : 0,
                 wantFuel: ownTruck === false ? fuel : ownTruckFuel
             }
+            console.log(driverId)
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then(() => setOpenSuccessDialog(true))
@@ -79,14 +83,13 @@ const NewTrip: React.FC = () => {
         getAllCementCompany().then((companyData) =>
             setCementCompany(companyData.map(({ name }: transporter) => name))
         )
+        if (driversList.length === 0) getAllDriver().then(setDriversList)
     }, [])
     useEffect(() => {
-        // if (loadingPointId !== undefined && unloadingPointId !== undefined) {
         getPricePoint(loadingPointId, unloadingPointId, stockPointId).then((data) => {
             setFreightAmount(data.freightAmount)
             setTransporterAmount(data.transporterAmount)
         })
-        // }
     }, [loadingPointId, unloadingPointId, stockPointId])
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -95,6 +98,8 @@ const NewTrip: React.FC = () => {
                 ownTruck={ownTruck}
                 setOwnTruck={setOwnTruck}
                 transporter={transporter}
+                driversList={driversList}
+                setDriverId={setDriverId}
                 cementCompany={cementCompany}
                 setTruckId={setTruckId}
                 loadingPointId={setLoadingPointId}

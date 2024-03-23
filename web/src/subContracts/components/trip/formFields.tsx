@@ -40,8 +40,10 @@ interface FormFieldProps {
     setValue: UseFormSetValue<FieldValues>
     ownTruck: boolean
     clear: boolean
+    setDriverId: React.Dispatch<React.SetStateAction<number>>
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>
     listTruck: never[]
+    driversList: never[]
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -67,7 +69,9 @@ const FormField: React.FC<FormFieldProps> = ({
     setownTruckFuel,
     clear,
     setListTruck,
-    listTruck
+    listTruck,
+    setDriverId,
+    driversList
 }) => {
     const [transporterName, setTransporterName] = useState<string | null>('')
     const [cementCompanyName, setCementCompanyName] = useState<string | null>('')
@@ -180,6 +184,19 @@ const FormField: React.FC<FormFieldProps> = ({
                     ) || { id: 0 }
                     setTruckId(id)
                     setVehicleNumber(newValue)
+                }}
+            />
+            <AutoCompleteWithValue
+                value={category}
+                control={control}
+                fieldName="driverId"
+                label="Select Driver"
+                options={driversList.map(({ name }) => name)}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    const { id } = driversList.find(
+                        (data: { name: string }) => data.name === newValue
+                    ) || { id: 0 }
+                    setDriverId(id)
                 }}
             />
             <AutoCompleteWithValue
