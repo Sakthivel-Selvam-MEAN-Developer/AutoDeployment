@@ -36,10 +36,10 @@ ssh -t -i ~/.ssh/wonderWhy.pem ec2-user@"$IP"  << EOF
   ~/docker-compose up setup
   echo "start db migration"
   ~/docker-compose up migrate
+    echo "start nginx along with backend"
+    ~/docker-compose up nginx -d
   echo "start keycloak"
   ~/docker-compose up keycloak -d
   echo "update keycloak"
   ~/docker-compose exec keycloak sh -c '/config/waitForKeycloak.sh'
-  echo "start nginx along with backend"
-  ~/docker-compose up nginx -d
 EOF
