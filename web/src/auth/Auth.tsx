@@ -2,7 +2,7 @@ import * as React from 'react'
 import { AuthProvider } from 'react-oidc-context'
 import config from '../../config.ts'
 import { AuthContainer } from './AuthContainer.tsx'
-import { WebStorageStateStore } from 'oidc-client-ts'
+import { Log, WebStorageStateStore } from 'oidc-client-ts'
 
 export interface AuthProps {
     children?: React.ReactNode
@@ -15,6 +15,9 @@ const oidcConfig = {
     responseType: 'code',
     userStore: new WebStorageStateStore({ store: window.localStorage })
 }
+
+Log.setLogger(console)
+Log.setLevel(Log.DEBUG)
 
 const Auth = (props: AuthProps) => {
     return (

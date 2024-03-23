@@ -35,3 +35,4 @@ if [ "$KEYCLOAK_UPDATE_REALM" = true ]; then
   echo "Updating realm"
   /opt/keycloak/bin/kcadm.sh  update realms/WonderWhy -f /config/realm-export.json
 fi
+exit 0
