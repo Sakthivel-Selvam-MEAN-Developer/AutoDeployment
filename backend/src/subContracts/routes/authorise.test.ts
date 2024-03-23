@@ -6,7 +6,7 @@ vi.mock('../../keycloak-config.ts', () => ({
     default: { protect: (x: Token) => mockKeycloak(x) }
 }))
 
-describe.skip('authorise function', () => {
+describe('authorise function', () => {
     beforeEach(() => {
         vi.resetAllMocks()
     })
@@ -24,7 +24,7 @@ describe.skip('authorise function', () => {
         ).toBe(true)
     })
     it('should return true if given role is part of the role', () => {
-        authorise(['Employee'])
+        authorise()
         const isExpired = () => false
         const callBackFunction = mockKeycloak.mock.calls[0][0]
         expect(
