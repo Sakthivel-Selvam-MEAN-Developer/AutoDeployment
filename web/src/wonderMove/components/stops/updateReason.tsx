@@ -8,8 +8,8 @@ import { RowType } from './secondReason.tsx'
 
 type UpdateReasonProps = {
     stopInfo: RowType
-    onSelect: (value: any) => void
-    selectedReason: number
+    onSelect: (value: string | number) => void
+    selectedReason: number | string
 }
 const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selectedReason }) => {
     const [fetchReason, setFetchReason] = useState([])

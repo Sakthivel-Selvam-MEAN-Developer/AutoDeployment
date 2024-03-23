@@ -77,11 +77,10 @@ const getCells = (data: Row, num: number, unloadDate: number) => {
 }
 function getTableBody(allTrips: Props[]) {
     let number = 0
-    const style = { '&:last-child td, &:last-child th': { border: 0 } }
     return (
         <TableBody>
             {allTrips.map((row: Props, index) => (
-                <TableRow key={index} sx={style}>
+                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     {getCells(
                         loadingToStock(row)
                             ? row.loadingPointToStockPointTrip

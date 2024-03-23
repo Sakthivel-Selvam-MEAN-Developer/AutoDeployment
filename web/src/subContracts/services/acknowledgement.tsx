@@ -1,9 +1,5 @@
 import { axiosInstance, getData } from '../../apiCalls'
-export interface tokenProps {
-    headers: {
-        authorization: string
-    }
-}
+
 export const getAllActiveTripsByAcknowledgement = () =>
     axiosInstance
         .get(`/acknowledgement`)

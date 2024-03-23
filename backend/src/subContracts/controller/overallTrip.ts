@@ -41,7 +41,7 @@ export const listTripDetailsByUnloadDate = (req: Request, res: Response) => {
         .catch(() => res.status(500))
 }
 
-function differenceCalculation(tripData: any, totalPaidAmount: number) {
+const differenceCalculation = async (tripData: any, totalPaidAmount: number) => {
     if (tripData.loadingPointToStockPointTrip !== null) {
         const totalTransporterAmount =
             tripData.loadingPointToStockPointTrip.totalTransporterAmount +
@@ -60,7 +60,7 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
     const { from, to } = req.params
     await getAllDiscrepancyReport(parseInt(from), parseInt(to))
         .then(async (data) => {
-            const tripDetails = await data.map((overallTrip) => {
+            const tripDetails = data.map(async (overallTrip) => {
                 let tripType
                 let dueAmount = 0
                 overallTrip.paymentDues.forEach((dues) => {
@@ -71,11 +71,12 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                 } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
                     tripType = overallTrip.loadingPointToUnloadingPointTrip
                 }
-                const differenceAmount = differenceCalculation(
+                const differenceAmount = await differenceCalculation(
                     overallTrip,
-                    dueAmount - overallTrip.shortageQuantity.length !== 0
-                        ? overallTrip.shortageQuantity[0].shortageAmount
-                        : 0
+                    dueAmount -
+                        (overallTrip.shortageQuantity
+                            ? overallTrip.shortageQuantity[0].shortageAmount
+                            : 0)
                 )
                 const details = {
                     vehicleNumber: tripType !== undefined && tripType.truck.vehicleNumber,

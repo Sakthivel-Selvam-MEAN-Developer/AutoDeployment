@@ -16,15 +16,9 @@ interface DetailsProps {}
 const Details: React.FC<DetailsProps> = () => {
     const { number }: Readonly<Params<string>> = useParams()
     const [pendingDetails, setPendingDetails] = useState<pendingDetailsProps[]>([])
-
     useEffect(() => {
         if (number !== undefined) allPendingSRforSingleVehicle(number).then(setPendingDetails)
     }, [number])
-
-    return (
-        <>
-            <DetailsList pendingDetails={pendingDetails} />
-        </>
-    )
+    return <DetailsList pendingDetails={pendingDetails} />
 }
 export default Details

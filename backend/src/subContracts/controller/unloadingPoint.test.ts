@@ -3,13 +3,13 @@ import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
 
-const mockUnloadingPoint = vi.fn()
+const mockUnloadingPointByCementCompanyId = vi.fn()
 const mockUnloadingPointByCompany = vi.fn()
 const mockCreatePricePointMarker = vi.fn()
 const mockCreateUnloadingPoint = vi.fn()
 
 vi.mock('../models/unloadingPoint', () => ({
-    getAllUnloadingPoint: () => mockUnloadingPoint(),
+    getAllUnloadingPoint: (id: number) => mockUnloadingPointByCementCompanyId(id),
     getUnloadingPointByCompany: () => mockUnloadingPointByCompany(),
     create: (inputs: any) => mockCreateUnloadingPoint(inputs)
 }))
@@ -34,11 +34,17 @@ vi.mock('../../keycloak-config.ts', () => ({
     }
 }))
 
+const mockAllUnloadingPoint = [
+    {
+        location: 'Salem'
+    }
+]
+
 describe('Delivery point Controller', () => {
-    test.skip('should able to access', async () => {
-        mockUnloadingPoint.mockResolvedValue({ location: 'Salem, Tamilnadu' })
-        await supertest(app).get('/api/unloading-point').expect({ location: 'Salem, Tamilnadu' })
-        expect(mockUnloadingPoint).toBeCalledWith()
+    test('should able to get all unloading point by cement company id', async () => {
+        mockUnloadingPointByCementCompanyId.mockResolvedValue(mockAllUnloadingPoint)
+        await supertest(app).get('/api/unloading/1').expect(200)
+        expect(mockUnloadingPointByCementCompanyId).toBeCalledWith(1)
     })
     test('should get only the delivery point by cement company name', async () => {
         mockUnloadingPointByCompany.mockResolvedValue({

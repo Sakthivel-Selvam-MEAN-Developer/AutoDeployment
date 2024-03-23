@@ -6,10 +6,12 @@ import { Role } from '../roles.ts'
 
 const mockTransporter = vi.fn()
 const mockCreateTransporter = vi.fn()
+const mockGetAllTransporterName = vi.fn()
 
 vi.mock('../models/transporter', () => ({
-    getAllTransporter: () => mockTransporter(),
-    create: (inputs: any) => mockCreateTransporter(inputs)
+    create: (inputs: any) => mockCreateTransporter(inputs),
+    getAllTransporterName: () => mockGetAllTransporterName(),
+    getAllTransporter: () => mockTransporter()
 }))
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
@@ -49,6 +51,11 @@ const mockRes = {
     status: vi.fn()
 } as unknown as Response
 
+const mockGetAllTransporterNames = [
+    {
+        name: 'Barath Logistics Pvt Ltd'
+    }
+]
 describe('Transporter Controller', () => {
     test('should able to access', async () => {
         mockTransporter.mockResolvedValue({ name: 'Barath Logistics' })
@@ -65,5 +72,17 @@ describe('Transporter Controller', () => {
     test('should have super admin role for transporter', async () => {
         await supertest(app).post('/api/transporter').expect(200)
         expect(mockAuth).toBeCalledWith(['Employee'])
+    })
+    test('should get all transporter names', async () => {
+        mockGetAllTransporterName.mockResolvedValue(mockGetAllTransporterNames)
+        await supertest(app).get('/api/transporter_name').expect(200)
+        await supertest(app)
+            .get('/api/transporter_name')
+            .expect([
+                {
+                    name: 'Barath Logistics Pvt Ltd'
+                }
+            ])
+        expect(mockGetAllTransporterName).toBeCalledTimes(2)
     })
 })

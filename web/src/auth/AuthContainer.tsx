@@ -24,9 +24,8 @@ export const AuthContainer = (props: AuthProps) => {
     const auth = useAuth()
     const [hasTriedSignin, setHasTriedSignin] = useState(false)
     useEffect(() => {
-        if (isNotAuthenticated(auth, hasTriedSignin)) {
+        if (isNotAuthenticated(auth, hasTriedSignin))
             auth.signinRedirect().then(() => setHasTriedSignin(true))
-        }
         updateAxiosAuth(auth)
     }, [auth, hasTriedSignin])
     return <>{props.children}</>

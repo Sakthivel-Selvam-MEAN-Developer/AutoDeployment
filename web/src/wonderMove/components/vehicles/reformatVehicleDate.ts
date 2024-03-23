@@ -8,17 +8,12 @@ interface Vehicle {
     fcDate: string
 }
 export function reformatVehicleDate(vehicle: Vehicle) {
-    const insuranceExpiryDate = dayjs(vehicle.insuranceExpiryDate)
-    const taxExpiryDate = dayjs(vehicle.taxExpiryDate)
-    const npPermitDate = dayjs(vehicle.npPermitDate)
-    const fiveYearPermitDate = dayjs(vehicle.fiveYearPermitDate)
-    const fcDate = dayjs(vehicle.fcDate)
     return {
         ...vehicle,
-        insuranceExpiryDate,
-        taxExpiryDate,
-        npPermitDate,
-        fiveYearPermitDate,
-        fcDate
+        insuranceExpiryDate: dayjs(vehicle.insuranceExpiryDate),
+        taxExpiryDate: dayjs(vehicle.taxExpiryDate),
+        npPermitDate: dayjs(vehicle.npPermitDate),
+        fiveYearPermitDate: dayjs(vehicle.fiveYearPermitDate),
+        fcDate: dayjs(vehicle.fcDate)
     }
 }

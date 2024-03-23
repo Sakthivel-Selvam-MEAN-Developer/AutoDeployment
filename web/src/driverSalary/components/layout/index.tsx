@@ -68,7 +68,6 @@ export default function DriverSalaryLayout() {
             </AppBar>
             <MiniDrawer handleDrawerClose={handleDrawerClose} drawerState={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                {' '}
                 <DrawerHeader theme={theme} />
                 <Outlet />
             </Box>

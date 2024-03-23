@@ -89,9 +89,11 @@ describe('OverallTrip Controller', () => {
         await supertest(app).get('/api/overalltrip/1/1700764200/1700764200').expect(200)
         expect(mockGetTripDetailsByCompanyName).toBeCalledTimes(1)
     })
-    test.skip('should able to get discrepancy report', async () => {
+    test('should able to get discrepancy report', async () => {
         mockGetAllDiscrepancyReport.mockResolvedValue(mockOverallTripData)
-        await supertest(app).get('/api/overalltrip/report/1700764200/1700764200').expect(200)
+        await supertest(app)
+            .get('/api/overalltrip/report/discrepancy/1700764200/1700764200')
+            .expect(200)
         expect(mockGetAllDiscrepancyReport).toBeCalledTimes(1)
     })
 })

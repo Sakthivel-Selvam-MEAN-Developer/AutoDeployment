@@ -32,12 +32,12 @@ export const getUpcomingDuesByFilter = (name: string, from: number, to: number) 
 
 export const getUpcomingDuesByFilterByDefault = () =>
     axiosInstance
-        .get(`/payment-dues/default`)
+        .get(`/upcoming-payment-dues/default`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
 export const getCompletedDues = (name: string, date: number, to: number, page: number) =>
     axiosInstance
-        .get(`/payment/${name}/${date}/${to}/${page}`)
+        .get(`/completed-payment-dues/${name}/${date}/${to}/${page}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))

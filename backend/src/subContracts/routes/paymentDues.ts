@@ -17,8 +17,8 @@ const paymentDues = (router: Router) => {
     router.put('/payment-dues/NEFT', updateNEFTStatus)
     router.get('/payment-dues/:status', listGstDuesGroupByName)
     router.get('/payment-dues/:name/:from/:to', listAllUpcomingTransporterDues)
-    router.get('/payment-dues/default', listAllUpcomingTransporterDuesByDefault)
-    router.get('/payment/:name/:from/:to/:page', listAllCompletedDues)
+    router.get('/upcoming-payment-dues/default', listAllUpcomingTransporterDuesByDefault)
+    router.get('/completed-payment-dues/:name/:from/:to/:page', listAllCompletedDues)
 }
 
 export default paymentDues

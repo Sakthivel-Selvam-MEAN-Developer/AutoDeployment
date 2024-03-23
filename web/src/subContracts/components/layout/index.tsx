@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import MiniDrawer from './drawer.tsx'
 import { Outlet } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 interface AppBarPropsWithOpen extends AppBarProps {
     open: boolean
@@ -64,11 +65,15 @@ export default function SubContractLayout() {
                     <Typography variant="h6" noWrap component="div">
                         Sub-Contract
                     </Typography>
+                    <div>
+                        <Typography variant="h6" noWrap component="div">
+                            <Button variant="contained">Logout</Button>
+                        </Typography>
+                    </div>
                 </Toolbar>
             </AppBar>
             <MiniDrawer handleDrawerClose={handleDrawerClose} drawerState={open} />
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                {' '}
                 <DrawerHeader theme={theme} />
                 <Outlet />
             </Box>

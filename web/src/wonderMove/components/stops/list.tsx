@@ -13,5 +13,4 @@ const StopList: React.FC<StopListProps> = () => {
         </>
     )
 }
-
 export default StopList

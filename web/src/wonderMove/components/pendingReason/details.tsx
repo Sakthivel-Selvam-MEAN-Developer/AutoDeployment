@@ -14,18 +14,22 @@ import { pendingDetailsProps } from './view.tsx'
 interface DetailsListProps {
     pendingDetails: pendingDetailsProps[]
 }
-
+const tableCell = () => {
+    return (
+        <TableRow>
+            <TableCell>#</TableCell>
+            <TableCell align="left">Start Time</TableCell>
+            <TableCell align="left">End Time</TableCell>
+        </TableRow>
+    )
+}
 function getTableHead() {
     return (
         <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Start Time</TableCell>
-                <TableCell align="left">End Time</TableCell>
-                <TableCell align="left">Duration</TableCell>
-                <TableCell align="left">Location</TableCell>
-                <TableCell align="left">Reason</TableCell>
-            </TableRow>
+            {tableCell()}
+            <TableCell align="left">Duration</TableCell>
+            <TableCell align="left">Location</TableCell>
+            <TableCell align="left">Reason</TableCell>
         </TableHead>
     )
 }

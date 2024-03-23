@@ -68,7 +68,7 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
         setGpsStopId(row.gpsStopId)
         setOpenAlertDialog(true)
     }
-    const handleAgree = () => {
+    const handleAgree = () =>
         overrideStop(gpsStopId, remainingStop)
             .then(() => {
                 setOpenAlertDialog(false)
@@ -78,7 +78,6 @@ const ModalUpdateReason: React.FC<ModalUpdateReasonProps> = ({
                 setOpenAlertDialog(false)
                 alert("Can't able to delete")
             })
-    }
 
     const style = {
         position: 'absolute',

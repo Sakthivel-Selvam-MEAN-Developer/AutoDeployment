@@ -11,7 +11,6 @@ interface VehicleProps {
 interface VehicleDetails {}
 const Vehicle: React.FC<VehicleProps> = ({ number }) => {
     const [vehicleDetails, setVehicleDetails] = useState<VehicleDetails | undefined>()
-
     const updateVehicleList = () => {
         getVehicleDetails(number).then(reformatVehicleDate).then(setVehicleDetails)
     }

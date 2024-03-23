@@ -16,7 +16,7 @@ const overallTrip = (router: Router) => {
     router.get('/overalltrip/:company', listTripDetailsByCompanyName)
     router.get('/overalltrip/acknowledgement/:date', listTripDetailsByUnloadDate)
     router.get('/overalltrip/:company/:startDate/:endDate', listTripDetailsByCompanyName)
-    router.get('/overalltrip/report/:from/:to', listAllDiscrepancyReport)
+    router.get('/overalltrip/report/discrepancy/:from/:to', listAllDiscrepancyReport)
     router.get('/overalltrip/:company/:loadingDate', listTripDetailsByCompanyName)
 }
 

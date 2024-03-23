@@ -179,16 +179,21 @@ const GetAllStockTripsAsAAccordion = (
         </>
     )
 }
+const tableContainer = (allTrips: Row[]) => {
+    return (
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 600 }} aria-label="simple table">
+                {getTableHead()}
+                {getTableBody(allTrips)}
+            </Table>
+        </TableContainer>
+    )
+}
 
 const ListAllTrip: React.FC<Props> = ({ allTrips, allStockTrips, setUpdate, update }) => {
     return (
         <>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                    {getTableHead()}
-                    {getTableBody(allTrips)}
-                </Table>
-            </TableContainer>
+            {tableContainer(allTrips)}
             <br />
             <br />
             {GetAllStockTripsAsAAccordion(allStockTrips, setUpdate, update)}

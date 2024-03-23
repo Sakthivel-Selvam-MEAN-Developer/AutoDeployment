@@ -1,0 +1,9 @@
+.cards * {
+    flex: 1;
+}
+
+@media (max-width: 1320px) {
+    .cards > * {
+        flex: auto;
+    }
+}

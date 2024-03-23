@@ -8,16 +8,10 @@ interface StopsProps {
 const Stops: React.FC<StopsProps> = ({ number }) => {
     const [stopDetails, setStopDetails] = useState([])
     const [tableDataChanged, setTableDataChanged] = useState(false)
-
-    const updateTableData = () => {
-        setTableDataChanged((prev) => !prev)
-    }
-    const stopList = () => {
+    const updateTableData = () => setTableDataChanged((prev) => !prev)
+    useEffect(() => {
         getStopsByVehicle(number).then(setStopDetails)
-    }
-
-    useEffect(stopList, [number, tableDataChanged])
-
+    }, [number, tableDataChanged])
     return <>{stopDetails && <StopList stopDetails={stopDetails} tableState={updateTableData} />}</>
 }
 

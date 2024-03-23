@@ -47,15 +47,16 @@ const AddAcknowledgement: React.FC<FormFieldProps> = ({
     useEffect(() => {
         if (unload !== null) {
             setShortageQuantity(filledLoad * 1000 - unload)
-            setShortageAmount(
-                approvalType === 'Acceptable'
-                    ? 0
-                    : filledLoad * 1000 - unload > 100
-                      ? (filledLoad * 1000 - unload) * 8
-                      : 0
-            )
+            setShortageAmount(shortageAmt(approvalType, unload))
         } else setShortageQuantity(filledLoad * 1000)
     }, [unload, approvalType, filledLoad])
+    const shortageAmt = (approvalType: string | null, unload: number) => {
+        return approvalType === 'Acceptable'
+            ? 0
+            : filledLoad * 1000 - unload > 100
+              ? (filledLoad * 1000 - unload) * 8
+              : 0
+    }
     useEffect(() => {
         setTripStatus(
             tripDetails.loadingPointToUnloadingPointTrip !== null

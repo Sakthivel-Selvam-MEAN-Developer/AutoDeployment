@@ -38,9 +38,7 @@ const closedMixin = (theme: Theme) => ({
     }),
     overflowX: 'hidden',
     width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`
-    }
+    [theme.breakpoints.up('sm')]: { width: `calc(${theme.spacing(8)} + 1px)` }
 })
 
 const Drawer = styled(MuiDrawer, {
