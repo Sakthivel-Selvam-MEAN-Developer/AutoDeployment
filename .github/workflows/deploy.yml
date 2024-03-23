@@ -1,0 +1,57 @@
+name: SSH into EC2
+on: [push]
+#  workflow_run:
+#    workflows: ["AmISane"]
+#    types:
+#      - completed
+jobs:
+  ssh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Get EC2 instance public IP
+        id: ec2
+        run: |
+          INSTANCE_PUBLIC_IP=$(aws ec2 describe-instances --instance-ids i-03025a8cb1550075f --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+          echo "::set-output name=public_ip::$INSTANCE_PUBLIC_IP"
+
+      - name: Get GitHub IP addresses
+        id: github_ips
+        run: |
+            GITHUB_IPS=$(curl -s https://api.github.com/meta | jq -r '.actions[]')
+            echo "::set-output name=ips::$GITHUB_IPS"
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: SSH into EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.ec2.outputs.public_ip }}
+          username: ubuntu
+          script: echo "Hello, World!"
+
+      - name: Set ingress
+        run: |
+          for ip in ${{ steps.github_ips.outputs.ips }}
+          do
+            aws ec2 authorize-security-group-ingress --group-id sg-00257a8ff4fef413c --protocol tcp --port 22 --cidr $ip/32
+          done
+
+      - name: Reset ingress
+        run: |
+          for ip in ${{ steps.github_ips.outputs.ips }}
+          do
+            aws ec2 revoke-security-group-ingress --group-id sg-00257a8ff4fef413c --protocol tcp --port 22 --cidr $ip/32
+          done
