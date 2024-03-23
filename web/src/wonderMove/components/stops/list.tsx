@@ -5,7 +5,6 @@ import Stops from './view'
 interface StopListProps {}
 const StopList: React.FC<StopListProps> = () => {
     const [selectedStop, setSelectedStop] = useState<string | undefined>()
-
     return (
         <>
             <SearchStops onSelect={setSelectedStop} />
