@@ -15,6 +15,7 @@ rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' wonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/wonderWhy/backend/.env
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/keycloak/keycloak.aws.conf  ec2-user@"$IP":~/wonderWhy/keycloak/keycloak.conf
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/docker/certs/*.pem  ec2-user@"$IP":~/wonderWhy/nginx/certs/
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/web/dist/*  ec2-user@"$IP":~/wonderWhy/nginx/html/
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/backend/dist/*  ec2-user@"$IP":~/wonderWhy/backend/dist/
 echo "install all dependencies"

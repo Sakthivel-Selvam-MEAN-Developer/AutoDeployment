@@ -792,12 +792,12 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://wondermove.in/*",
+        "https://*.wondermove.in/*",
         "http://localhost:3003/*",
         "http://localhost/*"
       ],
       "webOrigins": [
-        "http://wondermove.in",
+        "https://*.wondermove.in",
         "http://localhost:3003",
         "http://localhost",
         "http://localhost:3000",
@@ -816,7 +816,7 @@
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "http://wondermove.in/",
+        "post.logout.redirect.uris": "https://*.wondermove.in/",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"

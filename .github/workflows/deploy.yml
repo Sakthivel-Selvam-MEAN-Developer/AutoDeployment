@@ -1,4 +1,4 @@
-name: SSH into EC2
+name: Deploy into EC2
 on: [push]
 #  workflow_run:
 #    workflows: ["AmISane"]
@@ -30,17 +30,16 @@ jobs:
             GITHUB_IPS=$(curl -s https://api.github.com/meta | jq -r '.actions[]')
             echo "::set-output name=ips::$GITHUB_IPS"
 
-      - name: Setup SSH agent
+      - name: SSH into EC2
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: SSH into EC2
-        uses: appleboy/ssh-action@master
-        with:
           host: ${{ steps.ec2.outputs.public_ip }}
-          username: ubuntu
-          script: echo "Hello, World!"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ec2-user
+          script: |
+            echo "Hello, World!"
+            whoami
+
 
       - name: Set ingress
         run: |

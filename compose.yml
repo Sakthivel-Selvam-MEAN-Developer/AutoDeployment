@@ -58,12 +58,17 @@ services:
       - ./keycloak:/config
     command: ["--verbose", "--config-file=/config/keycloak.conf", "start"]
 
+  certbot:
+    image: certbot/certbot:v2.9.0
+    volumes:
+      - ./docker/certs/:/etc/letsencrypt/
+
   nginx:
     image: arm64v8/nginx:1.25.3-alpine3.18
     depends_on:
       - backend
     ports:
-      - 80:80
+      - 443:443
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx:/usr/share/nginx

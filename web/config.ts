@@ -5,12 +5,12 @@ interface Config {
 
 const config: Record<string, Config> = {
     production: {
-        backendUrl: `http://${window.location.hostname}/api`,
-        keycloakUrl: `http://auth.${window.location.hostname}/`,
+        backendUrl: `https://${window.location.hostname}/api`,
+        keycloakUrl: `https://auth.${window.location.hostname}`,
     },
     development: {
         backendUrl: `http://${window.location.hostname}:3000/api`,
-        keycloakUrl: `http://${window.location.hostname}:8080/`,
+        keycloakUrl: `http://${window.location.hostname}:8080`,
     }
 }
 

@@ -14,3 +14,5 @@ nginx/html/*
 .terraform.lock.hcl
 .idea/copilot
 keycloak/keycloak.aws.conf
+docker/certs/*
+nginx/certs/*
