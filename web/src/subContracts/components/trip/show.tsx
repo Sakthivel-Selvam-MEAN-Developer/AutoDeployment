@@ -85,21 +85,22 @@ const getTableBody = (allTrips: Row[]) => {
     return (
         <>
             <TableBody>
-                {allTrips.map((row, index) => (
-                    <TableRow
-                        key={index}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <TableCell> {index + 1} </TableCell>
-                        <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
-                        <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
-                        <TableCell align="left">{row.truck.transporter.name}</TableCell>
-                        <TableCell align="left">{row.loadingPoint.name}</TableCell>
-                        <TableCell align="left">{row.unloadingPoint.name}</TableCell>
-                        <TableCell align="left">{row.freightAmount}</TableCell>
-                        <TableCell align="left">{row.totalFreightAmount}</TableCell>
-                    </TableRow>
-                ))}
+                {allTrips &&
+                    allTrips.map((row, index) => (
+                        <TableRow
+                            key={index}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell> {index + 1} </TableCell>
+                            <TableCell align="left">{row.truck.vehicleNumber}</TableCell>
+                            <TableCell align="left">{epochToMinimalDate(row.startDate)}</TableCell>
+                            <TableCell align="left">{row.truck.transporter.name}</TableCell>
+                            <TableCell align="left">{row.loadingPoint.name}</TableCell>
+                            <TableCell align="left">{row.unloadingPoint.name}</TableCell>
+                            <TableCell align="left">{row.freightAmount}</TableCell>
+                            <TableCell align="left">{row.totalFreightAmount}</TableCell>
+                        </TableRow>
+                    ))}
             </TableBody>
         </>
     )
@@ -150,32 +151,33 @@ const GetAllStockTripsAsAAccordion = (
         }
     return (
         <>
-            {allStockTrips.map((row: AllStockProps, index: number) => (
-                <Accordion
-                    key={index}
-                    expanded={expanded === index}
-                    onChange={handleAccordionExpand(index, row.loadingPoint.cementCompanyId)}
-                >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                        sx={{ borderBottom: '1px solid grey' }}
+            {allStockTrips &&
+                allStockTrips.map((row: AllStockProps, index: number) => (
+                    <Accordion
+                        key={index}
+                        expanded={expanded === index}
+                        onChange={handleAccordionExpand(index, row.loadingPoint.cementCompanyId)}
                     >
-                        {ShowTypography(index, row)}
-                    </AccordionSummary>
-                    <AccordionDetails
-                        sx={{ display: 'flex', borderBottom: '1px solid grey', flex: '1' }}
-                    >
-                        <StockToUnloadingTrip
-                            row={row}
-                            setUpdate={setUpdate}
-                            update={update}
-                            unloadingPointList={unloadingPointList}
-                        />
-                    </AccordionDetails>
-                </Accordion>
-            ))}
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                            sx={{ borderBottom: '1px solid grey' }}
+                        >
+                            {ShowTypography(index, row)}
+                        </AccordionSummary>
+                        <AccordionDetails
+                            sx={{ display: 'flex', borderBottom: '1px solid grey', flex: '1' }}
+                        >
+                            <StockToUnloadingTrip
+                                row={row}
+                                setUpdate={setUpdate}
+                                update={update}
+                                unloadingPointList={unloadingPointList}
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                ))}
         </>
     )
 }

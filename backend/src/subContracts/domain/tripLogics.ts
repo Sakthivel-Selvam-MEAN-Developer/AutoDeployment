@@ -7,7 +7,6 @@ interface dataProps {
 interface fuelProps {
     totalprice: number
 }
-let transporterPercentage = 70 / 100
 
 const tripLogic = async (
     data: dataProps,
@@ -18,6 +17,7 @@ const tripLogic = async (
     tripType: string,
     advanceType: number
 ) => {
+    let transporterPercentage = 70 / 100
     if (tripType === 'LoadingToStock' && advanceType === 100) transporterPercentage = 1
     const fuelAmount = fuelDetails ? fuelDetails.totalprice : 0
     if (data.wantFuel === true && fuelDetails === null) return

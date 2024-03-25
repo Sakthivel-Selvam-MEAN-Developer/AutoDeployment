@@ -92,12 +92,30 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
         include: {
             loadingPointToStockPointTrip: {
                 include: {
-                    truck: { select: { transporter: true } }
+                    truck: { select: { transporter: true } },
+                    loadingPoint: {
+                        select: {
+                            cementCompany: {
+                                select: {
+                                    advanceType: true
+                                }
+                            }
+                        }
+                    }
                 }
             },
             loadingPointToUnloadingPointTrip: {
                 include: {
-                    truck: { select: { transporter: true } }
+                    truck: { select: { transporter: true } },
+                    loadingPoint: {
+                        select: {
+                            cementCompany: {
+                                select: {
+                                    advanceType: true
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

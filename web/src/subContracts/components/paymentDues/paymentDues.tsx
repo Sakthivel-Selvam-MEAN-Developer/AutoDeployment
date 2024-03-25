@@ -61,33 +61,38 @@ const PaymentDues: React.FC = () => {
                                     <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
                                 </ListItemSecondaryAction>
                             </AccordionSummary>
-                            {data.tripDetails.map((list: tripProp) => {
-                                return (
-                                    <AccordionDetails sx={accordianStyle}>
-                                        <Typography sx={style}>
-                                            <b>{list.number}</b>
-                                        </Typography>
-                                        <Typography sx={style}>
-                                            {list.type !== 'fuel pay'
-                                                ? list.loadingPoint + ' - ' + list.unloadingPoint
-                                                : list.location}
-                                        </Typography>
-                                        <Typography sx={style}>{list.type} </Typography>
-                                        <Typography sx={style}>{list.payableAmount} </Typography>
-                                        <Typography sx={style}>{list.invoiceNumber}</Typography>
-                                        <Typography sx={style}>
-                                            {epochToMinimalDate(list.date)}
-                                        </Typography>
-                                        <FormField
-                                            setRefresh={setRefresh}
-                                            refresh={refresh}
-                                            id={list.id}
-                                            fuelId={list.fuelId}
-                                            type={list.type}
-                                        />
-                                    </AccordionDetails>
-                                )
-                            })}
+                            {data.tripDetails &&
+                                data.tripDetails.map((list: tripProp) => {
+                                    return (
+                                        <AccordionDetails sx={accordianStyle}>
+                                            <Typography sx={style}>
+                                                <b>{list.number}</b>
+                                            </Typography>
+                                            <Typography sx={style}>
+                                                {list.type !== 'fuel pay'
+                                                    ? list.loadingPoint +
+                                                      ' - ' +
+                                                      list.unloadingPoint
+                                                    : list.location}
+                                            </Typography>
+                                            <Typography sx={style}>{list.type} </Typography>
+                                            <Typography sx={style}>
+                                                {list.payableAmount}{' '}
+                                            </Typography>
+                                            <Typography sx={style}>{list.invoiceNumber}</Typography>
+                                            <Typography sx={style}>
+                                                {epochToMinimalDate(list.date)}
+                                            </Typography>
+                                            <FormField
+                                                setRefresh={setRefresh}
+                                                refresh={refresh}
+                                                id={list.id}
+                                                fuelId={list.fuelId}
+                                                type={list.type}
+                                            />
+                                        </AccordionDetails>
+                                    )
+                                })}
                         </Accordion>
                     )
                 })

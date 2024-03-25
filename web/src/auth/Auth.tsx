@@ -13,7 +13,8 @@ const oidcConfig = {
     client_id: 'wonderwhyclient',
     redirect_uri: window.location.href,
     responseType: 'code',
-    userStore: new WebStorageStateStore({ store: window.localStorage })
+    userStore: new WebStorageStateStore({ store: window.localStorage }),
+    post_logout_redirect_uri: `${config.logoutRedirectUrl}`
 }
 
 Log.setLogger(console)

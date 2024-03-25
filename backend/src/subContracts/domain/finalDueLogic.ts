@@ -42,6 +42,7 @@ const finalDueLogic = async (
         ) {
             return null
         }
+        if (amount === 0) return
         const paymentDues = [
             {
                 name: dueDetails.truck.transporter.name,

@@ -18,11 +18,18 @@ const fuelLogics = async (
     vehicleNumber: string
 ) => {
     let tripDetails
+    let transporterPercentage = 70
     if (trip !== null) {
         if (trip.loadingPointToStockPointTrip !== null) {
             tripDetails = trip.loadingPointToStockPointTrip
         } else if (trip.loadingPointToUnloadingPointTrip !== null) {
             tripDetails = trip.loadingPointToUnloadingPointTrip
+        }
+        if (
+            trip.loadingPointToStockPointTripId &&
+            tripDetails.loadingPoint.cementCompany.advanceType === 100
+        ) {
+            transporterPercentage = 100
         }
         const paymentDues = [
             {
@@ -30,7 +37,10 @@ const fuelLogics = async (
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 payableAmount: parseFloat(
-                    ((tripDetails.totalTransporterAmount * 70) / 100 - fuel.totalprice).toFixed(2)
+                    (
+                        (tripDetails.totalTransporterAmount * transporterPercentage) / 100 -
+                        fuel.totalprice
+                    ).toFixed(2)
                 ),
                 overallTripId: trip.id,
                 vehicleNumber

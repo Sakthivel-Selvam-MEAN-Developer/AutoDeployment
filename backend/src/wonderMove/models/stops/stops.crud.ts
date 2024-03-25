@@ -65,12 +65,8 @@ export const getVehicleDetailByReason = async (id: number) => {
 
 export const overrideStops = async (gpsStopId: number, data: any) => {
     await prisma.stops.updateMany({
-        where: {
-            gpsStopId
-        },
-        data: {
-            active: false
-        }
+        where: { gpsStopId },
+        data: { active: false }
     })
     const newStops = await prisma.stops.createMany({ data })
     return newStops

@@ -10,6 +10,7 @@ import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import MiniDrawer from './drawer.tsx'
 import { Outlet } from 'react-router-dom'
 import { Button } from '@mui/material'
+import { useAuth } from 'react-oidc-context'
 
 interface AppBarPropsWithOpen extends AppBarProps {
     open: boolean
@@ -57,17 +58,33 @@ export default function SubContractLayout() {
     const [open, setOpen] = React.useState(false)
     const handleDrawerOpen = () => setOpen(true)
     const handleDrawerClose = () => setOpen(false)
+    const auth = useAuth()
+    const style = {
+        background: '#1c2b0a',
+        color: 'white',
+        ':hover': {
+            background: '#0e19089e'
+        }
+    }
+    const divStyle = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+        alignItems: 'center'
+    }
     return (
         <Box sx={{ display: 'flex' }}>
             <AppBar position="fixed" open={open}>
                 <Toolbar>
                     {getIconButton(handleDrawerOpen, open)}
-                    <Typography variant="h6" noWrap component="div">
-                        Sub-Contract
-                    </Typography>
-                    <div>
+                    <div style={divStyle}>
                         <Typography variant="h6" noWrap component="div">
-                            <Button variant="contained">Logout</Button>
+                            Sub-Contract
+                        </Typography>
+                        <Typography variant="h6" noWrap component="div">
+                            <Button sx={style} onClick={() => auth.signoutRedirect()}>
+                                Logout
+                            </Button>
                         </Typography>
                     </div>
                 </Toolbar>

@@ -6,7 +6,7 @@
     "libs",
     "frontend",
     "backend",
-    "apps", 
+    "apps",
     "web"
   ],
   "scripts": {
@@ -26,8 +26,5 @@
     "sql": "docker compose exec db psql -U postgres -d wonderwhy",
     "terra": "docker compose run -it terra bash",
     "cert": "docker compose run --rm certbot certonly --manual --preferred-challenges -d 'auth.magnum.wondermove.in,magnum.wondermove.in'"
-  },
-  "devDependencies": {
-    "husky": "^8.0.3"
   }
 }

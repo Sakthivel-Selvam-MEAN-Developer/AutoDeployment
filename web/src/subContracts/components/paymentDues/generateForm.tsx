@@ -97,32 +97,37 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                     Total Amount: <b>{data.dueDetails.totalPayableAmount}</b>
                                 </ListItemSecondaryAction>
                             </AccordionSummary>
-                            {data.tripDetails.map((list: tripProp) => {
-                                return (
-                                    <AccordionDetails sx={accordianStyle}>
-                                        <Typography>
-                                            <Checkbox
-                                                onClick={() => handleClick(list, data)}
-                                                {...label}
-                                            />
-                                        </Typography>
-                                        <Typography sx={style}>
-                                            <b>{list.number}</b>
-                                        </Typography>
-                                        <Typography sx={style}>
-                                            {list.type !== 'fuel pay'
-                                                ? list.loadingPoint + ' - ' + list.unloadingPoint
-                                                : list.location}
-                                        </Typography>
-                                        <Typography sx={style}>{list.type} </Typography>
-                                        <Typography sx={style}>{list.payableAmount} </Typography>
-                                        <Typography sx={style}>{list.invoiceNumber}</Typography>
-                                        <Typography sx={style}>
-                                            {epochToMinimalDate(list.date)}
-                                        </Typography>
-                                    </AccordionDetails>
-                                )
-                            })}
+                            {data.tripDetails &&
+                                data.tripDetails.map((list: tripProp) => {
+                                    return (
+                                        <AccordionDetails sx={accordianStyle}>
+                                            <Typography>
+                                                <Checkbox
+                                                    onClick={() => handleClick(list, data)}
+                                                    {...label}
+                                                />
+                                            </Typography>
+                                            <Typography sx={style}>
+                                                <b>{list.number}</b>
+                                            </Typography>
+                                            <Typography sx={style}>
+                                                {list.type !== 'fuel pay'
+                                                    ? list.loadingPoint +
+                                                      ' - ' +
+                                                      list.unloadingPoint
+                                                    : list.location}
+                                            </Typography>
+                                            <Typography sx={style}>{list.type} </Typography>
+                                            <Typography sx={style}>
+                                                {list.payableAmount}{' '}
+                                            </Typography>
+                                            <Typography sx={style}>{list.invoiceNumber}</Typography>
+                                            <Typography sx={style}>
+                                                {epochToMinimalDate(list.date)}
+                                            </Typography>
+                                        </AccordionDetails>
+                                    )
+                                })}
                         </Accordion>
                     )
                 })
