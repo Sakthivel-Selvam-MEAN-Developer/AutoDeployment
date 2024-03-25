@@ -16,7 +16,7 @@ interface bankDetailsProps {
 }
 export const exportFile = async (NEFTData: dataProps[]) => {
     let type = ''
-    const date = dayjs().format('DD/MM/YYYY')
+    const date = dayjs().format('MMMM D, YYYY')
     const NEFTDataHeaders =
         'IFSC Code,Account type,Account number,Name of the beneficiary,Address of the beneficiary,Sender information,Amount\n'
     let NEFTDataBody: string = ''
@@ -32,5 +32,5 @@ export const exportFile = async (NEFTData: dataProps[]) => {
         }
     })
     const blob = new Blob([NEFTDataHeaders + NEFTDataBody], { type: 'text/plain;charset=utf-8' })
-    saveAs(blob, `NEFT-${date}.txt`)
+    saveAs(blob, `NEFT ${date}.txt`)
 }
