@@ -13,11 +13,11 @@ git clone --depth 1 git@github.com:WonderWhyDev/wonderWhy.git
 echo "copy code to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' wonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/wonderWhy/backend/.env
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/keycloak/keycloak.aws.conf  ec2-user@"$IP":~/wonderWhy/keycloak/keycloak.conf
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/docker/certs/*.pem  ec2-user@"$IP":~/wonderWhy/nginx/certs/
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/web/dist/*  ec2-user@"$IP":~/wonderWhy/nginx/html/
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/work/wonderWhy/backend/dist/*  ec2-user@"$IP":~/wonderWhy/backend/dist/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/Demo/WonderWhy/backend/.env.aws  ec2-user@"$IP":~/wonderWhy/backend/.env
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/Demo/WonderWhy/keycloak/keycloak.aws.conf  ec2-user@"$IP":~/wonderWhy/keycloak/keycloak.conf
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/Demo/WonderWhy/docker/certs/*.pem  ec2-user@"$IP":~/wonderWhy/nginx/certs/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/Demo/WonderWhy/web/dist/*  ec2-user@"$IP":~/wonderWhy/nginx/html/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/Demo/WonderWhy/backend/dist/*  ec2-user@"$IP":~/wonderWhy/backend/dist/
 echo "install all dependencies"
 ssh -t -i ~/.ssh/wonderWhy.pem ec2-user@"$IP"  << EOF
   set -e
@@ -37,10 +37,10 @@ ssh -t -i ~/.ssh/wonderWhy.pem ec2-user@"$IP"  << EOF
   ~/docker-compose up setup
   echo "start db migration"
   ~/docker-compose up migrate
-  echo "start nginx along with backend"
-  ~/docker-compose up nginx -d
   echo "start keycloak"
   ~/docker-compose up keycloak -d
   echo "update keycloak"
   ~/docker-compose exec keycloak sh -c '/config/waitForKeycloak.sh'
+  echo "start nginx along with backend"
+  ~/docker-compose up nginx -d
 EOF

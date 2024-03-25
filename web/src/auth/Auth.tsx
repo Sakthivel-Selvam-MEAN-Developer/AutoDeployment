@@ -16,7 +16,6 @@ const oidcConfig = {
     userStore: new WebStorageStateStore({ store: window.localStorage }),
     post_logout_redirect_uri: `${config.logoutRedirectUrl}`
 }
-
 Log.setLogger(console)
 Log.setLevel(Log.DEBUG)
 
