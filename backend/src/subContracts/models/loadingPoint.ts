@@ -17,7 +17,7 @@ export const create = (
 ) => prisma.loadingPoint.create({ data })
 
 export const getCementCompanyByLocation = (loadingPointId: number) =>
-    prisma.loadingPoint.findMany({
+    prisma.loadingPoint.findFirst({
         where: {
             id: loadingPointId
         },

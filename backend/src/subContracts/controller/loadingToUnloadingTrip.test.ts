@@ -112,13 +112,12 @@ const mockFuelData = {
     id: 1,
     totalprice: 1000
 }
-const mockCemenCompanyData = [
-    {
-        cementCompany: {
-            advanceType: 70
-        }
+const mockCemenCompanyData = {
+    cementCompany: {
+        advanceType: 70
     }
-]
+}
+
 describe('Trip Controller', () => {
     test('should able to access all trip', async () => {
         mockgetTrip.mockResolvedValue({

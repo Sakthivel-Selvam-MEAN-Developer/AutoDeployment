@@ -45,7 +45,7 @@ export const createTrip = async (req: Request, res: Response) => {
             overallTripId,
             vehicleNumber,
             'LoadingToUnloading',
-            companyDetails[0].cementCompany.advanceType
+            companyDetails?.cementCompany.advanceType
         )
             .then((data) => createPaymentDues(data))
             .then(() => updateFuelDetails(fuelDetails, vehicleNumber, overallTripId))

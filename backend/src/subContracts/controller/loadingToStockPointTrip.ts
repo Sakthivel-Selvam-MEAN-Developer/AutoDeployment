@@ -33,7 +33,7 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
             id,
             vehicleNumber,
             'LoadingToStock',
-            companyDetails[0].cementCompany.advanceType
+            companyDetails?.cementCompany.advanceType
         )
             .then(async (data) => {
                 if (req.body.wantFuel !== true && fuelDetails !== null) {

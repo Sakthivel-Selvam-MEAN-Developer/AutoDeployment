@@ -15,7 +15,7 @@ const tripLogic = async (
     id: number,
     vehicleNumber: string,
     tripType: string,
-    advanceType: number
+    advanceType: number | undefined
 ) => {
     let transporterPercentage = 70 / 100
     if (tripType === 'LoadingToStock' && advanceType === 100) transporterPercentage = 1
