@@ -32,7 +32,7 @@ export const createTrip = async (req: Request, res: Response) => {
             vehicleNumber: '',
             transporter: { name: '', transporterType: '' }
         }
-        const companyDetails = await getCementCompanyByLocation(req.body.loadintPointId)
+        const companyDetails = await getCementCompanyByLocation(req.body.loadingPointId)
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
         const { id: overallTripId } = await create(req.body).then(async (data) =>
             createOverallTrip({ loadingPointToUnloadingPointTripId: data.id })

@@ -20,7 +20,7 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
             vehicleNumber: '',
             transporter: { name: '' }
         }
-        const companyDetails = await getCementCompanyByLocation(req.body.loadintPointId)
+        const companyDetails = await getCementCompanyByLocation(req.body.loadingPointId)
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
         const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
         const { id } = await create(req.body).then(async (data) =>
