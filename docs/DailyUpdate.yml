@@ -1,15 +1,25 @@
-- date: 25-3-2024
+- date: 26-3-2024
   person: Barath
   project: driverSalary
   planning:
-    - should create controller for driver salary master with test
-    - should create domain and implement logics
-- date: 25-3-2024
+    - should create a report for transporter
+- date: 26-3-2024
   person: Sakthivel
+  project: driverSalary
+  planning:
+    - should change trip logic by advanceType 
+    
+- date: 25-3-2024
+  person: Barath, Sakthivel
   project: driverSalary
   planning:
     - should add logout for users
     - should written test for driver salary master ui
+  completed:
+    - added logout for users
+    - wrote test for driver salary master ui
+    - changed advanced type in fuel logic
+    - inserted data given by the Client
     
 - date: 23-3-2024
   person: Barath, Sakthivel
