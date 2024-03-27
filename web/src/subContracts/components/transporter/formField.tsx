@@ -87,6 +87,13 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 fieldName="accountNumber"
                 type="number"
             />
+            <InputWithType
+                control={control}
+                disabled={false}
+                label="Branch Name"
+                fieldName="branchName"
+                type="string"
+            />
             <AutoCompleteWithValue
                 control={control}
                 value={transporterType}
