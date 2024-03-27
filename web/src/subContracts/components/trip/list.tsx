@@ -1,7 +1,6 @@
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getAllTrip } from '../../services/trip'
 import { getAllStockPointTrip } from '../../services/stockPointTrip'
 import ListTrips from './listTrips'
 const style = {
@@ -10,15 +9,13 @@ const style = {
     justifyContent: 'right'
 }
 const TripList: React.FC = () => {
-    const [allTrips, setAllTrips] = useState([])
     const [allStockTrips, setAllStockTrips] = useState([])
     const [update, setUpdate] = useState(false)
     const [loading, setLoading] = useState(true)
     useEffect(() => {
-        getAllTrip()
-            .then(setAllTrips)
+        getAllStockPointTrip()
+            .then(setAllStockTrips)
             .then(() => setLoading(false))
-        getAllStockPointTrip().then(setAllStockTrips)
     }, [update])
     return (
         <>
@@ -30,7 +27,6 @@ const TripList: React.FC = () => {
                 </Link>
             </div>
             <ListTrips
-                allTrips={allTrips}
                 allStockTrips={allStockTrips}
                 setUpdate={setUpdate}
                 update={update}

@@ -158,7 +158,7 @@ const tableRow = (row: rowProps, index: number) => {
             <td></td>
             <td></td>
             <td className="tc">
-                {row.loadingPoint.name} -{' '}
+                {row.loadingPoint.name} -
                 {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}
             </td>
             <td className="tc">{row.truck.vehicleNumber}</td>

@@ -11,5 +11,6 @@ export default {
     ifsc: 'zxy1234',
     accountTypeNumber: 10,
     csmName: 'Sakthivel',
-    transporterType: 'Market Transporter'
+    transporterType: 'Market Transporter',
+    branchName: 'Erode'
 }

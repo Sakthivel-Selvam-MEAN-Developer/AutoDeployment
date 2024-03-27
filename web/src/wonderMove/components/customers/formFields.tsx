@@ -7,16 +7,14 @@ import { Control } from 'react-hook-form'
 interface FormFieldsProps {
     control: Control
 }
+const style = {
+    display: 'flex',
+    gap: '10px',
+    rowGap: '10px'
+}
 const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
     return (
-        <div
-            style={{
-                display: 'flex',
-                gap: '10px',
-                rowGap: '10px',
-                flexWrap: 'wrap'
-            }}
-        >
+        <div style={{ ...style, flexWrap: 'wrap' }}>
             <TextInput control={control} label="Name" fieldName="name" />
             <TextInput control={control} label="Pan" fieldName="pan" />
             <TextInput control={control} label="GST" fieldName="gst" />

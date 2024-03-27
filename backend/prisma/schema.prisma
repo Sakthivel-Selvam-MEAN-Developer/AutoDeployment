@@ -261,6 +261,7 @@ model transporter {
   tdsPercentage       Float?   @db.DoublePrecision
   accountHolder       String
   accountNumber       String   @unique
+  branchName          String
   ifsc                String
   accountTypeNumber   Int
   createdAt           DateTime @default(now()) @db.Timestamptz(6)
@@ -617,7 +618,7 @@ model expenses {
   expenseApproval Boolean      @default(false)
   createdAt       DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt       DateTime     @updatedAt @db.Timestamptz(6)
-  tripId   Int
+  tripId          Int
 
   @@schema("driverSalary")
 }

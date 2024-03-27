@@ -9,10 +9,9 @@ interface CustomerProps {
 interface CustomerDetails {}
 const Customer: React.FC<CustomerProps> = ({ number }) => {
     const [customerDetails, setCustomerDetails] = useState<CustomerDetails | undefined>()
-    const updateCustomerList = () => {
+    useEffect(() => {
         getCustomerDetails(number).then(setCustomerDetails)
-    }
-    useEffect(updateCustomerList, [number])
+    }, [number])
     return (
         <>
             {customerDetails && (

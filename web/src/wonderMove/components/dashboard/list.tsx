@@ -55,15 +55,7 @@ const DashboardList: React.FC = () => {
 
     useEffect(() => {
         stopDuration(from, to).then((stopDurations) => {
-            const totalDuration = stopDurations.reduce(
-                (total: number, entry: DurationEntryProps) => total + entry.durationInMillis,
-                0
-            )
-            const runningTimeForAllVehicle = {
-                durationInMillis: totalVehicles.length * millisPerDay - totalDuration,
-                name: 'Running Time'
-            }
-            setDuration([...stopDurations, runningTimeForAllVehicle])
+            durations(stopDurations, totalVehicles, millisPerDay, setDuration)
         })
     }, [totalVehicles, from, to, millisPerDay])
     const handleCellClick = (entry: DurationData) => {
@@ -109,3 +101,19 @@ const DashboardList: React.FC = () => {
     )
 }
 export default DashboardList
+function durations(
+    stopDurations: any,
+    totalVehicles: never[],
+    millisPerDay: number,
+    setDuration: React.Dispatch<React.SetStateAction<DurationData[]>>
+) {
+    const totalDuration = stopDurations.reduce(
+        (total: number, entry: DurationEntryProps) => total + entry.durationInMillis,
+        0
+    )
+    const runningTimeForAllVehicle = {
+        durationInMillis: totalVehicles.length * millisPerDay - totalDuration,
+        name: 'Running Time'
+    }
+    setDuration([...stopDurations, runningTimeForAllVehicle])
+}

@@ -37,7 +37,6 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             e.target.stockDate !== undefined && e.target.stockDate.value.split('/')
         const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
         const stockDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
-
         const freightAmountFloat = freightAmount.toFixed(2)
         const transporterAmountFloat = transporterAmount.toFixed(2)
         const totalFreightAmountFloat = (row.filledLoad * freightAmount).toFixed(2)

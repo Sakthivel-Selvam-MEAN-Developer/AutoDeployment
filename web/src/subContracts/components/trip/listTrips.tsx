@@ -3,14 +3,13 @@ import ListAllTrip from './show'
 import { FC } from 'react'
 
 interface listTripsProps {
-    allTrips: never[]
     allStockTrips: never[]
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>
     update: boolean
     loading: boolean
 }
 
-const ListTrips: FC<listTripsProps> = ({ allTrips, allStockTrips, setUpdate, update, loading }) => {
+const ListTrips: FC<listTripsProps> = ({ allStockTrips, setUpdate, update, loading }) => {
     return (
         <>
             {loading ? (
@@ -18,12 +17,7 @@ const ListTrips: FC<listTripsProps> = ({ allTrips, allStockTrips, setUpdate, upd
                     <CircularProgress />
                 </Box>
             ) : (
-                <ListAllTrip
-                    allTrips={allTrips}
-                    allStockTrips={allStockTrips}
-                    setUpdate={setUpdate}
-                    update={update}
-                />
+                <ListAllTrip allStockTrips={allStockTrips} setUpdate={setUpdate} update={update} />
             )}
         </>
     )

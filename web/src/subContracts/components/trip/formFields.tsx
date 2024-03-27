@@ -1,7 +1,7 @@
 import TextInput from '../../../form/TextInput.tsx'
 import NumberInput from '../../../form/NumberInput.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
-import { FormControlLabel, InputAdornment, Switch } from '@mui/material'
+import { FormControlLabel, InputAdornment, Switch, Table, TableCell, TableRow } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getTruckByTransporter } from '../../services/truck.ts'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
@@ -11,10 +11,23 @@ import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { listFuelWithoutTripId } from '../../services/fuel.ts'
 import DateInput from '../../../form/DateInput.tsx'
+import Paper from '@mui/material/Paper'
+
 interface transporterProps {
     name: string
     tdsPercentage: number
     transporterType: string
+}
+interface FuelProps {
+    fueledDate: number
+    invoiceNumber: string
+    pricePerliter: number
+    quantity: number
+    totalprice: number
+    vehicleNumber: string
+    bunk: {
+        bunkName: string
+    }
 }
 interface FormFieldProps {
     control: Control
@@ -83,6 +96,7 @@ const FormField: React.FC<FormFieldProps> = ({
     const [loadingPointName, setLoadingPointName] = useState<string>('')
     const [stockPointName, setStockPointName] = useState<string>('')
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
+    const [fuelDetails, setFuelDetails] = useState<FuelProps>()
 
     useEffect(() => {
         if (cementCompanyName !== null && cementCompanyName !== '')
@@ -126,8 +140,10 @@ const FormField: React.FC<FormFieldProps> = ({
     useEffect(() => {
         if (vehicleNumber !== '')
             listFuelWithoutTripId(vehicleNumber).then((fuelDetails) => {
+                console.log(fuelDetails)
                 if (fuelDetails !== null) {
                     setDisableWantFuel(true)
+                    setFuelDetails(fuelDetails)
                     setownTruckFuel(false)
                 } else {
                     setDisableWantFuel(false)
@@ -377,6 +393,30 @@ const FormField: React.FC<FormFieldProps> = ({
                     label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
                 />
             )}
+            <div>
+                {fuelDetails && (
+                    <Table sx={{ width: 650 }} component={Paper} aria-label="simple table">
+                        <b>Fueled Details</b>
+                        <br />
+                        <TableRow>
+                            <TableCell>Bunk</TableCell>
+                            <TableCell>Fueled Date</TableCell>
+                            <TableCell>Invoice Number</TableCell>
+                            <TableCell>Price Per liter</TableCell>
+                            <TableCell>Quantity</TableCell>
+                            <TableCell>Total Price</TableCell>
+                        </TableRow>
+                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell>{fuelDetails.bunk.bunkName}</TableCell>
+                            <TableCell>{fuelDetails.fueledDate}</TableCell>
+                            <TableCell>{fuelDetails.invoiceNumber}</TableCell>
+                            <TableCell>{fuelDetails.pricePerliter}</TableCell>
+                            <TableCell>{fuelDetails.quantity}</TableCell>
+                            <TableCell>{fuelDetails.totalprice}</TableCell>
+                        </TableRow>
+                    </Table>
+                )}
+            </div>
         </div>
     )
 }

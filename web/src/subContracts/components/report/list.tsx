@@ -71,6 +71,16 @@ const ListAllReport: React.FC = (): ReactElement => {
                         Completed Payments
                     </Button>
                 </Link>
+                <Link to={'/sub/reports/transporterreport'}>
+                    <Button color="primary" variant="contained">
+                        Transporter Report
+                    </Button>
+                </Link>
+                <Link to={'/sub/reports/companyreport'}>
+                    <Button color="primary" variant="contained">
+                        Company Report
+                    </Button>
+                </Link>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FilterReport

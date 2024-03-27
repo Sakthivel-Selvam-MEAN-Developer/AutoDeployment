@@ -27,6 +27,8 @@ import Transporter from './subContracts/components/transporter'
 import CreateTransporter from './subContracts/components/transporter/list'
 import AddVehicle from './subContracts/components/transporter/addVehicle'
 import CompletedPayment from './subContracts/components/report/completedPayment'
+import TransporterReport from './subContracts/components/report/transporterReport/listTransporter'
+import CompanyReport from './subContracts/components/report/companyReport/listCompany'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -160,6 +162,14 @@ const sunContractRoutes = {
                 {
                     path: 'completedpayment',
                     element: <CompletedPayment />
+                },
+                {
+                    path: 'transporterreport',
+                    element: <TransporterReport />
+                },
+                {
+                    path: 'companyreport',
+                    element: <CompanyReport />
                 }
             ]
         }

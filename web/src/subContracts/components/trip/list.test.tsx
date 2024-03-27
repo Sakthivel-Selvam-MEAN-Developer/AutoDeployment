@@ -105,19 +105,6 @@ describe('Trip Test', () => {
         mockCreateStockTrip.mockResolvedValue(mockCreateStockPointTrip)
         mockPricePoint.mockResolvedValue(mockPricePointData)
     })
-    test('should fetch data from Db', async () => {
-        render(
-            <BrowserRouter>
-                <TripList />
-            </BrowserRouter>
-        )
-        await waitFor(() => {
-            expect(screen.getByText('TN93D5512')).toBeInTheDocument()
-            expect(screen.getByText('10/10/2023')).toBeInTheDocument()
-            expect(screen.getByText('salem')).toBeInTheDocument()
-        })
-        expect(mockAllTrip).toHaveBeenCalledTimes(1)
-    })
     test('should to able to create stock-unloading trip', async () => {
         render(
             <BrowserRouter>
