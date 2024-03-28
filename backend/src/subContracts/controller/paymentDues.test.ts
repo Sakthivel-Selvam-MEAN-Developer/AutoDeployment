@@ -174,7 +174,7 @@ const mockGroupedDueDetails = [
                 name: 'Deepak Logistics Pvt Ltd',
                 accountNumber: '12334523',
                 ifsc: 'HDFC1234',
-                address: 'Salem',
+                branchName: 'Salem',
                 accountTypeNumber: 10
             }
         ],
@@ -203,7 +203,7 @@ const mockGroupedDueDetails = [
         bankDetails: [
             {
                 bunkName: 'Barath Petroleum',
-                location: 'Erode',
+                branchName: 'Erode',
                 accountNumber: '156038718',
                 ifsc: 'HDFC0005627',
                 accountTypeNumber: 11
@@ -233,7 +233,7 @@ const mockGroupedDueDetails = [
                 name: 'Barath Logistics Pvt Ltd',
                 accountNumber: '43534523',
                 ifsc: 'ICIC1234',
-                address: 'Erode',
+                branchName: 'Erode',
                 accountTypeNumber: 10
             }
         ],
@@ -260,21 +260,21 @@ const mockTransporterAccountData = [
         name: 'Deepak Logistics Pvt Ltd',
         accountNumber: '12334523',
         ifsc: 'HDFC1234',
-        address: 'Salem',
+        branchName: 'Salem',
         accountTypeNumber: 10
     },
     {
         name: 'Barath Logistics Pvt Ltd',
         accountNumber: '43534523',
         ifsc: 'ICIC1234',
-        address: 'Erode',
+        branchName: 'Erode',
         accountTypeNumber: 10
     }
 ]
 const mockBunkAccountData = [
     {
         bunkName: 'Barath Petroleum',
-        location: 'Erode',
+        branchName: 'Erode',
         accountNumber: '156038718',
         ifsc: 'HDFC0005627',
         accountTypeNumber: 11
@@ -341,7 +341,7 @@ const mockBankDetails = [
         name: 'Dalmia Cements',
         accountNumber: '3242343',
         ifsc: '234',
-        address: '34234',
+        branchName: '34234',
         accountTypeNumber: 12
     }
 ]
@@ -371,7 +371,7 @@ const mockGroupedGSTDetails = [
                 name: 'Dalmia Cements',
                 accountNumber: '3242343',
                 ifsc: '234',
-                address: '34234',
+                branchName: '34234',
                 accountTypeNumber: 12
             }
         ],

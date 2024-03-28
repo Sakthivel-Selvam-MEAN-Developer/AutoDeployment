@@ -20,21 +20,21 @@ interface transporterAccountProps {
     name: string
     accountNumber: string
     ifsc: string
-    address: string
+    branchName: string
     accountTypeNumber: number
 }
 interface bunkAccountProps {
     bunkName: string
     accountNumber: string
     ifsc: string
-    location: string
+    branchName: string
     accountTypeNumber: number
 }
 interface gstAccountProps {
     name: string
     accountNumber: string
     ifsc: string
-    address: string
+    branchName: string
     accountTypeNumber: number
 }
 interface groupedDuesProps {

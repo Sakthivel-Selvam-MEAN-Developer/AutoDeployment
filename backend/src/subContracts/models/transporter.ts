@@ -44,7 +44,7 @@ export const getTransporterAccountByName = (transporterNames: string[]) =>
             name: true,
             accountNumber: true,
             ifsc: true,
-            address: true,
-            accountTypeNumber: true
+            accountTypeNumber: true,
+            branchName: true
         }
     })

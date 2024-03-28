@@ -192,12 +192,8 @@ export const updateStockToUnloadingInOverall = (
     stockToUnloadingId: number
 ) =>
     prisma.overallTrip.update({
-        where: {
-            id: overallTripId
-        },
-        data: {
-            stockPointToUnloadingPointTripId: stockToUnloadingId
-        }
+        where: { id: overallTripId },
+        data: { stockPointToUnloadingPointTripId: stockToUnloadingId }
     })
 export const getOverAllTripIdByLoadingToStockId = (loadingPointToStockPointTripId: number | null) =>
     prisma.overallTrip.findFirst({

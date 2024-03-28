@@ -21,9 +21,9 @@ export const getBunkAccountByName = (bunkName: string[]) =>
         },
         select: {
             bunkName: true,
-            location: true,
             accountNumber: true,
             ifsc: true,
-            accountTypeNumber: true
+            accountTypeNumber: true,
+            branchName: true
         }
     })

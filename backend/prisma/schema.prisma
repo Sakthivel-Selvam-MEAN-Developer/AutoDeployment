@@ -443,6 +443,7 @@ model bunk {
   accountHolder     String
   accountNumber     String   @unique
   ifsc              String
+  branchName        String   @default("name")
   accountTypeNumber Int
   createdAt         DateTime @default(now()) @db.Timestamptz(6)
   updatedAt         DateTime @updatedAt @db.Timestamptz(6)

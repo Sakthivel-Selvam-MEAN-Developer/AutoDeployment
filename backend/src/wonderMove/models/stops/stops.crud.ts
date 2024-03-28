@@ -48,8 +48,8 @@ export const allPendingStopsForSingleVehicle = async (number: string) => {
     return vehicle
 }
 
-export const getVehicleDetailByReason = async (id: number) => {
-    const vehicle = await prisma.stops.findMany({
+export const getVehicleDetailByReason = async (id: number) =>
+    prisma.stops.findMany({
         where: {
             active: true,
             reason: {
@@ -60,8 +60,6 @@ export const getVehicleDetailByReason = async (id: number) => {
             gpsStop: true
         }
     })
-    return vehicle
-}
 
 export const overrideStops = async (gpsStopId: number, data: any) => {
     await prisma.stops.updateMany({

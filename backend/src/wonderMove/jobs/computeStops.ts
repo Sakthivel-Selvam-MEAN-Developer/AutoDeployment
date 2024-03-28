@@ -56,9 +56,7 @@ const updateOngoingStop = (
     previousMovement: Movement,
     ongoingStop: RawStop
 ): RawStop => {
-    if (ongoingStop.startTime === 0) {
-        return initNewStop(movement, previousMovement)
-    }
+    if (ongoingStop.startTime === 0) return initNewStop(movement, previousMovement)
     return {
         ...ongoingStop,
         endTime: movement.eventTime,

@@ -20,9 +20,9 @@ import seedPricePointMarker from '../subContracts/seed/pricePointMarker.ts'
 import prisma from '../../prisma/index.ts'
 
 async function addFuelStations() {
-    await prisma.$executeRaw`INSERT INTO "subContract"."bunk" ("bunkName","location", "accountHolder", "accountNumber", "ifsc", "accountTypeNumber", "createdAt", "updatedAt")
-    VALUES ('SRK Barath Petroleum','Erode','Barath', 156038718, 'HDFC0005627', 11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ('Sakthivel Barath Petroleum','Salem', 'Sakthivel', 23456332, 'ICIC0001356', 14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."bunk" ("bunkName","location", "accountHolder", "accountNumber", "ifsc", "accountTypeNumber", "createdAt", "updatedAt","branchName")
+    VALUES ('SRK Barath Petroleum','Erode','Barath', 156038718, 'HDFC0005627', 11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'Salem'),
+    ('Sakthivel Barath Petroleum','Salem', 'Sakthivel', 23456332, 'ICIC0001356', 14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Namakkal');`
     await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
     VALUES ('TN22E3456',50,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
     await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")

@@ -7,7 +7,8 @@ const configs = {
     ktTelematicsUrl: process.env.KTTELEMATICS_URL || '',
     ORY_SDK_URL: process.env.ORY_SDK_URL || '',
     keycloakPublicKey: process.env.PUBLIC_KEY || '',
-    keycloakUrl: process.env.KEYCLOAK_URL || ''
+    keycloakUrl: process.env.KEYCLOAK_URL || '',
+    publicKey: process.env.PUBLIC_KEY || ''
 }
 
 export default configs

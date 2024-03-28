@@ -4,11 +4,7 @@ import { groupByStopReason } from '../models/stops/stops.crud.ts'
 import { getGpsStops } from '../models/gpsStop.ts'
 import { getAllVehicles } from '../models/vehicle.ts'
 
-function groupNumber(
-    groupedData: any[],
-    gpsStopIdToVehicleId: Map<any, any>,
-    vehicleDataMap: Map<any, any>
-) {
+function groupNumber(groupedData: any[], gpsStopIdToVehicleId: any, vehicleDataMap: any) {
     return groupedData.reduce((acc, entry) => {
         const { gpsStopId } = entry
         const vehicleId = gpsStopIdToVehicleId.get(gpsStopId)
@@ -28,12 +24,9 @@ function groupNumber(
 const mapNumberToVehicle = async (groupedData: any[]) => {
     const gpsStop = await getGpsStops()
     const gpsStopIdToVehicleId = new Map()
-    gpsStop.forEach((stop) => {
-        gpsStopIdToVehicleId.set(stop.id, stop.vehicleId)
-    })
+    gpsStop.forEach((stop) => gpsStopIdToVehicleId.set(stop.id, stop.vehicleId))
     const vehicleData = await getAllVehicles()
     const vehicleDataMap = new Map(vehicleData.map((vehicle) => [vehicle.id, vehicle]))
-
     const result = groupNumber(groupedData, gpsStopIdToVehicleId, vehicleDataMap)
     return Object.values(result)
 }

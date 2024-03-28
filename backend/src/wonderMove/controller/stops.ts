@@ -21,7 +21,7 @@ export const create = (req: Request, res: Response) => {
 }
 
 export const getDetails = (req: Request, res: Response) => {
-    getDetailsFromDb(req.params.number).then((detail: any) => {
+    getDetailsFromDb(req.params.number).then((detail) => {
         res.status(200).json(detail)
     })
 }
@@ -46,11 +46,9 @@ export const stopDurations = (req: Request, res: Response) => {
 }
 
 export const updateStopsDb = (req: Request, res: Response) => {
-    updateStopReason(parseInt(req.params.id as string, 10), req.body.stopReasonId).then(
-        (data: any) => {
-            res.status(200).json(data)
-        }
-    )
+    updateStopReason(parseInt(req.params.id as string, 10), req.body.stopReasonId).then((data) => {
+        res.status(200).json(data)
+    })
 }
 
 export const allPendingSRforSingleVehicle = (req: Request, res: Response) => {
@@ -59,7 +57,7 @@ export const allPendingSRforSingleVehicle = (req: Request, res: Response) => {
     })
 }
 export const overrideStop = (req: Request, res: Response) => {
-    overrideStops(parseInt(req.query.gpsStopId as string, 10), req.body).then((data: any) => {
+    overrideStops(parseInt(req.query.gpsStopId as string, 10), req.body).then((data) => {
         res.status(200).json(data)
     })
 }

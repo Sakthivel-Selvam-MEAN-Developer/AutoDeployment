@@ -13,12 +13,11 @@ interface TabPanelProps {
 }
 export interface bankDetailsProps {
     bunkName: string
-    location: string
     accountNumber: string
     ifsc: string
     accountTypeNumber: number
     name: string
-    address: string
+    branchName: string
 }
 export interface NEFTDetailsProps {
     id: number

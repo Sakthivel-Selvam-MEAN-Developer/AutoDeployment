@@ -24,9 +24,7 @@ export const updateUnloadWeightForStockTrip = (id: number) =>
 export const updateBillNumber = (id: number[], billNo: string) =>
     prisma.stockPointToUnloadingPointTrip.updateMany({
         where: {
-            id: {
-                in: id
-            }
+            id: { in: id }
         },
         data: {
             billNo
