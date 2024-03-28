@@ -1,13 +1,41 @@
+- date: 28-3-2024
+  person: Barath
+  project: driverSalary
+  planning:
+    - should be able to add expenses in employee salary
+- date: 28-3-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add user based authentication
+
+- date: 27-3-2024
+  person: Barath
+  project: driverSalary
+  planning:
+    - should create a report for cement company
+  completed:
+    - created a report for cement company
+- date: 27-3-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add branchName in NEFT file
+
 - date: 26-3-2024
   person: Barath
   project: driverSalary
   planning:
     - should create a report for transporter
+  completed:
+    - created a report for transporter
 - date: 26-3-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should change trip logic by advanceType 
+  completed:
+    - changed trip logic by advanceType 
     
 - date: 25-3-2024
   person: Barath, Sakthivel
