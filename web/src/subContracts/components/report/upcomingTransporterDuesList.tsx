@@ -22,7 +22,7 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
     }, [])
     useEffect(() => {
         const value = skipNumber * 15
-        const Trip = transporterList.slice(value, value + 15)
+        const Trip = transporterList ? transporterList.slice(value, value + 15) : []
         setTripWithPagination(Trip)
     }, [skipNumber, transporterList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {

@@ -38,7 +38,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                 control={control}
                 fieldName="bunkId"
                 label="Select Bunk"
-                options={bunkList.map(({ bunkName }) => bunkName)}
+                options={bunkList ? bunkList.map(({ bunkName }) => bunkName) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id, location } = bunkList.find(
                         (bunk: { bunkName: string }) => bunk.bunkName === newValue
@@ -64,7 +64,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                 control={control}
                 fieldName="vehicleNumber"
                 label="Vehicle Number"
-                options={vehicleList.map(({ vehicleNumber }) => vehicleNumber)}
+                options={vehicleList ? vehicleList.map(({ vehicleNumber }) => vehicleNumber) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     console.log(newValue)
                 }}

@@ -44,12 +44,16 @@ const SelectTrip: React.FC = (): ReactElement => {
                     value={vehicleNumber}
                     freeSolo
                     disableClearable
-                    options={vehicleslist.map((trip: tripProps) =>
-                        trip.stockPointToUnloadingPointTrip !== null
-                            ? trip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
-                                  .vehicleNumber
-                            : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber
-                    )}
+                    options={
+                        vehicleslist
+                            ? vehicleslist.map((trip: tripProps) =>
+                                  trip.stockPointToUnloadingPointTrip !== null
+                                      ? trip.stockPointToUnloadingPointTrip
+                                            .loadingPointToStockPointTrip.truck.vehicleNumber
+                                      : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber
+                              )
+                            : []
+                    }
                     onChange={(event: React.SyntheticEvent<Element, Event>, newValue: string) => {
                         setVehicleNumber(newValue)
                         onChange(event, newValue)

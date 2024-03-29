@@ -46,7 +46,7 @@ const FilterReport: React.FC<FormFieldsProps> = ({
                 fieldName="companyName"
                 label="Select Company"
                 data-testid={'select'}
-                options={cementCompany.map(({ name }) => name)}
+                options={cementCompany ? cementCompany.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = cementCompany.find(({ name }) => name === newValue) || { id: 0 }
                     setCementCompanyId(id)
@@ -58,7 +58,7 @@ const FilterReport: React.FC<FormFieldsProps> = ({
                 fieldName="transporterName"
                 label="Select Transporter"
                 data-testid={'select'}
-                options={transporter.map(({ name }) => name)}
+                options={transporter ? transporter.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = transporter.find(({ name }) => name === newValue) || { id: 0 }
                     setTransporterId(id)
@@ -69,7 +69,7 @@ const FilterReport: React.FC<FormFieldsProps> = ({
                 fieldName="factoryName"
                 label="Select Factory"
                 data-testid={'select'}
-                options={loadingPointList.map(({ name }) => name)}
+                options={loadingPointList ? loadingPointList.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = loadingPointList.find(({ name }) => name === newValue) || {
                         id: 0

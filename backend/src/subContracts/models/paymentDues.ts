@@ -53,9 +53,7 @@ interface dataProps {
 }
 export const updatePaymentDues = (data: dataProps) =>
     prisma.paymentDues.update({
-        where: {
-            id: data.id
-        },
+        where: { id: data.id },
         data: {
             transactionId: data.transactionId,
             status: true,
@@ -89,9 +87,7 @@ export const getDueByOverallTripId = (overallTripId: number) =>
     prisma.paymentDues.findMany({
         where: {
             overallTripId,
-            NOT: {
-                type: 'gst pay'
-            }
+            NOT: { type: 'gst pay' }
         },
         select: {
             payableAmount: true
@@ -100,9 +96,7 @@ export const getDueByOverallTripId = (overallTripId: number) =>
 export const updatePaymentNEFTStatus = (dueId: number[]) =>
     prisma.paymentDues.updateMany({
         where: {
-            id: {
-                in: dueId
-            }
+            id: { in: dueId }
         },
         data: {
             NEFTStatus: true
@@ -112,17 +106,9 @@ export const updatePaymentNEFTStatus = (dueId: number[]) =>
 export const getGstDuesGroupByName = (status: boolean) =>
     prisma.paymentDues.groupBy({
         by: ['name'],
-        where: {
-            status: false,
-            NEFTStatus: status,
-            type: 'gst pay'
-        },
-        _count: {
-            status: true
-        },
-        _sum: {
-            payableAmount: true
-        }
+        where: { status: false, NEFTStatus: status, type: 'gst pay' },
+        _count: { status: true },
+        _sum: { payableAmount: true }
     })
 
 export const getGstPaymentDues = (name: string[], status: boolean) =>

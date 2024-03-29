@@ -6,18 +6,8 @@ export const create = (data: Prisma.stopsCreateInput | Prisma.stopsUncheckedCrea
     prisma.stops.create({ data })
 export const fetchStopsByVehicle = (number: string) =>
     prisma.stops.findMany({
-        where: {
-            active: true,
-            gpsStop: {
-                vehicle: {
-                    number
-                }
-            }
-        },
-        include: {
-            reason: true,
-            gpsStop: true
-        }
+        where: { active: true, gpsStop: { vehicle: { number } } },
+        include: { reason: true, gpsStop: true }
     })
 export const updateStopReason = (id: number, stopReasonId: number) =>
     prisma.stops.update({
@@ -52,13 +42,9 @@ export const getVehicleDetailByReason = async (id: number) =>
     prisma.stops.findMany({
         where: {
             active: true,
-            reason: {
-                id
-            }
+            reason: { id }
         },
-        include: {
-            gpsStop: true
-        }
+        include: { gpsStop: true }
     })
 
 export const overrideStops = async (gpsStopId: number, data: any) => {

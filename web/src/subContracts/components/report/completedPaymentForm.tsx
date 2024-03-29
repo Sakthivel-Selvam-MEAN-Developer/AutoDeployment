@@ -23,11 +23,13 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
         getAllTransporterName()
             .then(setVendor)
             .then(() =>
-                getAllBunkName().then((data) => {
-                    data.map((bunk: vendorProps) =>
-                        setVendor((prev) => [...prev, { ...bunk, name: bunk.bunkName }])
-                    )
-                })
+                getAllBunkName().then(
+                    (data) =>
+                        data &&
+                        data.map((bunk: vendorProps) =>
+                            setVendor((prev) => [...prev, { ...bunk, name: bunk.bunkName }])
+                        )
+                )
             )
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -52,7 +54,7 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
                 control={control}
                 fieldName="name"
                 label="Select Vendor"
-                options={vendor.map(({ name }) => name)}
+                options={vendor ? vendor.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
                     setName(value)
                 }}

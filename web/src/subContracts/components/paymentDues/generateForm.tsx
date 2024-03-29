@@ -77,7 +77,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     }
     return (
         <>
-            {transporterDue.length !== 0 ? (
+            {transporterDue ? (
                 transporterDue.map((data: dataProp) => {
                     return (
                         <Accordion>
@@ -103,6 +103,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                         <AccordionDetails sx={accordianStyle}>
                                             <Typography>
                                                 <Checkbox
+                                                    key={list.id}
                                                     onClick={() => handleClick(list, data)}
                                                     {...label}
                                                 />
@@ -118,9 +119,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                                     : list.location}
                                             </Typography>
                                             <Typography sx={style}>{list.type} </Typography>
-                                            <Typography sx={style}>
-                                                {list.payableAmount}{' '}
-                                            </Typography>
+                                            <Typography sx={style}>{list.payableAmount}</Typography>
                                             <Typography sx={style}>{list.invoiceNumber}</Typography>
                                             <Typography sx={style}>
                                                 {epochToMinimalDate(list.date)}

@@ -62,13 +62,9 @@ export const getOnlyActiveTripByVehicleNumber = (vehicleNumber: string) =>
     prisma.loadingPointToUnloadingPointTrip.findFirst({
         where: {
             tripStatus: false,
-            truck: {
-                vehicleNumber
-            }
+            truck: { vehicleNumber }
         },
-        select: {
-            id: true
-        }
+        select: { id: true }
     })
 
 export const updateUnloadWeightforTrip = (id: number) =>

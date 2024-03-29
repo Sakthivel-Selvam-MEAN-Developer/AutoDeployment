@@ -13,17 +13,15 @@ const Driver_Details = () => {
 }
 
 export default Driver_Details
-
+const style = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginRight: '20px'
+}
 const datePicker = () => {
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginRight: '20px'
-            }}
-        >
+        <div style={style}>
             <h2>Welcome Sakthivel Selvam</h2>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
                 <DatePicker label={'Select Month & Year'} views={['month', 'year']} />
@@ -31,15 +29,21 @@ const datePicker = () => {
         </div>
     )
 }
-
+const driverSalaryCard = () => {
+    return (
+        <>
+            <Driver_Card content={'Daily Betta'} value={'\u20B9' + ' 250'} />
+            <Driver_Card content={'Total Salary'} value={'\u20B9' + ' 23000'} />
+        </>
+    )
+}
 const driverCard = () => {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap' }} className="cards">
             <Driver_Card content={'Number of Trips Taken'} value={'12'} />
             <Driver_Card content={'Number of Expenses Submitted'} value={'25'} />
             <Driver_Card content={'Number of Days Present'} value={'23'} />
-            <Driver_Card content={'Daily Betta'} value={'\u20B9' + ' 250'} />
-            <Driver_Card content={'Total Salary'} value={'\u20B9' + ' 23000'} />
+            {driverSalaryCard()}
         </div>
     )
 }

@@ -18,7 +18,7 @@ const VehicleFormField: React.FC<FormFieldProps> = ({ control, setTransporterId 
                 control={control}
                 fieldName="transporterName"
                 label="Transporter"
-                options={transporter.map(({ name }) => name)}
+                options={transporter ? transporter.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = transporter.find(({ name }) => name === newValue) || { id: 0 }
                     setTransporterId(id)

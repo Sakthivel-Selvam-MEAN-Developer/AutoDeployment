@@ -19,7 +19,7 @@ const TransporterDuesFilter: React.FC<FormFieldsProps> = ({ control, setTranspor
                 fieldName="transporterName"
                 label="Select Transporter"
                 data-testid={'select'}
-                options={transporter.map(({ name }) => name)}
+                options={transporter ? transporter.map(({ name }) => name) : []}
                 onChange={(_e: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     setTransporterName(newValue)
                 }}

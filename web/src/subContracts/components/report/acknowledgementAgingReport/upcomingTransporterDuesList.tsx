@@ -18,7 +18,7 @@ const ListAllAcknowledgementDues: React.FC = (): ReactElement => {
     }, [])
     useEffect(() => {
         const value = skipNumber * 15
-        const Trip = acknowledgementList.slice(value, value + 15)
+        const Trip = acknowledgementList ? acknowledgementList.slice(value, value + 15) : []
         setTripWithPagination(Trip)
     }, [skipNumber, acknowledgementList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {

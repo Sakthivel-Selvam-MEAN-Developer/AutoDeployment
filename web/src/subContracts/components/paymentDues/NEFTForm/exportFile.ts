@@ -22,11 +22,11 @@ export const exportFile = async (NEFTData: dataProps[]) => {
 
     NEFTData.map((data) => {
         if (data.type === 'fuel pay')
-            NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].bunkName},${data.bankDetails[0].branchName},Magnum-Fuel,${data.payableAmount}\n`
+            NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].bunkName},${data.bankDetails[0].branchName},MagnumFuel,${data.payableAmount}\n`
         else {
-            if (data.type === 'initial pay') type = 'Magnum-Advance'
-            else if (data.type === 'final pay') type = 'Magnum-Final'
-            else if (data.type === 'gst pay') type = 'Magnum-GST'
+            if (data.type === 'initial pay') type = 'MagnumAdvance'
+            else if (data.type === 'final pay') type = 'MagnumFinal'
+            else if (data.type === 'gst pay') type = 'MagnumGST'
             NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].name},${data.bankDetails[0].branchName},${type},${data.payableAmount}\n`
         }
     })

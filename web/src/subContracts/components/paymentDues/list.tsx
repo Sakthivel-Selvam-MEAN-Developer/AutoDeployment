@@ -97,7 +97,7 @@ const PaymentDuesList: React.FC = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            data-testid={'new-trip-button'}
+                            data-testid={'generate-file-button'}
                             onClick={handleClick}
                             disabled={NEFTDetails.length === 0}
                         >

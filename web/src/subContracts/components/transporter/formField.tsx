@@ -107,7 +107,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
             <Autocomplete
                 sx={{ width: 200 }}
                 value={accountType}
-                options={accountTypes.map((option) => option.accountTypeName)}
+                options={accountTypes ? accountTypes.map((option) => option.accountTypeName) : []}
                 onChange={(_event, value) => {
                     const { accountTypeNumber } = accountTypes.find(
                         ({ accountTypeName }) => accountTypeName === value

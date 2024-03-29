@@ -18,14 +18,10 @@ export const create = (
 
 export const getCementCompanyByLocation = (loadingPointId: number) =>
     prisma.loadingPoint.findFirst({
-        where: {
-            id: loadingPointId
-        },
+        where: { id: loadingPointId },
         select: {
             cementCompany: {
-                select: {
-                    advanceType: true
-                }
+                select: { advanceType: true }
             }
         }
     })
