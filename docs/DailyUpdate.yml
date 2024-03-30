@@ -1,8 +1,36 @@
+- date: 30-3-2024
+  person: Barath
+  project: driverSalary
+  planning:
+    - should create model for driver Betta
+- date: 30-3-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add user based authentication
+
+- date: 29-3-2024
+  person: Barath
+  project: driverSalary
+  planning:
+    - should be able to add expenses in employee salary with driverTrip
+    - should test for ui and backend
+  completed:
+    - added expenses in employee salary with driverTrip
+    - written test for ui and backend
+- date: 29-3-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add user based authentication
+
 - date: 28-3-2024
   person: Barath
   project: driverSalary
   planning:
     - should be able to add expenses in employee salary
+  completed:
+    - added expenses in employee salary
 - date: 28-3-2024
   person: Sakthivel
   project: driverSalary
@@ -21,6 +49,8 @@
   project: driverSalary
   planning:
     - should add branchName in NEFT file
+  completed:
+    - added branchName in NEFT file
 
 - date: 26-3-2024
   person: Barath
