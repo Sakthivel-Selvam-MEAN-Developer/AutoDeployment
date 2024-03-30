@@ -38,6 +38,6 @@ describe('PricePoint Controller', () => {
     })
     test('should have super admin role for pricePoint', async () => {
         await supertest(app).post('/api/point-marker').expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
 })

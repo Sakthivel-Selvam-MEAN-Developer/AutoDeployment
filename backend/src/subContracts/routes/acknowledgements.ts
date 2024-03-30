@@ -8,12 +8,8 @@ import {
 import { authorise } from './authorise.ts'
 
 const acknowledgementRoutes = (router: Router) => {
-    router.put('/acknowledgement/trip', authorise(['Employee']), closeTripById)
-    router.put(
-        '/acknowledge/:id',
-        authorise(['Employee']),
-        updateAcknowledgementStatusforOverAllTrip
-    )
+    router.put('/acknowledgement/trip', authorise(['Admin']), closeTripById)
+    router.put('/acknowledge/:id', authorise(['Admin']), updateAcknowledgementStatusforOverAllTrip)
     router.get('/acknowledgement', listAllActivetripTripToByAcknowledgementStatus)
     router.get('/acknowledgement/:id', OverAllTripById)
 }

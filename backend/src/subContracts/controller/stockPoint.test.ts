@@ -50,6 +50,6 @@ describe('Stock point Controller', () => {
     })
     test('should have super admin role for stock point', async () => {
         await supertest(app).post('/api/stock-point').expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
 })

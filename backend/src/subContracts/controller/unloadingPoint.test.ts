@@ -68,6 +68,6 @@ describe('Delivery point Controller', () => {
     })
     test('should have super admin role for unloadingPoint', async () => {
         await supertest(app).post('/api/unloading-point').expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
 })

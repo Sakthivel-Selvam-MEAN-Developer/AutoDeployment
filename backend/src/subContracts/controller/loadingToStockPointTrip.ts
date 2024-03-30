@@ -50,7 +50,7 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
                     if (req.body.totalTransporterAmount !== 0) await createPaymentDues(data)
                 }
             })
-            .then(() => res.sendStatus(200))
+            .then(() => res.status(200).json({ id }))
             .catch(() => res.sendStatus(500))
     } catch (error) {
         res.status(500).json(error)

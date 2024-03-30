@@ -3,8 +3,8 @@ import { getInvoiceDetails, updateInvoiceDetails } from '../controller/invoice.t
 import { authorise } from './authorise.ts'
 
 const invoiceRoutes = (router: Router) => {
-    router.put('/invoice', authorise(['Employee']), getInvoiceDetails)
-    router.put('/invoice/update', authorise(['Employee']), updateInvoiceDetails)
+    router.put('/invoice', authorise(['Admin']), getInvoiceDetails)
+    router.put('/invoice/update', authorise(['Admin']), updateInvoiceDetails)
 }
 
 export default invoiceRoutes

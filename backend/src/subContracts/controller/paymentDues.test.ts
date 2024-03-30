@@ -1,8 +1,10 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
+import { NextFunction } from 'express'
 import { app } from '../../app.ts'
 import { groupDataByName, groupGstDue } from './paymentDues.ts'
+import { Role } from '../roles.ts'
 
 const mockgetOnlyActiveDuesByName = vi.fn()
 const mockfindTripWithActiveDues = vi.fn()
@@ -50,6 +52,13 @@ vi.mock('../models/bunk', () => ({
 }))
 vi.mock('../models/fuel', () => ({
     getFuelDetailsWithoutTrip: () => mockFuelDetails()
+}))
+const mockAuth = vi.fn()
+vi.mock('../routes/authorise', () => ({
+    authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
+        mockAuth(role)
+        next()
+    }
 }))
 
 const mockGroupedDuesData = [
@@ -506,5 +515,9 @@ describe('Payment Due Controller', () => {
         mockUpdateNEFTStatus.mockResolvedValue(mockUpdateNEFTStatusData)
         await supertest(app).put('/api/payment-dues/NEFT').expect(200)
         expect(mockUpdateNEFTStatus).toHaveBeenCalledTimes(1)
+    })
+    test('should have super admin role for stock point', async () => {
+        await supertest(app).put('/api/payment-dues/NEFT').expect(200)
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
 })

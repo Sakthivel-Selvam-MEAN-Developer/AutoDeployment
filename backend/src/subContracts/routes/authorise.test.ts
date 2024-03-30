@@ -6,7 +6,7 @@ vi.mock('../../keycloak-config.ts', () => ({
     default: { protect: (x: Token) => mockKeycloak(x) }
 }))
 
-describe.skip('authorise function', () => {
+describe('authorise function', () => {
     beforeEach(() => {
         vi.resetAllMocks()
     })

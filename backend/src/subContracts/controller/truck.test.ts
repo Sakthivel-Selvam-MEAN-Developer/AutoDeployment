@@ -49,7 +49,7 @@ describe('Truck Controller', () => {
     })
     test('should have super admin role for creating truck', async () => {
         await supertest(app).post('/api/truck').expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
     test('should get only the trucks by transporter name', async () => {
         mockTruckByTransporter.mockResolvedValue({

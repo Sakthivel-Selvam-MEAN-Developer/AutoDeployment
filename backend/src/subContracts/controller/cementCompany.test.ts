@@ -46,7 +46,7 @@ describe('Cement Company Controller', () => {
     })
     test.skip('should have super admin role for create company', async () => {
         await supertest(app).post('/api/cementCompany').expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
     test('should able to access', async () => {
         mockCementCompany.mockResolvedValue({ name: 'UltraTech Cements' })

@@ -266,6 +266,6 @@ describe('Acknowledgement Controller', () => {
     })
     test('should have super admin role for stockTrip', async () => {
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
 })

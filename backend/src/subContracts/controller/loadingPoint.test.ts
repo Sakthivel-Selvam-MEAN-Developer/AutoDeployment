@@ -58,6 +58,6 @@ describe('Factory Controller', () => {
     })
     test('should have super admin role for loadingPoint', async () => {
         await supertest(app).post('/api/loading-point').expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
 })

@@ -7,7 +7,7 @@ import {
 import { authorise } from './authorise.ts'
 
 const deliveryPointRoutes = (router: Router) => {
-    router.post('/unloading-point', authorise(['Employee']), createUnloadingPoint)
+    router.post('/unloading-point', authorise(['Admin']), createUnloadingPoint)
     router.get('/unloading/:cementCompanyId', listAllUnloadingPoint)
     router.get('/unloading-point/:companyName', listUnloadingPonitBycementCompany)
 }

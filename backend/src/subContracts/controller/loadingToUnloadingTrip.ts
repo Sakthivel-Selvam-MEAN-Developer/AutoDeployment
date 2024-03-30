@@ -47,9 +47,12 @@ export const createTrip = async (req: Request, res: Response) => {
             'LoadingToUnloading',
             companyDetails?.cementCompany.advanceType
         )
-            .then((data) => createPaymentDues(data))
+            .then((data) => {
+                if (data === null) return res.status(200).json({ id: overallTripId })
+                createPaymentDues(data)
+            })
             .then(() => updateFuelDetails(fuelDetails, vehicleNumber, overallTripId))
-            .then(() => res.sendStatus(200))
+            .then(() => res.status(200).json({ id: overallTripId }))
             .catch(() => res.sendStatus(500))
     } catch (error) {
         res.status(500).json(error)

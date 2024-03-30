@@ -24,10 +24,9 @@ async function createDues(fuel: dataProps, trip: any, bunkname: string, vehicleN
         if (trip !== null) {
             return createPaymentDues(dues)
         }
-        if (trip === null && dues === undefined) {
-            const fuelDue = fuelDues(bunkname, vehicleNumber, fuel)
-            return createPaymentDues(fuelDue)
-        }
+        if (trip !== null && dues !== undefined) return
+        const fuelDue = fuelDues(bunkname, vehicleNumber, fuel)
+        return createPaymentDues(fuelDue)
     })
 }
 

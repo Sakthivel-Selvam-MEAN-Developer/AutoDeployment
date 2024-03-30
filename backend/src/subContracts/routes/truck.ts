@@ -4,7 +4,7 @@ import { authorise } from './authorise.ts'
 
 const truckRoutes = (router: Router) => {
     router.get('/truck', listAllTruck)
-    router.post('/truck', authorise(['Employee']), createTruck)
+    router.post('/truck', authorise(['Admin']), createTruck)
     router.get('/transporter-truck/:transporterName', listTruckByTransporter)
 }
 

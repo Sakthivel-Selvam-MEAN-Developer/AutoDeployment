@@ -147,6 +147,6 @@ describe('Invoice Controller', async () => {
     test('should have super admin role for invoice details', async () => {
         await supertest(app).put('/api/invoice').send(mockBody).expect(200)
         await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
-        expect(mockAuth).toBeCalledWith(['Employee'])
+        expect(mockAuth).toBeCalledWith(['Admin'])
     })
 })
