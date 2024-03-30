@@ -1,6 +1,7 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
+import { NextFunction } from 'express'
 import { app } from '../../app.ts'
 
 const mockCreateFuel = vi.fn()
@@ -27,7 +28,11 @@ vi.mock('../models/overallTrip', () => ({
     getOnlyActiveTripByVehicle: (inputs: any) => mockGetOnlyActiveTripByVehicle(inputs),
     getActiveTripByVehicle: (inputs: any) => mockGetActiveTripByVehicle(inputs)
 }))
-
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 const mockFuel = {
     id: 1,
     vehicleNumber: 'TN93D5512',

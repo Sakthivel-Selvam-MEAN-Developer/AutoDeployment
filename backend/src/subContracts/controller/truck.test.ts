@@ -19,7 +19,11 @@ vi.mock('../models/truck', () => ({
     create: (inputs: any) => mockCreateTuck(inputs),
     getTruckByTransporter: () => mockTruckByTransporter()
 }))
-
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 const mockReq = {
     body: {
         vehicleNumber: 'Tn39cc5647',

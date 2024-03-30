@@ -15,6 +15,11 @@ vi.mock('../routes/authorise', () => ({
 vi.mock('../models/accountType', () => ({
     getAllAccountTypes: () => mockAccountTypes()
 }))
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 
 const mockAccountType = {
     accountTypeName: 'Savings Account',

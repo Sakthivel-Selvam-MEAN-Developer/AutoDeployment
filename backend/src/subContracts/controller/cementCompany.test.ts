@@ -20,7 +20,11 @@ vi.mock('../routes/authorise', () => ({
         next()
     }
 }))
-
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 const mockReq = {
     body: {
         name: 'Sankar Cements',

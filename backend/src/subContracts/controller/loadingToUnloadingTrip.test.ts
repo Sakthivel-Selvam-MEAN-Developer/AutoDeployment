@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import dayjs from 'dayjs'
+import { NextFunction } from 'express'
 import { app } from '../../app.ts'
 import tripLogic from '../domain/tripLogics.ts'
 
@@ -39,6 +40,11 @@ vi.mock('../models/fuel', () => ({
 vi.mock('../models/loadingPoint', () => ({
     getCementCompanyByLocation: (vehicleNumber: any) =>
         mockGetCementCompanyByLocation(vehicleNumber)
+}))
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
 }))
 const mockTripData1 = {
     id: 1,

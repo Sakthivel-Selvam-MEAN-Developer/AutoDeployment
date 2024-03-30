@@ -44,9 +44,10 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 transporterAmount: parseFloat(transporterAmountFloat)
             }
             if (category === 'Loading - Unloading')
-                createpricePoint({ ...details, stockPointId: null }).then(() =>
+                createpricePoint({ ...details, stockPointId: null }).then((data) => {
+                    console.log(data)
                     clearForm(setCategory, setCementCompanyName)
-                )
+                })
             else if (category === 'Loading - Stock')
                 createpricePoint({ ...details, unloadingPointId: null }).then(() =>
                     clearForm(setCategory, setCementCompanyName)

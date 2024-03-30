@@ -1,4 +1,5 @@
 import supertest from 'supertest'
+import { NextFunction } from 'express'
 import { app } from '../../app.ts'
 
 const mockCreateUnloadingPointTrip = vi.fn()
@@ -18,7 +19,11 @@ vi.mock('../models/overallTrip', () => ({
     updateStockToUnloadingInOverall: (inputs: any, data: any) =>
         mockupdateStockToUnloadingInOverall(inputs, data)
 }))
-
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 const mockTripData = {
     id: 1,
     startDate: 1703679340,

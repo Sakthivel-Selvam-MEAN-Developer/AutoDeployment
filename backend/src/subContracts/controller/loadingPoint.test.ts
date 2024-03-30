@@ -22,7 +22,11 @@ vi.mock('../models/loadingPoint', () => ({
 vi.mock('../models/pricePointMarker', () => ({
     create: (inputs: any) => mockCreatePricePointMarker(inputs)
 }))
-
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 describe('Factory Controller', () => {
     test('should able to get all factory', async () => {
         mockLoadingPoint.mockResolvedValue({

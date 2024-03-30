@@ -1,4 +1,5 @@
 import supertest from 'supertest'
+import { NextFunction } from 'express'
 import { app } from '../../app.ts'
 
 const mockBillNumber = vi.fn()
@@ -7,6 +8,11 @@ const mockUpdateBillNumber = vi.fn()
 vi.mock('../models/billNumber', () => ({
     getBillNumber: () => mockBillNumber(),
     updateBillNumber: (inputs: any) => mockUpdateBillNumber(inputs)
+}))
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
 }))
 
 describe('Bill Number Controller', async () => {

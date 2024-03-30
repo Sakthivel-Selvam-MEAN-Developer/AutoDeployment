@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { Prisma } from '@prisma/client'
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { createBunk } from './bunk.ts'
 
@@ -11,7 +11,11 @@ vi.mock('../models/bunk', () => ({
     create: (inputs: Prisma.bunkCreateInput) => mockCreateBunk(inputs),
     getAllBunk: () => mockBunkDetails()
 }))
-
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 const mockBunk = {
     body: {
         bunkName: 'Bharath Petroleum',

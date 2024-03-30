@@ -723,3 +723,19 @@ enum entryType {
 
   @@schema("accounting")
 }
+
+model auditLogs {
+  id              Int      @id @default(autoincrement())
+  url             String
+  method          String
+  payload         Json
+  status          Int
+  actionBy        String
+  userRole        String
+  actionStartTime DateTime
+  actionEndTime   DateTime
+  entityName      String
+  entityID        Int?
+
+  @@schema("subContract")
+}

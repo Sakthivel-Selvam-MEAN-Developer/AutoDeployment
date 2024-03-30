@@ -1,4 +1,5 @@
 import supertest from 'supertest'
+import { NextFunction } from 'express'
 import { app } from '../../app.ts'
 
 const mockListOverallTrip = vi.fn()
@@ -15,6 +16,11 @@ vi.mock('../models/overallTrip', () => ({
     getAllDiscrepancyReport: (from: number, to: number) => mockGetAllDiscrepancyReport(from, to),
     getTripDetailsByCompanyName: (from: number, to: number) =>
         mockGetTripDetailsByCompanyName(from, to)
+}))
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
 }))
 const mockOverallTripData = [
     {

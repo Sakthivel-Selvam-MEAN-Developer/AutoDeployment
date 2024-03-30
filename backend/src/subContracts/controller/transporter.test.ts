@@ -31,6 +31,11 @@ vi.mock('../../keycloak-config.ts', () => ({
         }
     }
 }))
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 const mockReq = {
     body: {
         name: 'Barath Logistics Pvt Ltd',

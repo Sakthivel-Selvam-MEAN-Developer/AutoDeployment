@@ -201,7 +201,7 @@ export const updatePayment = (req: Request, res: Response) => {
 
 export const updateNEFTStatus = (req: Request, res: Response) => {
     updatePaymentNEFTStatus(req.body)
-        .then(() => res.sendStatus(200))
+        .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }
 export const groupGstDue = async (

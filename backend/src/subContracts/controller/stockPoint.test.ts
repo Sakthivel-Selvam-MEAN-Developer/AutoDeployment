@@ -23,7 +23,11 @@ vi.mock('../models/stockPoint', () => ({
 vi.mock('../models/pricePointMarker', () => ({
     create: (inputs: any) => mockCreatePricePointMarker(inputs)
 }))
-
+vi.mock('../../auditRoute.ts', () => ({
+    auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
+}))
 describe('Stock point Controller', () => {
     test('should able to access', async () => {
         mockAllStockPoint.mockResolvedValue({ location: 'Salem, Tamilnadu' })
