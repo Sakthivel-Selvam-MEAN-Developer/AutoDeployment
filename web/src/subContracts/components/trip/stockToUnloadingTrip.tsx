@@ -5,12 +5,14 @@ import { createStockTrip } from '../../services/unloadingPointTrip.ts'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { AllStockProps } from './show.tsx'
+import dayjs from 'dayjs'
 
 interface dataProps {
     row: AllStockProps
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>
     update: boolean
     unloadingPointList: unloadingPointProps[]
+    setExpanded: React.Dispatch<React.SetStateAction<number | false>>
 }
 interface unloadingPointProps {
     id: number
@@ -18,25 +20,30 @@ interface unloadingPointProps {
     cementCompanyId: number
     pricePointMarkerId: number
 }
-
+interface dateProps {
+    $d: number
+}
 const StockToUnloadingFormFields: React.FC<dataProps> = ({
     row,
     setUpdate,
     update,
-    unloadingPointList
+    unloadingPointList,
+    setExpanded
 }) => {
     const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
     const [freightAmount, setFreightAmount] = useState<number>(0)
     const [transporterAmount, setTransporterAmount] = useState<number>(0)
     const [invoiceNumber, setInvoiceNumber] = useState<string>('')
+    const [stockDate, setStockDate] = useState<number>(0)
 
+    const coverDateToEpoc = (date: any) => {
+        const formattedDays =
+            date !== null ? dayjs(dayjs((date as unknown as dateProps)?.$d)).unix() : 0
+        setStockDate(formattedDays)
+    }
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        const formattedDays =
-            e.target.stockDate !== undefined && e.target.stockDate.value.split('/')
-        const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
-        const stockDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
         const freightAmountFloat = freightAmount.toFixed(2)
         const transporterAmountFloat = transporterAmount.toFixed(2)
         const totalFreightAmountFloat = (row.filledLoad * freightAmount).toFixed(2)
@@ -51,9 +58,11 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             unloadingPointId,
             loadingPointToStockPointTripId: row.id
         }
-        createStockTrip(details).then(() => setUpdate(!update))
+        createStockTrip(details).then(() => {
+            setExpanded(false)
+            setUpdate(!update)
+        })
     }
-
     useEffect(() => {
         if (unloadingPointId !== null)
             getPricePoint(null, unloadingPointId, row.stockPointId).then((pricePoint) => {
@@ -88,6 +97,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                         name="stockDate"
                         format="DD/MM/YYYY"
                         sx={{ marginRight: '20px' }}
+                        onChange={coverDateToEpoc}
                     />
                 </LocalizationProvider>
                 <TextField
@@ -189,7 +199,9 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                 />
                 <div style={{ marginLeft: '20px', display: 'flex' }}>
                     <Button
-                        disabled={invoiceNumber === '' || unloadingPointName === ''}
+                        disabled={
+                            invoiceNumber === '' || unloadingPointName === '' || stockDate === 0
+                        }
                         type="submit"
                         sx={{ width: '100px' }}
                     >

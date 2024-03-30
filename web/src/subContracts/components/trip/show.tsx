@@ -104,7 +104,7 @@ const GetAllStockTripsAsAAccordion = (
             {allStockTrips &&
                 allStockTrips.map((row: AllStockProps, index: number) => (
                     <Accordion
-                        key={index}
+                        key={row.id}
                         expanded={expanded === index}
                         onChange={handleAccordionExpand(index, row.loadingPoint.cementCompanyId)}
                     >
@@ -124,6 +124,7 @@ const GetAllStockTripsAsAAccordion = (
                                 setUpdate={setUpdate}
                                 update={update}
                                 unloadingPointList={unloadingPointList}
+                                setExpanded={setExpanded}
                             />
                         </AccordionDetails>
                     </Accordion>

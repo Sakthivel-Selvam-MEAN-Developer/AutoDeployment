@@ -1,6 +1,6 @@
 import { axiosInstance, getData } from '../../apiCalls'
 interface dataProps {
-    startDate: number
+    startDate: number | undefined
     invoiceNumber: string
     freightAmount: number
     transporterAmount: number
