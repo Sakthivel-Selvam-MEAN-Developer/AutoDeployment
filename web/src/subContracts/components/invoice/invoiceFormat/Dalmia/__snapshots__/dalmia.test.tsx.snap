@@ -99,7 +99,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               Running / Final
             </td>
             <td>
-              2023-2024
+              2024-2025
             </td>
           </tr>
           <tr>
@@ -577,7 +577,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               colspan="3"
               style="padding: 10px;"
             >
-              We have taken registration under the CGST Act,2017 and have exercised the option to pay tax on services of GTA in relation to transport of Goods supplied by us during the financial year 2023-2024 under the forward charge: Yes
+              We have taken registration under the CGST Act,2017 and have exercised the option to pay tax on services of GTA in relation to transport of Goods supplied by us during the financial year 2024-2025 under the forward charge: Yes
             </td>
           </tr>
         </tbody>
@@ -1306,7 +1306,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
             <td
               colspan="6"
             >
-              We have taken registration under the CGST Act,2017 and have exercised the option to pay tax on services of GTA in relation to transport of Goods supplied by us during the financial year 2023-2024 under the forward charge.
+              We have taken registration under the CGST Act,2017 and have exercised the option to pay tax on services of GTA in relation to transport of Goods supplied by us during the financial year 2024-2025 under the forward charge.
             </td>
           </tr>
           <tr
