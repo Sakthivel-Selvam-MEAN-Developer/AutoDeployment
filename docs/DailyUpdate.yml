@@ -1,13 +1,41 @@
+- date: 02-04-2024
+  person: Barath
+  project: driverSalary
+  planning:
+    - add expenses
+- date: 02-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should resolve 403 Access Denied Error on keycloak
+
+- date: 01-04-2024
+  person: Barath
+  project: driverSalary
+  planning:
+    - discussion with client about second module and current changes
+  completed:
+    - done discussion with client about second module and current changes
+- date: 01-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should logout when session expired
+
 - date: 30-3-2024
   person: Barath
   project: driverSalary
   planning:
-    - should create model for driver Betta
+    - should create user based authentication
+  completed:
+    - completed user based authentication
 - date: 30-3-2024
   person: Sakthivel
   project: driverSalary
   planning:
-    - should add user based authentication
+    - should add audit logs
+  completed:
+    - added audit logs
 
 - date: 29-3-2024
   person: Barath
