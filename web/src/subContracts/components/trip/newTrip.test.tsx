@@ -42,10 +42,10 @@ vi.mock('../../services/stockPointTrip', () => ({
     createStockPointTrip: (inputs: any) => mockcreateStockPointTrip(inputs)
 }))
 vi.mock('../../../driverSalary/services/driver.ts', () => ({
-    getAllDriver: () => mockGetAllDriver(),
+    getAllDriver: () => mockGetAllDriver()
 }))
 vi.mock('../../../driverSalary/services/driverTrip.ts', () => ({
-    createDriverTrip: (input: any) => mockCreateDriverTrip(input),
+    createDriverTrip: (input: any) => mockCreateDriverTrip(input)
 }))
 
 const mockCompanyData = [
@@ -128,7 +128,7 @@ const mockGetAllDriverData = [
 const mockCreateDriverData = {
     driverId: 1,
     tripId: 4,
-    tripStartDate: 1709836200,
+    tripStartDate: 1709836200
 }
 async function newFunction() {
     render(
