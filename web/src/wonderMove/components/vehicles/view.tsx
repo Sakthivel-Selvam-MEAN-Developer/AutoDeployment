@@ -11,22 +11,23 @@ interface VehicleProps {
 interface VehicleDetails {}
 const Vehicle: React.FC<VehicleProps> = ({ number }) => {
     const [vehicleDetails, setVehicleDetails] = useState<VehicleDetails | undefined>()
-    const updateVehicleList = () => {
+    useEffect(() => {
         getVehicleDetails(number).then(reformatVehicleDate).then(setVehicleDetails)
-    }
-    useEffect(updateVehicleList, [number])
-    return (
-        <>
-            {vehicleDetails && (
-                <div style={{ marginTop: '20px' }}>
-                    <UpdateVehicle vehicleDetails={vehicleDetails} />
-                </div>
-            )}
-        </>
-    )
+    }, [number])
+    return vehicleList(vehicleDetails)
 }
 Vehicle.propTypes = {
     number: PropTypes.any
 }
 
 export default Vehicle
+function vehicleList(vehicleDetails: VehicleDetails | undefined) {
+    return <>{vehicleDetails && updateVehicle(vehicleDetails)}</>
+}
+const updateVehicle = (vehicleDetails: VehicleDetails | undefined) => {
+    return (
+        <div style={{ marginTop: '20px' }}>
+            <UpdateVehicle vehicleDetails={vehicleDetails} />
+        </div>
+    )
+}

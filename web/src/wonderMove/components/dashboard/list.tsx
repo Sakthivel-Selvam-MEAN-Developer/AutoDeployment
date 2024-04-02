@@ -26,26 +26,22 @@ const DashboardList: React.FC = () => {
     const [selectedCell, setSelectedCell] = useState<DurationData | null>(null)
     const colors = ['#39b2de', '#fd9846', '#7164fd', '#a4ea3c', '#c261ff', '#ffa2a2']
     const handleChange = (event: SelectChangeEvent) => {
-        const period = event.target.value
-        setPeriod(period)
-
-        switch (period) {
+        setPeriod(event.target.value)
+        switch (event.target.value) {
             case 'pastDay':
                 setFrom(dayjs().subtract(1, 'day').unix())
-                setTo(dayjs().unix())
                 setMillisPerDay(86400000)
                 break
             case 'lastWeek':
                 setFrom(dayjs().subtract(1, 'week').unix())
-                setTo(dayjs().unix())
                 setMillisPerDay(7 * 86400000)
                 break
             case 'lastMonth':
                 setFrom(dayjs().subtract(1, 'month').unix())
-                setTo(dayjs().unix())
                 setMillisPerDay(30 * 86400000)
                 break
         }
+        setTo(dayjs().unix())
     }
     useEffect(() => {
         getVehicles().then((vehicles) => {

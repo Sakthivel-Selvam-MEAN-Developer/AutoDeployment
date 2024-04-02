@@ -12,17 +12,31 @@ const style = {
     gap: '10px',
     rowGap: '10px'
 }
-const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
+const FormFieldsGST: React.FC<FormFieldsProps> = ({ control }) => {
     return (
-        <div style={{ ...style, flexWrap: 'wrap' }}>
-            <TextInput control={control} label="Name" fieldName="name" />
+        <>
             <TextInput control={control} label="Pan" fieldName="pan" />
             <TextInput control={control} label="GST" fieldName="gst" />
             <TextInput control={control} label="IGST" fieldName="iGst" />
             <TextInput control={control} label="CGST" fieldName="cGst" />
+        </>
+    )
+}
+const FormFieldsTDS: React.FC<FormFieldsProps> = ({ control }) => {
+    return (
+        <>
             <BooleanInput control={control} label="GST Billing" fieldName="isGstBilling" />
             <TextInput control={control} label="TDS%" fieldName="tdsPercentage" />
             <BooleanInput control={control} label="TDS Applicable" fieldName="isTDSApplicable" />
+        </>
+    )
+}
+const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
+    return (
+        <div style={{ ...style, flexWrap: 'wrap' }}>
+            <TextInput control={control} label="Name" fieldName="name" />
+            <FormFieldsGST control={control} />
+            <FormFieldsTDS control={control} />
             <Address control={control} />
         </div>
     )

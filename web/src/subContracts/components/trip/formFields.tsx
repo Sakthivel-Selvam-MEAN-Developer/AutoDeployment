@@ -97,6 +97,7 @@ const FormField: React.FC<FormFieldProps> = ({
     const [stockPointName, setStockPointName] = useState<string>('')
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
     const [fuelDetails, setFuelDetails] = useState<FuelProps>()
+    const [driverName, setDriverName] = useState('')
 
     useEffect(() => {
         if (cementCompanyName !== null && cementCompanyName !== '')
@@ -176,7 +177,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 value={transporterName !== null ? transporterName : ''}
                 fieldName="transporterName"
                 label="Transporter"
-                options={transporter ? transporter.map(({ name }) => name) : []}
+                options={transporter.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     setTransporterName(newValue)
                 }}
@@ -192,7 +193,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 control={control}
                 fieldName="truckId"
                 label="Truck Number"
-                options={listTruck ? listTruck.map(({ vehicleNumber }) => vehicleNumber) : []}
+                options={listTruck.map(({ vehicleNumber }) => vehicleNumber)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = listTruck.find(
                         (truck: { vehicleNumber: string }) => truck.vehicleNumber === newValue
@@ -202,15 +203,16 @@ const FormField: React.FC<FormFieldProps> = ({
                 }}
             />
             <AutoCompleteWithValue
-                value={category}
+                value={driverName}
                 control={control}
                 fieldName="driverId"
                 label="Select Driver"
-                options={driversList ? driversList.map(({ name }) => name) : []}
+                options={driversList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = driversList.find(
                         (data: { name: string }) => data.name === newValue
                     ) || { id: 0 }
+                    setDriverName(newValue)
                     setDriverId(id)
                 }}
             />
@@ -229,7 +231,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 control={control}
                 fieldName="loadingPointId"
                 label="Loading Point"
-                options={loadingPointList ? loadingPointList.map(({ name }) => name) : []}
+                options={loadingPointList.map(({ name }) => name)}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = loadingPointList.find(
                         (data: { name: string }) => data.name === newValue
@@ -244,7 +246,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     control={control}
                     fieldName="unloadingPointId"
                     label="Unloading Point"
-                    options={unloadingPointList ? unloadingPointList.map(({ name }) => name) : []}
+                    options={unloadingPointList.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                         const { id } = unloadingPointList.find(
                             (data: { name: string }) => data.name === newValue
@@ -259,7 +261,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     control={control}
                     fieldName="stockPointId"
                     label="Stock Point"
-                    options={stockPointList ? stockPointList.map(({ name }) => name) : []}
+                    options={stockPointList.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                         const { id } = stockPointList.find(
                             (data: { name: string }) => data.name === newValue

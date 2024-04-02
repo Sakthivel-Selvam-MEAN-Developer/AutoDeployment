@@ -9,21 +9,21 @@ interface AlertDialogProps {
 }
 const AlertDialog: FC<AlertDialogProps> = ({ open, handleClose, handleAgree, message }) => {
     return (
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
-            <DialogActions>
-                <Button onClick={handleClose}>Disagree</Button>
-                <Button onClick={handleAgree} autoFocus>
-                    Agree
-                </Button>
-            </DialogActions>
+            {dialogAction(handleClose, handleAgree)}
         </Dialog>
     )
 }
 
 export default AlertDialog
+const dialogAction = (handleClose: () => void, handleAgree: () => void) => {
+    return (
+        <DialogActions>
+            <Button onClick={handleClose}>Disagree</Button>
+            <Button onClick={handleAgree} autoFocus>
+                Agree
+            </Button>
+        </DialogActions>
+    )
+}

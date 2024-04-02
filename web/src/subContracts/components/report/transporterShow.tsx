@@ -35,16 +35,22 @@ interface listTransporterProps {
     transporterDueData: Props[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
-
+const tableCell = () => {
+    return (
+        <>
+            <TableCell align="left">Transporter Name</TableCell>
+            <TableCell align="left">CSM Name</TableCell>
+            <TableCell align="left">Due Date</TableCell>
+            <TableCell align="left">Amount</TableCell>
+        </>
+    )
+}
 function getTableHead() {
     return (
         <TableHead>
             <TableRow>
                 <TableCell>#</TableCell>
-                <TableCell align="left">Transporter Name</TableCell>
-                <TableCell align="left">CSM Name</TableCell>
-                <TableCell align="left">Due Date</TableCell>
-                <TableCell align="left">Amount</TableCell>
+                {tableCell()}
             </TableRow>
         </TableHead>
     )

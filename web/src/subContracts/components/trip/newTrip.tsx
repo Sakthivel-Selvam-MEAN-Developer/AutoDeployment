@@ -9,6 +9,7 @@ import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
 import { getAllDriver } from '../../../driverSalary/services/driver.ts'
 import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
+import { createDriverTrip } from '../../../driverSalary/services/driverTrip.ts'
 interface transporter {
     name: string
     transporterAmount: number
@@ -65,14 +66,19 @@ const NewTrip: React.FC = () => {
                 margin: ownTruck === false ? parseFloat(marginFloat) : 0,
                 wantFuel: ownTruck === false ? fuel : ownTruckFuel
             }
-            console.log(driverId)
+            const driverDetails = {
+                tripStartDate: data.tripDate.startOf('day').unix(),
+                driverId
+            }
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
+                    .then((trip) => createDriverTrip({ ...driverDetails, tripId: trip.id }))
                     .then(() => setOpenSuccessDialog(true))
                     .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
             else if (category === 'Unloading Point')
                 createTrip({ ...details, unloadingPointId: unloadingPointId })
+                    .then((trip) => createDriverTrip({ ...driverDetails, tripId: trip.id }))
                     .then(() => setOpenSuccessDialog(true))
                     .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))

@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material'
+import { CircularLoader } from '../report/companyReport/companyReportShow'
 import ListAllTrip from './show'
 import { FC } from 'react'
 
@@ -13,9 +13,7 @@ const ListTrips: FC<listTripsProps> = ({ allStockTrips, setUpdate, update, loadi
     return (
         <>
             {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <CircularProgress />
-                </Box>
+                <CircularLoader />
             ) : (
                 <ListAllTrip allStockTrips={allStockTrips} setUpdate={setUpdate} update={update} />
             )}

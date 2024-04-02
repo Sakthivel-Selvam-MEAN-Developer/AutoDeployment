@@ -4,7 +4,6 @@ export const formatDuration = (durationInMillis: number) => {
     const hours: number = Math.floor(durationInMillis / (60000 * 60))
     const days: number = Math.floor(durationInMillis / (24 * 60000 * 60))
     const hoursMoreThan24: number = Math.floor((durationInMillis / (60000 * 60)) % 24)
-
     if (days > 0 && hoursMoreThan24 >= 0) {
         return `${days} ${days === 1 ? 'day' : 'days'} and ${hoursMoreThan24} ${
             hoursMoreThan24 === 1 ? 'hour' : 'hours'

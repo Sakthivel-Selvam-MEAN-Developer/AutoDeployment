@@ -13,10 +13,7 @@ const getStops = (deviceId: number, from: number, to: number) =>
             from: toTraccarFormat(from),
             to: toTraccarFormat(to)
         },
-        auth: {
-            username: traccarUsername,
-            password: traccarPassword
-        }
+        auth: { username: traccarUsername, password: traccarPassword }
     }).then((response) => response.data)
 
 export default getStops

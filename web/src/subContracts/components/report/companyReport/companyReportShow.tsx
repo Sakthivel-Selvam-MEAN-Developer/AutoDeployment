@@ -78,17 +78,20 @@ const tableContainer = (allCompany: Row[]) => {
         </TableContainer>
     )
 }
-
+export const CircularLoader = () => {
+    return (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+        </Box>
+    )
+}
+const TableCompany: React.FC<Props> = ({ allCompany, loading }) => {
+    return <>{loading ? <CircularLoader /> : tableContainer(allCompany)}</>
+}
 const ListAllCompany: React.FC<Props> = ({ allCompany, loading }) => {
     return (
         <>
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <CircularProgress />
-                </Box>
-            ) : (
-                tableContainer(allCompany)
-            )}
+            <TableCompany allCompany={allCompany} loading={loading} />
             <br />
             <br />
         </>

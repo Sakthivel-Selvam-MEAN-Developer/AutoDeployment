@@ -8,20 +8,20 @@ interface SuccessDialogProps {
 }
 const SuccessDialog: FC<SuccessDialogProps> = ({ open, handleClose, message }) => {
     return (
-        <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
-            <DialogActions>
-                <Button data-testid={'ok-button'} onClick={handleClose} autoFocus>
-                    Ok
-                </Button>
-            </DialogActions>
+            {okButton(handleClose)}
         </Dialog>
     )
 }
 
 export default SuccessDialog
+const okButton = (handleClose: () => void) => {
+    return (
+        <DialogActions>
+            <Button data-testid={'ok-button'} onClick={handleClose} autoFocus>
+                Ok
+            </Button>
+        </DialogActions>
+    )
+}

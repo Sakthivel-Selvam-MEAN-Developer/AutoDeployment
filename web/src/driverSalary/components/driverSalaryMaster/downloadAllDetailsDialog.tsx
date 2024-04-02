@@ -29,13 +29,7 @@ const Driver_Dialog_For_All_Details: FC<driverDialogProps> = ({ setActivateDialo
         }
     }, [open])
     return (
-        <Dialog
-            maxWidth={'xl'}
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="scroll-dialog-title"
-            aria-describedby="scroll-dialog-description"
-        >
+        <Dialog maxWidth={'xl'} open={open} onClose={handleClose}>
             <DialogTitle id="scroll-dialog-title">User Trip Details</DialogTitle>
             <DialogContent>
                 <DialogContentText

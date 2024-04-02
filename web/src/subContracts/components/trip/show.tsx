@@ -38,22 +38,26 @@ interface Props {
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>
     update: boolean
 }
+const tableCellData = [
+    '#',
+    'Vehicle Number',
+    'Start Date',
+    'Transporter',
+    'Loading Point',
+    'Stock Point',
+    'Freight Amount',
+    'Total Freight Amount'
+]
 
+const tableRow = (
+    <TableRow>
+        {tableCellData.map((data) => (
+            <TableCell align="left">{data}</TableCell>
+        ))}
+    </TableRow>
+)
 const getTableHead = () => {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Vehicle Number</TableCell>
-                <TableCell align="left">Start Date</TableCell>
-                <TableCell align="left">Transporter</TableCell>
-                <TableCell align="left">Loading Point</TableCell>
-                <TableCell align="left">Stock Point</TableCell>
-                <TableCell align="left">Freight Amount</TableCell>
-                <TableCell align="left">Total Freight Amount</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{tableRow}</TableHead>
 }
 
 const ShowTypography = (index: number, row: AllStockProps) => {

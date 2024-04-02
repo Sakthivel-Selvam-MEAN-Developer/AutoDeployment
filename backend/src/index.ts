@@ -28,22 +28,26 @@ import accountTypeRoutes from './subContracts/routes/accountType.ts'
 import invoiceRoutes from './subContracts/routes/invoice.ts'
 import billNumber from './subContracts/routes/billNumber.ts'
 import driverRoutes from './driverSalary/routes/driver.ts'
+import driverTripRoutes from './driverSalary/routes/driverTrip.ts'
+import expenseRoutes from './driverSalary/routes/expense.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
 const router = express.Router()
-
+// wondermove
 vehicleRoutes(router)
 stopRoutes(router)
 reasonRoutes(router)
 jobsRoutes(router)
 
+// peopleOrg
 leaveReasonRoutes(router)
 employeeLeavesRoutes(router)
 orgHeadRoutes(router)
 orgUnitHeads(router)
 employeeRoutes(router)
 
+// subContrcat
 truckRoutes(router)
 transporterRoutes(router)
 tripRoutes(router)
@@ -63,6 +67,10 @@ pointMarkerRoutes(router)
 accountTypeRoutes(router)
 invoiceRoutes(router)
 billNumber(router)
+
+// driverSalary
 driverRoutes(router)
+driverTripRoutes(router)
+expenseRoutes(router)
 
 export default router

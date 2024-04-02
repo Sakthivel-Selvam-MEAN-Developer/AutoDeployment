@@ -13,11 +13,7 @@ export const getFuelWithoutTrip = (vehicleNumber: string) =>
             overallTripId: null
         },
         include: {
-            bunk: {
-                select: {
-                    bunkName: true
-                }
-            }
+            bunk: { select: { bunkName: true } }
         }
     })
 

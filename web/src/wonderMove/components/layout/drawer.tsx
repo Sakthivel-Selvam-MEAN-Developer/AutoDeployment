@@ -40,22 +40,18 @@ const closedMixin = (theme: Theme) => ({
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up('sm')]: { width: `calc(${theme.spacing(8)} + 1px)` }
 })
-
-const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== 'open'
-})(({ theme, open }: any) => ({
+const drawer = {
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-        ...openedMixin(theme),
-        '& .MuiDrawer-paper': openedMixin(theme)
-    }),
-    ...(!open && {
-        ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme)
-    })
+    boxSizing: 'border-box'
+}
+const Drawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== 'open'
+})(({ theme, open }: any) => ({
+    ...drawer,
+    ...(open && { ...openedMixin(theme), '& .MuiDrawer-paper': openedMixin(theme) }),
+    ...(!open && { ...closedMixin(theme), '& .MuiDrawer-paper': closedMixin(theme) })
 }))
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()

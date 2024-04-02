@@ -34,19 +34,23 @@ const AppBar = styled((props: AppBarPropsWithOpen) => <MuiAppBar {...props} />, 
     })
 }))
 
-export default function MoveItLayout() {
+const BoxMain = () => {
     const theme = useTheme()
+    return (
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <DrawerHeader theme={theme} />
+            <Outlet />
+        </Box>
+    )
+}
+
+export default function MoveItLayout() {
     const [open, setOpen] = React.useState(false)
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar position="fixed" open={open}>
-                {toolBar(setOpen, open)}
-            </AppBar>
+            {appBar(open, setOpen)}
             <MiniDrawer handleDrawerClose={() => setOpen(false)} drawerState={open} />
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <DrawerHeader theme={theme} />
-                <Outlet />
-            </Box>
+            <BoxMain />
         </Box>
     )
 }
@@ -69,5 +73,12 @@ const toolBar = (setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: b
                 MoveIt
             </Typography>
         </Toolbar>
+    )
+}
+function appBar(open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>) {
+    return (
+        <AppBar position="fixed" open={open}>
+            {toolBar(setOpen, open)}
+        </AppBar>
     )
 }

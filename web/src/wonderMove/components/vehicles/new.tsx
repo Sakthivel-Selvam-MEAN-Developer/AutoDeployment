@@ -10,9 +10,8 @@ export const NewVehicle = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const navigate = useNavigate()
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = (data) =>
         createVehicle(JSON.stringify(data)).then(() => setOpenSuccessDialog(true))
-    }
     const handleClose = () => {
         setOpenSuccessDialog(false)
         navigate(-1)

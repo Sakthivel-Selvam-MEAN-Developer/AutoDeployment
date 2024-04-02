@@ -1,6 +1,7 @@
 import { Button, Typography } from '@mui/material'
 import { FC } from 'react'
 import { driverDialogProps } from './downloadAllDetailsDialog'
+import { Link } from 'react-router-dom'
 
 const Driver_FormFields: FC<driverDialogProps> = ({ setActivateDialog }) => {
     return (
@@ -14,7 +15,11 @@ const Driver_FormFields: FC<driverDialogProps> = ({ setActivateDialog }) => {
                 >
                     Download Details
                 </Button>
-                <Button variant="contained">Add Expenses</Button>
+                <Link to={'/driverSalary/employee-salary/addexpenses'}>
+                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                        Add Expense
+                    </Button>
+                </Link>
             </div>
         </div>
     )
