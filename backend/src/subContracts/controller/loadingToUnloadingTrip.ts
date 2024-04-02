@@ -47,9 +47,9 @@ export const createTrip = async (req: Request, res: Response) => {
             'LoadingToUnloading',
             companyDetails?.cementCompany.advanceType
         )
-            .then((data) => {
+            .then(async (data) => {
                 if (data === null) return res.status(200).json({ id: overallTripId })
-                createPaymentDues(data)
+                await createPaymentDues(data)
             })
             .then(() => updateFuelDetails(fuelDetails, vehicleNumber, overallTripId))
             .then(() => res.status(200).json({ id: overallTripId }))
