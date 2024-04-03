@@ -6,8 +6,28 @@ import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
 
 interface FormFieldProps {
     control: Control
-    driverTripDetails: any
+    driverTripDetails: driverTripDetailsProps[]
     setTripId: React.Dispatch<React.SetStateAction<number>>
+}
+interface driverTripDetailsProps {
+    loadingPointToUnloadingPointTrip: {
+        id: number
+        loadingPoint: {
+            id: number
+            name: string
+        }
+        invoiceNumber: string
+        startDate: number
+    }
+    loadingPointToStockPointTrip: {
+        id: number
+        loadingPoint: {
+            id: number
+            name: string
+        }
+        invoiceNumber: string
+        startDate: number
+    }
 }
 const expenseTypes = [
     'LOADING_CHARGES',
@@ -38,11 +58,11 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({ control, driverTripDetail
     const [invoice, setInvoice] = useState('')
 
     const handleTripSelection = (_: ChangeEvent<HTMLInputElement>, newValue: string) => {
-        const tripId = tripDetails.find(({ invoiceNumber }: { invoiceNumber: string }) => {
+        const { id } = tripDetails.find(({ invoiceNumber }: { invoiceNumber: string }) => {
             return invoiceNumber === newValue
-        })
+        }) || { id: 0 }
         setInvoice(newValue)
-        setTripId(tripId.id)
+        setTripId(id)
     }
     const tripDetails =
         driverTripDetails &&

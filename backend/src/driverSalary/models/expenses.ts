@@ -5,3 +5,11 @@ export const create = (data: Prisma.expensesCreateManyInput | Prisma.expensesCre
     prisma.expenses.createMany({ data })
 
 export const getAllExpenses = () => prisma.expenses.findMany({})
+
+export const getAllExpenseByTripId = (id: number) =>
+    prisma.expenses.findMany({
+        where: {
+            tripId: id
+        },
+        select: { expenseType: true, tripId: true, id: true, amount: true }
+    })

@@ -13,14 +13,9 @@ const Customer: React.FC<CustomerProps> = ({ number }) => {
         getCustomerDetails(number).then(setCustomerDetails)
     }, [number])
     return (
-        <>
-            {customerDetails && (
-                <div style={{ marginTop: '20px' }}>
-                    <UpdateCustomer customerDetails={customerDetails} />
-                </div>
-            )}
-        </>
+        <div style={{ marginTop: '20px' }}>
+            {customerDetails && <UpdateCustomer customerDetails={customerDetails} />}
+        </div>
     )
 }
-
 export default Customer

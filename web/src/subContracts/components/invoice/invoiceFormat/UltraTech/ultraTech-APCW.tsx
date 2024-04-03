@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { tripDetailsProps } from '../../list'
 import './style.css'
 import { getInvoiceDetails } from '../../../../services/invoice'
-import { StockToUnloadingPointProps } from '../../interface'
+import { LoadingToStockPointProps, StockToUnloadingPointProps } from '../../interface'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import dayjs from 'dayjs'
 import { InvoiceProp as tripProps } from '../../interface'
@@ -235,7 +235,7 @@ const UltraTech_APCW: React.FC<InvoiceProps> = ({
 }
 export default UltraTech_APCW
 
-const tableRow = (row: any, index: number) => {
+const tableRow = (row: LoadingToStockPointProps, index: number) => {
     return (
         <tr>
             <td>{index + 1}</td>

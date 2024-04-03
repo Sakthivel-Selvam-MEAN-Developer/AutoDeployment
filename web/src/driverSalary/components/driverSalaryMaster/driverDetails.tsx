@@ -25,16 +25,15 @@ export const driver_Details = () => {
     )
 }
 
+const style = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginRight: '20px'
+}
 const datePicker = () => {
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginRight: '20px'
-            }}
-        >
+        <div style={style}>
             <h2>Welcome Sakthivel Selvam</h2>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
                 <DatePicker label={'Select Month & Year'} views={['month', 'year']} />

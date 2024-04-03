@@ -5,6 +5,8 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import ExpensesFormField from './expenseFormField.tsx'
 import { getDriverTripByDriverId } from '../../services/driverTrip.ts'
 import { ExpenseTable } from './expenseTable.tsx'
+import { getAllExpenseByTripId } from '../../services/expenses.ts'
+import { AddedExpense } from './addedExpenses.tsx'
 export interface expenseDetailsType {
     expenseType: string
     amount: number
@@ -15,10 +17,15 @@ const ListExpenses: React.FC = () => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [expensesDetails, setExpensesDetails] = useState<expenseDetailsType[]>([])
     const [driverTripDetails, setDriverTripDetails] = useState([])
+    const [addedExpense, setAddedExpense] = useState<expenseDetailsType[]>([])
     const [tripId, setTripId] = useState(0)
     useEffect(() => {
+        //should change 1 to driverId
         getDriverTripByDriverId(1).then(setDriverTripDetails)
-    }, [])
+        if (tripId !== 0) {
+            getAllExpenseByTripId(tripId).then(setAddedExpense)
+        }
+    }, [tripId])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (data.expenseType === undefined || data.amount === undefined) return
         setExpensesDetails([
@@ -28,6 +35,7 @@ const ListExpenses: React.FC = () => {
     }
     return (
         <>
+            {addedExpense.length !== 0 && <AddedExpense addedExpense={addedExpense} />}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ExpensesFormField
                     control={control}

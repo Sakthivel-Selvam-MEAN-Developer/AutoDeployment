@@ -10,7 +10,6 @@ const onSubmit: SubmitHandler<FieldValues> = (data) => {
         licenseExpriryDate: data.licenseExpriryDate.unix(),
         dateofBirth: data.dateofBirth.unix()
     }
-    console.log(details)
     createDriver(details)
 }
 const CreateDriver: React.FC = (): ReactElement => {

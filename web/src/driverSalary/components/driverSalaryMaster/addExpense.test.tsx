@@ -6,12 +6,14 @@ import userEvent from '@testing-library/user-event'
 
 const mockGetDriverTripByDriverId = vi.fn()
 const mockCreateExpense = vi.fn()
+const mockGetAllExpenseByTripId = vi.fn()
 
 vi.mock('../../services/driverTrip', () => ({
     getDriverTripByDriverId: (input: any) => mockGetDriverTripByDriverId(input)
 }))
 vi.mock('../../services/expenses', () => ({
-    createExpense: (input: any) => mockCreateExpense(input)
+    createExpense: (input: any) => mockCreateExpense(input),
+    getAllExpenseByTripId: (input: any) => mockGetAllExpenseByTripId(input)
 }))
 
 const mockgetDriverTripData = [
@@ -38,6 +40,7 @@ const mockgetDriverTripData = [
 describe('Trip Test', () => {
     beforeEach(() => {
         mockGetDriverTripByDriverId.mockResolvedValue(mockgetDriverTripData)
+        mockGetAllExpenseByTripId.mockResolvedValue([])
     })
     test('should to able to create Expense', async () => {
         render(
@@ -78,6 +81,7 @@ describe('Trip Test', () => {
         //button
         const button = screen.getByRole('button', { name: 'Add Expense' })
         await userEvent.click(button)
-        expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(1)
+        expect(mockGetAllExpenseByTripId).toHaveBeenCalledTimes(1)
+        expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(2)
     })
 })

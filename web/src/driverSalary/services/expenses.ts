@@ -7,3 +7,6 @@ export interface tokenProps {
 }
 export const createExpense = (data: expenseProps) =>
     axiosInstance.post(`/expenses`, data).then(getData)
+
+export const getAllExpenseByTripId = (id: number) =>
+    axiosInstance.get(`/expenses`, { params: { tripId: id } }).then(getData)

@@ -8,6 +8,7 @@ const List_Trip_Details: FC = () => {
     const [activateDialog, setActivateDialog] = useState(false)
     const [driverTripDetails, setDriverTripDetails] = useState([])
     useEffect(() => {
+        //should change 1 to driverId
         getDriverTripByDriverId(1).then(setDriverTripDetails)
     }, [])
     return (
