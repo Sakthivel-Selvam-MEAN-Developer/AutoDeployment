@@ -1,3 +1,30 @@
+- date: 04-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should allow multiple fuel for single trip
+    - should eliminate negative intial pay and should allow without transaction ID
+- date: 04-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should clear form fields after submit in Driver
+    - should insert rejection reason field in expense approval
+  
+- date: 03-04-2024
+  person: Barath
+  project: driverSalary
+  planning:
+    - should create draw.io for expense approval
+    - should create expense approval page with model and controller
+  completed:
+    - created draw.io for expense approval
+    - created expense approval page with model and controller
+- date: 03-04-2024
+  person: Sakthivel
+  project: driverSalary
+  leave: true
+    
 - date: 02-04-2024
   person: Barath
   project: driverSalary
