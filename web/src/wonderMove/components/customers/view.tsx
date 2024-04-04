@@ -12,10 +12,14 @@ const Customer: React.FC<CustomerProps> = ({ number }) => {
     useEffect(() => {
         getCustomerDetails(number).then(setCustomerDetails)
     }, [number])
+    return updateCustomer(customerDetails)
+}
+export default Customer
+
+const updateCustomer = (customerDetails: CustomerDetails | undefined) => {
     return (
         <div style={{ marginTop: '20px' }}>
             {customerDetails && <UpdateCustomer customerDetails={customerDetails} />}
         </div>
     )
 }
-export default Customer

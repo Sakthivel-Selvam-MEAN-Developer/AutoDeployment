@@ -10,10 +10,6 @@ const TransporterReport: React.FC = () => {
             .then(setAllTransporter)
             .then(() => setLoading(false))
     }, [])
-    return (
-        <>
-            <ListAllTransporter allTransporter={allTransporter} loading={loading} />
-        </>
-    )
+    return <ListAllTransporter allTransporter={allTransporter} loading={loading} />
 }
 export default TransporterReport

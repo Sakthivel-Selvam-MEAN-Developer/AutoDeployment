@@ -5,7 +5,7 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import ExpensesFormField from './expenseFormField.tsx'
 import { getDriverTripByDriverId } from '../../services/driverTrip.ts'
 import { ExpenseTable } from './expenseTable.tsx'
-import { getAllExpenseByTripId } from '../../services/expenses.ts'
+import { getExpenseByTripId } from '../../services/expenses.ts'
 import { AddedExpense } from './addedExpenses.tsx'
 export interface expenseDetailsType {
     expenseType: string
@@ -23,7 +23,7 @@ const ListExpenses: React.FC = () => {
         //should change 1 to driverId
         getDriverTripByDriverId(1).then(setDriverTripDetails)
         if (tripId !== 0) {
-            getAllExpenseByTripId(tripId).then(setAddedExpense)
+            getExpenseByTripId(tripId).then(setAddedExpense)
         }
     }, [tripId])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {

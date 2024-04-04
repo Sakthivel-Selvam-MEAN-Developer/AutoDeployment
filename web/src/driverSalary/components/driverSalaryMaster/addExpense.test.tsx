@@ -7,13 +7,15 @@ import userEvent from '@testing-library/user-event'
 const mockGetDriverTripByDriverId = vi.fn()
 const mockCreateExpense = vi.fn()
 const mockGetAllExpenseByTripId = vi.fn()
+const mockGetAllExpenseByTripIdForApproval = vi.fn()
 
 vi.mock('../../services/driverTrip', () => ({
     getDriverTripByDriverId: (input: any) => mockGetDriverTripByDriverId(input)
 }))
 vi.mock('../../services/expenses', () => ({
     createExpense: (input: any) => mockCreateExpense(input),
-    getAllExpenseByTripId: (input: any) => mockGetAllExpenseByTripId(input)
+    getExpenseByTripId: (input: any) => mockGetAllExpenseByTripId(input),
+    getAllExpenseByTripIdForApproval: (input: any) => mockGetAllExpenseByTripIdForApproval(input)
 }))
 
 const mockgetDriverTripData = [

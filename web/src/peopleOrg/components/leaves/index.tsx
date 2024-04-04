@@ -4,13 +4,9 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 
 const Leaves: React.FC = (): ReactElement => {
-    const navigate = useNavigate()
-
     return (
         <>
-            <IconButton onClick={() => navigate(-1)}>
-                <KeyboardBackspaceIcon />
-            </IconButton>
+            <HandleIcon />
             <div style={{ marginBottom: '30px' }}>Leaves</div>
             <Outlet />
         </>
@@ -18,3 +14,11 @@ const Leaves: React.FC = (): ReactElement => {
 }
 
 export default Leaves
+const HandleIcon = () => {
+    const navigate = useNavigate()
+    return (
+        <IconButton onClick={() => navigate(-1)}>
+            <KeyboardBackspaceIcon />
+        </IconButton>
+    )
+}

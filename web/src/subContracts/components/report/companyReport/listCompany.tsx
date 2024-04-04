@@ -10,10 +10,6 @@ const CompanyReport: React.FC = () => {
             .then(setAllCompany)
             .then(() => setLoading(false))
     }, [])
-    return (
-        <>
-            <ListAllCompany allCompany={allCompany} loading={loading} />
-        </>
-    )
+    return <ListAllCompany allCompany={allCompany} loading={loading} />
 }
 export default CompanyReport

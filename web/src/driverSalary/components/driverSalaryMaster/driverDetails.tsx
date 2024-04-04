@@ -41,15 +41,21 @@ const datePicker = () => {
         </div>
     )
 }
-
+const driverBetta = () => {
+    return (
+        <>
+            <Driver_Card content={'Daily Betta'} value={'\u20B9' + ' 250'} />
+            <Driver_Card content={'Total Salary'} value={'\u20B9' + ' 23000'} />
+        </>
+    )
+}
 const driverCard = () => {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap' }} className="cards">
             <Driver_Card content={'Number of Trips Taken'} value={'12'} />
             <Driver_Card content={'Number of Expenses Submitted'} value={'25'} />
             <Driver_Card content={'Number of Days Present'} value={'23'} />
-            <Driver_Card content={'Daily Betta'} value={'\u20B9' + ' 250'} />
-            <Driver_Card content={'Total Salary'} value={'\u20B9' + ' 23000'} />
+            {driverBetta()}
         </div>
     )
 }

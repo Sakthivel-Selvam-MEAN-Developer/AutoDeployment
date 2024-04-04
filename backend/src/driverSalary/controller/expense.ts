@@ -1,6 +1,11 @@
 import { Request, Response } from 'express'
 import { expensesType } from '@prisma/client'
-import { create, getAllExpenseByTripId, getAllExpenses } from '../models/expenses.ts'
+import {
+    create,
+    getAllExpenseByTripId,
+    getAllExpenseForApproval,
+    groupAllExpensesByTripId
+} from '../models/expenses.ts'
 
 function checkType(data: string) {
     switch (data) {
@@ -65,10 +70,17 @@ export const createExpense = async (req: Request, res: Response) => {
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
 }
-export const listAllExpenses = async (_req: Request, res: Response) => {
-    getAllExpenses()
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+export const ListAllExpenseByTripIdForApproval = async (_req: Request, res: Response) => {
+    const allTripId = await groupAllExpensesByTripId()
+    const falseExpense = await getAllExpenseForApproval()
+    const d = allTripId.map((trip) => {
+        const details = falseExpense.filter((data) => trip.tripId === data.tripId)
+        return {
+            tripId: trip.tripId,
+            tripExpenses: details
+        }
+    })
+    await res.status(200).json(d)
 }
 type RequestQuery = {
     tripId: string

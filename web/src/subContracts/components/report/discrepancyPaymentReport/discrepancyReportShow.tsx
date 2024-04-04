@@ -23,21 +23,26 @@ interface listoverallTripProps {
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
 
+const cellNames = [
+    '#',
+    'Vehicle Number',
+    'Invoice Number',
+    'Transporter Name',
+    'CSM Name',
+    'Transporter Amount',
+    'Total Paid Amount',
+    'Difference Amount'
+]
+
+const tabelRow = (
+    <TableRow>
+        {cellNames.map((name) => (
+            <TableCell>{name}</TableCell>
+        ))}
+    </TableRow>
+)
 function getTableHead() {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Vehicle Number</TableCell>
-                <TableCell align="left">Invoice Number</TableCell>
-                <TableCell align="left">Transporter Name</TableCell>
-                <TableCell align="left">CSM Name</TableCell>
-                <TableCell align="left">Transporter Amount</TableCell>
-                <TableCell align="left">Total Paid Amount</TableCell>
-                <TableCell align="left">Difference Amount</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{tabelRow}</TableHead>
 }
 const getCells = (data: Row, num: number) => {
     return (

@@ -72,8 +72,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category, cementCompanyName])
     useEffect(() => {
-        // console.log(loadingPointId,);
-
         if (
             (loadingPointId && unloadingPointId) ||
             (stockPointId && loadingPointId) ||

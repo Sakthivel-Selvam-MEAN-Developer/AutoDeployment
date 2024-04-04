@@ -59,11 +59,7 @@ const getTableHead = () => {
 function cell(data: Row) {
     const cells = Object.entries(data).map(([key, value]) => {
         if (key == 'createdAt' || key == 'updatedAt' || key == 'id') return
-        return (
-            <TableCell key={key} align="left">
-                {value ? value : 'NULL'}
-            </TableCell>
-        )
+        return subCell(key, value)
     })
     return cells
 }
@@ -114,3 +110,11 @@ const ListAllTransporter: React.FC<Props> = ({ allTransporter, loading }) => {
 }
 
 export default ListAllTransporter
+
+function subCell(key: string, value: string) {
+    return (
+        <TableCell key={key} align="left">
+            {value ? value : 'NULL'}
+        </TableCell>
+    )
+}
