@@ -22,7 +22,6 @@ const UpdateReason: React.FC<UpdateReasonProps> = ({ stopInfo, onSelect, selecte
             <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
                 <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>
                 <Select
-                    labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
                     label="Reasons"
                     value={selectedReason}

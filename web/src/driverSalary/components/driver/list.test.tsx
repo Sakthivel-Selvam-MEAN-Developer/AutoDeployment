@@ -10,10 +10,25 @@ const mockCreateDriver = vi.fn()
 vi.mock('../../services/driver', () => ({
     createDriver: (inputs: any) => mockCreateDriver(inputs)
 }))
-
+const mockDriverData = {
+    name: 'werfs',
+    fatherName: 'fdvdfsfdfg',
+    dateofBirth: 1712341800,
+    aadharNumber: '23423423',
+    panNumber: 'werfwefr',
+    address: '124',
+    mobileNumber: '243142134',
+    driverLicense: '14134',
+    licenseExpriryDate: 1712255400,
+    bankName: 'wfgwerwf',
+    accountNumber: '124124',
+    accountBranch: 'qweqwe1',
+    ifcsCode: '23123'
+}
 describe('Create driver', () => {
     test('should create driver details', async () => {
         expect(mockCreateDriver).toHaveBeenCalledTimes(0)
+        mockCreateDriver.mockResolvedValue(mockDriverData)
         render(
             <BrowserRouter>
                 <CreateDriver />

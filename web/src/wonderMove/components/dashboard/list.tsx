@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { PieChart, Pie, Tooltip, Cell } from 'recharts'
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
-import dayjs from 'dayjs'
+import dayjs, { ManipulateType } from 'dayjs'
 import PieChartDetails from './details.tsx'
 import { getVehicles } from '../../services/vehicles.ts'
 import { stopDuration } from '../../services/stops.ts'
@@ -25,24 +25,27 @@ const DashboardList: React.FC = () => {
     const [to, setTo] = useState<number>(dayjs().unix())
     const [selectedCell, setSelectedCell] = useState<DurationData | null>(null)
     const colors = ['#39b2de', '#fd9846', '#7164fd', '#a4ea3c', '#c261ff', '#ffa2a2']
+    const setData = (days: number, type: ManipulateType | undefined) => {
+        setFrom(dayjs().subtract(1, type).unix())
+        setMillisPerDay(days * 86400000)
+    }
     const handleChange = (event: SelectChangeEvent) => {
         setPeriod(event.target.value)
         switch (event.target.value) {
             case 'pastDay':
-                setFrom(dayjs().subtract(1, 'day').unix())
-                setMillisPerDay(86400000)
+                setData(1, 'day')
                 break
             case 'lastWeek':
-                setFrom(dayjs().subtract(1, 'week').unix())
-                setMillisPerDay(7 * 86400000)
+                setData(7, 'week')
                 break
             case 'lastMonth':
-                setFrom(dayjs().subtract(1, 'month').unix())
-                setMillisPerDay(30 * 86400000)
+                setData(30, 'month')
                 break
         }
         setTo(dayjs().unix())
     }
+    // setFrom(dayjs().subtract(1, 'day').unix())
+    // setMillisPerDay(86400000)
     useEffect(() => {
         getVehicles().then((vehicles) => {
             setTotalVehicles(vehicles)
@@ -97,12 +100,12 @@ const DashboardList: React.FC = () => {
     )
 }
 export default DashboardList
-function durations(
+const durations = (
     stopDurations: any,
     totalVehicles: never[],
     millisPerDay: number,
     setDuration: React.Dispatch<React.SetStateAction<DurationData[]>>
-) {
+) => {
     const totalDuration = stopDurations.reduce(
         (total: number, entry: DurationEntryProps) => total + entry.durationInMillis,
         0

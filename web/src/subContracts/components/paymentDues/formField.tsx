@@ -24,11 +24,13 @@ const FormField: React.FC<formProps> = ({
         const formattedDays = form.paymentDate.value.split('/')
         const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
         const paymentDate = Math.floor(new Date(MMDDformat).getTime() / 1000)
+        updatePayment(paymentDate)
+    }
+    const updatePayment = (paymentDate: number) =>
         updatePaymentDues({ id, transactionId, paidAt: paymentDate, type, fuelId }).then(() => {
             setRefresh(!refresh)
             setTransactionId('')
         })
-    }
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

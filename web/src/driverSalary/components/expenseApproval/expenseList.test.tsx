@@ -28,7 +28,7 @@ describe('New trip test', () => {
     beforeEach(() => {
         mockGetAllExpenseByTripIdForApproval.mockResolvedValue(mockExpenseData)
     })
-    test('should fetch company data from Db', async () => {
+    test('should display expenses aprroval list', async () => {
         expect(mockGetAllExpenseByTripIdForApproval).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
@@ -38,8 +38,7 @@ describe('New trip test', () => {
         expect(await screen.findByText('Sakthi Vel')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Enter Rejection Reason'), 'Too much Expense')
         expect(await screen.findByText('ABCD1234')).toBeInTheDocument()
-        expect(await screen.findByText('Reject')).toBeInTheDocument()
-        expect(await screen.findByText('Approve')).toBeInTheDocument()
+        expect(await screen.findByText('Submit')).toBeInTheDocument()
         expect(await screen.getByText('TRIP_ALLOWANCE')).toBeInTheDocument()
         expect(await screen.findByText('345345')).toBeInTheDocument()
         expect(mockGetAllExpenseByTripIdForApproval).toHaveBeenCalledTimes(1)

@@ -11,10 +11,12 @@ import {
     TextField,
     Typography
 } from '@mui/material'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Paper from '@mui/material/Paper'
 import { getAllExpenseByTripIdForApproval } from '../../services/expenses'
+import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue'
+import { FieldValues, useForm } from 'react-hook-form'
 interface tripDataProps {
     tripExpenses: expenseDetailsProps[]
 }
@@ -59,65 +61,114 @@ const ExpenseList: React.FC = (): ReactElement => {
 }
 export default ExpenseList
 
+const AutoComplete = (
+    setReason: React.Dispatch<React.SetStateAction<string>>,
+    approvalType: string | null,
+    setApprovalType: React.Dispatch<React.SetStateAction<string | null>>
+) => {
+    const { control } = useForm<FieldValues>()
+    return (
+        <AutoCompleteWithValue
+            value={approvalType === null ? '' : approvalType}
+            control={control}
+            fieldName="Approval Type"
+            label="Approval Type"
+            options={['Acceptable', 'Rejectable']}
+            onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                setApprovalType(newValue)
+                setReason('')
+            }}
+        />
+    )
+}
+
 const style = { width: '100%', padding: '10px 10px 0px' }
 
+const button = (reason: string, approvalType: string | null) => {
+    return (
+        <TableCell>
+            <Button disabled={reason === '' && approvalType === 'Rejectable'}>Submit</Button>
+        </TableCell>
+    )
+}
+
 function ExpenseTableBody({ expenseDetails }: ExpenseTableBodyProps) {
-    const [rejectionMessage, setRejectionMessage] = useState('')
     return (
         <TableBody>
             {expenseDetails.map((expense: expenseDetailsProps) => {
-                return (
-                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell>{expense.expenseType}</TableCell>
-                        <TableCell>{expense.amount}</TableCell>
-                        <TableCell>{formfield(rejectionMessage, setRejectionMessage)}</TableCell>
-                        <TableCell>
-                            <Button>Reject</Button>
-                        </TableCell>
-                        <TableCell>
-                            <Button>Approve</Button>
-                        </TableCell>
-                    </TableRow>
-                )
+                return tableRow(expense)
             })}
         </TableBody>
     )
 }
 
+const RejectionReason: FC = () => {
+    const [approvalType, setApprovalType] = useState<string | null>('')
+    const [reason, setReason] = useState('')
+    return (
+        <>
+            <TableCell>{AutoComplete(setReason, approvalType, setApprovalType)}</TableCell>
+            <TableCell>{formfield(reason, setReason, approvalType)}</TableCell>
+            {button(reason, approvalType)}
+        </>
+    )
+}
+
+function tableRow(expense: expenseDetailsProps) {
+    return (
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell>{expense.expenseType}</TableCell>
+            <TableCell>{expense.amount}</TableCell>
+            <RejectionReason />
+        </TableRow>
+    )
+}
+
 function formfield(
-    rejectionMessage: string,
-    setRejectionMessage: React.Dispatch<React.SetStateAction<string>>
+    reason: string,
+    setReason: React.Dispatch<React.SetStateAction<string>>,
+    approvalType: string | null
 ) {
     return (
         <TextField
-            value={rejectionMessage}
+            disabled={approvalType === 'Acceptable'}
+            value={reason}
             label="Enter Rejection Reason"
             name="rejectionReason"
             variant="outlined"
-            onChange={(e) => setRejectionMessage(e.target.value)}
+            onChange={(e) => setReason(e.target.value)}
             sx={{ width: '200px', margin: '0 10px' }}
         />
     )
 }
 
+const expensesType = (
+    <TableCell>
+        <b> Expense Type</b>
+    </TableCell>
+)
+const expensesAmountAndMessage = (
+    <>
+        <TableCell>
+            <b> Expense Amount</b>
+        </TableCell>
+        <TableCell>
+            <b> Message</b>
+        </TableCell>
+    </>
+)
+
+const tableHeadRow = (
+    <TableRow>
+        {expensesType}
+        {expensesAmountAndMessage}
+        <TableCell></TableCell>
+        <TableCell></TableCell>
+    </TableRow>
+)
+
 function expenseTableHead() {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>
-                    <b> Expense Type</b>
-                </TableCell>
-                <TableCell>
-                    <b> Expense Amount</b>
-                </TableCell>
-                <TableCell>
-                    <b> Message</b>
-                </TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{tableHeadRow}</TableHead>
 }
 
 function expenseAccordionSummary() {

@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Box, CircularProgress } from '@mui/material'
+import { CircularLoader } from '../companyReport/companyReportShow'
 
 interface Props {
     allTransporter: Row[]
@@ -96,13 +96,7 @@ const tableContainer = (allTransporter: Row[]) => {
 const ListAllTransporter: React.FC<Props> = ({ allTransporter, loading }) => {
     return (
         <>
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <CircularProgress />
-                </Box>
-            ) : (
-                tableContainer(allTransporter)
-            )}
+            {loading ? <CircularLoader /> : tableContainer(allTransporter)}
             <br />
             <br />
         </>

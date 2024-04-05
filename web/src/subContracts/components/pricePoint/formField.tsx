@@ -60,7 +60,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
             getStockPointByCompanyName(cementCompanyName).then(setStockPointList)
         }
     }, [cementCompanyName])
-    useEffect(() => {
+    const clearForm = () => {
         setLoadingPointName('')
         setUnloadingPointName('')
         setStockPointName('')
@@ -69,6 +69,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
         setUnloadingPointId(null)
         setStockPointId(null)
         setValue('transporterPercentage', '')
+    }
+    useEffect(() => {
+        clearForm()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category, cementCompanyName])
     useEffect(() => {
