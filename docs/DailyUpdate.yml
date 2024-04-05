@@ -1,15 +1,24 @@
-- date: 04-04-2024
+- date: 05-04-2024
   person: Barath
   project: subContract
   planning:
     - should allow multiple fuel for single trip
-    - should eliminate negative intial pay and should allow without transaction ID
-- date: 04-04-2024
+- date: 05-04-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should clear form fields after submit in Driver
     - should insert rejection reason field in expense approval
+    
+- date: 04-04-2024
+  person: Barath, Sakthivel
+  project: subContract
+  planning:
+    - should discuss for multiple fuel with client
+    - should handle negative final pay and initial pay
+  completed:
+    - discussed for multiple fuel with client
+    - handled negative final pay and initial pay
   
 - date: 03-04-2024
   person: Barath
