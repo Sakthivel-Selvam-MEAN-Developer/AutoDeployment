@@ -48,10 +48,12 @@ export const createTrip = async (req: Request, res: Response) => {
             companyDetails?.cementCompany.advanceType
         )
             .then(async (data) => {
-                if (data === null) return res.status(200).json({ id: overallTripId })
+                if (data === undefined) return res.status(200).json({ id: overallTripId })
                 await createPaymentDues(data)
             })
-            .then(() => updateFuelDetails(fuelDetails, vehicleNumber, overallTripId))
+            .then(async () => {
+                await updateFuelDetails(fuelDetails, vehicleNumber, overallTripId)
+            })
             .then(() => res.status(200).json({ id: overallTripId }))
             .catch(() => res.sendStatus(500))
     } catch (error) {

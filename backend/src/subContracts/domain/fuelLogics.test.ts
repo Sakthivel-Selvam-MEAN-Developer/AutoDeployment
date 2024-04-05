@@ -4,14 +4,14 @@ import fuelLogics from './fuelLogics.ts'
 describe('Fuel Logics Test', async () => {
     test('Should get both initial & fuel pay with fuel after trip started', async () => {
         const fuel = {
-            totalprice: 5000,
+            totalprice: 100000,
             vehicleNumber: 'TN29BA3211',
             overallTripId: 1,
             id: 1,
             fueledDate: 1704781636,
             invoiceNumber: 'FDGT564',
-            pricePerliter: 123,
-            quantity: 12,
+            pricePerliter: 1000,
+            quantity: 100,
             paymentStatus: false,
             bunkId: 1
         }
@@ -24,14 +24,14 @@ describe('Fuel Logics Test', async () => {
             loadingPointToUnloadingPointTrip: {
                 id: 1,
                 startDate: 1704781636,
-                filledLoad: 60,
+                filledLoad: 100,
                 wantFuel: true,
                 tripStatus: false,
                 freightAmount: 1000,
                 transporterAmount: 900,
-                totalFreightAmount: 60000,
-                totalTransporterAmount: 54000,
-                margin: 6000,
+                totalFreightAmount: 100000,
+                totalTransporterAmount: 90000,
+                margin: 10000,
                 loadingPointId: 1,
                 invoiceNumber: 'FDGT564',
                 unloadingPointId: 1,
@@ -50,7 +50,10 @@ describe('Fuel Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: 3,
                 vehicleNumber: 'TN29BA3211',
-                payableAmount: 32800
+                payableAmount: -37000,
+                transactionId: '0',
+                NEFTStatus: true,
+                paidAt: 0
             },
             {
                 name: 'Barath Petroleum',
@@ -59,7 +62,7 @@ describe('Fuel Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: 3,
                 vehicleNumber: 'TN29BA3211',
-                payableAmount: 5000
+                payableAmount: 100000
             }
         ])
     })

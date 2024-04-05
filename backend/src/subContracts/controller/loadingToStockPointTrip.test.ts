@@ -121,7 +121,10 @@ const mockcreatePaymentDuesData1 = [
         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
         overallTripId: 1,
         vehicleNumber: 'TN93D5512',
-        payableAmount: 30240
+        payableAmount: 30240,
+        transactionId: '',
+        NEFTStatus: false,
+        paidAt: 0
     }
 ]
 const mockcreatePaymentDuesData2 = [
@@ -131,7 +134,10 @@ const mockcreatePaymentDuesData2 = [
         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
         overallTripId: 1,
         vehicleNumber: 'TN93D5512',
-        payableAmount: 29240
+        payableAmount: 29240,
+        transactionId: '',
+        NEFTStatus: false,
+        paidAt: 0
     }
 ]
 

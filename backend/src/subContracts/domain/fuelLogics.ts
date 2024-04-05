@@ -31,19 +31,23 @@ const fuelLogics = async (
         ) {
             transporterPercentage = 100
         }
+        const payableAmount = parseFloat(
+            (
+                (tripDetails.totalTransporterAmount * transporterPercentage) / 100 -
+                fuel.totalprice
+            ).toFixed(2)
+        )
         const paymentDues = [
             {
                 name: tripDetails.truck.transporter.name,
                 type: 'initial pay',
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                payableAmount: parseFloat(
-                    (
-                        (tripDetails.totalTransporterAmount * transporterPercentage) / 100 -
-                        fuel.totalprice
-                    ).toFixed(2)
-                ),
+                payableAmount,
                 overallTripId: trip.id,
-                vehicleNumber
+                vehicleNumber,
+                NEFTStatus: payableAmount < 0,
+                transactionId: payableAmount < 0 ? '0' : '',
+                paidAt: payableAmount < 0 ? 0 : 0
             },
             {
                 name: bunkname,

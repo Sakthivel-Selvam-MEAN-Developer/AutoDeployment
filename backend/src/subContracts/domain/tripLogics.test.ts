@@ -28,7 +28,10 @@ describe('Trip Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: 1,
                 vehicleNumber: 'TN93D5512',
-                payableAmount: 7000
+                payableAmount: 7000,
+                transactionId: '',
+                NEFTStatus: false,
+                paidAt: 0
             }
         ])
     })
@@ -65,7 +68,10 @@ describe('Trip Logics Test', async () => {
                 dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
                 overallTripId: 1,
                 vehicleNumber: 'TN93D5512',
-                payableAmount: 6000
+                payableAmount: 6000,
+                transactionId: '',
+                NEFTStatus: false,
+                paidAt: 0
             }
         ])
     })

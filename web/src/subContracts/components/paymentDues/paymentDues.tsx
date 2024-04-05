@@ -76,9 +76,7 @@ const PaymentDues: React.FC = () => {
                                                     : list.location}
                                             </Typography>
                                             <Typography sx={style}>{list.type} </Typography>
-                                            <Typography sx={style}>
-                                                {list.payableAmount}{' '}
-                                            </Typography>
+                                            <Typography sx={style}>{list.payableAmount}</Typography>
                                             <Typography sx={style}>{list.invoiceNumber}</Typography>
                                             <Typography sx={style}>
                                                 {epochToMinimalDate(list.date)}

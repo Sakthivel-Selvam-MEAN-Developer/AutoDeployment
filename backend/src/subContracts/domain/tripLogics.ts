@@ -21,6 +21,9 @@ const tripLogic = async (
     if (tripType === 'LoadingToStock' && advanceType === 100) transporterPercentage = 1
     const fuelAmount = fuelDetails ? fuelDetails.totalprice : 0
     if (data.wantFuel === true && fuelDetails === null) return
+    const payableAmount = parseFloat(
+        (data.totalTransporterAmount * transporterPercentage - fuelAmount).toFixed(2)
+    )
     return [
         {
             name: transporterName,
@@ -28,9 +31,10 @@ const tripLogic = async (
             dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
             overallTripId: id,
             vehicleNumber,
-            payableAmount: parseFloat(
-                (data.totalTransporterAmount * transporterPercentage - fuelAmount).toFixed(2)
-            )
+            payableAmount,
+            NEFTStatus: payableAmount < 0,
+            transactionId: payableAmount < 0 ? '0' : '',
+            paidAt: payableAmount < 0 ? 0 : 0
         }
     ]
 }
