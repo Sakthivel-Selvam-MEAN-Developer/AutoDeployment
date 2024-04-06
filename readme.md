@@ -1,5 +1,24 @@
 ## Available Scripts
 
+machine setup
+
+```bash
+# install brew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+# check brew is installed. Open a new terminal
+brew -v
+
+# install colima and node
+brew install colima node
+
+# enable yarn
+corepack enable
+yarn init -2
+
+```
+
+
 In the project directory, you can run:
 
 ```bash
