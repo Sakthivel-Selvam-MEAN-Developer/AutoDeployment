@@ -18,6 +18,26 @@ yarn init -2
 
 ```
 
+as you start the day
+```bash
+# get the latest code
+git pull
+# dependency install
+yarn install
+# start the db
+yarn db
+# do db setup
+yarn b pris
+# start the keycloack
+yarn key
+# setup keycloak
+yarn keySetup
+# start ui
+yarn u dev
+# start backend
+yarn b dev
+```
+
 
 In the project directory, you can run:
 
