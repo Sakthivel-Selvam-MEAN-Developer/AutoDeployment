@@ -7,13 +7,11 @@ import SelectTrip from './list'
 const mockActiveTripsByAcknowledgement = vi.fn()
 const mockgetTripById = vi.fn()
 const mockCloseTrip = vi.fn()
-const mockUpdateAcknowledgementStatus = vi.fn()
 
 vi.mock('../../services/acknowledgement', () => ({
     getAllActiveTripsByAcknowledgement: () => mockActiveTripsByAcknowledgement(),
     getTripById: (inputs: any) => mockgetTripById(inputs),
-    closeTrip: (inputs: any) => mockCloseTrip(inputs),
-    updateAcknowledgementStatus: (inputs: any) => mockUpdateAcknowledgementStatus(inputs)
+    closeTrip: (inputs: any) => mockCloseTrip(inputs)
 }))
 
 const mockOverAllTripData = [
@@ -176,10 +174,8 @@ describe('Acknowledgement Test', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(screen.getByText(': salem')).toBeInTheDocument()
-        await userEvent.click(screen.getByRole('button', { name: 'Close Trip' }))
         mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterAcknowledgeAdded)
         expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(2)
-        expect(mockgetTripById).toHaveBeenCalledTimes(4)
-        expect(mockUpdateAcknowledgementStatus).toHaveBeenCalledTimes(1)
+        expect(mockgetTripById).toHaveBeenCalledTimes(3)
     })
 })

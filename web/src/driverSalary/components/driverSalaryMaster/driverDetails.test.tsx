@@ -29,7 +29,7 @@ const mockgetDriverTripData = [
     }
 ]
 
-describe('Trip Test', () => {
+describe('Driver Test', () => {
     beforeEach(() => {
         mockGetDriverTripByDriverId.mockResolvedValue(mockgetDriverTripData)
     })

@@ -24,7 +24,7 @@ const mockExpenseData = [
     }
 ]
 
-describe('New trip test', () => {
+describe('Expense Approval test', () => {
     beforeEach(() => {
         mockGetAllExpenseByTripIdForApproval.mockResolvedValue(mockExpenseData)
     })

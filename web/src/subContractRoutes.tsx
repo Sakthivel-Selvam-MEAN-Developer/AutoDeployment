@@ -29,6 +29,7 @@ import AddVehicle from './subContracts/components/transporter/addVehicle'
 import CompletedPayment from './subContracts/components/report/completedPayment'
 import TransporterReport from './subContracts/components/report/transporterReport/listTransporter'
 import CompanyReport from './subContracts/components/report/companyReport/listCompany'
+import AddAcknowledgement from './subContracts/components/acknowledgement/addAcknowledgement'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -112,6 +113,10 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <SelectTrip />
+                },
+                {
+                    path: 'addAcknowledgement',
+                    element: <AddAcknowledgement />
                 }
             ]
         },

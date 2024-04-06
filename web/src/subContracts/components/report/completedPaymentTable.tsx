@@ -107,7 +107,7 @@ const CompletedPaymentTable: React.FC<Props> = ({ completedPayments }) => {
                     variant="contained"
                     onClick={() => download(completedPayments)}
                 >
-                    Generate Form
+                    Download Report
                 </Button>
             </div>
             <TableContainer component={Paper}>

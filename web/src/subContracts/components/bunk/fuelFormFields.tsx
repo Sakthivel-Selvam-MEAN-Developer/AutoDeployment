@@ -34,6 +34,12 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                 flexWrap: 'wrap'
             }}
         >
+            <DateInput
+                control={control}
+                format="DD/MM/YYYY"
+                fieldName="fuelDate"
+                label="Fueled Date"
+            />
             <AutoComplete
                 control={control}
                 fieldName="bunkId"
@@ -54,12 +60,6 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                 variant="outlined"
                 aria-readonly
             />
-            <DateInput
-                control={control}
-                format="DD/MM/YYYY"
-                fieldName="fuelDate"
-                label="Fueled Date"
-            />
             <AutoComplete
                 control={control}
                 fieldName="vehicleNumber"
@@ -69,7 +69,14 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                     console.log(newValue)
                 }}
             />
-            <TextInput control={control} label="Diesel Bill Number" fieldName="invoiceNumber" />
+            <NumberInputWithProps
+                control={control}
+                label="Fuel Quantity"
+                fieldName="quantity"
+                type="number"
+                inputProps={{ step: 'any', min: '0' }}
+                InputProps={{}}
+            />
             <NumberInputWithProps
                 control={control}
                 label="Fuel per Liter"
@@ -83,14 +90,6 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                         </InputAdornment>
                     )
                 }}
-            />
-            <NumberInputWithProps
-                control={control}
-                label="Fuel Quantity"
-                fieldName="quantity"
-                type="number"
-                inputProps={{ step: 'any', min: '0' }}
-                InputProps={{}}
             />
             <InputWithDefaultValue
                 control={control}
@@ -111,6 +110,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                     shrink: true
                 }}
             />
+            <TextInput control={control} label="Diesel Bill Number" fieldName="invoiceNumber" />
         </div>
     )
 }

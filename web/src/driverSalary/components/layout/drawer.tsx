@@ -78,14 +78,14 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     icon={<Factory />}
                 />
                 <DrawerListItem
-                    text="Driver"
+                    text="Employee Salary"
                     navigate="/driverSalary/employee-salary"
                     drawerState={drawerState}
                     index={2}
                     icon={<AccountCircle />}
                 />
                 <DrawerListItem
-                    text="Driver"
+                    text="Expense Approval"
                     navigate="/driverSalary/expenseApproval"
                     drawerState={drawerState}
                     index={2}

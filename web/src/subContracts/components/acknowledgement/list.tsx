@@ -2,9 +2,10 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { getAllActiveTripsByAcknowledgement, getTripById } from '../../services/acknowledgement'
-import AddAcknowledgement from './addAcknowledgement'
-import { Autocomplete, TextField } from '@mui/material'
+import UnloadTrip from './unloadTrip'
+import { Autocomplete, Button, TextField } from '@mui/material'
 import { tripProps } from './types'
+import { Link } from 'react-router-dom'
 
 const SelectTrip: React.FC = (): ReactElement => {
     const { handleSubmit } = useForm<FieldValues>()
@@ -39,6 +40,14 @@ const SelectTrip: React.FC = (): ReactElement => {
     }
     return (
         <>
+            <div>
+                <Link to={'/sub/acknowledgement/addacknowledgement'}>
+                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                        Add Acknowledgement
+                    </Button>
+                </Link>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Autocomplete
                     value={vehicleNumber}
@@ -72,11 +81,7 @@ const SelectTrip: React.FC = (): ReactElement => {
                 <SubmitButton name="Submit" type="submit" />
             </form>
             {active && tripDetails && (
-                <AddAcknowledgement
-                    tripDetails={tripDetails}
-                    setRender={setRender}
-                    render={render}
-                />
+                <UnloadTrip tripDetails={tripDetails} setRender={setRender} render={render} />
             )}
         </>
     )

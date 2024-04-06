@@ -3,21 +3,26 @@ import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { tripDetailsProps } from './list'
 import { stockToUnloadingProps } from './interface'
 
+const cellNames = [
+    'Start Date',
+    'Invoice Number',
+    'Vehicle Number',
+    'Loading Point',
+    'Unloading Point',
+    'Freight Amount',
+    'Total Freight Amount'
+]
+
+const newLocal = (
+    <TableRow>
+        <TableCell sx={{ textAlign: 'center' }}>#</TableCell>
+        {cellNames.map((cellName) => (
+            <TableCell align="left">{cellName}</TableCell>
+        ))}
+    </TableRow>
+)
 export const getTableHead = () => {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell sx={{ textAlign: 'center' }}>#</TableCell>
-                <TableCell align="left">Start Date</TableCell>
-                <TableCell align="left">Invoice Number</TableCell>
-                <TableCell align="left">Vehicle Number</TableCell>
-                <TableCell align="left">Loading Point</TableCell>
-                <TableCell align="left">Unloading Point</TableCell>
-                <TableCell align="left">Freight Amount</TableCell>
-                <TableCell align="left">Total Freight Amount</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{newLocal}</TableHead>
 }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 export const getCells = (data: any, handleClick: (obj: tripDetailsProps) => void) => {

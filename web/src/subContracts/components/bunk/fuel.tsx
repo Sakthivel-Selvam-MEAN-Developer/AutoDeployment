@@ -22,7 +22,9 @@ const Fuel: React.FC = (): ReactElement => {
             data.vehicleNumber !== undefined &&
             data.fuelDate !== undefined &&
             data.pricePerliter !== undefined &&
+            data.pricePerliter !== '0' &&
             data.quantity !== undefined &&
+            data.quantity !== '0' &&
             data.invoiceNumber !== undefined
         ) {
             const pricePerliterFloat = parseFloat(data.pricePerliter).toFixed(2)

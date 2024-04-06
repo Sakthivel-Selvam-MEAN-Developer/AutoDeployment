@@ -121,13 +121,16 @@ const FormField: React.FC<FormFieldProps> = ({
         setCementCompanyName(null)
         setTransporterName(null)
     }, [clear])
+    const clearPointId = () => {
+        loadingPointId(null)
+        unloadingPointId(null)
+        stockPointId(null)
+    }
     useEffect(() => {
         setLoadingPointName('')
         setStockPointName('')
         setUnloadingPointName('')
-        loadingPointId(null)
-        unloadingPointId(null)
-        stockPointId(null)
+        clearPointId()
         setFreightAmount(0)
         setTransporterAmount(0)
         setValue('invoiceNumber', '')
