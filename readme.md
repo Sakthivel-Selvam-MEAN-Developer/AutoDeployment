@@ -10,7 +10,7 @@ machine setup
 brew -v
 
 # install colima and node
-brew install colima node
+brew install colima node docker docker-compose
 
 # enable yarn
 corepack enable
