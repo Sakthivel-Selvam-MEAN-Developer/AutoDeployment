@@ -57,6 +57,8 @@ interface FormFieldProps {
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>
     listTruck: never[]
     driversList: never[]
+    setDriverName: React.Dispatch<React.SetStateAction<string>>
+    driverName: string
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -84,7 +86,9 @@ const FormField: React.FC<FormFieldProps> = ({
     setListTruck,
     listTruck,
     setDriverId,
-    driversList
+    driversList,
+    setDriverName,
+    driverName
 }) => {
     const [transporterName, setTransporterName] = useState<string | null>('')
     const [cementCompanyName, setCementCompanyName] = useState<string | null>('')
@@ -97,7 +101,6 @@ const FormField: React.FC<FormFieldProps> = ({
     const [stockPointName, setStockPointName] = useState<string>('')
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
     const [fuelDetails, setFuelDetails] = useState<FuelProps>()
-    const [driverName, setDriverName] = useState('')
 
     useEffect(() => {
         if (cementCompanyName !== null && cementCompanyName !== '')

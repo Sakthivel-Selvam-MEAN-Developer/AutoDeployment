@@ -33,7 +33,8 @@ const NewTrip: React.FC = () => {
     const [fuel, setFuel] = useState(false)
     const filledLoad = watch('filledLoad')
     const [category, setCategory] = useState<string>('')
-    const [driverId, setDriverId] = useState(0)
+    const [driverId, setDriverId] = useState<number>(0)
+    const [driverName, setDriverName] = useState('')
     const [clear, setClear] = useState<boolean>(false)
     const [ownTruckFuel, setownTruckFuel] = useState<boolean>(true)
     const [listTruck, setListTruck] = useState([])
@@ -45,7 +46,7 @@ const NewTrip: React.FC = () => {
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        if (checkCondition(truckId, data, freightAmount)) {
+        if (checkCondition(truckId, data, freightAmount, driverId)) {
             const filledLoad = parseFloat(data.filledLoad).toFixed(2)
             const freightAmountFloat = freightAmount.toFixed(2)
             const transporterAmountFloat = transporterAmount.toFixed(2)
@@ -74,13 +75,31 @@ const NewTrip: React.FC = () => {
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then((trip) => createDriverTrip({ ...driverDetails, tripId: trip.id }))
                     .then(() => setOpenSuccessDialog(true))
-                    .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
+                    .then(() =>
+                        clearForm(
+                            clear,
+                            setClear,
+                            setCategory,
+                            setValue,
+                            setListTruck,
+                            setDriverName
+                        )
+                    )
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
             else if (category === 'Unloading Point')
                 createTrip({ ...details, unloadingPointId: unloadingPointId })
                     .then((trip) => createDriverTrip({ ...driverDetails, tripId: trip.id }))
                     .then(() => setOpenSuccessDialog(true))
-                    .then(() => clearForm(clear, setClear, setCategory, setValue, setListTruck))
+                    .then(() =>
+                        clearForm(
+                            clear,
+                            setClear,
+                            setCategory,
+                            setValue,
+                            setListTruck,
+                            setDriverName
+                        )
+                    )
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
         } else alert('All fields Required')
     }
@@ -128,6 +147,8 @@ const NewTrip: React.FC = () => {
                 clear={clear}
                 setListTruck={setListTruck}
                 listTruck={listTruck}
+                setDriverName={setDriverName}
+                driverName={driverName}
             />
             <SubmitButton name="Start" type="submit" />
             <SuccessDialog
@@ -139,23 +160,28 @@ const NewTrip: React.FC = () => {
     )
 }
 export default NewTrip
-function checkCondition(truckId: number, data: FieldValues, freightAmount: number) {
+function checkCondition(truckId: number, data: FieldValues, freightAmount: number, driver: number) {
     return (
-        truckId !== 0 && data.invoiceNumber !== '' && data.filledLoad !== '' && freightAmount !== 0
+        truckId !== 0 &&
+        data.invoiceNumber !== '' &&
+        data.filledLoad !== '' &&
+        freightAmount !== 0 &&
+        driver !== 0
     )
 }
-type clearFormType = (
+
+const clearForm = (
     clear: boolean,
     setClear: React.Dispatch<React.SetStateAction<boolean>>,
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     setValue: UseFormSetValue<FieldValues>,
-    setListTruck: React.Dispatch<React.SetStateAction<never[]>>
-) => void
-
-const clearForm: clearFormType = (clear, setClear, setCategory, setValue, setListTruck) => {
+    setListTruck: React.Dispatch<React.SetStateAction<never[]>>,
+    setDriverName: React.Dispatch<React.SetStateAction<string>>
+) => {
     setClear(!clear)
     setCategory('')
     setValue('tripDate', null)
     setValue('filledLoad', '')
     setListTruck([])
+    setDriverName('')
 }

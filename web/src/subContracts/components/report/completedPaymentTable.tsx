@@ -24,20 +24,24 @@ interface completedPaymentsProps {
         }
     }
 }
+const cellNames = [
+    'Transporter Name',
+    'Payment Date',
+    'Payment Type',
+    'Transaction Id',
+    'Amount',
+    'CSM Name'
+]
+const newLocal = (
+    <TableRow>
+        <TableCell>#</TableCell>
+        {cellNames.map((name) => (
+            <TableCell align="left">{name}</TableCell>
+        ))}
+    </TableRow>
+)
 const getTableHead = () => {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Transporter Name</TableCell>
-                <TableCell align="left">Payment Date</TableCell>
-                <TableCell align="left">Payment Type</TableCell>
-                <TableCell align="left">Transaction Id</TableCell>
-                <TableCell align="left">Amount</TableCell>
-                <TableCell align="left">CSM Name</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{newLocal}</TableHead>
 }
 
 const getTableBody = (allTrips: completedPaymentsProps[]) => {
