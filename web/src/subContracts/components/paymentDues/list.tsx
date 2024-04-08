@@ -201,7 +201,7 @@ const PaymentDuesList: React.FC = () => {
                             color="primary"
                             data-testid={'new-trip-button'}
                             onClick={handleClick}
-                            disabled={gstNEFTDetails.length === 0}
+                            disabled={NEFTDetails.length === 0}
                         >
                             Generate File
                         </Button>
