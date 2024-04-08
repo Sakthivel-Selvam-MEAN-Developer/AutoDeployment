@@ -15,7 +15,7 @@ const mockFuelWithoutTripId = vi.fn()
 const mockCreateTrip = vi.fn()
 const mockcreateStockPointTrip = vi.fn()
 const mockGetAllDriver = vi.fn()
-const mockCreateDriverTrip = vi.fn()
+// const mockCreateDriverTrip = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
@@ -44,9 +44,9 @@ vi.mock('../../services/stockPointTrip', () => ({
 vi.mock('../../../driverSalary/services/driver.ts', () => ({
     getAllDriver: () => mockGetAllDriver()
 }))
-vi.mock('../../../driverSalary/services/driverTrip.ts', () => ({
-    createDriverTrip: (input: any) => mockCreateDriverTrip(input)
-}))
+// vi.mock('../../../driverSalary/services/driverTrip.ts', () => ({
+//     createDriverTrip: (input: any) => mockCreateDriverTrip(input)
+// }))
 
 const mockCompanyData = [
     {
@@ -125,11 +125,11 @@ const mockGetAllDriverData = [
         name: 'sakthi'
     }
 ]
-const mockCreateDriverData = {
-    driverId: 1,
-    tripId: 4,
-    tripStartDate: 1709836200
-}
+// const mockCreateDriverData = {
+//     driverId: 1,
+//     tripId: 4,
+//     tripStartDate: 1709836200
+// }
 async function newFunction() {
     render(
         <BrowserRouter>
@@ -163,17 +163,17 @@ async function newFunction() {
     await userEvent.click(options)
 
     //  Select Driver
-    const driver = screen.getByRole('combobox', {
-        name: 'Select Driver'
-    })
-    await userEvent.click(driver)
-    await waitFor(() => {
-        screen.getByRole('listbox')
-    })
-    const driverOptions = screen.getByRole('option', {
-        name: 'sakthi'
-    })
-    await userEvent.click(driverOptions)
+    // const driver = screen.getByRole('combobox', {
+    //     name: 'Select Driver'
+    // })
+    // await userEvent.click(driver)
+    // await waitFor(() => {
+    //     screen.getByRole('listbox')
+    // })
+    // const driverOptions = screen.getByRole('option', {
+    //     name: 'sakthi'
+    // })
+    // await userEvent.click(driverOptions)
 
     //  Select Truck Number
     const truck = screen.getByRole('combobox', {
@@ -241,7 +241,7 @@ describe('New trip test', () => {
         mockPricePoint.mockResolvedValue(mockPricePointData)
         mockCreateTrip.mockResolvedValue(tripData)
         mockGetAllDriver.mockResolvedValue(mockGetAllDriverData)
-        mockCreateDriverTrip.mockResolvedValue(mockCreateDriverData)
+        // mockCreateDriverTrip.mockResolvedValue(mockCreateDriverData)
     })
     test('should fetch company data from Db', async () => {
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(0)
@@ -421,7 +421,7 @@ describe('New trip test', () => {
         await userEvent.click(start)
 
         expect(mockCreateTrip).toHaveBeenCalledTimes(1)
-        expect(mockCreateDriverTrip).toHaveBeenCalledTimes(1)
+        // expect(mockCreateDriverTrip).toHaveBeenCalledTimes(1)
     })
     test('should create dues, if they already fueled before trip', async () => {
         mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
@@ -433,7 +433,7 @@ describe('New trip test', () => {
         await userEvent.click(start)
 
         expect(mockCreateTrip).toHaveBeenCalledTimes(2)
-        expect(mockCreateDriverTrip).toHaveBeenCalledTimes(2)
+        // expect(mockCreateDriverTrip).toHaveBeenCalledTimes(2)
     })
     test.skip('should create dues, if they already fueled before trip', async () => {
         await newFunction()
@@ -445,6 +445,6 @@ describe('New trip test', () => {
         await userEvent.click(start)
 
         expect(mockCreateTrip).toHaveBeenCalledTimes(2)
-        expect(mockCreateDriverTrip).toHaveBeenCalledTimes(2)
+        // expect(mockCreateDriverTrip).toHaveBeenCalledTimes(2)
     })
 })
