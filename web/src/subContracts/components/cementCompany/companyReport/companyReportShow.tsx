@@ -21,22 +21,25 @@ interface Row {
     contactPersonName: string
     contactPersonNumber: string
 }
-
+const cellNames = [
+    'Name',
+    'advanceType',
+    'gstNo',
+    'address',
+    'emailId',
+    'contactPersonName',
+    'contactPersonNumber'
+]
+const tableRow = (
+    <TableRow>
+        <TableCell>#</TableCell>
+        {cellNames.map((name) => (
+            <TableCell align="left">{name}</TableCell>
+        ))}
+    </TableRow>
+)
 const getTableHead = () => {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="left">advanceType</TableCell>
-                <TableCell align="left">gstNo</TableCell>
-                <TableCell align="left">address</TableCell>
-                <TableCell align="left">emailId</TableCell>
-                <TableCell align="left">contactPersonName</TableCell>
-                <TableCell align="left">contactPersonNumber</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{tableRow}</TableHead>
 }
 function cell(data: Row) {
     const cells = Object.entries(data).map(([key, value]) => {

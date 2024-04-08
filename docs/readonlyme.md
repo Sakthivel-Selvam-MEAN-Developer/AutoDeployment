@@ -10,7 +10,6 @@
 | typescript            | Must         | dont know | no    |           |
 | vite                  | Must         | dont know | no    |           |
 | vitest                | Must         | dont know | no    |           |
-| @auth0/auth0-react    | Must         | dont know | no    |           |
 | @emotion/react        | Must         | dont know | no    |           |
 | @emotion/styled       | Must         | dont know | no    |           |
 | @mui/icons-material   | good to know | know      | no    |           |

@@ -6,29 +6,33 @@ import CreateTransporter from './list'
 
 const mockCreateTransporter = vi.fn()
 const mockGetAllAccountTypes = vi.fn()
+const mockGetAllTransporter = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
-    createTransporter: (inputs: any) => mockCreateTransporter(inputs)
+    createTransporter: (inputs: any) => mockCreateTransporter(inputs),
+    getAllTransporter: () => mockGetAllTransporter()
 }))
 vi.mock('../../services/accountType', () => ({
     getAllAccountTypes: () => mockGetAllAccountTypes()
 }))
 
-const mockTransporterData = {
-    name: 'Muthu Transporters',
-    emailId: 'sample@gmail.com',
-    contactPersonName: 'Muthu',
-    contactPersonNumber: '1234',
-    address: 'Muthu Street',
-    gstNo: 'abcd123',
-    tdsPercentage: 11,
-    hasGst: true,
-    hasTds: true,
-    accountHolder: 'muthu',
-    accountNumber: '43534523',
-    ifsc: 'zxy1234',
-    accountTypeNumber: 10
-}
+const mockTransporterData = [
+    {
+        name: 'Muthu Transporters',
+        emailId: 'sample@gmail.com',
+        contactPersonName: 'Muthu',
+        contactPersonNumber: '1234',
+        address: 'Muthu Street',
+        gstNo: 'abcd123',
+        tdsPercentage: 11,
+        hasGst: true,
+        hasTds: true,
+        accountHolder: 'muthu',
+        accountNumber: '43534523',
+        ifsc: 'zxy1234',
+        accountTypeNumber: 10
+    }
+]
 const mockAccounttype = [
     {
         accountTypeName: 'Savings Account',
@@ -38,7 +42,8 @@ const mockAccounttype = [
 describe('Trip Test', () => {
     test('checking the component called NewTrip', async () => {
         mockGetAllAccountTypes.mockResolvedValue(mockAccounttype)
-        mockCreateTransporter.mockResolvedValue(mockTransporterData)
+        mockGetAllTransporter.mockResolvedValue(mockTransporterData)
+        mockCreateTransporter.mockResolvedValue(mockTransporterData[0])
         render(
             <BrowserRouter>
                 <CreateTransporter />

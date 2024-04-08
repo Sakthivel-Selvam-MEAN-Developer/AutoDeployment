@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { CircularLoader } from '../companyReport/companyReportShow'
+import { CircularLoader } from '../../cementCompany/companyReport/companyReportShow'
 
 interface Props {
     allTransporter: Row[]
@@ -31,30 +31,35 @@ interface Row {
     accountTypeNumber: number
 }
 
+const cellNames = [
+    'Name',
+    'Csm Name',
+    'Email Id',
+    'Contact Person Name',
+    'Contact Person Number',
+    'Address',
+    'HasGst',
+    'Gst Number',
+    'Gst Percentage',
+    'Has Tds',
+    'Transporter Type',
+    'Tds Percentage',
+    'AccountHolder',
+    'Account Number',
+    'IFSC',
+    'AccountType Number'
+]
+
+const tableRow = (
+    <TableRow>
+        <TableCell>#</TableCell>
+        {cellNames.map((name) => (
+            <TableCell align="left">{name}</TableCell>
+        ))}
+    </TableRow>
+)
 const getTableHead = () => {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="left">Csm Name</TableCell>
-                <TableCell align="left">Email Id</TableCell>
-                <TableCell align="left">Contact Person Name</TableCell>
-                <TableCell align="left">Contact Person Number</TableCell>
-                <TableCell align="left">Address</TableCell>
-                <TableCell align="left">HasGst</TableCell>
-                <TableCell align="left">Gst Number</TableCell>
-                <TableCell align="left">Gst Percentage</TableCell>
-                <TableCell align="left">Has Tds</TableCell>
-                <TableCell align="left">Transporter Type</TableCell>
-                <TableCell align="left">Tds Percentage</TableCell>
-                <TableCell align="left">AccountHolder</TableCell>
-                <TableCell align="left">Account Number</TableCell>
-                <TableCell align="left">IFSC</TableCell>
-                <TableCell align="left">AccountType Number</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{tableRow}</TableHead>
 }
 function cell(data: Row) {
     const cells = Object.entries(data).map(([key, value]) => {

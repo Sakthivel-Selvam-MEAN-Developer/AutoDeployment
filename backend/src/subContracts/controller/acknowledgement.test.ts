@@ -4,7 +4,8 @@ import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
 
-const mockAllTripByAcknowledgementStatus = vi.fn()
+const mockGetAllActivetripTripByTripStatus = vi.fn()
+const mockGetAllTripByAcknowledgementStatus = vi.fn()
 const mockOverAllTripById = vi.fn()
 const mockUpdateWeightForStockTrip = vi.fn()
 const mockUpdateWeightForTrip = vi.fn()
@@ -16,7 +17,8 @@ const mockGetShortageQuantityByOverallTripId = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
-    getOverAllTripByAcknowledgementStatus: () => mockAllTripByAcknowledgementStatus(),
+    getAllActivetripTripByTripStatus: () => mockGetAllActivetripTripByTripStatus(),
+    getAllTripByAcknowledgementStatus: () => mockGetAllTripByAcknowledgementStatus(),
     getOverAllTripById: (inputs: any) => mockOverAllTripById(inputs),
     closeAcknowledgementStatusforOverAllTrip: (inputs: any) =>
         mockAcknowledgeStatusforOverAllTrip(inputs)
@@ -228,9 +230,14 @@ const mockgetPercentageByTransporterData = { tdsPercentage: 2 }
 const mockGetDueByOverallTripIdData = { shortageAmount: 4000 }
 describe('Acknowledgement Controller', () => {
     test('should able to get all vehicle number from overAllTrip', async () => {
-        mockAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTrip)
-        await supertest(app).get('/api/acknowledgement').expect(200)
-        expect(mockAllTripByAcknowledgementStatus).toBeCalledTimes(1)
+        mockGetAllActivetripTripByTripStatus.mockResolvedValue(mockOverAllTrip)
+        await supertest(app).get('/api/acknowledgement/tripstatus').expect(200)
+        expect(mockGetAllActivetripTripByTripStatus).toBeCalledTimes(1)
+    })
+    test('should able to get all vehicle number from overAllTrip', async () => {
+        mockGetAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTrip)
+        await supertest(app).get('/api/acknowledgement/acknowlegementstatus').expect(200)
+        expect(mockGetAllTripByAcknowledgementStatus).toBeCalledTimes(1)
     })
     test('should able to get trip Details from overAllTrip by Id', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)

@@ -7,6 +7,7 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { Link } from 'react-router-dom'
 import { Box, Button, CircularProgress } from '@mui/material'
 import { getAllAccountTypes } from '../../services/accountType'
+import TransporterReport from './transporterReport/listTransporter'
 const CreateTransporter: React.FC = (): ReactElement => {
     const [accountType, setAccountType] = useState<string | null>('')
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
@@ -72,6 +73,9 @@ const CreateTransporter: React.FC = (): ReactElement => {
                     <SubmitButton name="Create" type="submit" />
                 )}
             </form>
+            <br />
+            <br />
+            {!loading && <TransporterReport />}
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={handleClose}

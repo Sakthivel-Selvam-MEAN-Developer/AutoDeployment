@@ -4,12 +4,12 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import AddAcknowledgement from './addAcknowledgement'
 
-const mockActiveTripsByAcknowledgement = vi.fn()
+const mockgGetAllTripByAcknowledgementStatus = vi.fn()
 const mockgetTripById = vi.fn()
 const mockUpdateAcknowledgementStatus = vi.fn()
 
 vi.mock('../../services/acknowledgement', () => ({
-    getAllActiveTripsByAcknowledgement: () => mockActiveTripsByAcknowledgement(),
+    getAllTripByAcknowledgementStatus: () => mockgGetAllTripByAcknowledgementStatus(),
     getTripById: (inputs: any) => mockgetTripById(inputs),
     updateAcknowledgementStatus: (inputs: any) => mockUpdateAcknowledgementStatus(inputs)
 }))
@@ -74,7 +74,7 @@ const mockOverAllTripData = [
 
 describe('Add Acknowledgement Test', () => {
     beforeEach(() => {
-        mockActiveTripsByAcknowledgement.mockResolvedValue(mockOverAllTripData)
+        mockgGetAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTripData)
         mockUpdateAcknowledgementStatus.mockResolvedValue(mockOverAllTripData)
     })
     test('should able to close Acknowledgement', async () => {
@@ -98,7 +98,7 @@ describe('Add Acknowledgement Test', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
         await userEvent.click(screen.getByText('Add Acknowledgement for the Trip'))
         await userEvent.click(screen.getByRole('button', { name: 'Acknowledgement Received' }))
-        expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(1)
+        expect(mockgGetAllTripByAcknowledgementStatus).toHaveBeenCalledTimes(1)
         expect(mockgetTripById).toHaveBeenCalledTimes(1)
         expect(mockUpdateAcknowledgementStatus).toHaveBeenCalledTimes(1)
     })

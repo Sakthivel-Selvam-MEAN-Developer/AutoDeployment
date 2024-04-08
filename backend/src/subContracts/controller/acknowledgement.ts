@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import {
     closeAcknowledgementStatusforOverAllTrip,
-    getOverAllTripByAcknowledgementStatus,
+    getAllActivetripTripByTripStatus,
+    getAllTripByAcknowledgementStatus,
     getOverAllTripById
 } from '../models/overallTrip.ts'
 import { updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
@@ -15,8 +16,13 @@ import {
 import { getPercentageByTransporter } from '../models/transporter.ts'
 import gstDueLogic from '../domain/gstDueLogic.ts'
 
-export const listAllActivetripTripToByAcknowledgementStatus = (_req: Request, res: Response) => {
-    getOverAllTripByAcknowledgementStatus()
+export const listAllActivetripTripByTripStatus = (_req: Request, res: Response) => {
+    getAllActivetripTripByTripStatus()
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+export const listAllTripToByAcknowledgementStatus = (_req: Request, res: Response) => {
+    getAllTripByAcknowledgementStatus()
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

@@ -1,4 +1,4 @@
-import { CircularLoader } from '../report/companyReport/companyReportShow'
+import { CircularLoader } from '../cementCompany/companyReport/companyReportShow'
 import ListAllTrip from './show'
 import { FC } from 'react'
 

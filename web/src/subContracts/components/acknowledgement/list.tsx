@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
-import { getAllActiveTripsByAcknowledgement, getTripById } from '../../services/acknowledgement'
+import { getAllActivetripTripByTripStatus, getTripById } from '../../services/acknowledgement'
 import UnloadTrip from './unloadTrip'
 import { Autocomplete, Button, TextField } from '@mui/material'
 import { tripProps } from './types'
@@ -16,7 +16,7 @@ const SelectTrip: React.FC = (): ReactElement => {
     const [active, setActive] = useState<boolean>(false)
     const [render, setRender] = useState<boolean>(false)
     useEffect(() => {
-        getAllActiveTripsByAcknowledgement().then(setVehicleslist)
+        getAllActivetripTripByTripStatus().then(setVehicleslist)
     }, [])
     useEffect(() => {
         setActive(false)

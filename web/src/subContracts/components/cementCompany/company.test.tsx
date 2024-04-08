@@ -5,23 +5,28 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 
 const mockCreateCompany = vi.fn()
+const mockGetAllCementCompany = vi.fn()
 
 vi.mock('../../services/cementCompany', () => ({
-    createCompany: (inputs: any) => mockCreateCompany(inputs)
+    createCompany: (inputs: any) => mockCreateCompany(inputs),
+    getAllCementCompany: () => mockGetAllCementCompany()
 }))
 
-const mockCompany = {
-    name: 'Sankar Cements',
-    gstNo: 'ASD123',
-    emailId: 'sample@gmail.com',
-    contactPersonName: 'Barath',
-    contactPersonNumber: '9876543436',
-    address: 'Salem, TamilNadu'
-}
+const mockCompany = [
+    {
+        name: 'Sankar Cements',
+        gstNo: 'ASD123',
+        emailId: 'sample@gmail.com',
+        contactPersonName: 'Barath',
+        contactPersonNumber: '9876543436',
+        address: 'Salem, TamilNadu'
+    }
+]
 
 describe('Create company', () => {
     beforeEach(() => {
-        mockCreateCompany.mockResolvedValue(mockCompany)
+        mockCreateCompany.mockResolvedValue(mockCompany[0])
+        mockGetAllCementCompany.mockResolvedValue(mockCompany)
     })
     test('should create company details', async () => {
         expect(mockCreateCompany).toHaveBeenCalledTimes(0)
@@ -41,6 +46,6 @@ describe('Create company', () => {
         await userEvent.click(option)
 
         expect(mockCreateCompany).toHaveBeenCalledTimes(1)
-        expect(mockCreateCompany).toBeCalledWith(mockCompany)
+        expect(mockCreateCompany).toBeCalledWith(mockCompany[0])
     })
 })

@@ -1,8 +1,13 @@
 import { axiosInstance, getData } from '../../apiCalls'
 
-export const getAllActiveTripsByAcknowledgement = () =>
+export const getAllActivetripTripByTripStatus = () =>
     axiosInstance
-        .get(`/acknowledgement`)
+        .get(`/acknowledgement/tripstatus`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
+export const getAllTripByAcknowledgementStatus = () =>
+    axiosInstance
+        .get(`/acknowledgement/acknowlegementstatus`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
 

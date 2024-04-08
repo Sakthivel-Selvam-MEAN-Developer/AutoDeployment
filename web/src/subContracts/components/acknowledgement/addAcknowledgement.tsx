@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
-    getAllActiveTripsByAcknowledgement,
+    getAllTripByAcknowledgementStatus,
     getTripById,
     updateAcknowledgementStatus
 } from '../../services/acknowledgement'
@@ -30,7 +30,7 @@ const AddAcknowledgement: React.FC = () => {
         if (tripId !== 0) getTripById(tripId).then(setTripDetails)
     }
     useEffect(() => {
-        getAllActiveTripsByAcknowledgement().then(setVehicleslist)
+        getAllTripByAcknowledgementStatus().then(setVehicleslist)
     }, [])
     useEffect(() => {
         if (tripDetails !== null)
@@ -55,7 +55,8 @@ const AddAcknowledgement: React.FC = () => {
                 </form>
             </div>
             <div>
-                {acknowledgeDueTime &&
+                {!tripClosed &&
+                    acknowledgeDueTime &&
                     tripDetails &&
                     !tripDetails.acknowledgementStatus &&
                     (currentTime > acknowledgeDueTime ? (
@@ -85,9 +86,7 @@ const AddAcknowledgement: React.FC = () => {
                         </p>
                     ))}
                 <div>
-                    {tripClosed && tripDetails && tripDetails.acknowledgementStatus && (
-                        <p>Trip Closed...</p>
-                    )}
+                    {tripClosed && <p>Trip Closed...</p>}
                     {acknowledgeDueTime === null && <p>Trip should be Unloaded</p>}
                 </div>
             </div>

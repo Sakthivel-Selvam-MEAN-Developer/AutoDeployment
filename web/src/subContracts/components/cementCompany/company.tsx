@@ -6,6 +6,7 @@ import SubmitButton from '../../../form/button'
 import { Box, Button, CircularProgress } from '@mui/material'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { createCompany } from '../../services/cementCompany.ts'
+import CompanyReport from './companyReport/listCompany.tsx'
 
 export type FieldValues = {
     name: string
@@ -57,6 +58,7 @@ const CreateCompany: React.FC = (): ReactElement => {
                     <SubmitButton name="Create" type="submit" />
                 )}
             </form>
+            {!loading && <CompanyReport />}
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={handleClose}

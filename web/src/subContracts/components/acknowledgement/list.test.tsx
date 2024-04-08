@@ -4,12 +4,12 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import SelectTrip from './list'
 
-const mockActiveTripsByAcknowledgement = vi.fn()
+const getAllActivetripTripByTripStatus = vi.fn()
 const mockgetTripById = vi.fn()
 const mockCloseTrip = vi.fn()
 
 vi.mock('../../services/acknowledgement', () => ({
-    getAllActiveTripsByAcknowledgement: () => mockActiveTripsByAcknowledgement(),
+    getAllActivetripTripByTripStatus: () => getAllActivetripTripByTripStatus(),
     getTripById: (inputs: any) => mockgetTripById(inputs),
     closeTrip: (inputs: any) => mockCloseTrip(inputs)
 }))
@@ -111,7 +111,7 @@ const mockOverAllTripDataByIdAfterAcknowledgeAdded = {
 
 describe('Acknowledgement Test', () => {
     beforeEach(() => {
-        mockActiveTripsByAcknowledgement.mockResolvedValue(mockOverAllTripData)
+        getAllActivetripTripByTripStatus.mockResolvedValue(mockOverAllTripData)
     })
     test('should able to close the trip', async () => {
         mockgetTripById.mockResolvedValue(mockOverAllTripDataById)
@@ -149,7 +149,7 @@ describe('Acknowledgement Test', () => {
         await userEvent.type(screen.getByLabelText('Unloaded Date'), '12122024')
         await userEvent.click(screen.getByRole('button', { name: 'Unload' }))
         mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterTripClosed)
-        expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(1)
+        expect(getAllActivetripTripByTripStatus).toHaveBeenCalledTimes(1)
         expect(mockgetTripById).toHaveBeenCalledTimes(2)
         expect(mockCloseTrip).toHaveBeenCalledTimes(1)
     })
@@ -175,7 +175,7 @@ describe('Acknowledgement Test', () => {
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(screen.getByText(': salem')).toBeInTheDocument()
         mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterAcknowledgeAdded)
-        expect(mockActiveTripsByAcknowledgement).toHaveBeenCalledTimes(2)
+        expect(getAllActivetripTripByTripStatus).toHaveBeenCalledTimes(2)
         expect(mockgetTripById).toHaveBeenCalledTimes(3)
     })
 })
