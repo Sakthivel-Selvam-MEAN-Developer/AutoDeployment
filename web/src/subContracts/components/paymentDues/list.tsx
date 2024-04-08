@@ -154,7 +154,7 @@ const PaymentDuesList: React.FC = () => {
                             color="primary"
                             data-testid={'new-trip-button'}
                             onClick={handleClick}
-                            disabled={gstNEFTDetails.length === 0}
+                            disabled={NEFTDetails.length === 0}
                         >
                             Generate File
                         </Button>
@@ -169,7 +169,7 @@ const PaymentDuesList: React.FC = () => {
                     />
                 </CustomTabPanel>
                 <CustomTabPanel value={fuelPay} index={1}>
-                    <PaymentDues type="initial pay" />
+                    <PaymentDues type="fuel pay" />
                 </CustomTabPanel>
             </CustomTabPanel>
 
