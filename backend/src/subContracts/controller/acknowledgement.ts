@@ -59,7 +59,7 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
                         shortageAmount,
                         tdsPercentage
                     ).then((finalDue) => {
-                        if (finalDue !== null) {
+                        if (finalDue !== null && finalDue !== undefined) {
                             return createPaymentDues(finalDue)
                         }
                     })

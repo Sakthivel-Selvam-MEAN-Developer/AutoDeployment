@@ -57,7 +57,7 @@ const PaymentDues: React.FC = () => {
                                     Total Trips: <b>{data.dueDetails.count}</b>
                                 </Typography>
                                 <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                    Total Amount:{' '}
+                                    Total Amount:
                                     <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
                                 </ListItemSecondaryAction>
                             </AccordionSummary>
@@ -87,6 +87,7 @@ const PaymentDues: React.FC = () => {
                                                 id={list.id}
                                                 fuelId={list.fuelId}
                                                 type={list.type}
+                                                payableAmount={list.payableAmount}
                                             />
                                         </AccordionDetails>
                                     )

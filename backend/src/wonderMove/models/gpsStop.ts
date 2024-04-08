@@ -52,9 +52,7 @@ const createIfNotExist = (gpsStop: any) => {
                 startTime: gpsStopWithStop.startTime
             }
         },
-        create: {
-            ...gpsStopWithStop
-        },
+        create: { ...gpsStopWithStop },
         update: {}
     })
 }

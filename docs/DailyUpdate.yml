@@ -1,15 +1,37 @@
+- date: 08-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - fixing acknowledgement defects
+- date: 08-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should Separate Screens for Initial Pay, Final Pay and Fuel Pay
+
+- date: 06-04-2024
+  person: Barath, Sakthivel
+  project: subContract
+  planning:
+    - Dicussion with client for Accounting and Open Defects
+    
 - date: 05-04-2024
   person: Barath
   project: subContract
   planning:
-    - should allow multiple fuel for single trip
+    - should split adding acknowledgement and unloading trip
+  completed:
+    - splited adding acknowledgement and unloading trip
 - date: 05-04-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should clear form fields after submit in Driver
     - should insert rejection reason field in expense approval
-    
+  completed:
+    - cleared form fields after submit in Driver
+    - inserted rejection reason field in expense approval
+
 - date: 04-04-2024
   person: Barath, Sakthivel
   project: subContract

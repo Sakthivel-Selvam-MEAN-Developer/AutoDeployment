@@ -144,7 +144,7 @@ function checkCondition(truckId: number, data: FieldValues, freightAmount: numbe
         truckId !== 0 && data.invoiceNumber !== '' && data.filledLoad !== '' && freightAmount !== 0
     )
 }
-type Clearform = (
+type clearFormType = (
     clear: boolean,
     setClear: React.Dispatch<React.SetStateAction<boolean>>,
     setCategory: React.Dispatch<React.SetStateAction<string>>,
@@ -152,7 +152,7 @@ type Clearform = (
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>
 ) => void
 
-const clearForm: Clearform = (clear, setClear, setCategory, setValue, setListTruck) => {
+const clearForm: clearFormType = (clear, setClear, setCategory, setValue, setListTruck) => {
     setClear(!clear)
     setCategory('')
     setValue('tripDate', null)

@@ -3,19 +3,31 @@ import TextInput from '../../../form/TextInput.tsx'
 export interface FormFieldsProps {
     control: Control
 }
+
+const fieldNames = [
+    { label: 'Line 1', fieldName: 'line1' },
+    { label: 'Line 2', fieldName: 'line2' },
+    { label: 'Line 3', fieldName: 'line3' },
+    { label: 'City', fieldName: 'city' },
+    { label: 'State', fieldName: 'state' },
+    { label: 'Pin Code', fieldName: 'pincode' }
+]
+
 const Address: React.FC<FormFieldsProps> = ({ control }) => {
     return (
         <div>
             <div style={{ margin: '10px' }}> Address </div>
-            <div style={{ display: 'flex', gap: '10px', rowGap: '10px', flexWrap: 'wrap' }}>
-                <TextInput control={control} label="Line 1" fieldName={`line1`} />
-                <TextInput control={control} label="Line 2" fieldName={`line2`} />
-                <TextInput control={control} label="Line 3" fieldName={`line3`} />
-                <TextInput control={control} label="City" fieldName={`city`} />
-                <TextInput control={control} label="State" fieldName={`state`} />
-                <TextInput control={control} label="Pin Code" fieldName={`pincode`} />
-            </div>
+            {textInput(control)}
         </div>
     )
 }
 export default Address
+function textInput(control: Control) {
+    return (
+        <div style={{ display: 'flex', gap: '10px', rowGap: '10px', flexWrap: 'wrap' }}>
+            {fieldNames.map((name) => (
+                <TextInput control={control} label={name.label} fieldName={name.fieldName} />
+            ))}
+        </div>
+    )
+}

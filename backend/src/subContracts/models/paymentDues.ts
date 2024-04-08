@@ -13,9 +13,6 @@ export const getOnlyActiveDuesByName = (dueDate: number, status: boolean) =>
             },
             NOT: {
                 type: 'gst pay'
-            },
-            payableAmount: {
-                gt: 0
             }
         },
         _count: {

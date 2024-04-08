@@ -6,14 +6,15 @@ export interface FormFieldsProps {
 const DiscrepancyReportFilter: React.FC<FormFieldsProps> = ({ control }) => {
     return (
         <div style={{ display: 'flex', gap: '10px', rowGap: '10px', flexWrap: 'wrap' }}>
-            <DateInput
-                control={control}
-                format="DD/MM/YYYY"
-                fieldName="from"
-                label="Due Start Date"
-            />
+            {dateInput(control)}
             <DateInput control={control} format="DD/MM/YYYY" fieldName="to" label="Due End Date" />
         </div>
     )
 }
 export default DiscrepancyReportFilter
+
+function dateInput(control: Control) {
+    return (
+        <DateInput control={control} format="DD/MM/YYYY" fieldName="from" label="Due Start Date" />
+    )
+}

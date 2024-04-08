@@ -48,6 +48,7 @@ const GSTPaymentDues: React.FC = () => {
                                             id={list.id}
                                             fuelId={list.id}
                                             type={list.type}
+                                            payableAmount={list.amount}
                                         />
                                     </AccordionDetails>
                                 )
