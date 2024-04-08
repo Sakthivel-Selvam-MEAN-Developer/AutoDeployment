@@ -13,23 +13,43 @@ interface bankDetailsProps {
     name: string
     branchName: string
 }
+
+const getNeftType = (type: string) => {
+    switch (type) {
+        case 'initial pay':
+            return 'INITIALPAY'
+        case 'fuel pay':
+            return 'FUELPAY'
+        case 'final pay':
+            return 'FINALPAY'
+        case 'gst pay':
+            return 'GSTPAY'
+    }
+}
+const getType = (type: string) => {
+    return type === 'initial pay'
+        ? 'MagnumAdvance'
+        : type === 'final pay'
+          ? 'MagnumFinal'
+          : 'MagnumGST'
+}
 export const exportFile = async (NEFTData: dataProps[]) => {
-    let type = ''
+    let type: string | undefined = ''
+    let NEFTType: string | undefined = ''
     const date = dayjs().format('DDMMYYYY')
     const NEFTDataHeaders =
         'IFSC Code,Account type,Account number,Name of the beneficiary,Address of the beneficiary,Sender information,Amount\n'
     let NEFTDataBody: string = ''
 
     NEFTData.map((data) => {
+        NEFTType = getNeftType(data.type)
         if (data.type === 'fuel pay')
             NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].bunkName},${data.bankDetails[0].branchName},MagnumFuel,${data.payableAmount}\n`
         else {
-            if (data.type === 'initial pay') type = 'MagnumAdvance'
-            else if (data.type === 'final pay') type = 'MagnumFinal'
-            else if (data.type === 'gst pay') type = 'MagnumGST'
+            type = getType(data.type)
             NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].name},${data.bankDetails[0].branchName},${type},${data.payableAmount}\n`
         }
     })
     const blob = new Blob([NEFTDataHeaders + NEFTDataBody], { type: 'text/plain;charset=utf-8' })
-    saveAs(blob, `NEFT${date}.txt`)
+    saveAs(blob, `${NEFTType}${date}.txt`)
 }

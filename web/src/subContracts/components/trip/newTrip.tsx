@@ -165,19 +165,18 @@ function checkCondition(truckId: number, data: FieldValues, freightAmount: numbe
         // driver !== 0
     )
 }
-
-const clearForm = (
+type clearFormType = (
     clear: boolean,
     setClear: React.Dispatch<React.SetStateAction<boolean>>,
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     setValue: UseFormSetValue<FieldValues>,
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>
-    // setDriverName: React.Dispatch<React.SetStateAction<string>>
-) => {
+) => void
+
+const clearForm: clearFormType = (clear, setClear, setCategory, setValue, setListTruck) => {
     setClear(!clear)
     setCategory('')
     setValue('tripDate', null)
     setValue('filledLoad', '')
     setListTruck([])
-    // setDriverName('')
 }

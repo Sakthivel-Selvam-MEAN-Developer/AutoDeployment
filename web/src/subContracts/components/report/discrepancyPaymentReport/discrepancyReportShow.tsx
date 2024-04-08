@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { Button, Pagination, Stack } from '@mui/material'
+import { Button, Pagination, Stack, SxProps, Theme } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 
 interface Row {
@@ -58,18 +58,24 @@ const getCells = (data: Row, num: number) => {
         </>
     )
 }
-function getTableBody(allTrips: Row[]) {
-    let number = 0
-    const style = { '&:last-child td, &:last-child th': { border: 0 } }
+const tableRow = (row: Row, number: number, index: number, style: SxProps<Theme> | undefined) => {
+    return (
+        <TableRow key={index} sx={style}>
+            {getCells(row, ++number)}
+        </TableRow>
+    )
+}
+const tableBody = (allTrips: Row[], number: number, style: SxProps<Theme> | undefined) => {
     return (
         <TableBody>
-            {allTrips.map((row: Row, index) => (
-                <TableRow key={index} sx={style}>
-                    {getCells(row, ++number)}
-                </TableRow>
-            ))}
+            {allTrips.map((row: Row, index) => tableRow(row, number, index, style))}
         </TableBody>
     )
+}
+function getTableBody(allTrips: Row[]) {
+    const number = 0
+    const style = { '&:last-child td, &:last-child th': { border: 0 } }
+    return tableBody(allTrips, number, style)
 }
 function download(listoverallTrip: Row[]) {
     const downloadtripData: object[] = []

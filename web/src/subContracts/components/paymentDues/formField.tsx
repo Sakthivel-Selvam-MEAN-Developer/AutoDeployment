@@ -31,6 +31,10 @@ const FormField: React.FC<formProps> = ({
         const MMDDformat = `${formattedDays[1]}.${formattedDays[0]}.${formattedDays[2]}`
         return Math.floor(new Date(MMDDformat).getTime() / 1000)
     }
+    const clear = () => {
+        setRefresh(!refresh)
+        setTransactionId('')
+    }
     const updatePayment = (paymentDate: number) =>
         updatePaymentDues({
             id,
@@ -38,10 +42,7 @@ const FormField: React.FC<formProps> = ({
             paidAt: paymentDate,
             type,
             fuelId
-        }).then(() => {
-            setRefresh(!refresh)
-            setTransactionId('')
-        })
+        }).then(() => clear())
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
             {payableAmount > 0 && (
