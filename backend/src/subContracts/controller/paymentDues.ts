@@ -167,12 +167,20 @@ export const groupDataByName = async (
             })
         }
     })
+interface RequestQuery {
+    todayDate: string
+    status: string
+    type: string
+}
 
-export const listOnlyActiveTransporterDues = async (req: Request, res: Response) => {
-    const { duedate, status } = req.params
-    const duesData = await getOnlyActiveDuesByName(parseInt(duedate), status === 'true')
+export const listOnlyActiveTransporterDues = async (
+    req: Request<object, object, object, RequestQuery>,
+    res: Response
+) => {
+    const { todayDate, status, type } = req.query
+    const duesData = await getOnlyActiveDuesByName(parseInt(todayDate), status === 'true', type)
     const name = duesData.map((data) => data.name)
-    const tripsData = await findTripWithActiveDues(parseInt(duedate), status === 'true')
+    const tripsData = await findTripWithActiveDues(parseInt(todayDate), status === 'true', type)
     const tripDetails = await getOverallTrip()
     const fuelDetails = await getFuelDetailsWithoutTrip()
     const transporterAccounts = await getTransporterAccountByName(name)

@@ -49,19 +49,24 @@ interface listoverallTripProps {
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
 
+const cellNames = [
+    'Vehicle Number',
+    'Unloading Date',
+    'Invoice Number',
+    'Transporter Name',
+    'CSM Name'
+]
+
+const tableRow = (
+    <TableRow>
+        <TableCell>#</TableCell>
+        {cellNames.map((name) => (
+            <TableCell align="left">{name}</TableCell>
+        ))}
+    </TableRow>
+)
 function getTableHead() {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Vehicle Number</TableCell>
-                <TableCell align="left">Unloading Date</TableCell>
-                <TableCell align="left">Invoice Number</TableCell>
-                <TableCell align="left">Transporter Name</TableCell>
-                <TableCell align="left">CSM Name</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{tableRow}</TableHead>
 }
 const getCells = (data: Row, num: number, unloadDate: number) => {
     return (
@@ -93,7 +98,7 @@ function getTableBody(allTrips: Props[]) {
         </TableBody>
     )
 }
-function download(listoverallTrip: Props[]) {
+const download = (listoverallTrip: Props[]) => {
     const downloadtripData: object[] = []
     listoverallTrip.map((row: Props) => {
         downloadCSV(

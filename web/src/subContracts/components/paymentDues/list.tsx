@@ -45,14 +45,17 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 const PaymentDuesList: React.FC = () => {
     const [value, setValue] = useState(0)
-    const [valueDues, setValueDues] = useState(0)
-    const [valueGst, setValueGst] = useState(0)
+    const [initialDue, setInitialDue] = useState(0)
+    const [fuelPay, setFuelPay] = useState(0)
+    const [finalPay, setFinalPay] = useState(0)
+    const [gstPay, setGstPay] = useState(0)
     const [refresh, setRefresh] = useState<boolean>(false)
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => setValue(newValue)
-    const handleChangeGst = (_event: React.SyntheticEvent, newValue: number) =>
-        setValueGst(newValue)
-    const handleChangeDues = (_event: React.SyntheticEvent, newValue: number) =>
-        setValueDues(newValue)
+    const handleInitialPay = (_event: React.SyntheticEvent, newValue: number) =>
+        setInitialDue(newValue)
+    const handleFuelPay = (_event: React.SyntheticEvent, newValue: number) => setFuelPay(newValue)
+    const handleFinalPay = (_event: React.SyntheticEvent, newValue: number) => setFinalPay(newValue)
+    const handleGstPay = (_event: React.SyntheticEvent, newValue: number) => setGstPay(newValue)
     const handleClick = async () => {
         if (NEFTDetails.length !== 0)
             await exportFile(NEFTDetails)
@@ -70,29 +73,34 @@ const PaymentDuesList: React.FC = () => {
         <>
             <Box sx={{ width: '100%', bgcolor: '#00000017', borderRadius: '10px 10px 0 0' }}>
                 <Tabs value={value} onChange={handleChange} textColor="inherit" variant="fullWidth">
-                    <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Payment Dues" />
-                    <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="GST Dues" />
+                    <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="initial pay" />
+                    <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Fuel Pay" />
+                    <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Final pay" />
+                    <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="GST Pay" />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Box sx={{ width: '700px', bgcolor: 'background.paper' }}>
                         <Tabs
-                            value={valueDues}
-                            onChange={handleChangeDues}
+                            value={initialDue}
+                            onChange={handleInitialPay}
                             textColor="inherit"
                             variant="fullWidth"
                             indicatorColor="secondary"
                         >
-                            <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Generate Form" />
                             <Tab
                                 sx={{ borderBottom: '1px solid #e8e8e8' }}
-                                label="Add Transaction ID"
+                                label="Generate Form (Initial Pay)"
+                            />
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Add Transaction ID (Initial Pay)"
                             />
                         </Tabs>
                     </Box>
                 </div>
-                <CustomTabPanel value={valueDues} index={0}>
+                <CustomTabPanel value={initialDue} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
                         <Button
                             variant="contained"
@@ -110,34 +118,130 @@ const PaymentDuesList: React.FC = () => {
                         paymentDueId={paymentDueId}
                         setPaymentDueId={setPaymentDueId}
                         refresh={refresh}
+                        type={'initial pay'}
                     />
                 </CustomTabPanel>
-                <CustomTabPanel value={valueDues} index={1}>
-                    <PaymentDues />
+                <CustomTabPanel value={initialDue} index={1}>
+                    <PaymentDues type="initial pay" />
                 </CustomTabPanel>
             </CustomTabPanel>
+
             <CustomTabPanel value={value} index={1}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Box sx={{ width: '700px', bgcolor: 'background.paper' }}>
                         <Tabs
-                            value={valueGst}
-                            onChange={handleChangeGst}
+                            value={fuelPay}
+                            onChange={handleFuelPay}
                             textColor="inherit"
                             variant="fullWidth"
                             indicatorColor="secondary"
                         >
                             <Tab
                                 sx={{ borderBottom: '1px solid #e8e8e8' }}
-                                label="Generate Form (GST)"
+                                label="Generate Form (Fuel Pay)"
                             />
                             <Tab
                                 sx={{ borderBottom: '1px solid #e8e8e8' }}
-                                label="Add Transaction ID (GST)"
+                                label="Add Transaction ID (Fuel Pay)"
                             />
                         </Tabs>
                     </Box>
                 </div>
-                <CustomTabPanel value={valueGst} index={0}>
+                <CustomTabPanel value={fuelPay} index={0}>
+                    <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            data-testid={'new-trip-button'}
+                            onClick={handleClick}
+                            disabled={gstNEFTDetails.length === 0}
+                        >
+                            Generate File
+                        </Button>
+                    </div>
+                    <GenerateForm
+                        NEFTDetails={NEFTDetails}
+                        setNEFTDetails={setNEFTDetails}
+                        paymentDueId={paymentDueId}
+                        setPaymentDueId={setPaymentDueId}
+                        refresh={refresh}
+                        type={'fuel pay'}
+                    />
+                </CustomTabPanel>
+                <CustomTabPanel value={fuelPay} index={1}>
+                    <PaymentDues type="initial pay" />
+                </CustomTabPanel>
+            </CustomTabPanel>
+
+            <CustomTabPanel value={value} index={2}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ width: '700px', bgcolor: 'background.paper' }}>
+                        <Tabs
+                            value={finalPay}
+                            onChange={handleFinalPay}
+                            textColor="inherit"
+                            variant="fullWidth"
+                            indicatorColor="secondary"
+                        >
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Generate Form (Final Pay)"
+                            />
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Add Transaction ID (Final Pay)"
+                            />
+                        </Tabs>
+                    </Box>
+                </div>
+                <CustomTabPanel value={finalPay} index={0}>
+                    <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            data-testid={'new-trip-button'}
+                            onClick={handleClick}
+                            disabled={gstNEFTDetails.length === 0}
+                        >
+                            Generate File
+                        </Button>
+                    </div>
+                    <GenerateForm
+                        NEFTDetails={NEFTDetails}
+                        setNEFTDetails={setNEFTDetails}
+                        paymentDueId={paymentDueId}
+                        setPaymentDueId={setPaymentDueId}
+                        refresh={refresh}
+                        type={'final pay'}
+                    />
+                </CustomTabPanel>
+                <CustomTabPanel value={finalPay} index={1}>
+                    <PaymentDues type={'final pay'} />
+                </CustomTabPanel>
+            </CustomTabPanel>
+
+            <CustomTabPanel value={value} index={3}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{ width: '700px', bgcolor: 'background.paper' }}>
+                        <Tabs
+                            value={gstPay}
+                            onChange={handleGstPay}
+                            textColor="inherit"
+                            variant="fullWidth"
+                            indicatorColor="secondary"
+                        >
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Generate Form (GST Pay)"
+                            />
+                            <Tab
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label="Add Transaction ID (GST Pay)"
+                            />
+                        </Tabs>
+                    </Box>
+                </div>
+                <CustomTabPanel value={gstPay} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
                         <Button
                             variant="contained"
@@ -157,7 +261,7 @@ const PaymentDuesList: React.FC = () => {
                         refresh={refresh}
                     />
                 </CustomTabPanel>
-                <CustomTabPanel value={valueGst} index={1}>
+                <CustomTabPanel value={gstPay} index={1}>
                     <GSTPaymentDues />
                 </CustomTabPanel>
             </CustomTabPanel>

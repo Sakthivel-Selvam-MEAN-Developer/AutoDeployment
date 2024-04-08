@@ -50,7 +50,7 @@ describe('New trip test', () => {
         expect(mockGroupedDuesByName).toHaveBeenCalledTimes(0)
         render(
             <BrowserRouter>
-                <TransporterDues />
+                <TransporterDues type={'initial pay'} />
             </BrowserRouter>
         )
         expect(await screen.findByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()

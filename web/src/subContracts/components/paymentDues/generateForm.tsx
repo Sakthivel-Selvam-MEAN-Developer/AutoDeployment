@@ -36,6 +36,7 @@ export interface GenerateFormProps {
     paymentDueId: number[]
     refresh: boolean
     setPaymentDueId: React.Dispatch<React.SetStateAction<number[]>>
+    type: string
 }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 const GenerateForm: React.FC<GenerateFormProps> = ({
@@ -43,7 +44,8 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     setNEFTDetails,
     paymentDueId,
     setPaymentDueId,
-    refresh
+    refresh,
+    type
 }) => {
     const [transporterDue, setTransporterDue] = useState([])
     const style = { width: '100%', padding: '10px 10px 0px' }
@@ -55,7 +57,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     }, [])
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
-        getOnlyActiveDues(todayDate, false)
+        getOnlyActiveDues(todayDate, false, type)
             .then(setTransporterDue)
             .then(() => setNEFTDetails([]))
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +79,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     }
     return (
         <>
-            {transporterDue ? (
+            {transporterDue.length !== 0 ? (
                 transporterDue.map((data: dataProp) => {
                     return (
                         <Accordion>

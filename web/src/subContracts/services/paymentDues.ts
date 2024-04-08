@@ -1,8 +1,8 @@
 import { axiosInstance, getData } from '../../apiCalls'
 
-export const getOnlyActiveDues = (todayDate: number, status: boolean) =>
+export const getOnlyActiveDues = (todayDate: number, status: boolean, type: string) =>
     axiosInstance
-        .get(`/payment-dues/${todayDate}/${status}`)
+        .get(`/payment-dues`, { params: { todayDate, status, type } })
         .then(getData)
         .catch(() => alert('Error Getting data'))
 

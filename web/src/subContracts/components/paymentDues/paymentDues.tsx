@@ -29,14 +29,17 @@ interface dataProp {
     dueDetails: { count: number; totalPayableAmount: number }
     tripDetails: tripProp[]
 }
-const PaymentDues: React.FC = () => {
+interface paymentDuesProps {
+    type: string
+}
+const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
     const [transporterDue, setTransporterDue] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
     const style = { width: '100%', padding: '10px 10px 0px' }
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
-        getOnlyActiveDues(todayDate, true).then(setTransporterDue)
+        getOnlyActiveDues(todayDate, true, type).then(setTransporterDue)
     }, [refresh])
     return (
         <>

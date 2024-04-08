@@ -2,7 +2,7 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (data: any) => prisma.paymentDues.createMany({ data })
 
-export const getOnlyActiveDuesByName = (dueDate: number, status: boolean) =>
+export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: string) =>
     prisma.paymentDues.groupBy({
         by: ['name'],
         where: {
@@ -13,7 +13,8 @@ export const getOnlyActiveDuesByName = (dueDate: number, status: boolean) =>
             },
             NOT: {
                 type: 'gst pay'
-            }
+            },
+            type
         },
         _count: {
             status: true
@@ -23,7 +24,7 @@ export const getOnlyActiveDuesByName = (dueDate: number, status: boolean) =>
         }
     })
 
-export const findTripWithActiveDues = (dueDate: number, status: boolean) =>
+export const findTripWithActiveDues = (dueDate: number, status: boolean, type: string) =>
     prisma.paymentDues.findMany({
         where: {
             status: false,
@@ -33,7 +34,8 @@ export const findTripWithActiveDues = (dueDate: number, status: boolean) =>
             },
             NOT: {
                 type: 'gst pay'
-            }
+            },
+            type
         },
         select: {
             id: true,

@@ -13,7 +13,7 @@ import { authorise } from './authorise.ts'
 
 const paymentDues = (router: Router) => {
     router.post('/payment-dues', authorise(['Admin']), createPaymentDues)
-    router.get('/payment-dues/:duedate/:status', listOnlyActiveTransporterDues)
+    router.get('/payment-dues', listOnlyActiveTransporterDues)
     router.put('/payment-dues', authorise(['Admin']), updatePayment)
     router.put('/payment-dues/NEFT', authorise(['Admin']), updateNEFTStatus)
     router.get('/payment-dues/:status', listGstDuesGroupByName)

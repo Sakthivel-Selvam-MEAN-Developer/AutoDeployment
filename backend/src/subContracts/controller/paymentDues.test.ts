@@ -483,7 +483,7 @@ describe('Payment Due Controller', () => {
             mockBunkAccountData
         )
         expect(actual).toEqual(mockGroupedDueDetails)
-        await supertest(app).get('/api/payment-dues/1706340529/true').expect(200)
+        await supertest(app).get('/api/payment-dues').expect(200)
         expect(mockgetOnlyActiveDuesByName).toHaveBeenCalledTimes(1)
         expect(mockfindTripWithActiveDues).toHaveBeenCalledTimes(1)
         expect(mockOverAllTrip).toHaveBeenCalledTimes(1)
