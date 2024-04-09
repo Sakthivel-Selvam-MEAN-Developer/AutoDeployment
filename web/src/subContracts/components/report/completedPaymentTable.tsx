@@ -24,7 +24,7 @@ interface completedPaymentsProps {
         }
     }
 }
-const cellNames = [
+const cellData = [
     'Transporter Name',
     'Payment Date',
     'Payment Type',
@@ -32,16 +32,18 @@ const cellNames = [
     'Amount',
     'CSM Name'
 ]
-const newLocal = (
-    <TableRow>
-        <TableCell>#</TableCell>
-        {cellNames.map((name) => (
-            <TableCell align="left">{name}</TableCell>
-        ))}
-    </TableRow>
-)
+function getRow() {
+    return (
+        <TableRow>
+            <TableCell>#</TableCell>
+            {cellData.map((data) => (
+                <TableCell align="left">{data}</TableCell>
+            ))}
+        </TableRow>
+    )
+}
 const getTableHead = () => {
-    return <TableHead>{newLocal}</TableHead>
+    return <TableHead>{getRow()}</TableHead>
 }
 
 const getTableBody = (allTrips: completedPaymentsProps[]) => {
@@ -74,6 +76,7 @@ const getTableBody = (allTrips: completedPaymentsProps[]) => {
         </>
     )
 }
+
 function download(completedPayments: completedPaymentsProps[]) {
     const downloadDueData: object[] = []
     completedPayments.map((data) => {

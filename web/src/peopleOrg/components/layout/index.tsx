@@ -16,9 +16,8 @@ const HrmLayout = () => {
                 event.type === 'keydown' &&
                 ((event as React.KeyboardEvent).key === 'Tab' ||
                     (event as React.KeyboardEvent).key === 'Shift')
-            ) {
+            )
                 return
-            }
             setState({ ...state, [anchor]: open })
         }
     const handleMenuIconClick = () =>

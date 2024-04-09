@@ -34,6 +34,10 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
     }
     return (
         <>
+            <p>
+                <b>Upcoming Payment Dues</b>
+            </p>{' '}
+            <br />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TransporterDuesFilter control={control} setTransporterName={setTransporterName} />
                 <SubmitButton name="Filter" type="submit" />

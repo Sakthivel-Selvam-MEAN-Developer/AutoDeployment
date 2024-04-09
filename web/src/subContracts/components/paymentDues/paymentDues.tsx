@@ -40,7 +40,7 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate, true, type).then(setTransporterDue)
-    }, [refresh])
+    }, [refresh, type])
     return (
         <>
             {transporterDue.length !== 0 ? (

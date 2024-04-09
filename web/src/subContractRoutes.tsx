@@ -19,9 +19,9 @@ import SelectTrip from './subContracts/components/acknowledgement/list'
 import Invoice from './subContracts/components/invoice'
 import InvoiceList from './subContracts/components/invoice/list'
 import Report from './subContracts/components/report'
-import ListAllReport from './subContracts/components/report/list'
+import ListAllTrip from './subContracts/components/report/list'
 import ListAllUpcomingDues from './subContracts/components/report/upcomingTransporterDuesList'
-import ListAllAcknowledgementDues from './subContracts/components/report/acknowledgementAgingReport/upcomingTransporterDuesList'
+import ListAllAcknowledgementDues from './subContracts/components/report/acknowledgementAgingReport/listAllAcknowledgementDues'
 import ListAllDiscrepancyReport from './subContracts/components/report/discrepancyPaymentReport/discrepancyReportList'
 import Transporter from './subContracts/components/transporter'
 import CreateTransporter from './subContracts/components/transporter/list'
@@ -147,8 +147,8 @@ const sunContractRoutes = {
             element: <Report />,
             children: [
                 {
-                    path: '',
-                    element: <ListAllReport />
+                    path: 'listAllTrip',
+                    element: <ListAllTrip />
                 },
                 {
                     path: 'upcomingdues',

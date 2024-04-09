@@ -18,6 +18,7 @@ import { styled, useTheme, Theme } from '@mui/material/styles'
 import MuiDrawer from '@mui/material/Drawer'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
+import DrawerCollapse from './drawerCollapse.tsx'
 
 interface MiniDrawerProps {
     handleDrawerClose: () => void
@@ -60,7 +61,13 @@ const Drawer = styled(MuiDrawer, {
         '& .MuiDrawer-paper': closedMixin(theme)
     })
 }))
-
+const reportSubs = [
+    { navigate: '/sub/reports/listAllTrip', name: 'Trip Status' },
+    { navigate: '/sub/reports/upcomingdues', name: 'UpcomingPayment Dues' },
+    { navigate: '/sub/reports/pendingacknowledgement', name: 'AcknowledgementAging Report' },
+    { navigate: '/sub/reports/discrepancydues', name: 'DiscrepancyPayment Report' },
+    { navigate: '/sub/reports/completedpayment', name: 'Completed Payments' }
+]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
     return (
@@ -129,18 +136,18 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     icon={<LibraryAddCheck />}
                 />
                 <DrawerListItem
-                    text="Reports"
-                    navigate="/sub/reports"
-                    drawerState={drawerState}
-                    index={8}
-                    icon={<Summarize />}
-                />
-                <DrawerListItem
                     text="Invoice"
                     navigate="/sub/invoice"
                     drawerState={drawerState}
                     index={9}
                     icon={<Receipt />}
+                />
+                <DrawerCollapse
+                    index={8}
+                    drawerState={drawerState}
+                    text="Reports"
+                    icon={<Summarize />}
+                    subs={reportSubs}
                 />
             </List>
         </Drawer>

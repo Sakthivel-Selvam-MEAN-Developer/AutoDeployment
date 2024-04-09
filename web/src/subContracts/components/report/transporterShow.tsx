@@ -99,13 +99,9 @@ function download(listoverallTrip: Props[]) {
         downloadCSV(row, downloadtripData, listoverallTrip.length)
     })
 }
-const downloadCSV = (data: Props, downloadtripData: object[], num: number) => {
-    const addData = {
-        transporterName: data.name,
-        dueDate: data.dueDate,
-        amount: data.payableAmount
-    }
-    downloadtripData.push(addData)
+const downloadCSV = (Dues: Props, downloadtripData: object[], num: number) => {
+    const data = { transporterName: Dues.name, dueDate: Dues.dueDate, amount: Dues.payableAmount }
+    downloadtripData.push(data)
     if (downloadtripData.length === num) {
         const data = downloadtripData
         const fileName = 'Transporter Due Dates'

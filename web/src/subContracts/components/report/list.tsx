@@ -1,17 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
-import FilterReport from './formField'
+import FilterTripReport from './formField'
 import ListAllDetails from './show'
 import { getOverallTrip, getOverallTripByFilter } from '../../services/overallTrips'
-import { Link } from 'react-router-dom'
-import { Button } from '@mui/material'
-const style = {
-    marginBottom: '30px',
-    display: 'flex',
-    justifyContent: 'right'
-}
-const ListAllReport: React.FC = (): ReactElement => {
+
+const ListAllTrip: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [listoverallTrip, setListoverallTrip] = useState([])
     const [tripWithPagination, setTripWithPagination] = useState([])
@@ -50,30 +44,12 @@ const ListAllReport: React.FC = (): ReactElement => {
     }
     return (
         <>
-            <div style={style}>
-                <Link to={'/sub/reports/upcomingdues'}>
-                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-                        Upcoming Payment Dues
-                    </Button>
-                </Link>
-                <Link to={'/sub/reports/discrepancydues'}>
-                    <Button color="primary" variant="contained">
-                        Discrepancy Payment Report
-                    </Button>
-                </Link>
-                <Link to={'/sub/reports/pendingacknowledgement'}>
-                    <Button color="primary" variant="contained">
-                        Acknowledgement Aging Report
-                    </Button>
-                </Link>
-                <Link to={'/sub/reports/completedpayment'}>
-                    <Button color="primary" variant="contained">
-                        Completed Payments
-                    </Button>
-                </Link>
-            </div>
+            <p>
+                <b>Trip Status Report</b>
+            </p>
+            <br />
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FilterReport
+                <FilterTripReport
                     control={control}
                     setCementCompanyId={setCementCompanyId}
                     setTransporterId={setTransporterId}
@@ -90,4 +66,4 @@ const ListAllReport: React.FC = (): ReactElement => {
         </>
     )
 }
-export default ListAllReport
+export default ListAllTrip

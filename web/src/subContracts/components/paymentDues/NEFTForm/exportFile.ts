@@ -15,16 +15,13 @@ interface bankDetailsProps {
 }
 
 const getNeftType = (type: string) => {
-    switch (type) {
-        case 'initial pay':
-            return 'INITIALPAY'
-        case 'fuel pay':
-            return 'FUELPAY'
-        case 'final pay':
-            return 'FINALPAY'
-        case 'gst pay':
-            return 'GSTPAY'
-    }
+    return type === 'initial pay'
+        ? 'INITIALPAY'
+        : type === 'fuel pay'
+          ? 'FUELPAY'
+          : type === 'final pay'
+            ? 'FINALPAY'
+            : 'GSTPAY'
 }
 const getType = (type: string) => {
     return type === 'initial pay'

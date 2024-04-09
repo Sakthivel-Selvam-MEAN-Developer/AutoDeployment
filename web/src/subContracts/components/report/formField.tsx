@@ -12,7 +12,7 @@ export interface FormFieldsProps {
     setTransporterId: React.Dispatch<React.SetStateAction<number>>
     setLoadingPointId: React.Dispatch<React.SetStateAction<number>>
 }
-const FilterReport: React.FC<FormFieldsProps> = ({
+const FilterTripReport: React.FC<FormFieldsProps> = ({
     control,
     setLoadingPointId,
     setCementCompanyId,
@@ -87,4 +87,4 @@ const FilterReport: React.FC<FormFieldsProps> = ({
         </div>
     )
 }
-export default FilterReport
+export default FilterTripReport

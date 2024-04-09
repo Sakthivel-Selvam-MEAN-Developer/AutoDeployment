@@ -28,6 +28,10 @@ const ListAllDiscrepancyReport: React.FC = (): ReactElement => {
     }
     return (
         <>
+            <p>
+                <b>Discrepancy Payment Report</b>
+            </p>{' '}
+            <br />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DiscrepancyReportFilter control={control} />
                 <SubmitButton name="Filter" type="submit" />

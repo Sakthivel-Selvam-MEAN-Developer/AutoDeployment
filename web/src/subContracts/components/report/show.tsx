@@ -58,32 +58,27 @@ interface listoverallTripProps {
     listoverallTrip: Props[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
-
+const tableCell = [
+    'Vehicle Number',
+    'Start Date',
+    'Invoice Number',
+    'Transporter',
+    'CSM Name',
+    'Loading Point',
+    'Filled Load',
+    'Freight Rate',
+    'Tansporter Rate',
+    'Total Freight Amount',
+    'Total Tansporter Amount',
+    'Margin',
+    'Bunk Name',
+    'Disel Quantity',
+    'Disel Amount',
+    'Trip Status',
+    'Payment Status'
+]
 function getTableHead() {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell align="left">Vehicle Number</TableCell>
-                <TableCell align="left">Start Date</TableCell>
-                <TableCell align="left">Invoice Number</TableCell>
-                <TableCell align="left">Transporter</TableCell>
-                <TableCell align="left">CSM Name</TableCell>
-                <TableCell align="left">Loading Point</TableCell>
-                <TableCell align="left">Filled Load</TableCell>
-                <TableCell align="left">Freight Rate</TableCell>
-                <TableCell align="left">Tansporter Rate</TableCell>
-                <TableCell align="left">Total Freight Amount</TableCell>
-                <TableCell align="left">Total Tansporter Amount</TableCell>
-                <TableCell align="left">Margin</TableCell>
-                <TableCell align="left">Bunk Name</TableCell>
-                <TableCell align="left">Disel Quantity </TableCell>
-                <TableCell align="left">Disel Amount</TableCell>
-                <TableCell align="left">Trip Status</TableCell>
-                <TableCell align="left">Payment Status</TableCell>
-            </TableRow>
-        </TableHead>
-    )
+    return <TableHead>{getTableRow()}</TableHead>
 }
 
 const getCells = (data: Row, num: number, type: string, details: Props) => {
@@ -137,6 +132,17 @@ const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
               : 'GST Pending'
           : 'Balance Pending'
 }
+function getTableRow() {
+    return (
+        <TableRow>
+            <TableCell>#</TableCell>
+            {tableCell.map((trip) => (
+                <TableCell align="left">{trip}</TableCell>
+            ))}
+        </TableRow>
+    )
+}
+
 function getTableBody(allTrips: Props[]) {
     let number = 0
     const style = { '&:last-child td, &:last-child th': { border: 0 } }
@@ -236,7 +242,7 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
             <br />
             <div style={{ float: 'right' }}>
                 <Button onClick={() => download(listoverallTrip)} variant="contained">
-                    Generate Form
+                    Generate CSV
                 </Button>
             </div>
             <div style={{ marginBottom: '20px' }}>

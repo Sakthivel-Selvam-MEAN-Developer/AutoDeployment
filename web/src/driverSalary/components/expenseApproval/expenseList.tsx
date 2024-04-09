@@ -107,9 +107,22 @@ const RejectionReason: FC = () => {
     const [reason, setReason] = useState('')
     return (
         <>
+            {tableCell(reason, setReason, approvalType, setApprovalType)}
+            {button(reason, approvalType)}
+        </>
+    )
+}
+type tablecellTypes = (
+    reason: string,
+    setReason: React.Dispatch<React.SetStateAction<string>>,
+    approvalType: string | null,
+    setApprovalType: React.Dispatch<React.SetStateAction<string | null>>
+) => ReactElement
+const tableCell: tablecellTypes = (reason, setReason, approvalType, setApprovalType) => {
+    return (
+        <>
             <TableCell>{AutoComplete(setReason, approvalType, setApprovalType)}</TableCell>
             <TableCell>{formfield(reason, setReason, approvalType)}</TableCell>
-            {button(reason, approvalType)}
         </>
     )
 }

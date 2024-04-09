@@ -34,40 +34,51 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
-        <div
-            style={{
-                display: 'flex',
-                gap: '10px',
-                rowGap: '10px',
-                flexWrap: 'wrap',
-                alignItems: 'center'
-            }}
-        >
-            <DateInput
-                control={control}
-                format="DD/MM/YYYY"
-                fieldName="from"
-                label="Payment From"
-            />
-            <DateInput control={control} format="DD/MM/YYYY" fieldName="to" label="Payment To" />
-            <AutoComplete
-                control={control}
-                fieldName="name"
-                label="Select Vendor"
-                options={vendor ? vendor.map(({ name }) => name) : []}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
-                    setName(value)
+        <>
+            <p>
+                <b>Completed Payments</b>
+            </p>{' '}
+            <br />
+            <div
+                style={{
+                    display: 'flex',
+                    gap: '10px',
+                    rowGap: '10px',
+                    flexWrap: 'wrap',
+                    alignItems: 'center'
                 }}
-            />
-            <Button
-                color="secondary"
-                variant="contained"
-                type="submit"
-                style={{ marginLeft: '10px' }}
             >
-                Submit
-            </Button>
-        </div>
+                <DateInput
+                    control={control}
+                    format="DD/MM/YYYY"
+                    fieldName="from"
+                    label="Payment From"
+                />
+                <DateInput
+                    control={control}
+                    format="DD/MM/YYYY"
+                    fieldName="to"
+                    label="Payment To"
+                />
+                <AutoComplete
+                    control={control}
+                    fieldName="name"
+                    label="Select Vendor"
+                    options={vendor ? vendor.map(({ name }) => name) : []}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
+                        setName(value)
+                    }}
+                />
+                <Button
+                    color="secondary"
+                    variant="contained"
+                    type="submit"
+                    style={{ marginLeft: '10px' }}
+                >
+                    Submit
+                </Button>
+            </div>
+        </>
     )
 }
 export default CompletedPaymentForm
