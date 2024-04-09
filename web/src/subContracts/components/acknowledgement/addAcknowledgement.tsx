@@ -103,7 +103,10 @@ type onChangeType = (
 const onChangeForVehicleList: onChangeType = (vehicleslist, setTripId, setVehicleNumber) => {
     return (_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
         const { id } = vehicleslist.find((trip) => {
-            return findTripType(trip)?.truck.vehicleNumber === newValue.split(' ')[0]
+            return (
+                findTripType(trip)?.truck.vehicleNumber === newValue.split(' ')[0] &&
+                findTripType(trip)?.invoiceNumber === newValue.split(' ')[1]
+            )
         }) || { id: 0 }
         setTripId(id)
         setVehicleNumber(newValue)
