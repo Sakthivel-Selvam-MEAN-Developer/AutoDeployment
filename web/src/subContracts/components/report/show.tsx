@@ -201,15 +201,18 @@ const downloadCSV = (
 ) => {
     const addData = {
         vehicleNumber: tripData.truck.vehicleNumber,
-        invoiceNumber: tripData.invoiceNumber,
         startDate: epochToMinimalDate(tripData.startDate),
+        invoiceNumber: tripData.invoiceNumber,
         transporter: tripData.truck.transporter.name,
         loadingPoint: tripData.loadingPoint.name,
+        filledLoad: tripData.filledLoad,
         freightAmount: tripData.freightAmount,
         tansporterAmount: tripData.transporterAmount,
+        csmName: tripData.truck.transporter.csmName,
         totalFreightAmount: tripData.totalFreightAmount,
         totalTansporterAmount: tripData.totalTransporterAmount,
         margin: tripData.margin,
+        bunkName: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].bunk.bunkName,
         diselQuantity: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity,
         diselAmount: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].totalprice,
         tripStatus:
