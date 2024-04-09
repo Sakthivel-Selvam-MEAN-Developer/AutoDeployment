@@ -35,6 +35,7 @@ export interface gstNEFTDetailsProps {
     bankDetails: bankDetailProps[]
     type: string
     payableAmount: number
+    vehicleNumber: string
 }
 export interface GenerateFormProps {
     gstNEFTDetails: gstNEFTDetailsProps[]
@@ -56,11 +57,13 @@ const accordionDetails = (
     setPaymentDueId: React.Dispatch<React.SetStateAction<number[]>>
 ) => {
     const handleClick = (list: tripProp, data: dataProp) => {
+        console.log(list, data)
         const obj = {
             id: list.id,
             bankDetails: data.bankDetails,
             type: list.type,
-            payableAmount: list.amount
+            payableAmount: list.amount,
+            vehicleNumber: list.vehicleNumber
         }
         if (gstNEFTDetails.find((detail) => detail.id === obj.id)) {
             setGstNEFTDetails(gstNEFTDetails.filter((detail) => detail.id !== obj.id))
@@ -69,6 +72,7 @@ const accordionDetails = (
             setGstNEFTDetails((prevDetails) => [...prevDetails, obj])
             setPaymentDueId((prevId) => [...prevId, obj.id])
         }
+        console.log(gstNEFTDetails)
     }
     return (
         <AccordionDetails sx={accordianStyle}>

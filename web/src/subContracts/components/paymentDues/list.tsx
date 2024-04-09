@@ -60,6 +60,7 @@ const PaymentDuesList: React.FC = () => {
     const [gstNEFTDetails, setGstNEFTDetails] = useState<gstNEFTDetailsProps[]>([])
     const [paymentDueId, setPaymentDueId] = useState<number[]>([])
     const [activate, setActivate] = useState<boolean>(false)
+    const [type, setType] = useState<string>('')
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => setValue(newValue)
     const handleInitialPay = (_event: React.SyntheticEvent, newValue: number) =>
         setInitialDue(newValue)
@@ -79,6 +80,10 @@ const PaymentDuesList: React.FC = () => {
     const reset = () => {
         setActivate(false)
         setRefresh(!refresh)
+    }
+    const handleClick = (type: string) => {
+        setType(type)
+        setActivate(true)
     }
     return (
         <>
@@ -117,7 +122,7 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'generate-file-button'}
-                            onClick={() => setActivate(true)}
+                            onClick={() => handleClick('initial pay')}
                             disabled={NEFTDetails.length === 0}
                         >
                             Preview File
@@ -164,7 +169,7 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'new-trip-button'}
-                            onClick={() => setActivate(true)}
+                            onClick={() => handleClick('fuel pay')}
                             disabled={NEFTDetails.length === 0}
                         >
                             Preview File
@@ -211,7 +216,7 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'new-trip-button'}
-                            onClick={() => setActivate(true)}
+                            onClick={() => handleClick('final pay')}
                             disabled={NEFTDetails.length === 0}
                         >
                             Preview File
@@ -258,7 +263,7 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'new-trip-button'}
-                            onClick={() => setActivate(true)}
+                            onClick={() => handleClick('gst pay')}
                             disabled={gstNEFTDetails.length === 0}
                         >
                             Preview File
@@ -280,7 +285,9 @@ const PaymentDuesList: React.FC = () => {
                 <NEFTDialog
                     setActivate={setActivate}
                     NEFTDetails={NEFTDetails}
+                    gstNEFTDetails={gstNEFTDetails}
                     handleDonwloadNEFT={handleDonwloadNEFT}
+                    type={type}
                 />
             )}
         </>

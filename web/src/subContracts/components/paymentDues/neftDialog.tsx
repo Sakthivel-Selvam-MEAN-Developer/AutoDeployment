@@ -13,18 +13,114 @@ import {
     TableRow,
     TableBody
 } from '@mui/material'
-import React, { FC, MouseEventHandler } from 'react'
+import React, { FC, MouseEventHandler, useEffect } from 'react'
 import { NEFTDetailsProps } from './list'
+import { gstNEFTDetailsProps } from './gstDues'
 
 interface neftDialogProps {
     setActivate: React.Dispatch<React.SetStateAction<boolean>>
     NEFTDetails: NEFTDetailsProps[]
+    gstNEFTDetails: gstNEFTDetailsProps[]
     handleDonwloadNEFT: MouseEventHandler<HTMLButtonElement>
+    type: string
 }
 
-const NEFTDialog: FC<neftDialogProps> = ({ setActivate, NEFTDetails, handleDonwloadNEFT }) => {
+const OtherPays = (
+    setAmount: React.Dispatch<React.SetStateAction<number>>,
+    NEFTDetails: NEFTDetailsProps[]
+) => {
+    let amount = 0
+    useEffect(() => {
+        setAmount(amount)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [amount])
+    return (
+        <>
+            {NEFTDetails.map((neft) => (
+                <TableRow key={neft.id}>
+                    <div style={{ display: 'none' }}>{(amount += neft.payableAmount)}</div>
+                    <TableCell align="center">{neft.vehicleNumber}</TableCell>
+                    <TableCell align="center">{neft.location}</TableCell>
+                    <TableCell align="center">{neft.type}</TableCell>
+                    <TableCell align="center">{neft.invoiceNumber}</TableCell>
+                    <TableCell align="center">{neft.date}</TableCell>
+                    <TableCell align="center">
+                        <b>{neft.payableAmount}</b>
+                    </TableCell>
+                </TableRow>
+            ))}
+        </>
+    )
+}
+
+const GstPay = (
+    setAmount: React.Dispatch<React.SetStateAction<number>>,
+    gstNEFTDetails: gstNEFTDetailsProps[]
+) => {
+    let amount = 0
+    useEffect(() => {
+        setAmount(amount)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [amount])
+    return (
+        <>
+            {gstNEFTDetails.map((neft) => (
+                <TableRow key={neft.id}>
+                    <div style={{ display: 'none' }}>{(amount += neft.payableAmount)}</div>
+                    <TableCell align="center">{neft.vehicleNumber}</TableCell>
+                    <TableCell align="center">{neft.type}</TableCell>
+                    <TableCell align="center">
+                        <b>{neft.payableAmount}</b>
+                    </TableCell>
+                </TableRow>
+            ))}
+        </>
+    )
+}
+
+const otherPayTableHeadCells = [
+    'Vehicle Number',
+    'Loading - Unloading Point',
+    'Type',
+    'Invoice Number',
+    'Date',
+    'Amount'
+]
+
+const gstPayTableHeadCells = ['Vehicle Number', 'Type', 'Amount']
+
+const otherPayTableCell = (name: string, type: string) => {
+    return (
+        <TableCell align="center" key={name}>
+            {name === 'Loading - Unloading Point' && type === 'fuel pay' ? 'Location' : name}
+        </TableCell>
+    )
+}
+const otherPayTableHead = (type: string) => {
+    return (
+        <TableRow>{otherPayTableHeadCells.map((name) => otherPayTableCell(name, type))}</TableRow>
+    )
+}
+const gstPayTableCell = (name: string) => {
+    return (
+        <TableCell align="center" key={name}>
+            {name}
+        </TableCell>
+    )
+}
+const gstPayTableHead = () => {
+    return <TableRow>{gstPayTableHeadCells.map((name) => gstPayTableCell(name))}</TableRow>
+}
+
+const NEFTDialog: FC<neftDialogProps> = ({
+    setActivate,
+    NEFTDetails,
+    handleDonwloadNEFT,
+    gstNEFTDetails,
+    type
+}) => {
     const [open, setOpen] = React.useState(true)
-    let totalAmount = 0
+    const [amount, setAmount] = React.useState(0)
     const descriptionElementRef = React.useRef<HTMLElement>(null)
     const handleClose = () => {
         setActivate(false)
@@ -33,20 +129,12 @@ const NEFTDialog: FC<neftDialogProps> = ({ setActivate, NEFTDetails, handleDonwl
     React.useEffect(() => {
         if (open) {
             const { current: descriptionElement } = descriptionElementRef
-            if (descriptionElement !== null) {
-                descriptionElement.focus()
-            }
+            if (descriptionElement !== null) descriptionElement.focus()
         }
     }, [open])
-
-    const tableHead = [
-        'Vehicle Number',
-        'Loading - Unloading Point',
-        'Type',
-        'Invoice Number',
-        'Date',
-        'Amount'
-    ]
+    useEffect(() => {
+        // if()
+    }, [])
     return (
         <Dialog
             maxWidth={'xl'}
@@ -65,39 +153,20 @@ const NEFTDialog: FC<neftDialogProps> = ({ setActivate, NEFTDetails, handleDonwl
                     <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
                         <Table sx={{ minWidth: 1200 }} aria-label="simple table">
                             <TableHead sx={{ background: '#00000029' }}>
-                                <TableRow>
-                                    {tableHead.map((name) => (
-                                        <TableCell align="center">
-                                            {name === 'Loading - Unloading Point' &&
-                                            NEFTDetails[0].type === 'fuel pay'
-                                                ? 'Location'
-                                                : name}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
+                                {type !== 'gst pay'
+                                    ? otherPayTableHead(NEFTDetails[0].type)
+                                    : gstPayTableHead()}
                             </TableHead>
                             <TableBody>
-                                {NEFTDetails.map((neft) => (
-                                    <TableRow>
-                                        <div style={{ display: 'none' }}>
-                                            {(totalAmount += neft.payableAmount)}
-                                        </div>
-                                        <TableCell align="center">{neft.vehicleNumber}</TableCell>
-                                        <TableCell align="center">{neft.location}</TableCell>
-                                        <TableCell align="center">{neft.type}</TableCell>
-                                        <TableCell align="center">{neft.invoiceNumber}</TableCell>
-                                        <TableCell align="center">{neft.date}</TableCell>
-                                        <TableCell align="center">
-                                            <b>{neft.payableAmount}</b>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {type !== 'gst pay'
+                                    ? OtherPays(setAmount, NEFTDetails)
+                                    : GstPay(setAmount, gstNEFTDetails)}
                                 <TableRow>
-                                    <TableCell align="right" colSpan={5}>
+                                    <TableCell align="right" colSpan={type !== 'gst pay' ? 5 : 2}>
                                         Total Payable Amount
                                     </TableCell>
                                     <TableCell align="center">
-                                        <b>{totalAmount}</b>
+                                        <b>{amount}</b>
                                     </TableCell>
                                 </TableRow>
                             </TableBody>

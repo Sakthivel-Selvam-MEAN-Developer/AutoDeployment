@@ -6,20 +6,24 @@ import { createUnloadingPoint } from '../../services/unloadingPoint'
 import { createLoadingPoint } from '../../services/loadingPoint'
 import { createStockPoint } from '../../services/stockPoint'
 import { Box, CircularProgress } from '@mui/material'
+import SuccessDialog from '../../../commonUtils/SuccessDialog'
 const clearForm = (
     reset: (values: Record<string, string>) => void,
     setValue: UseFormSetValue<FieldValues>,
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
     reset({ name: '', location: '' })
     setValue('companyName', null)
     setValue('category', null)
     setLoading(false)
+    setOpenSuccessDialog(true)
 }
 const CreateFactory: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue, reset } = useForm<FieldValues>()
     const [loading, setLoading] = useState(false)
     const [companyId, setCompanyId] = useState(0)
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (
@@ -36,21 +40,21 @@ const CreateFactory: React.FC = (): ReactElement => {
             }
             if (data.category === 'Loading Point')
                 createLoadingPoint(details)
-                    .then(() => clearForm(reset, setValue, setLoading))
+                    .then(() => clearForm(reset, setValue, setLoading, setOpenSuccessDialog))
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
                     })
             else if (data.category === 'Unloading Point')
                 createUnloadingPoint(details)
-                    .then(() => clearForm(reset, setValue, setLoading))
+                    .then(() => clearForm(reset, setValue, setLoading, setOpenSuccessDialog))
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
                     })
             else if (data.category === 'Stock Point')
                 createStockPoint(details)
-                    .then(() => clearForm(reset, setValue, setLoading))
+                    .then(() => clearForm(reset, setValue, setLoading, setOpenSuccessDialog))
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
@@ -72,6 +76,11 @@ const CreateFactory: React.FC = (): ReactElement => {
             ) : (
                 <SubmitButton name="Save" type="submit" />
             )}
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={() => setOpenSuccessDialog(false)}
+                message="Company Location creation is successful"
+            />
         </form>
     )
 }

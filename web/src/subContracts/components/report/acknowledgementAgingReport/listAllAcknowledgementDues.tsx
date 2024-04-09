@@ -36,7 +36,7 @@ const ListAllAcknowledgementDues: React.FC = (): ReactElement => {
         <>
             <p>
                 <b>Acknowledgement Aging Report</b>
-            </p>{' '}
+            </p>
             <br />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <AcknowledgementDuesFilter control={control} />

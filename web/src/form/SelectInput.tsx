@@ -7,6 +7,13 @@ interface SelectInputProps {
     label: string
     fieldName: string
 }
+const menuItem = (index: number, listValue: string) => {
+    return (
+        <MenuItem key={index} value={listValue}>
+            {listValue}
+        </MenuItem>
+    )
+}
 const SelectInput: React.FC<SelectInputProps> = ({ control, listValues, label, fieldName }) => (
     <FormControl sx={{ minWidth: 195 }}>
         <InputLabel id={`${fieldName}-label-id`}>{label}</InputLabel>
@@ -14,11 +21,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ control, listValues, label, f
             render={({ field }) => (
                 <Select {...field} labelId={`${fieldName}-label-id`} defaultValue="">
                     {listValues.map((listValue, index) => {
-                        return (
-                            <MenuItem key={index} value={listValue}>
-                                {listValue}
-                            </MenuItem>
-                        )
+                        return menuItem(index, listValue)
                     })}
                 </Select>
             )}
