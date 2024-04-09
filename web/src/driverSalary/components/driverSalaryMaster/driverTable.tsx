@@ -8,7 +8,7 @@ import {
     TableBody,
     Button
 } from '@mui/material'
-import { FC } from 'react'
+import { FC, ReactElement } from 'react'
 import DownloadIcon from '@mui/icons-material/Download'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 export interface driverDialogProps {
@@ -61,27 +61,43 @@ const Driver_Table: FC<driverDialogProps> = ({ driverTripDetails, setActivateDia
 
 export default Driver_Table
 
-function getRow(
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
-    trip: tripDetailProps
-) {
+const buttonCell = (setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>) => {
     return (
-        <TableRow>
+        <TableCell align="center">
+            <Button onClick={() => setActivateDialog(true)}>
+                <DownloadIcon />
+            </Button>
+        </TableCell>
+    )
+}
+const driverDetailsCell = (trip: tripDetailProps) => {
+    return (
+        <>
             <TableCell align="center">1</TableCell>
             <TableCell align="center">{epochToMinimalDate(trip.startDate)}</TableCell>
             <TableCell align="center">{trip.loadingPoint.name}</TableCell>
             <TableCell align="center">{trip.invoiceNumber}</TableCell>
-            <TableCell align="center">{'\u20B9'} 2349</TableCell>
-            <TableCell align="center">{'\u20B9'} 6490</TableCell>
-            <TableCell align="center">{'\u20B9'} 5460</TableCell>
-            <TableCell align="center">{'\u20B9'} 13456</TableCell>
-            <TableCell align="center">
-                {
-                    <Button onClick={() => setActivateDialog(true)}>
-                        <DownloadIcon />
-                    </Button>
-                }
-            </TableCell>
+        </>
+    )
+}
+const driverAmountCells = (
+    <>
+        <TableCell align="center">{'\u20B9'} 2349</TableCell>
+        <TableCell align="center">{'\u20B9'} 6490</TableCell>
+        <TableCell align="center">{'\u20B9'} 5460</TableCell>
+        <TableCell align="center">{'\u20B9'} 13456</TableCell>
+    </>
+)
+type rowType = (
+    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
+    trip: tripDetailProps
+) => ReactElement
+const getRow: rowType = (setActivateDialog, trip) => {
+    return (
+        <TableRow>
+            {driverDetailsCell(trip)}
+            {driverAmountCells}
+            {buttonCell(setActivateDialog)}
         </TableRow>
     )
 }

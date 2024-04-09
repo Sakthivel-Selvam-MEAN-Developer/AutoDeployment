@@ -68,11 +68,10 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({ control, driverTripDetail
         driverTripDetails &&
         driverTripDetails.map((tripData: any) => {
             let tripType
-            if (tripData.loadingPointToStockPointTrip !== null) {
+            if (tripData.loadingPointToStockPointTrip !== null)
                 tripType = tripData.loadingPointToStockPointTrip
-            } else if (tripData.loadingPointToUnloadingPointTrip !== null) {
+            else if (tripData.loadingPointToUnloadingPointTrip !== null)
                 tripType = tripData.loadingPointToUnloadingPointTrip
-            }
             return { id: tripType.id, invoiceNumber: tripType.invoiceNumber }
         })
     return (

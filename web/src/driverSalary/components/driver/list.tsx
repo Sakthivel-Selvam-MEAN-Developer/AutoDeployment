@@ -13,18 +13,13 @@ const clearForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('panNumber', '')
     setValue('address', '')
     setValue('mobileNumber', '')
-    setValue('driverLicense', '')
-    setValue('licenseExpriryDate', null)
-    setValue('bankName', '')
-    setValue('accountNumber', '')
-    setValue('accountBranch', '')
-    setValue('ifcsCode', '')
+    clearDetails(setValue)
 }
-
-const successDialogBox = (
+type successType = (
     openSuccessDialog: boolean,
     setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+) => ReactElement
+const successDialogBox: successType = (openSuccessDialog, setOpenSuccessDialog) => {
     return (
         <SuccessDialog
             open={openSuccessDialog}
@@ -43,10 +38,11 @@ const CreateDriver: React.FC = (): ReactElement => {
             licenseExpriryDate: data.licenseExpriryDate.unix(),
             dateofBirth: data.dateofBirth.unix()
         }
-        await createDriver(details).then(() => {
-            setOpenSuccessDialog(true)
-            clearForm(setValue)
-        })
+        await createDriver(details).then(() => success())
+    }
+    const success = () => {
+        setOpenSuccessDialog(true)
+        clearForm(setValue)
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -57,3 +53,11 @@ const CreateDriver: React.FC = (): ReactElement => {
     )
 }
 export default CreateDriver
+function clearDetails(setValue: UseFormSetValue<FieldValues>) {
+    setValue('driverLicense', '')
+    setValue('licenseExpriryDate', null)
+    setValue('bankName', '')
+    setValue('accountNumber', '')
+    setValue('accountBranch', '')
+    setValue('ifcsCode', '')
+}

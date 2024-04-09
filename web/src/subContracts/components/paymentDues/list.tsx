@@ -6,6 +6,7 @@ import { exportFile } from './NEFTForm/exportFile.ts'
 import { updateNEFTStatus } from '../../services/paymentDues.ts'
 import GSTDues, { gstNEFTDetailsProps } from './gstDues.tsx'
 import GSTPaymentDues from './gstPaymentDues.tsx'
+import NEFTDialog from './neftDialog.tsx'
 interface TabPanelProps {
     children?: React.ReactNode
     index: number
@@ -25,6 +26,10 @@ export interface NEFTDetailsProps {
     bankDetails: bankDetailsProps[]
     type: string
     payableAmount: number
+    vehicleNumber: string
+    date: string
+    location: string
+    invoiceNumber: string
 }
 function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props
@@ -51,25 +56,30 @@ const PaymentDuesList: React.FC = () => {
     const [finalPay, setFinalPay] = useState(0)
     const [gstPay, setGstPay] = useState(0)
     const [refresh, setRefresh] = useState<boolean>(false)
+    const [NEFTDetails, setNEFTDetails] = useState<NEFTDetailsProps[]>([])
+    const [gstNEFTDetails, setGstNEFTDetails] = useState<gstNEFTDetailsProps[]>([])
+    const [paymentDueId, setPaymentDueId] = useState<number[]>([])
+    const [activate, setActivate] = useState<boolean>(false)
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => setValue(newValue)
     const handleInitialPay = (_event: React.SyntheticEvent, newValue: number) =>
         setInitialDue(newValue)
     const handleFuelPay = (_event: React.SyntheticEvent, newValue: number) => setFuelPay(newValue)
     const handleFinalPay = (_event: React.SyntheticEvent, newValue: number) => setFinalPay(newValue)
     const handleGstPay = (_event: React.SyntheticEvent, newValue: number) => setGstPay(newValue)
-    const handleClick = async () => {
+    const handleDonwloadNEFT = async () => {
         if (NEFTDetails.length !== 0)
             await exportFile(NEFTDetails)
                 .then(() => updateNEFTStatus(paymentDueId))
-                .then(() => setRefresh(!refresh))
+                .then(reset)
         else if (gstNEFTDetails.length !== 0)
             await exportFile(gstNEFTDetails)
                 .then(() => updateNEFTStatus(paymentDueId))
-                .then(() => setRefresh(!refresh))
+                .then(reset)
     }
-    const [NEFTDetails, setNEFTDetails] = useState<NEFTDetailsProps[]>([])
-    const [gstNEFTDetails, setGstNEFTDetails] = useState<gstNEFTDetailsProps[]>([])
-    const [paymentDueId, setPaymentDueId] = useState<number[]>([])
+    const reset = () => {
+        setActivate(false)
+        setRefresh(!refresh)
+    }
     return (
         <>
             <Box sx={{ width: '100%', bgcolor: '#00000017', borderRadius: '10px 10px 0 0' }}>
@@ -107,10 +117,10 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'generate-file-button'}
-                            onClick={handleClick}
+                            onClick={() => setActivate(true)}
                             disabled={NEFTDetails.length === 0}
                         >
-                            Generate File
+                            Preview File
                         </Button>
                     </div>
                     <GenerateForm
@@ -154,10 +164,10 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'new-trip-button'}
-                            onClick={handleClick}
+                            onClick={() => setActivate(true)}
                             disabled={NEFTDetails.length === 0}
                         >
-                            Generate File
+                            Preview File
                         </Button>
                     </div>
                     <GenerateForm
@@ -201,10 +211,10 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'new-trip-button'}
-                            onClick={handleClick}
+                            onClick={() => setActivate(true)}
                             disabled={NEFTDetails.length === 0}
                         >
-                            Generate File
+                            Preview File
                         </Button>
                     </div>
                     <GenerateForm
@@ -248,10 +258,10 @@ const PaymentDuesList: React.FC = () => {
                             variant="contained"
                             color="primary"
                             data-testid={'new-trip-button'}
-                            onClick={handleClick}
+                            onClick={() => setActivate(true)}
                             disabled={gstNEFTDetails.length === 0}
                         >
-                            Generate File
+                            Preview File
                         </Button>
                     </div>
                     <GSTDues
@@ -266,6 +276,13 @@ const PaymentDuesList: React.FC = () => {
                     <GSTPaymentDues />
                 </CustomTabPanel>
             </CustomTabPanel>
+            {activate && (
+                <NEFTDialog
+                    setActivate={setActivate}
+                    NEFTDetails={NEFTDetails}
+                    handleDonwloadNEFT={handleDonwloadNEFT}
+                />
+            )}
         </>
     )
 }

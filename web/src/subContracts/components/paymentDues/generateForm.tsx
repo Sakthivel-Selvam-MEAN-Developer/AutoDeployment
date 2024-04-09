@@ -63,11 +63,19 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refresh])
     const handleClick = (list: tripProp, data: dataProp) => {
+        console.log(list, data)
         const obj = {
             id: list.id,
             bankDetails: data.bankDetails,
             type: list.type,
-            payableAmount: list.payableAmount
+            payableAmount: list.payableAmount,
+            vehicleNumber: list.number,
+            date: epochToMinimalDate(list.date),
+            location:
+                list.type === 'fuel pay'
+                    ? list.location
+                    : `${list.loadingPoint} - ${list.unloadingPoint}`,
+            invoiceNumber: list.invoiceNumber
         }
         if (NEFTDetails.find((detail) => detail.id === obj.id)) {
             setNEFTDetails(NEFTDetails.filter((detail) => detail.id !== obj.id))
