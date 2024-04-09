@@ -9,6 +9,7 @@ interface bankDetailsProps {
     ifsc: string
     accountTypeNumber: number
     accountNumber: number | string
+    accountHolder: string
     bunkName: string
     name: string
     branchName: string
@@ -41,10 +42,10 @@ export const exportFile = async (NEFTData: dataProps[]) => {
     NEFTData.map((data) => {
         NEFTType = getNeftType(data.type)
         if (data.type === 'fuel pay')
-            NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].bunkName},${data.bankDetails[0].branchName},MagnumFuel,${data.payableAmount}\n`
+            NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].accountHolder},${data.bankDetails[0].branchName},MagnumFuel,${data.payableAmount}\n`
         else {
             type = getType(data.type)
-            NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].name},${data.bankDetails[0].branchName},${type},${data.payableAmount}\n`
+            NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].accountHolder},${data.bankDetails[0].branchName},${type},${data.payableAmount}\n`
         }
     })
     const blob = new Blob([NEFTDataHeaders + NEFTDataBody], { type: 'text/plain;charset=utf-8' })

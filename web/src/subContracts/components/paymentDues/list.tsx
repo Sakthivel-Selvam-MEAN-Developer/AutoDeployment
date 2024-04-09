@@ -16,6 +16,7 @@ export interface bankDetailsProps {
     accountNumber: string
     ifsc: string
     accountTypeNumber: number
+    accountHolder: string
     name: string
     branchName: string
 }

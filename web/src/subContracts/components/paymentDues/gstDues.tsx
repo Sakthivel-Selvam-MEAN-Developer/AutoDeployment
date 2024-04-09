@@ -20,6 +20,7 @@ interface bankDetailProps {
     accountNumber: string
     ifsc: string
     branchName: string
+    accountHolder: string
     accountTypeNumber: number
     bunkName: string
 }

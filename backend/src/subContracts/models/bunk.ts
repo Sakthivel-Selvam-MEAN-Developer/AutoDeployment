@@ -24,6 +24,7 @@ export const getBunkAccountByName = (bunkName: string[]) =>
             accountNumber: true,
             ifsc: true,
             accountTypeNumber: true,
-            branchName: true
+            branchName: true,
+            accountHolder: true
         }
     })

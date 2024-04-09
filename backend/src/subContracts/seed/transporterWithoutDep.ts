@@ -6,7 +6,7 @@ export default {
     address: 'Muthu Street',
     hasGst: false,
     hasTds: false,
-    accountHolder: 'muthu',
+    accountHolder: 'sakthi',
     accountNumber: '435534523',
     ifsc: 'zxy1234',
     accountTypeNumber: 10,
