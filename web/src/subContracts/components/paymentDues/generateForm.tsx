@@ -49,7 +49,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
 }) => {
     const [transporterDue, setTransporterDue] = useState([])
     const style = { width: '100%', padding: '10px 10px 0px' }
-    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
+    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey', alignItems: 'center' }
     useEffect(() => {
         setNEFTDetails([])
         setPaymentDueId([])

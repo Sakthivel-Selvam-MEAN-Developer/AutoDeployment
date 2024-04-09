@@ -10,6 +10,7 @@ interface formProps {
     fuelId: number
     type: string
     payableAmount: number
+    setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
 }
 const FormField: React.FC<formProps> = ({
     setRefresh,
@@ -17,7 +18,8 @@ const FormField: React.FC<formProps> = ({
     id,
     type,
     fuelId,
-    payableAmount
+    payableAmount,
+    setOpenSuccessDialog
 }): ReactElement => {
     const [transactionId, setTransactionId] = useState('')
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +44,11 @@ const FormField: React.FC<formProps> = ({
             paidAt: paymentDate,
             type,
             fuelId
-        }).then(() => clear())
+        }).then(() => reset())
+    const reset = () => {
+        clear()
+        setOpenSuccessDialog(true)
+    }
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
             {payableAmount > 0 && (

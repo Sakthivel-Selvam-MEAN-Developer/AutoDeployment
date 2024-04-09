@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { getGstDues } from '../../services/paymentDues'
 import { ListItemSecondaryAction } from '@mui/material'
 import FormField from './formField'
+import SuccessDialog from '../../../commonUtils/SuccessDialog'
 
 interface tripProp {
     id: number
@@ -22,6 +23,7 @@ interface dataProp {
 const GSTPaymentDues: React.FC = () => {
     const [gstDues, setGstDues] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const style = { width: '100%', padding: '10px 10px 0px' }
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
     useEffect(() => {
@@ -49,6 +51,7 @@ const GSTPaymentDues: React.FC = () => {
                                             fuelId={list.id}
                                             type={list.type}
                                             payableAmount={list.amount}
+                                            setOpenSuccessDialog={setOpenSuccessDialog}
                                         />
                                     </AccordionDetails>
                                 )
@@ -59,6 +62,11 @@ const GSTPaymentDues: React.FC = () => {
             ) : (
                 <p style={{ textAlign: 'center' }}>No GST Payment Dues...!</p>
             )}
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={() => setOpenSuccessDialog(false)}
+                message={`GST pay has been made successfully!`}
+            />
         </>
     )
 }

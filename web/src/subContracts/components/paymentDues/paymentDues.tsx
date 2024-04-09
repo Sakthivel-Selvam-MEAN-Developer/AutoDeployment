@@ -9,6 +9,7 @@ import { ListItemSecondaryAction } from '@mui/material'
 import dayjs from 'dayjs'
 import FormField from './formField'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import SuccessDialog from '../../../commonUtils/SuccessDialog'
 
 interface tripProp {
     fuelId: number
@@ -35,8 +36,9 @@ interface paymentDuesProps {
 const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
     const [transporterDue, setTransporterDue] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const style = { width: '100%', padding: '10px 10px 0px' }
-    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
+    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey', alignItems: 'center' }
     useEffect(() => {
         const todayDate = dayjs().startOf('day').unix()
         getOnlyActiveDues(todayDate, true, type).then(setTransporterDue)
@@ -57,10 +59,10 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                                     <b>{data.name}</b>
                                 </Typography>
                                 <Typography sx={style}>
-                                    Total Trips: <b>{data.dueDetails.count}</b>
+                                    Total Trips : <b>{data.dueDetails.count}</b>
                                 </Typography>
                                 <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                    Total Amount:
+                                    Total Amount :
                                     <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
                                 </ListItemSecondaryAction>
                             </AccordionSummary>
@@ -91,6 +93,7 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                                                 fuelId={list.fuelId}
                                                 type={list.type}
                                                 payableAmount={list.payableAmount}
+                                                setOpenSuccessDialog={setOpenSuccessDialog}
                                             />
                                         </AccordionDetails>
                                     )
@@ -101,6 +104,11 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
             ) : (
                 <p style={{ textAlign: 'center' }}>No Payment Deus...!</p>
             )}
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={() => setOpenSuccessDialog(false)}
+                message={`${type} has been made successfully!`}
+            />
         </>
     )
 }
