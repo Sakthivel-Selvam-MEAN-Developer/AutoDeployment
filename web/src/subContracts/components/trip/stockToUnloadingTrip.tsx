@@ -56,7 +56,8 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             totalFreightAmount: parseFloat(totalFreightAmountFloat),
             totalTransporterAmount: parseFloat(totalTransporterAmountFloat),
             unloadingPointId,
-            loadingPointToStockPointTripId: row.id
+            loadingPointToStockPointTripId: row.id,
+            truckId: row.truckId
         }
         createStockTrip(details).then(() => {
             setExpanded(false)

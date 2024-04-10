@@ -360,6 +360,7 @@ model pricePointMarker {
 
 model loadingPointToStockPointTrip {
   id                             Int                              @id @default(autoincrement())
+  acknowledgeDueTime             Int?                             
   startDate                      Int
   filledLoad                     Float                            @db.DoublePrecision
   wantFuel                       Boolean?

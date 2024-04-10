@@ -151,10 +151,24 @@ export const getAllActivetripTripByTripStatus = () =>
     })
 export const getAllTripByAcknowledgementStatus = () =>
     prisma.overallTrip.findMany({
-        where: { acknowledgementStatus: false },
+        where: {
+            acknowledgementStatus: false,
+            OR: [
+                {
+                    stockPointToUnloadingPointTrip: {
+                        tripStatus: true
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        tripStatus: true
+                    }
+                }
+            ]
+        },
         include: {
             stockPointToUnloadingPointTrip: {
-                include: { loadingPointToStockPointTrip: { include: { truck: true } } }
+                include: { loadingPointToStockPointTrip: { include: { truck: true } }, truck: true }
             },
             loadingPointToUnloadingPointTrip: { include: { truck: true } }
         }
@@ -543,18 +557,14 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
             loadingPointToUnloadingPointTrip: {
                 include: {
                     truck: {
-                        include: {
-                            transporter: true
-                        }
+                        include: { transporter: true }
                     }
                 }
             },
             loadingPointToStockPointTrip: {
                 include: {
                     truck: {
-                        include: {
-                            transporter: true
-                        }
+                        include: { transporter: true }
                     }
                 }
             },

@@ -287,13 +287,20 @@ describe('Overall Trip model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: stockTripTruck.id,
-            wantFuel: false
-        })
-        const trip1 = await create({
-            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
+            wantFuel: false,
+            tripStatus: true
         })
         create({ loadingPointToStockPointTripId: loadingToStockTrip.id })
-
+        const stockTrip = await createStockToUnloadingTrip({
+            ...seedStockToUnloadingTrip,
+            unloadingPointId: deliveryPoint.id,
+            loadingPointToStockPointTripId: loadingToStockTrip.id,
+            tripStatus: true
+        })
+        const trip1 = await create({
+            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id,
+            stockPointToUnloadingPointTripId: stockTrip.id
+        })
         const actual = await getAllTripByAcknowledgementStatus()
         expect(actual[0].id).toBe(trip1.id)
     })
