@@ -8,20 +8,12 @@ export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: 
         where: {
             status: false,
             NEFTStatus: status,
-            dueDate: {
-                lte: dueDate
-            },
-            NOT: {
-                type: 'gst pay'
-            },
+            dueDate: { lte: dueDate },
+            NOT: { type: 'gst pay' },
             type
         },
-        _count: {
-            status: true
-        },
-        _sum: {
-            payableAmount: true
-        }
+        _count: { status: true },
+        _sum: { payableAmount: true }
     })
 
 export const findTripWithActiveDues = (dueDate: number, status: boolean, type: string) =>

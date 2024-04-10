@@ -1,8 +1,11 @@
 import { Request, Response } from 'express'
 import { fetchDeviceDetails } from '../jobs/loconav/fetchVehicles.ts'
 
-const loconavDeviceData = (req: Request, res: Response) => {
-    const { authToken }: any = req.query
+interface RequestQuery {
+    authToken: string
+}
+const loconavDeviceData = (req: Request<object, object, object, RequestQuery>, res: Response) => {
+    const { authToken } = req.query
     fetchDeviceDetails(authToken).then(() => res.sendStatus(200))
 }
 

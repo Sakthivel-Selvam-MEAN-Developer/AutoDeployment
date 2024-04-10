@@ -75,10 +75,7 @@ export const ListAllExpenseByTripIdForApproval = async (_req: Request, res: Resp
     const falseExpense = await getAllExpenseForApproval()
     const d = allTripId.map((trip) => {
         const details = falseExpense.filter((data) => trip.tripId === data.tripId)
-        return {
-            tripId: trip.tripId,
-            tripExpenses: details
-        }
+        return { tripId: trip.tripId, tripExpenses: details }
     })
     await res.status(200).json(d)
 }

@@ -6,16 +6,8 @@ export const getPricePoint = (
     stockPointId: number | null
 ) =>
     prisma.pricePoint.findFirst({
-        where: {
-            loadingPointId,
-            unloadingPointId,
-            stockPointId
-        },
-        select: {
-            freightAmount: true,
-            transporterAmount: true,
-            transporterPercentage: true
-        }
+        where: { loadingPointId, unloadingPointId, stockPointId },
+        select: { freightAmount: true, transporterAmount: true, transporterPercentage: true }
     })
 export const create = async (data: any) => {
     const pricePointData = await prisma.pricePoint.findFirst({

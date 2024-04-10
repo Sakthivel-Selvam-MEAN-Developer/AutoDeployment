@@ -30,6 +30,7 @@ export interface NEFTDetailsProps {
     date: string
     location: string
     invoiceNumber: string
+    transporterName: string
 }
 function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props

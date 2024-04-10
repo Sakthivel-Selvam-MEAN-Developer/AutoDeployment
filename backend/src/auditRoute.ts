@@ -31,7 +31,7 @@ export const auditRoute = async (req: any, res: any, next: NextFunction) => {
                 entityName: req.url.split('/')[1],
                 entityID: resDetails ? resDetails.id : 0
             }
-            await create(log).then(() => console.log('stored'))
+            await create(log).then(() => console.log('Audit Log Stored'))
             originalEnd.apply(res, args)
         }
     }

@@ -36,6 +36,7 @@ export interface gstNEFTDetailsProps {
     type: string
     payableAmount: number
     vehicleNumber: string
+    transporterName: string
 }
 export interface GenerateFormProps {
     gstNEFTDetails: gstNEFTDetailsProps[]
@@ -63,7 +64,8 @@ const accordionDetails = (
             bankDetails: data.bankDetails,
             type: list.type,
             payableAmount: list.amount,
-            vehicleNumber: list.vehicleNumber
+            vehicleNumber: list.vehicleNumber,
+            transporterName: data.name
         }
         if (gstNEFTDetails.find((detail) => detail.id === obj.id)) {
             setGstNEFTDetails(gstNEFTDetails.filter((detail) => detail.id !== obj.id))

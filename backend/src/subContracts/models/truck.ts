@@ -42,16 +42,11 @@ export const getTruckByTransporter = (transporterName: string) =>
 
 export const getNumberByTruckId = (id: number) =>
     prisma.truck.findFirst({
-        where: {
-            id
-        },
+        where: { id },
         select: {
             vehicleNumber: true,
             transporter: {
-                select: {
-                    name: true,
-                    transporterType: true
-                }
+                select: { name: true, transporterType: true }
             }
         }
     })

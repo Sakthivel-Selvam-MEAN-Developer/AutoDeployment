@@ -8,11 +8,7 @@ const getStops = (deviceId: number, from: number, to: number) =>
         url: '/reports/stops',
         baseURL: traccarUrl,
         method: 'get',
-        params: {
-            deviceId,
-            from: toTraccarFormat(from),
-            to: toTraccarFormat(to)
-        },
+        params: { deviceId, from: toTraccarFormat(from), to: toTraccarFormat(to) },
         auth: { username: traccarUsername, password: traccarPassword }
     }).then((response) => response.data)
 

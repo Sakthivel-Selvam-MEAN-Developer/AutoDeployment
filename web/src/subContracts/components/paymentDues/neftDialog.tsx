@@ -39,13 +39,14 @@ const OtherPays = (
             {NEFTDetails.map((neft) => (
                 <TableRow key={neft.id}>
                     <div style={{ display: 'none' }}>{(amount += neft.payableAmount)}</div>
+                    <TableCell align="center">{neft.transporterName}</TableCell>
                     <TableCell align="center">{neft.vehicleNumber}</TableCell>
                     <TableCell align="center">{neft.location}</TableCell>
                     <TableCell align="center">{neft.type}</TableCell>
                     <TableCell align="center">{neft.invoiceNumber}</TableCell>
                     <TableCell align="center">{neft.date}</TableCell>
                     <TableCell align="center">
-                        <b>{neft.payableAmount}</b>
+                        <b>{neft.payableAmount.toFixed(2)}</b>
                     </TableCell>
                 </TableRow>
             ))}
@@ -67,10 +68,11 @@ const GstPay = (
             {gstNEFTDetails.map((neft) => (
                 <TableRow key={neft.id}>
                     <div style={{ display: 'none' }}>{(amount += neft.payableAmount)}</div>
+                    <TableCell align="center">{neft.transporterName}</TableCell>
                     <TableCell align="center">{neft.vehicleNumber}</TableCell>
                     <TableCell align="center">{neft.type}</TableCell>
                     <TableCell align="center">
-                        <b>{neft.payableAmount}</b>
+                        <b>{neft.payableAmount.toFixed(2)}</b>
                     </TableCell>
                 </TableRow>
             ))}
@@ -79,6 +81,7 @@ const GstPay = (
 }
 
 const otherPayTableHeadCells = [
+    'Transporter Name',
     'Vehicle Number',
     'Loading - Unloading Point',
     'Type',
@@ -87,7 +90,7 @@ const otherPayTableHeadCells = [
     'Amount'
 ]
 
-const gstPayTableHeadCells = ['Vehicle Number', 'Type', 'Amount']
+const gstPayTableHeadCells = ['Transporter Name', 'Vehicle Number', 'Type', 'Amount']
 
 const otherPayTableCell = (name: string, type: string) => {
     return (
@@ -162,11 +165,11 @@ const NEFTDialog: FC<neftDialogProps> = ({
                                     ? OtherPays(setAmount, NEFTDetails)
                                     : GstPay(setAmount, gstNEFTDetails)}
                                 <TableRow>
-                                    <TableCell align="right" colSpan={type !== 'gst pay' ? 5 : 2}>
+                                    <TableCell align="right" colSpan={type !== 'gst pay' ? 6 : 3}>
                                         Total Payable Amount
                                     </TableCell>
                                     <TableCell align="center">
-                                        <b>{amount}</b>
+                                        <b>{amount.toFixed(2)}</b>
                                     </TableCell>
                                 </TableRow>
                             </TableBody>

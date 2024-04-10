@@ -21,9 +21,7 @@ export interface dataProps {
 
 async function createDues(fuel: dataProps, trip: any, bunkname: string, vehicleNumber: string) {
     return fuelLogics(fuel, trip, bunkname, vehicleNumber).then((dues) => {
-        if (trip !== null) {
-            return createPaymentDues(dues)
-        }
+        if (trip !== null) return createPaymentDues(dues)
         if (trip !== null && dues !== undefined) return
         const fuelDue = fuelDues(bunkname, vehicleNumber, fuel)
         return createPaymentDues(fuelDue)

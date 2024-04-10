@@ -70,20 +70,18 @@ function cell(data: Row) {
 }
 const getTableBody = (allTransporter: Row[]) => {
     return (
-        <>
-            <TableBody>
-                {allTransporter &&
-                    allTransporter.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell> {index + 1} </TableCell>
-                            {cell(row)}
-                        </TableRow>
-                    ))}
-            </TableBody>
-        </>
+        <TableBody>
+            {allTransporter &&
+                allTransporter.map((row, index) => (
+                    <TableRow
+                        key={index}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell> {index + 1} </TableCell>
+                        {cell(row)}
+                    </TableRow>
+                ))}
+        </TableBody>
     )
 }
 

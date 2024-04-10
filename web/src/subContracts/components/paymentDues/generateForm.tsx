@@ -75,7 +75,8 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                 list.type === 'fuel pay'
                     ? list.location
                     : `${list.loadingPoint} - ${list.unloadingPoint}`,
-            invoiceNumber: list.invoiceNumber
+            invoiceNumber: list.invoiceNumber,
+            transporterName: data.name
         }
         if (NEFTDetails.find((detail) => detail.id === obj.id)) {
             setNEFTDetails(NEFTDetails.filter((detail) => detail.id !== obj.id))

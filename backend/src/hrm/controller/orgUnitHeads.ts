@@ -12,9 +12,7 @@ export const employeeLeavesPerOrg = (req: Request, res: Response) => {
             }
             return null
         })
-        .then((data) => {
-            res.status(200).json(data)
-        })
+        .then((data) => res.status(200).json(data))
 }
 
 const getOrgHeadLeaveForEachOrg = async (listOfChildId: any[]) => {

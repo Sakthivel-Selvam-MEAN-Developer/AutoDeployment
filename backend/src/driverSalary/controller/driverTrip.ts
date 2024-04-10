@@ -10,10 +10,11 @@ export const createDriverTrip = async (req: Request, res: Response) => {
 type RequestQuery = {
     driverId: string
 }
-export const listAllDriverTripById = async (
+type listAllDriverTripByIdType = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
-) => {
+) => any
+export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res) => {
     const { driverId } = req.query
     await getAllDriverTripById(parseInt(driverId))
         .then(async (tripIds) => {
