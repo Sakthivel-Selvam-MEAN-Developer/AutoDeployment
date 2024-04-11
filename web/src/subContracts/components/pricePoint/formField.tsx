@@ -88,8 +88,11 @@ const FormFields: React.FC<FormFieldsProps> = ({
             (stockPointId && unloadingPointId)
         ) {
             getPricePoint(loadingPointId, unloadingPointId, stockPointId).then((amount) => {
-                amount === null ? setFreightAmount(0) : setFreightAmount(amount.freightAmount)
-                amount === null ? setDueDate(0) : setDueDate(amount.payGeneratingDuration)
+                if (amount) {
+                    setFreightAmount(amount.freightAmount)
+                    setTransporterPercentage(amount.transporterPercentage)
+                    setDueDate(amount.payGeneratingDuration)
+                }
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

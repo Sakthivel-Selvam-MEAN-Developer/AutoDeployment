@@ -29,21 +29,20 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     useEffect(() => {
         setTransporterRate(freightAmount - (freightAmount * transporterPercentage) / 100)
     }, [freightAmount, transporterPercentage])
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = () => {
         if (
             (loadingPointId && stockPointId) ||
             (loadingPointId && unloadingPointId) ||
             (stockPointId && unloadingPointId)
         ) {
             const transporterAmountFloat = transporterRate.toFixed(2)
-            const transporterPercentageFloat = parseFloat(data.transporterPercentage).toFixed(2)
             const details = {
                 loadingPointId: loadingPointId,
                 unloadingPointId: unloadingPointId,
                 stockPointId: stockPointId,
                 payGeneratingDuration: dueDate,
                 freightAmount: freightAmount,
-                transporterPercentage: parseFloat(transporterPercentageFloat),
+                transporterPercentage:transporterPercentage,
                 transporterAmount: parseFloat(transporterAmountFloat)
             }
             if (category === 'Loading - Unloading')
