@@ -1,13 +1,38 @@
+- date: 11-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - number field validation
+- date: 11-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - fixing paginaion
+
+- date: 10-04-2024
+  person: Barath,Sakthivel
+  project: subContract
+  planning:
+    - should fix error in acknowledgement
+  completed:
+    - fixed error in acknowledgement
+
 - date: 09-04-2024
   person: Barath
   project: subContract
   planning:
-    - should research, how to send emails about done payments to client
+    - should display pricePointData in pricePoint page
+    - should add final pay duration according to location
+  completed:
+    - displayed pricePointData in pricePoint page
+    - added final pay duration according to location
 - date: 09-04-2024
   person: Sakthivel
   project: subContract
   planning:
     - should display dialog for payment dues
+  completed:
+    - displayed dialog for payment dues
 
 - date: 08-04-2024
   person: Barath
