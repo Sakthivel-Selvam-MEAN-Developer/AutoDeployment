@@ -42,7 +42,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 stockPointId: stockPointId,
                 payGeneratingDuration: dueDate,
                 freightAmount: freightAmount,
-                transporterPercentage:transporterPercentage,
+                transporterPercentage: transporterPercentage,
                 transporterAmount: parseFloat(transporterAmountFloat)
             }
             if (category === 'Loading - Unloading')
