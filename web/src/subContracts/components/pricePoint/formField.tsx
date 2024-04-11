@@ -2,13 +2,12 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
-import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
+import { Control, Controller, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import NumberInputWithValue from '../../../form/NumberInputWithValue.tsx'
-import { InputAdornment } from '@mui/material'
+import { InputAdornment, TextField } from '@mui/material'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
-import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
 
 export interface FormFieldsProps {
     control: Control
@@ -21,12 +20,16 @@ export interface FormFieldsProps {
     unloadingPointId: number | null
     stockPointId: number | null
     freightAmount: number
+    setTransporterPercentage: React.Dispatch<React.SetStateAction<number>>
+    transporterPercentage: number
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
     category: string
     setValue: UseFormSetValue<FieldValues>
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>
     cementCompanyName: string
+    setDueDate: React.Dispatch<React.SetStateAction<number>>
+    dueDate: number
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -41,10 +44,14 @@ const FormFields: React.FC<FormFieldsProps> = ({
     setFreightAmount,
     freightAmount,
     setCategory,
+    setTransporterPercentage,
+    transporterPercentage,
     category,
     setValue,
     setCementCompanyName,
-    cementCompanyName
+    cementCompanyName,
+    setDueDate,
+    dueDate
 }) => {
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
@@ -80,9 +87,10 @@ const FormFields: React.FC<FormFieldsProps> = ({
             (stockPointId && loadingPointId) ||
             (stockPointId && unloadingPointId)
         ) {
-            getPricePoint(loadingPointId, unloadingPointId, stockPointId).then((amount) =>
+            getPricePoint(loadingPointId, unloadingPointId, stockPointId).then((amount) => {
                 amount === null ? setFreightAmount(0) : setFreightAmount(amount.freightAmount)
-            )
+                amount === null ? setDueDate(0) : setDueDate(amount.payGeneratingDuration)
+            })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loadingPointId, unloadingPointId, stockPointId])
@@ -187,13 +195,19 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     )
                 }}
             />
-            <NumberInputWithProps
+            <Controller
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        value={transporterPercentage}
+                        label="Transporter Percentage"
+                        inputProps={{ step: 0.01, min: 0 }}
+                        type="number"
+                        onChange={(e) => setTransporterPercentage(parseFloat(e.target.value))}
+                    />
+                )}
+                name="transporterPercentage"
                 control={control}
-                label="Transporter Percentage"
-                fieldName="transporterPercentage"
-                type="number"
-                inputProps={{ step: 'any', min: '0' }}
-                InputProps={{}}
             />
             <InputWithDefaultValue
                 control={control}
@@ -207,6 +221,23 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 }}
                 InputLabelProps={{
                     shrink: true
+                }}
+            />
+            <NumberInputWithValue
+                control={control}
+                label="Pay Generating Duration"
+                fieldName="payGeneratingDuration"
+                value={dueDate}
+                type="number"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    setDueDate(parseInt(event.target.value))
+                }}
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <b>Rs</b>
+                        </InputAdornment>
+                    )
                 }}
             />
         </div>

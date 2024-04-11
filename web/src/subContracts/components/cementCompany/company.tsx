@@ -58,6 +58,8 @@ const CreateCompany: React.FC = (): ReactElement => {
                     <SubmitButton name="Create" type="submit" />
                 )}
             </form>
+            <br />
+            <br />
             {!loading && <CompanyReport />}
             <SuccessDialog
                 open={openSuccessDialog}

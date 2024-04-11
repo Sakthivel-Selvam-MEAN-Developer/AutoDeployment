@@ -5,15 +5,13 @@ interface ButtonProps {
     name: string
     type: 'submit' | 'reset' | 'button'
 }
-
+const style = {
+    display: 'flex',
+    justifyContent: 'center'
+}
 const SubmitButton: FC<ButtonProps> = ({ name, type }) => {
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center'
-            }}
-        >
+        <div style={style}>
             <Button color="secondary" variant="contained" type={type} style={{ marginTop: '20px' }}>
                 {name}
             </Button>

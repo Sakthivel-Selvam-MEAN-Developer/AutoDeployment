@@ -47,7 +47,11 @@ vi.mock('../../../driverSalary/services/driver.ts', () => ({
 // vi.mock('../../../driverSalary/services/driverTrip.ts', () => ({
 //     createDriverTrip: (input: any) => mockCreateDriverTrip(input)
 // }))
-
+vi.mock('../../../auth/checkUser', () => ({
+    CheckUser: () => () => {
+        return true
+    }
+}))
 const mockCompanyData = [
     {
         name: 'UltraTech Cements',

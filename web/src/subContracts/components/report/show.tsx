@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
+import { CheckUser } from '../../../auth/checkUser'
 
 interface Row {
     freightAmount: number
@@ -78,10 +79,15 @@ const tableCell = [
     'Payment Status'
 ]
 function getTableHead() {
-    return <TableHead>{getTableRow()}</TableHead>
+    return (
+        <TableHead>
+            <GetTableRow />
+        </TableHead>
+    )
 }
 
-const getCells = (data: Row, num: number, type: string, details: Props) => {
+const GetCells = (data: Row, num: number, type: string, details: Props) => {
+    const authoriser = CheckUser()
     const fuel = details.fuel.length !== 1
     return (
         <>
@@ -93,11 +99,11 @@ const getCells = (data: Row, num: number, type: string, details: Props) => {
             <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{data.loadingPoint.name}</TableCell>
             <TableCell align="left">{data.filledLoad}</TableCell>
-            <TableCell align="left">{data.freightAmount}</TableCell>
+            {authoriser && <TableCell align="left">{data.freightAmount}</TableCell>}
             <TableCell align="left">{data.transporterAmount}</TableCell>
-            <TableCell align="left">{data.totalFreightAmount}</TableCell>
+            {authoriser && <TableCell align="left">{data.totalFreightAmount}</TableCell>}
             <TableCell align="left">{data.totalTransporterAmount}</TableCell>
-            <TableCell align="left">{data.margin}</TableCell>
+            {authoriser && <TableCell align="left">{data.margin}</TableCell>}
             <TableCell align="left">
                 {fuel ? 'Not Fueled' : details.fuel[0].bunk.bunkName}
             </TableCell>
@@ -132,25 +138,29 @@ const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
               : 'GST Pending'
           : 'Balance Pending'
 }
-function getTableRow() {
+
+const name = ['Freight Rate', 'Total Freight Amount', 'Margin']
+const GetTableRow = () => {
+    const authoriser = CheckUser()
+    const final = authoriser ? tableCell : tableCell.filter((cell) => !name.includes(cell))
     return (
         <TableRow>
             <TableCell>#</TableCell>
-            {tableCell.map((trip) => (
+            {final.map((trip) => (
                 <TableCell align="left">{trip}</TableCell>
             ))}
         </TableRow>
     )
 }
 
-function getTableBody(allTrips: Props[]) {
+function GetTableBody({ listoverallTrip }: any) {
     let number = 0
     const style = { '&:last-child td, &:last-child th': { border: 0 } }
     return (
         <TableBody>
-            {allTrips.map((row: Props, index) => (
+            {listoverallTrip.map((row: Props, index: number) => (
                 <TableRow key={index} sx={style}>
-                    {getCells(
+                    {GetCells(
                         loadingToStock(row)
                             ? row.loadingPointToStockPointTrip
                             : row.loadingPointToUnloadingPointTrip,
@@ -252,7 +262,8 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 600 }} aria-label="simple table">
                         {getTableHead()}
-                        {getTableBody(listoverallTrip)}
+                        {/* {getTableBody(listoverallTrip)} */}
+                        <GetTableBody listoverallTrip={listoverallTrip} />
                     </Table>
                 </TableContainer>
             </div>

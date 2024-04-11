@@ -46,6 +46,7 @@ const cellNames = [
     'Tds Percentage',
     'AccountHolder',
     'Account Number',
+    'branchName',
     'IFSC',
     'AccountType Number'
 ]

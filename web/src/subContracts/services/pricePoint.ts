@@ -14,6 +14,11 @@ export const createpricePoint = (data: dataProps) =>
         .then(getData)
         .catch((e) => alert(e))
 
+export const getAllpricePoint = () =>
+    axiosInstance
+        .get('/price-point')
+        .then(getData)
+        .catch((e) => alert(e))
 export const getPricePoint = (
     loadingPointId: number | null,
     unloadingPointId: number | null,

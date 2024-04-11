@@ -18,7 +18,12 @@ export const updateUnloadWeightForStockTrip = (id: number) =>
         },
         data: {
             tripStatus: true,
-            acknowledgeDueTime: dayjs().add(1, 'minute').unix()
+            acknowledgeDueTime: dayjs().add(1, 'minute').unix(),
+            loadingPointToStockPointTrip: {
+                update: {
+                    acknowledgeDueTime: dayjs().add(1, 'minute').unix()
+                }
+            }
         }
     })
 export const updateBillNumber = (id: number[], billNo: string) =>

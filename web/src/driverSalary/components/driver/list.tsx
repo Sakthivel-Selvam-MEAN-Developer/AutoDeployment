@@ -28,7 +28,6 @@ const successDialogBox: successType = (openSuccessDialog, setOpenSuccessDialog) 
         />
     )
 }
-
 const CreateDriver: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)

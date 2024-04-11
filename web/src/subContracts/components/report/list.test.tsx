@@ -24,7 +24,11 @@ vi.mock('../../services/transporter', () => ({
 vi.mock('../../services/cementCompany', () => ({
     getAllCementCompany: () => mockAllCementCompany()
 }))
-
+vi.mock('../../../auth/checkUser', () => ({
+    CheckUser: () => () => {
+        return true
+    }
+}))
 const mockStockTripData = [
     {
         id: 1,

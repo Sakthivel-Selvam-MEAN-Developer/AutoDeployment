@@ -5,6 +5,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import AlertDialog from '../../../commonUtils/confirmationDialog'
 import dayjs from 'dayjs'
+import { CheckUser } from '../../../auth/checkUser'
 interface formProps {
     setRefresh: React.Dispatch<React.SetStateAction<boolean>>
     refresh: boolean
@@ -26,6 +27,7 @@ const FormField: React.FC<formProps> = ({
     payableAmount,
     setOpenSuccessDialog
 }): ReactElement => {
+    const authoriser = CheckUser()
     const [transactionId, setTransactionId] = useState('')
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
     const [paymentDate, setPaymentDate] = useState(0)
@@ -59,7 +61,7 @@ const FormField: React.FC<formProps> = ({
     return (
         <>
             <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
-                {payableAmount > 0 && (
+                {authoriser && payableAmount > 0 && (
                     <>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
@@ -81,13 +83,15 @@ const FormField: React.FC<formProps> = ({
                         />
                     </>
                 )}
-                <Button
-                    disabled={transactionId === '' && payableAmount > 0}
-                    type="submit"
-                    sx={{ width: '200px', margin: '0 10px' }}
-                >
-                    {payableAmount > 0 ? 'Pay' : 'Proceed to Final Pay'}
-                </Button>
+                {authoriser && (
+                    <Button
+                        disabled={transactionId === '' && payableAmount > 0}
+                        type="submit"
+                        sx={{ width: '200px', margin: '0 10px' }}
+                    >
+                        {payableAmount > 0 ? 'Pay' : 'Proceed to Final Pay'}
+                    </Button>
+                )}
             </form>
             <AlertDialog
                 open={openConfirmDialog}

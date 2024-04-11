@@ -15,7 +15,7 @@ export interface driverDialogProps {
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
     driverTripDetails: tripProps[]
 }
-interface tripProps {
+export interface tripProps {
     loadingPointToUnloadingPointTrip: tripDetailProps
     loadingPointToStockPointTrip: tripDetailProps
 }
@@ -26,40 +26,45 @@ interface tripDetailProps {
     }
     invoiceNumber: string
 }
+
+const cellNames = [
+    'S.No',
+    'Date',
+    'From',
+    'Invoice Number',
+    'Expenses Amount',
+    'Trip Betta',
+    'Advance Amount',
+    'Trip Salary',
+    'Download'
+]
+
+const tableRow = (
+    <TableRow>
+        {cellNames.map((cell) => (
+            <TableCell align="center">{cell}</TableCell>
+        ))}
+    </TableRow>
+)
+const tableHead = <TableHead>{tableRow}</TableHead>
 const Driver_Table: FC<driverDialogProps> = ({ driverTripDetails, setActivateDialog }) => {
     return (
         <TableContainer component={Paper} sx={{ marginTop: '30px' }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center">S.No</TableCell>
-                        <TableCell align="center">Date</TableCell>
-                        <TableCell align="center">From </TableCell>
-                        <TableCell align="center">Invoice Number</TableCell>
-                        <TableCell align="center">Expenses Amount</TableCell>
-                        <TableCell align="center">Trip Betta</TableCell>
-                        <TableCell align="center">Advance Amount</TableCell>
-                        <TableCell align="center">Trip Salary</TableCell>
-                        <TableCell align="center">Download</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {driverTripDetails &&
-                        driverTripDetails.map((trip: tripProps) => {
-                            return getRow(
-                                setActivateDialog,
-                                isLoadingToStock(trip)
-                                    ? trip.loadingPointToStockPointTrip
-                                    : trip.loadingPointToUnloadingPointTrip
-                            )
-                        })}
-                </TableBody>
+                {tableHead}
+                {tableBody(driverTripDetails, setActivateDialog)}
             </Table>
         </TableContainer>
     )
 }
 
 export default Driver_Table
+
+const getTrip = (trip: tripProps) => {
+    return isLoadingToStock(trip)
+        ? trip.loadingPointToStockPointTrip
+        : trip.loadingPointToUnloadingPointTrip
+}
 
 const buttonCell = (setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>) => {
     return (
@@ -99,6 +104,20 @@ const getRow: rowType = (setActivateDialog, trip) => {
             {driverAmountCells}
             {buttonCell(setActivateDialog)}
         </TableRow>
+    )
+}
+type tableBody = (
+    driverTripDetails: tripProps[],
+    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
+) => ReactElement
+const tableBody: tableBody = (driverTripDetails, setActivateDialog) => {
+    return (
+        <TableBody>
+            {driverTripDetails &&
+                driverTripDetails.map((trip: tripProps) => {
+                    return getRow(setActivateDialog, getTrip(trip))
+                })}
+        </TableBody>
     )
 }
 

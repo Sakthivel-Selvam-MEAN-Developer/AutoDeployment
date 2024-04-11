@@ -492,6 +492,7 @@ model pricePoint {
   freightAmount         Float           @db.DoublePrecision
   transporterAmount     Float           @db.DoublePrecision
   transporterPercentage Float           @db.DoublePrecision
+  payGeneratingDuration Int             @default(0)
   loadingPointId        Int?
   loadingPoint          loadingPoint?   @relation(fields: [loadingPointId], references: [id])
   unloadingPointId      Int?
@@ -544,6 +545,7 @@ model shortageQuantity {
 model overallTrip {
   id                                 Int                               @id @default(autoincrement())
   acknowledgementStatus              Boolean                           @default(false)
+  finalPayDuration                   Int                               @default(0)
   paymentDues                        paymentDues[]
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])

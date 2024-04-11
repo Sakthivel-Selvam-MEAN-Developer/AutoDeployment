@@ -188,7 +188,6 @@ function expenseAccordionSummary() {
     return (
         <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
             id="panel1a-header"
             sx={{ borderBottom: '1px solid grey' }}
         >

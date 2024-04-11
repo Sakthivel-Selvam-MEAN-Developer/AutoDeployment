@@ -19,6 +19,7 @@ import MuiDrawer from '@mui/material/Drawer'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
 import DrawerCollapse from './drawerCollapse.tsx'
+import { CheckUser } from '../../../auth/checkUser.tsx'
 
 interface MiniDrawerProps {
     handleDrawerClose: () => void
@@ -62,14 +63,20 @@ const Drawer = styled(MuiDrawer, {
     })
 }))
 const reportSubs = [
-    { navigate: '/sub/reports/listAllTrip', name: 'Trip Status' },
-    { navigate: '/sub/reports/upcomingdues', name: 'UpcomingPayment Dues' },
-    { navigate: '/sub/reports/pendingacknowledgement', name: 'AcknowledgementAging Report' },
-    { navigate: '/sub/reports/discrepancydues', name: 'DiscrepancyPayment Report' },
-    { navigate: '/sub/reports/completedpayment', name: 'Completed Payments' }
+    { navigate: '/sub/reports/listAllTrip', name: 'Trip Status', icon: 'TS' },
+    { navigate: '/sub/reports/upcomingdues', name: 'UpcomingPayment Dues', icon: 'UP' },
+    {
+        navigate: '/sub/reports/pendingacknowledgement',
+        name: 'AcknowledgementAging Report',
+        icon: 'AA'
+    },
+    { navigate: '/sub/reports/discrepancydues', name: 'DiscrepancyPayment Report', icon: 'DR' },
+    { navigate: '/sub/reports/completedpayment', name: 'Completed Payments', icon: 'CP' }
 ]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
+    const authoriser = CheckUser()
+    console.log(authoriser)
     return (
         <Drawer variant="permanent" open={drawerState}>
             <DrawerHeader theme={theme}>
@@ -86,27 +93,33 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={0}
                     icon={<Dashboard />}
                 />
-                <DrawerListItem
-                    text="Company"
-                    navigate="/sub/company"
-                    drawerState={drawerState}
-                    index={1}
-                    icon={<Factory />}
-                />
-                <DrawerListItem
-                    text="Transporter"
-                    navigate="/sub/transporter"
-                    drawerState={drawerState}
-                    index={2}
-                    icon={<DirectionsBus />}
-                />
-                <DrawerListItem
-                    text="Price Point"
-                    navigate="/sub/price-point"
-                    drawerState={drawerState}
-                    index={3}
-                    icon={<Sell />}
-                />
+                {authoriser && (
+                    <DrawerListItem
+                        text="Company"
+                        navigate="/sub/company"
+                        drawerState={drawerState}
+                        index={1}
+                        icon={<Factory />}
+                    />
+                )}
+                {authoriser && (
+                    <DrawerListItem
+                        text="Transporter"
+                        navigate="/sub/transporter"
+                        drawerState={drawerState}
+                        index={2}
+                        icon={<DirectionsBus />}
+                    />
+                )}
+                {authoriser && (
+                    <DrawerListItem
+                        text="Price Point"
+                        navigate="/sub/price-point"
+                        drawerState={drawerState}
+                        index={3}
+                        icon={<Sell />}
+                    />
+                )}
                 <DrawerListItem
                     text="Trip"
                     navigate="/sub/trip"
@@ -128,20 +141,24 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={6}
                     icon={<LocalGasStation />}
                 />
-                <DrawerListItem
-                    text="Acknowledgement"
-                    navigate="/sub/acknowledgement"
-                    drawerState={drawerState}
-                    index={7}
-                    icon={<LibraryAddCheck />}
-                />
-                <DrawerListItem
-                    text="Invoice"
-                    navigate="/sub/invoice"
-                    drawerState={drawerState}
-                    index={9}
-                    icon={<Receipt />}
-                />
+                {authoriser && (
+                    <DrawerListItem
+                        text="Acknowledgement"
+                        navigate="/sub/acknowledgement"
+                        drawerState={drawerState}
+                        index={7}
+                        icon={<LibraryAddCheck />}
+                    />
+                )}
+                {authoriser && (
+                    <DrawerListItem
+                        text="Invoice"
+                        navigate="/sub/invoice"
+                        drawerState={drawerState}
+                        index={9}
+                        icon={<Receipt />}
+                    />
+                )}
                 <DrawerCollapse
                     index={8}
                     drawerState={drawerState}

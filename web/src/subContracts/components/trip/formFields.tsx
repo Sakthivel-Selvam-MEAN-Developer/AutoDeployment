@@ -12,6 +12,7 @@ import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { listFuelWithoutTripId } from '../../services/fuel.ts'
 import DateInput from '../../../form/DateInput.tsx'
 import Paper from '@mui/material/Paper'
+import { CheckUser } from '../../../auth/checkUser.tsx'
 
 interface transporterProps {
     name: string
@@ -277,25 +278,27 @@ const FormField: React.FC<FormFieldProps> = ({
                     }}
                 />
             )}
-            <InputWithDefaultValue
-                control={control}
-                label="Company Freight"
-                fieldName="freightAmount"
-                type="number"
-                defaultValue={freightAmount}
-                value={freightAmount?.toFixed(2)}
-                InputProps={{
-                    readOnly: true,
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-            />
+            {CheckUser() && (
+                <InputWithDefaultValue
+                    control={control}
+                    label="Company Freight"
+                    fieldName="freightAmount"
+                    type="number"
+                    defaultValue={freightAmount}
+                    value={freightAmount?.toFixed(2)}
+                    InputProps={{
+                        readOnly: true,
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Rs</b>
+                            </InputAdornment>
+                        )
+                    }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            )}
             {ownTruck === false && (
                 <InputWithDefaultValue
                     control={control}
@@ -331,25 +334,27 @@ const FormField: React.FC<FormFieldProps> = ({
                     )
                 }}
             />
-            <InputWithDefaultValue
-                control={control}
-                label="Total Company Amount"
-                fieldName="totalFreightAmount"
-                type="number"
-                defaultValue={totalFreightAmount}
-                value={totalFreightAmount?.toFixed(2)}
-                InputProps={{
-                    readOnly: true,
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
-            />
+            {CheckUser() && (
+                <InputWithDefaultValue
+                    control={control}
+                    label="Total Company Amount"
+                    fieldName="totalFreightAmount"
+                    type="number"
+                    defaultValue={totalFreightAmount}
+                    value={totalFreightAmount?.toFixed(2)}
+                    InputProps={{
+                        readOnly: true,
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Rs</b>
+                            </InputAdornment>
+                        )
+                    }}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            )}
             {ownTruck === false && (
                 <InputWithDefaultValue
                     control={control}
@@ -371,7 +376,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     }}
                 />
             )}
-            {ownTruck === false && (
+            {ownTruck === false && CheckUser() && (
                 <InputWithDefaultValue
                     control={control}
                     label="Total Margin"

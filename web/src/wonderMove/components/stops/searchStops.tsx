@@ -16,9 +16,7 @@ const SearchStops: React.FC<SearchStopsProps> = ({ onSelect }) => {
                 options={[]}
                 onChange={(_event, newValue: string) => {
                     setValue(newValue)
-                    if (newValue) {
-                        onSelect(newValue)
-                    }
+                    if (newValue) onSelect(newValue)
                 }}
                 renderInput={(params) => (
                     <TextField

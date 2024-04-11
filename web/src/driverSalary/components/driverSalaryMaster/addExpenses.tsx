@@ -22,12 +22,10 @@ const ListExpenses: React.FC = () => {
     useEffect(() => {
         //should change 1 to driverId
         getDriverTripByDriverId(1).then(setDriverTripDetails)
-        if (tripId !== 0) {
-            getExpenseByTripId(tripId).then(setAddedExpense)
-        }
+        if (tripId !== 0) getExpenseByTripId(tripId).then(setAddedExpense)
     }, [tripId])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        if (data.expenseType === undefined || data.amount === undefined) return
+        if (data.expenseType !== undefined && data.amount !== undefined) return
         setExpensesDetails([
             ...expensesDetails,
             { expenseType: data.expenseType, amount: parseInt(data.amount), tripId: tripId }

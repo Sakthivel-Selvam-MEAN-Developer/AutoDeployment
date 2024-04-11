@@ -45,10 +45,14 @@ const AddAcknowledgement: React.FC = () => {
                         value={vehicleNumber}
                         fieldName="vehicleList"
                         label="Select Vehicle for Acknowledgement"
-                        options={vehicleslist.map((trip: tripdetailsProps) => {
-                            const vehicleNumber = findTripType(trip)
-                            return `${vehicleNumber?.truck.vehicleNumber} ${vehicleNumber?.invoiceNumber}`
-                        })}
+                        options={
+                            vehicleslist.length !== 0
+                                ? vehicleslist.map((trip: tripdetailsProps) => {
+                                      const vehicleNumber = findTripType(trip)
+                                      return `${vehicleNumber?.truck.vehicleNumber} ${vehicleNumber?.invoiceNumber}`
+                                  })
+                                : []
+                        }
                         onChange={onChangeForVehicleList(vehicleslist, setTripId, setVehicleNumber)}
                     />
                     <SubmitButton name="Submit" type="submit" />

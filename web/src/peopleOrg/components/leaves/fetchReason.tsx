@@ -12,13 +12,10 @@ type FetchReasonProps = {
 
 const FetchReason: React.FC<FetchReasonProps> = ({ reason, setReason }) => {
     const [fetchReason, setFetchReason] = useState<string[]>([])
-
     useEffect(() => {
         getAllLeaveReasons().then(setFetchReason)
     }, [])
-    const handleChange = (event: SelectChangeEvent) => {
-        setReason(event.target.value as string)
-    }
+    const handleChange = (event: SelectChangeEvent) => setReason(event.target.value as string)
     return (
         <FormControl sx={{ minWidth: 195 }} size="medium">
             <InputLabel id="demo-simple-select-helper-label">Reasons</InputLabel>

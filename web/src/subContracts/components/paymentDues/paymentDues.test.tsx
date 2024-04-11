@@ -9,7 +9,11 @@ const mockGroupedDuesByName = vi.fn()
 vi.mock('../../services/paymentDues', () => ({
     getOnlyActiveDues: () => mockGroupedDuesByName()
 }))
-
+vi.mock('../../../auth/checkUser', () => ({
+    CheckUser: () => () => {
+        return true
+    }
+}))
 const mockPaymentDuesData = [
     {
         name: 'Barath Logistics Pvt Ltd',

@@ -36,6 +36,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
     const [transporterAmount, setTransporterAmount] = useState<number>(0)
     const [invoiceNumber, setInvoiceNumber] = useState<string>('')
     const [stockDate, setStockDate] = useState<number>(0)
+    console.log(row)
 
     const coverDateToEpoc = (date: any) => {
         const formattedDays =

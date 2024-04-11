@@ -12,6 +12,7 @@ interface DrawerListItemProps {
 interface subsProps {
     navigate: string
     name: string
+    icon: string
 }
 const DrawerCollapse: FC<DrawerListItemProps> = ({ subs, text, drawerState, index, icon }) => {
     const [open, setOpen] = useState(false)
@@ -20,7 +21,7 @@ const DrawerCollapse: FC<DrawerListItemProps> = ({ subs, text, drawerState, inde
     }
     return (
         <>
-            <ListItemButton onClick={handleClick}>
+            <ListItemButton sx={{ px: 2.5 }} onClick={handleClick}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={<div>{text}</div>} sx={{ opacity: drawerState ? 1 : 0 }} />
                 {open ? <ExpandLess /> : <ExpandMore />}
@@ -47,7 +48,7 @@ const DrawerCollapseItem: FC<DrawerCollapseItemProps> = ({ subs }) => {
                             sx={{ pl: 3 }}
                             onClick={() => navigateFunction(subData.navigate)}
                         >
-                            <ListItemIcon>'' </ListItemIcon>
+                            <ListItemIcon>{`${subData.icon}`} </ListItemIcon>
                             <ListItemText primary={subData.name} />
                         </ListItemButton>
                     </List>

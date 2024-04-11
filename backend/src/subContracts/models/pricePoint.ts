@@ -6,9 +6,39 @@ export const getPricePoint = (
     stockPointId: number | null
 ) =>
     prisma.pricePoint.findFirst({
-        where: { loadingPointId, unloadingPointId, stockPointId },
-        select: { freightAmount: true, transporterAmount: true, transporterPercentage: true }
+        where: {
+            loadingPointId,
+            unloadingPointId,
+            stockPointId
+        },
+        select: {
+            freightAmount: true,
+            transporterAmount: true,
+            transporterPercentage: true,
+            payGeneratingDuration: true
+        }
     })
+export const getAllPricePoint = () =>
+    prisma.pricePoint.findMany({
+        include: {
+            loadingPoint: {
+                include: {
+                    cementCompany: true
+                }
+            },
+            stockPoint: {
+                include: {
+                    cementCompany: true
+                }
+            },
+            unloadingPoint: {
+                include: {
+                    cementCompany: true
+                }
+            }
+        }
+    })
+
 export const create = async (data: any) => {
     const pricePointData = await prisma.pricePoint.findFirst({
         where: {
@@ -28,7 +58,8 @@ export const create = async (data: any) => {
             data: {
                 freightAmount: data.freightAmount,
                 transporterPercentage: data.transporterPercentage,
-                transporterAmount: data.transporterAmount
+                transporterAmount: data.transporterAmount,
+                payGeneratingDuration: data.payGeneratingDuration
             }
         })
     }

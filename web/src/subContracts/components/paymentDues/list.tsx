@@ -7,6 +7,7 @@ import { updateNEFTStatus } from '../../services/paymentDues.ts'
 import GSTDues, { gstNEFTDetailsProps } from './gstDues.tsx'
 import GSTPaymentDues from './gstPaymentDues.tsx'
 import NEFTDialog from './neftDialog.tsx'
+import { CheckUser } from '../../../auth/checkUser.tsx'
 interface TabPanelProps {
     children?: React.ReactNode
     index: number
@@ -51,6 +52,7 @@ function CustomTabPanel(props: TabPanelProps) {
     )
 }
 const PaymentDuesList: React.FC = () => {
+    const authoriser = CheckUser()
     const [value, setValue] = useState(0)
     const [initialDue, setInitialDue] = useState(0)
     const [fuelPay, setFuelPay] = useState(0)
@@ -119,15 +121,17 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={initialDue} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            data-testid={'generate-file-button'}
-                            onClick={() => handleClick('initial pay')}
-                            disabled={NEFTDetails.length === 0}
-                        >
-                            Preview File
-                        </Button>
+                        {authoriser && (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                data-testid={'generate-file-button'}
+                                onClick={() => handleClick('initial pay')}
+                                disabled={NEFTDetails.length === 0}
+                            >
+                                Preview File
+                            </Button>
+                        )}
                     </div>
                     <GenerateForm
                         NEFTDetails={NEFTDetails}
@@ -166,15 +170,17 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={fuelPay} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            data-testid={'new-trip-button'}
-                            onClick={() => handleClick('fuel pay')}
-                            disabled={NEFTDetails.length === 0}
-                        >
-                            Preview File
-                        </Button>
+                        {authoriser && (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                data-testid={'new-trip-button'}
+                                onClick={() => handleClick('fuel pay')}
+                                disabled={NEFTDetails.length === 0}
+                            >
+                                Preview File
+                            </Button>
+                        )}
                     </div>
                     <GenerateForm
                         NEFTDetails={NEFTDetails}
@@ -213,15 +219,17 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={finalPay} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            data-testid={'new-trip-button'}
-                            onClick={() => handleClick('final pay')}
-                            disabled={NEFTDetails.length === 0}
-                        >
-                            Preview File
-                        </Button>
+                        {authoriser && (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                data-testid={'new-trip-button'}
+                                onClick={() => handleClick('final pay')}
+                                disabled={NEFTDetails.length === 0}
+                            >
+                                Preview File
+                            </Button>
+                        )}
                     </div>
                     <GenerateForm
                         NEFTDetails={NEFTDetails}
@@ -260,15 +268,17 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={gstPay} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            data-testid={'new-trip-button'}
-                            onClick={() => handleClick('gst pay')}
-                            disabled={gstNEFTDetails.length === 0}
-                        >
-                            Preview File
-                        </Button>
+                        {authoriser && (
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                data-testid={'new-trip-button'}
+                                onClick={() => handleClick('gst pay')}
+                                disabled={gstNEFTDetails.length === 0}
+                            >
+                                Preview File
+                            </Button>
+                        )}
                     </div>
                     <GSTDues
                         gstNEFTDetails={gstNEFTDetails}

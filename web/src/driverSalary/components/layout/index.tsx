@@ -38,7 +38,6 @@ function getIconButton(handleDrawerOpen: () => void, open: boolean) {
     return (
         <IconButton
             color="inherit"
-            aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             sx={{ marginRight: 5, ...(open && { display: 'none' }) }}

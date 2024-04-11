@@ -5,6 +5,7 @@ describe('Final Due Logics Test', async () => {
     test('Should create final due for loading to unloading', async () => {
         const overallTrip = {
             id: 12,
+            finalPayDuration: 1,
             acknowledgementStatus: false,
             loadingPointToStockPointTrip: null,
             stockPointToUnloadingPointTrip: null,
@@ -47,7 +48,7 @@ describe('Final Due Logics Test', async () => {
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                dueDate: dayjs().add(1, 'day').startOf('day').unix(),
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 9872
@@ -58,6 +59,7 @@ describe('Final Due Logics Test', async () => {
         const overallTrip = {
             id: 2,
             acknowledgementStatus: true,
+            finalPayDuration: 1,
             loadingPointToUnloadingPointTripId: null,
             loadingPointToUnloadingPointTrip: null,
             stockPointToUnloadingPointTrip: {
@@ -99,7 +101,7 @@ describe('Final Due Logics Test', async () => {
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                dueDate: dayjs().add(1, 'day').startOf('day').unix(),
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 588.95
