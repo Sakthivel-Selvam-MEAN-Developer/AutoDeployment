@@ -1,6 +1,6 @@
 import { useAuth } from 'react-oidc-context'
 
-const userName = ['vignesh', 'santhosh', 'suresh']
+const userName = ['vignesh', 'santhosh', 'suresh', 'wonderwhy']
 
 export const CheckUser = () => {
     const auth = useAuth()

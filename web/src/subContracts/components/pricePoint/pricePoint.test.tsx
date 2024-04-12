@@ -43,7 +43,7 @@ describe('Trip Test', () => {
                 <CreatePricepoint />
             </BrowserRouter>
         )
-        expect(screen.getByText('Submit')).toBeInTheDocument()
+        expect(screen.getByText('Create / Update')).toBeInTheDocument()
 
         expect(screen.getByRole('spinbutton', { name: 'Freight Amount' }))
         await userEvent.type(screen.getByLabelText('Freight Amount'), '5000')

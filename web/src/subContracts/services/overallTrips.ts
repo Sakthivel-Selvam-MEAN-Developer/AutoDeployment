@@ -24,7 +24,7 @@ export const getTripByUnloadDate = (date: number) =>
 
 export const getAllDiscrepancyReport = (from: number, to: number) =>
     axiosInstance
-        .get(`/overalltrip/report/${from}/${to}`)
+        .get(`/overalltrip/report/discrepancy/${from}/${to}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
 

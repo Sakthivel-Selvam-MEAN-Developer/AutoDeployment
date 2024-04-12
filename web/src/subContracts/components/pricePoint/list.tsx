@@ -8,7 +8,7 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import PricePointReport from './pricePointReport/listPricePoint'
 
 const CreatePricepoint: React.FC = (): ReactElement => {
-    const { handleSubmit, control, setValue } = useForm<FieldValues>()
+    const { handleSubmit, control } = useForm<FieldValues>()
     const [transporterRate, setTransporterRate] = useState<number>(0)
     const [cementCompany, setCementCompany] = useState([])
     const [loadingPointId, setLoadingPointId] = useState<number | null>(null)
@@ -47,15 +47,33 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             }
             if (category === 'Loading - Unloading')
                 createpricePoint({ ...details, stockPointId: null }).then(() => {
-                    clearForm(setCategory, setCementCompanyName, setDueDate, setOpenSuccessDialog)
+                    clearForm(
+                        setCategory,
+                        setCementCompanyName,
+                        setDueDate,
+                        setTransporterPercentage,
+                        setOpenSuccessDialog
+                    )
                 })
             else if (category === 'Loading - Stock')
                 createpricePoint({ ...details, unloadingPointId: null }).then(() =>
-                    clearForm(setCategory, setCementCompanyName, setDueDate, setOpenSuccessDialog)
+                    clearForm(
+                        setCategory,
+                        setCementCompanyName,
+                        setDueDate,
+                        setTransporterPercentage,
+                        setOpenSuccessDialog
+                    )
                 )
             else if (category === 'Stock - Unloading')
                 createpricePoint({ ...details, loadingPointId: null }).then(() =>
-                    clearForm(setCategory, setCementCompanyName, setDueDate, setOpenSuccessDialog)
+                    clearForm(
+                        setCategory,
+                        setCementCompanyName,
+                        setDueDate,
+                        setTransporterPercentage,
+                        setOpenSuccessDialog
+                    )
                 )
         } else alert('All fields Required')
     }
@@ -78,13 +96,12 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     transporterRate={transporterRate}
                     category={category}
                     setCategory={setCategory}
-                    setValue={setValue}
                     setCementCompanyName={setCementCompanyName}
                     cementCompanyName={cementCompanyName}
                     setDueDate={setDueDate}
                     dueDate={dueDate}
                 />
-                <SubmitButton name="Submit" type="submit" />
+                <SubmitButton name="Create / Update" type="submit" />
                 <SuccessDialog
                     open={openSuccessDialog}
                     handleClose={() => setOpenSuccessDialog(false)}
@@ -103,10 +120,12 @@ const clearForm = (
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>,
     setDueDate: React.Dispatch<React.SetStateAction<number>>,
+    setTransporterPercentage: React.Dispatch<React.SetStateAction<number>>,
     setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
     setCategory('')
     setCementCompanyName('')
     setDueDate(0)
+    setTransporterPercentage(0)
     setOpenSuccessDialog(true)
 }
