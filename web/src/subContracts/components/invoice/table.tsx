@@ -16,8 +16,8 @@ const cellNames = [
 const newLocal = (
     <TableRow>
         <TableCell sx={{ textAlign: 'center' }}>#</TableCell>
-        {cellNames.map((cellName) => (
-            <TableCell align="left">{cellName}</TableCell>
+        {cellNames.map((cellName,index) => (
+            <TableCell key={index} align="left">{cellName}</TableCell>
         ))}
     </TableRow>
 )

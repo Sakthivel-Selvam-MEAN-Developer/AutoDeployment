@@ -14,6 +14,17 @@ interface transporter {
     transporterAmount: number
     freightAmount: number
 }
+export interface FuelProps {
+    fueledDate: number
+    invoiceNumber: string
+    pricePerliter: number
+    quantity: number
+    totalprice: number
+    vehicleNumber: string
+    bunk: {
+        bunkName: string
+    }
+}
 const NewTrip: React.FC = () => {
     const { handleSubmit, control, watch, setValue } = useForm<FieldValues>()
     const [transporter, setTransporter] = useState([])
@@ -38,6 +49,8 @@ const NewTrip: React.FC = () => {
     const [ownTruckFuel, setownTruckFuel] = useState<boolean>(true)
     const [listTruck, setListTruck] = useState([])
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const [fuelDetails, setFuelDetails] = useState<FuelProps | null>(null)
+
     useEffect(() => {
         setTotalFreightAmount(freightAmount * parseFloat(filledLoad))
         setTotalTransporterAmount(transporterAmount * parseFloat(filledLoad))
@@ -80,7 +93,9 @@ const NewTrip: React.FC = () => {
                             setClear,
                             setCategory,
                             setValue,
-                            setListTruck
+                            setListTruck,
+                            setFuelDetails,
+                            setFuel
                             // setDriverName
                         )
                     )
@@ -95,7 +110,9 @@ const NewTrip: React.FC = () => {
                             setClear,
                             setCategory,
                             setValue,
-                            setListTruck
+                            setListTruck,
+                            setFuelDetails,
+                            setFuel
                             // setDriverName
                         )
                     )
@@ -146,6 +163,8 @@ const NewTrip: React.FC = () => {
                 clear={clear}
                 setListTruck={setListTruck}
                 listTruck={listTruck}
+                setFuelDetails={setFuelDetails}
+                fuelDetails={fuelDetails}
                 // setDriverName={setDriverName}
                 // driverName={driverName}
             />
@@ -170,13 +189,17 @@ type clearFormType = (
     setClear: React.Dispatch<React.SetStateAction<boolean>>,
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     setValue: UseFormSetValue<FieldValues>,
-    setListTruck: React.Dispatch<React.SetStateAction<never[]>>
+    setListTruck: React.Dispatch<React.SetStateAction<never[]>>,
+    setFuelDetails:React.Dispatch<React.SetStateAction<FuelProps | null>>,
+    setFuel: React.Dispatch<React.SetStateAction<boolean>>
 ) => void
 
-const clearForm: clearFormType = (clear, setClear, setCategory, setValue, setListTruck) => {
+const clearForm: clearFormType = (clear, setClear, setCategory, setValue, setListTruck,setFuelDetails,setFuel) => {
     setClear(!clear)
     setCategory('')
     setValue('tripDate', null)
     setValue('filledLoad', '')
     setListTruck([])
+    setFuelDetails(null)
+    setFuel(false)
 }

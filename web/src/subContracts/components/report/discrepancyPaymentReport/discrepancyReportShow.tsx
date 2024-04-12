@@ -33,11 +33,11 @@ const cellNames = [
     'Total Paid Amount',
     'Difference Amount'
 ]
-
+ 
 const tabelRow = (
     <TableRow>
-        {cellNames.map((name) => (
-            <TableCell>{name}</TableCell>
+        {cellNames.map((name,index) => (
+            <TableCell key={index}>{name}</TableCell>
         ))}
     </TableRow>
 )

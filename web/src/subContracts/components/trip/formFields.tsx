@@ -13,23 +13,14 @@ import { listFuelWithoutTripId } from '../../services/fuel.ts'
 import DateInput from '../../../form/DateInput.tsx'
 import Paper from '@mui/material/Paper'
 import { CheckUser } from '../../../auth/checkUser.tsx'
+import { FuelProps } from './newTrip.tsx'
 
 interface transporterProps {
     name: string
     tdsPercentage: number
     transporterType: string
 }
-interface FuelProps {
-    fueledDate: number
-    invoiceNumber: string
-    pricePerliter: number
-    quantity: number
-    totalprice: number
-    vehicleNumber: string
-    bunk: {
-        bunkName: string
-    }
-}
+
 interface FormFieldProps {
     control: Control
     transporter: transporterProps[]
@@ -57,6 +48,8 @@ interface FormFieldProps {
     // setDriverId: React.Dispatch<React.SetStateAction<number>>
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>
     listTruck: never[]
+    fuelDetails: FuelProps | null
+    setFuelDetails: React.Dispatch<React.SetStateAction<FuelProps | null>>
     // driversList: never[]
     // setDriverName: React.Dispatch<React.SetStateAction<string>>
     // driverName: string
@@ -85,7 +78,9 @@ const FormField: React.FC<FormFieldProps> = ({
     setownTruckFuel,
     clear,
     setListTruck,
-    listTruck
+    listTruck,
+    fuelDetails,
+    setFuelDetails,
     // setDriverId,
     // driversList,
     // setDriverName,
@@ -101,7 +96,6 @@ const FormField: React.FC<FormFieldProps> = ({
     const [loadingPointName, setLoadingPointName] = useState<string>('')
     const [stockPointName, setStockPointName] = useState<string>('')
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
-    const [fuelDetails, setFuelDetails] = useState<FuelProps>()
 
     useEffect(() => {
         if (cementCompanyName !== null && cementCompanyName !== '')
@@ -161,55 +155,56 @@ const FormField: React.FC<FormFieldProps> = ({
     }, [vehicleNumber])
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                gap: '10px',
-                rowGap: '10px',
-                flexWrap: 'wrap'
-            }}
-        >
-            <AutoCompleteWithValue
-                control={control}
-                value={cementCompanyName !== null ? cementCompanyName : ''}
-                fieldName="companyName"
-                label="Company Name"
-                options={cementCompany}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    setCementCompanyName(newValue)
+        <>
+            <div
+                style={{
+                    display: 'flex',
+                    gap: '10px',
+                    rowGap: '10px',
+                    flexWrap: 'wrap'
                 }}
-            />
-            <AutoCompleteWithValue
-                control={control}
-                value={transporterName !== null ? transporterName : ''}
-                fieldName="transporterName"
-                label="Transporter"
-                options={transporter.map(({ name }) => name)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    setTransporterName(newValue)
-                }}
-            />
-            <DateInput
-                control={control}
-                format="DD/MM/YYYY"
-                fieldName="tripDate"
-                label="Trip Start Date"
-            />
-            <AutoCompleteWithValue
-                value={vehicleNumber}
-                control={control}
-                fieldName="truckId"
-                label="Truck Number"
-                options={listTruck.map(({ vehicleNumber }) => vehicleNumber)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id } = listTruck.find(
-                        (truck: { vehicleNumber: string }) => truck.vehicleNumber === newValue
-                    ) || { id: 0 }
-                    setTruckId(id)
-                    setVehicleNumber(newValue)
-                }}
-            />
-            {/* <AutoCompleteWithValue
+            >
+                <AutoCompleteWithValue
+                    control={control}
+                    value={cementCompanyName !== null ? cementCompanyName : ''}
+                    fieldName="companyName"
+                    label="Company Name"
+                    options={cementCompany}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        setCementCompanyName(newValue)
+                    }}
+                />
+                <AutoCompleteWithValue
+                    control={control}
+                    value={transporterName !== null ? transporterName : ''}
+                    fieldName="transporterName"
+                    label="Transporter"
+                    options={transporter.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        setTransporterName(newValue)
+                    }}
+                />
+                <DateInput
+                    control={control}
+                    format="DD/MM/YYYY"
+                    fieldName="tripDate"
+                    label="Trip Start Date"
+                />
+                <AutoCompleteWithValue
+                    value={vehicleNumber}
+                    control={control}
+                    fieldName="truckId"
+                    label="Truck Number"
+                    options={listTruck.map(({ vehicleNumber }) => vehicleNumber)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id } = listTruck.find(
+                            (truck: { vehicleNumber: string }) => truck.vehicleNumber === newValue
+                        ) || { id: 0 }
+                        setTruckId(id)
+                        setVehicleNumber(newValue)
+                    }}
+                />
+                {/* <AutoCompleteWithValue
                 value={driverName}
                 control={control}
                 fieldName="driverId"
@@ -223,188 +218,191 @@ const FormField: React.FC<FormFieldProps> = ({
                     setDriverId(id)
                 }}
             /> */}
-            <AutoCompleteWithValue
-                value={category}
-                control={control}
-                fieldName="category"
-                label="Select Category"
-                options={['Unloading Point', 'Stock Point']}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    setCategory(newValue)
-                }}
-            />
-            <AutoCompleteWithValue
-                value={loadingPointName}
-                control={control}
-                fieldName="loadingPointId"
-                label="Loading Point"
-                options={loadingPointList.map(({ name }) => name)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id } = loadingPointList.find(
-                        (data: { name: string }) => data.name === newValue
-                    ) || { id: 0 }
-                    loadingPointId(id)
-                    setLoadingPointName(newValue)
-                }}
-            />
-            {category !== 'Stock Point' ? (
                 <AutoCompleteWithValue
-                    value={unloadingPointName}
+                    value={category}
                     control={control}
-                    fieldName="unloadingPointId"
-                    label="Unloading Point"
-                    options={unloadingPointList.map(({ name }) => name)}
+                    fieldName="category"
+                    label="Select Category"
+                    options={['Unloading Point', 'Stock Point']}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id } = unloadingPointList.find(
+                        setCategory(newValue)
+                    }}
+                />
+                <AutoCompleteWithValue
+                    value={loadingPointName}
+                    control={control}
+                    fieldName="loadingPointId"
+                    label="Loading Point"
+                    options={loadingPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id } = loadingPointList.find(
                             (data: { name: string }) => data.name === newValue
                         ) || { id: 0 }
-                        unloadingPointId(id)
-                        setUnloadingPointName(newValue)
+                        loadingPointId(id)
+                        setLoadingPointName(newValue)
                     }}
                 />
-            ) : (
-                <AutoCompleteWithValue
-                    value={stockPointName}
+                {category !== 'Stock Point' ? (
+                    <AutoCompleteWithValue
+                        value={unloadingPointName}
+                        control={control}
+                        fieldName="unloadingPointId"
+                        label="Unloading Point"
+                        options={unloadingPointList.map(({ name }) => name)}
+                        onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                            const { id } = unloadingPointList.find(
+                                (data: { name: string }) => data.name === newValue
+                            ) || { id: 0 }
+                            unloadingPointId(id)
+                            setUnloadingPointName(newValue)
+                        }}
+                    />
+                ) : (
+                    <AutoCompleteWithValue
+                        value={stockPointName}
+                        control={control}
+                        fieldName="stockPointId"
+                        label="Stock Point"
+                        options={stockPointList.map(({ name }) => name)}
+                        onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                            const { id } = stockPointList.find(
+                                (data: { name: string }) => data.name === newValue
+                            ) || { id: 0 }
+                            stockPointId(id)
+                            setStockPointName(newValue)
+                        }}
+                    />
+                )}
+                {CheckUser() && (
+                    <InputWithDefaultValue
+                        control={control}
+                        label="Company Freight"
+                        fieldName="freightAmount"
+                        type="number"
+                        defaultValue={freightAmount}
+                        value={freightAmount?.toFixed(2)}
+                        InputProps={{
+                            readOnly: true,
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <b>Rs</b>
+                                </InputAdornment>
+                            )
+                        }}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                    />
+                )}
+                {ownTruck === false && (
+                    <InputWithDefaultValue
+                        control={control}
+                        label="Transporter Freight"
+                        fieldName="transporterAmount"
+                        type="number"
+                        defaultValue={transporterAmount}
+                        value={transporterAmount?.toFixed(2)}
+                        InputProps={{
+                            readOnly: true,
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <b>Rs</b>
+                                </InputAdornment>
+                            )
+                        }}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                    />
+                )}
+                <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
+                <NumberInput
                     control={control}
-                    fieldName="stockPointId"
-                    label="Stock Point"
-                    options={stockPointList.map(({ name }) => name)}
-                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id } = stockPointList.find(
-                            (data: { name: string }) => data.name === newValue
-                        ) || { id: 0 }
-                        stockPointId(id)
-                        setStockPointName(newValue)
-                    }}
-                />
-            )}
-            {CheckUser() && (
-                <InputWithDefaultValue
-                    control={control}
-                    label="Company Freight"
-                    fieldName="freightAmount"
+                    label="Quantity Loaded"
+                    fieldName="filledLoad"
                     type="number"
-                    defaultValue={freightAmount}
-                    value={freightAmount?.toFixed(2)}
                     InputProps={{
-                        readOnly: true,
                         endAdornment: (
                             <InputAdornment position="end">
-                                <b>Rs</b>
+                                <b>Ton</b>
                             </InputAdornment>
                         )
                     }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
                 />
-            )}
-            {ownTruck === false && (
-                <InputWithDefaultValue
-                    control={control}
-                    label="Transporter Freight"
-                    fieldName="transporterAmount"
-                    type="number"
-                    defaultValue={transporterAmount}
-                    value={transporterAmount?.toFixed(2)}
-                    InputProps={{
-                        readOnly: true,
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <b>Rs</b>
-                            </InputAdornment>
-                        )
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-            )}
-            <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
-            <NumberInput
-                control={control}
-                label="Quantity Loaded"
-                fieldName="filledLoad"
-                type="number"
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Ton</b>
-                        </InputAdornment>
-                    )
-                }}
-            />
-            {CheckUser() && (
-                <InputWithDefaultValue
-                    control={control}
-                    label="Total Company Amount"
-                    fieldName="totalFreightAmount"
-                    type="number"
-                    defaultValue={totalFreightAmount}
-                    value={totalFreightAmount?.toFixed(2)}
-                    InputProps={{
-                        readOnly: true,
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <b>Rs</b>
-                            </InputAdornment>
-                        )
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-            )}
-            {ownTruck === false && (
-                <InputWithDefaultValue
-                    control={control}
-                    label="Total Transporter Amount"
-                    fieldName="totalTransporterAmount"
-                    type="number"
-                    defaultValue={totalTransporterAmount}
-                    value={totalTransporterAmount?.toFixed(2)}
-                    InputProps={{
-                        readOnly: true,
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <b>Rs</b>
-                            </InputAdornment>
-                        )
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-            )}
-            {ownTruck === false && CheckUser() && (
-                <InputWithDefaultValue
-                    control={control}
-                    label="Total Margin"
-                    fieldName="margin"
-                    type="number"
-                    defaultValue={margin}
-                    value={margin?.toFixed(2)}
-                    InputProps={{
-                        readOnly: true,
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <b>Rs</b>
-                            </InputAdornment>
-                        )
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-            )}
-            {ownTruck === false && (
-                <FormControlLabel
-                    disabled={disableWantFuel}
-                    data-testid={'want-fuel'}
-                    control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
-                    label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
-                />
-            )}
+                {CheckUser() && (
+                    <InputWithDefaultValue
+                        control={control}
+                        label="Total Company Amount"
+                        fieldName="totalFreightAmount"
+                        type="number"
+                        defaultValue={totalFreightAmount}
+                        value={totalFreightAmount?.toFixed(2)}
+                        InputProps={{
+                            readOnly: true,
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <b>Rs</b>
+                                </InputAdornment>
+                            )
+                        }}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                    />
+                )}
+                {ownTruck === false && (
+                    <InputWithDefaultValue
+                        control={control}
+                        label="Total Transporter Amount"
+                        fieldName="totalTransporterAmount"
+                        type="number"
+                        defaultValue={totalTransporterAmount}
+                        value={totalTransporterAmount?.toFixed(2)}
+                        InputProps={{
+                            readOnly: true,
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <b>Rs</b>
+                                </InputAdornment>
+                            )
+                        }}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                    />
+                )}
+                {ownTruck === false && CheckUser() && (
+                    <InputWithDefaultValue
+                        control={control}
+                        label="Total Margin"
+                        fieldName="margin"
+                        type="number"
+                        defaultValue={margin}
+                        value={margin?.toFixed(2)}
+                        InputProps={{
+                            readOnly: true,
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <b>Rs</b>
+                                </InputAdornment>
+                            )
+                        }}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                    />
+                )}
+                {ownTruck === false && (
+                    <FormControlLabel
+                        disabled={disableWantFuel}
+                        data-testid={'want-fuel'}
+                        control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
+                        label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
+                    />
+                )}
+
+            </div>
+            <br /> 
             <div>
                 {fuelDetails && (
                     <Table sx={{ width: 650 }} component={Paper} aria-label="simple table">
@@ -429,7 +427,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     </Table>
                 )}
             </div>
-        </div>
+        </>
     )
 }
 
