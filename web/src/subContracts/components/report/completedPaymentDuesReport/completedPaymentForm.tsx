@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect } from 'react'
 import { Control } from 'react-hook-form'
-import AutoComplete from '../../../form/AutoComplete.tsx'
+import AutoComplete from '../../../../form/AutoComplete.tsx'
 import { Button } from '@mui/material'
 import { vendorProps } from './completedPayment.tsx'
-import DateInput from '../../../form/DateInput.tsx'
-import { getAllTransporterName } from '../../services/transporter.ts'
-import { getAllBunkName } from '../../services/bunk.ts'
+import DateInput from '../../../../form/DateInput.tsx'
+import { getAllTransporterName } from '../../../services/transporter.ts'
+import { getAllBunkName } from '../../../services/bunk.ts'
 
 interface FormFieldsProps {
     control: Control

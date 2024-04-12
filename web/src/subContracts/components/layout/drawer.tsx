@@ -76,7 +76,6 @@ const reportSubs = [
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
     const authoriser = CheckUser()
-    console.log(authoriser)
     return (
         <Drawer variant="permanent" open={drawerState}>
             <DrawerHeader theme={theme}>

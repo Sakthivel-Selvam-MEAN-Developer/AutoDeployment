@@ -164,7 +164,7 @@ const tableRow = (row: rowProps, index: number) => {
             <td className="tc">{row.truck.vehicleNumber}</td>
             <td className="tc">{row.filledLoad}</td>
             <td className="tc">{row.freightAmount}</td>
-            <td className="tc">{row.filledLoad * row.freightAmount}</td>
+            <td className="tc">{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
             <td className="tc">{row.overallTrip[0].shortageQuantity[0].shortageQuantity}</td>
             <td></td>
         </tr>
@@ -185,7 +185,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
             <td className="tc">{row.loadingPointToStockPointTrip.filledLoad}</td>
             <td className="tc">{row.freightAmount}</td>
             <td className="tc">
-                {row.loadingPointToStockPointTrip.filledLoad * row.freightAmount}
+                {(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}
             </td>
             <td className="tc">{row.overallTrip[0].shortageQuantity[0].shortageQuantity}</td>
             <td></td>

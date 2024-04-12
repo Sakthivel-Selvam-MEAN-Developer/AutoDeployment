@@ -1,8 +1,8 @@
 import { Control } from 'react-hook-form'
-import DateInput from '../../../form/DateInput'
-import AutoComplete from '../../../form/AutoComplete'
+import DateInput from '../../../../form/DateInput'
+import AutoComplete from '../../../../form/AutoComplete'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { getAllTransporter } from '../../services/transporter'
+import { getAllTransporter } from '../../../services/transporter'
 export interface FormFieldsProps {
     control: Control
     setTransporterName: React.Dispatch<React.SetStateAction<string>>

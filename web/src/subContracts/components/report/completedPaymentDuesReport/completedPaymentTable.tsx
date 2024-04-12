@@ -2,7 +2,7 @@ import Table from '@mui/material/Table'
 import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
 import { Button, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import exportFromJSON from 'export-from-json'
 
 interface Props {

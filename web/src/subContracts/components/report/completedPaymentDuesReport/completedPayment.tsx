@@ -1,7 +1,7 @@
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import CompletedPaymentForm from './completedPaymentForm'
-import { getCompletedDues } from '../../services/paymentDues'
+import { getCompletedDues } from '../../../services/paymentDues'
 import CompletedPaymentTable from './completedPaymentTable'
 import { Box, CircularProgress, Pagination, Stack } from '@mui/material'
 

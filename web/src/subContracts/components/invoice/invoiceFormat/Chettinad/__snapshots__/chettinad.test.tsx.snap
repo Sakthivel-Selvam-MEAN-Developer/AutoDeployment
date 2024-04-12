@@ -413,7 +413,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
             <p
               class="df jc ai pr"
             >
-               0
+               0.00
             </p>
           </div>
         </div>
@@ -515,12 +515,12 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
                 <p
                   class="te p-2"
                 >
-                  0
+                  0.00
                 </p>
                 <p
                   class="te p-2"
                 >
-                  0
+                  0.00
                 </p>
               </div>
               <div>

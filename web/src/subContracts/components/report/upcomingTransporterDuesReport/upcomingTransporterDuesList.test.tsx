@@ -8,18 +8,18 @@ const mockgetUpcomingDuesByFilter = vi.fn()
 const mockAllTransporter = vi.fn()
 const mockGetUpcomingDuesByFilterByDefault = vi.fn()
 
-vi.mock('../../services/paymentDues', () => ({
+vi.mock('../../../services/paymentDues', () => ({
     getUpcomingDuesByFilter: (name: any, from: any, to: any) =>
         mockgetUpcomingDuesByFilter(name, from, to),
     getUpcomingDuesByFilterByDefault: () => mockGetUpcomingDuesByFilterByDefault()
 }))
-vi.mock('../../services/transporter', () => ({
+vi.mock('../../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
 }))
 
 const mockStockTripData = [
     {
-        name: 'Barath Logistics',
+        name: 'Barath Logistics Pvt Ltd',
         dueDate: 1708626600,
         payableAmount: 20000,
         overallTrip: {
@@ -50,7 +50,7 @@ const mockStockTripData = [
                     vehicleNumber: 'TN93D5512',
                     transporter: {
                         id: 1,
-                        name: 'Barath Logistics',
+                        name: 'Barath Logistics Pvt Ltd',
                         csmName: 'Muthu'
                     }
                 }
@@ -60,7 +60,7 @@ const mockStockTripData = [
 ]
 const mockTransporterData = [
     {
-        name: 'Barath Logistics'
+        name: 'Barath Logistics Pvt Ltd'
     }
 ]
 
@@ -86,14 +86,14 @@ describe('Report Test', () => {
             screen.getByRole('listbox')
         })
         const options = screen.getByRole('option', {
-            name: 'Barath Logistics'
+            name: 'Barath Logistics Pvt Ltd'
         })
         await userEvent.click(options)
         await userEvent.type(screen.getByLabelText('Due Start Date'), '08022024')
         await userEvent.type(screen.getByLabelText('Due End Date'), '23022024')
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
     })
-    test('should to able to filter transporter due with user input', async () => {
+    test('should able to filter transporter due with user input', async () => {
         render(
             <BrowserRouter>
                 <ListAllUpcomingDues />
@@ -108,7 +108,7 @@ describe('Report Test', () => {
             screen.getByRole('listbox')
         })
         const options = screen.getByRole('option', {
-            name: 'Barath Logistics'
+            name: 'Barath Logistics Pvt Ltd'
         })
         await userEvent.click(options)
         await userEvent.type(screen.getByLabelText('Due Start Date'), '08022024')
@@ -119,8 +119,9 @@ describe('Report Test', () => {
         expect(screen.getByText('Due Date')).toBeInTheDocument()
         expect(screen.getByText('Transporter Name')).toBeInTheDocument()
         expect(screen.getByText('Amount')).toBeInTheDocument()
+        expect(screen.getByText('CSM Name')).toBeInTheDocument()
 
-        expect(screen.getByText('Barath Logistics')).toBeInTheDocument()
+        expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         expect(screen.getByText('20000')).toBeInTheDocument()
 
         expect(mockgetUpcomingDuesByFilter).toHaveBeenCalledTimes(1)

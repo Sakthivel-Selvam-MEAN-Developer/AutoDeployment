@@ -6,7 +6,7 @@ import ListAllAcknowledgementDues from './listAllAcknowledgementDues'
 
 const mockGetTripByUnloadDate = vi.fn()
 
-vi.mock('../../../services/overallTrips', () => ({
+vi.mock('../../../../services/overallTrips', () => ({
     getTripByUnloadDate: (inputs: any) => mockGetTripByUnloadDate(inputs)
 }))
 

@@ -182,7 +182,7 @@ const UltraTech_APCW: React.FC<InvoiceProps> = ({
                                         <h4>IGST 12.0%</h4>
                                     </td>
                                     <td>
-                                        <b>{totalAmount * 0.12}</b>
+                                        <b>{(totalAmount * 0.12).toFixed(2)}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -190,7 +190,7 @@ const UltraTech_APCW: React.FC<InvoiceProps> = ({
                                         <h4>Grand Total</h4>
                                     </td>
                                     <td>
-                                        <b>{totalAmount * 0.12 + totalAmount}</b>
+                                        <b>{(totalAmount * 0.12 + totalAmount).toFixed(2)}</b>
                                     </td>
                                 </tr>
                             </tbody>

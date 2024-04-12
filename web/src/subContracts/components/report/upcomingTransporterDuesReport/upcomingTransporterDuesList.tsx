@@ -1,12 +1,12 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import SubmitButton from '../../../form/button'
+import SubmitButton from '../../../../form/button'
 import TransporterDuesFilter from './transporterDuesFilter'
 import ListAllTransporterDetails from './transporterShow'
 import {
     getUpcomingDuesByFilter,
     getUpcomingDuesByFilterByDefault
-} from '../../services/paymentDues'
+} from '../../../services/paymentDues'
 
 const ListAllUpcomingDues: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
@@ -36,7 +36,7 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
         <>
             <p>
                 <b>Upcoming Payment Dues</b>
-            </p>{' '}
+            </p>
             <br />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TransporterDuesFilter control={control} setTransporterName={setTransporterName} />

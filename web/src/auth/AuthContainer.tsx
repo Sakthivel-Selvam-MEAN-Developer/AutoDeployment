@@ -6,7 +6,6 @@ import { LoadAfterAuth } from './LoadAfterAuth.tsx'
 
 export const AuthContainer = (props: AuthProps) => {
     const auth = useAuth()
-    console.log(auth)
     useEffect(() => {
         if (isNotAuthenticated(auth)) auth.signinRedirect()
     }, [auth])

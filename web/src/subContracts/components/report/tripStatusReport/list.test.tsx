@@ -10,21 +10,21 @@ const mockLoadingPointByCompanyName = vi.fn()
 const mockAllTransporter = vi.fn()
 const mockAllCementCompany = vi.fn()
 
-vi.mock('../../services/overallTrips', () => ({
+vi.mock('../../../services/overallTrips', () => ({
     getOverallTrip: () => mockGetOverallTrip(),
     getOverallTripByFilter: (cementCompanyId: any, transporterId: any, loadingPointId: any) =>
         mockGetOverallTripByFilter(cementCompanyId, transporterId, loadingPointId)
 }))
-vi.mock('../../services/loadingPoint', () => ({
+vi.mock('../../../services/loadingPoint', () => ({
     getLoadingPointByCompanyName: () => mockLoadingPointByCompanyName()
 }))
-vi.mock('../../services/transporter', () => ({
+vi.mock('../../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
 }))
-vi.mock('../../services/cementCompany', () => ({
+vi.mock('../../../services/cementCompany', () => ({
     getAllCementCompany: () => mockAllCementCompany()
 }))
-vi.mock('../../../auth/checkUser', () => ({
+vi.mock('../../../../auth/checkUser', () => ({
     CheckUser: () => () => {
         return true
     }
@@ -71,7 +71,7 @@ const mockStockTripData = [
                 vehicleNumber: 'TN93D5512',
                 transporter: {
                     id: 1,
-                    name: 'Barath Logistics'
+                    name: 'Barath Logistics Pvt Ltd'
                 }
             }
         }
@@ -86,7 +86,7 @@ const mockCompanyData = [
 ]
 const mockTransporterData = [
     {
-        name: 'Barath Logistics',
+        name: 'Barath Logistics Pvt Ltd',
         bankDetails: {
             accountHolder: 'Barath',
             accountNumber: 15602
@@ -137,7 +137,7 @@ describe('Report Test', () => {
             screen.getByRole('listbox')
         })
         const options = screen.getByRole('option', {
-            name: 'Barath Logistics'
+            name: 'Barath Logistics Pvt Ltd'
         })
         await userEvent.click(options)
 
@@ -202,7 +202,7 @@ describe('Report Test', () => {
             screen.getByRole('listbox')
         })
         const options = screen.getByRole('option', {
-            name: 'Barath Logistics'
+            name: 'Barath Logistics Pvt Ltd'
         })
         await userEvent.click(options)
 
@@ -223,7 +223,7 @@ describe('Report Test', () => {
 
         expect(screen.getByText('Trip Status')).toBeInTheDocument()
         expect(screen.getByText('Transporter')).toBeInTheDocument()
-        expect(screen.getByText('Barath Logistics')).toBeInTheDocument()
+        expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
         expect(screen.getByText('Advance Pending')).toBeInTheDocument()
 

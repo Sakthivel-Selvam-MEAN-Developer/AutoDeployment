@@ -64,9 +64,7 @@ const updateOngoingStop = (
     }
 }
 const addValidOngoingStopToStops = (ongoingStop: RawStop, stops: RawStop[]) => {
-    if (ongoingStop.startTime === 0) {
-        return
-    }
+    if (ongoingStop.startTime === 0) return
     stops.push(ongoingStop)
 }
 const computeStops = (movements: Movement[]): RawStop[] => {

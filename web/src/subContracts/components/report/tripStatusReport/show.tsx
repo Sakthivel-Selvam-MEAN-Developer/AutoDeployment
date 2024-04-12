@@ -5,10 +5,10 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
-import { CheckUser } from '../../../auth/checkUser'
+import { CheckUser } from '../../../../auth/checkUser.tsx'
 
 interface Row {
     freightAmount: number

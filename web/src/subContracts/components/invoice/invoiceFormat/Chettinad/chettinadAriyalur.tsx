@@ -224,7 +224,10 @@ const Chettinad_Ariyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
                                     </div>
                                     <div className="df jsp bg" style={{ height: '20px' }}>
                                         <p className="df jc ai pl">Total Amount Before Tax</p>
-                                        <p className="df jc ai pr"> {total.totalAmount}</p>
+                                        <p className="df jc ai pr">
+                                            {' '}
+                                            {total.totalAmount.toFixed(2)}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -288,10 +291,10 @@ const Chettinad_Ariyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
                                                     style={{ height: '24px' }}
                                                 />
                                                 <p className="te p-2">
-                                                    {total.totalAmount * (6 / 100)}
+                                                    {(total.totalAmount * (6 / 100)).toFixed(2)}
                                                 </p>
                                                 <p className="te p-2">
-                                                    {total.totalAmount * (6 / 100)}
+                                                    {(total.totalAmount * (6 / 100)).toFixed(2)}
                                                 </p>
                                             </div>
                                             <div>

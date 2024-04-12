@@ -4,7 +4,7 @@ const userName = ['vignesh', 'santhosh', 'suresh', 'wonderwhy']
 
 export const CheckUser = () => {
     const auth = useAuth()
-    if (auth.user !== undefined && auth.user?.profile.preferred_username !== undefined)
+    if (auth && auth.user && auth.user.profile.preferred_username)
         return userName.includes(auth.user?.profile.preferred_username)
     return false
 }

@@ -211,6 +211,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 name="transporterPercentage"
                 control={control}
             />
+
             <InputWithDefaultValue
                 control={control}
                 label="Transporter Amount"
