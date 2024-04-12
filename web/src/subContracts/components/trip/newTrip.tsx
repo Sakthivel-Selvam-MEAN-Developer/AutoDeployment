@@ -190,11 +190,19 @@ type clearFormType = (
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     setValue: UseFormSetValue<FieldValues>,
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>,
-    setFuelDetails:React.Dispatch<React.SetStateAction<FuelProps | null>>,
+    setFuelDetails: React.Dispatch<React.SetStateAction<FuelProps | null>>,
     setFuel: React.Dispatch<React.SetStateAction<boolean>>
 ) => void
 
-const clearForm: clearFormType = (clear, setClear, setCategory, setValue, setListTruck,setFuelDetails,setFuel) => {
+const clearForm: clearFormType = (
+    clear,
+    setClear,
+    setCategory,
+    setValue,
+    setListTruck,
+    setFuelDetails,
+    setFuel
+) => {
     setClear(!clear)
     setCategory('')
     setValue('tripDate', null)

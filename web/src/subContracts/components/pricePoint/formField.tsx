@@ -130,21 +130,21 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 category === 'Loading - Stock' ||
                 category === '' ||
                 category === null) && (
-                    <AutoCompleteWithValue
-                        value={loadingPointName}
-                        control={control}
-                        fieldName="loadingPointId"
-                        label="Loading Point"
-                        options={loadingPointList.map(({ name }) => name)}
-                        onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                            const { id } = loadingPointList.find(
-                                (data: { name: string }) => data.name === newValue
-                            ) || { id: 0 }
-                            setLoadingPointId(id)
-                            setLoadingPointName(newValue)
-                        }}
-                    />
-                )}
+                <AutoCompleteWithValue
+                    value={loadingPointName}
+                    control={control}
+                    fieldName="loadingPointId"
+                    label="Loading Point"
+                    options={loadingPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id } = loadingPointList.find(
+                            (data: { name: string }) => data.name === newValue
+                        ) || { id: 0 }
+                        setLoadingPointId(id)
+                        setLoadingPointName(newValue)
+                    }}
+                />
+            )}
             {(category === 'Stock - Unloading' || category === 'Loading - Stock') && (
                 <AutoCompleteWithValue
                     value={stockPointName}
@@ -165,21 +165,21 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 category === 'Stock - Unloading' ||
                 category === '' ||
                 category === null) && (
-                    <AutoCompleteWithValue
-                        value={unloadingPointName}
-                        control={control}
-                        fieldName="unloadingPointId"
-                        label="Unloading Point"
-                        options={unloadingPointList.map(({ name }) => name)}
-                        onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                            const { id } = unloadingPointList.find(
-                                (data: { name: string }) => data.name === newValue
-                            ) || { id: 0 }
-                            setUnloadingPointId(id)
-                            setUnloadingPointName(newValue)
-                        }}
-                    />
-                )}
+                <AutoCompleteWithValue
+                    value={unloadingPointName}
+                    control={control}
+                    fieldName="unloadingPointId"
+                    label="Unloading Point"
+                    options={unloadingPointList.map(({ name }) => name)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        const { id } = unloadingPointList.find(
+                            (data: { name: string }) => data.name === newValue
+                        ) || { id: 0 }
+                        setUnloadingPointId(id)
+                        setUnloadingPointName(newValue)
+                    }}
+                />
+            )}
             <NumberInputWithValue
                 control={control}
                 label="Freight Amount"
@@ -226,23 +226,25 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     shrink: true
                 }}
             />
-            {category !== 'Stock - Unloading' && <NumberInputWithValue
-                control={control}
-                label="Pay Generating Duration"
-                fieldName="payGeneratingDuration"
-                value={dueDate}
-                type="number"
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    setDueDate(parseInt(event.target.value))
-                }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Days</b>
-                        </InputAdornment>
-                    )
-                }}
-            />}
+            {category !== 'Stock - Unloading' && (
+                <NumberInputWithValue
+                    control={control}
+                    label="Pay Generating Duration"
+                    fieldName="payGeneratingDuration"
+                    value={dueDate}
+                    type="number"
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        setDueDate(parseInt(event.target.value))
+                    }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Days</b>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+            )}
         </div>
     )
 }

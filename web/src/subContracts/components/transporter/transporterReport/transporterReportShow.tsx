@@ -54,8 +54,10 @@ const cellNames = [
 const tableRow = (
     <TableRow>
         <TableCell>#</TableCell>
-        {cellNames.map((name,index) => (
-            <TableCell key={index} align="left">{name}</TableCell>
+        {cellNames.map((name, index) => (
+            <TableCell key={index} align="left">
+                {name}
+            </TableCell>
         ))}
     </TableRow>
 )

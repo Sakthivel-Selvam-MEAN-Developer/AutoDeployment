@@ -80,7 +80,7 @@ const FormField: React.FC<FormFieldProps> = ({
     setListTruck,
     listTruck,
     fuelDetails,
-    setFuelDetails,
+    setFuelDetails
     // setDriverId,
     // driversList,
     // setDriverName,
@@ -400,9 +400,8 @@ const FormField: React.FC<FormFieldProps> = ({
                         label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
                     />
                 )}
-
             </div>
-            <br /> 
+            <br />
             <div>
                 {fuelDetails && (
                     <Table sx={{ width: 650 }} component={Paper} aria-label="simple table">

@@ -51,8 +51,10 @@ const tableCellData = [
 
 const tableRow = (
     <TableRow>
-        {tableCellData.map((data,index) => (
-            <TableCell key ={index} align="left">{data}</TableCell>
+        {tableCellData.map((data, index) => (
+            <TableCell key={index} align="left">
+                {data}
+            </TableCell>
         ))}
     </TableRow>
 )

@@ -38,14 +38,20 @@ const cellNames = [
     'transporterAmount',
     'payGeneratingDuration'
 ]
+const cells = (cell: string, index: number) => {
+    return (
+        <TableCell key={index} align="center">
+            {cell}
+        </TableCell>
+    )
+}
 const tableRow = (
     <TableRow>
         <TableCell>#</TableCell>
-        {cellNames.map((name,index) => (
-            <TableCell key={index} align="left">{name}</TableCell>
-        ))}
+        {cellNames.map((name, index) => cells(name, index))}
     </TableRow>
 )
+
 const getTableHead = () => {
     return <TableHead>{tableRow}</TableHead>
 }

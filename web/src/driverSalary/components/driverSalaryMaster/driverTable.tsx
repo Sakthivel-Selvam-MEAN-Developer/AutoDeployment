@@ -39,13 +39,14 @@ const cellNames = [
     'Download'
 ]
 
-const tableRow = (
-    <TableRow>
-        {cellNames.map((cell,index) => (
-            <TableCell key={index} align="center">{cell}</TableCell>
-        ))}
-    </TableRow>
-)
+const cells = (cell: string, index: number) => {
+    return (
+        <TableCell key={index} align="center">
+            {cell}
+        </TableCell>
+    )
+}
+const tableRow = <TableRow>{cellNames.map((cell, index) => cells(cell, index))}</TableRow>
 const tableHead = <TableHead>{tableRow}</TableHead>
 const Driver_Table: FC<driverDialogProps> = ({ driverTripDetails, setActivateDialog }) => {
     return (

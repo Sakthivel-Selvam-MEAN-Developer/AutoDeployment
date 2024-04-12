@@ -12,15 +12,20 @@ const cellNames = [
     'Freight Amount',
     'Total Freight Amount'
 ]
-
+const cells = (cell: string, index: number) => {
+    return (
+        <TableCell key={index} align="center">
+            {cell}
+        </TableCell>
+    )
+}
 const newLocal = (
     <TableRow>
         <TableCell sx={{ textAlign: 'center' }}>#</TableCell>
-        {cellNames.map((cellName,index) => (
-            <TableCell key={index} align="left">{cellName}</TableCell>
-        ))}
+        {cellNames.map((cellName, index) => cells(cellName, index))}
     </TableRow>
 )
+
 export const getTableHead = () => {
     return <TableHead>{newLocal}</TableHead>
 }
