@@ -12,6 +12,7 @@ import { useState } from 'react'
 
 import StockToUnloadingTrip from './stockToUnloadingTrip.tsx'
 import { getAllUnloadingPoint } from '../../services/unloadingPoint.ts'
+import { CheckUser } from '../../../auth/checkUser.tsx'
 
 export interface AllStockProps {
     filledLoad: number
@@ -44,25 +45,26 @@ const tableCellData = [
     'Start Date',
     'Transporter',
     'Loading Point',
-    'Stock Point',
-    'Freight Amount',
-    'Total Freight Amount'
+    'Stock Point'
 ]
 
-const tableRow = (
-    <TableRow>
-        {tableCellData.map((data, index) => (
-            <TableCell key={index} align="left">
-                {data}
-            </TableCell>
-        ))}
-    </TableRow>
-)
-const getTableHead = () => {
-    return <TableHead>{tableRow}</TableHead>
+const tableRow = (authoriser: boolean) => {
+    if (authoriser) tableCellData.push('Freight Amount', 'Total Freight Amount')
+    return (
+        <TableRow>
+            {tableCellData.map((data, index) => (
+                <TableCell key={index} align="left">
+                    {data}
+                </TableCell>
+            ))}
+        </TableRow>
+    )
+}
+const getTableHead = (authoriser: boolean) => {
+    return <TableHead>{tableRow(authoriser)}</TableHead>
 }
 
-const ShowTypography = (index: number, row: AllStockProps) => {
+const ShowTypography = (index: number, row: AllStockProps, authoriser: boolean) => {
     return (
         <>
             <Typography style={{ fontSize: '15px', width: '3.5vw', padding: '3px 0' }}>
@@ -83,19 +85,24 @@ const ShowTypography = (index: number, row: AllStockProps) => {
             <Typography sx={{ fontSize: '15px', width: '12.5vw', padding: '3px 10px' }}>
                 {row.stockPoint.name}
             </Typography>
-            <Typography sx={{ fontSize: '15px', width: '12vw', padding: '3px 10px' }}>
-                {row.freightAmount}
-            </Typography>
-            <Typography sx={{ fontSize: '15px', width: '10vw', padding: '3px 10px' }}>
-                {row.totalFreightAmount}
-            </Typography>
+            {authoriser && (
+                <>
+                    <Typography sx={{ fontSize: '15px', width: '12vw', padding: '3px 10px' }}>
+                        {row.freightAmount}
+                    </Typography>
+                    <Typography sx={{ fontSize: '15px', width: '10vw', padding: '3px 10px' }}>
+                        {row.totalFreightAmount}
+                    </Typography>
+                </>
+            )}
         </>
     )
 }
 const GetAllStockTripsAsAAccordion = (
     allStockTrips: AllStockProps[],
     setUpdate: React.Dispatch<React.SetStateAction<boolean>>,
-    update: boolean
+    update: boolean,
+    authoriser: boolean
 ) => {
     const [expanded, setExpanded] = useState<number | false>(false)
     const [unloadingPointList, setUnloadingPointList] = useState([])
@@ -120,7 +127,7 @@ const GetAllStockTripsAsAAccordion = (
                             id="panel1bh-header"
                             sx={{ borderBottom: '1px solid grey' }}
                         >
-                            {ShowTypography(index, row)}
+                            {ShowTypography(index, row, authoriser)}
                         </AccordionSummary>
                         <AccordionDetails
                             sx={{ display: 'flex', borderBottom: '1px solid grey', flex: '1' }}
@@ -138,21 +145,22 @@ const GetAllStockTripsAsAAccordion = (
         </>
     )
 }
-const tableContainer = () => {
+const tableContainer = (authoriser: boolean) => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                {getTableHead()}
+                {getTableHead(authoriser)}
             </Table>
         </TableContainer>
     )
 }
 
 const ListAllTrip: React.FC<Props> = ({ allStockTrips, setUpdate, update }) => {
+    const authoriser = CheckUser()
     return (
         <>
-            {tableContainer()}
-            {GetAllStockTripsAsAAccordion(allStockTrips, setUpdate, update)}
+            {tableContainer(authoriser)}
+            {GetAllStockTripsAsAAccordion(allStockTrips, setUpdate, update, authoriser)}
         </>
     )
 }

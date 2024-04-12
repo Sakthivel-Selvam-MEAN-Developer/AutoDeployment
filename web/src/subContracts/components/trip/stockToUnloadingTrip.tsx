@@ -6,6 +6,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { AllStockProps } from './show.tsx'
 import dayjs from 'dayjs'
+import { CheckUser } from '../../../auth/checkUser.tsx'
 
 interface dataProps {
     row: AllStockProps
@@ -36,8 +37,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
     const [transporterAmount, setTransporterAmount] = useState<number>(0)
     const [invoiceNumber, setInvoiceNumber] = useState<string>('')
     const [stockDate, setStockDate] = useState<number>(0)
-    console.log(row)
-
+    const authoriser = CheckUser()
     const coverDateToEpoc = (date: any) => {
         const formattedDays =
             date !== null ? dayjs(dayjs((date as unknown as dateProps)?.$d)).unix() : 0
@@ -123,25 +123,27 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                     }}
                     renderInput={(params) => <TextField {...params} label="Unloading Point" />}
                 />
-                <TextField
-                    sx={{ marginLeft: '20px' }}
-                    id="outlined-number"
-                    label="Company Freight"
-                    name="freightAmount"
-                    type="number"
-                    value={freightAmount?.toFixed(2)}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                    InputProps={{
-                        inputProps: {
-                            step: 1,
-                            min: 0,
-                            readOnly: true
-                        },
-                        endAdornment: null
-                    }}
-                />
+                {authoriser && (
+                    <TextField
+                        sx={{ marginLeft: '20px' }}
+                        id="outlined-number"
+                        label="Company Freight"
+                        name="freightAmount"
+                        type="number"
+                        value={freightAmount?.toFixed(2)}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        InputProps={{
+                            inputProps: {
+                                step: 1,
+                                min: 0,
+                                readOnly: true
+                            },
+                            endAdornment: null
+                        }}
+                    />
+                )}
                 <TextField
                     sx={{ marginLeft: '20px' }}
                     id="outlined-number"
@@ -161,25 +163,27 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                         endAdornment: null
                     }}
                 />
-                <TextField
-                    sx={{ marginLeft: '20px' }}
-                    id="outlined-number"
-                    label="Total Freight Amount"
-                    name="totalFreightAmount"
-                    type="number"
-                    value={(row.filledLoad * freightAmount)?.toFixed(2)}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                    InputProps={{
-                        inputProps: {
-                            step: 1,
-                            min: 0,
-                            readOnly: true
-                        },
-                        endAdornment: null
-                    }}
-                />
+                {authoriser && (
+                    <TextField
+                        sx={{ marginLeft: '20px' }}
+                        id="outlined-number"
+                        label="Total Freight Amount"
+                        name="totalFreightAmount"
+                        type="number"
+                        value={(row.filledLoad * freightAmount)?.toFixed(2)}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
+                        InputProps={{
+                            inputProps: {
+                                step: 1,
+                                min: 0,
+                                readOnly: true
+                            },
+                            endAdornment: null
+                        }}
+                    />
+                )}
                 <TextField
                     sx={{ marginLeft: '20px' }}
                     id="outlined-number"

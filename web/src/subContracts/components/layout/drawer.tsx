@@ -140,15 +140,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={6}
                     icon={<LocalGasStation />}
                 />
-                {authoriser && (
-                    <DrawerListItem
-                        text="Acknowledgement"
-                        navigate="/sub/acknowledgement"
-                        drawerState={drawerState}
-                        index={7}
-                        icon={<LibraryAddCheck />}
-                    />
-                )}
+                <DrawerListItem
+                    text="Acknowledgement"
+                    navigate="/sub/acknowledgement"
+                    drawerState={drawerState}
+                    index={7}
+                    icon={<LibraryAddCheck />}
+                />
                 {authoriser && (
                     <DrawerListItem
                         text="Invoice"

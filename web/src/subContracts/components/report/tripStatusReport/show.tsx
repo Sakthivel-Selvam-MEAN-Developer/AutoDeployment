@@ -35,6 +35,7 @@ interface Row {
     }
     filledLoad: string
     startDate: number
+    sample: string
 }
 interface fuel {
     quantity: number
@@ -173,7 +174,7 @@ function GetTableBody({ listoverallTrip }: any) {
         </TableBody>
     )
 }
-function download(listoverallTrip: Props[]) {
+function download(listoverallTrip: Props[], authoriser: boolean) {
     const downloadtripData: object[] = []
     listoverallTrip.map((row: Props) => {
         if (
@@ -185,7 +186,8 @@ function download(listoverallTrip: Props[]) {
                 row.loadingPointToStockPointTrip,
                 checkPaymentStatus(row.paymentDues),
                 listoverallTrip.length,
-                row
+                row,
+                authoriser
             )
         }
         if (
@@ -197,31 +199,65 @@ function download(listoverallTrip: Props[]) {
                 row.loadingPointToUnloadingPointTrip,
                 checkPaymentStatus(row.paymentDues),
                 listoverallTrip.length,
-                row
+                row,
+                authoriser
             )
         }
     })
 }
+// interface addDataProps {
+//     vehicleNumber: string
+//     startDate: string
+//     invoiceNumber: string
+//     transporter: string
+//     loadingPoint: string
+//     filledLoad: string
+//     tansporterAmount: number
+//     csmName: string
+//     totalTansporterAmount: number
+//     bunkName: string
+//     diselQuantity: number | string
+//     diselAmount: number | string
+//     tripStatus: string
+//     paymentStatus: string
+//     margin: number
+//     freightAmount: number
+//     totalFreightAmount: number
+// }
+// interface addDataProps1 {
+//     vehicleNumber: string
+//     startDate: string
+//     invoiceNumber: string
+//     transporter: string
+//     loadingPoint: string
+//     filledLoad: string
+//     tansporterAmount: number
+//     csmName: string
+//     totalTansporterAmount: number
+//     bunkName: string
+//     diselQuantity: number | string
+//     diselAmount: number | string
+//     tripStatus: string
+//     paymentStatus: string
+// }
 const downloadCSV = (
     downloadtripData: object[],
     tripData: Row,
     type: string,
     num: number,
-    details: Props
+    details: Props,
+    authoriser: boolean
 ) => {
-    const addData = {
+    const addData: any = {
         vehicleNumber: tripData.truck.vehicleNumber,
         startDate: epochToMinimalDate(tripData.startDate),
         invoiceNumber: tripData.invoiceNumber,
         transporter: tripData.truck.transporter.name,
         loadingPoint: tripData.loadingPoint.name,
         filledLoad: tripData.filledLoad,
-        freightAmount: tripData.freightAmount,
         tansporterAmount: tripData.transporterAmount,
         csmName: tripData.truck.transporter.csmName,
-        totalFreightAmount: tripData.totalFreightAmount,
         totalTansporterAmount: tripData.totalTransporterAmount,
-        margin: tripData.margin,
         bunkName: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].bunk.bunkName,
         diselQuantity: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity,
         diselAmount: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].totalprice,
@@ -232,6 +268,11 @@ const downloadCSV = (
                   ? 'Waiting For Acknowledgement'
                   : 'completed',
         paymentStatus: type
+    }
+    if (authoriser) {
+        addData.freightAmount = tripData.freightAmount
+        addData.totalFreightAmount = tripData.totalFreightAmount
+        addData.margin = tripData.margin
     }
     downloadtripData.push(addData)
     if (downloadtripData.length === num) {
@@ -250,11 +291,12 @@ const style = {
     background: 'white'
 }
 const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
+    const authoriser = CheckUser()
     return (
         <>
             <br />
             <div style={{ float: 'right' }}>
-                <Button onClick={() => download(listoverallTrip)} variant="contained">
+                <Button onClick={() => download(listoverallTrip, authoriser)} variant="contained">
                     Generate CSV
                 </Button>
             </div>

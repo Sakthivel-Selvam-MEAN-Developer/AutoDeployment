@@ -25,7 +25,11 @@ vi.mock('../../services/unloadingPoint', () => ({
 vi.mock('../../services/pricePoint', () => ({
     getPricePoint: () => mockPricePoint()
 }))
-
+vi.mock('../../../auth/checkUser', () => ({
+    CheckUser: () => () => {
+        return true
+    }
+}))
 const mockUnloadingPoint = [
     {
         id: 1,
