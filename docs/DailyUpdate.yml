@@ -1,13 +1,31 @@
-- date: 11-04-2024
+- date: 13-04-2024
   person: Barath
   project: subContract
   planning:
-    - number field validation
-- date: 11-04-2024
+    - should add filter in trip status
+- date: 13-04-2024
   person: Sakthivel
   project: subContract
   planning:
-    - fixing paginaion
+    - number field validation
+
+- date: 12-04-2024
+  person: Barath,SakthiVel
+  project: subContract
+  planning:
+    - should test every test cases and review the code
+  completed:
+    - tested every test cases and review the code
+    - deployed the finalpay duration and user authorization 
+    - fixed discrepancy report
+
+- date: 11-04-2024
+  person: Barath,SakthiVel
+  project: subContract
+  planning:
+    - should allow users with user authorization 
+  completed:
+    - allowed users with user authorization 
 
 - date: 10-04-2024
   person: Barath,Sakthivel

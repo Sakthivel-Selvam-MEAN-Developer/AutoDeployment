@@ -12,7 +12,7 @@
 - should be able to mark attendance for drivers while on trip for each day.
 
 ### driver salary master
--  should be able to see salary for every month by trip.
+- should be able to see salary for every month by trip.
 - should be able to add expenses for each trip.
 - should be able to see the total trips taken by the driver.
 - should be able to see total pending expenses for the driver.

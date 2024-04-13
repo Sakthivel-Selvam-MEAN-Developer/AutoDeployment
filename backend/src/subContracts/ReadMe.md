@@ -74,3 +74,24 @@
 14. should be able to generate reports for profit or loss
 15. summary of transporter with date
 16. summary of total quantity lifted  
+
+
+## Test Cases for Deployment
+
+1. should test Loading - Unloading trip without fuel with advanceType 70%
+2. should test Loading - Unloading trip before fuel with advanceType 70%
+3. should test Loading - Unloading trip after fuel with advanceType 70%
+4. should test Loading - Unloading trip without fuel with advanceType 100%
+5. should test Loading - Unloading trip before fuel with advanceType 100%
+6. should test Loading - Unloading trip after fuel with advanceType 100%
+7. should test Loading - Unloading trip for Own Vehicle 
+
+8. should test Loading - Stock - Unloading trip without fuel with advanceType 70%
+9. should test Loading - Stock - Unloading trip before fuel with advanceType 70%
+10. should test Loading - Stock - Unloading trip after fuel with advanceType 70%
+11. should test Loading - Stock - Unloading trip without fuel with advanceType 100%
+12. should test Loading - Stock - Unloading trip before fuel with advanceType 100%
+13. should test Loading - Stock - Unloading trip after fuel with advanceType 100%
+14. should test Loading - Stock - Unloading trip for Own Vehicle 
+
+15. should check negative initial pay should be generated without transactionId and Date 
