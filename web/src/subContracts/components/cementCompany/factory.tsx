@@ -7,12 +7,15 @@ import { createLoadingPoint } from '../../services/loadingPoint'
 import { createStockPoint } from '../../services/stockPoint'
 import { Box, CircularProgress } from '@mui/material'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
-const clearForm = (
+
+type clearFormType = (
     reset: (values: Record<string, string>) => void,
     setValue: UseFormSetValue<FieldValues>,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+) => void
+
+const clearForm: clearFormType = (reset, setValue, setLoading, setOpenSuccessDialog) => {
     reset({ name: '', location: '' })
     setValue('companyName', null)
     setValue('category', null)

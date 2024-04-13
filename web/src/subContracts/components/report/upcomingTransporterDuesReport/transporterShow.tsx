@@ -8,6 +8,8 @@ import Paper from '@mui/material/Paper'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
+import { Dispatch, ReactElement } from 'react'
+import { SetStateAction } from 'jotai'
 
 interface Props {
     name: string
@@ -55,14 +57,13 @@ function getTableHead() {
         </TableHead>
     )
 }
-const getCells = (
+type cellType = (
     data: Props,
-    num: number,
     trip: { truck: { transporter: { csmName: string } } } | null
-) => {
+) => ReactElement
+const getCells: cellType = (data, trip) => {
     return (
         <>
-            <TableCell> {num} </TableCell>
             <TableCell align="left">{data.name}</TableCell>
             <TableCell align="left">{trip?.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{epochToMinimalDate(data.dueDate)}</TableCell>
@@ -70,28 +71,26 @@ const getCells = (
         </>
     )
 }
-function getTableBody(allTrips: Props[]) {
-    let number = 0
+const tableBodyCell = (row: Props, index: number, number: number) => {
     const style = { '&:last-child td, &:last-child th': { border: 0 } }
     return (
-        <TableBody>
-            {allTrips.map((row, index) => {
-                return (
-                    <TableRow key={index} sx={style}>
-                        {getCells(
-                            row,
-                            ++number,
-                            row.overallTrip.loadingPointToStockPointTrip !== null
-                                ? row.overallTrip.loadingPointToStockPointTrip
-                                : row.overallTrip.loadingPointToUnloadingPointTrip !== null
-                                  ? row.overallTrip.loadingPointToUnloadingPointTrip
-                                  : null
-                        )}
-                    </TableRow>
-                )
-            })}
-        </TableBody>
+        <TableRow key={index} sx={style}>
+            <TableCell> {++number} </TableCell>
+            {getCells(row, getTripType(row))}
+        </TableRow>
     )
+}
+function getTableBody(allTrips: Props[]) {
+    const number = 0
+    return <TableBody>{allTrips.map((row, index) => tableBodyCell(row, index, number))}</TableBody>
+}
+
+const getTripType = (row: Props) => {
+    return row.overallTrip.loadingPointToStockPointTrip !== null
+        ? row.overallTrip.loadingPointToStockPointTrip
+        : row.overallTrip.loadingPointToUnloadingPointTrip !== null
+          ? row.overallTrip.loadingPointToUnloadingPointTrip
+          : null
 }
 function download(listoverallTrip: Props[]) {
     const downloadtripData: object[] = []
@@ -120,32 +119,53 @@ const style = {
 const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, setskipNumber }) => {
     return (
         <>
-            <br />
-            <div style={{ float: 'right' }}>
-                <Button onClick={() => download(transporterDueData)} variant="contained">
-                    Generate Form
-                </Button>
-            </div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                    {getTableHead()}
-                    {getTableBody(transporterDueData)}
-                </Table>
-            </TableContainer>
-            <div style={{ ...style, position: 'sticky' }}>
-                <Stack spacing={10}>
-                    <Pagination
-                        count={100}
-                        size="large"
-                        color="primary"
-                        onChange={(_e, value) => {
-                            setskipNumber(value - 1)
-                        }}
-                    />
-                </Stack>
-            </div>
+            {generateCSVButton(transporterDueData)}
+            {tableContainer(transporterDueData)}
+            {stack(setskipNumber)}
         </>
     )
 }
 
 export default ListAllDetails
+
+function stack(setskipNumber: Dispatch<SetStateAction<number>>) {
+    return (
+        <div style={{ ...style, position: 'sticky' }}>
+            <Stack spacing={10}>{pagination(setskipNumber)}</Stack>
+        </div>
+    )
+}
+
+function pagination(setskipNumber: Dispatch<SetStateAction<number>>) {
+    return (
+        <Pagination
+            count={100}
+            size="large"
+            color="primary"
+            onChange={(_e, value) => setskipNumber(value - 1)}
+        />
+    )
+}
+
+function tableContainer(transporterDueData: Props[]) {
+    return <TableContainer component={Paper}>{table(transporterDueData)}</TableContainer>
+}
+
+function table(transporterDueData: Props[]) {
+    return (
+        <Table sx={{ minWidth: 600 }} aria-label="simple table">
+            {getTableHead()}
+            {getTableBody(transporterDueData)}
+        </Table>
+    )
+}
+
+function generateCSVButton(transporterDueData: Props[]) {
+    return (
+        <div style={{ float: 'right', marginTop: '10px' }}>
+            <Button onClick={() => download(transporterDueData)} variant="contained">
+                Generate Form
+            </Button>
+        </div>
+    )
+}

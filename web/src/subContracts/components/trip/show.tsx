@@ -45,20 +45,17 @@ const tableCellData = [
     'Start Date',
     'Transporter',
     'Loading Point',
-    'Stock Point'
+    'Stock Point',
+    'Freight Amount',
+    'Total Freight Amount'
 ]
+const hiddenFields = ['Freight Amount', 'Total Freight Amount']
 
 const tableRow = (authoriser: boolean) => {
-    if (authoriser) tableCellData.push('Freight Amount', 'Total Freight Amount')
-    return (
-        <TableRow>
-            {tableCellData.map((data, index) => (
-                <TableCell key={index} align="left">
-                    {data}
-                </TableCell>
-            ))}
-        </TableRow>
-    )
+    const rowResult = authoriser
+        ? tableCellData
+        : tableCellData.filter((cell) => !hiddenFields.includes(cell))
+    return <TableRow>{rowResult.map((data, index) => tableCell(index, data))}</TableRow>
 }
 const getTableHead = (authoriser: boolean) => {
     return <TableHead>{tableRow(authoriser)}</TableHead>
@@ -166,3 +163,10 @@ const ListAllTrip: React.FC<Props> = ({ allStockTrips, setUpdate, update }) => {
 }
 
 export default ListAllTrip
+function tableCell(index: number, data: string) {
+    return (
+        <TableCell key={index} align="left">
+            {data}
+        </TableCell>
+    )
+}

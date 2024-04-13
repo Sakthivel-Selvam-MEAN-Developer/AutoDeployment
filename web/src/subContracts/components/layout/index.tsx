@@ -34,19 +34,12 @@ const AppBar = styled((props: AppBarPropsWithOpen) => <MuiAppBar {...props} />, 
         })
     })
 }))
-
+const iconStyle = (open: boolean) => {
+    return { marginRight: 5, ...(open && { display: 'none' }) }
+}
 function getIconButton(handleDrawerOpen: () => void, open: boolean) {
     return (
-        <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-                marginRight: 5,
-                ...(open && { display: 'none' })
-            }}
-        >
+        <IconButton color="inherit" onClick={handleDrawerOpen} edge="start" sx={iconStyle(open)}>
             <MenuIcon />
         </IconButton>
     )

@@ -47,7 +47,7 @@ const getTableHead = () => {
     return <TableHead>{tableRow}</TableHead>
 }
 function cell(data: Row) {
-    const cells = Object.entries(data).map(([key, value]) => {
+    return Object.entries(data).map(([key, value]) => {
         if (key == 'createdAt' || key == 'updatedAt' || key == 'id') return
         return (
             <TableCell key={key} align="left">
@@ -55,24 +55,13 @@ function cell(data: Row) {
             </TableCell>
         )
     })
-    return cells
 }
+const style = { '&:last-child td, &:last-child th': { border: 0 } }
 const getTableBody = (allCompany: Row[]) => {
     return (
-        <>
-            <TableBody>
-                {allCompany &&
-                    allCompany.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell> {index + 1} </TableCell>
-                            {cell(row)}
-                        </TableRow>
-                    ))}
-            </TableBody>
-        </>
+        <TableBody>
+            {allCompany && allCompany.map((row, index) => tableBodyRow(index, row))}
+        </TableBody>
     )
 }
 
@@ -107,3 +96,11 @@ const ListAllCompany: React.FC<Props> = ({ allCompany, loading }) => {
 }
 
 export default ListAllCompany
+function tableBodyRow(index: number, row: Row) {
+    return (
+        <TableRow key={index} sx={style}>
+            <TableCell> {index + 1} </TableCell>
+            {cell(row)}
+        </TableRow>
+    )
+}

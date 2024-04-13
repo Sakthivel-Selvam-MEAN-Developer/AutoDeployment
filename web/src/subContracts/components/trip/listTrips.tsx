@@ -10,14 +10,14 @@ interface listTripsProps {
 }
 
 const ListTrips: FC<listTripsProps> = ({ allStockTrips, setUpdate, update, loading }) => {
-    return (
-        <>
-            {loading ? (
-                <CircularLoader />
-            ) : (
-                <ListAllTrip allStockTrips={allStockTrips} setUpdate={setUpdate} update={update} />
-            )}
-        </>
-    )
+    return <>{loading ? <CircularLoader /> : callListAllTrips(allStockTrips, setUpdate, update)}</>
 }
 export default ListTrips
+
+const callListAllTrips = (
+    allStockTrips: never[],
+    setUpdate: React.Dispatch<React.SetStateAction<boolean>>,
+    update: boolean
+) => {
+    return <ListAllTrip allStockTrips={allStockTrips} setUpdate={setUpdate} update={update} />
+}

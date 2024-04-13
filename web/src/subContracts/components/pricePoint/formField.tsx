@@ -4,7 +4,6 @@ import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import { Control, Controller } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
-import NumberInputWithValue from '../../../form/NumberInputWithValue.tsx'
 import { InputAdornment, TextField } from '@mui/material'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
@@ -70,11 +69,14 @@ const FormFields: React.FC<FormFieldsProps> = ({
         setUnloadingPointName('')
         setStockPointName('')
         setFreightAmount(0)
+        setTransporterPercentage(0)
+        setDueDate(0)
+        clearSubForm()
+    }
+    const clearSubForm = () => {
         setLoadingPointId(null)
         setUnloadingPointId(null)
         setStockPointId(null)
-        setTransporterPercentage(0)
-        setDueDate(0)
     }
     useEffect(() => {
         clearForm()
@@ -180,38 +182,47 @@ const FormFields: React.FC<FormFieldsProps> = ({
                     }}
                 />
             )}
-            <NumberInputWithValue
+            <Controller
+                render={() => (
+                    <TextField
+                        value={freightAmount}
+                        sx={{ width: '200px' }}
+                        label="Freight Amount"
+                        inputProps={{ step: 0.01, min: 0, max: 10000 }}
+                        type="number"
+                        onChange={(e) => {
+                            if (
+                                parseFloat(e.target.value) <= 10000 &&
+                                parseFloat(e.target.value) >= 0
+                            )
+                                setFreightAmount(parseFloat(parseFloat(e.target.value).toFixed(2)))
+                            else if (e.target.value === '') setFreightAmount(0)
+                        }}
+                    />
+                )}
+                name="freightAmount"
                 control={control}
-                label="Freight Amount"
-                fieldName="freightAmount"
-                value={freightAmount}
-                type="number"
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    setFreightAmount(parseInt(event.target.value))
-                }}
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
             />
             <Controller
-                render={({ field }) => (
+                render={() => (
                     <TextField
-                        {...field}
+                        sx={{ width: '200px' }}
                         value={transporterPercentage}
                         label="Transporter Percentage"
-                        inputProps={{ step: 0.01, min: 0 }}
+                        inputProps={{ step: 0.0001, min: 0, max: 20 }}
                         type="number"
-                        onChange={(e) => setTransporterPercentage(parseFloat(e.target.value))}
+                        onChange={(e) => {
+                            if (parseFloat(e.target.value) <= 20 && parseFloat(e.target.value) > 0)
+                                setTransporterPercentage(
+                                    parseFloat(parseFloat(e.target.value).toFixed(4))
+                                )
+                            else if (e.target.value === '') setTransporterPercentage(0)
+                        }}
                     />
                 )}
                 name="transporterPercentage"
                 control={control}
             />
-
             <InputWithDefaultValue
                 control={control}
                 label="Transporter Amount"
@@ -219,30 +230,34 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 type="number"
                 defaultValue={transporterRate}
                 value={transporterRate.toFixed(2)}
-                InputProps={{
-                    readOnly: true
-                }}
-                InputLabelProps={{
-                    shrink: true
-                }}
+                InputProps={{ readOnly: true }}
+                InputLabelProps={{ shrink: true }}
             />
             {category !== 'Stock - Unloading' && (
-                <NumberInputWithValue
+                <Controller
+                    render={() => (
+                        <TextField
+                            sx={{ width: '200px' }}
+                            value={dueDate}
+                            label="Pay Generating Duration"
+                            inputProps={{ step: 1, min: 1, max: 45 }}
+                            type="number"
+                            onChange={(e) => {
+                                if (parseInt(e.target.value) <= 45 && parseInt(e.target.value) > 0)
+                                    setDueDate(parseInt(e.target.value))
+                                else if (e.target.value === '') setDueDate(0)
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <b>Days</b>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    )}
+                    name="payGeneratingDuration"
                     control={control}
-                    label="Pay Generating Duration"
-                    fieldName="payGeneratingDuration"
-                    value={dueDate}
-                    type="number"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        setDueDate(parseInt(event.target.value))
-                    }}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <b>Days</b>
-                            </InputAdornment>
-                        )
-                    }}
                 />
             )}
         </div>

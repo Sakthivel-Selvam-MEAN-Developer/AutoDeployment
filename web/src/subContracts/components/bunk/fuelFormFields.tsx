@@ -1,21 +1,33 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import AutoComplete from '../../../form/AutoComplete.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
-import { Control } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 import { getAllBunk } from '../../services/bunk.ts'
 import { InputAdornment, TextField } from '@mui/material'
 import { getAllTruck } from '../../services/truck.ts'
 import DateInput from '../../../form/DateInput.tsx'
 import TextInput from '../../../form/TextInput.tsx'
-import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
+import { SetStateAction } from 'jotai'
 
 interface FormFieldsProps {
     control: Control
     setBunkId: React.Dispatch<React.SetStateAction<number>>
     totalPrice: number
+    pricePerliter: number
+    quantity: number
+    setPricePerliter: React.Dispatch<SetStateAction<number>>
+    setQuantity: React.Dispatch<SetStateAction<number>>
 }
 
-const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPrice }) => {
+const FuelFormFields: React.FC<FormFieldsProps> = ({
+    control,
+    setBunkId,
+    totalPrice,
+    pricePerliter,
+    quantity,
+    setPricePerliter,
+    setQuantity
+}) => {
     const [bunkList, setBunkList] = useState([])
     const [bunkLocation, setBunkLocation] = useState<string>('')
     const [vehicleList, setvehicleList] = useState([])
@@ -69,27 +81,48 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                     console.log(newValue)
                 }}
             />
-            <NumberInputWithProps
+            <Controller
+                render={() => (
+                    <TextField
+                        value={quantity}
+                        sx={{ width: '200px' }}
+                        label="Fuel Quantity"
+                        inputProps={{ step: 0.01, min: 0, max: 500 }}
+                        type="number"
+                        onChange={(e) => {
+                            if (parseFloat(e.target.value) <= 500 && parseFloat(e.target.value) > 0)
+                                setQuantity(parseFloat(parseFloat(e.target.value).toFixed(2)))
+                            else if (e.target.value === '') setQuantity(0)
+                        }}
+                    />
+                )}
+                name="quantity"
                 control={control}
-                label="Fuel Quantity"
-                fieldName="quantity"
-                type="number"
-                inputProps={{ step: 'any', min: '0' }}
-                InputProps={{}}
             />
-            <NumberInputWithProps
+            <Controller
+                render={() => (
+                    <TextField
+                        value={pricePerliter}
+                        sx={{ width: '200px' }}
+                        label="Fuel per Liter"
+                        inputProps={{ step: 0.01, min: 0, max: 110 }}
+                        type="number"
+                        onChange={(e) => {
+                            if (parseFloat(e.target.value) <= 110 && parseFloat(e.target.value) > 0)
+                                setPricePerliter(parseFloat(parseFloat(e.target.value).toFixed(2)))
+                            else if (e.target.value === '') setPricePerliter(0)
+                        }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <b>Rs/liter</b>
+                                </InputAdornment>
+                            )
+                        }}
+                    />
+                )}
+                name="pricePerliter"
                 control={control}
-                label="Fuel per Liter"
-                fieldName="pricePerliter"
-                type="number"
-                inputProps={{ step: 'any', min: '0' }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Rs/liter</b>
-                        </InputAdornment>
-                    )
-                }}
             />
             <InputWithDefaultValue
                 control={control}
@@ -106,9 +139,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({ control, setBunkId, totalPr
                         </InputAdornment>
                     )
                 }}
-                InputLabelProps={{
-                    shrink: true
-                }}
+                InputLabelProps={{ shrink: true }}
             />
             <TextInput control={control} label="Diesel Bill Number" fieldName="invoiceNumber" />
         </div>

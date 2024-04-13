@@ -4,7 +4,7 @@ interface dataProps {
     truckId: number
     loadingPointId: number | null
     startDate: number
-    filledLoad: number
+    filledLoad: number | null
     invoiceNumber: string
     freightAmount: number
     transporterAmount: number

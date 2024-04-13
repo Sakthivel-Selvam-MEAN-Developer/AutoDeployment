@@ -1,12 +1,19 @@
 import TextInput from '../../../form/TextInput.tsx'
-import NumberInput from '../../../form/NumberInput.tsx'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
-import { FormControlLabel, InputAdornment, Switch, Table, TableCell, TableRow } from '@mui/material'
+import {
+    FormControlLabel,
+    InputAdornment,
+    Switch,
+    Table,
+    TableCell,
+    TableRow,
+    TextField
+} from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getTruckByTransporter } from '../../services/truck.ts'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
-import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
+import { Control, Controller, FieldValues, UseFormSetValue } from 'react-hook-form'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { listFuelWithoutTripId } from '../../services/fuel.ts'
@@ -49,7 +56,9 @@ interface FormFieldProps {
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>
     listTruck: never[]
     fuelDetails: FuelProps | null
+    filledLoad: number | null
     setFuelDetails: React.Dispatch<React.SetStateAction<FuelProps | null>>
+    setFilledLoad: React.Dispatch<React.SetStateAction<number | null>>
     // driversList: never[]
     // setDriverName: React.Dispatch<React.SetStateAction<string>>
     // driverName: string
@@ -80,7 +89,9 @@ const FormField: React.FC<FormFieldProps> = ({
     setListTruck,
     listTruck,
     fuelDetails,
-    setFuelDetails
+    setFuelDetails,
+    filledLoad,
+    setFilledLoad
     // setDriverId,
     // driversList,
     // setDriverName,
@@ -104,7 +115,6 @@ const FormField: React.FC<FormFieldProps> = ({
             getTruckByTransporter(transporterName).then(setListTruck)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [transporterName, cementCompanyName])
-
     useEffect(() => {
         if (cementCompanyName !== null && cementCompanyName !== '' && category === 'Stock Point')
             getStockPointByCompanyName(cementCompanyName).then(setStockPointList)
@@ -142,18 +152,20 @@ const FormField: React.FC<FormFieldProps> = ({
     useEffect(() => {
         if (vehicleNumber !== '')
             listFuelWithoutTripId(vehicleNumber).then((fuelDetails) => {
-                if (fuelDetails !== null) {
-                    setDisableWantFuel(true)
-                    setFuelDetails(fuelDetails)
-                    setownTruckFuel(false)
-                } else {
-                    setDisableWantFuel(false)
-                    setownTruckFuel(true)
-                }
+                if (fuelDetails !== null) onFuelNotNull()
+                else onFuelNull()
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vehicleNumber])
-
+    const onFuelNotNull = () => {
+        setDisableWantFuel(true)
+        setFuelDetails(fuelDetails)
+        setownTruckFuel(false)
+    }
+    const onFuelNull = () => {
+        setDisableWantFuel(false)
+        setownTruckFuel(true)
+    }
     return (
         <>
             <div
@@ -316,18 +328,33 @@ const FormField: React.FC<FormFieldProps> = ({
                     />
                 )}
                 <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
-                <NumberInput
+                <Controller
+                    render={() => (
+                        <TextField
+                            value={filledLoad}
+                            sx={{ width: '200px' }}
+                            label="Quantity Loaded"
+                            inputProps={{ step: 0.01, min: 0, max: 100 }}
+                            type="number"
+                            onChange={(e) => {
+                                if (
+                                    parseFloat(e.target.value) <= 100 &&
+                                    parseFloat(e.target.value) > 0
+                                )
+                                    setFilledLoad(parseFloat(parseFloat(e.target.value).toFixed(2)))
+                                else if (e.target.value === '') setFilledLoad(null)
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <b>Ton</b>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    )}
+                    name="filledLoad"
                     control={control}
-                    label="Quantity Loaded"
-                    fieldName="filledLoad"
-                    type="number"
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <b>Ton</b>
-                            </InputAdornment>
-                        )
-                    }}
                 />
                 {CheckUser() && (
                     <InputWithDefaultValue

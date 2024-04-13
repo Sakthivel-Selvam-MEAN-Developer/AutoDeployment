@@ -11,7 +11,6 @@ const AddVehicle: React.FC = () => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterId, setTransporterId] = useState<number>(0)
     const [loading, setLoading] = useState(false)
-
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         transporterId !== 0 && setLoading(true)
         createTruck({

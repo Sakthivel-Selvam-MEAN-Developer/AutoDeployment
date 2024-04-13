@@ -41,13 +41,15 @@ export const downloadPdf = async (
         downloadPdfForUltraTech(invoiceData, 'landscape', 'mm', [1500, 1300], company)
 }
 
-const downloadPdfForUltraTech = async (
+type Type = (
     invoice: HTMLElement,
     orientation: 'p' | 'portrait' | 'l' | 'landscape' | undefined,
     unit: 'pt' | 'px' | 'in' | 'mm' | 'cm' | 'ex' | 'em' | 'pc' | undefined,
     format: number[],
     company: string
-) =>
+) => void
+
+const downloadPdfForUltraTech: Type = async (invoice, orientation, unit, format, company) =>
     await html2canvas(invoice).then((canvas) => {
         const imgData = canvas.toDataURL('image/png')
         const pdf = new jsPDF(orientation, unit, format)

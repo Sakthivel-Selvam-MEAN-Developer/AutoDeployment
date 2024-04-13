@@ -7,6 +7,8 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { Button, Pagination, Stack, SxProps, Theme } from '@mui/material'
 import exportFromJSON from 'export-from-json'
+import { Dispatch } from 'react'
+import { SetStateAction } from 'jotai'
 
 interface Row {
     vehicleNumber: string
@@ -18,7 +20,7 @@ interface Row {
     differenceAmount: number
 }
 
-interface listoverallTripProps {
+interface listProps {
     discrepancyDueDetails: Row[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
@@ -43,13 +45,19 @@ const tabelRow = (
 function getTableHead() {
     return <TableHead>{tabelRow}</TableHead>
 }
-const getCells = (data: Row, num: number) => {
+const getCells = (data: Row) => {
     return (
         <>
-            <TableCell> {num} </TableCell>
             <TableCell align="left">{data.vehicleNumber}</TableCell>
             <TableCell align="left">{data.invoiceNumber}</TableCell>
             <TableCell align="left">{data.transporterName}</TableCell>
+            {getSubCells(data)}
+        </>
+    )
+}
+const getSubCells = (data: Row) => {
+    return (
+        <>
             <TableCell align="left">{data.csmName}</TableCell>
             <TableCell align="left">{data.transporterAmount}</TableCell>
             <TableCell align="left">{data.totalPaidAmount}</TableCell>
@@ -60,7 +68,8 @@ const getCells = (data: Row, num: number) => {
 const tableRow = (row: Row, number: number, index: number, style: SxProps<Theme> | undefined) => {
     return (
         <TableRow key={index} sx={style}>
-            {getCells(row, ++number)}
+            <TableCell> {++number} </TableCell>
+            {getCells(row)}
         </TableRow>
     )
 }
@@ -108,35 +117,51 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
-const ListAllDiscrepancyReportDetails: React.FC<listoverallTripProps> = ({
-    discrepancyDueDetails,
-    setskipNumber
-}) => {
+const pagination = (setskipNumber: Dispatch<SetStateAction<number>>) => {
+    return (
+        <Pagination
+            count={100}
+            size="large"
+            color="primary"
+            onChange={(_e, value) => setskipNumber(value - 1)}
+        />
+    )
+}
+const ListDiscrepancyDetails: React.FC<listProps> = ({ discrepancyDueDetails, setskipNumber }) => {
     return (
         <>
-            <br />
-            <div style={{ float: 'right' }}>
-                <Button onClick={() => download(discrepancyDueDetails)} variant="contained">
-                    Generate Form
-                </Button>
-            </div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                    {getTableHead()} {getTableBody(discrepancyDueDetails)}
-                </Table>
-            </TableContainer>
-            <div style={{ ...style, position: 'sticky' }}>
-                <Stack spacing={10}>
-                    <Pagination
-                        count={100}
-                        size="large"
-                        color="primary"
-                        onChange={(_e, value) => setskipNumber(value - 1)}
-                    />
-                </Stack>
-            </div>
+            {generateCSVButton(discrepancyDueDetails)}
+            {tableContainer(discrepancyDueDetails)}
+            {stack(setskipNumber)}
         </>
     )
 }
 
-export default ListAllDiscrepancyReportDetails
+export default ListDiscrepancyDetails
+function stack(setskipNumber: Dispatch<SetStateAction<number>>) {
+    return (
+        <div style={{ ...style, position: 'sticky' }}>
+            <Stack spacing={10}>{pagination(setskipNumber)}</Stack>
+        </div>
+    )
+}
+
+function tableContainer(discrepancyDueDetails: Row[]) {
+    return (
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 600 }} aria-label="simple table">
+                {getTableHead()} {getTableBody(discrepancyDueDetails)}
+            </Table>
+        </TableContainer>
+    )
+}
+
+function generateCSVButton(discrepancyDueDetails: Row[]) {
+    return (
+        <div style={{ float: 'right', marginTop: '10px' }}>
+            <Button onClick={() => download(discrepancyDueDetails)} variant="contained">
+                Generate Form
+            </Button>
+        </div>
+    )
+}

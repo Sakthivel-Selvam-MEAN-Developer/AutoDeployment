@@ -7,12 +7,12 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { useNavigate } from 'react-router-dom'
 const Fuel: React.FC = (): ReactElement => {
     const navigate = useNavigate()
-    const { handleSubmit, control, watch } = useForm<FieldValues>()
+    const { handleSubmit, control } = useForm<FieldValues>()
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const [bunkId, setBunkId] = useState(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const quantity = watch('quantity')
-    const pricePerliter = watch('pricePerliter')
+    const [quantity, setQuantity] = useState<number>(0)
+    const [pricePerliter, setPricePerliter] = useState<number>(0)
     useEffect(() => {
         setTotalPrice(quantity * pricePerliter)
     }, [quantity, pricePerliter])
@@ -21,19 +21,15 @@ const Fuel: React.FC = (): ReactElement => {
             data.bunkId !== undefined &&
             data.vehicleNumber !== undefined &&
             data.fuelDate !== undefined &&
-            data.pricePerliter !== undefined &&
-            data.pricePerliter !== '0' &&
-            data.quantity !== undefined &&
-            data.quantity !== '0' &&
+            pricePerliter !== 0 &&
+            quantity !== 0 &&
             data.invoiceNumber !== undefined
         ) {
-            const pricePerliterFloat = parseFloat(data.pricePerliter).toFixed(2)
-            const quantityFloat = parseFloat(data.quantity).toFixed(2)
             const totalpriceFloat = totalPrice.toFixed(2)
             const details = {
                 vehicleNumber: data.vehicleNumber,
-                pricePerliter: parseFloat(pricePerliterFloat),
-                quantity: parseFloat(quantityFloat),
+                pricePerliter: pricePerliter,
+                quantity: quantity,
                 totalprice: parseFloat(totalpriceFloat),
                 bunkId: bunkId,
                 fueledDate: data.fuelDate.unix(),
@@ -47,7 +43,15 @@ const Fuel: React.FC = (): ReactElement => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FuelFormFields control={control} setBunkId={setBunkId} totalPrice={totalPrice} />
+                <FuelFormFields
+                    control={control}
+                    setBunkId={setBunkId}
+                    totalPrice={totalPrice}
+                    pricePerliter={pricePerliter}
+                    quantity={quantity}
+                    setPricePerliter={setPricePerliter}
+                    setQuantity={setQuantity}
+                />
                 <SubmitButton name="Add Fuel" type="submit" />
             </form>
             <SuccessDialog

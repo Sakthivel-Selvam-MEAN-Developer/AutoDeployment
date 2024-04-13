@@ -1,6 +1,12 @@
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { ReactElement } from 'react'
+import {
+    getDate,
+    getFilledLoad,
+    getFrom,
+    getInvoiceNumber,
+    getTo
+} from './acknowledgeLocationField'
 
-const style = { display: 'flex', width: '135px', fontWeight: '600' }
 export const AcknowledgementLocation = (
     loadingPoint: string,
     unloadingPoint: string,
@@ -8,40 +14,37 @@ export const AcknowledgementLocation = (
     filledLoad: number,
     invoiceNumber: string
 ) => {
-    return (
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {loadingPointToUnloadingPoint(loadingPoint, unloadingPoint)}
-            {InvoiceNumber(invoiceNumber, filledLoad)}
-            <p style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', width: '50px', fontWeight: '600' }}>Date </span>
-                <span>: {epochToMinimalDate(date)}</span>
-            </p>
-        </div>
-    )
+    return acknowledgeBody(loadingPoint, unloadingPoint, invoiceNumber, filledLoad, date)
 }
 const InvoiceNumber = (invoiceNumber: string, filledLoad: number) => {
     return (
         <div>
-            <p style={{ display: 'flex' }}>
-                <span style={style}> Invoice Number</span> <span>: {invoiceNumber}</span>
-            </p>
-            <p style={{ display: 'flex' }}>
-                <span style={style}>Loaded Quantity</span> <span>: {filledLoad} Tons</span>
-            </p>
+            {getInvoiceNumber(invoiceNumber)}
+            {getFilledLoad(filledLoad)}
         </div>
     )
 }
 const loadingPointToUnloadingPoint = (loadingPoint: string, unloadingPoint: string) => {
     return (
         <div>
-            <p style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', width: '50px', fontWeight: '600' }}>From </span>
-                <span>: {loadingPoint}</span>
-            </p>
-            <p style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', width: '50px', fontWeight: '600' }}>To </span>
-                <span>: {unloadingPoint}</span>
-            </p>
+            {getFrom(loadingPoint)}
+            {getTo(unloadingPoint)}
+        </div>
+    )
+}
+type Type = (
+    loadingPoint: string,
+    unloadingPoint: string,
+    invoiceNumber: string,
+    filledLoad: number,
+    date: number
+) => ReactElement
+const acknowledgeBody: Type = (loadingPoint, unloadingPoint, invoiceNumber, filledLoad, date) => {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {loadingPointToUnloadingPoint(loadingPoint, unloadingPoint)}
+            {InvoiceNumber(invoiceNumber, filledLoad)}
+            {getDate(date)}
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../../form/button'
-import ListAllDiscrepancyReportDetails from './discrepancyReportShow'
+import ListDiscrepancyDetails from './discrepancyReportShow'
 import DiscrepancyReportFilter from './discrepancyReportFilter'
 import { getAllDiscrepancyReport } from '../../../services/overallTrips'
 
@@ -37,7 +37,7 @@ const ListAllDiscrepancyReport: React.FC = (): ReactElement => {
                 <SubmitButton name="Filter" type="submit" />
             </form>
             {showDetails && (
-                <ListAllDiscrepancyReportDetails
+                <ListDiscrepancyDetails
                     setskipNumber={setskipNumber}
                     discrepancyDueDetails={tripWithPagination}
                 />

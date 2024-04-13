@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { Autocomplete, Button, TextField } from '@mui/material'
 import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockTrip } from '../../services/unloadingPointTrip.ts'
@@ -43,7 +43,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             date !== null ? dayjs(dayjs((date as unknown as dateProps)?.$d)).unix() : 0
         setStockDate(formattedDays)
     }
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
         const freightAmountFloat = freightAmount.toFixed(2)
         const transporterAmountFloat = transporterAmount.toFixed(2)
@@ -91,7 +91,12 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
         >
             <form
                 onSubmit={handleSubmit}
-                style={{ display: 'flex', justifyContent: 'left', width: '100%' }}
+                style={{
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'space-between',
+                    marginTop: '10px'
+                }}
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker

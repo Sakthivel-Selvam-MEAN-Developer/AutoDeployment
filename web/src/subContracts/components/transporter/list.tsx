@@ -85,13 +85,23 @@ const CreateTransporter: React.FC = (): ReactElement => {
     )
 }
 export default CreateTransporter
-
-const clearForm = (
+type clearType = (
     setValue: UseFormSetValue<FieldValues>,
     setAccountType: React.Dispatch<React.SetStateAction<string | null>>,
     setGst: React.Dispatch<React.SetStateAction<boolean>>,
     setTds: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+) => void
+const clearForm: clearType = (setValue, setAccountType, setGst, setTds) => {
+    clearSubForm(setValue)
+    setValue('gstPercentage', '')
+    setValue('tdsPercentage', '')
+    setValue('ifsc', '')
+    setAccountType('')
+    setValue('csmName', '')
+    setGst(true)
+    setTds(true)
+}
+const clearSubForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('name', '')
     setValue('emailId', '')
     setValue('contactPersonName', '')
@@ -100,11 +110,4 @@ const clearForm = (
     setValue('accountNumber', '')
     setValue('address', '')
     setValue('gstNumber', '')
-    setValue('gstPercentage', '')
-    setValue('tdsPercentage', '')
-    setValue('ifsc', '')
-    setAccountType('')
-    setValue('csmName', '')
-    setGst(true)
-    setTds(true)
 }

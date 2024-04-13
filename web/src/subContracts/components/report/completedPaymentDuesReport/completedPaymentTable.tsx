@@ -99,16 +99,15 @@ const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], n
         exportFromJSON({ data, fileName, exportType })
     }
 }
+const style = {
+    marginBottom: '30px',
+    display: 'flex',
+    justifyContent: 'right'
+}
 const CompletedPaymentTable: React.FC<Props> = ({ completedPayments }) => {
     return (
         <>
-            <div
-                style={{
-                    marginBottom: '30px',
-                    display: 'flex',
-                    justifyContent: 'right'
-                }}
-            >
+            <div style={style}>
                 <Button
                     color="primary"
                     variant="contained"

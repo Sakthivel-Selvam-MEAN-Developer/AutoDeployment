@@ -12,32 +12,39 @@ export interface PendingStop {
 interface Props {
     pendingStops: PendingStop[]
 }
+const style = { '&:last-child td, &:last-child th': { border: 0 } }
+const tableHeadRow = (
+    <TableRow>
+        <TableCell>#</TableCell>
+        <TableCell align="left">Vehicle Number</TableCell>
+        <TableCell align="left">Pending Reason</TableCell>
+    </TableRow>
+)
+const tableHead = <TableHead>{tableHeadRow}</TableHead>
 const PendingStops: React.FC<Props> = ({ pendingStops }) => {
     const sortedStops = [...pendingStops].sort((a, b) => b._count - a._count)
     return (
         <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
-            <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>#</TableCell>
-                        <TableCell align="left">Vehicle Number</TableCell>
-                        <TableCell align="left">Pending Reason</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {sortedStops.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell> {index + 1} </TableCell>
-                            <TableCell align="left">{row.number}</TableCell>
-                            <TableCell align="left">{row._count}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            {table(sortedStops)}
         </TableContainer>
     )
 }
 export default PendingStops
+function table(sortedStops: PendingStop[]) {
+    return (
+        <Table sx={{ minWidth: 500 }} aria-label="simple table">
+            {tableHead}
+            <TableBody>{sortedStops.map((row, index) => tableBodyRow(index, row))}</TableBody>
+        </Table>
+    )
+}
+
+function tableBodyRow(index: number, row: PendingStop) {
+    return (
+        <TableRow key={index} sx={style}>
+            <TableCell> {index + 1} </TableCell>
+            <TableCell align="left">{row.number}</TableCell>
+            <TableCell align="left">{row._count}</TableCell>
+        </TableRow>
+    )
+}

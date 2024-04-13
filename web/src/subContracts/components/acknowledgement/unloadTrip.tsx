@@ -38,6 +38,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
             setShortageQuantity(filledLoad * 1000 - unload)
             setShortageAmount(shortageAmt(approvalType, unload))
         } else setShortageQuantity(filledLoad * 1000)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [unload, approvalType, filledLoad])
     const shortageAmt = (approvalType: string | null, unload: number) => {
         return approvalType === 'Acceptable'

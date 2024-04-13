@@ -9,6 +9,8 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { CheckUser } from '../../../../auth/checkUser.tsx'
+import { Dispatch, FC } from 'react'
+import { SetStateAction } from 'jotai'
 
 interface Row {
     freightAmount: number
@@ -143,18 +145,23 @@ const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
 const name = ['Freight Rate', 'Total Freight Amount', 'Margin']
 const GetTableRow = () => {
     const authoriser = CheckUser()
-    const final = authoriser ? tableCell : tableCell.filter((cell) => !name.includes(cell))
+    const rowResult = authoriser ? tableCell : tableCell.filter((cell) => !name.includes(cell))
+    return <TableRow>{tableBodyCell(rowResult)}</TableRow>
+}
+const tableBodyCell = (rowResult: string[]) => {
     return (
-        <TableRow>
+        <>
             <TableCell>#</TableCell>
-            {final.map((trip) => (
+            {rowResult.map((trip) => (
                 <TableCell align="left">{trip}</TableCell>
             ))}
-        </TableRow>
+        </>
     )
 }
-
-function GetTableBody({ listoverallTrip }: any) {
+interface tableBody {
+    listoverallTrip: Props[]
+}
+const GetTableBody: FC<tableBody> = ({ listoverallTrip }) => {
     let number = 0
     const style = { '&:last-child td, &:last-child th': { border: 0 } }
     return (
@@ -162,9 +169,7 @@ function GetTableBody({ listoverallTrip }: any) {
             {listoverallTrip.map((row: Props, index: number) => (
                 <TableRow key={index} sx={style}>
                     {GetCells(
-                        loadingToStock(row)
-                            ? row.loadingPointToStockPointTrip
-                            : row.loadingPointToUnloadingPointTrip,
+                        loadingToStock(row),
                         ++number,
                         checkPaymentStatus(row.paymentDues),
                         row
@@ -205,41 +210,6 @@ function download(listoverallTrip: Props[], authoriser: boolean) {
         }
     })
 }
-// interface addDataProps {
-//     vehicleNumber: string
-//     startDate: string
-//     invoiceNumber: string
-//     transporter: string
-//     loadingPoint: string
-//     filledLoad: string
-//     tansporterAmount: number
-//     csmName: string
-//     totalTansporterAmount: number
-//     bunkName: string
-//     diselQuantity: number | string
-//     diselAmount: number | string
-//     tripStatus: string
-//     paymentStatus: string
-//     margin: number
-//     freightAmount: number
-//     totalFreightAmount: number
-// }
-// interface addDataProps1 {
-//     vehicleNumber: string
-//     startDate: string
-//     invoiceNumber: string
-//     transporter: string
-//     loadingPoint: string
-//     filledLoad: string
-//     tansporterAmount: number
-//     csmName: string
-//     totalTansporterAmount: number
-//     bunkName: string
-//     diselQuantity: number | string
-//     diselAmount: number | string
-//     tripStatus: string
-//     paymentStatus: string
-// }
 const downloadCSV = (
     downloadtripData: object[],
     tripData: Row,
@@ -294,40 +264,63 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setsk
     const authoriser = CheckUser()
     return (
         <>
-            <br />
-            <div style={{ float: 'right' }}>
-                <Button onClick={() => download(listoverallTrip, authoriser)} variant="contained">
-                    Generate CSV
-                </Button>
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                        {getTableHead()}
-                        {/* {getTableBody(listoverallTrip)} */}
-                        <GetTableBody listoverallTrip={listoverallTrip} />
-                    </Table>
-                </TableContainer>
-            </div>
-            <div style={{ ...style, position: 'sticky' }}>
-                <Stack spacing={10}>
-                    <Pagination
-                        count={10}
-                        size="large"
-                        color="primary"
-                        onChange={(_e, value) => {
-                            setskipNumber(value - 1)
-                        }}
-                    />
-                </Stack>
-            </div>
+            {generateCSVbutton(listoverallTrip, authoriser)}
+            {tableContainer(listoverallTrip)}
+            {stack(setskipNumber)}
         </>
     )
 }
 
 export default ListAllDetails
-function loadingToStock(row: Props) {
+function tableContainer(listoverallTrip: Props[]) {
     return (
-        row.loadingPointToStockPointTrip !== null && row.loadingPointToStockPointTrip !== undefined
+        <div style={{ marginBottom: '20px' }}>
+            <TableContainer component={Paper}>{table(listoverallTrip)}</TableContainer>
+        </div>
     )
+}
+
+function generateCSVbutton(listoverallTrip: Props[], authoriser: boolean) {
+    return (
+        <div style={{ float: 'right', marginTop: '10px' }}>
+            <Button onClick={() => download(listoverallTrip, authoriser)} variant="contained">
+                Generate CSV
+            </Button>
+        </div>
+    )
+}
+
+function table(listoverallTrip: Props[]) {
+    return (
+        <Table sx={{ minWidth: 600 }} aria-label="simple table">
+            {getTableHead()}
+            <GetTableBody listoverallTrip={listoverallTrip} />
+        </Table>
+    )
+}
+
+function stack(setskipNumber: Dispatch<SetStateAction<number>>) {
+    return (
+        <div style={{ ...style, position: 'sticky' }}>
+            <Stack spacing={10}>{pagination(setskipNumber)}</Stack>
+        </div>
+    )
+}
+
+function pagination(setskipNumber: Dispatch<SetStateAction<number>>) {
+    return (
+        <Pagination
+            count={10}
+            size="large"
+            color="primary"
+            onChange={(_e, value) => setskipNumber(value - 1)}
+        />
+    )
+}
+
+function loadingToStock(row: Props) {
+    return row.loadingPointToStockPointTrip !== null &&
+        row.loadingPointToStockPointTrip !== undefined
+        ? row.loadingPointToStockPointTrip
+        : row.loadingPointToUnloadingPointTrip
 }
