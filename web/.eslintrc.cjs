@@ -5,7 +5,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react-hooks/recommended',
-        'plugin:react/all'
+        'plugin:react/recommended'
     ],
     ignorePatterns: ['dist', '.eslintrc.cjs'],
     parser: '@typescript-eslint/parser',
@@ -28,7 +28,7 @@ module.exports = {
             },
             rules: {
                 'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-                'max-lines-per-function': ['warn', {max: 50, skipBlankLines: true}],
+                'max-lines-per-function': ['warn', {max: 30, skipBlankLines: true}],
                 'react/function-component-definition': ['error', {
                     "namedComponents": "arrow-function" ,
                     "unnamedComponents":  "arrow-function"
@@ -42,6 +42,8 @@ module.exports = {
                 "react/prop-types" : "off",
                 "react/jsx-max-depth": ["warn", { "max": 2 }],
                 "react/jsx-no-literals":"off",
+                "react/jsx-child-element-spacing":"off",
+                "react/jsx-newline":"off",
             }
         }
     ],

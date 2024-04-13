@@ -6,7 +6,7 @@ interface TextInputProps {
     label: string
     fieldName: string
 }
-function TextInput({ control, label, fieldName }: TextInputProps) {
+const TextInput = ({ control, label, fieldName }: TextInputProps) => {
     return (
         <Controller
             render={({ field }) => <TextField {...field} label={label} />}

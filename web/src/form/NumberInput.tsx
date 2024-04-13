@@ -8,7 +8,7 @@ interface TextInputProps {
     InputProps: object
     type: 'number'
 }
-function NumberInput({ control, label, fieldName, InputProps, type }: TextInputProps) {
+const NumberInput = ({ control, label, fieldName, InputProps, type }: TextInputProps) => {
     return (
         <Controller
             render={({ field }) => (

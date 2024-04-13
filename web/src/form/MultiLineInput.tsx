@@ -8,7 +8,7 @@ interface TextInputProps {
     type: string
     rows: number
 }
-function MultiLineInput({ control, label, fieldName, type, rows }: TextInputProps) {
+const MultiLineInput = ({ control, label, fieldName, type, rows }: TextInputProps) => {
     return (
         <Controller
             render={({ field }) => (

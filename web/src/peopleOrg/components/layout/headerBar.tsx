@@ -12,7 +12,7 @@ interface HeaderBarProps {
     handleMenuIconClick: () => void
 }
 
-export function HeaderBar(props: HeaderBarProps) {
+export const HeaderBar = (props: HeaderBarProps) => {
     const [username, setUserName] = useState('')
     const userId = useAtomValue(userIdAtom)
 

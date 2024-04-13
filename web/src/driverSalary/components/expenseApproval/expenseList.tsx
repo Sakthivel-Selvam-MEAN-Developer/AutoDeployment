@@ -92,7 +92,7 @@ const button = (reason: string, approvalType: string | null) => {
     )
 }
 
-function ExpenseTableBody({ expenseDetails }: ExpenseTableBodyProps) {
+const ExpenseTableBody = ({ expenseDetails }: ExpenseTableBodyProps) => {
     return (
         <TableBody>
             {expenseDetails.map((expense: expenseDetailsProps) => {

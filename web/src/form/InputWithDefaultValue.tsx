@@ -11,7 +11,7 @@ interface TextInputProps {
     defaultValue: number | string | undefined
     InputLabelProps: { shrink: boolean }
 }
-function InputWithDefaultValue({
+const InputWithDefaultValue = ({
     control,
     label,
     fieldName,
@@ -20,7 +20,7 @@ function InputWithDefaultValue({
     InputProps,
     defaultValue,
     InputLabelProps
-}: TextInputProps) {
+}: TextInputProps) => {
     return (
         <Controller
             render={({ field }) => (

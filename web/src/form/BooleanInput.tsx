@@ -6,7 +6,7 @@ interface BooleanInputProps {
     label: string
     fieldName: string
 }
-function BooleanInput({ control, label, fieldName }: BooleanInputProps) {
+const BooleanInput = ({ control, label, fieldName }: BooleanInputProps) => {
     return (
         <Controller
             render={({ field }) => (

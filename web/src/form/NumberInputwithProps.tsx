@@ -9,14 +9,14 @@ interface TextInputProps {
     type: 'number' | 'string'
     InputProps: object
 }
-function NumberInputWithProps({
+const NumberInputWithProps = ({
     control,
     label,
     fieldName,
     inputProps,
     type,
     InputProps
-}: TextInputProps) {
+}: TextInputProps) => {
     return (
         <Controller
             render={({ field }) => (

@@ -8,7 +8,7 @@ interface TextInputProps {
     type: 'number' | 'string' | 'email'
     disabled: boolean
 }
-function InputWithType({ control, label, fieldName, type, disabled }: TextInputProps) {
+const InputWithType = ({ control, label, fieldName, type, disabled }: TextInputProps) => {
     return (
         <Controller
             render={({ field }) => <TextField {...field} label={label} type={type} />}

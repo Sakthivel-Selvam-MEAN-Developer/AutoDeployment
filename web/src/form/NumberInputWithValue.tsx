@@ -11,7 +11,7 @@ interface TextInputProps {
     value: number
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
-function NumberInputWithValue({
+const NumberInputWithValue = ({
     control,
     label,
     fieldName,
@@ -19,7 +19,7 @@ function NumberInputWithValue({
     type,
     value,
     onChange
-}: TextInputProps) {
+}: TextInputProps) => {
     return (
         <Controller
             render={({ field }) => (
