@@ -77,6 +77,18 @@ services:
       - postgres-network
     command: [nginx-debug, '-g', 'daemon off;']
 
+  local-nginx:
+    image: nginx:1.25.3-alpine3.18
+    ports:
+      - 8081:8081
+    volumes:
+      - ./nginx/nginx-local.conf:/etc/nginx/nginx.conf
+      - ./nginx:/usr/share/nginx
+      - ./nginx/logs:/usr/share/nginx/logs
+    networks:
+      - postgres-network
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+
   terra:
      image: "alpine/terragrunt:1.7.3"
      platform: linux/amd64
