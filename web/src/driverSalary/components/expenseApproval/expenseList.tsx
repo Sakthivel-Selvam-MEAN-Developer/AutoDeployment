@@ -36,9 +36,9 @@ const ExpenseList: React.FC = (): ReactElement => {
     return (
         <>
             {userExpenseDetails.length !== 0 &&
-                userExpenseDetails.map((tripData: tripDataProps) => {
+                userExpenseDetails.map((tripData: tripDataProps, index) => {
                     return (
-                        <Accordion>
+                        <Accordion key={index}>
                             {expenseAccordionSummary()}
                             <AccordionDetails sx={accordianStyle}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>

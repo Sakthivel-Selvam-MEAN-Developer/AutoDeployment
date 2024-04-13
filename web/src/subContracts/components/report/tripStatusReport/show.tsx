@@ -153,7 +153,9 @@ const tableBodyCell = (rowResult: string[]) => {
         <>
             <TableCell>#</TableCell>
             {rowResult.map((trip) => (
-                <TableCell align="left">{trip}</TableCell>
+                <TableCell key={trip} align="left">
+                    {trip}
+                </TableCell>
             ))}
         </>
     )

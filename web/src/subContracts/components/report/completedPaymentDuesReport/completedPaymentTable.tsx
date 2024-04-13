@@ -37,7 +37,9 @@ function getRow() {
         <TableRow>
             <TableCell>#</TableCell>
             {cellData.map((data) => (
-                <TableCell align="left">{data}</TableCell>
+                <TableCell key={data} align="left">
+                    {data}
+                </TableCell>
             ))}
         </TableRow>
     )

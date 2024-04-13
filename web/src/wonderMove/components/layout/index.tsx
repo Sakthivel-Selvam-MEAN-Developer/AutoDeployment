@@ -44,7 +44,7 @@ const BoxMain = () => {
     )
 }
 
-export default function MoveItLayout() {
+const MoveItLayout = () => {
     const [open, setOpen] = React.useState(false)
     return (
         <Box sx={{ display: 'flex' }}>
@@ -54,6 +54,7 @@ export default function MoveItLayout() {
         </Box>
     )
 }
+
 const toolBar = (setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean) => {
     return (
         <Toolbar>
@@ -82,3 +83,5 @@ function appBar(open: boolean, setOpen: React.Dispatch<React.SetStateAction<bool
         </AppBar>
     )
 }
+
+export default MoveItLayout

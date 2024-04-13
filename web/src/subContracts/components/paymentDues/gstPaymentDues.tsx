@@ -34,11 +34,11 @@ const GSTPaymentDues: React.FC = () => {
             {gstDues.length !== 0 ? (
                 gstDues.map((data: dataProp) => {
                     return (
-                        <Accordion>
+                        <Accordion key={data.name}>
                             {accordionSummary(data, style)}
                             {data.tripDetails.map((list: tripProp) => {
                                 return (
-                                    <AccordionDetails sx={accordianStyle}>
+                                    <AccordionDetails key={list.id} sx={accordianStyle}>
                                         <Typography sx={style}>
                                             <b>{list.vehicleNumber}</b>
                                         </Typography>

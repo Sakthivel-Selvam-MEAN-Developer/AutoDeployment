@@ -91,7 +91,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
             {transporterDue.length !== 0 ? (
                 transporterDue.map((data: dataProp) => {
                     return (
-                        <Accordion>
+                        <Accordion key={data.name}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -112,7 +112,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                             {data.tripDetails &&
                                 data.tripDetails.map((list: tripProp) => {
                                     return (
-                                        <AccordionDetails sx={accordianStyle}>
+                                        <AccordionDetails key={list.id} sx={accordianStyle}>
                                             <Typography>
                                                 <Checkbox
                                                     key={list.id}

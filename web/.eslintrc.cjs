@@ -28,7 +28,8 @@ module.exports = {
             },
             rules: {
                 'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-                'max-lines-per-function': ['warn', {max: 30, skipBlankLines: true}],
+                'max-lines': ['warn', 50],
+                'max-lines-per-function': ['warn', {max: 20, skipBlankLines: true}],
                 'react/function-component-definition': ['error', {
                     "namedComponents": "arrow-function" ,
                     "unnamedComponents":  "arrow-function"
@@ -44,6 +45,7 @@ module.exports = {
                 "react/jsx-no-literals":"off",
                 "react/jsx-child-element-spacing":"off",
                 "react/jsx-newline":"off",
+                "react/jsx-pascal-case":["warn"]
             }
         }
     ],
@@ -52,11 +54,12 @@ module.exports = {
         indent: 'off',
         'operator-linebreak': 0,
         'function-paren-newline': 0,
-        'max-lines': ['warn', 50],
+        'max-lines': ['warn', 30],
         'max-depth': ['error', 3],
-        'max-lines-per-function': ['warn', {max: 10, skipBlankLines: true}],
+        'max-lines-per-function': ['warn', {max: 5, skipBlankLines: true}],
         'import/prefer-default-export': 0,
         '@typescript-eslint/no-explicit-any': 'warn',
-        "complexity": ["warn", { "max": 2 }]
+        "complexity": ["warn", { "max": 2 }],
+        "max-statements": ["warn", { "max": 10 }],
     }
 }

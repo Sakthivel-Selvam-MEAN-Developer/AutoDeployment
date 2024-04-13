@@ -47,7 +47,7 @@ function getIconButton(handleDrawerOpen: () => void, open: boolean) {
     )
 }
 
-export default function DriverSalaryLayout() {
+const DriverSalaryLayout = () => {
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const handleDrawerOpen = () => setOpen(true)
@@ -70,3 +70,4 @@ export default function DriverSalaryLayout() {
         </Box>
     )
 }
+export default DriverSalaryLayout

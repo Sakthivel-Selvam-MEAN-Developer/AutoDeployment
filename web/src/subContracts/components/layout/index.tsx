@@ -45,7 +45,7 @@ function getIconButton(handleDrawerOpen: () => void, open: boolean) {
     )
 }
 
-export default function SubContractLayout() {
+const SubContractLayout = () => {
     const theme = useTheme()
     const [open, setOpen] = React.useState(false)
     const handleDrawerOpen = () => setOpen(true)
@@ -78,3 +78,4 @@ export default function SubContractLayout() {
         </Box>
     )
 }
+export default SubContractLayout

@@ -132,7 +132,7 @@ const GSTDues: React.FC<GenerateFormProps> = ({
             {gstDues.length !== 0 ? (
                 gstDues.map((data: dataProp) => {
                     return (
-                        <Accordion>
+                        <Accordion key={data.name}>
                             {accordionSummary(data)}
                             {data.tripDetails.map((list: tripProp) => {
                                 return accordionDetails(

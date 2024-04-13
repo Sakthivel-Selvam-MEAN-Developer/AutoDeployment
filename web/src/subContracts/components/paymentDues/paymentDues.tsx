@@ -48,7 +48,7 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
             {transporterDue.length !== 0 ? (
                 transporterDue.map((data: dataProp) => {
                     return (
-                        <Accordion>
+                        <Accordion key={data.name}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -69,7 +69,7 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                             {data.tripDetails &&
                                 data.tripDetails.map((list: tripProp) => {
                                     return (
-                                        <AccordionDetails sx={accordianStyle}>
+                                        <AccordionDetails key={list.id} sx={accordianStyle}>
                                             <Typography sx={style}>
                                                 <b>{list.number}</b>
                                             </Typography>

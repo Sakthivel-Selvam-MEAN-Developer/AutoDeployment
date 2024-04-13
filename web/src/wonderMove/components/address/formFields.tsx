@@ -26,7 +26,12 @@ function textInput(control: Control) {
     return (
         <div style={{ display: 'flex', gap: '10px', rowGap: '10px', flexWrap: 'wrap' }}>
             {fieldNames.map((name) => (
-                <TextInput control={control} label={name.label} fieldName={name.fieldName} />
+                <TextInput
+                    key={name.label}
+                    control={control}
+                    label={name.label}
+                    fieldName={name.fieldName}
+                />
             ))}
         </div>
     )
