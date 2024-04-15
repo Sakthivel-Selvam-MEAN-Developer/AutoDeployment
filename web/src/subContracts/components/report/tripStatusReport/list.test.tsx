@@ -11,8 +11,7 @@ const mockAllTransporter = vi.fn()
 const mockAllCementCompany = vi.fn()
 
 vi.mock('../../../services/overallTrips', () => ({
-    getOverallTrip: () => mockGetOverallTrip(),
-    getOverallTripByFilter: (cementCompanyId: any, transporterId: any, loadingPointId: any) =>
+    tripStatusFilter: (cementCompanyId: any, transporterId: any, loadingPointId: any) =>
         mockGetOverallTripByFilter(cementCompanyId, transporterId, loadingPointId)
 }))
 vi.mock('../../../services/loadingPoint', () => ({
@@ -154,7 +153,6 @@ describe('Report Test', () => {
         })
         await userEvent.click(opt)
 
-        expect(mockGetOverallTrip).toHaveBeenCalledTimes(1)
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(1)
@@ -170,7 +168,6 @@ describe('Report Test', () => {
         expect(screen.getByText('Trip Status')).toBeInTheDocument()
         expect(screen.getByText('Transporter')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
-        expect(mockGetOverallTrip).toHaveBeenCalledTimes(2)
         expect(mockAllTransporter).toHaveBeenCalledTimes(2)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(2)
     })
@@ -226,8 +223,6 @@ describe('Report Test', () => {
         expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
         expect(screen.getByText('Advance Pending')).toBeInTheDocument()
-
-        expect(mockGetOverallTrip).toHaveBeenCalledTimes(3)
-        expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(1)
+        expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(9)
     })
 })

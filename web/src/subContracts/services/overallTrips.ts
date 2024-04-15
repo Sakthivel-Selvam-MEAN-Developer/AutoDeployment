@@ -1,4 +1,5 @@
-import { axiosInstance, getData } from '../../apiCalls'
+import { axiosGet, axiosInstance, getData } from '../../apiCalls'
+import { TripFilters } from '../types/tripFilters'
 
 export const getOverallTrip = () =>
     axiosInstance
@@ -28,14 +29,5 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const getOverallTripByFilter = (
-    cementCompanyId: number,
-    transporterId: number,
-    loadingPointId: number,
-    from: number,
-    to: number
-) =>
-    axiosInstance
-        .get(`/overallTrip/${cementCompanyId}/${transporterId}/${loadingPointId}/${from}/${to}`)
-        .then(getData)
-        .catch(() => alert('Error Getting data'))
+export const tripStatusFilter = (tripFilters: TripFilters) =>
+    axiosGet('/overallTrip/tripstatusreport', { ...tripFilters })

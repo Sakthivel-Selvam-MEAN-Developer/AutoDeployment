@@ -260,109 +260,6 @@ export const getOverAllTripById = (id: number) =>
         }
     })
 
-export const overallTripByFilter = (
-    cementCompanyId: number,
-    transporterId: number,
-    loadingPointId: number,
-    from: number,
-    to: number
-) =>
-    prisma.overallTrip.findMany({
-        where: {
-            OR: [
-                {
-                    OR: [
-                        {
-                            loadingPointToUnloadingPointTrip: {
-                                startDate: {
-                                    gte: from,
-                                    lte: to
-                                }
-                            }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: {
-                                loadingPointId
-                            }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: {
-                                loadingPoint: {
-                                    cementCompanyId
-                                }
-                            }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: {
-                                truck: {
-                                    transporterId
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    OR: [
-                        {
-                            loadingPointToStockPointTrip: {
-                                startDate: {
-                                    gte: from,
-                                    lte: to
-                                }
-                            }
-                        },
-                        {
-                            loadingPointToStockPointTrip: {
-                                loadingPointId
-                            }
-                        },
-                        {
-                            loadingPointToStockPointTrip: {
-                                loadingPoint: {
-                                    cementCompanyId
-                                }
-                            }
-                        },
-                        {
-                            loadingPointToStockPointTrip: {
-                                truck: {
-                                    transporterId
-                                }
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        include: {
-            fuel: {
-                include: {
-                    bunk: true
-                }
-            },
-            paymentDues: true,
-            loadingPointToStockPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    },
-                    loadingPoint: true
-                }
-            },
-            loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    },
-                    loadingPoint: true
-                }
-            }
-        }
-    })
 export const getTripDetailsByCompanyName = (name: string, startDate: number, endDate: number) => {
     const whereClause: any = {
         acknowledgementStatus: true,
@@ -594,6 +491,90 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
                     loadingPoint: true,
                     invoiceNumber: true,
                     startDate: true
+                }
+            }
+        }
+    })
+export const tripStatusFilter = (
+    cementCompanyId?: string,
+    transporterId?: string,
+    loadingPointId?: string,
+    from?: string,
+    to?: string,
+    skipNumber?: string
+): any =>
+    prisma.overallTrip.findMany({
+        skip: skipNumber === undefined ? undefined : parseInt(skipNumber),
+        take: 15,
+        where: {
+            OR: [
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        startDate: {
+                            gte: from === undefined ? undefined : parseInt(from),
+                            lte: to === undefined ? undefined : parseInt(to)
+                        },
+                        loadingPointId:
+                            loadingPointId === undefined ? undefined : parseInt(loadingPointId),
+                        loadingPoint: {
+                            cementCompanyId:
+                                cementCompanyId === undefined
+                                    ? undefined
+                                    : parseInt(cementCompanyId)
+                        },
+                        truck: {
+                            transporterId:
+                                transporterId === undefined ? undefined : parseInt(transporterId)
+                        }
+                    }
+                },
+                {
+                    loadingPointToStockPointTrip: {
+                        startDate: {
+                            gte: from === undefined ? undefined : parseInt(from),
+                            lte: to === undefined ? undefined : parseInt(to)
+                        },
+                        loadingPointId:
+                            loadingPointId === undefined ? undefined : parseInt(loadingPointId),
+                        loadingPoint: {
+                            cementCompanyId:
+                                cementCompanyId === undefined
+                                    ? undefined
+                                    : parseInt(cementCompanyId)
+                        },
+                        truck: {
+                            transporterId:
+                                transporterId === undefined ? undefined : parseInt(transporterId)
+                        }
+                    }
+                }
+            ]
+        },
+        include: {
+            fuel: {
+                include: {
+                    bunk: true
+                }
+            },
+            paymentDues: true,
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    },
+                    loadingPoint: true
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    },
+                    loadingPoint: true
                 }
             }
         }

@@ -4,7 +4,7 @@ import {
     getOverallTrip,
     getTripByUnloadDate,
     getTripDetailsByCompanyName,
-    overallTripByFilter
+    tripStatusFilter
 } from '../models/overallTrip.ts'
 
 export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) => {
@@ -13,16 +13,10 @@ export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) =
         .catch(() => res.status(500))
 }
 
-export const listgetOverallTripById = (req: Request, res: Response) => {
-    const { companyId, transporterId, loadingPointId, from, to } = req.params
-    overallTripByFilter(
-        parseInt(companyId),
-        parseInt(transporterId),
-        parseInt(loadingPointId),
-        parseInt(from),
-        parseInt(to)
-    )
-        .then((data) => res.status(200).json(data))
+export const listTripStatusReportDetails = (req: any, res: Response) => {
+    const { cementCompanyId, transporterId, loadingPointId, from, to, skipNumber } = req.query
+    tripStatusFilter(cementCompanyId, transporterId, loadingPointId, from, to, skipNumber)
+        .then((data: any) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
 

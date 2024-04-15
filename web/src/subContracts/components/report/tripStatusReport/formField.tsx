@@ -1,46 +1,24 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, Dispatch, FC, useContext, useEffect, useState } from 'react'
 import AutoComplete from '../../../../form/AutoComplete.tsx'
 import { Control } from 'react-hook-form'
 import { getAllCementCompany } from '../../../services/cementCompany.ts'
 import { getAllTransporter } from '../../../services/transporter.ts'
 import { getLoadingPointByCompanyName } from '../../../services/loadingPoint.ts'
 import DateInput from '../../../../form/DateInput.tsx'
-
+import { dispatchData } from './tripStatusContext.ts'
+import { dispatchType } from './list.tsx'
 export interface FormFieldsProps {
     control: Control
-    setCementCompanyId: React.Dispatch<React.SetStateAction<number>>
-    setTransporterId: React.Dispatch<React.SetStateAction<number>>
-    setLoadingPointId: React.Dispatch<React.SetStateAction<number>>
 }
-const FilterTripReport: React.FC<FormFieldsProps> = ({
-    control,
-    setLoadingPointId,
-    setCementCompanyId,
-    setTransporterId
-}) => {
+const TripFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
     const [cementCompany, setCementCompany] = useState([])
-    const [transporter, setTransporter] = useState([])
-    const [loadingPointList, setLoadingPointList] = useState([])
     const [cementCompanyName, setCementCompanyName] = useState('')
-
+    const { dispatch } = useContext(dispatchData)
     useEffect(() => {
         getAllCementCompany().then(setCementCompany)
-        getAllTransporter().then(setTransporter)
     }, [])
-    useEffect(() => {
-        if (cementCompanyName !== '')
-            getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
-    }, [cementCompanyName])
-
     return (
-        <div
-            style={{
-                display: 'flex',
-                gap: '10px',
-                rowGap: '10px',
-                flexWrap: 'wrap'
-            }}
-        >
+        <div style={{ display: 'flex', gap: '10px', rowGap: '10px', flexWrap: 'wrap' }}>
             <AutoComplete
                 control={control}
                 fieldName="companyName"
@@ -49,34 +27,75 @@ const FilterTripReport: React.FC<FormFieldsProps> = ({
                 options={cementCompany ? cementCompany.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = cementCompany.find(({ name }) => name === newValue) || { id: 0 }
-                    setCementCompanyId(id)
+                    dispatch({ cementCompanyId: id, type: 'updateCementComapnyId' })
                     setCementCompanyName(newValue)
                 }}
             />
-            <AutoComplete
+            <TransporterField control={control} dispatch={dispatch} />
+            <FactoryField
                 control={control}
-                fieldName="transporterName"
-                label="Select Transporter"
-                data-testid={'select'}
-                options={transporter ? transporter.map(({ name }) => name) : []}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id } = transporter.find(({ name }) => name === newValue) || { id: 0 }
-                    setTransporterId(id)
-                }}
+                dispatch={dispatch}
+                cementCompanyName={cementCompanyName}
             />
-            <AutoComplete
-                control={control}
-                fieldName="factoryName"
-                label="Select Factory"
-                data-testid={'select'}
-                options={loadingPointList ? loadingPointList.map(({ name }) => name) : []}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id } = loadingPointList.find(({ name }) => name === newValue) || {
-                        id: 0
-                    }
-                    setLoadingPointId(id)
-                }}
-            />
+            <DateField control={control} />
+        </div>
+    )
+}
+export default TripFilterFields
+
+interface FactoryFieldProps {
+    control: Control
+    cementCompanyName: string
+    dispatch: Dispatch<dispatchType>
+}
+
+const FactoryField: FC<FactoryFieldProps> = ({ control, cementCompanyName, dispatch }) => {
+    const [loadingPointList, setLoadingPointList] = useState([])
+    useEffect(() => {
+        if (cementCompanyName !== '')
+            getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
+    }, [cementCompanyName])
+    return (
+        <AutoComplete
+            control={control}
+            fieldName="factoryName"
+            label="Select Factory"
+            options={loadingPointList ? loadingPointList.map(({ name }) => name) : []}
+            onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                const { id } = loadingPointList.find(({ name }) => name === newValue) || { id: 0 }
+                dispatch({ loadinPointId: id, type: 'updateLoadinPointId' })
+            }}
+        />
+    )
+}
+interface TransporterFieldProps {
+    control: Control
+    dispatch: Dispatch<dispatchType>
+}
+const TransporterField: FC<TransporterFieldProps> = ({ control, dispatch }) => {
+    const [transporter, setTransporter] = useState([])
+    useEffect(() => {
+        getAllTransporter().then(setTransporter)
+    }, [])
+    return (
+        <AutoComplete
+            control={control}
+            fieldName="transporterName"
+            label="Select Transporter"
+            options={transporter ? transporter.map(({ name }) => name) : []}
+            onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                const { id } = transporter.find(({ name }) => name === newValue) || { id: 0 }
+                dispatch({ transporterId: id, type: 'updateTransporterId' })
+            }}
+        />
+    )
+}
+interface DateFieldProps {
+    control: Control
+}
+const DateField: FC<DateFieldProps> = ({ control }) => {
+    return (
+        <>
             <DateInput
                 control={control}
                 format="DD/MM/YYYY"
@@ -84,7 +103,6 @@ const FilterTripReport: React.FC<FormFieldsProps> = ({
                 label="Trip Start Date"
             />
             <DateInput control={control} format="DD/MM/YYYY" fieldName="to" label="Trip End Date" />
-        </div>
+        </>
     )
 }
-export default FilterTripReport

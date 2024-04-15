@@ -9,8 +9,8 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { CheckUser } from '../../../../auth/checkUser.tsx'
-import { Dispatch, FC } from 'react'
-import { SetStateAction } from 'jotai'
+import { Dispatch, FC, useContext } from 'react'
+import { dispatchData } from './tripStatusContext.ts'
 
 interface Row {
     freightAmount: number
@@ -60,7 +60,6 @@ interface paymentType {
 }
 interface listoverallTripProps {
     listoverallTrip: Props[]
-    setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
 const tableCell = [
     'Vehicle Number',
@@ -96,8 +95,8 @@ const GetCells = (data: Row, num: number, type: string, details: Props) => {
         <>
             <TableCell> {num} </TableCell>
             <TableCell align="left">{data.truck.vehicleNumber}</TableCell>
-            <TableCell align="left">{data.invoiceNumber}</TableCell>
             <TableCell align="left">{epochToMinimalDate(data.startDate)}</TableCell>
+            <TableCell align="left">{data.invoiceNumber}</TableCell>
             <TableCell align="left">{data.truck.transporter.name}</TableCell>
             <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{data.loadingPoint.name}</TableCell>
@@ -212,14 +211,15 @@ function download(listoverallTrip: Props[], authoriser: boolean) {
         }
     })
 }
-const downloadCSV = (
+type CSVProps = (
     downloadtripData: object[],
     tripData: Row,
     type: string,
     num: number,
     details: Props,
     authoriser: boolean
-) => {
+) => void
+const downloadCSV: CSVProps = (downloadtripData, tripData, type, num, details, authoriser) => {
     const addData: any = {
         vehicleNumber: tripData.truck.vehicleNumber,
         startDate: epochToMinimalDate(tripData.startDate),
@@ -262,13 +262,16 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
-const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip, setskipNumber }) => {
+const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip }) => {
     const authoriser = CheckUser()
+    if (listoverallTrip.length == 0) {
+        return
+    }
     return (
         <>
             {generateCSVbutton(listoverallTrip, authoriser)}
             {tableContainer(listoverallTrip)}
-            {stack(setskipNumber)}
+            <StackPage />
         </>
     )
 }
@@ -301,21 +304,24 @@ function table(listoverallTrip: Props[]) {
     )
 }
 
-function stack(setskipNumber: Dispatch<SetStateAction<number>>) {
+const StackPage = () => {
+    const { dispatch } = useContext(dispatchData)
     return (
         <div style={{ ...style, position: 'sticky' }}>
-            <Stack spacing={10}>{pagination(setskipNumber)}</Stack>
+            <Stack spacing={10}>{pagination(dispatch)}</Stack>
         </div>
     )
 }
-
-function pagination(setskipNumber: Dispatch<SetStateAction<number>>) {
+export type ActionType = { type: string; pageNumber: number }
+function pagination(dispatch: Dispatch<ActionType>) {
     return (
         <Pagination
             count={10}
             size="large"
             color="primary"
-            onChange={(_e, value) => setskipNumber(value - 1)}
+            onChange={(_e, value) => {
+                dispatch({ pageNumber: value, type: 'updatePageNumber' })
+            }}
         />
     )
 }

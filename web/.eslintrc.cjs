@@ -12,14 +12,6 @@ module.exports = {
     plugins: ['react-refresh','react'],
     overrides: [
         {
-            files: ['*.test.tsx', '*.test.ts'],
-            rules: {
-                'max-lines': ['error', 500],
-                'max-lines-per-function': ['error', 500],
-                "@typescript-eslint/no-explicit-any": "off"
-            }
-        },
-        {
             files: ['*.tsx'],
             parserOptions: {
                 "ecmaFeatures": {
@@ -47,7 +39,16 @@ module.exports = {
                 "react/jsx-newline":"off",
                 "react/jsx-pascal-case":["warn"]
             }
-        }
+        },
+        {
+            files: ['*.test.tsx', '*.test.ts'],
+            rules: {
+                'max-lines': ['error', 500],
+                'max-lines-per-function': ['error', 500],
+                "@typescript-eslint/no-explicit-any": "off",
+                "max-statements": ["warn", 50],
+            }
+        },
     ],
     rules: {
         semi: [2, 'never'],

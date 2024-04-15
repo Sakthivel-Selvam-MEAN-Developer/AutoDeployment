@@ -11,7 +11,7 @@ import {
     getOverallTrip,
     getTripByUnloadDate,
     getTripDetailsByCompanyName,
-    overallTripByFilter,
+    tripStatusFilter,
     updateStockToUnloadingInOverall
 } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -476,8 +476,6 @@ describe('Overall Trip model', () => {
         expect(actual[0].loadingPointToUnloadingPointTrip?.truckId).toBe(truck.id)
     })
     test('should able to get overall trip by filter', async () => {
-        const from = 1700764100
-        const to = 1700764300
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,
@@ -504,7 +502,7 @@ describe('Overall Trip model', () => {
             wantFuel: false
         })
         await create({ loadingPointToUnloadingPointTripId: trip.id })
-        const actual = await overallTripByFilter(company.id, 0, 0, from, to)
+        const actual = await tripStatusFilter(undefined, undefined, undefined, undefined, undefined)
         expect(actual[0].loadingPointToUnloadingPointTrip?.truckId).toBe(truck.id)
     })
     test('should able to get overall trip by unload date', async () => {
