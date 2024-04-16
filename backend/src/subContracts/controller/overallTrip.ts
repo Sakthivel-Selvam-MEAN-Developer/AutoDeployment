@@ -90,25 +90,32 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                 })
                 const differenceAmount = differenceCalculation(overallTrip, dueAmount)
                 dueAmount += (totalTransporterAmount / 100) * (tdsPercentage || 0)
+                const transporterAmount =
+                    tripType !== undefined && overallTrip.stockPointToUnloadingPointTrip !== null
+                        ? (
+                              tripType.totalTransporterAmount +
+                              overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
+                          ).toFixed(2)
+                        : tripType?.totalTransporterAmount.toFixed(2)
+                if (transporterAmount !== undefined && parseInt(transporterAmount) === dueAmount) {
+                    return null
+                }
                 const details = {
+                    startDate: tripType?.startDate,
                     vehicleNumber: tripType?.truck.vehicleNumber,
                     invoiceNumber: tripType?.invoiceNumber,
                     transporterName: tripType?.truck.transporter.name,
                     csmName: tripType?.truck.transporter.csmName,
-                    transporterAmount:
-                        tripType !== undefined &&
-                        overallTrip.stockPointToUnloadingPointTrip !== null
-                            ? (
-                                  tripType.totalTransporterAmount +
-                                  overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
-                              ).toFixed(2)
-                            : tripType?.totalTransporterAmount.toFixed(2),
+                    transporterAmount,
                     totalPaidAmount: dueAmount.toFixed(2),
                     differenceAmount
                 }
                 return details
             })
         )
-        .then((data) => res.status(200).json(data))
+        .then((data) => {
+            const filteredData = data.filter((item) => item !== null)
+            res.status(200).json(filteredData)
+        })
         .catch(() => res.status(500))
 }

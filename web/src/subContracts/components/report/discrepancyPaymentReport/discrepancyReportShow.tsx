@@ -7,11 +7,13 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { Button, Pagination, Stack, SxProps, Theme } from '@mui/material'
 import exportFromJSON from 'export-from-json'
-import { Dispatch } from 'react'
+import { Dispatch, FC } from 'react'
 import { SetStateAction } from 'jotai'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 
 interface Row {
     vehicleNumber: string
+    startDate: number
     invoiceNumber: string
     transporterName: string
     csmName: string
@@ -28,6 +30,7 @@ interface listProps {
 const cellNames = [
     '#',
     'Vehicle Number',
+    'Start Date',
     'Invoice Number',
     'Transporter Name',
     'CSM Name',
@@ -45,31 +48,29 @@ const tabelRow = (
 function getTableHead() {
     return <TableHead>{tabelRow}</TableHead>
 }
-const getCells = (data: Row) => {
+interface cellProps {
+    tripData: Row
+}
+const GetCells: FC<cellProps> = ({ tripData }) => {
     return (
         <>
-            <TableCell align="left">{data.vehicleNumber}</TableCell>
-            <TableCell align="left">{data.invoiceNumber}</TableCell>
-            <TableCell align="left">{data.transporterName}</TableCell>
-            {getSubCells(data)}
+            <TableCell align="left">{tripData.vehicleNumber}</TableCell>
+            <TableCell align="left">{epochToMinimalDate(tripData.startDate)}</TableCell>
+            <TableCell align="left">{tripData.invoiceNumber}</TableCell>
+            <TableCell align="left">{tripData.transporterName}</TableCell>
+            <TableCell align="left">{tripData.csmName}</TableCell>
+            <TableCell align="left">{tripData.transporterAmount}</TableCell>
+            <TableCell align="left">{tripData.totalPaidAmount}</TableCell>
+            <TableCell align="left">{tripData.differenceAmount.toFixed(2)}</TableCell>
         </>
     )
 }
-const getSubCells = (data: Row) => {
-    return (
-        <>
-            <TableCell align="left">{data.csmName}</TableCell>
-            <TableCell align="left">{data.transporterAmount}</TableCell>
-            <TableCell align="left">{data.totalPaidAmount}</TableCell>
-            <TableCell align="left">{data.differenceAmount.toFixed(2)}</TableCell>
-        </>
-    )
-}
+
 const tableRow = (row: Row, number: number, index: number, style: SxProps<Theme> | undefined) => {
     return (
         <TableRow key={index} sx={style}>
             <TableCell> {++number} </TableCell>
-            {getCells(row)}
+            <GetCells tripData={row} />
         </TableRow>
     )
 }
