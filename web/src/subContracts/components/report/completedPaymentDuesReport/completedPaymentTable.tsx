@@ -4,6 +4,7 @@ import Paper from '@mui/material/Paper'
 import { Button, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import exportFromJSON from 'export-from-json'
+import { FC } from 'react'
 
 interface Props {
     completedPayments: completedPaymentsProps[]
@@ -109,15 +110,7 @@ const style = {
 const CompletedPaymentTable: React.FC<Props> = ({ completedPayments }) => {
     return (
         <>
-            <div style={style}>
-                <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={() => download(completedPayments)}
-                >
-                    Download Report
-                </Button>
-            </div>
+            <DownloadCsvButton completedPayments={completedPayments} />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 600 }} aria-label="simple table">
                     {getTableHead()}
@@ -129,3 +122,15 @@ const CompletedPaymentTable: React.FC<Props> = ({ completedPayments }) => {
 }
 
 export default CompletedPaymentTable
+interface DownloadCsvButtonProps {
+    completedPayments: completedPaymentsProps[]
+}
+const DownloadCsvButton: FC<DownloadCsvButtonProps> = ({ completedPayments }) => {
+    return (
+        <div style={style}>
+            <Button color="primary" variant="contained" onClick={() => download(completedPayments)}>
+                Download Report
+            </Button>
+        </div>
+    )
+}

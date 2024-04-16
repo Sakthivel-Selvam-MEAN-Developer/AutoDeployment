@@ -13,10 +13,11 @@ export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) =
         .catch(() => res.status(500))
 }
 
-export const listTripStatusReportDetails = (req: any, res: Response) => {
-    const { cementCompanyId, transporterId, loadingPointId, from, to, skipNumber } = req.query
+export const listTripStatusReportDetails = async (req: any, res: Response) => {
+    const { cementCompanyId, transporterId, loadingPointId, from, to, pageNumber } = req.query
+    const skipNumber = (parseInt(pageNumber) - 1) * 2
     tripStatusFilter(cementCompanyId, transporterId, loadingPointId, from, to, skipNumber)
-        .then((data: any) => res.status(200).json(data))
+        .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
 

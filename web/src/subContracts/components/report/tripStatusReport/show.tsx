@@ -10,7 +10,9 @@ import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { CheckUser } from '../../../../auth/checkUser.tsx'
 import { Dispatch, FC, useContext } from 'react'
-import { dispatchData } from './tripStatusContext.ts'
+import { dispatchData, filterData } from './tripStatusContext.ts'
+import { TripFilters } from '../../../types/tripFilters.ts'
+import { tripStatusFilter } from '../../../services/overallTrips.ts'
 
 interface Row {
     freightAmount: number
@@ -63,7 +65,8 @@ interface paymentType {
     status: boolean
 }
 interface listoverallTripProps {
-    listoverallTrip: Props[]
+    overallTrips: Props[]
+    setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
 }
 const tableCell = [
     'Vehicle Number',
@@ -274,16 +277,17 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
-const ListAllDetails: React.FC<listoverallTripProps> = ({ listoverallTrip }) => {
+const ListAllDetails: React.FC<listoverallTripProps> = ({ setOverallTrips, overallTrips }) => {
     const authoriser = CheckUser()
-    if (listoverallTrip.length == 0) {
-        return
-    }
+    const { dispatch } = useContext(dispatchData)
+    if (overallTrips.length == 0) return
     return (
         <>
-            {generateCSVbutton(listoverallTrip, authoriser)}
-            {tableContainer(listoverallTrip)}
-            <StackPage />
+            <br />
+            <br />
+            {generateCSVbutton(overallTrips, authoriser)}
+            {tableContainer(overallTrips)}
+            <StackPage dispatch={dispatch} setOverallTrips={setOverallTrips} />
         </>
     )
 }
@@ -315,17 +319,24 @@ function table(listoverallTrip: Props[]) {
         </Table>
     )
 }
-
-const StackPage = () => {
-    const { dispatch } = useContext(dispatchData)
+interface stackProps {
+    setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
+    dispatch: Dispatch<ActionType>
+}
+const StackPage: FC<stackProps> = ({ setOverallTrips, dispatch }) => {
+    const oldFilterData = useContext(filterData)
     return (
         <div style={{ ...style, position: 'sticky' }}>
-            <Stack spacing={10}>{pagination(dispatch)}</Stack>
+            <Stack spacing={10}>{PaginationField(dispatch, oldFilterData, setOverallTrips)}</Stack>
         </div>
     )
 }
 export type ActionType = { type: string; pageNumber: number }
-function pagination(dispatch: Dispatch<ActionType>) {
+const PaginationField = (
+    dispatch: Dispatch<ActionType>,
+    oldFilterData: TripFilters | null,
+    setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
+) => {
     return (
         <Pagination
             count={100}
@@ -333,6 +344,7 @@ function pagination(dispatch: Dispatch<ActionType>) {
             color="primary"
             onChange={(_e, value) => {
                 dispatch({ pageNumber: value, type: 'updatePageNumber' })
+                tripStatusFilter({ ...oldFilterData, pageNumber: value }).then(setOverallTrips)
             }}
         />
     )

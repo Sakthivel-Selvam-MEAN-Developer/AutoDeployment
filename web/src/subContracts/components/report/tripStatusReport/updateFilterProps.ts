@@ -1,13 +1,7 @@
 import { TripFilters } from '../../../types/tripFilters'
-type ActionType = {
-    type: string
-    cementCompanyId: number
-    transporterId: number
-    loadinPointId: number
-    from: number
-    to: number
-    pageNumber: number
-}
+import { initialFilterData } from './list'
+import { ActionType } from './tripStatusReportTypes'
+
 export function updateFilterProps(currentFilterData: TripFilters, action: ActionType) {
     const actions = {
         updateCementComapnyId: () => {
@@ -24,6 +18,9 @@ export function updateFilterProps(currentFilterData: TripFilters, action: Action
         },
         updatePageNumber: () => {
             return { ...currentFilterData, pageNumber: action.pageNumber }
+        },
+        UpdateToInitialValues: () => {
+            return { ...initialFilterData }
         }
     }
     return actions[action.type as keyof typeof actions]()

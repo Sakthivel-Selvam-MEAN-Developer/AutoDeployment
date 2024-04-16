@@ -484,11 +484,11 @@ export const tripStatusFilter = (
     loadingPointId?: string,
     from?: string,
     to?: string,
-    skipNumber?: string
-): any =>
+    skipNumber?: number
+) =>
     prisma.overallTrip.findMany({
-        skip: skipNumber === undefined ? undefined : parseInt(skipNumber),
-        take: 15,
+        skip: skipNumber,
+        take: 2,
         where: {
             OR: [
                 {
@@ -542,5 +542,59 @@ export const tripStatusFilter = (
             loadingPointToUnloadingPointTrip: {
                 include: { truck: { include: { transporter: true } }, loadingPoint: true }
             }
+        }
+    })
+
+export const tripStatusFilterCount = (
+    cementCompanyId?: string,
+    transporterId?: string,
+    loadingPointId?: string,
+    from?: string,
+    to?: string
+) =>
+    prisma.overallTrip.count({
+        where: {
+            OR: [
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        startDate: {
+                            gte: from === undefined ? undefined : parseInt(from),
+                            lte: to === undefined ? undefined : parseInt(to)
+                        },
+                        loadingPointId:
+                            loadingPointId === undefined ? undefined : parseInt(loadingPointId),
+                        loadingPoint: {
+                            cementCompanyId:
+                                cementCompanyId === undefined
+                                    ? undefined
+                                    : parseInt(cementCompanyId)
+                        },
+                        truck: {
+                            transporterId:
+                                transporterId === undefined ? undefined : parseInt(transporterId)
+                        }
+                    }
+                },
+                {
+                    loadingPointToStockPointTrip: {
+                        startDate: {
+                            gte: from === undefined ? undefined : parseInt(from),
+                            lte: to === undefined ? undefined : parseInt(to)
+                        },
+                        loadingPointId:
+                            loadingPointId === undefined ? undefined : parseInt(loadingPointId),
+                        loadingPoint: {
+                            cementCompanyId:
+                                cementCompanyId === undefined
+                                    ? undefined
+                                    : parseInt(cementCompanyId)
+                        },
+                        truck: {
+                            transporterId:
+                                transporterId === undefined ? undefined : parseInt(transporterId)
+                        }
+                    }
+                }
+            ]
         }
     })

@@ -223,6 +223,6 @@ describe('Report Test', () => {
         expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
         expect(screen.getByText('Advance Pending')).toBeInTheDocument()
-        expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(9)
+        expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(2)
     })
 })
