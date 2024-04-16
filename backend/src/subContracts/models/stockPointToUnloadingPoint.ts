@@ -13,16 +13,12 @@ export const getAllStockToUnloadingPointTrip = () =>
 
 export const updateUnloadWeightForStockTrip = (id: number) =>
     prisma.stockPointToUnloadingPointTrip.update({
-        where: {
-            id
-        },
+        where: { id },
         data: {
             tripStatus: true,
             acknowledgeDueTime: dayjs().subtract(1, 'minute').unix(),
             loadingPointToStockPointTrip: {
-                update: {
-                    acknowledgeDueTime: dayjs().subtract(1, 'minute').unix()
-                }
+                update: { acknowledgeDueTime: dayjs().subtract(1, 'minute').unix() }
             }
         }
     })

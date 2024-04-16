@@ -154,16 +154,8 @@ export const getAllTripByAcknowledgementStatus = () =>
         where: {
             acknowledgementStatus: false,
             OR: [
-                {
-                    stockPointToUnloadingPointTrip: {
-                        tripStatus: true
-                    }
-                },
-                {
-                    loadingPointToUnloadingPointTrip: {
-                        tripStatus: true
-                    }
-                }
+                { stockPointToUnloadingPointTrip: { tripStatus: true } },
+                { loadingPointToUnloadingPointTrip: { tripStatus: true } }
             ]
         },
         include: {

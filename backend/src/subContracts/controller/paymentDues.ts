@@ -65,7 +65,7 @@ export interface fuelprops {
         location: string
     }
 }
-function getFuelPayDate(fuelId: number, fuelDetails: fuelprops[]) {
+function getFuelPayDate(fuelId: number | null, fuelDetails: fuelprops[]) {
     const fuelTrip = fuelDetails.find((fuel: fuelprops) => fuel.id === fuelId)
     if (fuelTrip) {
         return {
@@ -76,8 +76,15 @@ function getFuelPayDate(fuelId: number, fuelDetails: fuelprops[]) {
         }
     }
 }
-
-function tripInfo(matchingTrip: any, tripData: any, fuelDetails: fuelprops[]) {
+interface matchingTripProps {
+    id: number
+    type: string
+    fuelId: number | null
+    vehicleNumber: string
+    overallTripId: number | null
+    payableAmount: number
+}
+function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: fuelprops[]) {
     let invoice
     let obj
     let loadingPoint
