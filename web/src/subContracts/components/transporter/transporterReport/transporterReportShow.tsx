@@ -75,7 +75,7 @@ const style = { '&:last-child td, &:last-child th': { border: 0 } }
 const getTableBody = (allTransporter: Row[]) => {
     return (
         <TableBody>
-            {allTransporter && allTransporter.map((row, index) => newFunction(index, row))}
+            {allTransporter && allTransporter.map((row, index) => tableBodyRow(index, row))}
         </TableBody>
     )
 }
@@ -103,7 +103,7 @@ const ListAllTransporter: React.FC<Props> = ({ allTransporter, loading }) => {
 
 export default ListAllTransporter
 
-function newFunction(index: number, row: Row) {
+function tableBodyRow(index: number, row: Row) {
     return (
         <TableRow key={index} sx={style}>
             <TableCell> {index + 1} </TableCell>
@@ -113,6 +113,7 @@ function newFunction(index: number, row: Row) {
 }
 
 function subCell(key: string, value: string) {
+    console.log('cell', key, value)
     return (
         <TableCell key={key} align="left">
             {value ? value : 'NULL'}

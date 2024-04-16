@@ -61,7 +61,7 @@ const getSubCells = (data: Row) => {
             <TableCell align="left">{data.csmName}</TableCell>
             <TableCell align="left">{data.transporterAmount}</TableCell>
             <TableCell align="left">{data.totalPaidAmount}</TableCell>
-            <TableCell align="left">{data.differenceAmount}</TableCell>
+            <TableCell align="left">{data.differenceAmount.toFixed(2)}</TableCell>
         </>
     )
 }
@@ -160,7 +160,7 @@ function generateCSVButton(discrepancyDueDetails: Row[]) {
     return (
         <div style={{ float: 'right', marginTop: '10px' }}>
             <Button onClick={() => download(discrepancyDueDetails)} variant="contained">
-                Generate Form
+                Download CSV
             </Button>
         </div>
     )

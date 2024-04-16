@@ -1,8 +1,8 @@
 import { vi } from 'vitest'
 import { render } from '@testing-library/react'
 import MockDate from 'mockdate'
-import Chettinad_Ariyalur from './chettinadAriyalur'
-import Chettinad_Karikkali from './chettinadKarikali'
+import ChettinadAriyalur from './chettinadAriyalur'
+import ChettinadKarikkali from './chettinadKarikali'
 
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
@@ -25,7 +25,7 @@ describe('Chettinad invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<Chettinad_Ariyalur {...getProps()} />)
+        const { asFragment } = render(<ChettinadAriyalur {...getProps()} />)
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })
@@ -43,7 +43,7 @@ describe('Chettinad invoice component', () => {
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<Chettinad_Karikkali {...getProps()} />)
+        const { asFragment } = render(<ChettinadKarikkali {...getProps()} />)
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })

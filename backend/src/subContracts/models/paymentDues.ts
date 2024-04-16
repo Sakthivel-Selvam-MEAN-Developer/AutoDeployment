@@ -21,12 +21,8 @@ export const findTripWithActiveDues = (dueDate: number, status: boolean, type: s
         where: {
             status: false,
             NEFTStatus: status,
-            dueDate: {
-                lte: dueDate
-            },
-            NOT: {
-                type: 'gst pay'
-            },
+            dueDate: { lte: dueDate },
+            NOT: { type: 'gst pay' },
             type
         },
         select: {

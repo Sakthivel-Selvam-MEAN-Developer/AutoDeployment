@@ -12,7 +12,7 @@ import Dalmia_Annexure from './dalmiaAnnexure'
 import { toWords } from '../numberToWords'
 import { Box, CircularProgress } from '@mui/material'
 
-const Dalmia_Dalmiapuram_Invoice: FC<InvoiceProps> = ({
+const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({
     tripId,
     lastBillNumber,
     setLoading,
@@ -360,4 +360,4 @@ const Dalmia_Dalmiapuram_Invoice: FC<InvoiceProps> = ({
     )
 }
 
-export default Dalmia_Dalmiapuram_Invoice
+export default DalmiaDalmiapuramInvoice

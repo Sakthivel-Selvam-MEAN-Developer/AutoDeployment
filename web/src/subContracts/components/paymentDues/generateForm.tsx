@@ -88,7 +88,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     }
     return (
         <>
-            {transporterDue.length !== 0 ? (
+            {transporterDue && transporterDue.length !== 0 ? (
                 transporterDue.map((data: dataProp) => {
                     return (
                         <Accordion key={data.name}>
@@ -105,7 +105,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                     Total Trips: <b>{data.dueDetails.count}</b>
                                 </Typography>
                                 <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                    Total Amount:{' '}
+                                    Total Amount:
                                     <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
                                 </ListItemSecondaryAction>
                             </AccordionSummary>

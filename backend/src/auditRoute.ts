@@ -19,7 +19,7 @@ export const auditRoute = async (req: any, res: any, next: NextFunction) => {
             const decodedToken: any = jwt.decode(token)
             if (decodedToken === null) return
             const userRoles = decodedToken.realm_access.roles
-            const log = {
+            const auditLog = {
                 url: `${req.baseUrl}${req.url}`,
                 method: req.method,
                 payload: req.body,
@@ -31,7 +31,7 @@ export const auditRoute = async (req: any, res: any, next: NextFunction) => {
                 entityName: req.url.split('/')[1],
                 entityID: resDetails ? resDetails.id : 0
             }
-            await create(log).then(() => console.log('Audit Log Stored'))
+            await create(auditLog).then(() => console.log('Audit Log Stored'))
             originalEnd.apply(res, args)
         }
     }

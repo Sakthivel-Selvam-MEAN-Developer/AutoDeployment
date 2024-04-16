@@ -43,7 +43,7 @@ const SelectTrip: React.FC = (): ReactElement => {
     return (
         <>
             {authoriser && (
-                <div>
+                <div style={{ marginBottom: '20px' }}>
                     <Link to={'/sub/acknowledgement/addacknowledgement'}>
                         <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
                             Add Acknowledgement

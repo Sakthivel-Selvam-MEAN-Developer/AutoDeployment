@@ -30,7 +30,7 @@ const ListAllDiscrepancyReport: React.FC = (): ReactElement => {
         <>
             <p>
                 <b>Discrepancy Payment Report</b>
-            </p>{' '}
+            </p>
             <br />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <DiscrepancyReportFilter control={control} />

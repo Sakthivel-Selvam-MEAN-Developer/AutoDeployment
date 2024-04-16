@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../numberToWords'
 
-const Chettinad_Ariyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
+const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
     const [total, setTotal] = useState({
         totalAmount: 0,
         totalFilledLoad: 0,
@@ -385,4 +385,4 @@ const Chettinad_Ariyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
     )
 }
 
-export default Chettinad_Ariyalur
+export default ChettinadAriyalur

@@ -11,50 +11,21 @@ export const create = (
 export const getAllTrip = () =>
     prisma.loadingPointToUnloadingPointTrip.findMany({
         include: {
-            loadingPoint: {
-                select: {
-                    name: true
-                }
-            },
-            unloadingPoint: {
-                select: {
-                    name: true
-                }
-            },
+            loadingPoint: { select: { name: true } },
+            unloadingPoint: { select: { name: true } },
             truck: {
-                select: {
-                    vehicleNumber: true,
-                    transporter: {
-                        select: {
-                            name: true
-                        }
-                    }
-                }
+                select: { vehicleNumber: true, transporter: { select: { name: true } } }
             }
         }
     })
 
 export const getTripByVehicleNumber = (trucknumber: string) =>
     prisma.loadingPointToUnloadingPointTrip.findFirst({
-        where: {
-            truck: {
-                vehicleNumber: trucknumber
-            },
-            tripStatus: false,
-            wantFuel: true
-        },
+        where: { truck: { vehicleNumber: trucknumber }, tripStatus: false, wantFuel: true },
         select: {
             id: true,
             totalTransporterAmount: true,
-            truck: {
-                select: {
-                    transporter: {
-                        select: {
-                            name: true
-                        }
-                    }
-                }
-            }
+            truck: { select: { transporter: { select: { name: true } } } }
         }
     })
 

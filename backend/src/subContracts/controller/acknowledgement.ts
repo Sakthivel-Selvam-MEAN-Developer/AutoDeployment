@@ -27,17 +27,15 @@ export const listAllTripToByAcknowledgementStatus = (_req: Request, res: Respons
         .catch(() => res.status(500))
 }
 export const getTransporterName = (overallTrip: any) => {
-    let transporterName = ''
     if (overallTrip.stockPointToUnloadingPointTrip !== null) {
-        transporterName =
-            overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
-                ? overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
-                      .transporter.name
-                : ''
-    } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
-        transporterName = overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
+        return overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
+            ? overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
+                  .transporter.name
+            : ''
     }
-    return transporterName
+    if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
+        return overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
+    }
 }
 
 export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {

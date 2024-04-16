@@ -35,6 +35,9 @@ interface Row {
     unloadingPoint: {
         name: string
     }
+    stockPoint: {
+        name: string
+    }
     filledLoad: string
     startDate: number
     sample: string
@@ -51,6 +54,7 @@ interface Props {
     acknowledgementStatus: boolean
     loadingPointToStockPointTrip: Row
     loadingPointToUnloadingPointTrip: Row
+    stockPointToUnloadingPointTrip: Row
     paymentDues: paymentType[]
     fuel: fuel[]
 }
@@ -68,6 +72,8 @@ const tableCell = [
     'Transporter',
     'CSM Name',
     'Loading Point',
+    'Stock Point',
+    'Unloading Point',
     'Filled Load',
     'Freight Rate',
     'Tansporter Rate',
@@ -100,6 +106,10 @@ const GetCells = (data: Row, num: number, type: string, details: Props) => {
             <TableCell align="left">{data.truck.transporter.name}</TableCell>
             <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{data.loadingPoint.name}</TableCell>
+            <TableCell align="left">{data.stockPoint ? data.stockPoint.name : 'Null'}</TableCell>
+            <TableCell align="left">
+                {data.unloadingPoint ? data.unloadingPoint.name : 'Null'}
+            </TableCell>
             <TableCell align="left">{data.filledLoad}</TableCell>
             {authoriser && <TableCell align="left">{data.freightAmount}</TableCell>}
             <TableCell align="left">{data.transporterAmount}</TableCell>
@@ -226,6 +236,8 @@ const downloadCSV: CSVProps = (downloadtripData, tripData, type, num, details, a
         invoiceNumber: tripData.invoiceNumber,
         transporter: tripData.truck.transporter.name,
         loadingPoint: tripData.loadingPoint.name,
+        stockPoint: tripData.stockPoint ? tripData.stockPoint.name : 'Null',
+        unloadingPoint: tripData.unloadingPoint ? tripData.unloadingPoint.name : 'Null',
         filledLoad: tripData.filledLoad,
         tansporterAmount: tripData.transporterAmount,
         csmName: tripData.truck.transporter.csmName,
@@ -316,7 +328,7 @@ export type ActionType = { type: string; pageNumber: number }
 function pagination(dispatch: Dispatch<ActionType>) {
     return (
         <Pagination
-            count={10}
+            count={100}
             size="large"
             color="primary"
             onChange={(_e, value) => {
@@ -327,8 +339,20 @@ function pagination(dispatch: Dispatch<ActionType>) {
 }
 
 function loadingToStock(row: Props) {
-    return row.loadingPointToStockPointTrip !== null &&
+    // console.log(row)
+    if (
+        row.loadingPointToUnloadingPointTrip !== null &&
         row.loadingPointToStockPointTrip !== undefined
-        ? row.loadingPointToStockPointTrip
-        : row.loadingPointToUnloadingPointTrip
+    )
+        return row.loadingPointToUnloadingPointTrip
+    else if (
+        row.stockPointToUnloadingPointTrip !== null &&
+        row.stockPointToUnloadingPointTrip !== undefined
+    ) {
+        console.log('Stock to unloaidng', row.stockPointToUnloadingPointTrip)
+        return {
+            ...row.loadingPointToStockPointTrip,
+            unloadingPoint: row.stockPointToUnloadingPointTrip.unloadingPoint
+        }
+    } else return row.loadingPointToStockPointTrip
 }

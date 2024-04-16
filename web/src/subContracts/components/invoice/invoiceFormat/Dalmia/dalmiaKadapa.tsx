@@ -12,7 +12,7 @@ import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'
 
-const Dalmia_Kadappa_Invoice: FC<InvoiceProps> = ({
+const DalmiaKadappaInvoice: FC<InvoiceProps> = ({
     tripId,
     lastBillNumber,
     setLoading,
@@ -287,4 +287,4 @@ const Dalmia_Kadappa_Invoice: FC<InvoiceProps> = ({
     )
 }
 
-export default Dalmia_Kadappa_Invoice
+export default DalmiaKadappaInvoice

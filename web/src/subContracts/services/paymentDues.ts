@@ -1,5 +1,19 @@
 import { axiosInstance, getData } from '../../apiCalls'
 
+interface dataProps {
+    type: string
+    bankDetails: bankDetailsProps[]
+    payableAmount: number
+}
+interface bankDetailsProps {
+    ifsc: string
+    accountTypeNumber: number
+    accountNumber: number | string
+    accountHolder: string
+    bunkName: string
+    name: string
+    branchName: string
+}
 export const getOnlyActiveDues = (todayDate: number, status: boolean, type: string) =>
     axiosInstance
         .get(`/payment-dues`, { params: { todayDate, status, type } })
@@ -15,6 +29,12 @@ export const updatePaymentDues = (data: object) =>
 export const updateNEFTStatus = (dueId: number[]) =>
     axiosInstance
         .put('/payment-dues/NEFT', dueId)
+        .then(getData)
+        .catch(() => alert('Error Updating data'))
+
+export const donwloadNEFTFile = (dueDetails: dataProps[]) =>
+    axiosInstance
+        .put('/payment-dues/donwloadNEFTFile', dueDetails)
         .then(getData)
         .catch(() => alert('Error Updating data'))
 

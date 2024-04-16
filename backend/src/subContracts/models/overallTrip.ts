@@ -252,6 +252,69 @@ export const getOverAllTripById = (id: number) =>
         }
     })
 
+export const overallTripByFilter = (
+    cementCompanyId: number,
+    transporterId: number,
+    loadingPointId: number,
+    from: number,
+    to: number
+) =>
+    prisma.overallTrip.findMany({
+        where: {
+            OR: [
+                {
+                    OR: [
+                        {
+                            loadingPointToUnloadingPointTrip: { startDate: { gte: from, lte: to } }
+                        },
+                        {
+                            loadingPointToUnloadingPointTrip: { loadingPointId }
+                        },
+                        {
+                            loadingPointToUnloadingPointTrip: { loadingPoint: { cementCompanyId } }
+                        },
+                        {
+                            loadingPointToUnloadingPointTrip: { truck: { transporterId } }
+                        }
+                    ]
+                },
+                {
+                    OR: [
+                        {
+                            loadingPointToStockPointTrip: { startDate: { gte: from, lte: to } }
+                        },
+                        {
+                            loadingPointToStockPointTrip: { loadingPointId }
+                        },
+                        {
+                            loadingPointToStockPointTrip: { loadingPoint: { cementCompanyId } }
+                        },
+                        {
+                            loadingPointToStockPointTrip: { truck: { transporterId } }
+                        }
+                    ]
+                }
+            ]
+        },
+        include: {
+            fuel: { include: { bunk: true } },
+            paymentDues: true,
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: { include: { transporter: true } },
+                    loadingPoint: true,
+                    stockPoint: true
+                }
+            },
+            stockPointToUnloadingPointTrip: { select: { unloadingPoint: true } },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: { include: { transporter: true } },
+                    loadingPoint: true
+                }
+            }
+        }
+    })
 export const getTripDetailsByCompanyName = (name: string, startDate: number, endDate: number) => {
     const whereClause: any = {
         acknowledgementStatus: true,
@@ -264,22 +327,14 @@ export const getTripDetailsByCompanyName = (name: string, startDate: number, end
                 {
                     stockPointToUnloadingPointTrip: {
                         loadingPointToStockPointTrip: {
-                            loadingPoint: {
-                                cementCompany: {
-                                    name
-                                }
-                            },
+                            loadingPoint: { cementCompany: { name } },
                             startDate: { equals: startDate }
                         }
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
-                        loadingPoint: {
-                            cementCompany: {
-                                name
-                            }
-                        },
+                        loadingPoint: { cementCompany: { name } },
                         AND: [
                             {
                                 startDate: { gte: startDate }
@@ -299,22 +354,14 @@ export const getTripDetailsByCompanyName = (name: string, startDate: number, end
                 {
                     stockPointToUnloadingPointTrip: {
                         loadingPointToStockPointTrip: {
-                            loadingPoint: {
-                                cementCompany: {
-                                    name
-                                }
-                            },
+                            loadingPoint: { cementCompany: { name } },
                             startDate: { equals: startDate }
                         }
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
-                        loadingPoint: {
-                            cementCompany: {
-                                name
-                            }
-                        },
+                        loadingPoint: { cementCompany: { name } },
                         startDate: { gte: startDate },
                         billNo: null
                     }
@@ -327,21 +374,13 @@ export const getTripDetailsByCompanyName = (name: string, startDate: number, end
                 {
                     stockPointToUnloadingPointTrip: {
                         loadingPointToStockPointTrip: {
-                            loadingPoint: {
-                                cementCompany: {
-                                    name
-                                }
-                            }
+                            loadingPoint: { cementCompany: { name } }
                         }
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
-                        loadingPoint: {
-                            cementCompany: {
-                                name
-                            }
-                        },
+                        loadingPoint: { cementCompany: { name } },
                         billNo: null
                     }
                 }
@@ -355,11 +394,7 @@ export const getTripDetailsByCompanyName = (name: string, startDate: number, end
                 include: {
                     loadingPointToStockPointTrip: {
                         include: {
-                            truck: {
-                                include: {
-                                    transporter: true
-                                }
-                            },
+                            truck: { include: { transporter: true } },
                             loadingPoint: true,
                             stockPoint: true
                         }
@@ -369,11 +404,7 @@ export const getTripDetailsByCompanyName = (name: string, startDate: number, end
             },
             loadingPointToUnloadingPointTrip: {
                 include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    },
+                    truck: { include: { transporter: true } },
                     loadingPoint: true,
                     unloadingPoint: true
                 }
@@ -385,33 +416,15 @@ export const getTripByUnloadDate = (date: number) =>
     prisma.overallTrip.findMany({
         where: {
             acknowledgementStatus: false,
-            shortageQuantity: {
-                some: {
-                    unloadedDate: {
-                        gte: date
-                    }
-                }
-            }
+            shortageQuantity: { some: { unloadedDate: { gte: date } } }
         },
         include: {
             shortageQuantity: true,
             loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    }
-                }
+                include: { truck: { include: { transporter: true } } }
             },
             loadingPointToStockPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    }
-                }
+                include: { truck: { include: { transporter: true } } }
             }
         }
     })
@@ -422,21 +435,11 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
             OR: [
                 {
                     acknowledgementStatus: true,
-                    loadingPointToStockPointTrip: {
-                        startDate: {
-                            gte: from,
-                            lte: to
-                        }
-                    }
+                    loadingPointToStockPointTrip: { startDate: { gte: from, lte: to } }
                 },
                 {
                     acknowledgementStatus: true,
-                    loadingPointToUnloadingPointTrip: {
-                        startDate: {
-                            gte: from,
-                            lte: to
-                        }
-                    }
+                    loadingPointToUnloadingPointTrip: { startDate: { gte: from, lte: to } }
                 }
             ]
         },
@@ -444,18 +447,10 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
             paymentDues: true,
             stockPointToUnloadingPointTrip: true,
             loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: {
-                        include: { transporter: true }
-                    }
-                }
+                include: { truck: { include: { transporter: true } } }
             },
             loadingPointToStockPointTrip: {
-                include: {
-                    truck: {
-                        include: { transporter: true }
-                    }
-                }
+                include: { truck: { include: { transporter: true } } }
             },
             shortageQuantity: true
         }
@@ -463,11 +458,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
 
 export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
     prisma.overallTrip.findMany({
-        where: {
-            id: {
-                in: arrayOfId
-            }
-        },
+        where: { id: { in: arrayOfId } },
         include: {
             loadingPointToUnloadingPointTrip: {
                 select: {
@@ -543,31 +534,13 @@ export const tripStatusFilter = (
             ]
         },
         include: {
-            fuel: {
-                include: {
-                    bunk: true
-                }
-            },
+            fuel: { include: { bunk: true } },
             paymentDues: true,
             loadingPointToStockPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    },
-                    loadingPoint: true
-                }
+                include: { truck: { include: { transporter: true } }, loadingPoint: true }
             },
             loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    },
-                    loadingPoint: true
-                }
+                include: { truck: { include: { transporter: true } }, loadingPoint: true }
             }
         }
     })

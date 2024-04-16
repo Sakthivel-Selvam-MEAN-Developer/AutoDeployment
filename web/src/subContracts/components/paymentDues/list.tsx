@@ -3,11 +3,12 @@ import { useState } from 'react'
 import GenerateForm from './generateForm'
 import PaymentDues from './paymentDues'
 import { exportFile } from './NEFTForm/exportFile.ts'
-import { updateNEFTStatus } from '../../services/paymentDues.ts'
+import { donwloadNEFTFile, updateNEFTStatus } from '../../services/paymentDues.ts'
 import GSTDues, { gstNEFTDetailsProps } from './gstDues.tsx'
 import GSTPaymentDues from './gstPaymentDues.tsx'
 import NEFTDialog from './neftDialog.tsx'
 import { CheckUser } from '../../../auth/checkUser.tsx'
+import saveAs from 'file-saver'
 interface TabPanelProps {
     children?: React.ReactNode
     index: number
@@ -72,7 +73,12 @@ const PaymentDuesList: React.FC = () => {
     const handleGstPay = (_event: React.SyntheticEvent, newValue: number) => setGstPay(newValue)
     const handleDonwloadNEFT = async () => {
         if (NEFTDetails.length !== 0)
-            await exportFile(NEFTDetails)
+            donwloadNEFTFile(NEFTDetails)
+                .then((data) => {
+                    const { fileName: name, data: fileContent } = data
+                    const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' })
+                    saveAs(blob, name)
+                })
                 .then(() => updateNEFTStatus(paymentDueId))
                 .then(reset)
         else if (gstNEFTDetails.length !== 0)

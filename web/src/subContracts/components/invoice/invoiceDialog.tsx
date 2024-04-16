@@ -5,12 +5,12 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import Chettinad_Ariyalur from './invoiceFormat/Chettinad/chettinadAriyalur'
+import ChettinadAriyalur from './invoiceFormat/Chettinad/chettinadAriyalur'
 import Chettinad_Karikkali_Stock from './invoiceFormat/Chettinad/chettinadKarikali'
-import UltraTech_APCW, { UltraTechProps } from './invoiceFormat/UltraTech/ultraTech-APCW'
+import UltraTechAPCW, { UltraTechProps } from './invoiceFormat/UltraTech/ultraTech-APCW'
 import { downloadPdf } from './invoiceFormat/downloadPdf'
-import Dalmia_Dalmiapuram_Invoice from './invoiceFormat/Dalmia/dalmiaDalmiapuram'
-import Dalmia_Kadappa_Invoice from './invoiceFormat/Dalmia/dalmiaKadapa'
+import DalmiaDalmiapuramInvoice from './invoiceFormat/Dalmia/dalmiaDalmiapuram'
+import DalmiaKadappaInvoice from './invoiceFormat/Dalmia/dalmiaKadapa'
 
 const InvoiceDialog: React.FC<UltraTechProps> = ({
     tripId,
@@ -71,7 +71,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
         switch (company) {
             case 'ULTRATECH CEMENT LIMITED,TADIPATRI':
                 return (
-                    <UltraTech_APCW
+                    <UltraTechAPCW
                         tripId={tripId}
                         lastBillNumber={lastBillNumber}
                         setLoading={setLoading}
@@ -89,7 +89,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 )
             case 'Chettinad Cement Corporation Private Ltd. Ariyalur':
                 return (
-                    <Chettinad_Ariyalur
+                    <ChettinadAriyalur
                         tripId={tripId}
                         lastBillNumber={lastBillNumber}
                         setLoading={setLoading}
@@ -98,7 +98,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 )
             case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
                 return (
-                    <Dalmia_Dalmiapuram_Invoice
+                    <DalmiaDalmiapuramInvoice
                         tripId={tripId}
                         lastBillNumber={lastBillNumber}
                         setLoading={setLoading}
@@ -107,7 +107,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 )
             case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
                 return (
-                    <Dalmia_Kadappa_Invoice
+                    <DalmiaKadappaInvoice
                         tripId={tripId}
                         lastBillNumber={lastBillNumber}
                         setLoading={setLoading}

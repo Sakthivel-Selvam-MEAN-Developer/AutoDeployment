@@ -23,12 +23,7 @@ export interface UltraTechProps {
     updateInvoice: () => void
     lastBillNumber: string
 }
-const UltraTech_APCW: React.FC<InvoiceProps> = ({
-    tripId,
-    lastBillNumber,
-    setLoading,
-    loading
-}) => {
+const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
     const [trip, setTrip] = useState<tripProps>()
     let totalFilledLoad = 0
     let totalAmount = 0
@@ -233,7 +228,7 @@ const UltraTech_APCW: React.FC<InvoiceProps> = ({
         </>
     )
 }
-export default UltraTech_APCW
+export default UltraTechAPCW
 
 const tableRow = (row: LoadingToStockPointProps, index: number) => {
     return (

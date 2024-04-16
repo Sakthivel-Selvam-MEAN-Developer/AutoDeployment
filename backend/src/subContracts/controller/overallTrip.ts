@@ -37,13 +37,23 @@ export const listTripDetailsByUnloadDate = (req: Request, res: Response) => {
 
 const differenceCalculation = (tripData: any, totalPaidAmount: number) => {
     if (tripData.loadingPointToStockPointTrip !== null) {
+        const { tdsPercentage } = tripData.loadingPointToStockPointTrip.truck.transporter
         const totalTransporterAmount =
             tripData.loadingPointToStockPointTrip.totalTransporterAmount +
             tripData.stockPointToUnloadingPointTrip.totalTransporterAmount
-        return totalTransporterAmount - totalPaidAmount
+        return (
+            totalTransporterAmount -
+            totalPaidAmount -
+            (totalTransporterAmount / 100) * tdsPercentage
+        )
     }
     if (tripData.loadingPointToUnloadingPointTrip !== null) {
-        return tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount - totalPaidAmount
+        const { tdsPercentage } = tripData.loadingPointToUnloadingPointTrip.truck.transporter
+        return (
+            tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount -
+            totalPaidAmount -
+            (tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount / 100) * tdsPercentage
+        )
     }
 }
 export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
@@ -53,15 +63,32 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
             data.map((overallTrip) => {
                 let tripType
                 let dueAmount = 0
-                overallTrip.paymentDues.forEach((dues) => {
-                    if (dues.type !== 'gst pay') dueAmount += dues.payableAmount
-                })
-                if (overallTrip.loadingPointToStockPointTrip !== null) {
+                let tdsPercentage: number | null = 0
+                let totalTransporterAmount = 0
+                if (
+                    overallTrip.loadingPointToStockPointTrip !== null &&
+                    overallTrip.stockPointToUnloadingPointTrip !== null
+                ) {
                     tripType = overallTrip.loadingPointToStockPointTrip
+                    totalTransporterAmount =
+                        overallTrip.loadingPointToStockPointTrip.totalTransporterAmount +
+                        overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
+                    tdsPercentage =
+                        overallTrip.loadingPointToStockPointTrip.truck.transporter.tdsPercentage
                 } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
                     tripType = overallTrip.loadingPointToUnloadingPointTrip
+                    totalTransporterAmount =
+                        overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount
+                    tdsPercentage =
+                        overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.tdsPercentage
                 }
+                overallTrip.paymentDues.forEach((dues) => {
+                    if (dues.type !== 'gst pay' && dues.payableAmount > 0) {
+                        dueAmount += dues.payableAmount
+                    }
+                })
                 const differenceAmount = differenceCalculation(overallTrip, dueAmount)
+                dueAmount += (totalTransporterAmount / 100) * (tdsPercentage || 0)
                 const details = {
                     vehicleNumber: tripType?.truck.vehicleNumber,
                     invoiceNumber: tripType?.invoiceNumber,

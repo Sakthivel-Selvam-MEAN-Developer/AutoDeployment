@@ -12,7 +12,7 @@ import { Box, CircularProgress } from '@mui/material'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import calculateTotals from '../calculateTotal'
 
-const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
+const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
     const [total, setTotal] = useState({
         totalAmount: 0,
         totalFilledLoad: 0,
@@ -311,4 +311,4 @@ const Chettinad_Karikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
     )
 }
 
-export default Chettinad_Karikkali
+export default ChettinadKarikkali

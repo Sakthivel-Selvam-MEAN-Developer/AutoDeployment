@@ -122,16 +122,12 @@ describe('Trip Test', () => {
         })
         await userEvent.type(screen.getByLabelText('Stock Point Date'), '30012024')
         await userEvent.type(screen.getByLabelText('Invoice Number'), '12345abc')
-        const unLoadingPoint = screen.getByRole('combobox', {
-            name: 'Unloading Point'
-        })
+        const unLoadingPoint = screen.getByRole('combobox', { name: 'Unloading Point' })
         await userEvent.click(unLoadingPoint)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const opt = screen.getByRole('option', {
-            name: 'erode'
-        })
+        const opt = screen.getByRole('option', { name: 'erode' })
         await userEvent.click(opt)
         expect(screen.getByText('1000')).toBeInTheDocument()
         const create = screen.getByRole('button', { name: 'Create' })

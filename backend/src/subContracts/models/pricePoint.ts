@@ -21,21 +21,9 @@ export const getPricePoint = (
 export const getAllPricePoint = () =>
     prisma.pricePoint.findMany({
         include: {
-            loadingPoint: {
-                include: {
-                    cementCompany: true
-                }
-            },
-            stockPoint: {
-                include: {
-                    cementCompany: true
-                }
-            },
-            unloadingPoint: {
-                include: {
-                    cementCompany: true
-                }
-            }
+            loadingPoint: { include: { cementCompany: true } },
+            stockPoint: { include: { cementCompany: true } },
+            unloadingPoint: { include: { cementCompany: true } }
         }
     })
 
