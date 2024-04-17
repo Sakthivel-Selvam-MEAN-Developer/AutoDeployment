@@ -1,13 +1,66 @@
+- date: 17-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add driver only for magnum vehicle
+    - fix name changes in completed report
+- date: 17-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should add filter in tripStatus report
+
+- date: 16-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add invoice date in discrepancy report
+    - should remove trips without discrepancy in discrepancy report
+    - should allow kalaiayarasan to pay in payment dues
+  completed:
+    - added invoice date in discrepancy report
+    - removed trips without discrepancy in discrepancy report
+    - allowed kalaiayarasan to pay in payment dues
+- date: 16-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should add tds in discrepancy report
+    - should allow kalaiayarasan to pay in payment dues
+  completed:
+    - added tds in discrepancy report
+    - allowed kalaiayarasan to pay in payment dues
+
+- date: 15-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should use context and reducer to refactor in tripStatus Report
+  completed:
+    - used context and reducer to refactor in tripStatus Report
+    - added pagination to backend and used query params for api call
+- date: 15-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - changed NEFT file generation logic to backend
+  completed:
+    - changed NEFT file generation logic to backend
+
 - date: 13-04-2024
   person: Barath
   project: subContract
   planning:
-    - should add filter in trip status
+    - should pair and work on tripStatus report
+  completed:
+    - paired and refactored tripStatus report
 - date: 13-04-2024
   person: Sakthivel
   project: subContract
   planning:
     - number field validation
+  completed:
+    - number field validated
 
 - date: 12-04-2024
   person: Barath,SakthiVel
