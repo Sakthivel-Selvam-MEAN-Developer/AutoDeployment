@@ -291,6 +291,7 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({
     count,
     setCount
 }) => {
+    console.log(overallTrips)
     const authoriser = CheckUser()
     const { dispatch } = useContext(dispatchData)
     if (overallTrips && overallTrips.length === 0) return

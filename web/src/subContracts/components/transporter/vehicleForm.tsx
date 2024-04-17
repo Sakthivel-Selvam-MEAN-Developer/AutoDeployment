@@ -9,13 +9,7 @@ interface vehicleFormProps {
 const VehicleForm: FC<vehicleFormProps> = ({ control }) => {
     return (
         <>
-            <InputWithType
-                control={control}
-                disabled={false}
-                label="Vehicle Number"
-                fieldName="vehicleNumber"
-                type="string"
-            />
+            <InputWithTypeField control={control} />
             <NumberInputWithProps
                 control={control}
                 label="Capacity"
@@ -29,3 +23,17 @@ const VehicleForm: FC<vehicleFormProps> = ({ control }) => {
 }
 
 export default VehicleForm
+interface InputWithTypeProps {
+    control: Control
+}
+const InputWithTypeField: FC<InputWithTypeProps> = ({ control }) => {
+    return (
+        <InputWithType
+            control={control}
+            disabled={false}
+            label="Vehicle Number"
+            fieldName="vehicleNumber"
+            type="string"
+        />
+    )
+}

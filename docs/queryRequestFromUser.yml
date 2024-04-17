@@ -18,3 +18,12 @@
     - added new bunk
   query:
     - insert into "subContract"."bunk" ("bunkName" ,"accountHolder","accountNumber", "accountTypeNumber", "ifsc", "location", "branchName","createdAt","updatedAt") values('Saii Venkateswara Fuels','Saii Venkateswara Fuels',41848082724, 11,'SBIN0000832','Nallapalli','Dharmapuri', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+  
+  date: 17-04-2024
+  person: Karthik
+  description:
+    - updated want fuel true for loadingToUnloading trip (TN)
+    - deleted initial pay which is created without fuel
+  query:
+    - update "subContract"."loadingPointToUnloadingPointTrip" set "wantFuel" =true where id=300;
+    - delete from "subContract"."paymentDues" where id=773;

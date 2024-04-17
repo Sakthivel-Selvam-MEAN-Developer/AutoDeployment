@@ -21,9 +21,14 @@ const AddAcknowledgement: React.FC = () => {
     const [tripId, setTripId] = useState<number>(0)
     const [tripClosed, setTripClosed] = useState<boolean>(false)
     const [tripDetails, setTripDetails] = useState<tripdetailsProps | null>(null)
+    let clicked = false
     const finalDue = async (id: number) => {
-        await updateAcknowledgementStatus(id).catch(() => alert('Trip Not Closed'))
-        setTripClosed(true)
+        if (clicked) return
+        clicked = true
+        clicked &&
+            (await updateAcknowledgementStatus(id)
+                .then(() => setTripClosed(true))
+                .catch(() => alert('Trip Not Closed')))
     }
     const onSubmit: SubmitHandler<FieldValues> = () => {
         setTripClosed(false)
