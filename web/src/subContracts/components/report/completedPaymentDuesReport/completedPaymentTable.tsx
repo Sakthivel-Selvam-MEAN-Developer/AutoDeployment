@@ -71,7 +71,7 @@ const getTableBody = (allTrips: completedPaymentsProps[]) => {
                                           .transporter.csmName
                                     : row.overallTrip.loadingPointToStockPointTrip.truck.transporter
                                           .csmName
-                                : ''}
+                                : 'NUll'}
                         </TableCell>
                     </TableRow>
                 ))}
@@ -88,11 +88,17 @@ function download(completedPayments: completedPaymentsProps[]) {
 }
 const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], num: number) => {
     const addData = {
-        name: data.name,
-        paidAt: epochToMinimalDate(data.paidAt),
-        type: data.type,
-        transactionId: data.transactionId,
-        payableAmount: data.payableAmount
+        TransporterName: data.name,
+        PaidOn: epochToMinimalDate(data.paidAt),
+        PaymentType: data.type,
+        TransactionId: data.transactionId,
+        PaidAmount: data.payableAmount,
+        CsmName:
+            data.type !== 'fuel pay'
+                ? data.overallTrip.loadingPointToUnloadingPointTrip !== null
+                    ? data.overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.csmName
+                    : data.overallTrip.loadingPointToStockPointTrip.truck.transporter.csmName
+                : 'NUll'
     }
     downloadtripData.push(addData)
     if (downloadtripData.length === num) {

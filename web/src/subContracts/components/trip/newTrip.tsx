@@ -9,6 +9,7 @@ import { getPricePoint } from '../../services/pricePoint.ts'
 import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
 import { getAllDriver } from '../../../driverSalary/services/driver.ts'
 import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
+import { createDriverTrip } from '../../../driverSalary/services/driverTrip.ts'
 interface transporter {
     name: string
     transporterAmount: number
@@ -43,8 +44,8 @@ const NewTrip: React.FC = () => {
     const [fuel, setFuel] = useState(false)
     const [filledLoad, setFilledLoad] = useState<number | null>(null)
     const [category, setCategory] = useState<string>('')
-    // const [driverId, setDriverId] = useState<number>(0)
-    // const [driverName, setDriverName] = useState('')
+    const [driverId, setDriverId] = useState<number>(0)
+    const [driverName, setDriverName] = useState('')
     const [clear, setClear] = useState<boolean>(false)
     const [ownTruckFuel, setownTruckFuel] = useState<boolean>(true)
     const [listTruck, setListTruck] = useState([])
@@ -78,13 +79,16 @@ const NewTrip: React.FC = () => {
                 margin: ownTruck === false ? parseFloat(marginFloat) : 0,
                 wantFuel: ownTruck === false ? fuel : ownTruckFuel
             }
-            // const driverDetails = {
-            //     tripStartDate: data.tripDate.startOf('day').unix(),
-            //     driverId
-            // }
+            const driverDetails = {
+                tripStartDate: data.tripDate.startOf('day').unix(),
+                driverId
+            }
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
-                    // .then((trip) => createDriverTrip({ ...driverDetails, tripId: trip.id }))
+                    .then((trip) => {
+                        console.log(trip)
+                        return ownTruck && createDriverTrip({ ...driverDetails, tripId: trip.id })
+                    })
                     .then(() => setOpenSuccessDialog(true))
                     .then(() =>
                         clearForm(
@@ -102,7 +106,10 @@ const NewTrip: React.FC = () => {
                     .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
             else if (category === 'Unloading Point')
                 createTrip({ ...details, unloadingPointId: unloadingPointId })
-                    // .then((trip) => createDriverTrip({ ...driverDetails, tripId: trip.id }))
+                    .then(
+                        (trip) =>
+                            ownTruck && createDriverTrip({ ...driverDetails, tripId: trip.id })
+                    )
                     .then(() => setOpenSuccessDialog(true))
                     .then(() =>
                         clearForm(
@@ -141,8 +148,8 @@ const NewTrip: React.FC = () => {
                 ownTruck={ownTruck}
                 setOwnTruck={setOwnTruck}
                 transporter={transporter}
-                // driversList={driversList}
-                // setDriverId={setDriverId}
+                driversList={driversList}
+                setDriverId={setDriverId}
                 cementCompany={cementCompany}
                 setTruckId={setTruckId}
                 loadingPointId={setLoadingPointId}
@@ -166,8 +173,8 @@ const NewTrip: React.FC = () => {
                 listTruck={listTruck}
                 setFuelDetails={setFuelDetails}
                 fuelDetails={fuelDetails}
-                // setDriverName={setDriverName}
-                // driverName={driverName}
+                setDriverName={setDriverName}
+                driverName={driverName}
                 filledLoad={filledLoad}
                 setFilledLoad={setFilledLoad}
             />

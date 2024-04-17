@@ -46,7 +46,7 @@ export const createTrip = async (req: Request, res: Response) => {
                 finalPayDuration: pricePoint?.payGeneratingDuration
             })
         )
-        if (transporterType === 'Own') return res.sendStatus(200)
+        if (transporterType === 'Own') return res.status(200).json({ id: overallTripId })
         await tripLogic(
             req.body,
             fuelDetails,
@@ -57,7 +57,7 @@ export const createTrip = async (req: Request, res: Response) => {
             companyDetails?.cementCompany.advanceType
         )
             .then(async (data) => {
-                if (data === undefined) return res.status(200).json({ id: overallTripId })
+                if (data === undefined) return res.status(200)
                 await createPaymentDues(data)
             })
             .then(async () => {

@@ -52,16 +52,16 @@ interface FormFieldProps {
     setValue: UseFormSetValue<FieldValues>
     ownTruck: boolean
     clear: boolean
-    // setDriverId: React.Dispatch<React.SetStateAction<number>>
+    setDriverId: React.Dispatch<React.SetStateAction<number>>
     setListTruck: React.Dispatch<React.SetStateAction<never[]>>
     listTruck: never[]
     fuelDetails: FuelProps | null
     filledLoad: number | null
     setFuelDetails: React.Dispatch<React.SetStateAction<FuelProps | null>>
     setFilledLoad: React.Dispatch<React.SetStateAction<number | null>>
-    // driversList: never[]
-    // setDriverName: React.Dispatch<React.SetStateAction<string>>
-    // driverName: string
+    driversList: never[]
+    setDriverName: React.Dispatch<React.SetStateAction<string>>
+    driverName: string
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -91,11 +91,12 @@ const FormField: React.FC<FormFieldProps> = ({
     fuelDetails,
     setFuelDetails,
     filledLoad,
-    setFilledLoad
-    // setDriverId,
-    // driversList,
-    // setDriverName,
-    // driverName
+    setOwnTruck,
+    setFilledLoad,
+    setDriverId,
+    driversList,
+    setDriverName,
+    driverName
 }) => {
     const [transporterName, setTransporterName] = useState<string | null>('')
     const [cementCompanyName, setCementCompanyName] = useState<string | null>('')
@@ -193,6 +194,12 @@ const FormField: React.FC<FormFieldProps> = ({
                     label="Transporter"
                     options={transporter.map(({ name }) => name)}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        transporter.find((transporter: transporterProps) => {
+                            transporter.transporterType === 'Own'
+                                ? setOwnTruck(true)
+                                : setOwnTruck(false)
+                            return transporter.name === newValue
+                        })
                         setTransporterName(newValue)
                     }}
                 />
@@ -216,20 +223,22 @@ const FormField: React.FC<FormFieldProps> = ({
                         setVehicleNumber(newValue)
                     }}
                 />
-                {/* <AutoCompleteWithValue
-                value={driverName}
-                control={control}
-                fieldName="driverId"
-                label="Select Driver"
-                options={driversList.map(({ name }) => name)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id } = driversList.find(
-                        (data: { name: string }) => data.name === newValue
-                    ) || { id: 0 }
-                    setDriverName(newValue)
-                    setDriverId(id)
-                }}
-            /> */}
+                {ownTruck && (
+                    <AutoCompleteWithValue
+                        value={driverName}
+                        control={control}
+                        fieldName="driverId"
+                        label="Select Driver"
+                        options={driversList.map(({ name }) => name)}
+                        onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                            const { id } = driversList.find(
+                                (data: { name: string }) => data.name === newValue
+                            ) || { id: 0 }
+                            setDriverName(newValue)
+                            setDriverId(id)
+                        }}
+                    />
+                )}
                 <AutoCompleteWithValue
                     value={category}
                     control={control}

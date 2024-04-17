@@ -15,10 +15,10 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
     try {
         const {
             vehicleNumber,
-            transporter: { name }
+            transporter: { name, transporterType }
         } = (await getNumberByTruckId(req.body.truckId)) || {
             vehicleNumber: '',
-            transporter: { name: '' }
+            transporter: { name: '', transporterType: '' }
         }
         const companyDetails = await getCementCompanyByLocation(req.body.loadingPointId)
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
@@ -36,6 +36,7 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
             companyDetails?.cementCompany.advanceType
         )
             .then(async (data) => {
+                if (data === undefined && transporterType === 'Own') return
                 if (req.body.wantFuel !== true && fuelDetails !== null) {
                     await updateFuelWithTripId({ id: fuelDetails.id, overallTripId: id }).then(
                         async () => {
