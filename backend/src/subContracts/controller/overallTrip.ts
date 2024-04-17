@@ -104,7 +104,7 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                         : tripType?.totalTransporterAmount.toFixed(2)
                 if (
                     transporterAmount !== undefined &&
-                    parseInt(transporterAmount) === parseFloat(dueAmount.toFixed(2))
+                    parseFloat(transporterAmount) === parseFloat(dueAmount.toFixed(2))
                 ) {
                     return null
                 }
