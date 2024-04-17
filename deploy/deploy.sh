@@ -2,11 +2,11 @@
 set -e
 
 IP=$1
-ssh -t -i ~/.ssh/wonderWhy.pem ec2-user@"$IP" << EOF
-  set -e
-  chmod +x ~/docker-compose
-  ~/docker-compose down nginx
-EOF
+# ssh -t -i ~/.ssh/wonderWhy.pem ec2-user@"$IP" << EOF
+#   set -e
+#   chmod +x ~/docker-compose
+#   ~/docker-compose down nginx
+# EOF
 echo "remove old copy"
 rm -rf wonderWhy
 echo "update pem key permission"
