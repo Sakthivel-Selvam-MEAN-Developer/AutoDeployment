@@ -4,7 +4,8 @@ import {
     getOverallTrip,
     getTripByUnloadDate,
     getTripDetailsByCompanyName,
-    tripStatusFilter
+    tripStatusFilter,
+    tripStatusFilterCount
 } from '../models/overallTrip.ts'
 
 export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) => {
@@ -15,9 +16,13 @@ export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) =
 
 export const listTripStatusReportDetails = async (req: any, res: Response) => {
     const { cementCompanyId, transporterId, loadingPointId, from, to, pageNumber } = req.query
-    const skipNumber = (parseInt(pageNumber) - 1) * 2
+    const skipNumber = (parseInt(pageNumber) - 1) * 200
     tripStatusFilter(cementCompanyId, transporterId, loadingPointId, from, to, skipNumber)
-        .then((data) => res.status(200).json(data))
+        .then((filterData) => {
+            tripStatusFilterCount(cementCompanyId, transporterId, loadingPointId, from, to).then(
+                (count) => res.status(200).json({ filterData, count })
+            )
+        })
         .catch(() => res.status(500))
 }
 

@@ -285,7 +285,7 @@ const FormField: React.FC<FormFieldProps> = ({
                         }}
                     />
                 )}
-                {CheckUser() && (
+                {CheckUser().adminAccess && (
                     <InputWithDefaultValue
                         control={control}
                         label="Company Freight"
@@ -356,7 +356,7 @@ const FormField: React.FC<FormFieldProps> = ({
                     name="filledLoad"
                     control={control}
                 />
-                {CheckUser() && (
+                {CheckUser().adminAccess && (
                     <InputWithDefaultValue
                         control={control}
                         label="Total Company Amount"
@@ -398,7 +398,7 @@ const FormField: React.FC<FormFieldProps> = ({
                         }}
                     />
                 )}
-                {ownTruck === false && CheckUser() && (
+                {ownTruck === false && CheckUser().adminAccess && (
                     <InputWithDefaultValue
                         control={control}
                         label="Total Margin"

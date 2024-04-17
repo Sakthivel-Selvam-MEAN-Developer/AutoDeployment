@@ -16,7 +16,7 @@ export let axiosInstance: AxiosInstance = getAxios('')
 export const initAxios = (token: string) => {
     axiosInstance = getAxios(token)
 }
-export const axiosGet = (url: string, params: any) => {
+export const axiosGet = async (url: string, params: any) => {
     return axiosInstance
         .get(url, { params })
         .then(getData)

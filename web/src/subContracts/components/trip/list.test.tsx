@@ -26,8 +26,8 @@ vi.mock('../../services/pricePoint', () => ({
     getPricePoint: () => mockPricePoint()
 }))
 vi.mock('../../../auth/checkUser', () => ({
-    CheckUser: () => () => {
-        return true
+    CheckUser: () => {
+        return { adminAccess: true, semiAccess: true }
     }
 }))
 const mockUnloadingPoint = [

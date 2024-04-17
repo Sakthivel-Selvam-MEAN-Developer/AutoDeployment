@@ -10,8 +10,8 @@ vi.mock('../../services/paymentDues', () => ({
     getOnlyActiveDues: () => mockGroupedDuesByName()
 }))
 vi.mock('../../../auth/checkUser', () => ({
-    CheckUser: () => () => {
-        return true
+    CheckUser: () => {
+        return { adminAccess: true, semiAccess: true }
     }
 }))
 const mockPaymentDuesData = [

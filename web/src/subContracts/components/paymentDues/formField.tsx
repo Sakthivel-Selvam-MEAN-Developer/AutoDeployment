@@ -61,7 +61,7 @@ const FormField: React.FC<formProps> = ({
     return (
         <>
             <form onSubmit={handleSubmit} style={{ display: 'flex' }}>
-                {authoriser && payableAmount > 0 && (
+                {(authoriser.adminAccess || authoriser.semiAccess) && payableAmount > 0 && (
                     <>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
@@ -83,7 +83,7 @@ const FormField: React.FC<formProps> = ({
                         />
                     </>
                 )}
-                {authoriser && (
+                {(authoriser.adminAccess || authoriser.semiAccess) && (
                     <Button
                         disabled={transactionId === '' && payableAmount > 0}
                         type="submit"

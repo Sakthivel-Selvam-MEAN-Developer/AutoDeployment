@@ -7,7 +7,6 @@ import { Autocomplete, Button, TextField } from '@mui/material'
 import { tripProps } from './types'
 import { Link } from 'react-router-dom'
 import { CheckUser } from '../../../auth/checkUser'
-
 const SelectTrip: React.FC = (): ReactElement => {
     const { handleSubmit } = useForm<FieldValues>()
     const [vehicleslist, setVehicleslist] = useState([])
@@ -42,7 +41,7 @@ const SelectTrip: React.FC = (): ReactElement => {
     }
     return (
         <>
-            {authoriser && (
+            {authoriser.adminAccess && (
                 <div style={{ marginBottom: '20px' }}>
                     <Link to={'/sub/acknowledgement/addacknowledgement'}>
                         <Button color="primary" variant="contained" data-testid={'new-trip-button'}>

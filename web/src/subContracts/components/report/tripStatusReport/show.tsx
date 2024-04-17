@@ -13,6 +13,7 @@ import { Dispatch, FC, useContext } from 'react'
 import { dispatchData, filterData } from './tripStatusContext.ts'
 import { TripFilters } from '../../../types/tripFilters.ts'
 import { tripStatusFilter } from '../../../services/overallTrips.ts'
+import { overallTripsProps } from './tripFilterForm.tsx'
 
 interface Row {
     freightAmount: number
@@ -67,6 +68,8 @@ interface paymentType {
 interface listoverallTripProps {
     overallTrips: Props[]
     setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
+    setCount: React.Dispatch<React.SetStateAction<number>>
+    count: number
 }
 const tableCell = [
     'Vehicle Number',
@@ -114,11 +117,13 @@ const GetCells = (data: Row, num: number, type: string, details: Props) => {
                 {data.unloadingPoint ? data.unloadingPoint.name : 'Null'}
             </TableCell>
             <TableCell align="left">{data.filledLoad}</TableCell>
-            {authoriser && <TableCell align="left">{data.freightAmount}</TableCell>}
+            {authoriser.adminAccess && <TableCell align="left">{data.freightAmount}</TableCell>}
             <TableCell align="left">{data.transporterAmount}</TableCell>
-            {authoriser && <TableCell align="left">{data.totalFreightAmount}</TableCell>}
+            {authoriser.adminAccess && (
+                <TableCell align="left">{data.totalFreightAmount}</TableCell>
+            )}
             <TableCell align="left">{data.totalTransporterAmount}</TableCell>
-            {authoriser && <TableCell align="left">{data.margin}</TableCell>}
+            {authoriser.adminAccess && <TableCell align="left">{data.margin}</TableCell>}
             <TableCell align="left">
                 {fuel ? 'Not Fueled' : details.fuel[0].bunk.bunkName}
             </TableCell>
@@ -157,7 +162,9 @@ const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
 const name = ['Freight Rate', 'Total Freight Amount', 'Margin']
 const GetTableRow = () => {
     const authoriser = CheckUser()
-    const rowResult = authoriser ? tableCell : tableCell.filter((cell) => !name.includes(cell))
+    const rowResult = authoriser.adminAccess
+        ? tableCell
+        : tableCell.filter((cell) => !name.includes(cell))
     return <TableRow>{tableBodyCell(rowResult)}</TableRow>
 }
 const tableBodyCell = (rowResult: string[]) => {
@@ -180,16 +187,17 @@ const GetTableBody: FC<tableBody> = ({ listoverallTrip }) => {
     const style = { '&:last-child td, &:last-child th': { border: 0 } }
     return (
         <TableBody>
-            {listoverallTrip.map((row: Props, index: number) => (
-                <TableRow key={index} sx={style}>
-                    {GetCells(
-                        loadingToStock(row),
-                        ++number,
-                        checkPaymentStatus(row.paymentDues),
-                        row
-                    )}
-                </TableRow>
-            ))}
+            {listoverallTrip &&
+                listoverallTrip.map((row: Props, index: number) => (
+                    <TableRow key={index} sx={style}>
+                        {GetCells(
+                            loadingToStock(row),
+                            ++number,
+                            checkPaymentStatus(row.paymentDues),
+                            row
+                        )}
+                    </TableRow>
+                ))}
         </TableBody>
     )
 }
@@ -277,17 +285,27 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
-const ListAllDetails: React.FC<listoverallTripProps> = ({ setOverallTrips, overallTrips }) => {
+const ListAllDetails: React.FC<listoverallTripProps> = ({
+    setOverallTrips,
+    overallTrips,
+    count,
+    setCount
+}) => {
     const authoriser = CheckUser()
     const { dispatch } = useContext(dispatchData)
-    if (overallTrips.length == 0) return
+    if (overallTrips && overallTrips.length === 0) return
     return (
         <>
             <br />
             <br />
-            {generateCSVbutton(overallTrips, authoriser)}
+            {generateCSVbutton(overallTrips, authoriser.adminAccess)}
             {tableContainer(overallTrips)}
-            <StackPage dispatch={dispatch} setOverallTrips={setOverallTrips} />
+            <StackPage
+                dispatch={dispatch}
+                setOverallTrips={setOverallTrips}
+                count={count}
+                setCount={setCount}
+            />
         </>
     )
 }
@@ -321,13 +339,17 @@ function table(listoverallTrip: Props[]) {
 }
 interface stackProps {
     setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
+    setCount: React.Dispatch<React.SetStateAction<number>>
     dispatch: Dispatch<ActionType>
+    count: number
 }
-const StackPage: FC<stackProps> = ({ setOverallTrips, dispatch }) => {
+const StackPage: FC<stackProps> = ({ setOverallTrips, dispatch, count, setCount }) => {
     const oldFilterData = useContext(filterData)
     return (
         <div style={{ ...style, position: 'sticky' }}>
-            <Stack spacing={10}>{PaginationField(dispatch, oldFilterData, setOverallTrips)}</Stack>
+            <Stack spacing={10}>
+                {PaginationField(dispatch, oldFilterData, setOverallTrips, count, setCount)}
+            </Stack>
         </div>
     )
 }
@@ -335,23 +357,29 @@ export type ActionType = { type: string; pageNumber: number }
 const PaginationField = (
     dispatch: Dispatch<ActionType>,
     oldFilterData: TripFilters | null,
-    setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
+    setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>,
+    count: number,
+    setCount: React.Dispatch<React.SetStateAction<number>>
 ) => {
     return (
         <Pagination
-            count={100}
+            count={parseInt((count / 200).toString())}
             size="large"
             color="primary"
             onChange={(_e, value) => {
                 dispatch({ pageNumber: value, type: 'updatePageNumber' })
-                tripStatusFilter({ ...oldFilterData, pageNumber: value }).then(setOverallTrips)
+                tripStatusFilter({ ...oldFilterData, pageNumber: value }).then(
+                    (data: overallTripsProps) => {
+                        setOverallTrips(data.filterData)
+                        setCount(data.count)
+                    }
+                )
             }}
         />
     )
 }
 
 function loadingToStock(row: Props) {
-    // console.log(row)
     if (
         row.loadingPointToUnloadingPointTrip !== null &&
         row.loadingPointToStockPointTrip !== undefined
@@ -361,7 +389,6 @@ function loadingToStock(row: Props) {
         row.stockPointToUnloadingPointTrip !== null &&
         row.stockPointToUnloadingPointTrip !== undefined
     ) {
-        console.log('Stock to unloaidng', row.stockPointToUnloadingPointTrip)
         return {
             ...row.loadingPointToStockPointTrip,
             unloadingPoint: row.stockPointToUnloadingPointTrip.unloadingPoint

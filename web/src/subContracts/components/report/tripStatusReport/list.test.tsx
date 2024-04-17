@@ -25,57 +25,60 @@ vi.mock('../../../services/cementCompany', () => ({
 }))
 vi.mock('../../../../auth/checkUser', () => ({
     CheckUser: () => () => {
-        return true
+        return { adminAccess: true, semiAccess: true }
     }
 }))
-const mockStockTripData = [
-    {
-        id: 1,
-        acknowledgementStatus: false,
-        loadingPointToStockPointTripId: null,
-        stockPointToUnloadingPointTripId: null,
-        loadingPointToUnloadingPointTripId: 1,
-        fuel: [],
-        paymentDues: [
-            {
-                type: 'initial pay',
-                status: false
-            }
-        ],
-        loadingPointToStockPointTrip: null,
-        loadingPointToUnloadingPointTrip: {
+const mockStockTripData = {
+    count: 1,
+    filterData: [
+        {
             id: 1,
-            startDate: 1700764200,
-            filledLoad: 40,
-            wantFuel: null,
-            tripStatus: false,
-            acknowledgeDueTime: null,
-            freightAmount: 1000,
-            transporterAmount: 900,
-            totalFreightAmount: 40000,
-            totalTransporterAmount: 36000,
-            margin: 4000,
-            invoiceNumber: 'ABC123',
-            loadingPointId: 1,
-            unloadingPointId: 1,
-            truckId: 1,
-            loadingPoint: {
-                id: 1,
-                name: 'Chennai-south',
-                cementCompany: {
-                    name: 'UltraTech Cements'
+            acknowledgementStatus: false,
+            loadingPointToStockPointTripId: null,
+            stockPointToUnloadingPointTripId: null,
+            loadingPointToUnloadingPointTripId: 1,
+            fuel: [],
+            paymentDues: [
+                {
+                    type: 'initial pay',
+                    status: false
                 }
-            },
-            truck: {
-                vehicleNumber: 'TN93D5512',
-                transporter: {
+            ],
+            loadingPointToStockPointTrip: null,
+            loadingPointToUnloadingPointTrip: {
+                id: 1,
+                startDate: 1700764200,
+                filledLoad: 40,
+                wantFuel: null,
+                tripStatus: false,
+                acknowledgeDueTime: null,
+                freightAmount: 1000,
+                transporterAmount: 900,
+                totalFreightAmount: 40000,
+                totalTransporterAmount: 36000,
+                margin: 4000,
+                invoiceNumber: 'ABC123',
+                loadingPointId: 1,
+                unloadingPointId: 1,
+                truckId: 1,
+                loadingPoint: {
                     id: 1,
-                    name: 'Barath Logistics Pvt Ltd'
+                    name: 'Chennai-south',
+                    cementCompany: {
+                        name: 'UltraTech Cements'
+                    }
+                },
+                truck: {
+                    vehicleNumber: 'TN93D5512',
+                    transporter: {
+                        id: 1,
+                        name: 'Barath Logistics Pvt Ltd'
+                    }
                 }
             }
         }
-    }
-]
+    ]
+}
 const mockCompanyData = [
     {
         name: 'UltraTech Cements',

@@ -63,7 +63,6 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refresh])
     const handleClick = (list: tripProp, data: dataProp) => {
-        console.log(list, data)
         const obj = {
             id: list.id,
             bankDetails: data.bankDetails,
@@ -110,6 +109,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                 </ListItemSecondaryAction>
                             </AccordionSummary>
                             {data.tripDetails &&
+                                data.tripDetails.length !== 0 &&
                                 data.tripDetails.map((list: tripProp) => {
                                     return (
                                         <AccordionDetails key={list.id} sx={accordianStyle}>

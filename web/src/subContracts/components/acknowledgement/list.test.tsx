@@ -13,7 +13,11 @@ vi.mock('../../services/acknowledgement', () => ({
     getTripById: (inputs: any) => mockgetTripById(inputs),
     closeTrip: (inputs: any) => mockCloseTrip(inputs)
 }))
-
+vi.mock('../../../auth/checkUser', () => ({
+    CheckUser: () => () => {
+        return { adminAccess: true, semiAccess: true }
+    }
+}))
 const mockOverAllTripData = [
     {
         id: 1,

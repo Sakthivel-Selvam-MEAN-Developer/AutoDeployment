@@ -92,7 +92,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={0}
                     icon={<Dashboard />}
                 />
-                {authoriser && (
+                {authoriser.adminAccess && (
                     <DrawerListItem
                         text="Company"
                         navigate="/sub/company"
@@ -101,7 +101,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                         icon={<Factory />}
                     />
                 )}
-                {authoriser && (
+                {authoriser.adminAccess && (
                     <DrawerListItem
                         text="Transporter"
                         navigate="/sub/transporter"
@@ -110,7 +110,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                         icon={<DirectionsBus />}
                     />
                 )}
-                {authoriser && (
+                {authoriser.adminAccess && (
                     <DrawerListItem
                         text="Price Point"
                         navigate="/sub/price-point"
@@ -147,7 +147,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={7}
                     icon={<LibraryAddCheck />}
                 />
-                {authoriser && (
+                {authoriser.adminAccess && (
                     <DrawerListItem
                         text="Invoice"
                         navigate="/sub/invoice"

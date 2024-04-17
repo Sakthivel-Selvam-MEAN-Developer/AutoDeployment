@@ -1,6 +1,7 @@
 import { NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import { create } from './subContracts/models/auditLogs.ts'
+import logger from './logger.ts'
 
 export const auditRoute = async (req: any, res: any, next: NextFunction) => {
     if (req.method !== 'GET') {
@@ -31,7 +32,7 @@ export const auditRoute = async (req: any, res: any, next: NextFunction) => {
                 entityName: req.url.split('/')[1],
                 entityID: resDetails ? resDetails.id : 0
             }
-            await create(auditLog).then(() => console.log('Audit Log Stored'))
+            await create(auditLog).then(() => logger.info('Audit Log Stored'))
             originalEnd.apply(res, args)
         }
     }

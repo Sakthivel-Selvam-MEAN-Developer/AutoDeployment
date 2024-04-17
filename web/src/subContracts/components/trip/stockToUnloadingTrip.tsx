@@ -128,7 +128,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                     }}
                     renderInput={(params) => <TextField {...params} label="Unloading Point" />}
                 />
-                {authoriser && (
+                {authoriser.adminAccess && (
                     <TextField
                         sx={{ marginLeft: '20px' }}
                         id="outlined-number"
@@ -168,7 +168,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                         endAdornment: null
                     }}
                 />
-                {authoriser && (
+                {authoriser.adminAccess && (
                     <TextField
                         sx={{ marginLeft: '20px' }}
                         id="outlined-number"

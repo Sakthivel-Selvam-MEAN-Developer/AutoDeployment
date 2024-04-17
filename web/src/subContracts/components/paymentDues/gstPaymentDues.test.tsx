@@ -10,8 +10,8 @@ vi.mock('../../services/paymentDues', () => ({
     getGstDues: () => mockGroupedGSTDuesByName()
 }))
 vi.mock('../../../auth/checkUser', () => ({
-    CheckUser: () => () => {
-        return true
+    CheckUser: () => {
+        return { adminAccess: true, semiAccess: true }
     }
 }))
 

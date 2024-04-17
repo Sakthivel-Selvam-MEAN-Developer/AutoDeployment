@@ -6,7 +6,12 @@ import { filterData, dispatchData } from './tripStatusContext'
 import { tripStatusFilter } from '../../../services/overallTrips'
 import { TripFilterFormProps } from './tripStatusReportTypes'
 
-export const TripFilterForm: FC<TripFilterFormProps> = ({ setOverallTrips }) => {
+export interface overallTripsProps {
+    filterData: never[]
+    count: number
+}
+
+export const TripFilterForm: FC<TripFilterFormProps> = ({ setOverallTrips, setCount }) => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const { dispatch } = useContext(dispatchData)
     const oldFilterData = useContext(filterData)
@@ -17,8 +22,15 @@ export const TripFilterForm: FC<TripFilterFormProps> = ({ setOverallTrips }) => 
                 ...oldFilterData,
                 from: data.from.unix(),
                 to: data.to.unix()
-            }).then(setOverallTrips)
-        } else return tripStatusFilter({ ...oldFilterData }).then(setOverallTrips)
+            }).then((data: overallTripsProps) => {
+                setOverallTrips(data.filterData)
+                setCount(data.count)
+            })
+        } else
+            return tripStatusFilter({ ...oldFilterData }).then((data: overallTripsProps) => {
+                setOverallTrips(data.filterData)
+                setCount(data.count)
+            })
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

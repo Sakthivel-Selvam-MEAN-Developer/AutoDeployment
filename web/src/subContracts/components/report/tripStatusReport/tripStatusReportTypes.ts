@@ -12,6 +12,7 @@ export type dispatchType =
     | { type: string; from: number; to: number }
 export interface TripFilterFormProps {
     setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
+    setCount: React.Dispatch<React.SetStateAction<number>>
 }
 export interface FactoryFieldProps {
     control: Control

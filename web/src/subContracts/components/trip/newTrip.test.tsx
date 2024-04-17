@@ -48,8 +48,8 @@ vi.mock('../../../driverSalary/services/driver.ts', () => ({
 //     createDriverTrip: (input: any) => mockCreateDriverTrip(input)
 // }))
 vi.mock('../../../auth/checkUser', () => ({
-    CheckUser: () => () => {
-        return true
+    CheckUser: () => {
+        return { adminAccess: true, semiAccess: true }
     }
 }))
 const mockCompanyData = [

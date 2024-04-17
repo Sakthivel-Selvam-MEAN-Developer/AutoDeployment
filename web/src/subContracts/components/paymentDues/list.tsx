@@ -127,7 +127,7 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={initialDue} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        {authoriser && (
+                        {(authoriser.adminAccess || authoriser.semiAccess) && (
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -176,7 +176,7 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={fuelPay} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        {authoriser && (
+                        {(authoriser.adminAccess || authoriser.semiAccess) && (
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -225,7 +225,7 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={finalPay} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        {authoriser && (
+                        {(authoriser.adminAccess || authoriser.semiAccess) && (
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -274,7 +274,7 @@ const PaymentDuesList: React.FC = () => {
                 </div>
                 <CustomTabPanel value={gstPay} index={0}>
                     <div style={{ display: 'flex', justifyContent: 'end', padding: '20px 24px' }}>
-                        {authoriser && (
+                        {(authoriser.adminAccess || authoriser.semiAccess) && (
                             <Button
                                 variant="contained"
                                 color="primary"

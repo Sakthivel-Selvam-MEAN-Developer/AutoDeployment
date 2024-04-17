@@ -1,8 +1,15 @@
 import { TripFilters } from '../../../types/tripFilters'
 import { initialFilterData } from './list'
-import { ActionType } from './tripStatusReportTypes'
-
-export function updateFilterProps(currentFilterData: TripFilters, action: ActionType) {
+type ActionType = {
+    type: string
+    cementCompanyId: number
+    transporterId: number
+    loadinPointId: number
+    from: number
+    to: number
+    pageNumber: number
+}
+export const updateFilterProps = (currentFilterData: TripFilters, action: ActionType) => {
     const actions = {
         updateCementComapnyId: () => {
             return { ...currentFilterData, cementCompanyId: action.cementCompanyId }

@@ -156,8 +156,8 @@ const ListAllTrip: React.FC<Props> = ({ allStockTrips, setUpdate, update }) => {
     const authoriser = CheckUser()
     return (
         <>
-            {tableContainer(authoriser)}
-            {GetAllStockTripsAsAAccordion(allStockTrips, setUpdate, update, authoriser)}
+            {tableContainer(authoriser.adminAccess)}
+            {GetAllStockTripsAsAAccordion(allStockTrips, setUpdate, update, authoriser.adminAccess)}
         </>
     )
 }

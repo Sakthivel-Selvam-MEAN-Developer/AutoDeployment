@@ -488,7 +488,7 @@ export const tripStatusFilter = (
 ) =>
     prisma.overallTrip.findMany({
         skip: skipNumber,
-        take: 2,
+        take: 200,
         where: {
             OR: [
                 {
