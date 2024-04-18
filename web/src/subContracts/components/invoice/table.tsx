@@ -14,14 +14,14 @@ const cellNames = [
 ]
 const cells = (cell: string, index: number) => {
     return (
-        <TableCell key={index} align="center">
+        <TableCell key={index} align="left">
             {cell}
         </TableCell>
     )
 }
 const newLocal = (
     <TableRow>
-        <TableCell sx={{ textAlign: 'center' }}>#</TableCell>
+        <TableCell sx={{ textAlign: 'left' }}>#</TableCell>
         {cellNames.map((cellName, index) => cells(cellName, index))}
     </TableRow>
 )
@@ -35,7 +35,7 @@ export const getCells = (data: any, handleClick: (obj: tripDetailsProps) => void
         <>
             <TableCell
                 key={`${data.unloadingPoint ? 'LoadingToUnloading' : 'LoadingToStock'}-${data.id}`}
-                sx={{ textAlign: 'center' }}
+                sx={{ textAlign: 'left' }}
             >
                 <Checkbox
                     onClick={() => {
@@ -48,17 +48,17 @@ export const getCells = (data: any, handleClick: (obj: tripDetailsProps) => void
                     {...label}
                 />
             </TableCell>
-            <TableCell>{epochToMinimalDate(data.startDate)}</TableCell>
-            <TableCell>{data.invoiceNumber}</TableCell>
-            <TableCell>{data.truck.vehicleNumber}</TableCell>
-            <TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{epochToMinimalDate(data.startDate)}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{data.invoiceNumber}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{data.truck.vehicleNumber}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>
                 {data.loadingPoint ? data.loadingPoint.name : data.stockPoint.name}
             </TableCell>
-            <TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>
                 {data.unloadingPoint ? data.unloadingPoint.name : data.stockPoint.name}
             </TableCell>
-            <TableCell>{data.transporterAmount}</TableCell>
-            <TableCell>{data.totalFreightAmount}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{data.freightAmount}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{data.totalFreightAmount}</TableCell>
         </>
     )
 }
@@ -68,7 +68,7 @@ export const getCellsByStockToUnloading = (
 ) => {
     return (
         <>
-            <TableCell key={`StockToUnloading-${data.id}`} sx={{ textAlign: 'center' }}>
+            <TableCell key={`StockToUnloading-${data.id}`} sx={{ textAlign: 'left' }}>
                 <Checkbox
                     onClick={() => {
                         const obj = {
