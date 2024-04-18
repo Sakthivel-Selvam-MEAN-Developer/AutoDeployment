@@ -38,6 +38,7 @@ const mockStockTripData = {
             stockPointToUnloadingPointTripId: null,
             loadingPointToUnloadingPointTripId: 1,
             fuel: [],
+            shortageQuantity: [],
             paymentDues: [
                 {
                     type: 'initial pay',

@@ -50,6 +50,10 @@ interface fuel {
     totalprice: number
     bunk: bunk
 }
+interface shortage {
+    shortageQuantity: number
+    shortageAmount: number
+}
 interface bunk {
     bunkName: string
 }
@@ -60,6 +64,7 @@ interface Props {
     stockPointToUnloadingPointTrip: Row
     paymentDues: paymentType[]
     fuel: fuel[]
+    shortageQuantity: shortage[]
 }
 interface paymentType {
     type: string
@@ -89,6 +94,8 @@ const tableCell = [
     'Bunk Name',
     'Disel Quantity',
     'Disel Amount',
+    'Shortage Quantity',
+    'Shortage Amount',
     'Trip Status',
     'Payment Status'
 ]
@@ -100,7 +107,7 @@ function getTableHead() {
     )
 }
 
-const GetCells = (data: Row, num: number, type: string, details: Props) => {
+const GetCells = (data: Row, num: number, type: string, details: Props, shortage: shortage[]) => {
     const authoriser = CheckUser()
     const fuel = details.fuel.length !== 1
     return (
@@ -129,6 +136,12 @@ const GetCells = (data: Row, num: number, type: string, details: Props) => {
             </TableCell>
             <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].quantity} </TableCell>
             <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].totalprice} </TableCell>
+            <TableCell align="left">
+                {shortage.length !== 0 ? shortage[0].shortageQuantity : 'NUll'}
+            </TableCell>
+            <TableCell align="left">
+                {shortage.length !== 0 ? shortage[0].shortageAmount : 'NUll'}
+            </TableCell>
             <TableCell align="left">
                 {data.tripStatus === false
                     ? 'Running'
@@ -194,7 +207,8 @@ const GetTableBody: FC<tableBody> = ({ listoverallTrip }) => {
                             loadingToStock(row),
                             ++number,
                             checkPaymentStatus(row.paymentDues),
-                            row
+                            row,
+                            row.shortageQuantity
                         )}
                     </TableRow>
                 ))}
@@ -291,7 +305,6 @@ const ListAllDetails: React.FC<listoverallTripProps> = ({
     count,
     setCount
 }) => {
-    console.log(overallTrips)
     const authoriser = CheckUser()
     const { dispatch } = useContext(dispatchData)
     if (overallTrips && overallTrips.length === 0) return
