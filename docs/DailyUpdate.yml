@@ -1,14 +1,39 @@
+- date: 18-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add shortage amount in trip status report
+    - should fix defect in text based search
+- date: 18-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should add filter in trip status report
+    - should make a downloadNEFT api call with trip id
+
 - date: 17-04-2024
   person: Barath
   project: subContract
   planning:
-    - should add driver only for magnum vehicle
+    - should allow to add driver only for magnum vehicle trip
     - fix name changes in completed report
+    - discussion with client for GST (Forward and Reverse Mechanism)
+    - should test magnum vehicle trip for stock and direct
+    - should fix defect in add acknowledgement
+  completed:
+    - allowed to add driver only for magnum vehicle trip
+    - fixed name changes in completed report
+    - tested magnum vehicle trip for stock and direct
+    - fixed defect in add acknowledgement
 - date: 17-04-2024
   person: Sakthivel
   project: subContract
   planning:
-    - should add filter in tripStatus report
+    - should fix ui test and deploy
+    - discussion with client for GST (Forward and Reverse Mechanism)
+  completed:
+    - fixed ui test and deployed
+    - discussed with client for GST (Forward and Reverse Mechanism)
 
 - date: 16-04-2024
   person: Barath
