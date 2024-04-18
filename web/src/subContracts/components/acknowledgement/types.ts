@@ -26,6 +26,8 @@ export interface tripdetailsProps {
     acknowledgementStatus: boolean
     id: number
     stockPointToUnloadingPointTrip: {
+        truck: { vehicleNumber: string }
+        invoiceNumber: string
         startDate: number
         unloadingPoint: pointProps
         tripStatus: boolean

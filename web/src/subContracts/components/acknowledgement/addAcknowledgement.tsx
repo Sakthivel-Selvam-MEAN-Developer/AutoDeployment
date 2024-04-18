@@ -124,7 +124,7 @@ const onChangeForVehicleList: onChangeType = (vehicleslist, setTripId, setVehicl
 
 function findTripType(tripDetails: tripdetailsProps) {
     if (tripDetails && tripDetails.stockPointToUnloadingPointTrip !== null) {
-        return tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
+        return tripDetails.stockPointToUnloadingPointTrip
     } else if (tripDetails && tripDetails.loadingPointToUnloadingPointTrip !== null) {
         return tripDetails.loadingPointToUnloadingPointTrip
     }
