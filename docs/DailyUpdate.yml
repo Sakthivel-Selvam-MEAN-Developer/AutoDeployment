@@ -1,3 +1,23 @@
+- date: 20-04-2024
+  person: Barath
+  project: subContract
+  leave: true
+- date: 20-04-2024
+  person: Sakthivel
+  project: subContract
+  leave: true
+- date: 20-04-2024
+  person: Ramya
+  project: subContract
+  leave: true
+- date: 20-04-2024
+  person: Deepak
+  project: subContract
+  planning:
+    - get authorization working in backend and frontend
+    - understand trips structuring
+    - add test coverage as part of CI
+
 - date: 18-04-2024
   person: Barath
   project: subContract
