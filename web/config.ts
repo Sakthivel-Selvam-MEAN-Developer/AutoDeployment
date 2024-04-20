@@ -13,7 +13,7 @@ const config: Record<string, Config> = {
     development: {
         logoutRedirectUrl: `http://${window.location.hostname}/sub`,
         backendUrl: `http://${window.location.hostname}/api`,
-        keycloakUrl: `http://${window.location.hostname}:8081`,
+        keycloakUrl: `http://${window.location.hostname}:8080`,
     }
 }
 

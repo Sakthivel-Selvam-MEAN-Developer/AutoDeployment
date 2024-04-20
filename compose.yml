@@ -9,7 +9,6 @@ services:
     networks:
       - postgres-network
     volumes:
-      - ./docker/db-docker-data/:/var/lib/postgresql/data/
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
@@ -37,8 +36,6 @@ services:
     image: "quay.io/keycloak/keycloak:23.0.7-0"
     networks:
       - postgres-network
-    ports:
-        - 8080:8080
     environment:
       - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
@@ -80,7 +77,7 @@ services:
   local-nginx:
     image: nginx:1.25.3-alpine3.18
     ports:
-      - 8081:8081
+      - 8080:8080
       - 80:80
     volumes:
       - ./nginx/nginx-local.conf:/etc/nginx/nginx.conf
