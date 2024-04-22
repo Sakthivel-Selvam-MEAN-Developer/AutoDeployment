@@ -21,6 +21,7 @@ const AddAcknowledgement: React.FC = () => {
     const [tripId, setTripId] = useState<number>(0)
     const [tripClosed, setTripClosed] = useState<boolean>(false)
     const [tripDetails, setTripDetails] = useState<tripdetailsProps | null>(null)
+    const [disable,setDisable] = useState(false)
     let clicked = false
     const finalDue = async (id: number) => {
         if (clicked) return
@@ -32,8 +33,14 @@ const AddAcknowledgement: React.FC = () => {
     }
     const onSubmit: SubmitHandler<FieldValues> = () => {
         setTripClosed(false)
-        if (tripId !== 0) getTripById(tripId).then(setTripDetails)
+        if (tripId !== 0) {
+            setDisable(true)
+            getTripById(tripId).then(setTripDetails)
+            .then(() => setDisable(false))
+            .catch(() => setDisable(false))
     }
+    }
+    
     useEffect(() => {
         getAllTripByAcknowledgementStatus().then(setVehicleslist)
     }, [])
@@ -60,7 +67,7 @@ const AddAcknowledgement: React.FC = () => {
                         }
                         onChange={onChangeForVehicleList(vehicleslist, setTripId, setVehicleNumber)}
                     />
-                    <SubmitButton name="Submit" type="submit" />
+                    <SubmitButton name="Submit" type="submit" disabled={disable}/>
                 </form>
             </div>
             <div>

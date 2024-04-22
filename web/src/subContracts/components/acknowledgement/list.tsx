@@ -16,6 +16,7 @@ const SelectTrip: React.FC = (): ReactElement => {
     const [active, setActive] = useState<boolean>(false)
     const [render, setRender] = useState<boolean>(false)
     const authoriser = CheckUser()
+    const [disable,setDisable] = useState(false)
     useEffect(() => {
         getAllActivetripTripByTripStatus().then(setVehicleslist)
     }, [])
@@ -27,8 +28,10 @@ const SelectTrip: React.FC = (): ReactElement => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [render])
     const onSubmit = async () => {
+        setDisable(true)
         await getTripById(tripId).then(setTripDetails)
         setActive(true)
+        setDisable(false)
     }
     const onChange = (_event: React.SyntheticEvent<Element, Event>, newValue: string) => {
         const { id } = vehicleslist.find((trip: tripProps) =>
@@ -81,7 +84,7 @@ const SelectTrip: React.FC = (): ReactElement => {
                         />
                     )}
                 />
-                <SubmitButton name="Submit" type="submit" />
+                <SubmitButton name="Submit" type="submit" disabled={disable} />
             </form>
             {active && tripDetails && (
                 <UnloadTrip tripDetails={tripDetails} setRender={setRender} render={render} />

@@ -29,14 +29,21 @@ const CreateCompany: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
     const [loading, setLoading] = useState(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const [disable,setDisable] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setLoading(true)
+        setDisable(true)
         createCompany(data)
             .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
-            .catch(() => alert('Please provide valid details'))
+            .then(() => setDisable(false))
+            .catch(() => { 
+                alert('Please provide valid details')
+                setDisable(false)
+            })
             .then(() => setLoading(false))
+            
     }
     const handleClose = () => setOpenSuccessDialog(false)
     return (
@@ -55,7 +62,7 @@ const CreateCompany: React.FC = (): ReactElement => {
                         <CircularProgress />
                     </Box>
                 ) : (
-                    <SubmitButton name="Create" type="submit" />
+                    <SubmitButton name="Create" type="submit" disabled={disable}/>
                 )}
             </form>
             <br />

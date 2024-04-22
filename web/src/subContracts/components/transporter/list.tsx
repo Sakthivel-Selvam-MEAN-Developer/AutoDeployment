@@ -18,9 +18,11 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const [accountTypes, setAccountTypes] = useState([])
     const [accountTypeNumber, setAccountTypeNumber] = useState<number | undefined>(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const [disable,setDisable] = useState(false)
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setLoading(true)
+        setDisable(true)
         createTransporter({
             ...data,
             hasGst: gst ? false : true,
@@ -30,10 +32,16 @@ const CreateTransporter: React.FC = (): ReactElement => {
             gstNumber: gst ? null : data.gstNumber,
             accountTypeNumber
         })
-            .then(() => setLoading(false))
+            .then(() => {
+                setLoading(false)
+                setDisable(false)
+            })
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue, setAccountType, setGst, setTds))
-            .catch(() => alert('Error Creating Transporter'))
+            .catch(() => {
+                alert('Error Creating Transporter')
+                setDisable(false)
+            })
             .then(() => setLoading(false))
             .then(() => clearForm(setValue, setAccountType, setGst, setTds))
     }
@@ -70,7 +78,7 @@ const CreateTransporter: React.FC = (): ReactElement => {
                         <CircularProgress />
                     </Box>
                 ) : (
-                    <SubmitButton name="Create" type="submit" />
+                    <SubmitButton name="Create" type="submit" disabled={disable}/>
                 )}
             </form>
             <br />

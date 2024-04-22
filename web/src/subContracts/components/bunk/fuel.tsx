@@ -13,6 +13,7 @@ const Fuel: React.FC = (): ReactElement => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [quantity, setQuantity] = useState<number>(0)
     const [pricePerliter, setPricePerliter] = useState<number>(0)
+    const [disable,setDisable] = useState(false)
     useEffect(() => {
         setTotalPrice(quantity * pricePerliter)
     }, [quantity, pricePerliter])
@@ -25,6 +26,7 @@ const Fuel: React.FC = (): ReactElement => {
             quantity !== 0 &&
             data.invoiceNumber !== undefined
         ) {
+            setDisable(true)
             const totalpriceFloat = totalPrice.toFixed(2)
             const details = {
                 vehicleNumber: data.vehicleNumber,
@@ -36,8 +38,14 @@ const Fuel: React.FC = (): ReactElement => {
                 invoiceNumber: data.invoiceNumber
             }
             createFuel(details, data.bunkId)
-                .then(() => setOpenSuccessDialog(true))
-                .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
+                .then(() => {
+                    setOpenSuccessDialog(true)
+                    setDisable(false)
+                })
+                .catch((error) => {
+                    alert(`Error in ${error.response.data.meta.target[0]}`)
+                    setDisable(false)
+                })
         } else alert('All fields are Required')
     }
     return (
@@ -52,7 +60,7 @@ const Fuel: React.FC = (): ReactElement => {
                     setPricePerliter={setPricePerliter}
                     setQuantity={setQuantity}
                 />
-                <SubmitButton name="Add Fuel" type="submit" />
+                <SubmitButton name="Add Fuel" type="submit" disabled={disable}/>
             </form>
             <SuccessDialog
                 open={openSuccessDialog}

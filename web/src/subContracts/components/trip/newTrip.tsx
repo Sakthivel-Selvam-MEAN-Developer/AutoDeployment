@@ -51,6 +51,7 @@ const NewTrip: React.FC = () => {
     const [listTruck, setListTruck] = useState([])
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [fuelDetails, setFuelDetails] = useState<FuelProps | null>(null)
+    const [disable,setDisable] = useState(false)
 
     useEffect(() => {
         setTotalFreightAmount(freightAmount * (filledLoad !== null ? filledLoad : 0))
@@ -65,6 +66,7 @@ const NewTrip: React.FC = () => {
             const totalFreightAmountFloat = totalFreightAmount.toFixed(2)
             const totalTransporterAmountFloat = totalTransporterAmount.toFixed(2)
             const marginFloat = margin.toFixed(2)
+            setDisable(true)
             const details = {
                 truckId: truckId,
                 loadingPointId: loadingPointId,
@@ -84,12 +86,16 @@ const NewTrip: React.FC = () => {
                 driverId
             }
             if (category === 'Stock Point')
+                
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then((trip) => {
                         console.log(trip)
                         return ownTruck && createDriverTrip({ ...driverDetails, tripId: trip.id })
                     })
-                    .then(() => setOpenSuccessDialog(true))
+                    .then(() => {
+                        setOpenSuccessDialog(true)
+                        setDisable(false)
+                    })
                     .then(() =>
                         clearForm(
                             clear,
@@ -103,14 +109,20 @@ const NewTrip: React.FC = () => {
                             // setDriverName
                         )
                     )
-                    .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
+                    .catch((error) => {
+                        alert(`Error in ${error.response.data.meta.target[0]}`)
+                        setDisable(false)
+                    })
             else if (category === 'Unloading Point')
                 createTrip({ ...details, unloadingPointId: unloadingPointId })
                     .then(
                         (trip) =>
                             ownTruck && createDriverTrip({ ...driverDetails, tripId: trip.id })
                     )
-                    .then(() => setOpenSuccessDialog(true))
+                    .then(() => {
+                        setOpenSuccessDialog(true)
+                        setDisable(false)
+                    })
                     .then(() =>
                         clearForm(
                             clear,
@@ -124,7 +136,11 @@ const NewTrip: React.FC = () => {
                             // setDriverName
                         )
                     )
-                    .catch((error) => alert(`Error in ${error.response.data.meta.target[0]}`))
+                    .catch((error) => {
+                        alert(`Error in ${error.response.data.meta.target[0]}`)
+                        setDisable(false)
+                    })
+            else setDisable(false)
         } else alert('All fields Required')
     }
     useEffect(() => {
@@ -178,7 +194,7 @@ const NewTrip: React.FC = () => {
                 filledLoad={filledLoad}
                 setFilledLoad={setFilledLoad}
             />
-            <SubmitButton name="Start" type="submit" />
+            <SubmitButton name="Start" type="submit" disabled={disable}/>
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={() => setOpenSuccessDialog(false)}

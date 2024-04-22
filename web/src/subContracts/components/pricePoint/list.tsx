@@ -20,6 +20,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [category, setCategory] = useState<string>('')
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterPercentage, setTransporterPercentage] = useState(0)
+    const [disable,setDisable] = useState(false)
 
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
@@ -35,6 +36,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             (loadingPointId && unloadingPointId) ||
             (stockPointId && unloadingPointId)
         ) {
+            setDisable(true)
             const transporterAmountFloat = transporterRate.toFixed(2)
             const details = {
                 loadingPointId: loadingPointId,
@@ -47,6 +49,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             }
             if (category === 'Loading - Unloading')
                 createpricePoint({ ...details, stockPointId: null }).then(() => {
+                    setDisable(false)
                     clearForm(
                         setCategory,
                         setCementCompanyName,
@@ -55,8 +58,10 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                         setOpenSuccessDialog
                     )
                 })
+                .catch(() => setDisable(false))
             else if (category === 'Loading - Stock')
-                createpricePoint({ ...details, unloadingPointId: null }).then(() =>
+                createpricePoint({ ...details, unloadingPointId: null }).then(() => {
+                    setDisable(false)
                     clearForm(
                         setCategory,
                         setCementCompanyName,
@@ -64,9 +69,11 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                         setTransporterPercentage,
                         setOpenSuccessDialog
                     )
-                )
+                })
+                .catch(() => setDisable(false))
             else if (category === 'Stock - Unloading')
-                createpricePoint({ ...details, loadingPointId: null }).then(() =>
+                createpricePoint({ ...details, loadingPointId: null }).then(() => {
+                    setDisable(false)
                     clearForm(
                         setCategory,
                         setCementCompanyName,
@@ -74,7 +81,9 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                         setTransporterPercentage,
                         setOpenSuccessDialog
                     )
-                )
+                    })
+                    .catch(() => setDisable(false))
+            else setDisable(false)
         } else alert('All fields Required')
     }
     return (
@@ -101,7 +110,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     setDueDate={setDueDate}
                     dueDate={dueDate}
                 />
-                <SubmitButton name="Create / Update" type="submit" />
+                <SubmitButton name="Create / Update" type="submit" disabled={disable}/>
                 <SuccessDialog
                     open={openSuccessDialog}
                     handleClose={() => setOpenSuccessDialog(false)}

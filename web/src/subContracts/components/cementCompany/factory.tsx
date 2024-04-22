@@ -27,6 +27,7 @@ const CreateFactory: React.FC = (): ReactElement => {
     const [loading, setLoading] = useState(false)
     const [companyId, setCompanyId] = useState(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const [disable,setDisable]=useState(false)
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (
@@ -36,6 +37,7 @@ const CreateFactory: React.FC = (): ReactElement => {
             data.location !== ''
         ) {
             setLoading(true)
+            setDisable(true)
             const details = {
                 name: data.name,
                 cementCompanyId: companyId,
@@ -43,25 +45,38 @@ const CreateFactory: React.FC = (): ReactElement => {
             }
             if (data.category === 'Loading Point')
                 createLoadingPoint(details)
-                    .then(() => clearForm(reset, setValue, setLoading, setOpenSuccessDialog))
+                    .then(() => {
+                        clearForm(reset, setValue, setLoading, setOpenSuccessDialog)
+                        setDisable(false)
+                    })
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
+                        setDisable(false)
                     })
             else if (data.category === 'Unloading Point')
                 createUnloadingPoint(details)
-                    .then(() => clearForm(reset, setValue, setLoading, setOpenSuccessDialog))
+                    .then(() => {
+                        clearForm(reset, setValue, setLoading, setOpenSuccessDialog)
+                        setDisable(false)
+                    })
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
+                        setDisable(false)
                     })
             else if (data.category === 'Stock Point')
                 createStockPoint(details)
-                    .then(() => clearForm(reset, setValue, setLoading, setOpenSuccessDialog))
+                    .then(() => {
+                        clearForm(reset, setValue, setLoading, setOpenSuccessDialog)
+                        setDisable(false)
+                    })
                     .catch((e) => {
                         alert(`${e.message}`)
                         setLoading(false)
+                        setDisable(false)
                     })
+            else setDisable(false)
         } else {
             alert('All Fields are Required...')
             setLoading(false)
@@ -77,7 +92,7 @@ const CreateFactory: React.FC = (): ReactElement => {
                     />
                 </Box>
             ) : (
-                <SubmitButton name="Save" type="submit" />
+                <SubmitButton name="Save" type="submit" disabled={disable} />
             )}
             <SuccessDialog
                 open={openSuccessDialog}

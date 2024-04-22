@@ -9,7 +9,12 @@
   project: subContract
   planning:
     - should add filter in trip status report
-  
+- data: 22-04-2024
+  person: Sri Sneka, Ramya
+  project: subContract
+  planning: 
+    - Error handling
+
 - date: 20-04-2024
   person: Barath
   project: subContract
@@ -29,6 +34,12 @@
     - get authorization working in backend and frontend
     - understand trips structuring
     - add test coverage as part of CI
+- date: 20-04-2024
+  person: Sri Sneka
+  project: subContract
+  planning: 
+    - should disable the button when api request send and 
+      should enable the button if it catch error   
 
 - date: 18-04-2024
   person: Barath
