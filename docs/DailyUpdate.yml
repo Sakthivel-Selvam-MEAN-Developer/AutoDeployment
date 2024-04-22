@@ -1,3 +1,15 @@
+- date: 22-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add Filter by date in payment dues
+    - should check problem in trip (existing fuel did not show)
+- date: 22-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should add filter in trip status report
+  
 - date: 20-04-2024
   person: Barath
   project: subContract
@@ -23,13 +35,20 @@
   project: subContract
   planning:
     - should add shortage amount in trip status report
-    - should fix defect in text based search
+    - should estimate each story
+  completed:
+    - added shortage amount in trip status report
+    - discussion with santhosh
+    - estimated each story
 - date: 18-04-2024
   person: Sakthivel
   project: subContract
   planning:
+    - should estimate each story
     - should add filter in trip status report
-    - should make a downloadNEFT api call with trip id
+  completed:
+    - discussion with santhosh
+    - estimated each story
 
 - date: 17-04-2024
   person: Barath
