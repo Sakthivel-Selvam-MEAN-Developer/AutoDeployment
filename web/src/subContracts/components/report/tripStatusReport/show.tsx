@@ -198,9 +198,7 @@ const addAuthorisedColumns = (authoriser: boolean) => {
 
 const generateRow = (row: Props, index: number) => {
     const data = loadingToStock(row)
-    const unloadingPoint = data.stockPointToUnloadingPointTrip
-        ? data.stockPointToUnloadingPointTrip[0].unloadingPoint.name
-        : data.unloadingPoint.name
+    const unloadingPoint = data.unloadingPoint ? data.unloadingPoint.name : 'Null'
     finalData.push({
         number: ++index,
         vehicleNumber: data.truck.vehicleNumber,
@@ -303,7 +301,7 @@ const PaginationField = (
 const loadingToStock = (row: Props) => {
     if (
         row.loadingPointToUnloadingPointTrip !== null &&
-        row.loadingPointToStockPointTrip !== undefined
+        row.loadingPointToUnloadingPointTrip !== undefined
     )
         return row.loadingPointToUnloadingPointTrip
     else if (

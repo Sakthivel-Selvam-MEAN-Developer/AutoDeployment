@@ -76,6 +76,49 @@ function getFuelPayDate(fuelId: number | null, fuelDetails: fuelprops[]) {
         id: fuelTrip.id
     }
 }
+interface stockPointToUnloadingPointTripProps {
+    unloadingPoint: {
+        name: string
+    }
+}
+interface tripProps {
+    truck: {
+        vehicleNumber: string
+        transporter: {
+            name: string
+        }
+    }
+    loadingPoint: {
+        name: string
+    }
+    unloadingPoint: {
+        name: string
+    }
+    stockPoint: {
+        name: string
+    }
+    freightAmount: number
+    transporterAmount: number
+    stockPointToUnloadingPointTrip: stockPointToUnloadingPointTripProps[]
+}
+
+const getUnloadingPointForInitialPay = (tripType: tripProps) => {
+    const unloading =
+        tripType.stockPoint !== undefined ? tripType.stockPoint.name : tripType.unloadingPoint.name
+    return unloading
+}
+
+const getUnloadingPointForFinalPay = (tripType: tripProps) => {
+    const unloading =
+        tripType.stockPointToUnloadingPointTrip !== undefined
+            ? tripType.stockPointToUnloadingPointTrip[0].unloadingPoint.name
+            : tripType.unloadingPoint.name
+    return unloading
+}
+const getStockLocation = (paymentType: string, tripType: tripProps) => {
+    if (paymentType === 'initial pay') return getUnloadingPointForInitialPay(tripType)
+    if (paymentType === 'final pay') return getUnloadingPointForFinalPay(tripType)
+}
 interface matchingTripProps {
     id: number
     type: string
@@ -84,6 +127,7 @@ interface matchingTripProps {
     overallTripId: number | null
     payableAmount: number
 }
+
 function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: fuelprops[]) {
     let tripType
     if (tripData[0].loadingPointToStockPointTrip !== null) {
@@ -91,7 +135,8 @@ function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: f
     } else if (tripData[0].loadingPointToUnloadingPointTrip !== null) {
         tripType = tripData[0].loadingPointToUnloadingPointTrip
     }
-    const obj = getFuelPayDate(matchingTrip.fuelId, fuelDetails)
+    let obj
+    if (matchingTrip.type === 'fuel pay') obj = getFuelPayDate(matchingTrip.fuelId, fuelDetails)
     const details = {
         id: matchingTrip.id,
         overallTripId: matchingTrip.overallTripId,
@@ -102,11 +147,8 @@ function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: f
             matchingTrip.type !== 'fuel pay' ? tripType.invoiceNumber : obj?.invoiceNumber,
         date: matchingTrip.type !== 'fuel pay' ? tripType.startDate : obj?.date,
         location: obj?.location,
-        loadingPoint: tripType.loadingPoint.name,
-        unloadingPoint:
-            tripType.stockPointToUnloadingPointTrip !== undefined
-                ? tripType.stockPointToUnloadingPointTrip[0].unloadingPoint.name
-                : tripType.unloadingPoint.name,
+        loadingPoint: matchingTrip.type !== 'fuel pay' ? tripType.loadingPoint.name : undefined,
+        unloadingPoint: getStockLocation(matchingTrip.type, tripType),
         fuelId: obj?.id
     }
     return details

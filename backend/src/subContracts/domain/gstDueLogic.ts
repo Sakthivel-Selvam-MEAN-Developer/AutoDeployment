@@ -8,7 +8,7 @@ const gstDueLogic = async (
     overallTripId: number
 ) => {
     const amount = parseFloat(((gstPercentage / 100) * transporterAmount).toFixed(2))
-    const paymentDues = [
+    return [
         {
             name: transporterName,
             type: 'gst pay',
@@ -18,7 +18,6 @@ const gstDueLogic = async (
             vehicleNumber
         }
     ]
-    return paymentDues
 }
 
 export default gstDueLogic

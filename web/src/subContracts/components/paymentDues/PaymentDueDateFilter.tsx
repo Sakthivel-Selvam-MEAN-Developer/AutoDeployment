@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import { FC } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import DateInput from '../../../form/DateInput.tsx'
-import SubmitButton from '../../../form/button.tsx'
+import dayjs from 'dayjs'
 
 interface PaymentDueFieldProps {
     setPaymentDueDate: React.Dispatch<React.SetStateAction<number>>
@@ -13,7 +13,10 @@ export const PaymentDueDateFilter: FC<PaymentDueFieldProps> = ({ setPaymentDueDa
         setPaymentDueDate(data.paymentDate.unix())
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                style={{ display: 'grid', alignItems: 'center', marginBottom: '20px' }}
+            >
                 <DateInput
                     control={control}
                     format="DD/MM/YYYY"
@@ -21,10 +24,26 @@ export const PaymentDueDateFilter: FC<PaymentDueFieldProps> = ({ setPaymentDueDa
                     label="Select Payment Date"
                 />
                 <br />
-                <SubmitButton name="Get Dues" type="submit" />
-                <Button variant="contained" onClick={() => setValue('paymentDate', null)}>
-                    Reset Date
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                        variant="contained"
+                        name="Get Dues"
+                        type="submit"
+                        sx={{ marginLeft: '10px' }}
+                    >
+                        Submit
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            setValue('paymentDate', null),
+                                setPaymentDueDate(dayjs().startOf('day').unix())
+                        }}
+                        sx={{ marginLeft: '10px' }}
+                    >
+                        Reset Date
+                    </Button>
+                </div>
             </form>
         </>
     )
