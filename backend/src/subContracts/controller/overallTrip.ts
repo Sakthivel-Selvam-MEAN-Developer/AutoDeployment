@@ -13,8 +13,19 @@ export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) =
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
-
-export const listTripStatusReportDetails = async (req: any, res: Response) => {
+type RequestQuery = {
+    cementCompanyId: string
+    transporterId: string
+    loadingPointId: string
+    from: string
+    to: string
+    pageNumber: string
+}
+type listTripStatusReportDetailsProps = (
+    req: Request<object, object, object, RequestQuery>,
+    res: Response
+) => void
+export const listTripStatusReportDetails: listTripStatusReportDetailsProps = async (req, res) => {
     const { cementCompanyId, transporterId, loadingPointId, from, to, pageNumber } = req.query
     const skipNumber = (parseInt(pageNumber) - 1) * 200
     tripStatusFilter(cementCompanyId, transporterId, loadingPointId, from, to, skipNumber)

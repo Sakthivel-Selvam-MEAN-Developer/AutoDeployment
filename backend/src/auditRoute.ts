@@ -20,7 +20,6 @@ export const auditRoute = async (req: any, res: any, next: NextFunction) => {
                 const token: any = req.headers.authorization?.split(' ')[1]
                 const decodedToken: any = jwt.decode(token)
                 if (decodedToken === null) return
-                console.log(decodedToken)
                 const userRoles = decodedToken.realm_access.roles
                 const auditLog = {
                     url: `${req.baseUrl}${req.url}`,

@@ -16,9 +16,7 @@ export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
 }
 const updateFuelDetails = (fuelDetails: any, vehicleNumber: string, overallTripId: number) => {
-    if (!fuelDetails) {
-        return
-    }
+    if (!fuelDetails) return
     return updateFuelWithTripId({ id: fuelDetails.id, overallTripId })
         .then(() => getPaymentDuesWithoutTripId(vehicleNumber))
         .then((paymetDue) => updatePaymentDuesWithTripId({ id: paymetDue?.id, overallTripId }))
