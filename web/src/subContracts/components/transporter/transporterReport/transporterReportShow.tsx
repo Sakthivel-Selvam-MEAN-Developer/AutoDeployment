@@ -113,7 +113,6 @@ function tableBodyRow(index: number, row: Row) {
 }
 
 function subCell(key: string, value: string) {
-    console.log('cell', key, value)
     return (
         <TableCell key={key} align="left">
             {value ? value : 'NULL'}

@@ -17,20 +17,18 @@ const ListAllTrip: React.FC = (): ReactElement => {
     const [count, setCount] = useState<number>(0)
     const [filterIds, dispatch] = useReducer(updateFilterProps, initialFilterData)
     return (
-        <>
-            <filterData.Provider value={filterIds}>
-                <dispatchData.Provider value={{ dispatch }}>
-                    <b>Trip Status Report</b>
-                    <TripFilterForm setOverallTrips={setOverallTrips} setCount={setCount} />
-                    <ListAllDetails
-                        setOverallTrips={setOverallTrips}
-                        overallTrips={overallTrips}
-                        count={count}
-                        setCount={setCount}
-                    />
-                </dispatchData.Provider>
-            </filterData.Provider>
-        </>
+        <filterData.Provider value={filterIds}>
+            <dispatchData.Provider value={{ dispatch }}>
+                <b>Trip Status Report</b>
+                <TripFilterForm setOverallTrips={setOverallTrips} setCount={setCount} />
+                <ListAllDetails
+                    setOverallTrips={setOverallTrips}
+                    overallTrips={overallTrips}
+                    count={count}
+                    setCount={setCount}
+                />
+            </dispatchData.Provider>
+        </filterData.Provider>
     )
 }
 export default ListAllTrip

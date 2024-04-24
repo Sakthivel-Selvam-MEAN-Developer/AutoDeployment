@@ -26,19 +26,24 @@ export interface tripdetailsProps {
     acknowledgementStatus: boolean
     id: number
     stockPointToUnloadingPointTrip: {
-        truck: { vehicleNumber: string }
-        invoiceNumber: string
         startDate: number
+        acknowledgeDueTime: number
+        truck: truck
+        loadingPoint: pointProps
         unloadingPoint: pointProps
         tripStatus: boolean
-        acknowledgeDueTime: number
+        filledLoad: number
+        invoiceNumber: string
         loadingPointToStockPointTrip: {
-            acknowledgeDueTime: number
             startDate: number
+            acknowledgeDueTime: number
             truck: truck
             loadingPoint: pointProps
+            unloadingPoint: pointProps
+            tripStatus: boolean
             filledLoad: number
             invoiceNumber: string
+            loadingPointToStockPointTrip: undefined
         }
     }
     loadingPointToUnloadingPointTrip: {
@@ -50,5 +55,6 @@ export interface tripdetailsProps {
         tripStatus: boolean
         filledLoad: number
         invoiceNumber: string
+        loadingPointToStockPointTrip: undefined
     }
 }

@@ -11,7 +11,7 @@ const mockfindTripWithActiveDues = vi.fn()
 const mockGetAllTrip = vi.fn()
 const mockcreatePaymentDues = vi.fn()
 const mockUpdatePayment = vi.fn()
-const mockOverAllTrip = vi.fn()
+const mockOverallTripByPendingPaymentDues = vi.fn()
 const mockTransporterAccountDetails = vi.fn()
 const mockBunkAccountDetails = vi.fn()
 const mockFuelDetails = vi.fn()
@@ -42,7 +42,7 @@ vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockGetAllTrip()
 }))
 vi.mock('../models/overallTrip', () => ({
-    getOverallTrip: () => mockOverAllTrip()
+    overallTripByPendingPaymentDues: () => mockOverallTripByPendingPaymentDues()
 }))
 vi.mock('../models/transporter', () => ({
     getTransporterAccountByName: (name: string[]) => mockTransporterAccountDetails(name)
@@ -230,8 +230,8 @@ const mockGroupedDueDetails = [
                 payableAmount: 2300,
                 type: 'fuel pay',
                 number: 'TN29B3246',
-                loadingPoint: undefined,
-                unloadingPoint: undefined,
+                loadingPoint: 'Chennai',
+                unloadingPoint: 'Salem',
                 invoiceNumber: 'FDGT',
                 date: 1706339785,
                 fuelId: 1,
@@ -470,7 +470,7 @@ describe('Payment Due Controller', () => {
     test('should get the active transporter payment dues', async () => {
         mockgetOnlyActiveDuesByName.mockResolvedValue(mockGroupedDuesData)
         mockfindTripWithActiveDues.mockResolvedValue(mockTripDuesData)
-        mockOverAllTrip.mockResolvedValue(mockOverallTripData)
+        mockOverallTripByPendingPaymentDues.mockResolvedValue(mockOverallTripData)
         mockFuelDetails.mockResolvedValue(mockFuelData)
         mockTransporterAccountDetails.mockResolvedValue(mockTransporterAccountData)
         mockBunkAccountDetails.mockResolvedValue(mockBunkAccountData)
@@ -486,7 +486,7 @@ describe('Payment Due Controller', () => {
         await supertest(app).get('/api/payment-dues').expect(200)
         expect(mockgetOnlyActiveDuesByName).toHaveBeenCalledTimes(1)
         expect(mockfindTripWithActiveDues).toHaveBeenCalledTimes(1)
-        expect(mockOverAllTrip).toHaveBeenCalledTimes(1)
+        expect(mockOverallTripByPendingPaymentDues).toHaveBeenCalledTimes(1)
     })
     test('should get active gst payment dues', async () => {
         mockgetGstDuesGroupByName.mockResolvedValue(mockgroupedGSTDues)

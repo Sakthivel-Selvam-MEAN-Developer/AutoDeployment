@@ -6,7 +6,6 @@ import UnloadTrip from './unloadTrip'
 import { Autocomplete, Button, TextField } from '@mui/material'
 import { tripProps } from './types'
 import { Link } from 'react-router-dom'
-import { CheckUser } from '../../../auth/checkUser'
 const SelectTrip: React.FC = (): ReactElement => {
     const { handleSubmit } = useForm<FieldValues>()
     const [vehicleslist, setVehicleslist] = useState([])
@@ -15,7 +14,6 @@ const SelectTrip: React.FC = (): ReactElement => {
     const [vehicleNumber, setVehicleNumber] = useState<string>('')
     const [active, setActive] = useState<boolean>(false)
     const [render, setRender] = useState<boolean>(false)
-    const authoriser = CheckUser()
     const [disable, setDisable] = useState(false)
     useEffect(() => {
         getAllActivetripTripByTripStatus().then(setVehicleslist)
@@ -44,15 +42,13 @@ const SelectTrip: React.FC = (): ReactElement => {
     }
     return (
         <>
-            {authoriser.adminAccess && (
-                <div style={{ marginBottom: '20px' }}>
-                    <Link to={'/sub/acknowledgement/addacknowledgement'}>
-                        <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-                            Add Acknowledgement
-                        </Button>
-                    </Link>
-                </div>
-            )}
+            <div style={{ marginBottom: '20px' }}>
+                <Link to={'/sub/acknowledgement/addacknowledgement'}>
+                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                        Add Acknowledgement
+                    </Button>
+                </Link>
+            </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Autocomplete

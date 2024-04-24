@@ -1,27 +1,71 @@
+import dayjs from 'dayjs'
+import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const create = (data: any) => prisma.paymentDues.createMany({ data })
-
-export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: string) =>
-    prisma.paymentDues.groupBy({
+export const create = (
+    data: Prisma.paymentDuesCreateManyInput | Prisma.paymentDuesCreateManyInput[]
+) => prisma.paymentDues.createMany({ data })
+interface getOnlyActiveDuesByName {
+    by: any[]
+    where: {
+        status: boolean
+        NEFTStatus: boolean
+        dueDate?: {
+            equals?: number
+            lte?: number
+        }
+        NOT: { type: string }
+        type: string
+    }
+    _count: { status: true }
+    _sum: { payableAmount: true }
+}
+export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: string) => {
+    const query: getOnlyActiveDuesByName = {
         by: ['name'],
         where: {
             status: false,
             NEFTStatus: status,
-            dueDate: { lte: dueDate },
             NOT: { type: 'gst pay' },
             type
         },
         _count: { status: true },
         _sum: { payableAmount: true }
-    })
-
-export const findTripWithActiveDues = (dueDate: number, status: boolean, type: string) =>
-    prisma.paymentDues.findMany({
+    }
+    if (dueDate !== dayjs().startOf('day').unix()) {
+        query.where.dueDate = { equals: dueDate }
+    } else {
+        query.where.dueDate = { lte: dueDate }
+    }
+    return prisma.paymentDues.groupBy(query)
+}
+interface findTripWithActiveDuesProps {
+    where: {
+        status: boolean
+        NEFTStatus: boolean
+        dueDate?: {
+            equals?: number
+            lte?: number
+        }
+        NOT: { type: string }
+        type: string
+    }
+    select: {
+        id: boolean
+        payableAmount: boolean
+        overallTripId: boolean
+        type: boolean
+        name: boolean
+        status: boolean
+        vehicleNumber: boolean
+        fuelId: boolean
+    }
+}
+export const findTripWithActiveDues = (dueDate: number, status: boolean, type: string) => {
+    const query: findTripWithActiveDuesProps = {
         where: {
             status: false,
             NEFTStatus: status,
-            dueDate: { lte: dueDate },
             NOT: { type: 'gst pay' },
             type
         },
@@ -35,7 +79,14 @@ export const findTripWithActiveDues = (dueDate: number, status: boolean, type: s
             vehicleNumber: true,
             fuelId: true
         }
-    })
+    }
+    if (dueDate !== dayjs().startOf('day').unix()) {
+        query.where.dueDate = { equals: dueDate }
+    } else {
+        query.where.dueDate = { lte: dueDate }
+    }
+    return prisma.paymentDues.findMany(query)
+}
 interface dataProps {
     id: number
     transactionId: string

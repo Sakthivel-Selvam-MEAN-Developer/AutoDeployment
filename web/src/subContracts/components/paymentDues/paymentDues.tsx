@@ -3,13 +3,12 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getOnlyActiveDues } from '../../services/paymentDues'
-import { ListItemSecondaryAction } from '@mui/material'
-import dayjs from 'dayjs'
 import FormField from './formField'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
+import { paymentDueContext } from './paymentDueContext'
 
 interface tripProp {
     fuelId: number
@@ -37,12 +36,12 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
     const [transporterDue, setTransporterDue] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
+    const paymentDueDate = useContext(paymentDueContext)
     const style = { width: '100%', padding: '10px 10px 0px' }
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey', alignItems: 'center' }
     useEffect(() => {
-        const todayDate = dayjs().startOf('day').unix()
-        getOnlyActiveDues(todayDate, true, type).then(setTransporterDue)
-    }, [refresh, type])
+        getOnlyActiveDues(paymentDueDate, true, type).then(setTransporterDue)
+    }, [refresh, type, paymentDueDate])
     return (
         <>
             {transporterDue.length !== 0 ? (
@@ -61,10 +60,10 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                                 <Typography sx={style}>
                                     Total Trips : <b>{data.dueDetails.count}</b>
                                 </Typography>
-                                <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
+                                <Typography sx={style}>
                                     Total Amount :
                                     <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
-                                </ListItemSecondaryAction>
+                                </Typography>
                             </AccordionSummary>
                             {data.tripDetails &&
                                 data.tripDetails.map((list: tripProp) => {

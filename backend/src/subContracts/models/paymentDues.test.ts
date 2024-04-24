@@ -33,10 +33,10 @@ import { create as createLoadingToStockTrip } from './loadingToStockPointTrip.ts
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
 
+const dueDate = dayjs().startOf('day').unix()
 describe('Payment-Due model', () => {
     test('should able to create', async () => {
         await create(seedPaymentDue)
-        const dueDate = 1706034600
         const type = 'initial pay'
         const actual = await findTripWithActiveDues(dueDate, false, type)
         expect(actual.length).toBe(1)
@@ -90,7 +90,6 @@ describe('Payment-Due model', () => {
             loadingPointToStockPointTripId: loadingToStockTrip.id
         })
         await create(seedPaymentDue)
-        const dueDate = 1706034600
         const type = 'initial pay'
         await create({ ...seedPaymentDue, payableAmount: 30000, overallTripId: id })
         const groupDues = await getOnlyActiveDuesByName(dueDate, false, type)
@@ -101,7 +100,6 @@ describe('Payment-Due model', () => {
     })
     test('should update the payment dues', async () => {
         await create(seedPaymentDue)
-        const dueDate = 1706034600
         const type = 'initial pay'
         const actual = await findTripWithActiveDues(dueDate, false, type)
         const wantToUpdate = {
@@ -231,13 +229,12 @@ describe('Payment-Due model', () => {
     })
     test('should get only completed the payment dues', async () => {
         await create(seedPaymentDue)
-        const dueDate = 1706034600
         const type = 'initial pay'
         const dues = await findTripWithActiveDues(dueDate, false, type)
         const wantToUpdate = {
             id: dues[0].id,
             transactionId: 'abc',
-            paidAt: 1706034600
+            paidAt: dueDate
         }
         await updatePaymentDues(wantToUpdate)
         const actual = await getCompletedDues(seedPaymentDue.name, dueDate, dueDate, 1)

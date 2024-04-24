@@ -27,6 +27,15 @@ interface transporterProps {
     tdsPercentage: number
     transporterType: string
 }
+interface fuelDetailsProps {
+    bunk: { bunkName: string }
+    fueledDate: number
+    invoiceNumber: string
+    pricePerliter: number
+    quantity: number
+    vehicleNumber: string
+    totalprice: number
+}
 
 interface FormFieldProps {
     control: Control
@@ -158,7 +167,7 @@ const FormField: React.FC<FormFieldProps> = ({
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vehicleNumber])
-    const onFuelNotNull = (fuelDetails: FuelProps | null) => {
+    const onFuelNotNull = (fuelDetails: fuelDetailsProps) => {
         setDisableWantFuel(true)
         setFuelDetails(fuelDetails)
         setownTruckFuel(false)

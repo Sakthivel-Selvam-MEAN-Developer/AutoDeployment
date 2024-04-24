@@ -1,4 +1,5 @@
 import { axiosInstance, getData } from '../../apiCalls'
+import { Nullable } from '../../types'
 
 interface dataProps {
     type: string
@@ -14,7 +15,7 @@ interface bankDetailsProps {
     name: string
     branchName: string
 }
-export const getOnlyActiveDues = (todayDate: number, status: boolean, type: string) =>
+export const getOnlyActiveDues = (todayDate: Nullable<number>, status: boolean, type: string) =>
     axiosInstance
         .get(`/payment-dues`, { params: { todayDate, status, type } })
         .then(getData)

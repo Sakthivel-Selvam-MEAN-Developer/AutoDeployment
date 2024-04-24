@@ -3,12 +3,12 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getOnlyActiveDues } from '../../services/paymentDues'
 import { Checkbox, ListItemSecondaryAction } from '@mui/material'
-import dayjs from 'dayjs'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { NEFTDetailsProps, bankDetailsProps } from './list'
+import { paymentDueContext } from './paymentDueContext'
 
 interface tripProp {
     id: number
@@ -48,6 +48,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     type
 }) => {
     const [transporterDue, setTransporterDue] = useState([])
+    const paymentDueDate = useContext(paymentDueContext)
     const style = { width: '100%', padding: '10px 10px 0px' }
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey', alignItems: 'center' }
     useEffect(() => {
@@ -56,12 +57,11 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
-        const todayDate = dayjs().startOf('day').unix()
-        getOnlyActiveDues(todayDate, false, type)
+        getOnlyActiveDues(paymentDueDate, false, type)
             .then(setTransporterDue)
             .then(() => setNEFTDetails([]))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [refresh])
+    }, [refresh, paymentDueDate])
     const handleClick = (list: tripProp, data: dataProp) => {
         const obj = {
             id: list.id,

@@ -12,10 +12,10 @@ import {
     updatePaymentDues,
     updatePaymentNEFTStatus
 } from '../models/paymentDues.ts'
-import { getOverallTrip } from '../models/overallTrip.ts'
 import { getFuelDetailsWithoutTrip, updateFuelStatus } from '../models/fuel.ts'
 import { getTransporterAccountByName } from '../models/transporter.ts'
 import { getBunkAccountByName } from '../models/bunk.ts'
+import { overallTripByPendingPaymentDues } from '../models/overallTrip.ts'
 
 interface transporterAccountProps {
     name: string
@@ -68,13 +68,12 @@ export interface fuelprops {
 }
 function getFuelPayDate(fuelId: number | null, fuelDetails: fuelprops[]) {
     const fuelTrip = fuelDetails.find((fuel: fuelprops) => fuel.id === fuelId)
-    if (fuelTrip) {
-        return {
-            date: fuelTrip.fueledDate,
-            location: fuelTrip.bunk.location,
-            invoiceNumber: fuelTrip.invoiceNumber,
-            id: fuelTrip.id
-        }
+    if (fuelTrip === undefined) return
+    return {
+        date: fuelTrip.fueledDate,
+        location: fuelTrip.bunk.location,
+        invoiceNumber: fuelTrip.invoiceNumber,
+        id: fuelTrip.id
     }
 }
 interface matchingTripProps {
@@ -86,64 +85,35 @@ interface matchingTripProps {
     payableAmount: number
 }
 function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: fuelprops[]) {
-    let invoice
-    let obj
-    let loadingPoint
-    let unloadingPoint
-    let date
-    if (matchingTrip.type === 'initial pay') {
-        invoice =
-            tripData[0].loadingPointToStockPointTrip !== null
-                ? tripData[0].loadingPointToStockPointTrip.invoiceNumber
-                : tripData[0].loadingPointToUnloadingPointTrip.invoiceNumber
-        loadingPoint =
-            tripData[0].loadingPointToStockPointTrip !== null
-                ? tripData[0].loadingPointToStockPointTrip.loadingPoint.name
-                : tripData[0].loadingPointToUnloadingPointTrip.loadingPoint.name
-        unloadingPoint =
-            tripData[0].loadingPointToStockPointTrip !== null
-                ? tripData[0].loadingPointToStockPointTrip.stockPoint.name
-                : tripData[0].loadingPointToUnloadingPointTrip.unloadingPoint.name
-        date =
-            tripData[0].loadingPointToStockPointTrip !== null
-                ? tripData[0].loadingPointToStockPointTrip.startDate
-                : tripData[0].loadingPointToUnloadingPointTrip.startDate
-    } else if (matchingTrip.type === 'final pay') {
-        invoice =
-            tripData[0].loadingPointToStockPointTrip !== null
-                ? tripData[0].loadingPointToStockPointTrip.invoiceNumber
-                : tripData[0].loadingPointToUnloadingPointTrip.invoiceNumber
-        loadingPoint =
-            tripData[0].loadingPointToStockPointTrip !== null
-                ? tripData[0].loadingPointToStockPointTrip.stockPoint.name
-                : tripData[0].loadingPointToUnloadingPointTrip.loadingPoint.name
-        unloadingPoint =
-            tripData[0].stockPointToUnloadingPointTrip !== null
-                ? tripData[0].stockPointToUnloadingPointTrip.unloadingPoint.name
-                : tripData[0].loadingPointToUnloadingPointTrip.unloadingPoint.name
-        date =
-            tripData[0].stockPointToUnloadingPointTrip !== null
-                ? tripData[0].stockPointToUnloadingPointTrip.startDate
-                : tripData[0].loadingPointToUnloadingPointTrip.startDate
-    } else obj = getFuelPayDate(matchingTrip.fuelId, fuelDetails)
+    let tripType
+    if (tripData[0].loadingPointToStockPointTrip !== null) {
+        tripType = tripData[0].loadingPointToStockPointTrip
+    } else if (tripData[0].loadingPointToUnloadingPointTrip !== null) {
+        tripType = tripData[0].loadingPointToUnloadingPointTrip
+    }
+    const obj = getFuelPayDate(matchingTrip.fuelId, fuelDetails)
     const details = {
         id: matchingTrip.id,
         overallTripId: matchingTrip.overallTripId,
         payableAmount: matchingTrip.payableAmount,
         type: matchingTrip.type,
         number: matchingTrip.vehicleNumber,
-        invoiceNumber: matchingTrip.type !== 'fuel pay' ? invoice : obj?.invoiceNumber,
-        date: matchingTrip.type !== 'fuel pay' ? date : obj?.date,
+        invoiceNumber:
+            matchingTrip.type !== 'fuel pay' ? tripType.invoiceNumber : obj?.invoiceNumber,
+        date: matchingTrip.type !== 'fuel pay' ? tripType.startDate : obj?.date,
         location: obj?.location,
-        loadingPoint,
-        unloadingPoint,
+        loadingPoint: tripType.loadingPoint.name,
+        unloadingPoint:
+            tripType.stockPointToUnloadingPointTrip !== undefined
+                ? tripType.stockPointToUnloadingPointTrip[0].unloadingPoint.name
+                : tripType.unloadingPoint.name,
         fuelId: obj?.id
     }
     return details
 }
 
 export const groupDataByName = async (
-    duesData: groupedDuesProps[],
+    duesData: any[],
     tripsData: gstDuesProps[],
     tripDetails: any[],
     fuelDetails: fuelprops[],
@@ -189,11 +159,10 @@ export const listOnlyActiveTransporterDues = async (
     const duesData = await getOnlyActiveDuesByName(parseInt(todayDate), status === 'true', type)
     const name = duesData.map((data) => data.name)
     const tripsData = await findTripWithActiveDues(parseInt(todayDate), status === 'true', type)
-    const tripDetails = await getOverallTrip()
+    const tripDetails = await overallTripByPendingPaymentDues()
     const fuelDetails = await getFuelDetailsWithoutTrip()
     const transporterAccounts = await getTransporterAccountByName(name)
     const bunkAccount = await getBunkAccountByName(name)
-
     await groupDataByName(
         duesData,
         tripsData,

@@ -61,7 +61,13 @@ const AddAcknowledgement: React.FC = () => {
                         options={
                             vehicleslist.length !== 0
                                 ? vehicleslist.map((trip: tripdetailsProps) => {
-                                      const vehicleNumber = findTripType(trip)
+                                      let vehicleNumber = findTripType(trip)
+                                      if (
+                                          vehicleNumber?.loadingPointToStockPointTrip !== undefined
+                                      ) {
+                                          vehicleNumber =
+                                              vehicleNumber?.loadingPointToStockPointTrip
+                                      }
                                       return `${vehicleNumber?.truck.vehicleNumber} ${vehicleNumber?.invoiceNumber}`
                                   })
                                 : []
@@ -120,9 +126,13 @@ type onChangeType = (
 const onChangeForVehicleList: onChangeType = (vehicleslist, setTripId, setVehicleNumber) => {
     return (_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
         const { id } = vehicleslist.find((trip) => {
+            let tripType = findTripType(trip)
+            if (tripType?.loadingPointToStockPointTrip !== undefined) {
+                tripType = tripType?.loadingPointToStockPointTrip
+            }
             return (
-                findTripType(trip)?.truck.vehicleNumber === newValue.split(' ')[0] &&
-                findTripType(trip)?.invoiceNumber === newValue.split(' ')[1]
+                tripType?.truck.vehicleNumber === newValue.split(' ')[0] &&
+                tripType?.invoiceNumber === newValue.split(' ')[1]
             )
         }) || { id: 0 }
         setTripId(id)

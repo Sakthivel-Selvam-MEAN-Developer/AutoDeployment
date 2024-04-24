@@ -20,6 +20,9 @@ export const getOverallTrip = () =>
             paymentDues: true,
             loadingPointToStockPointTrip: {
                 include: {
+                    stockPointToUnloadingPointTrip: {
+                        include: { unloadingPoint: true }
+                    },
                     loadingPoint: true,
                     stockPoint: true,
                     truck: {
@@ -41,9 +44,6 @@ export const getOverallTrip = () =>
                         }
                     }
                 }
-            },
-            stockPointToUnloadingPointTrip: {
-                include: { unloadingPoint: true }
             }
         }
     })
@@ -599,5 +599,53 @@ export const tripStatusFilterCount = (
                     }
                 }
             ]
+        }
+    })
+
+export const overallTripByPendingPaymentDues = () =>
+    prisma.overallTrip.findMany({
+        where: {
+            paymentDues: {
+                some: { status: false }
+            }
+        },
+        include: {
+            fuel: {
+                include: {
+                    bunk: {
+                        select: {
+                            bunkName: true
+                        }
+                    }
+                }
+            },
+            paymentDues: true,
+            loadingPointToStockPointTrip: {
+                include: {
+                    stockPointToUnloadingPointTrip: {
+                        include: { unloadingPoint: true }
+                    },
+                    loadingPoint: true,
+                    stockPoint: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: true
+                        }
+                    }
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    loadingPoint: true,
+                    unloadingPoint: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: true
+                        }
+                    }
+                }
+            }
         }
     })

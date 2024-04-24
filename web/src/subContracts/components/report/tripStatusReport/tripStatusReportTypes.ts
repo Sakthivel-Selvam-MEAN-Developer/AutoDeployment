@@ -1,6 +1,5 @@
 import { Dispatch } from 'react'
 import { Control } from 'react-hook-form'
-
 export interface TransporterFieldProps {
     control: Control
     dispatch: Dispatch<dispatchType>

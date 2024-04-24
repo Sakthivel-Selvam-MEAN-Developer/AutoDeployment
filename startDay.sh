@@ -25,7 +25,7 @@ tmux split-window -v
 
 tmux send-keys -t 0 "yarn b dev" C-m
 tmux send-keys -t 1 "yarn u dev" C-m
-tmux send-keys -t 2 "docker compose exec local-nginx sh" C-m
+tmux send-keys -t 2 "docker-compose exec local-nginx sh" C-m
 
 # Attach to the tmux session
 tmux attach-session -t wonder
