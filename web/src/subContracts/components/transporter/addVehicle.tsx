@@ -11,7 +11,7 @@ const AddVehicle: React.FC = () => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterId, setTransporterId] = useState<number>(0)
     const [loading, setLoading] = useState(false)
-    const [disable,setDisable] = useState(false)
+    const [disable, setDisable] = useState(false)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         transporterId !== 0 && setLoading(true)
         setDisable(true)
@@ -24,7 +24,7 @@ const AddVehicle: React.FC = () => {
                 setLoading(false)
                 setDisable(false)
             })
-            
+
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
             .catch((error) => {
@@ -43,7 +43,7 @@ const AddVehicle: React.FC = () => {
                         <CircularProgress />
                     </Box>
                 ) : (
-                    <SubmitButton name="Create" type="submit" disabled={disable}/>
+                    <SubmitButton name="Create" type="submit" disabled={disable} />
                 )}
             </form>
             <SuccessDialog

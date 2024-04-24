@@ -10,27 +10,9 @@ export const create = (
 export const getAllStockPointTrip = () =>
     prisma.loadingPointToStockPointTrip.findMany({
         include: {
-            loadingPoint: {
-                select: {
-                    name: true,
-                    cementCompanyId: true
-                }
-            },
-            stockPoint: {
-                select: {
-                    name: true
-                }
-            },
-            truck: {
-                select: {
-                    vehicleNumber: true,
-                    transporter: {
-                        select: {
-                            name: true
-                        }
-                    }
-                }
-            },
+            loadingPoint: { select: { name: true, cementCompanyId: true } },
+            stockPoint: { select: { name: true } },
+            truck: { select: { vehicleNumber: true, transporter: { select: { name: true } } } },
             stockPointToUnloadingPointTrip: true
         }
     })
@@ -57,39 +39,17 @@ export const updateBillNumber = (id: number[], billNo: string) =>
 
 export const getInvoiceDetails = (id: number[]) =>
     prisma.loadingPointToStockPointTrip.findMany({
-        where: {
-            id: {
-                in: id
-            }
-        },
+        where: { id: { in: id } },
         select: {
             startDate: true,
-            stockPoint: {
-                select: {
-                    name: true
-                }
-            },
-            loadingPoint: {
-                select: {
-                    name: true
-                }
-            },
+            stockPoint: { select: { name: true } },
+            loadingPoint: { select: { name: true } },
             overallTrip: {
-                select: {
-                    shortageQuantity: {
-                        select: {
-                            shortageQuantity: true
-                        }
-                    }
-                }
+                select: { shortageQuantity: { select: { shortageQuantity: true } } }
             },
             invoiceNumber: true,
             freightAmount: true,
-            truck: {
-                select: {
-                    vehicleNumber: true
-                }
-            },
+            truck: { select: { vehicleNumber: true } },
             filledLoad: true
         }
     })

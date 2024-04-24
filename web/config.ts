@@ -11,7 +11,7 @@ const config: Record<string, Config> = {
         keycloakUrl: `https://auth.${window.location.hostname}`,
     },
     development: {
-        logoutRedirectUrl: `http://${window.location.hostname}/sub`,
+        logoutRedirectUrl: `http://${window.location.hostname}:3003/sub`,
         backendUrl: `http://${window.location.hostname}/api`,
         keycloakUrl: `http://${window.location.hostname}:8080`,
     }

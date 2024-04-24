@@ -16,7 +16,7 @@ const SelectTrip: React.FC = (): ReactElement => {
     const [active, setActive] = useState<boolean>(false)
     const [render, setRender] = useState<boolean>(false)
     const authoriser = CheckUser()
-    const [disable,setDisable] = useState(false)
+    const [disable, setDisable] = useState(false)
     useEffect(() => {
         getAllActivetripTripByTripStatus().then(setVehicleslist)
     }, [])

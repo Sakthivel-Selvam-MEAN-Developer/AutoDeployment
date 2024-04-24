@@ -51,12 +51,7 @@ export const getOnlyActiveTripByVehicle = (vehicleNumber: string) =>
     prisma.overallTrip.findFirst({
         where: {
             OR: [
-                {
-                    loadingPointToStockPointTrip: {
-                        tripStatus: false,
-                        truck: { vehicleNumber }
-                    }
-                },
+                { loadingPointToStockPointTrip: { tripStatus: false, truck: { vehicleNumber } } },
                 {
                     loadingPointToUnloadingPointTrip: {
                         tripStatus: false,
@@ -65,9 +60,7 @@ export const getOnlyActiveTripByVehicle = (vehicleNumber: string) =>
                 }
             ]
         },
-        select: {
-            id: true
-        }
+        select: { id: true }
     })
 export const getActiveTripByVehicle = (vehicleNumber: string) =>
     prisma.overallTrip.findFirst({
@@ -538,10 +531,19 @@ export const tripStatusFilter = (
             shortageQuantity: true,
             paymentDues: true,
             loadingPointToStockPointTrip: {
-                include: { truck: { include: { transporter: true } }, loadingPoint: true }
+                include: {
+                    truck: { include: { transporter: true } },
+                    loadingPoint: true,
+                    stockPoint: true,
+                    stockPointToUnloadingPointTrip: { select: { unloadingPoint: true } }
+                }
             },
             loadingPointToUnloadingPointTrip: {
-                include: { truck: { include: { transporter: true } }, loadingPoint: true }
+                include: {
+                    truck: { include: { transporter: true } },
+                    loadingPoint: true,
+                    unloadingPoint: true
+                }
             }
         }
     })

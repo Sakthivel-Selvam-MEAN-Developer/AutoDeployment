@@ -69,6 +69,9 @@ const mockStockTripData = {
                         name: 'UltraTech Cements'
                     }
                 },
+                unloadingPoint: {
+                    name: 'Salem'
+                },
                 truck: {
                     vehicleNumber: 'TN93D5512',
                     transporter: {

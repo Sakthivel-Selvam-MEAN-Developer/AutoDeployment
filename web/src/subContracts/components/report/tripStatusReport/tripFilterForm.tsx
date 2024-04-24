@@ -18,6 +18,7 @@ export const TripFilterForm: FC<TripFilterFormProps> = ({ setOverallTrips, setCo
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (data.from !== undefined && data.to !== undefined) {
             dispatch({ from: data.from.unix(), to: data.to.unix(), type: 'updateFromAndTo' })
+            dispatch({ pageNumber: 1, type: 'updatePageNumber' })
             return tripStatusFilter({
                 ...oldFilterData,
                 from: data.from.unix(),

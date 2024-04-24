@@ -110,8 +110,8 @@ function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: f
                 : tripData[0].loadingPointToUnloadingPointTrip.startDate
     } else if (matchingTrip.type === 'final pay') {
         invoice =
-            tripData[0].stockPointToUnloadingPointTrip !== null
-                ? tripData[0].stockPointToUnloadingPointTrip.invoiceNumber
+            tripData[0].loadingPointToStockPointTrip !== null
+                ? tripData[0].loadingPointToStockPointTrip.invoiceNumber
                 : tripData[0].loadingPointToUnloadingPointTrip.invoiceNumber
         loadingPoint =
             tripData[0].loadingPointToStockPointTrip !== null

@@ -153,12 +153,12 @@ const FormField: React.FC<FormFieldProps> = ({
     useEffect(() => {
         if (vehicleNumber !== '')
             listFuelWithoutTripId(vehicleNumber).then((fuelDetails) => {
-                if (fuelDetails !== null) onFuelNotNull()
+                if (fuelDetails !== null) onFuelNotNull(fuelDetails)
                 else onFuelNull()
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vehicleNumber])
-    const onFuelNotNull = () => {
+    const onFuelNotNull = (fuelDetails: FuelProps | null) => {
         setDisableWantFuel(true)
         setFuelDetails(fuelDetails)
         setownTruckFuel(false)

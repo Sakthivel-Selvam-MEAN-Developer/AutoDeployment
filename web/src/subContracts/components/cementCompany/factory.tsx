@@ -27,7 +27,7 @@ const CreateFactory: React.FC = (): ReactElement => {
     const [loading, setLoading] = useState(false)
     const [companyId, setCompanyId] = useState(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const [disable,setDisable]=useState(false)
+    const [disable, setDisable] = useState(false)
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (

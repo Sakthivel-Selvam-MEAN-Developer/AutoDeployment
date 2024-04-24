@@ -10,6 +10,7 @@ export type dispatchType =
     | { type: string; transporterId: number }
     | { type: string; loadinPointId: number }
     | { type: string; from: number; to: number }
+    | { type: string; pageNumber: number }
 export interface TripFilterFormProps {
     setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
     setCount: React.Dispatch<React.SetStateAction<number>>

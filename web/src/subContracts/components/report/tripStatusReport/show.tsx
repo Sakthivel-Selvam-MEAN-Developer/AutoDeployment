@@ -1,10 +1,3 @@
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
@@ -14,8 +7,16 @@ import { dispatchData, filterData } from './tripStatusContext.ts'
 import { TripFilters } from '../../../types/tripFilters.ts'
 import { tripStatusFilter } from '../../../services/overallTrips.ts'
 import { overallTripsProps } from './tripFilterForm.tsx'
+import { DataGrid } from '@mui/x-data-grid'
 
 interface Row {
+    stockPointToUnloadingPointTrip: [
+        {
+            unloadingPoint: {
+                name: string
+            }
+        }
+    ]
     freightAmount: number
     transporterAmount: number
     totalFreightAmount: number
@@ -51,8 +52,8 @@ interface fuel {
     bunk: bunk
 }
 interface shortage {
-    shortageQuantity: number
-    shortageAmount: number
+    shortageQuantity: number | string
+    shortageAmount: number | string
 }
 interface bunk {
     bunkName: string
@@ -65,6 +66,7 @@ interface Props {
     paymentDues: paymentType[]
     fuel: fuel[]
     shortageQuantity: shortage[]
+    number: number
 }
 interface paymentType {
     type: string
@@ -76,221 +78,43 @@ interface listoverallTripProps {
     setCount: React.Dispatch<React.SetStateAction<number>>
     count: number
 }
-const tableCell = [
-    'Vehicle Number',
-    'Start Date',
-    'Invoice Number',
-    'Transporter',
-    'CSM Name',
-    'Loading Point',
-    'Stock Point',
-    'Unloading Point',
-    'Filled Load',
-    'Freight Rate',
-    'Tansporter Rate',
-    'Total Freight Amount',
-    'Total Tansporter Amount',
-    'Margin',
-    'Bunk Name',
-    'Disel Quantity',
-    'Disel Amount',
-    'Shortage Quantity',
-    'Shortage Amount',
-    'Trip Status',
-    'Payment Status'
-]
-function getTableHead() {
-    return (
-        <TableHead>
-            <GetTableRow />
-        </TableHead>
-    )
+interface stackProps {
+    setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
+    setCount: React.Dispatch<React.SetStateAction<number>>
+    dispatch: Dispatch<ActionType>
+    count: number
 }
-
-const GetCells = (data: Row, num: number, type: string, details: Props, shortage: shortage[]) => {
-    const authoriser = CheckUser()
-    const fuel = details.fuel.length !== 1
-    return (
-        <>
-            <TableCell> {num} </TableCell>
-            <TableCell align="left">{data.truck.vehicleNumber}</TableCell>
-            <TableCell align="left">{epochToMinimalDate(data.startDate)}</TableCell>
-            <TableCell align="left">{data.invoiceNumber}</TableCell>
-            <TableCell align="left">{data.truck.transporter.name}</TableCell>
-            <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
-            <TableCell align="left">{data.loadingPoint.name}</TableCell>
-            <TableCell align="left">{data.stockPoint ? data.stockPoint.name : 'Null'}</TableCell>
-            <TableCell align="left">
-                {data.unloadingPoint ? data.unloadingPoint.name : 'Null'}
-            </TableCell>
-            <TableCell align="left">{data.filledLoad}</TableCell>
-            {authoriser.adminAccess && <TableCell align="left">{data.freightAmount}</TableCell>}
-            <TableCell align="left">{data.transporterAmount}</TableCell>
-            {authoriser.adminAccess && (
-                <TableCell align="left">{data.totalFreightAmount}</TableCell>
-            )}
-            <TableCell align="left">{data.totalTransporterAmount}</TableCell>
-            {authoriser.adminAccess && <TableCell align="left">{data.margin}</TableCell>}
-            <TableCell align="left">
-                {fuel ? 'Not Fueled' : details.fuel[0].bunk.bunkName}
-            </TableCell>
-            <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].quantity} </TableCell>
-            <TableCell align="left">{fuel ? 'Not Fueled' : details.fuel[0].totalprice} </TableCell>
-            <TableCell align="left">
-                {shortage.length !== 0 ? shortage[0].shortageQuantity : 'NUll'}
-            </TableCell>
-            <TableCell align="left">
-                {shortage.length !== 0 ? shortage[0].shortageAmount : 'NUll'}
-            </TableCell>
-            <TableCell align="left">
-                {data.tripStatus === false
-                    ? 'Running'
-                    : details.acknowledgementStatus === false
-                      ? 'Waiting For Acknowledgement'
-                      : 'Completed'}
-            </TableCell>
-            <TableCell align="left">{type}</TableCell>
-        </>
-    )
-}
-const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
-    const initial = arrayOfDues.filter((due) => {
-        return due.type === 'initial pay' && due.status === true
-    })
-    const final = arrayOfDues.filter((due) => {
-        return due.type === 'final pay' && due.status === true
-    })
-    const gst = arrayOfDues.filter((due) => {
-        return due.type === 'gst pay' && due.status === true
-    })
-    return initial.length !== 1
-        ? 'Advance Pending'
-        : final.length === 1
-          ? gst.length === 1
-              ? 'Completed'
-              : 'GST Pending'
-          : 'Balance Pending'
-}
-
-const name = ['Freight Rate', 'Total Freight Amount', 'Margin']
-const GetTableRow = () => {
-    const authoriser = CheckUser()
-    const rowResult = authoriser.adminAccess
-        ? tableCell
-        : tableCell.filter((cell) => !name.includes(cell))
-    return <TableRow>{tableBodyCell(rowResult)}</TableRow>
-}
-const tableBodyCell = (rowResult: string[]) => {
-    return (
-        <>
-            <TableCell>#</TableCell>
-            {rowResult.map((trip) => (
-                <TableCell key={trip} align="left">
-                    {trip}
-                </TableCell>
-            ))}
-        </>
-    )
-}
-interface tableBody {
-    listoverallTrip: Props[]
-}
-const GetTableBody: FC<tableBody> = ({ listoverallTrip }) => {
-    let number = 0
-    const style = { '&:last-child td, &:last-child th': { border: 0 } }
-    return (
-        <TableBody>
-            {listoverallTrip &&
-                listoverallTrip.map((row: Props, index: number) => (
-                    <TableRow key={index} sx={style}>
-                        {GetCells(
-                            loadingToStock(row),
-                            ++number,
-                            checkPaymentStatus(row.paymentDues),
-                            row,
-                            row.shortageQuantity
-                        )}
-                    </TableRow>
-                ))}
-        </TableBody>
-    )
-}
-function download(listoverallTrip: Props[], authoriser: boolean) {
-    const downloadtripData: object[] = []
-    listoverallTrip.map((row: Props) => {
-        if (
-            row.loadingPointToStockPointTrip !== null &&
-            row.loadingPointToStockPointTrip !== undefined
-        ) {
-            downloadCSV(
-                downloadtripData,
-                row.loadingPointToStockPointTrip,
-                checkPaymentStatus(row.paymentDues),
-                listoverallTrip.length,
-                row,
-                authoriser
-            )
-        }
-        if (
-            row.loadingPointToUnloadingPointTrip !== null &&
-            row.loadingPointToUnloadingPointTrip !== undefined
-        ) {
-            downloadCSV(
-                downloadtripData,
-                row.loadingPointToUnloadingPointTrip,
-                checkPaymentStatus(row.paymentDues),
-                listoverallTrip.length,
-                row,
-                authoriser
-            )
-        }
-    })
-}
-type CSVProps = (
-    downloadtripData: object[],
-    tripData: Row,
-    type: string,
-    num: number,
-    details: Props,
+interface dataGridTableProps {
+    overallTrips: Props[]
     authoriser: boolean
-) => void
-const downloadCSV: CSVProps = (downloadtripData, tripData, type, num, details, authoriser) => {
-    const addData: any = {
-        vehicleNumber: tripData.truck.vehicleNumber,
-        startDate: epochToMinimalDate(tripData.startDate),
-        invoiceNumber: tripData.invoiceNumber,
-        transporter: tripData.truck.transporter.name,
-        loadingPoint: tripData.loadingPoint.name,
-        stockPoint: tripData.stockPoint ? tripData.stockPoint.name : 'Null',
-        unloadingPoint: tripData.unloadingPoint ? tripData.unloadingPoint.name : 'Null',
-        filledLoad: tripData.filledLoad,
-        tansporterAmount: tripData.transporterAmount,
-        csmName: tripData.truck.transporter.csmName,
-        totalTansporterAmount: tripData.totalTransporterAmount,
-        bunkName: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].bunk.bunkName,
-        diselQuantity: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].quantity,
-        diselAmount: details.fuel.length !== 1 ? 'Not Fueled' : details.fuel[0].totalprice,
-        tripStatus:
-            tripData.tripStatus === false
-                ? 'Running'
-                : details.acknowledgementStatus === false
-                  ? 'Waiting For Acknowledgement'
-                  : 'completed',
-        paymentStatus: type
-    }
-    if (authoriser) {
-        addData.freightAmount = tripData.freightAmount
-        addData.totalFreightAmount = tripData.totalFreightAmount
-        addData.margin = tripData.margin
-    }
-    downloadtripData.push(addData)
-    if (downloadtripData.length === num) {
-        const data = downloadtripData
-        const fileName = 'List of Trips'
-        const exportType = exportFromJSON.types.csv
-        exportFromJSON({ data, fileName, exportType })
-    }
 }
+interface finalDataProps {
+    number: number
+    vehicleNumber: string
+    startDate: string
+    invoiceNumber: string
+    transporterName: string
+    csmName: string
+    loadingPoint: string
+    stockPoint: string
+    unloadingPoint: string
+    filledLoad: string
+    freightAmount: number
+    transporterAmount: number
+    totalFreightAmount: number
+    totalTransporterAmount: number
+    margin: number
+    bunkName: string
+    fuelQuantity: string | number
+    fuelPrice: string | number
+    quantity: string | number
+    amount: string | number
+    status: string
+    type: string
+}
+
+export type ActionType = { type: string; pageNumber: number }
+
 const style = {
     display: 'flex',
     bottom: '0',
@@ -299,64 +123,146 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
-const ListAllDetails: React.FC<listoverallTripProps> = ({
-    setOverallTrips,
-    overallTrips,
-    count,
-    setCount
-}) => {
-    const authoriser = CheckUser()
-    const { dispatch } = useContext(dispatchData)
-    if (overallTrips && overallTrips.length === 0) return
-    return (
-        <>
-            <br />
-            <br />
-            {generateCSVbutton(overallTrips, authoriser.adminAccess)}
-            {tableContainer(overallTrips)}
-            <StackPage
-                dispatch={dispatch}
-                setOverallTrips={setOverallTrips}
-                count={count}
-                setCount={setCount}
-            />
-        </>
-    )
+let finalData: finalDataProps[] = []
+const columns = [
+    { field: 'number', headerName: '#', width: 50 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
+    { field: 'startDate', headerName: 'Start Date', width: 120 },
+    { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
+    { field: 'transporterName', headerName: 'Transporter', width: 240 },
+    { field: 'csmName', headerName: 'CSM Name', width: 130 },
+    { field: 'loadingPoint', headerName: 'Loading Point', width: 150 },
+    { field: 'stockPoint', headerName: 'Stock Point', width: 150 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', width: 150 },
+    { field: 'filledLoad', headerName: 'Filled Load', width: 100 },
+    { field: 'transporterAmount', headerName: 'Transporter Rate', width: 130 },
+    { field: 'totalTransporterAmount', headerName: 'Total Transporter Amount', width: 180 },
+    { field: 'bunkName', headerName: 'Bunk Name', width: 190 },
+    { field: 'fuelQuantity', headerName: 'Diesel Quantity', width: 140 },
+    { field: 'fuelPrice', headerName: 'Diesel Amount', width: 140 },
+    { field: 'quantity', headerName: 'Shortage Quantity', width: 150 },
+    { field: 'amount', headerName: 'Shortage Amount', width: 150 },
+    { field: 'status', headerName: 'Trip Status', width: 230 },
+    { field: 'type', headerName: 'Payment Status', width: 150 }
+]
+const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
+    const initial = arrayOfDues.filter((due) => {
+        return due.type === 'initial pay' && due.status === true
+    })
+    const final = arrayOfDues.filter((due) => {
+        return due.type === 'final pay' && due.status === true
+    })
+    const gst = arrayOfDues.filter((due) => {
+        return due.type === 'gst pay'
+    })
+    return initial.length !== 1
+        ? 'Advance Pending'
+        : final.length === 1
+          ? gst.length === 1
+              ? gst[0].status === true
+                  ? 'Completed'
+                  : 'GST Pending'
+              : 'Paid'
+          : 'Balance Pending'
 }
 
-export default ListAllDetails
-function tableContainer(listoverallTrip: Props[]) {
+const downloadCSV = (listoverallTrip: Props[], authoriser: boolean) => {
+    const downloadtripData: finalDataProps[] = finalData
+    if (!authoriser && downloadtripData.length === listoverallTrip.length) {
+        downloadtripData.forEach((data: Partial<finalDataProps>) => {
+            delete data.freightAmount
+            delete data.totalFreightAmount
+            delete data.margin
+        })
+    }
+    const data = downloadtripData
+    const fileName = 'List_of_Trips'
+    const exportType = exportFromJSON.types.csv
+    exportFromJSON({ data, fileName, exportType })
+}
+
+const addAuthorisedColumns = (authoriser: boolean) => {
+    if (!authoriser || columns.some((column) => Object.keys(column).includes('freightAmount')))
+        return
+    const freightAmount = { field: 'freightAmount', headerName: 'Freight Rate', width: 100 }
+    const totalFreightAmount = {
+        field: 'totalFreightAmount',
+        headerName: 'Total Freight Amount',
+        width: 150
+    }
+    const margin = { field: 'margin', headerName: 'Margin', width: 100 }
+    const bunkNameIndex = columns.findIndex((column) => column.field === 'bunkName')
+    if (bunkNameIndex !== -1)
+        columns.splice(bunkNameIndex, 0, freightAmount, totalFreightAmount, margin)
+}
+
+const generateRow = (row: Props, index: number) => {
+    const data = loadingToStock(row)
+    const unloadingPoint = data.stockPointToUnloadingPointTrip
+        ? data.stockPointToUnloadingPointTrip[0].unloadingPoint.name
+        : data.unloadingPoint.name
+    finalData.push({
+        number: ++index,
+        vehicleNumber: data.truck.vehicleNumber,
+        startDate: epochToMinimalDate(data.startDate),
+        invoiceNumber: data.invoiceNumber,
+        transporterName: data.truck.transporter.name,
+        csmName: data.truck.transporter.csmName,
+        loadingPoint: data.loadingPoint.name,
+        stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',
+        unloadingPoint,
+        filledLoad: data.filledLoad,
+        freightAmount: data.freightAmount,
+        transporterAmount: data.transporterAmount,
+        totalFreightAmount: data.totalFreightAmount,
+        totalTransporterAmount: data.totalTransporterAmount,
+        margin: data.margin,
+        bunkName: row.fuel.length !== 0 ? row.fuel[0].bunk.bunkName : 'Not Fueled',
+        fuelQuantity: row.fuel.length !== 0 ? row.fuel[0].quantity : 'Not Fueled',
+        fuelPrice: row.fuel.length !== 0 ? row.fuel[0].totalprice : 'Not Fueled',
+        quantity:
+            row.shortageQuantity.length !== 0
+                ? row.shortageQuantity[0].shortageQuantity
+                : 'No Shortage',
+        amount:
+            row.shortageQuantity.length !== 0
+                ? row.shortageQuantity[0].shortageAmount
+                : 'No Shortage',
+        status: !data.tripStatus
+            ? 'Running'
+            : !row.acknowledgementStatus
+              ? 'Waiting For Acknowledgement'
+              : 'Completed',
+        type: checkPaymentStatus(row.paymentDues)
+    })
+}
+
+const DataGridTable: FC<dataGridTableProps> = ({ overallTrips, authoriser }) => {
+    finalData = []
+    overallTrips.map((row: Props, index: number) => generateRow(row, index))
+    addAuthorisedColumns(authoriser)
     return (
-        <div style={{ marginBottom: '20px' }}>
-            <TableContainer component={Paper}>{table(listoverallTrip)}</TableContainer>
+        <div>
+            <DataGrid
+                sx={{ width: '94vw' }}
+                rows={finalData}
+                columns={columns}
+                getRowId={(row) => row.number}
+            />
         </div>
     )
 }
 
-function generateCSVbutton(listoverallTrip: Props[], authoriser: boolean) {
+const generateCSVbutton = (listoverallTrip: Props[], authoriser: boolean) => {
     return (
-        <div style={{ float: 'right', marginTop: '10px' }}>
-            <Button onClick={() => download(listoverallTrip, authoriser)} variant="contained">
+        <div style={{ float: 'right', marginTop: '10px', marginBottom: '20px' }}>
+            <Button onClick={() => downloadCSV(listoverallTrip, authoriser)} variant="contained">
                 Generate CSV
             </Button>
         </div>
     )
 }
 
-function table(listoverallTrip: Props[]) {
-    return (
-        <Table sx={{ minWidth: 600 }} aria-label="simple table">
-            {getTableHead()}
-            <GetTableBody listoverallTrip={listoverallTrip} />
-        </Table>
-    )
-}
-interface stackProps {
-    setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
-    setCount: React.Dispatch<React.SetStateAction<number>>
-    dispatch: Dispatch<ActionType>
-    count: number
-}
 const StackPage: FC<stackProps> = ({ setOverallTrips, dispatch, count, setCount }) => {
     const oldFilterData = useContext(filterData)
     return (
@@ -367,7 +273,6 @@ const StackPage: FC<stackProps> = ({ setOverallTrips, dispatch, count, setCount 
         </div>
     )
 }
-export type ActionType = { type: string; pageNumber: number }
 const PaginationField = (
     dispatch: Dispatch<ActionType>,
     oldFilterData: TripFilters | null,
@@ -377,23 +282,25 @@ const PaginationField = (
 ) => {
     return (
         <Pagination
-            count={parseInt((count / 200).toString())}
+            count={parseInt((count / 200).toString()) + (count % 200 === 0 || count < 200 ? 0 : 1)}
             size="large"
             color="primary"
             onChange={(_e, value) => {
-                dispatch({ pageNumber: value, type: 'updatePageNumber' })
-                tripStatusFilter({ ...oldFilterData, pageNumber: value }).then(
-                    (data: overallTripsProps) => {
-                        setOverallTrips(data.filterData)
-                        setCount(data.count)
-                    }
-                )
+                if (value !== oldFilterData?.pageNumber) {
+                    dispatch({ pageNumber: value, type: 'updatePageNumber' })
+                    tripStatusFilter({ ...oldFilterData, pageNumber: value }).then(
+                        (data: overallTripsProps) => {
+                            setOverallTrips(data.filterData)
+                            setCount(data.count)
+                        }
+                    )
+                }
             }}
         />
     )
 }
 
-function loadingToStock(row: Props) {
+const loadingToStock = (row: Props) => {
     if (
         row.loadingPointToUnloadingPointTrip !== null &&
         row.loadingPointToStockPointTrip !== undefined
@@ -409,3 +316,28 @@ function loadingToStock(row: Props) {
         }
     } else return row.loadingPointToStockPointTrip
 }
+
+const ListAllDetails: React.FC<listoverallTripProps> = ({
+    setOverallTrips,
+    overallTrips,
+    count,
+    setCount
+}) => {
+    const authoriser = CheckUser()
+    const { dispatch } = useContext(dispatchData)
+    if (overallTrips && overallTrips.length === 0) return
+    return (
+        <>
+            {generateCSVbutton(overallTrips, authoriser.adminAccess)}
+            <DataGridTable overallTrips={overallTrips} authoriser={authoriser.adminAccess} />
+            <StackPage
+                dispatch={dispatch}
+                setOverallTrips={setOverallTrips}
+                count={count}
+                setCount={setCount}
+            />
+        </>
+    )
+}
+
+export default ListAllDetails

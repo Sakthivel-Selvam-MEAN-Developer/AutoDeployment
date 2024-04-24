@@ -13,7 +13,7 @@ const Fuel: React.FC = (): ReactElement => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [quantity, setQuantity] = useState<number>(0)
     const [pricePerliter, setPricePerliter] = useState<number>(0)
-    const [disable,setDisable] = useState(false)
+    const [disable, setDisable] = useState(false)
     useEffect(() => {
         setTotalPrice(quantity * pricePerliter)
     }, [quantity, pricePerliter])
@@ -60,7 +60,7 @@ const Fuel: React.FC = (): ReactElement => {
                     setPricePerliter={setPricePerliter}
                     setQuantity={setQuantity}
                 />
-                <SubmitButton name="Add Fuel" type="submit" disabled={disable}/>
+                <SubmitButton name="Add Fuel" type="submit" disabled={disable} />
             </form>
             <SuccessDialog
                 open={openSuccessDialog}

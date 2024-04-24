@@ -51,7 +51,7 @@ const NewTrip: React.FC = () => {
     const [listTruck, setListTruck] = useState([])
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [fuelDetails, setFuelDetails] = useState<FuelProps | null>(null)
-    const [disable,setDisable] = useState(false)
+    const [disable, setDisable] = useState(false)
 
     useEffect(() => {
         setTotalFreightAmount(freightAmount * (filledLoad !== null ? filledLoad : 0))
@@ -86,7 +86,6 @@ const NewTrip: React.FC = () => {
                 driverId
             }
             if (category === 'Stock Point')
-                
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then((trip) => {
                         console.log(trip)
@@ -194,7 +193,7 @@ const NewTrip: React.FC = () => {
                 filledLoad={filledLoad}
                 setFilledLoad={setFilledLoad}
             />
-            <SubmitButton name="Start" type="submit" disabled={disable}/>
+            <SubmitButton name="Start" type="submit" disabled={disable} />
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={() => setOpenSuccessDialog(false)}

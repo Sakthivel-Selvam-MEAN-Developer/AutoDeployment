@@ -582,7 +582,7 @@ model driver {
   bankName           String
   accountNumber      String             @unique
   accountBranch      String
-  ifcsCode           String             
+  ifscCode           String             
   createdAt          DateTime           @default(now()) @db.Timestamptz(6)
   updatedAt          DateTime           @updatedAt @db.Timestamptz(6)
   driverTrip         driverTrip[]

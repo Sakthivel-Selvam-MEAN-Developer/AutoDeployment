@@ -12,5 +12,5 @@ export default {
     bankName: 'newBank',
     accountNumber: '23456789876',
     accountBranch: 'newBrach',
-    ifcsCode: 'ifcs45678'
+    ifscCode: 'ifcs45678'
 }

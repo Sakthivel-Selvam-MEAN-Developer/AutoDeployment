@@ -20,7 +20,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [category, setCategory] = useState<string>('')
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterPercentage, setTransporterPercentage] = useState(0)
-    const [disable,setDisable] = useState(false)
+    const [disable, setDisable] = useState(false)
 
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
@@ -48,39 +48,42 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 transporterAmount: parseFloat(transporterAmountFloat)
             }
             if (category === 'Loading - Unloading')
-                createpricePoint({ ...details, stockPointId: null }).then(() => {
-                    setDisable(false)
-                    clearForm(
-                        setCategory,
-                        setCementCompanyName,
-                        setDueDate,
-                        setTransporterPercentage,
-                        setOpenSuccessDialog
-                    )
-                })
-                .catch(() => setDisable(false))
+                createpricePoint({ ...details, stockPointId: null })
+                    .then(() => {
+                        setDisable(false)
+                        clearForm(
+                            setCategory,
+                            setCementCompanyName,
+                            setDueDate,
+                            setTransporterPercentage,
+                            setOpenSuccessDialog
+                        )
+                    })
+                    .catch(() => setDisable(false))
             else if (category === 'Loading - Stock')
-                createpricePoint({ ...details, unloadingPointId: null }).then(() => {
-                    setDisable(false)
-                    clearForm(
-                        setCategory,
-                        setCementCompanyName,
-                        setDueDate,
-                        setTransporterPercentage,
-                        setOpenSuccessDialog
-                    )
-                })
-                .catch(() => setDisable(false))
+                createpricePoint({ ...details, unloadingPointId: null })
+                    .then(() => {
+                        setDisable(false)
+                        clearForm(
+                            setCategory,
+                            setCementCompanyName,
+                            setDueDate,
+                            setTransporterPercentage,
+                            setOpenSuccessDialog
+                        )
+                    })
+                    .catch(() => setDisable(false))
             else if (category === 'Stock - Unloading')
-                createpricePoint({ ...details, loadingPointId: null }).then(() => {
-                    setDisable(false)
-                    clearForm(
-                        setCategory,
-                        setCementCompanyName,
-                        setDueDate,
-                        setTransporterPercentage,
-                        setOpenSuccessDialog
-                    )
+                createpricePoint({ ...details, loadingPointId: null })
+                    .then(() => {
+                        setDisable(false)
+                        clearForm(
+                            setCategory,
+                            setCementCompanyName,
+                            setDueDate,
+                            setTransporterPercentage,
+                            setOpenSuccessDialog
+                        )
                     })
                     .catch(() => setDisable(false))
             else setDisable(false)
@@ -110,7 +113,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     setDueDate={setDueDate}
                     dueDate={dueDate}
                 />
-                <SubmitButton name="Create / Update" type="submit" disabled={disable}/>
+                <SubmitButton name="Create / Update" type="submit" disabled={disable} />
                 <SuccessDialog
                     open={openSuccessDialog}
                     handleClose={() => setOpenSuccessDialog(false)}

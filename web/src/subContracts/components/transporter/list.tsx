@@ -18,7 +18,7 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const [accountTypes, setAccountTypes] = useState([])
     const [accountTypeNumber, setAccountTypeNumber] = useState<number | undefined>(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const [disable,setDisable] = useState(false)
+    const [disable, setDisable] = useState(false)
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setLoading(true)
@@ -78,7 +78,7 @@ const CreateTransporter: React.FC = (): ReactElement => {
                         <CircularProgress />
                     </Box>
                 ) : (
-                    <SubmitButton name="Create" type="submit" disabled={disable}/>
+                    <SubmitButton name="Create" type="submit" disabled={disable} />
                 )}
             </form>
             <br />

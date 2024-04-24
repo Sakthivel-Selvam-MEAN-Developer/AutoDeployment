@@ -21,6 +21,7 @@ export const FactoryField: FC<FactoryFieldProps> = ({ control, cementCompanyName
             onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                 const { id } = loadingPointList.find(({ name }) => name === newValue) || { id: 0 }
                 dispatch({ loadinPointId: id, type: 'updateLoadinPointId' })
+                dispatch({ pageNumber: 1, type: 'updatePageNumber' })
             }}
         />
     )
@@ -43,6 +44,7 @@ export const TransporterField: FC<TransporterFieldProps> = ({ control, dispatch 
             onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                 const { id } = transporter.find(({ name }) => name === newValue) || { id: 0 }
                 dispatch({ transporterId: id, type: 'updateTransporterId' })
+                dispatch({ pageNumber: 1, type: 'updatePageNumber' })
             }}
         />
     )

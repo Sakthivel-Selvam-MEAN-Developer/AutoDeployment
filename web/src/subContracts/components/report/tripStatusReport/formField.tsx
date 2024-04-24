@@ -24,7 +24,10 @@ const TripFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
                 options={cementCompany ? cementCompany.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
                     const { id } = cementCompany.find(({ name }) => name === newValue) || { id: 0 }
-                    dispatch({ cementCompanyId: id, type: 'updateCementComapnyId' })
+                    dispatch(
+                        { cementCompanyId: id, type: 'updateCementComapnyId' },
+                        { pageNumber: 1, type: 'updatePageNumber' }
+                    )
                     setCementCompanyName(newValue)
                 }}
             />
