@@ -4,7 +4,7 @@ const gstDueLogic = async (
     gstPercentage: number,
     transporterAmount: number,
     transporterName: string,
-    vehicleNumber: string | undefined,
+    vehicleNumber: string,
     overallTripId: number
 ) => {
     const amount = parseFloat(((gstPercentage / 100) * transporterAmount).toFixed(2))

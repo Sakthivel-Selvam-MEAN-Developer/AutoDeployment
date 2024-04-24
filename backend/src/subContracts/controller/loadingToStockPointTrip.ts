@@ -44,11 +44,11 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
                                 id: paymentDetails?.id,
                                 overallTripId: id
                             })
-                            if (req.body.totalTransporterAmount !== 0) await createPaymentDues(data)
+                            if (req.body.totalTransporterAmount !== 0 && data !== undefined) await createPaymentDues(data)
                         }
                     )
                 } else if (req.body.wantFuel !== true && fuelDetails === null) {
-                    if (req.body.totalTransporterAmount !== 0) await createPaymentDues(data)
+                    if (req.body.totalTransporterAmount !== 0 && data !== undefined) await createPaymentDues(data)
                 }
             })
             .then(() => res.status(200).json({ id }))
