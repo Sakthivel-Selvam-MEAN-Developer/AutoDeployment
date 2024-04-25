@@ -68,14 +68,24 @@ const GstPay = (
             {gstNEFTDetails.map((neft) => (
                 <TableRow key={neft.id}>
                     <div style={{ display: 'none' }}>{(amount += neft.payableAmount)}</div>
-                    <TableCell align="center">{neft.transporterName}</TableCell>
-                    <TableCell align="center">{neft.vehicleNumber}</TableCell>
-                    <TableCell align="center">{neft.type}</TableCell>
-                    <TableCell align="center">
-                        <b>{neft.payableAmount.toFixed(2)}</b>
-                    </TableCell>
+                    <TableCells neft={neft} />
                 </TableRow>
             ))}
+        </>
+    )
+}
+interface tableCellProps {
+    neft: gstNEFTDetailsProps
+}
+const TableCells: FC<tableCellProps> = ({ neft }) => {
+    return (
+        <>
+            <TableCell align="center">{neft.transporterName}</TableCell>
+            <TableCell align="center">{neft.vehicleNumber}</TableCell>
+            <TableCell align="center">{neft.type}</TableCell>
+            <TableCell align="center">
+                <b>{neft.payableAmount.toFixed(2)}</b>
+            </TableCell>
         </>
     )
 }

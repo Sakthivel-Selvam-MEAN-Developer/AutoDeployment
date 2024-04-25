@@ -1,28 +1,47 @@
 import { Button } from '@mui/material'
 import { FC } from 'react'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import DateInput from '../../../form/DateInput.tsx'
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 interface PaymentDueFieldProps {
-    setPaymentDueDate: React.Dispatch<React.SetStateAction<number>>
+    setPaymentDueDate: React.Dispatch<React.SetStateAction<string | null>>
+    paymentDueDate: string | null
 }
-export const PaymentDueDateFilter: FC<PaymentDueFieldProps> = ({ setPaymentDueDate }) => {
-    const { handleSubmit, control, setValue } = useForm<FieldValues>()
-    const onSubmit: SubmitHandler<FieldValues> = (data) =>
-        setPaymentDueDate(data.paymentDate.unix())
+export const PaymentDueDateFilter: FC<PaymentDueFieldProps> = ({
+    setPaymentDueDate,
+    paymentDueDate
+}) => {
+    const { handleSubmit, control } = useForm<FieldValues>()
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data.paymentDate)
+        setPaymentDueDate(data.paymentDate)
+    }
     return (
         <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 style={{ display: 'grid', alignItems: 'center', marginBottom: '20px' }}
             >
-                <DateInput
-                    control={control}
-                    format="DD/MM/YYYY"
-                    fieldName="paymentDate"
-                    label="Select Payment Date"
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
+                    <Controller
+                        render={({ field }) => (
+                            <DatePicker
+                                {...field}
+                                label="Select Payment Date"
+                                value={paymentDueDate}
+                            />
+                        )}
+                        name="paymentDate"
+                        control={control}
+                    />
+                </LocalizationProvider>
                 <br />
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button
@@ -36,8 +55,7 @@ export const PaymentDueDateFilter: FC<PaymentDueFieldProps> = ({ setPaymentDueDa
                     <Button
                         variant="contained"
                         onClick={() => {
-                            setValue('paymentDate', null),
-                                setPaymentDueDate(dayjs().startOf('day').unix())
+                            setPaymentDueDate(null)
                         }}
                         sx={{ marginLeft: '10px' }}
                     >

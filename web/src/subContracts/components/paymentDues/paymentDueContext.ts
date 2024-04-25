@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
 import { createContext } from 'react'
-
-export const paymentDueContext = createContext(dayjs().startOf('day').unix())
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
+export const paymentDueContext = createContext(dayjs.utc().startOf('day').unix())

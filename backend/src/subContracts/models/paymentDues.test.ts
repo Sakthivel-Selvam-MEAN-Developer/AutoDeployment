@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import {
     create,
     findTripWithActiveDues,
@@ -33,7 +34,8 @@ import { create as createLoadingToStockTrip } from './loadingToStockPointTrip.ts
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
 
-const dueDate = dayjs().startOf('day').unix()
+dayjs.extend(utc)
+const dueDate = dayjs.utc().startOf('day').unix()
 describe('Payment-Due model', () => {
     test('should able to create', async () => {
         await create(seedPaymentDue)

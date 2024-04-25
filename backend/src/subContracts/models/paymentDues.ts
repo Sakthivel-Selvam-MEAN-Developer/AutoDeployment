@@ -1,7 +1,9 @@
 import dayjs from 'dayjs'
 import { Prisma } from '@prisma/client'
+import utc from 'dayjs/plugin/utc'
 import prisma from '../../../prisma/index.ts'
 
+dayjs.extend(utc)
 export const create = (
     data: Prisma.paymentDuesCreateManyInput | Prisma.paymentDuesCreateManyInput[]
 ) => prisma.paymentDues.createMany({ data })
@@ -32,7 +34,7 @@ export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: 
         _count: { status: true },
         _sum: { payableAmount: true }
     }
-    if (dueDate !== dayjs().startOf('day').unix()) {
+    if (dueDate !== dayjs.utc().startOf('day').unix()) {
         query.where.dueDate = { equals: dueDate }
     } else {
         query.where.dueDate = { lte: dueDate }
@@ -80,7 +82,7 @@ export const findTripWithActiveDues = (dueDate: number, status: boolean, type: s
             fuelId: true
         }
     }
-    if (dueDate !== dayjs().startOf('day').unix()) {
+    if (dueDate !== dayjs.utc().startOf('day').unix()) {
         query.where.dueDate = { equals: dueDate }
     } else {
         query.where.dueDate = { lte: dueDate }

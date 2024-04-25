@@ -1,5 +1,5 @@
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import CompletedPaymentForm from './completedPaymentForm'
 import { getCompletedDues } from '../../../services/paymentDues'
 import CompletedPaymentTable from './completedPaymentTable'
@@ -27,7 +27,6 @@ const CompletedPayment: React.FC = () => {
     const [from, setFrom] = useState(0)
     const [to, setTo] = useState(0)
     const [message, setMessage] = useState<string>('Please Select Any One...')
-
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setPage(1)
         const from = data.from !== undefined ? data.from.unix() : 0
@@ -76,18 +75,26 @@ const CompletedPayment: React.FC = () => {
                 <p style={{ marginTop: '30px', textAlign: 'center' }}>{message}</p>
             )}
             <div style={{ ...style, position: 'sticky' }}>
-                <Stack spacing={10}>
-                    <Pagination
-                        count={100}
-                        size="large"
-                        color="primary"
-                        onChange={(_e, value) => {
-                            setPage(value)
-                        }}
-                    />
-                </Stack>
+                <StackPage setPage={setPage} />
             </div>
         </form>
     )
 }
 export default CompletedPayment
+interface stackProps {
+    setPage: React.Dispatch<React.SetStateAction<number>>
+}
+const StackPage: FC<stackProps> = ({ setPage }) => {
+    return (
+        <Stack spacing={10}>
+            <Pagination
+                count={100}
+                size="large"
+                color="primary"
+                onChange={(_e, value) => {
+                    setPage(value)
+                }}
+            />
+        </Stack>
+    )
+}

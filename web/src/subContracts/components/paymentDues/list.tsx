@@ -1,5 +1,5 @@
 import { Box, Button, Tab, Tabs, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import GenerateForm from './generateForm'
 import PaymentDues from './paymentDues'
 import { exportFile } from './NEFTForm/exportFile.ts'
@@ -68,7 +68,10 @@ const PaymentDuesList: React.FC = () => {
     const [paymentDueId, setPaymentDueId] = useState<number[]>([])
     const [activate, setActivate] = useState<boolean>(false)
     const [type, setType] = useState<string>('')
-    const [paymentDueDate, setPaymentDueDate] = useState(dayjs().startOf('day').unix())
+    const [paymentDueDate, setPaymentDueDate] = useState<string | null>(null)
+    const [paymentDueDateEpoch, setPaymentDueDateEpoch] = useState<number>(
+        dayjs.utc().startOf('day').unix()
+    )
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => setValue(newValue)
     const handleInitialPay = (_event: React.SyntheticEvent, newValue: number) =>
         setInitialDue(newValue)
@@ -98,10 +101,22 @@ const PaymentDuesList: React.FC = () => {
         setType(type)
         setActivate(true)
     }
+    useEffect(() => {
+        console.log(paymentDueDate)
+        if (paymentDueDate !== null) {
+            const startOfDayGMT = dayjs(paymentDueDate).utcOffset(0).startOf('day')
+            setPaymentDueDateEpoch(startOfDayGMT.unix())
+        } else if (paymentDueDate === null) {
+            setPaymentDueDateEpoch(dayjs.utc().startOf('day').unix())
+        }
+    }, [paymentDueDate])
     return (
         <>
-            <paymentDueContext.Provider value={paymentDueDate}>
-                <PaymentDueDateFilter setPaymentDueDate={setPaymentDueDate} />
+            <paymentDueContext.Provider value={paymentDueDateEpoch}>
+                <PaymentDueDateFilter
+                    setPaymentDueDate={setPaymentDueDate}
+                    paymentDueDate={paymentDueDate}
+                />
                 <Box sx={{ width: '100%', bgcolor: '#00000017', borderRadius: '10px 10px 0 0' }}>
                     <Tabs
                         value={value}

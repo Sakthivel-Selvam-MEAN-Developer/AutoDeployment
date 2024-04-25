@@ -36,12 +36,12 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
     const [transporterDue, setTransporterDue] = useState([])
     const [refresh, setRefresh] = useState<boolean>(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const paymentDueDate = useContext(paymentDueContext)
+    const paymentDueDateEpoch = useContext(paymentDueContext)
     const style = { width: '100%', padding: '10px 10px 0px' }
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey', alignItems: 'center' }
     useEffect(() => {
-        getOnlyActiveDues(paymentDueDate, true, type).then(setTransporterDue)
-    }, [refresh, type, paymentDueDate])
+        getOnlyActiveDues(paymentDueDateEpoch, true, type).then(setTransporterDue)
+    }, [refresh, type, paymentDueDateEpoch])
     return (
         <>
             {transporterDue.length !== 0 ? (
