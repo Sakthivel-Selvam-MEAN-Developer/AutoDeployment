@@ -1,9 +1,42 @@
+- date: 24-04-2024
+  person: Barath,Sakthivel
+  project: subContract
+  planning:
+    - should debug production test error
+    - should test every code developed from cards in trello
+    - should depoly
+  completed:
+    - debugged production test error
+    - tested every code developed from cards in trello
+    - rewritten codes with logic error in paymentDues and trip Status report 
+    - depolyed
+
+- date: 23-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should create model to Filter by date in payment dues
+    - should refactor code in payment dues
+  completed:
+    - created model to Filter by date in payment dues
+    - refactored code in payment dues
+- date: 23-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should add filter in trip status report
+  completed:
+    - added filter in trip status report
+
 - date: 22-04-2024
   person: Barath
   project: subContract
   planning:
-    - should add Filter by date in payment dues
+    - should create date field to Filter payment dues by DueDate
     - should check problem in trip (existing fuel did not show)
+  completed:
+    - created date to Filter by payment dues
+    - fixed problem in trip (existing fuel did not show)
 - date: 22-04-2024
   person: Sakthivel
   project: subContract
