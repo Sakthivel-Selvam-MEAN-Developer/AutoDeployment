@@ -81,7 +81,6 @@ function getTableHead() {
     return <TableHead>{tableRow}</TableHead>
 }
 const getCells = (data: Row, num: number, unloadDate: number) => {
-    console.log(data)
     return (
         <>
             <TableCell> {num} </TableCell>

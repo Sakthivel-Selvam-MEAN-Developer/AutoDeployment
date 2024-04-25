@@ -409,7 +409,7 @@ export const getTripByUnloadDate = (date: number) =>
     prisma.overallTrip.findMany({
         where: {
             acknowledgementStatus: false,
-            shortageQuantity: { some: { unloadedDate: { gte: date } } }
+            shortageQuantity: { some: { unloadedDate: { lte: date } } }
         },
         include: {
             shortageQuantity: true,

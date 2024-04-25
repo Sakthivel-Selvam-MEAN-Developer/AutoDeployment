@@ -22,14 +22,8 @@ const ListAllAcknowledgementDues: React.FC = (): ReactElement => {
         setTripWithPagination(Trip)
     }, [skipNumber, acknowledgementList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        const date = new Date()
-        date.setHours(0)
-        date.setMinutes(0)
-        date.setSeconds(0)
-        date.setMilliseconds(0)
-        const a = date.setDate(date.getDate() - parseInt(data.agingDate))
-        data.agingDate &&
-            getTripByUnloadDate(parseInt(String(a).slice(0, 10))).then(setAcknowledgementList)
+        const days = data.agingDate !== undefined ? data.agingDate : 0
+        getTripByUnloadDate(days).then(setAcknowledgementList)
         setShowDetails(true)
     }
     return (

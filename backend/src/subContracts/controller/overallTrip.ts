@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import dayjs from 'dayjs'
 import {
     getAllDiscrepancyReport,
     getOverallTrip,
@@ -47,7 +48,8 @@ export const listTripDetailsByCompanyName = (req: Request, res: Response) => {
         .catch(() => res.status(500))
 }
 export const listTripDetailsByUnloadDate = (req: Request, res: Response) => {
-    getTripByUnloadDate(parseInt(req.params.date))
+    const date = dayjs().subtract(parseInt(req.params.date), 'days').startOf('day').unix()
+    getTripByUnloadDate(date)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

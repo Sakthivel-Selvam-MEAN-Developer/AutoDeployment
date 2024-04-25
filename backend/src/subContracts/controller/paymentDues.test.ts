@@ -92,7 +92,8 @@ const mockTripDuesData = [
         fuelId: null,
         name: 'Barath Logistics Pvt Ltd',
         status: false,
-        vehicleNumber: 'TN93D5512'
+        vehicleNumber: 'TN93D5512',
+        dueDate: 1700764200
     },
     {
         id: 3,
@@ -102,7 +103,8 @@ const mockTripDuesData = [
         fuelId: 1,
         name: 'Barath Petroleum',
         status: false,
-        vehicleNumber: 'TN29B3246'
+        vehicleNumber: 'TN29B3246',
+        dueDate: 1700764200
     },
     {
         id: 4,
@@ -112,7 +114,8 @@ const mockTripDuesData = [
         fuelId: null,
         name: 'Deepak Logistics Pvt Ltd',
         status: false,
-        vehicleNumber: 'TN29B3246'
+        vehicleNumber: 'TN29B3246',
+        dueDate: 1700764200
     }
 ]
 const mockOverallTripData = [
@@ -204,7 +207,8 @@ const mockGroupedDueDetails = [
                 invoiceNumber: 'FDGT',
                 date: 1706339785,
                 fuelId: undefined,
-                location: undefined
+                location: undefined,
+                dueDate: 1700764200
             }
         ]
     },
@@ -235,6 +239,7 @@ const mockGroupedDueDetails = [
                 invoiceNumber: 'FDGT',
                 date: 1706339785,
                 fuelId: 1,
+                dueDate: 1700764200,
                 location: 'Erode'
             }
         ]
@@ -262,6 +267,7 @@ const mockGroupedDueDetails = [
                 unloadingPoint: 'Salem',
                 invoiceNumber: 'ABC123',
                 date: 1700764200,
+                dueDate: 1700764200,
                 fuelId: undefined,
                 location: undefined
             }
@@ -369,7 +375,8 @@ const mockGstPaymentDues = [
         name: 'Dalmia Cements',
         vehicleNumber: 'KR10S1290',
         status: false,
-        fuelId: null
+        fuelId: null,
+        dueDate: 1706339785
     }
 ]
 
@@ -427,6 +434,7 @@ const mockCompletedPaymentDuesData = [
         transactionId: '123ABC',
         type: 'fuel pay',
         payableAmount: 12000,
+        dueDate: 1700764200,
         overallTrip: {
             loadingPointToStockPointTrip: {
                 truck: {
