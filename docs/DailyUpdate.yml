@@ -1,3 +1,22 @@
+- date: 25-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should include due date in payment dues
+    - should include transporter name, csm name, vehicle number, loading and unloading point in every report
+    - should change acknowledgement aging report logic and change to backend
+  completed:
+    - included due date in payment dues
+    - included transporter name, csm name, vehicle number, loading and unloading point in every report
+    - changed acknowledgement aging report logic and change to backend
+- date: 25-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should change ISO time to GMT time in payment dues
+  completed:
+    - changed ISO time to GMT time in payment dues
+
 - date: 24-04-2024
   person: Barath,Sakthivel
   project: subContract
