@@ -70,6 +70,14 @@ const mockOverallTripData = [
                     name: 'UltraTech Cements'
                 }
             },
+            unloadingPoint: {
+                id: 1,
+                name: 'Salem',
+                cementCompanyId: 1,
+                cementCompany: {
+                    name: 'UltraTech Cements'
+                }
+            },
             truck: {
                 vehicleNumber: 'TN93D5512',
                 transporterId: 1,

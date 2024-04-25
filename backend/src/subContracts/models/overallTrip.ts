@@ -414,10 +414,18 @@ export const getTripByUnloadDate = (date: number) =>
         include: {
             shortageQuantity: true,
             loadingPointToUnloadingPointTrip: {
-                include: { truck: { include: { transporter: true } } }
+                include: {
+                    loadingPoint: true,
+                    unloadingPoint: true,
+                    truck: { include: { transporter: true } }
+                }
             },
             loadingPointToStockPointTrip: {
-                include: { truck: { include: { transporter: true } } }
+                include: {
+                    stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
+                    loadingPoint: true,
+                    truck: { include: { transporter: true } }
+                }
             }
         }
     })
@@ -438,12 +446,19 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
         },
         include: {
             paymentDues: true,
-            stockPointToUnloadingPointTrip: true,
+            stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
             loadingPointToUnloadingPointTrip: {
-                include: { truck: { include: { transporter: true } } }
+                include: {
+                    loadingPoint: true,
+                    unloadingPoint: true,
+                    truck: { include: { transporter: true } }
+                }
             },
             loadingPointToStockPointTrip: {
-                include: { truck: { include: { transporter: true } } }
+                include: {
+                    loadingPoint: true,
+                    truck: { include: { transporter: true } }
+                }
             },
             shortageQuantity: true
         }

@@ -51,6 +51,7 @@ interface gstDuesProps {
     name: string
     status: boolean
     vehicleNumber: string
+    dueDate: number
     fuelId: number | null
 }
 export const createPaymentDues = (req: Request, res: Response) => {
@@ -126,6 +127,7 @@ interface matchingTripProps {
     vehicleNumber: string
     overallTripId: number | null
     payableAmount: number
+    dueDate: number
 }
 
 function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: fuelprops[]) {
@@ -149,7 +151,8 @@ function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: f
         location: obj?.location,
         loadingPoint: matchingTrip.type !== 'fuel pay' ? tripType.loadingPoint.name : undefined,
         unloadingPoint: getStockLocation(matchingTrip.type, tripType),
-        fuelId: obj?.id
+        fuelId: obj?.id,
+        dueDate: matchingTrip.dueDate
     }
     return details
 }

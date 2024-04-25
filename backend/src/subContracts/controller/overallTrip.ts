@@ -121,6 +121,14 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                 }
                 const details = {
                     startDate: tripType?.startDate,
+                    loadingPoint: tripType?.loadingPoint.name,
+                    unloadingPoint:
+                        // @ts-expect-error unloading missing
+                        tripType?.unloadingPoint === undefined &&
+                        overallTrip.stockPointToUnloadingPointTrip !== null
+                            ? overallTrip.stockPointToUnloadingPointTrip.unloadingPoint.name
+                            : // @ts-expect-error unloading missing
+                              tripType?.unloadingPoint.name,
                     vehicleNumber: tripType?.truck.vehicleNumber,
                     invoiceNumber: tripType?.invoiceNumber,
                     transporterName: tripType?.truck.transporter.name,

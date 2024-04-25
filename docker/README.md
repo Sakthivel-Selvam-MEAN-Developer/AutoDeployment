@@ -13,7 +13,7 @@ docker-compose up
 ## connect to db
 docker-compose exec db psql
 ## connect to db from local
-psql -h 127.0.0.1 -U postgres -p 15432
+psql -h 127.0.0.1 -U postgres -p 15432 -d wonderwhy
 ## chumma
 ```
 

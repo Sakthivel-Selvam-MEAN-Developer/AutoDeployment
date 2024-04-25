@@ -8,7 +8,11 @@ import Paper from '@mui/material/Paper'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-
+interface unloadingProps {
+    unloadingPoint: {
+        name: string
+    }
+}
 interface Row {
     freightAmount: number
     transporterAmount: number
@@ -24,6 +28,7 @@ interface Row {
             csmName: string
         }
     }
+    stockPointToUnloadingPointTrip: unloadingProps[]
     endDate: number
     invoiceNumber: string
     loadingPoint: {
@@ -51,6 +56,9 @@ interface listoverallTripProps {
 
 const cellNames = [
     'Vehicle Number',
+    'Start Date',
+    'Loading Point',
+    'Unloading Point',
     'Unloading Date',
     'Invoice Number',
     'Transporter Name',
@@ -73,10 +81,18 @@ function getTableHead() {
     return <TableHead>{tableRow}</TableHead>
 }
 const getCells = (data: Row, num: number, unloadDate: number) => {
+    console.log(data)
     return (
         <>
             <TableCell> {num} </TableCell>
             <TableCell align="left">{data.truck.vehicleNumber}</TableCell>
+            <TableCell align="left">{epochToMinimalDate(data.startDate)}</TableCell>
+            <TableCell align="left">{data.loadingPoint.name}</TableCell>
+            <TableCell align="left">
+                {data?.unloadingPoint !== undefined
+                    ? data?.unloadingPoint.name
+                    : data?.stockPointToUnloadingPointTrip[0].unloadingPoint.name}
+            </TableCell>
             <TableCell align="left">{epochToMinimalDate(unloadDate)}</TableCell>
             <TableCell align="left">{data.invoiceNumber}</TableCell>
             <TableCell align="left">{data.truck.transporter.name}</TableCell>

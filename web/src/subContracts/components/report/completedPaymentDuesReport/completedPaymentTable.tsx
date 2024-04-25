@@ -10,6 +10,7 @@ interface Props {
     completedPayments: completedPaymentsProps[]
 }
 interface completedPaymentsProps {
+    vehicleNumber: string
     name: string
     dueDate: number
     paidAt: number
@@ -26,6 +27,7 @@ interface completedPaymentsProps {
     }
 }
 const cellData = [
+    'Vehicle Number',
     'Transporter Name',
     'Payment Date',
     'Payment Type',
@@ -59,6 +61,7 @@ const getTableBody = (allTrips: completedPaymentsProps[]) => {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                         <TableCell> {index + 1} </TableCell>
+                        <TableCell align="left">{row.vehicleNumber}</TableCell>
                         <TableCell align="left">{row.name}</TableCell>
                         <TableCell align="left">{epochToMinimalDate(row.paidAt)}</TableCell>
                         <TableCell align="left">{row.type}</TableCell>

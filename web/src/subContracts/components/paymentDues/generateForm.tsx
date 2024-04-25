@@ -12,6 +12,7 @@ import { paymentDueContext } from './paymentDueContext'
 
 interface tripProp {
     id: number
+    dueDate: number
     number: string
     loadingPoint: string
     unloadingPoint: string
@@ -133,6 +134,9 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                             <Typography sx={style}>{list.type} </Typography>
                                             <Typography sx={style}>{list.payableAmount}</Typography>
                                             <Typography sx={style}>{list.invoiceNumber}</Typography>
+                                            <Typography sx={style}>
+                                                {epochToMinimalDate(list.dueDate)}
+                                            </Typography>
                                             <Typography sx={style}>
                                                 {epochToMinimalDate(list.date)}
                                             </Typography>

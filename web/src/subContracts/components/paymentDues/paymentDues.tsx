@@ -12,6 +12,7 @@ import { paymentDueContext } from './paymentDueContext'
 
 interface tripProp {
     fuelId: number
+    dueDate: number
     id: number
     number: string
     loadingPoint: string
@@ -82,6 +83,9 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                                             <Typography sx={style}>{list.type} </Typography>
                                             <Typography sx={style}>{list.payableAmount}</Typography>
                                             <Typography sx={style}>{list.invoiceNumber}</Typography>
+                                            <Typography sx={style}>
+                                                {epochToMinimalDate(list.dueDate)}
+                                            </Typography>
                                             <Typography sx={style}>
                                                 {epochToMinimalDate(list.date)}
                                             </Typography>

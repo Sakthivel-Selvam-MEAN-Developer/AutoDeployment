@@ -61,6 +61,7 @@ interface findTripWithActiveDuesProps {
         status: boolean
         vehicleNumber: boolean
         fuelId: boolean
+        dueDate: boolean
     }
 }
 export const findTripWithActiveDues = (dueDate: number, status: boolean, type: string) => {
@@ -79,7 +80,8 @@ export const findTripWithActiveDues = (dueDate: number, status: boolean, type: s
             name: true,
             status: true,
             vehicleNumber: true,
-            fuelId: true
+            fuelId: true,
+            dueDate: true
         }
     }
     if (dueDate !== dayjs.utc().startOf('day').unix()) {
@@ -172,7 +174,8 @@ export const getGstPaymentDues = (name: string[], status: boolean) =>
             name: true,
             vehicleNumber: true,
             status: true,
-            fuelId: true
+            fuelId: true,
+            dueDate: true
         }
     })
 export const getUpcomingDuesByFilter = (name: string, from: number, to: number) =>
@@ -212,11 +215,15 @@ export const getUpcomingDuesByDefault = () =>
                 select: {
                     loadingPointToStockPointTrip: {
                         include: {
+                            loadingPoint: true,
+                            stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
                             truck: { include: { transporter: { select: { csmName: true } } } }
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
                         include: {
+                            loadingPoint: true,
+                            unloadingPoint: true,
                             truck: { include: { transporter: { select: { csmName: true } } } }
                         }
                     }
@@ -255,15 +262,22 @@ export const getCompletedDues = (name: string, from: number, to: number, page: n
             transactionId: true,
             type: true,
             payableAmount: true,
+            vehicleNumber: true,
             overallTrip: {
                 select: {
                     loadingPointToStockPointTrip: {
                         select: {
+                            loadingPoint: { select: { name: true } },
+                            stockPointToUnloadingPointTrip: {
+                                select: { unloadingPoint: { select: { name: true } } }
+                            },
                             truck: { select: { transporter: { select: { csmName: true } } } }
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
                         select: {
+                            loadingPoint: { select: { name: true } },
+                            unloadingPoint: { select: { name: true } },
                             truck: { select: { transporter: { select: { csmName: true } } } }
                         }
                     }

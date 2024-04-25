@@ -13,6 +13,8 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 
 interface Row {
     vehicleNumber: string
+    unloadingPoint: string
+    loadingPoint: string
     startDate: number
     invoiceNumber: string
     transporterName: string
@@ -31,6 +33,8 @@ const cellNames = [
     '#',
     'Vehicle Number',
     'Start Date',
+    'Loading Point',
+    'Unloading Point',
     'Invoice Number',
     'Transporter Name',
     'CSM Name',
@@ -56,6 +60,8 @@ const GetCells: FC<cellProps> = ({ tripData }) => {
         <>
             <TableCell align="left">{tripData.vehicleNumber}</TableCell>
             <TableCell align="left">{epochToMinimalDate(tripData.startDate)}</TableCell>
+            <TableCell align="left">{tripData.loadingPoint}</TableCell>
+            <TableCell align="left">{tripData.unloadingPoint}</TableCell>
             <TableCell align="left">{tripData.invoiceNumber}</TableCell>
             <TableCell align="left">{tripData.transporterName}</TableCell>
             <TableCell align="left">{tripData.csmName}</TableCell>

@@ -46,6 +46,13 @@ const mockStockTripData = [
                         name: 'UltraTech Cements'
                     }
                 },
+                stockPointToUnloadingPointTrip: [
+                    {
+                        unloadingPoint: {
+                            name: 'Salem'
+                        }
+                    }
+                ],
                 truck: {
                     vehicleNumber: 'TN93D5512',
                     transporter: {
@@ -121,6 +128,7 @@ describe('Report Test', () => {
         expect(screen.getByText('Amount')).toBeInTheDocument()
         expect(screen.getByText('CSM Name')).toBeInTheDocument()
 
+        expect(screen.getByText('Salem')).toBeInTheDocument()
         expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         expect(screen.getByText('20000')).toBeInTheDocument()
 

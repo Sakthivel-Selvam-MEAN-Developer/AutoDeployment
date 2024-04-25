@@ -11,35 +11,52 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { Dispatch, ReactElement } from 'react'
 import { SetStateAction } from 'jotai'
 
-interface Props {
+interface OverallProps {
     name: string
     dueDate: number
     payableAmount: number
     overallTrip: {
-        loadingPointToUnloadingPointTrip: {
-            truck: {
-                transporter: {
-                    csmName: string
-                }
-            }
-        }
-        loadingPointToStockPointTrip: {
-            truck: {
-                transporter: {
-                    csmName: string
-                }
-            }
+        loadingPointToUnloadingPointTrip: props
+        loadingPointToStockPointTrip: props
+    }
+}
+interface unloadingProps {
+    unloadingPoint: {
+        name: string
+    }
+}
+interface props {
+    startDate: number
+    invoiceNumber: string
+    truck: {
+        vehicleNumber: string
+        transporter: {
+            csmName: string
         }
     }
+    loadingPoint: {
+        name: string
+    }
+    stockPointToUnloadingPointTrip: unloadingProps[]
+    unloadingPoint:
+        | {
+              name: string
+          }
+        | undefined
 }
 
 interface listTransporterProps {
-    transporterDueData: Props[]
+    transporterDueData: OverallProps[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
 const tableCell = () => {
     return (
         <>
+            <TableCell align="left">Vehicle Number</TableCell>
+            <TableCell align="left">Start Date</TableCell>
+            <TableCell align="left">Invoice Number</TableCell>
+            <TableCell align="left">Loading Point</TableCell>
+            <TableCell align="left">Unloading Point</TableCell>
             <TableCell align="left">Transporter Name</TableCell>
             <TableCell align="left">CSM Name</TableCell>
             <TableCell align="left">Due Date</TableCell>
@@ -57,13 +74,20 @@ function getTableHead() {
         </TableHead>
     )
 }
-type cellType = (
-    data: Props,
-    trip: { truck: { transporter: { csmName: string } } } | null
-) => ReactElement
+
+type cellType = (data: OverallProps, trip: props | null) => ReactElement
 const getCells: cellType = (data, trip) => {
     return (
         <>
+            <TableCell align="left">{trip?.truck.vehicleNumber}</TableCell>
+            <TableCell align="left">{trip && epochToMinimalDate(trip?.startDate)}</TableCell>
+            <TableCell align="left">{trip?.invoiceNumber}</TableCell>
+            <TableCell align="left">{trip?.loadingPoint.name}</TableCell>
+            <TableCell align="left">
+                {trip?.unloadingPoint !== undefined
+                    ? trip?.unloadingPoint.name
+                    : trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name}
+            </TableCell>
             <TableCell align="left">{data.name}</TableCell>
             <TableCell align="left">{trip?.truck.transporter.csmName}</TableCell>
             <TableCell align="left">{epochToMinimalDate(data.dueDate)}</TableCell>
@@ -71,7 +95,7 @@ const getCells: cellType = (data, trip) => {
         </>
     )
 }
-const tableBodyCell = (row: Props, index: number, number: number) => {
+const tableBodyCell = (row: OverallProps, index: number, number: number) => {
     const style = { '&:last-child td, &:last-child th': { border: 0 } }
     return (
         <TableRow key={index} sx={style}>
@@ -80,25 +104,25 @@ const tableBodyCell = (row: Props, index: number, number: number) => {
         </TableRow>
     )
 }
-function getTableBody(allTrips: Props[]) {
+function getTableBody(allTrips: OverallProps[]) {
     const number = 0
     return <TableBody>{allTrips.map((row, index) => tableBodyCell(row, index, number))}</TableBody>
 }
 
-const getTripType = (row: Props) => {
+const getTripType = (row: OverallProps) => {
     return row.overallTrip.loadingPointToStockPointTrip !== null
         ? row.overallTrip.loadingPointToStockPointTrip
         : row.overallTrip.loadingPointToUnloadingPointTrip !== null
           ? row.overallTrip.loadingPointToUnloadingPointTrip
           : null
 }
-function download(listoverallTrip: Props[]) {
+function download(listoverallTrip: OverallProps[]) {
     const downloadtripData: object[] = []
-    listoverallTrip.map((row: Props) => {
+    listoverallTrip.map((row: OverallProps) => {
         downloadCSV(row, downloadtripData, listoverallTrip.length)
     })
 }
-const downloadCSV = (Dues: Props, downloadtripData: object[], num: number) => {
+const downloadCSV = (Dues: OverallProps, downloadtripData: object[], num: number) => {
     const data = { transporterName: Dues.name, dueDate: Dues.dueDate, amount: Dues.payableAmount }
     downloadtripData.push(data)
     if (downloadtripData.length === num) {
@@ -147,11 +171,11 @@ function pagination(setskipNumber: Dispatch<SetStateAction<number>>) {
     )
 }
 
-function tableContainer(transporterDueData: Props[]) {
+function tableContainer(transporterDueData: OverallProps[]) {
     return <TableContainer component={Paper}>{table(transporterDueData)}</TableContainer>
 }
 
-function table(transporterDueData: Props[]) {
+function table(transporterDueData: OverallProps[]) {
     return (
         <Table sx={{ minWidth: 600 }} aria-label="simple table">
             {getTableHead()}
@@ -160,7 +184,7 @@ function table(transporterDueData: Props[]) {
     )
 }
 
-function generateCSVButton(transporterDueData: Props[]) {
+function generateCSVButton(transporterDueData: OverallProps[]) {
     return (
         <div style={{ float: 'right', marginTop: '10px' }}>
             <Button onClick={() => download(transporterDueData)} variant="contained">
