@@ -28,5 +28,8 @@
     "sql": "docker compose exec db psql -U postgres -d wonderwhy",
     "terra": "docker compose run -it terra bash",
     "cert": "docker compose run --rm certbot certonly --manual --preferred-challenges -d 'auth.magnum.wondermove.in,magnum.wondermove.in'"
+  },
+  "dependencies": {
+    "husky": "^9.0.11"
   }
 }
