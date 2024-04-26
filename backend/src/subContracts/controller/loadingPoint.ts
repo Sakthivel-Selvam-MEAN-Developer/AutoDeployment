@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
 import { create, getAllLoadingPoint, getLoadingPointByCompany } from '../models/loadingPoint.ts'
 import { create as createPricePointMarker } from '../models/pricePointMarker.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createLoadingPoint = async (req: Request, res: Response) => {
     const { name, cementCompanyId, location } = req.body
     await createPricePointMarker({ location })
         .then((data) => create({ name, cementCompanyId, pricePointMarkerId: data.id }))
         .then(() => res.sendStatus(200))
-        .catch((error) => res.status(500).json(error))
+        .catch((error) => handlePrismaError(error, res))
 }
 
 export const listAllLoadingPoint = (_req: Request, res: Response) => {

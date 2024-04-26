@@ -16,6 +16,7 @@ import { getFuelDetailsWithoutTrip, updateFuelStatus } from '../models/fuel.ts'
 import { getTransporterAccountByName } from '../models/transporter.ts'
 import { getBunkAccountByName } from '../models/bunk.ts'
 import { overallTripByPendingPaymentDues } from '../models/overallTrip.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 interface transporterAccountProps {
     name: string
@@ -57,7 +58,7 @@ interface gstDuesProps {
 export const createPaymentDues = (req: Request, res: Response) => {
     create(req.body)
         .then(() => res.sendStatus(200))
-        .catch(() => res.status(500))
+        .catch((error) => handlePrismaError(error, res))
 }
 export interface fuelprops {
     id: number

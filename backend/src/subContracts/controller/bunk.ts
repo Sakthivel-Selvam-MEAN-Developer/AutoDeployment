@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import { create, getAllBunk, getAllBunkName } from '../models/bunk.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createBunk = (req: Request, res: Response) => {
     create(req.body)
         .then(() => res.sendStatus(200))
-        .catch(() => res.status(500))
+        .catch((error) => handlePrismaError(error, res))
 }
 
 export const listAllBunk = (_req: Request, res: Response) => {

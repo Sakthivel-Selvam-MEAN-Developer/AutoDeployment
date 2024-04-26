@@ -3,6 +3,7 @@ import { create, getAllFuel, getFuelWithoutTrip, updateFuelWithTripId } from '..
 import fuelLogics, { fuelDues } from '../domain/fuelLogics.ts'
 import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { getActiveTripByVehicle, getOnlyActiveTripByVehicle } from '../models/overallTrip.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export interface dataProps {
     id: number
@@ -38,9 +39,9 @@ export const createFuel = async (req: Request, res: Response) => {
 
         return createDues(fuel, trip, bunkname, vehicleNumber)
             .then(() => res.sendStatus(200))
-            .catch(() => res.sendStatus(500))
+            .catch((error) => handlePrismaError(error, res))
     } catch (error) {
-        res.status(500).json(error)
+        handlePrismaError(error, res)
     }
 }
 

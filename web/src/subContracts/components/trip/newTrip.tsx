@@ -109,7 +109,7 @@ const NewTrip: React.FC = () => {
                         )
                     )
                     .catch((error) => {
-                        alert(`Error in ${error.response.data.meta.target[0]}`)
+                        alert(error.response.data.error)
                         setDisable(false)
                     })
             else if (category === 'Unloading Point')
@@ -136,7 +136,7 @@ const NewTrip: React.FC = () => {
                         )
                     )
                     .catch((error) => {
-                        alert(`Error in ${error.response.data.meta.target[0]}`)
+                        alert(error.response.data.error)
                         setDisable(false)
                     })
             else setDisable(false)

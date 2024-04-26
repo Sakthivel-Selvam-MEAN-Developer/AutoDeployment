@@ -10,6 +10,7 @@ import {
 } from '../models/paymentDues.ts'
 import tripLogic from '../domain/tripLogics.ts'
 import { getCementCompanyByLocation } from '../models/loadingPoint.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createStockPointTrip = async (req: Request, res: Response) => {
     try {
@@ -56,9 +57,9 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
                 }
             })
             .then(() => res.status(200).json({ id }))
-            .catch(() => res.sendStatus(500))
+            .catch((error) => handlePrismaError(error, res))
     } catch (error) {
-        res.status(500).json(error)
+        handlePrismaError(error, res)
     }
 }
 export const listAllStockPointTrip = (_req: Request, res: Response) => {

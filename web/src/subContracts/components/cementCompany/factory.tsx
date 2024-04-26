@@ -49,8 +49,8 @@ const CreateFactory: React.FC = (): ReactElement => {
                         clearForm(reset, setValue, setLoading, setOpenSuccessDialog)
                         setDisable(false)
                     })
-                    .catch((e) => {
-                        alert(`${e.message}`)
+                    .catch((error) => {
+                        alert(error.response.data.error)
                         setLoading(false)
                         setDisable(false)
                     })
@@ -60,8 +60,8 @@ const CreateFactory: React.FC = (): ReactElement => {
                         clearForm(reset, setValue, setLoading, setOpenSuccessDialog)
                         setDisable(false)
                     })
-                    .catch((e) => {
-                        alert(`${e.message}`)
+                    .catch((error) => {
+                        alert(error.response.data.error)
                         setLoading(false)
                         setDisable(false)
                     })
@@ -71,8 +71,8 @@ const CreateFactory: React.FC = (): ReactElement => {
                         clearForm(reset, setValue, setLoading, setOpenSuccessDialog)
                         setDisable(false)
                     })
-                    .catch((e) => {
-                        alert(`${e.message}`)
+                    .catch((error) => {
+                        alert(error.response.data.error)
                         setLoading(false)
                         setDisable(false)
                     })

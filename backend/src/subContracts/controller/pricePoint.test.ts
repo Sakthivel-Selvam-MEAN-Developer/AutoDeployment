@@ -38,7 +38,9 @@ const mockReq = {
 
 const mockRes = {
     sendStatus: vi.fn(),
-    status: vi.fn()
+    status: () => ({
+        json: vi.fn()
+    })
 } as unknown as Response
 
 describe('PricePoint Controller', () => {

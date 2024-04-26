@@ -38,9 +38,9 @@ const CreateTransporter: React.FC = (): ReactElement => {
             })
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue, setAccountType, setGst, setTds))
-            .catch(() => {
-                alert('Error Creating Transporter')
+            .catch((error) => {
                 setDisable(false)
+                alert(error.response.data.error)
             })
             .then(() => setLoading(false))
             .then(() => clearForm(setValue, setAccountType, setGst, setTds))

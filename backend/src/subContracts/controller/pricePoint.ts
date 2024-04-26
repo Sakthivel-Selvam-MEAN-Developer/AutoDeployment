@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import { create, getAllPricePoint, getPricePoint } from '../models/pricePoint.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createPricePoint = (req: Request, res: Response) => {
     create(req.body)
         .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+        .catch((error) => handlePrismaError(error, res))
 }
 
 export const listPricePoint = (req: Request, res: Response) => {

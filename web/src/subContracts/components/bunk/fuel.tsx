@@ -43,7 +43,7 @@ const Fuel: React.FC = (): ReactElement => {
                     setDisable(false)
                 })
                 .catch((error) => {
-                    alert(`Error in ${error.response.data.meta.target[0]}`)
+                    alert(error.response.data.error)
                     setDisable(false)
                 })
         } else alert('All fields are Required')

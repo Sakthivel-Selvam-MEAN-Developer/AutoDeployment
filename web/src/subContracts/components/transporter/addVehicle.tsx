@@ -28,7 +28,7 @@ const AddVehicle: React.FC = () => {
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
             .catch((error) => {
-                alert(`Error in ${error.response.data.meta.target[0]}`)
+                alert(error.response.data.error)
                 setDisable(false)
             })
             .then(() => setLoading(false))

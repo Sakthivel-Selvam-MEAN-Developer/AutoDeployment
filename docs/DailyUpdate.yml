@@ -16,6 +16,11 @@
     - should change ISO time to GMT time in payment dues
   completed:
     - changed ISO time to GMT time in payment dues
+- date: 25-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - should debug error handling test error
 
 - date: 24-04-2024
   person: Barath,Sakthivel
@@ -29,6 +34,15 @@
     - tested every code developed from cards in trello
     - rewritten codes with logic error in paymentDues and trip Status report 
     - depolyed
+- date: 24-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - husky setup
+    - should explore Eslint and jest
+  completed:
+    - Error handling
+    - Explored Eslint and jest
 
 - date: 23-04-2024
   person: Barath
@@ -46,6 +60,11 @@
     - should add filter in trip status report
   completed:
     - added filter in trip status report
+- data: 23-04-2024
+  person: Sri Sneka, Ramya
+  project: subContract
+  planning: 
+    - Error handling
 
 - date: 22-04-2024
   person: Barath
@@ -91,7 +110,10 @@
   project: subContract
   planning: 
     - should disable the button when api request send and 
-      should enable the button if it catch error   
+      should enable the button if it catch error  
+  completed: 
+    - disabled the button when api request send and 
+      enabled the button if it catch error
 
 - date: 18-04-2024
   person: Barath

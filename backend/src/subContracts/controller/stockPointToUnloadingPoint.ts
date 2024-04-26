@@ -5,6 +5,7 @@ import {
     updateStockToUnloadingInOverall
 } from '../models/overallTrip.ts'
 import { closeStockTrip } from '../models/loadingToStockPointTrip.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createStockPointToUnloadingPointTrip = (req: Request, res: Response) => {
     create(req.body)
@@ -16,5 +17,5 @@ export const createStockPointToUnloadingPointTrip = (req: Request, res: Response
             await closeStockTrip(stockToUnloading.loadingPointToStockPointTripId)
         })
         .then(() => res.sendStatus(200))
-        .catch(() => res.status(500))
+        .catch((error) => handlePrismaError(error, res))
 }

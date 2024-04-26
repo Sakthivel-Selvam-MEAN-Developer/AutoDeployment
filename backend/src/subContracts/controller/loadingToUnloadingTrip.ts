@@ -11,6 +11,7 @@ import {
 import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 import { getCementCompanyByLocation } from '../models/loadingPoint.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
+import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
@@ -62,9 +63,9 @@ export const createTrip = async (req: Request, res: Response) => {
                 await updateFuelDetails(fuelDetails, vehicleNumber, overallTripId)
             })
             .then(() => res.status(200).json({ id: overallTripId }))
-            .catch(() => res.sendStatus(500))
+            .catch((error) => handlePrismaError(error, res))
     } catch (error) {
-        res.status(500).json(error)
+        handlePrismaError(error, res)
     }
 }
 
