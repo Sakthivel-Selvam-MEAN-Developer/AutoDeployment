@@ -5,7 +5,7 @@ import './style.css'
 import { FC } from 'react'
 import List_Trip_Details from './list'
 
-const Driver_Salary: FC = () => {
+const DriverSalaryConatiner: FC = () => {
     return (
         <>
             {driver_Details()}
@@ -14,7 +14,7 @@ const Driver_Salary: FC = () => {
     )
 }
 
-export default Driver_Salary
+export default DriverSalaryConatiner
 
 export const driver_Details = () => {
     return (

@@ -11,16 +11,16 @@ export const getAllBunkName = () =>
             bunkName: true
         }
     })
-
+const bunkData = {
+    bunkName: true,
+    accountNumber: true,
+    ifsc: true,
+    accountTypeNumber: true,
+    branchName: true,
+    accountHolder: true
+}
 export const getBunkAccountByName = (bunkName: string[]) =>
     prisma.bunk.findMany({
         where: { bunkName: { in: bunkName } },
-        select: {
-            bunkName: true,
-            accountNumber: true,
-            ifsc: true,
-            accountTypeNumber: true,
-            branchName: true,
-            accountHolder: true
-        }
+        select: bunkData
     })

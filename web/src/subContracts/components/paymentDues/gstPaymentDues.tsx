@@ -8,12 +8,17 @@ import { getGstDues } from '../../services/paymentDues'
 import { ListItemSecondaryAction } from '@mui/material'
 import FormField from './formField'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 
 interface tripProp {
     id: number
     vehicleNumber: string
     type: string
     amount: number
+    startDate: number
+    invoiceNumber: string
+    loadingPoint: string
+    unloadingPoint: string
 }
 interface dataProp {
     name: string
@@ -43,6 +48,12 @@ const GSTPaymentDues: React.FC = () => {
                                             <b>{list.vehicleNumber}</b>
                                         </Typography>
                                         <Typography sx={style}>{list.type} </Typography>
+                                        <Typography sx={style}>
+                                            {epochToMinimalDate(list.startDate)}{' '}
+                                        </Typography>
+                                        <Typography sx={style}>{list.loadingPoint} </Typography>
+                                        <Typography sx={style}>{list.unloadingPoint} </Typography>
+                                        <Typography sx={style}>{list.invoiceNumber} </Typography>
                                         <Typography sx={style}>{list.amount}</Typography>
                                         <FormField
                                             setRefresh={setRefresh}

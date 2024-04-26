@@ -19,15 +19,27 @@ interface completedPaymentsProps {
     payableAmount: string
     overallTrip: {
         loadingPointToStockPointTrip: {
+            invoiceNumber: string
+            unloadingPoint: { name: string }
+            loadingPoint: { name: string }
             truck: { transporter: { csmName: string } }
         }
+        stockPointToUnloadingPointTrip: {
+            unloadingPoint: { name: string }
+        }
         loadingPointToUnloadingPointTrip: {
+            invoiceNumber: string
+            loadingPoint: { name: string }
+            unloadingPoint: { name: string }
             truck: { transporter: { csmName: string } }
         }
     }
 }
 const cellData = [
     'Vehicle Number',
+    'Invoice Number',
+    'Loading Point',
+    'UnLoading Point',
     'Transporter Name',
     'Payment Date',
     'Payment Type',
@@ -50,7 +62,51 @@ function getRow() {
 const getTableHead = () => {
     return <TableHead>{getRow()}</TableHead>
 }
-
+const getTripType = (row: completedPaymentsProps) => {
+    let type
+    if (row.overallTrip && row.overallTrip.loadingPointToStockPointTrip !== null) {
+        type = row.overallTrip.loadingPointToStockPointTrip
+    } else if (row.overallTrip && row.overallTrip.loadingPointToUnloadingPointTrip !== null) {
+        type = row.overallTrip.loadingPointToUnloadingPointTrip
+    }
+    return type
+}
+interface getCellsProps {
+    row: completedPaymentsProps
+    index: number
+}
+const GetCells: FC<getCellsProps> = ({ row, index }) => {
+    const trip = getTripType(row)
+    return (
+        <>
+            <TableCell> {index + 1} </TableCell>
+            <TableCell align="left">{row.vehicleNumber}</TableCell>
+            <TableCell align="left">
+                {row.overallTrip !== null ? trip?.invoiceNumber : 'Null'}
+            </TableCell>
+            <TableCell align="left">
+                {row.overallTrip !== null ? trip?.loadingPoint.name : 'Null'}
+            </TableCell>
+            <TableCell align="left">
+                {row.overallTrip !== null && row.overallTrip.stockPointToUnloadingPointTrip !== null
+                    ? row.overallTrip.stockPointToUnloadingPointTrip.unloadingPoint.name
+                    : row.overallTrip !== null
+                      ? trip?.unloadingPoint.name
+                      : 'Null'}
+            </TableCell>
+            <TableCell align="left">{row.name}</TableCell>
+            <TableCell align="left">{epochToMinimalDate(row.paidAt)}</TableCell>
+            <TableCell align="left">{row.type}</TableCell>
+            <TableCell align="left">{row.transactionId}</TableCell>
+            <TableCell align="left">{row.payableAmount}</TableCell>
+            <TableCell align="left">
+                {row.type !== 'fuel pay'
+                    ? row.overallTrip !== null && trip?.truck.transporter.csmName
+                    : 'NUll'}
+            </TableCell>
+        </>
+    )
+}
 const getTableBody = (allTrips: completedPaymentsProps[]) => {
     return (
         <>
@@ -60,22 +116,7 @@ const getTableBody = (allTrips: completedPaymentsProps[]) => {
                         key={index}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                        <TableCell> {index + 1} </TableCell>
-                        <TableCell align="left">{row.vehicleNumber}</TableCell>
-                        <TableCell align="left">{row.name}</TableCell>
-                        <TableCell align="left">{epochToMinimalDate(row.paidAt)}</TableCell>
-                        <TableCell align="left">{row.type}</TableCell>
-                        <TableCell align="left">{row.transactionId}</TableCell>
-                        <TableCell align="left">{row.payableAmount}</TableCell>
-                        <TableCell align="left">
-                            {row.type !== 'fuel pay'
-                                ? row.overallTrip.loadingPointToUnloadingPointTrip !== null
-                                    ? row.overallTrip.loadingPointToUnloadingPointTrip.truck
-                                          .transporter.csmName
-                                    : row.overallTrip.loadingPointToStockPointTrip.truck.transporter
-                                          .csmName
-                                : 'NUll'}
-                        </TableCell>
+                        <GetCells row={row} index={index} />
                     </TableRow>
                 ))}
             </TableBody>

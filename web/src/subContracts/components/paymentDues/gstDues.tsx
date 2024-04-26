@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
 import { getGstDues } from '../../services/paymentDues'
 import { Checkbox, ListItemSecondaryAction } from '@mui/material'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 
 interface tripProp {
     fuelId: number
@@ -14,6 +15,10 @@ interface tripProp {
     amount: number
     type: string
     transactionId: string
+    loadingPoint: string
+    unloadingPoint: string
+    invoiceNumber: string
+    startDate: number
 }
 interface bankDetailProps {
     name: string
@@ -37,6 +42,10 @@ export interface gstNEFTDetailsProps {
     payableAmount: number
     vehicleNumber: string
     transporterName: string
+    loadingPoint: string
+    unloadingPoint: string
+    invoiceNumber: string
+    startDate: string
 }
 export interface GenerateFormProps {
     gstNEFTDetails: gstNEFTDetailsProps[]
@@ -57,16 +66,19 @@ const accordionDetails = (
     paymentDueId: number[],
     setPaymentDueId: React.Dispatch<React.SetStateAction<number[]>>
 ) => {
-    const handleClick = (list: tripProp, data: dataProp) => {
-        console.log(list, data)
-        const obj = {
-            id: list.id,
-            bankDetails: data.bankDetails,
-            type: list.type,
-            payableAmount: list.amount,
-            vehicleNumber: list.vehicleNumber,
-            transporterName: data.name
-        }
+    const obj = {
+        id: list.id,
+        bankDetails: data.bankDetails,
+        type: list.type,
+        payableAmount: list.amount,
+        vehicleNumber: list.vehicleNumber,
+        transporterName: data.name,
+        loadingPoint: list.loadingPoint,
+        unloadingPoint: list.unloadingPoint,
+        startDate: epochToMinimalDate(list.startDate),
+        invoiceNumber: list.invoiceNumber
+    }
+    const handleClick = () => {
         if (gstNEFTDetails.find((detail) => detail.id === obj.id)) {
             setGstNEFTDetails(gstNEFTDetails.filter((detail) => detail.id !== obj.id))
             setPaymentDueId(paymentDueId.filter((id) => id !== obj.id))
@@ -74,17 +86,20 @@ const accordionDetails = (
             setGstNEFTDetails((prevDetails) => [...prevDetails, obj])
             setPaymentDueId((prevId) => [...prevId, obj.id])
         }
-        console.log(gstNEFTDetails)
     }
     return (
         <AccordionDetails sx={accordianStyle}>
             <Typography>
-                <Checkbox onClick={() => handleClick(list, data)} {...label} />
+                <Checkbox onClick={() => handleClick()} {...label} />
             </Typography>
             <Typography sx={style}>
                 <b>{list.vehicleNumber}</b>
             </Typography>
             <Typography sx={style}>{list.type} </Typography>
+            <Typography sx={style}>{epochToMinimalDate(list.startDate)} </Typography>
+            <Typography sx={style}>{list.loadingPoint} </Typography>
+            <Typography sx={style}>{list.unloadingPoint} </Typography>
+            <Typography sx={style}>{list.invoiceNumber} </Typography>
             <Typography sx={style}>{list.amount} </Typography>
         </AccordionDetails>
     )

@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
-import Driver_Salary from './driverDetails'
+import DriverSalaryConatiner from './driverDetails'
 
 const mockGetDriverTripByDriverId = vi.fn()
 
@@ -36,7 +36,7 @@ describe('Driver Test', () => {
     test('should to able to create see driver details', async () => {
         render(
             <BrowserRouter>
-                <Driver_Salary />
+                <DriverSalaryConatiner />
             </BrowserRouter>
         )
         await waitFor(() => {

@@ -44,7 +44,39 @@ interface groupedDuesProps {
     _sum: { payableAmount: number | null }
     name: string
 }
-interface gstDuesProps {
+interface stockPointToUnloadingPointTripProps {
+    unloadingPoint: {
+        name: string
+    }
+}
+interface tripProps {
+    truck: {
+        vehicleNumber: string
+        transporter: {
+            name: string
+        }
+    }
+    loadingPoint: {
+        name: string
+    }
+    unloadingPoint: {
+        name: string
+    }
+    stockPoint:
+        | {
+              name: string
+          }
+        | undefined
+    invoiceNumber: number
+    startDate: number
+    stockPointToUnloadingPointTrip: stockPointToUnloadingPointTripProps[] | undefined
+}
+interface overallTripProps {
+    loadingPointToStockPointTrip: tripProps | undefined
+    loadingPointToUnloadingPointTrip: tripProps | undefined
+    stockPointToUnloadingPointTrip: tripProps | undefined
+}
+interface tripDueProps {
     id: number
     payableAmount: number
     overallTripId: number | null
@@ -78,46 +110,23 @@ function getFuelPayDate(fuelId: number | null, fuelDetails: fuelprops[]) {
         id: fuelTrip.id
     }
 }
-interface stockPointToUnloadingPointTripProps {
-    unloadingPoint: {
-        name: string
-    }
-}
-interface tripProps {
-    truck: {
-        vehicleNumber: string
-        transporter: {
-            name: string
-        }
-    }
-    loadingPoint: {
-        name: string
-    }
-    unloadingPoint: {
-        name: string
-    }
-    stockPoint: {
-        name: string
-    }
-    freightAmount: number
-    transporterAmount: number
-    stockPointToUnloadingPointTrip: stockPointToUnloadingPointTripProps[]
-}
 
-const getUnloadingPointForInitialPay = (tripType: tripProps) => {
+const getUnloadingPointForInitialPay = (tripType: tripProps | undefined) => {
     const unloading =
-        tripType.stockPoint !== undefined ? tripType.stockPoint.name : tripType.unloadingPoint.name
+        tripType?.stockPoint !== undefined
+            ? tripType?.stockPoint.name
+            : tripType?.unloadingPoint.name
     return unloading
 }
 
-const getUnloadingPointForFinalPay = (tripType: tripProps) => {
+const getUnloadingPointForFinalPay = (tripType: tripProps | undefined) => {
     const unloading =
-        tripType.stockPointToUnloadingPointTrip !== undefined
-            ? tripType.stockPointToUnloadingPointTrip[0].unloadingPoint.name
-            : tripType.unloadingPoint.name
+        tripType?.stockPointToUnloadingPointTrip !== undefined
+            ? tripType?.stockPointToUnloadingPointTrip[0].unloadingPoint.name
+            : tripType?.unloadingPoint.name
     return unloading
 }
-const getStockLocation = (paymentType: string, tripType: tripProps) => {
+const getStockLocation = (paymentType: string, tripType: tripProps | undefined) => {
     if (paymentType === 'initial pay') return getUnloadingPointForInitialPay(tripType)
     if (paymentType === 'final pay') return getUnloadingPointForFinalPay(tripType)
 }
@@ -131,12 +140,16 @@ interface matchingTripProps {
     dueDate: number
 }
 
-function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: fuelprops[]) {
+function tripInfo(
+    matchingTrip: matchingTripProps,
+    tripData: overallTripProps,
+    fuelDetails: fuelprops[]
+) {
     let tripType
-    if (tripData[0].loadingPointToStockPointTrip !== null) {
-        tripType = tripData[0].loadingPointToStockPointTrip
-    } else if (tripData[0].loadingPointToUnloadingPointTrip !== null) {
-        tripType = tripData[0].loadingPointToUnloadingPointTrip
+    if (tripData.loadingPointToStockPointTrip !== null) {
+        tripType = tripData.loadingPointToStockPointTrip
+    } else if (tripData.loadingPointToUnloadingPointTrip !== null) {
+        tripType = tripData.loadingPointToUnloadingPointTrip
     }
     let obj
     if (matchingTrip.type === 'fuel pay') obj = getFuelPayDate(matchingTrip.fuelId, fuelDetails)
@@ -147,10 +160,10 @@ function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: f
         type: matchingTrip.type,
         number: matchingTrip.vehicleNumber,
         invoiceNumber:
-            matchingTrip.type !== 'fuel pay' ? tripType.invoiceNumber : obj?.invoiceNumber,
-        date: matchingTrip.type !== 'fuel pay' ? tripType.startDate : obj?.date,
+            matchingTrip.type !== 'fuel pay' ? tripType?.invoiceNumber : obj?.invoiceNumber,
+        date: matchingTrip.type !== 'fuel pay' ? tripType?.startDate : obj?.date,
         location: obj?.location,
-        loadingPoint: matchingTrip.type !== 'fuel pay' ? tripType.loadingPoint.name : undefined,
+        loadingPoint: matchingTrip.type !== 'fuel pay' ? tripType?.loadingPoint.name : undefined,
         unloadingPoint: getStockLocation(matchingTrip.type, tripType),
         fuelId: obj?.id,
         dueDate: matchingTrip.dueDate
@@ -160,7 +173,7 @@ function tripInfo(matchingTrip: matchingTripProps, tripData: any, fuelDetails: f
 
 export const groupDataByName = async (
     duesData: any[],
-    tripsData: gstDuesProps[],
+    tripsData: tripDueProps[],
     tripDetails: any[],
     fuelDetails: fuelprops[],
     transporterAccounts: transporterAccountProps[],
@@ -187,7 +200,7 @@ export const groupDataByName = async (
                             matchingTrip.status === false &&
                             matchingTrip.type === 'fuel pay')
                 )
-                return tripInfo(matchingTrip, tripData, fuelDetails)
+                return tripInfo(matchingTrip, tripData[0], fuelDetails)
             })
         }
     })
@@ -235,13 +248,22 @@ export const updateNEFTStatus = (req: Request, res: Response) => {
         .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }
+const findTripType = (overallTrip: overallTripProps) => {
+    let tripType
+    if (overallTrip.loadingPointToStockPointTrip !== null) {
+        tripType = overallTrip.loadingPointToStockPointTrip
+    } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
+        tripType = overallTrip.loadingPointToUnloadingPointTrip
+    }
+    return tripType
+}
 export const groupGstDue = async (
     groupedGstDues: groupedDuesProps[],
-    gstPaymentDues: gstDuesProps[],
+    gstPaymentDues: any[],
     bankDetails: gstAccountProps[]
 ) =>
     groupedGstDues.map((groupedDue) => {
-        const matchingGstDue = gstPaymentDues.filter((due) => groupedDue.name === due.name)
+        const matchingGstDue = gstPaymentDues?.filter((due) => groupedDue.name === due.name)
         const bankDetail = bankDetails.filter((account) => groupedDue.name === account.name)
         return {
             name: groupedDue.name,
@@ -252,12 +274,23 @@ export const groupGstDue = async (
                 payableAmount: groupedDue._sum.payableAmount
             },
             bankDetails: bankDetail,
-            tripDetails: matchingGstDue.map((matchingTrip) => ({
-                id: matchingTrip.id,
-                vehicleNumber: matchingTrip.vehicleNumber,
-                type: matchingTrip.type,
-                amount: matchingTrip.payableAmount
-            }))
+            tripDetails: matchingGstDue?.map((matchingTrip) => {
+                const trip = findTripType(matchingTrip.overallTrip)
+                return {
+                    id: matchingTrip.id,
+                    vehicleNumber: matchingTrip.vehicleNumber,
+                    type: matchingTrip.type,
+                    amount: matchingTrip.payableAmount,
+                    loadingPoint: trip?.loadingPoint.name,
+                    unloadingPoint:
+                        matchingTrip.overallTrip.stockPointToUnloadingPointTrip !== null
+                            ? matchingTrip.overallTrip.stockPointToUnloadingPointTrip.unloadingPoint
+                                  .name
+                            : trip?.unloadingPoint.name,
+                    invoiceNumber: trip?.invoiceNumber,
+                    startDate: trip?.startDate
+                }
+            })
         }
     })
 

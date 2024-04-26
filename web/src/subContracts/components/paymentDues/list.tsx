@@ -102,7 +102,6 @@ const PaymentDuesList: React.FC = () => {
         setActivate(true)
     }
     useEffect(() => {
-        console.log(paymentDueDate)
         if (paymentDueDate !== null) {
             const startOfDayGMT = dayjs(paymentDueDate).utcOffset(0).startOf('day')
             setPaymentDueDateEpoch(startOfDayGMT.unix())

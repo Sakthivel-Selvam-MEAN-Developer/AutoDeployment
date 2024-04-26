@@ -80,8 +80,12 @@ interface tableCellProps {
 const TableCells: FC<tableCellProps> = ({ neft }) => {
     return (
         <>
-            <TableCell align="center">{neft.transporterName}</TableCell>
             <TableCell align="center">{neft.vehicleNumber}</TableCell>
+            <TableCell align="center">{neft.startDate}</TableCell>
+            <TableCell align="center">{neft.loadingPoint}</TableCell>
+            <TableCell align="center">{neft.unloadingPoint}</TableCell>
+            <TableCell align="center">{neft.transporterName}</TableCell>
+            <TableCell align="center">{neft.invoiceNumber}</TableCell>
             <TableCell align="center">{neft.type}</TableCell>
             <TableCell align="center">
                 <b>{neft.payableAmount.toFixed(2)}</b>
@@ -100,7 +104,16 @@ const otherPayTableHeadCells = [
     'Amount'
 ]
 
-const gstPayTableHeadCells = ['Transporter Name', 'Vehicle Number', 'Type', 'Amount']
+const gstPayTableHeadCells = [
+    'Vehicle Number',
+    'Start Date',
+    'Loading Point',
+    'Unloading Point',
+    'Transporter Name',
+    'Invoice Number',
+    'Type',
+    'Amount'
+]
 
 const otherPayTableCell = (name: string, type: string) => {
     return (
@@ -145,9 +158,6 @@ const NEFTDialog: FC<neftDialogProps> = ({
             if (descriptionElement !== null) descriptionElement.focus()
         }
     }, [open])
-    useEffect(() => {
-        // if()
-    }, [])
     return (
         <Dialog
             maxWidth={'xl'}

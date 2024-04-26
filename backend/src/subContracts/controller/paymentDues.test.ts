@@ -12,7 +12,6 @@ const mockGetAllTrip = vi.fn()
 const mockcreatePaymentDues = vi.fn()
 const mockUpdatePayment = vi.fn()
 const mockOverallTripByPendingPaymentDues = vi.fn()
-const mockTransporterAccountDetails = vi.fn()
 const mockBunkAccountDetails = vi.fn()
 const mockFuelDetails = vi.fn()
 const mockgetUpcomingDuesByFilter = vi.fn()
@@ -31,7 +30,6 @@ vi.mock('../models/paymentDues', () => ({
     getUpcomingDuesByFilter: (name: string, from: number, to: number) =>
         mockgetUpcomingDuesByFilter(name, from, to),
     getGstDuesGroupByName: () => mockgetGstDuesGroupByName(),
-    getTransporterAccountByName: () => mockgetTransporterAccountByName(),
     getGstPaymentDues: () => mockgetGstPaymentDues(),
     getUpcomingDuesByDefault: () => mockGetUpcomingPaymentDues(),
     updatePaymentNEFTStatus: (dueId: number[]) => mockUpdateNEFTStatus(dueId),
@@ -45,7 +43,7 @@ vi.mock('../models/overallTrip', () => ({
     overallTripByPendingPaymentDues: () => mockOverallTripByPendingPaymentDues()
 }))
 vi.mock('../models/transporter', () => ({
-    getTransporterAccountByName: (name: string[]) => mockTransporterAccountDetails(name)
+    getTransporterAccountByName: (name: string[]) => mockgetTransporterAccountByName(name)
 }))
 vi.mock('../models/bunk', () => ({
     getBunkAccountByName: (name: string[]) => mockBunkAccountDetails(name)
@@ -376,7 +374,23 @@ const mockGstPaymentDues = [
         vehicleNumber: 'KR10S1290',
         status: false,
         fuelId: null,
-        dueDate: 1706339785
+        dueDate: 1706339785,
+        overallTrip: {
+            loadingPointToStockPointTrip: {
+                startDate: 1706339785,
+                invoiceNumber: 'dfghjkl',
+                truck: {
+                    transporter: {
+                        csmName: 'Bharath'
+                    }
+                },
+                loadingPoint: {
+                    name: 'NewDelhi'
+                }
+            },
+            stockPointToUnloadingPointTrip: { unloadingPoint: { name: 'Mumbai' } },
+            loadingPointToUnloadingPointTrip: null
+        }
     }
 ]
 
@@ -401,7 +415,11 @@ const mockGroupedGSTDetails = [
                 id: 9,
                 vehicleNumber: 'KR10S1290',
                 type: 'gst pay',
-                amount: 2376
+                amount: 2376,
+                invoiceNumber: 'dfghjkl',
+                loadingPoint: 'NewDelhi',
+                startDate: 1706339785,
+                unloadingPoint: 'Mumbai'
             }
         ]
     }
@@ -480,7 +498,7 @@ describe('Payment Due Controller', () => {
         mockfindTripWithActiveDues.mockResolvedValue(mockTripDuesData)
         mockOverallTripByPendingPaymentDues.mockResolvedValue(mockOverallTripData)
         mockFuelDetails.mockResolvedValue(mockFuelData)
-        mockTransporterAccountDetails.mockResolvedValue(mockTransporterAccountData)
+        mockgetTransporterAccountByName.mockResolvedValue(mockTransporterAccountData)
         mockBunkAccountDetails.mockResolvedValue(mockBunkAccountData)
         const actual = await groupDataByName(
             mockGroupedDuesData,

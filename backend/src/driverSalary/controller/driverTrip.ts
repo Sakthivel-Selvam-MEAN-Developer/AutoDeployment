@@ -13,7 +13,7 @@ type RequestQuery = {
 type listAllDriverTripByIdType = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
-) => any
+) => void
 export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res) => {
     const { driverId } = req.query
     await getAllDriverTripById(parseInt(driverId))

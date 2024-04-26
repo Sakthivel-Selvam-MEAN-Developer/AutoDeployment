@@ -5,7 +5,7 @@ import DriverSalary from './driverSalary/components/driverSalaryMaster'
 import CreateDriver from './driverSalary/components/driver/list'
 import DriverSalaryLayout from './driverSalary/components/layout'
 import ListExpenses from './driverSalary/components/driverSalaryMaster/addExpenses'
-import Driver_Salary from './driverSalary/components/driverSalaryMaster/driverDetails'
+import DriverSalaryConatiner from './driverSalary/components/driverSalaryMaster/driverDetails'
 import ExpenseApprovalList from './driverSalary/components/expenseApproval/expenseApproval'
 import ExpenseApproval from './driverSalary/components/expenseApproval'
 
@@ -39,7 +39,7 @@ const driverSalaryRoutes = {
             children: [
                 {
                     path: '',
-                    element: <Driver_Salary />
+                    element: <DriverSalaryConatiner />
                 },
                 {
                     path: 'addexpenses',
