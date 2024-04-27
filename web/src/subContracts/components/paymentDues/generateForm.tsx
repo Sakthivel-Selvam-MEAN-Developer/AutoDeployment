@@ -3,9 +3,19 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { useContext, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { getOnlyActiveDues } from '../../services/paymentDues'
-import { Checkbox, ListItemSecondaryAction } from '@mui/material'
+import {
+    Checkbox,
+    ListItemSecondaryAction,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow
+} from '@mui/material'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { NEFTDetailsProps, bankDetailsProps } from './list'
 import { paymentDueContext } from './paymentDueContext'
@@ -39,6 +49,18 @@ export interface GenerateFormProps {
     setPaymentDueId: React.Dispatch<React.SetStateAction<number[]>>
     type: string
 }
+interface ObjectProps {
+    id: number
+    bankDetails: bankDetailsProps[]
+    type: string
+    payableAmount: number
+    vehicleNumber: string
+    date: string
+    location: string
+    invoiceNumber: string
+    transporterName: string
+}
+const style = { width: '100%' }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 const GenerateForm: React.FC<GenerateFormProps> = ({
     NEFTDetails,
@@ -50,8 +72,12 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
 }) => {
     const [transporterDue, setTransporterDue] = useState([])
     const paymentDueDate = useContext(paymentDueContext)
-    const style = { width: '100%', padding: '10px 10px 0px' }
-    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey', alignItems: 'center' }
+    const accordianStyle = {
+        display: 'table',
+        borderBottom: '1px solid grey',
+        alignItems: 'center',
+        width: '100%'
+    }
     useEffect(() => {
         setNEFTDetails([])
         setPaymentDueId([])
@@ -64,7 +90,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refresh, paymentDueDate])
     const handleClick = (list: tripProp, data: dataProp) => {
-        const obj = {
+        const object = {
             id: list.id,
             bankDetails: data.bankDetails,
             type: list.type,
@@ -78,12 +104,15 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
             invoiceNumber: list.invoiceNumber,
             transporterName: data.name
         }
-        if (NEFTDetails.find((detail) => detail.id === obj.id)) {
-            setNEFTDetails(NEFTDetails.filter((detail) => detail.id !== obj.id))
-            setPaymentDueId(paymentDueId.filter((id) => id !== obj.id))
+        addNEFTDetails(object)
+    }
+    const addNEFTDetails = (object: ObjectProps) => {
+        if (NEFTDetails.find((detail) => detail.id === object.id)) {
+            setNEFTDetails(NEFTDetails.filter((detail) => detail.id !== object.id))
+            setPaymentDueId(paymentDueId.filter((id) => id !== object.id))
         } else {
-            setNEFTDetails((prevDetails) => [...prevDetails, obj])
-            setPaymentDueId((prevId) => [...prevId, obj.id])
+            setNEFTDetails((prevDetails) => [...prevDetails, object])
+            setPaymentDueId((prevId) => [...prevId, object.id])
         }
     }
     return (
@@ -98,51 +127,79 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                 id="panel1a-header"
                                 sx={{ borderBottom: '1px solid grey' }}
                             >
-                                <Typography sx={{ padding: '10px 10px 0px', width: '350px' }}>
-                                    <b>{data.name}</b>
-                                </Typography>
-                                <Typography sx={style}>
-                                    Total Trips: <b>{data.dueDetails.count}</b>
-                                </Typography>
-                                <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
-                                    Total Amount:
-                                    <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
-                                </ListItemSecondaryAction>
+                                <AccordianHead data={data} />
                             </AccordionSummary>
-                            {data.tripDetails &&
-                                data.tripDetails.length !== 0 &&
-                                data.tripDetails.map((list: tripProp) => {
-                                    return (
-                                        <AccordionDetails key={list.id} sx={accordianStyle}>
-                                            <Typography>
-                                                <Checkbox
-                                                    key={list.id}
-                                                    onClick={() => handleClick(list, data)}
-                                                    {...label}
-                                                />
-                                            </Typography>
-                                            <Typography sx={style}>
-                                                <b>{list.number}</b>
-                                            </Typography>
-                                            <Typography sx={style}>
-                                                {list.type !== 'fuel pay'
-                                                    ? list.loadingPoint +
-                                                      ' - ' +
-                                                      list.unloadingPoint
-                                                    : list.location}
-                                            </Typography>
-                                            <Typography sx={style}>{list.type} </Typography>
-                                            <Typography sx={style}>{list.payableAmount}</Typography>
-                                            <Typography sx={style}>{list.invoiceNumber}</Typography>
-                                            <Typography sx={style}>
-                                                {epochToMinimalDate(list.dueDate)}
-                                            </Typography>
-                                            <Typography sx={style}>
-                                                {epochToMinimalDate(list.date)}
-                                            </Typography>
-                                        </AccordionDetails>
-                                    )
-                                })}
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <AccordionDetails sx={accordianStyle}>
+                                        <TableHeadRow type={type} />
+                                        <TableBody>
+                                            {data.tripDetails &&
+                                                data.tripDetails.length !== 0 &&
+                                                data.tripDetails.map((list: tripProp) => {
+                                                    return (
+                                                        <TableRow key={list.id}>
+                                                            <TableCell align="center">
+                                                                <Typography>
+                                                                    <Checkbox
+                                                                        key={list.id}
+                                                                        onClick={() =>
+                                                                            handleClick(list, data)
+                                                                        }
+                                                                        {...label}
+                                                                    />
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    <b>{list.number}</b>
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {epochToMinimalDate(list.date)}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.type !== 'fuel pay'
+                                                                        ? list.loadingPoint +
+                                                                          ' - ' +
+                                                                          list.unloadingPoint
+                                                                        : list.location}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.type}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.payableAmount}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.invoiceNumber}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            {type !== 'fuel pay' && (
+                                                                <TableCell align="left">
+                                                                    <Typography sx={style}>
+                                                                        {epochToMinimalDate(
+                                                                            list.dueDate
+                                                                        )}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            )}
+                                                        </TableRow>
+                                                    )
+                                                })}
+                                        </TableBody>
+                                    </AccordionDetails>
+                                </Table>
+                            </TableContainer>
                         </Accordion>
                     )
                 })
@@ -153,3 +210,41 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     )
 }
 export default GenerateForm
+interface tableHeadRowProps {
+    type: string
+}
+const TableHeadRow: FC<tableHeadRowProps> = ({ type }) => {
+    return (
+        <TableHead>
+            <TableRow>
+                <TableCell align="center">#</TableCell>
+                <TableCell align="left">Vehicle Number</TableCell>
+                <TableCell align="left">Start Date</TableCell>
+                <TableCell align="left">Trip Route</TableCell>
+                <TableCell align="left">Payment Type</TableCell>
+                <TableCell align="left">Payable Amount</TableCell>
+                <TableCell align="left">Invoice Number</TableCell>
+                {type !== 'fuel pay' && <TableCell align="left">Due Date</TableCell>}
+            </TableRow>
+        </TableHead>
+    )
+}
+interface AccordianHeadProps {
+    data: dataProp
+}
+const AccordianHead: React.FC<AccordianHeadProps> = ({ data }) => {
+    return (
+        <>
+            <Typography sx={{ padding: '10px', width: '350px' }}>
+                <b>{data.name}</b>
+            </Typography>
+            <Typography sx={style} display={'flex'} alignItems={'center'}>
+                Total Trips: <b>{data.dueDetails.count}</b>
+            </Typography>
+            <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
+                Total Amount:
+                <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
+            </ListItemSecondaryAction>
+        </>
+    )
+}

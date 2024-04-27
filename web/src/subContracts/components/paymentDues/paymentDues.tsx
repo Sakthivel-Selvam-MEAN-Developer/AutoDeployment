@@ -3,12 +3,22 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { useContext, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { getOnlyActiveDues } from '../../services/paymentDues'
-import FormField from './formField'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { paymentDueContext } from './paymentDueContext'
+import {
+    TableContainer,
+    Paper,
+    Table,
+    TableBody,
+    TableRow,
+    TableCell,
+    TableHead,
+    ListItemSecondaryAction
+} from '@mui/material'
+import FormField from './formField'
 
 interface tripProp {
     fuelId: number
@@ -38,8 +48,13 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
     const [refresh, setRefresh] = useState<boolean>(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const paymentDueDateEpoch = useContext(paymentDueContext)
-    const style = { width: '100%', padding: '10px 10px 0px' }
-    const accordianStyle = { display: 'flex', borderBottom: '1px solid grey', alignItems: 'center' }
+    const style = { width: '100%' }
+    const accordianStyle = {
+        width: '100%',
+        display: 'table',
+        borderBottom: '1px solid grey',
+        alignItems: 'center'
+    }
     useEffect(() => {
         getOnlyActiveDues(paymentDueDateEpoch, true, type).then(setTransporterDue)
     }, [refresh, type, paymentDueDateEpoch])
@@ -55,52 +70,89 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                                 id="panel1a-header"
                                 sx={{ borderBottom: '1px solid grey' }}
                             >
-                                <Typography sx={{ padding: '10px 10px 0px', width: '350px' }}>
-                                    <b>{data.name}</b>
-                                </Typography>
-                                <Typography sx={style}>
-                                    Total Trips : <b>{data.dueDetails.count}</b>
-                                </Typography>
-                                <Typography sx={style}>
-                                    Total Amount :
-                                    <b>{data.dueDetails.totalPayableAmount.toFixed(2)}</b>
-                                </Typography>
+                                <TransporterName name={data.name} />
+                                <TransporterTotalTrips totalTrips={data.dueDetails.count} />
+                                <TransporterPayableAmount
+                                    totalPayableAmount={data.dueDetails.totalPayableAmount}
+                                />
                             </AccordionSummary>
-                            {data.tripDetails &&
-                                data.tripDetails.map((list: tripProp) => {
-                                    return (
-                                        <AccordionDetails key={list.id} sx={accordianStyle}>
-                                            <Typography sx={style}>
-                                                <b>{list.number}</b>
-                                            </Typography>
-                                            <Typography sx={style}>
-                                                {list.type !== 'fuel pay'
-                                                    ? list.loadingPoint +
-                                                      ' - ' +
-                                                      list.unloadingPoint
-                                                    : list.location}
-                                            </Typography>
-                                            <Typography sx={style}>{list.type} </Typography>
-                                            <Typography sx={style}>{list.payableAmount}</Typography>
-                                            <Typography sx={style}>{list.invoiceNumber}</Typography>
-                                            <Typography sx={style}>
-                                                {epochToMinimalDate(list.dueDate)}
-                                            </Typography>
-                                            <Typography sx={style}>
-                                                {epochToMinimalDate(list.date)}
-                                            </Typography>
-                                            <FormField
-                                                setRefresh={setRefresh}
-                                                refresh={refresh}
-                                                id={list.id}
-                                                fuelId={list.fuelId}
-                                                type={list.type}
-                                                payableAmount={list.payableAmount}
-                                                setOpenSuccessDialog={setOpenSuccessDialog}
-                                            />
-                                        </AccordionDetails>
-                                    )
-                                })}
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="payment due table">
+                                    <AccordionDetails sx={accordianStyle}>
+                                        <TableHeadRow type={type} />
+                                        <TableBody>
+                                            {data.tripDetails &&
+                                                data.tripDetails.length !== 0 &&
+                                                data.tripDetails.map((list: tripProp) => {
+                                                    return (
+                                                        <TableRow key={list.id}>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    <b>{list.number}</b>
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {epochToMinimalDate(
+                                                                        list.dueDate
+                                                                    )}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.type !== 'fuel pay'
+                                                                        ? list.loadingPoint +
+                                                                          ' - ' +
+                                                                          list.unloadingPoint
+                                                                        : list.location}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.type}{' '}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.payableAmount}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {list.invoiceNumber}
+                                                                </Typography>
+                                                            </TableCell>
+                                                            {type !== 'fuel pay' && (
+                                                                <TableCell align="left">
+                                                                    <Typography sx={style}>
+                                                                        {epochToMinimalDate(
+                                                                            list.date
+                                                                        )}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            )}
+                                                            <TableCell align="left">
+                                                                <FormField
+                                                                    setRefresh={setRefresh}
+                                                                    refresh={refresh}
+                                                                    id={list.id}
+                                                                    fuelId={list.fuelId}
+                                                                    type={list.type}
+                                                                    payableAmount={
+                                                                        list.payableAmount
+                                                                    }
+                                                                    setOpenSuccessDialog={
+                                                                        setOpenSuccessDialog
+                                                                    }
+                                                                />
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    )
+                                                })}
+                                        </TableBody>
+                                    </AccordionDetails>
+                                </Table>
+                            </TableContainer>
                         </Accordion>
                     )
                 })
@@ -116,3 +168,55 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
     )
 }
 export default PaymentDues
+interface tableHeadRowProps {
+    type: string
+}
+const TableHeadRow: FC<tableHeadRowProps> = ({ type }) => {
+    return (
+        <TableHead>
+            <TableRow>
+                <TableCell align="left">Vehicle Number</TableCell>
+                <TableCell align="left">Start Date</TableCell>
+                <TableCell align="left">Trip Route</TableCell>
+                <TableCell align="left">Payment Type</TableCell>
+                <TableCell align="left">Payable Amount</TableCell>
+                <TableCell align="left">Invoice Number</TableCell>
+                {type !== 'fuel pay' && <TableCell align="left">Due Date</TableCell>}
+                <TableCell align="left" sx={{ paddingLeft: '25px' }}>
+                    Payment Date & Transaction ID
+                </TableCell>
+            </TableRow>
+        </TableHead>
+    )
+}
+interface TransporterNameProps {
+    name: string
+}
+const TransporterName: FC<TransporterNameProps> = ({ name }) => {
+    return (
+        <Typography sx={{ padding: '10px', width: '350px' }}>
+            <b>{name}</b>
+        </Typography>
+    )
+}
+interface TransporterTotalTripsProps {
+    totalTrips: number
+}
+const TransporterTotalTrips: FC<TransporterTotalTripsProps> = ({ totalTrips }) => {
+    return (
+        <Typography sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
+            Total Trips : <b>{totalTrips}</b>
+        </Typography>
+    )
+}
+interface TransporterPayableAmountProps {
+    totalPayableAmount: number
+}
+const TransporterPayableAmount: FC<TransporterPayableAmountProps> = ({ totalPayableAmount }) => {
+    return (
+        <ListItemSecondaryAction sx={{ padding: '10px 30px' }}>
+            Total Amount:
+            <b>{totalPayableAmount.toFixed(2)}</b>
+        </ListItemSecondaryAction>
+    )
+}

@@ -27,3 +27,11 @@
   query:
     - update "subContract"."loadingPointToUnloadingPointTrip" set "wantFuel" =true where id=300;
     - delete from "subContract"."paymentDues" where id=773;
+
+  date: 24-04-2024
+  person: Vicky Vignesh
+  description:
+    - deleted paymentDue and fuel (Wrongly entered a fuel before closing a trip)
+  query:
+    - delete from "subContract"."fuel" where id=251;
+    - delete from "subContract"."paymentDues" where id=1076;

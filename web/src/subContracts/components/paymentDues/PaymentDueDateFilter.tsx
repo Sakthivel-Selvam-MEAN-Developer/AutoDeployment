@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import { FC } from 'react'
-import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { Control, Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -19,50 +19,58 @@ export const PaymentDueDateFilter: FC<PaymentDueFieldProps> = ({
     paymentDueDate
 }) => {
     const { handleSubmit, control } = useForm<FieldValues>()
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data.paymentDate)
-        setPaymentDueDate(data.paymentDate)
-    }
+    const onSubmit: SubmitHandler<FieldValues> = (data) => setPaymentDueDate(data.paymentDate)
     return (
         <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 style={{ display: 'grid', alignItems: 'center', marginBottom: '20px' }}
             >
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
-                    <Controller
-                        render={({ field }) => (
-                            <DatePicker
-                                {...field}
-                                label="Select Payment Date"
-                                value={paymentDueDate}
-                            />
-                        )}
-                        name="paymentDate"
-                        control={control}
-                    />
-                </LocalizationProvider>
+                <DatePickerField paymentDueDate={paymentDueDate} control={control} />
                 <br />
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button
-                        variant="contained"
-                        name="Get Dues"
-                        type="submit"
-                        sx={{ marginLeft: '10px' }}
-                    >
-                        Submit
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={() => {
-                            setPaymentDueDate(null)
-                        }}
-                        sx={{ marginLeft: '10px' }}
-                    >
-                        Reset Date
-                    </Button>
-                </div>
+                <ButtonWithWrapper setPaymentDueDate={setPaymentDueDate} />
             </form>
         </>
+    )
+}
+interface DatePickerFieldProps {
+    paymentDueDate: string | null
+    control: Control
+}
+const DatePickerField: FC<DatePickerFieldProps> = ({ paymentDueDate, control }) => {
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
+            <Controller
+                render={({ field }) => (
+                    <DatePicker {...field} label="Select Payment Date" value={paymentDueDate} />
+                )}
+                name="paymentDate"
+                control={control}
+            />
+        </LocalizationProvider>
+    )
+}
+interface ButtonsProps {
+    setPaymentDueDate: React.Dispatch<React.SetStateAction<string | null>>
+}
+const buttonStyle = { marginLeft: '10px' }
+const Buttons: React.FC<ButtonsProps> = ({ setPaymentDueDate }) => {
+    return (
+        <>
+            <Button variant="contained" name="Get Dues" type="submit" sx={buttonStyle}>
+                Submit
+            </Button>
+            <Button variant="contained" onClick={() => setPaymentDueDate(null)} sx={buttonStyle}>
+                Reset Date
+            </Button>
+        </>
+    )
+}
+
+const ButtonWithWrapper: React.FC<ButtonsProps> = ({ setPaymentDueDate }) => {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Buttons setPaymentDueDate={setPaymentDueDate} />
+        </div>
     )
 }
