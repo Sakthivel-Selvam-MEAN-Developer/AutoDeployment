@@ -11,6 +11,7 @@ import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { tripdetailsProps } from './types'
+import DueDateDialog from './dueDateDialog'
 
 const AddAcknowledgement: React.FC = () => {
     const currentTime = dayjs().unix()
@@ -22,13 +23,17 @@ const AddAcknowledgement: React.FC = () => {
     const [tripClosed, setTripClosed] = useState<boolean>(false)
     const [tripDetails, setTripDetails] = useState<tripdetailsProps | null>(null)
     const [disable, setDisable] = useState(false)
+    const [paymentDetails, setPaymentDetails] = useState()
     let clicked = false
     const finalDue = async (id: number) => {
         if (clicked) return
         clicked = true
         clicked &&
             (await updateAcknowledgementStatus(id)
-                .then(() => setTripClosed(true))
+                .then((pay) => {
+                    setPaymentDetails(pay)
+                    setTripClosed(true)
+                })
                 .catch(() => alert('Trip Not Closed')))
     }
     const onSubmit: SubmitHandler<FieldValues> = () => {
@@ -109,6 +114,9 @@ const AddAcknowledgement: React.FC = () => {
                         </p>
                     ))}
                 <div>
+                    {tripClosed && paymentDetails !== undefined && (
+                        <DueDateDialog tripClosed={tripClosed} paymentDetails={paymentDetails[0]} />
+                    )}
                     {tripClosed && <p>Trip Closed...</p>}
                     {acknowledgeDueTime === null && <p>Trip should be Unloaded</p>}
                 </div>

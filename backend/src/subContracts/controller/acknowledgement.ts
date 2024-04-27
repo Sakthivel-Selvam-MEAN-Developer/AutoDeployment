@@ -64,13 +64,14 @@ export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, re
                         tdsPercentage
                     ).then((finalDue) => {
                         if (finalDue !== null && finalDue !== undefined) {
-                            return createPaymentDues(finalDue)
+                            return createPaymentDues(finalDue).then(() =>
+                                res.status(200).json(finalDue)
+                            )
                         }
                     })
                 }
             }
         })
-        .then(() => res.sendStatus(200))
         .catch(() => res.sendStatus(500))
 }
 

@@ -71,11 +71,17 @@ const mockOverAllTripData = [
         }
     }
 ]
+const mockPaymentTripData = [
+    {
+        vehicleNUmber: 'TN93D5512',
+        dueDate: 1709145000
+    }
+]
 
 describe('Add Acknowledgement Test', () => {
     beforeEach(() => {
         mockgGetAllTripByAcknowledgementStatus.mockResolvedValue(mockOverAllTripData)
-        mockUpdateAcknowledgementStatus.mockResolvedValue(mockOverAllTripData)
+        mockUpdateAcknowledgementStatus.mockResolvedValue(mockPaymentTripData)
     })
     test('should able to close Acknowledgement', async () => {
         mockgetTripById.mockResolvedValue(mockOverAllTripDataById)
@@ -98,6 +104,8 @@ describe('Add Acknowledgement Test', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
         await userEvent.click(screen.getByText('Add Acknowledgement for the Trip'))
         await userEvent.click(screen.getByRole('button', { name: 'Acknowledgement Received' }))
+        expect(screen.getByText('The Final Pay Generation Date will be :')).toBeInTheDocument()
+        await userEvent.click(screen.getByRole('button', { name: 'Close' }))
         expect(mockgGetAllTripByAcknowledgementStatus).toHaveBeenCalledTimes(1)
         expect(mockgetTripById).toHaveBeenCalledTimes(1)
         expect(mockUpdateAcknowledgementStatus).toHaveBeenCalledTimes(1)
