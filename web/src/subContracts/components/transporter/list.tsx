@@ -41,9 +41,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
             .catch((error) => {
                 setDisable(false)
                 alert(error.response.data.error)
+                setLoading(false)
             })
-            .then(() => setLoading(false))
-            .then(() => clearForm(setValue, setAccountType, setGst, setTds))
     }
     const style = { marginBottom: '30px', display: 'flex', justifyContent: 'right' }
     const handleClose = () => setOpenSuccessDialog(false)

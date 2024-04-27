@@ -88,7 +88,6 @@ const NewTrip: React.FC = () => {
             if (category === 'Stock Point')
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then((trip) => {
-                        console.log(trip)
                         return ownTruck && createDriverTrip({ ...driverDetails, tripId: trip.id })
                     })
                     .then(() => {

@@ -77,9 +77,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                 fieldName="vehicleNumber"
                 label="Vehicle Number"
                 options={vehicleList ? vehicleList.map(({ vehicleNumber }) => vehicleNumber) : []}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    console.log(newValue)
-                }}
+                onChange={() => {}}
             />
             <Controller
                 render={() => (

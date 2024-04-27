@@ -20,8 +20,4 @@ export const getAllTrip = () =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const createTrip = (data: dataProps) =>
-    axiosInstance
-        .post(`/trip`, data)
-        .then(getData)
-        .catch((error) => console.log(error))
+export const createTrip = (data: dataProps) => axiosInstance.post(`/trip`, data).then(getData)
