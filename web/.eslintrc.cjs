@@ -51,7 +51,7 @@ module.exports = {
         },
     ],
     rules: {
-        semi: [2, 'never'],
+        semi: [2, 'never'],  
         indent: 'off',
         'operator-linebreak': 0,
         'function-paren-newline': 0,

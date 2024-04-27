@@ -52,15 +52,18 @@ interface listTransporterProps {
 const tableCell = () => {
     return (
         <>
-            <TableCell align="left">Vehicle Number</TableCell>
-            <TableCell align="left">Start Date</TableCell>
-            <TableCell align="left">Invoice Number</TableCell>
-            <TableCell align="left">Loading Point</TableCell>
-            <TableCell align="left">Unloading Point</TableCell>
-            <TableCell align="left">Transporter Name</TableCell>
-            <TableCell align="left">CSM Name</TableCell>
-            <TableCell align="left">Due Date</TableCell>
-            <TableCell align="left">Amount</TableCell>
+            <TableCell align="left" style={{ fontWeight: 'bold' }}>
+                Transporter Name
+            </TableCell>
+            <TableCell align="left" style={{ fontWeight: 'bold' }}>
+                CSM Name
+            </TableCell>
+            <TableCell align="left" style={{ fontWeight: 'bold' }}>
+                Due Date
+            </TableCell>
+            <TableCell align="left" style={{ fontWeight: 'bold' }}>
+                Amount
+            </TableCell>
         </>
     )
 }

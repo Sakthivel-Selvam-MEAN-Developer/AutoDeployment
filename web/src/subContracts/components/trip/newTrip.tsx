@@ -104,7 +104,6 @@ const NewTrip: React.FC = () => {
                             setFuelDetails,
                             setFuel,
                             setFilledLoad
-                            // setDriverName
                         )
                     )
                     .catch((error) => {
@@ -131,7 +130,6 @@ const NewTrip: React.FC = () => {
                             setFuelDetails,
                             setFuel,
                             setFilledLoad
-                            // setDriverName
                         )
                     )
                     .catch((error) => {

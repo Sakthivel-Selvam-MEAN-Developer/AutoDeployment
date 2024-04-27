@@ -53,7 +53,7 @@ const mockPricePointData = [
         }
     }
 ]
-describe('PricePointReport Test', () => {
+describe('PricePointReportTest', () => {
     beforeEach(() => {
         mockGetAllpricePoint.mockResolvedValue(mockPricePointData)
     })
@@ -67,7 +67,7 @@ describe('PricePointReport Test', () => {
             expect(screen.getByText('Company Name')).toBeInTheDocument()
             expect(screen.getByText('Loading Point')).toBeInTheDocument()
             expect(screen.getByText('Unloading Point')).toBeInTheDocument()
-            expect(screen.getByText('payGeneratingDuration')).toBeInTheDocument()
+            expect(screen.getByText('PayGeneratingDuration')).toBeInTheDocument()
             expect(screen.getByText('11')).toBeInTheDocument()
             expect(screen.getByText('1001')).toBeInTheDocument()
         })

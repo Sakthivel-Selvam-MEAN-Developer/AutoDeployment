@@ -15,7 +15,15 @@ const TripFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
         getAllCementCompany().then(setCementCompany)
     }, [])
     return (
-        <div style={{ display: 'flex', gap: '10px', rowGap: '10px', flexWrap: 'wrap' }}>
+        <div
+            style={{
+                display: 'flex',
+                gap: '10px',
+                rowGap: '10px',
+                flexWrap: 'wrap',
+                fontWeight: 'bold'
+            }}
+        >
             <AutoComplete
                 control={control}
                 fieldName="companyName"

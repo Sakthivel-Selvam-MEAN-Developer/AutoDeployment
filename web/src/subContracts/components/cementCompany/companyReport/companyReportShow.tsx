@@ -23,16 +23,16 @@ interface Row {
 }
 const cellNames = [
     'Name',
-    'advanceType',
-    'gstNo',
-    'address',
-    'emailId',
-    'contactPersonName',
-    'contactPersonNumber'
+    'AdvanceType',
+    'GstNo',
+    'Address',
+    'Email Id',
+    'ContactPersonName',
+    'ContactPersonNumber'
 ]
 const cells = (cell: string, index: number) => {
     return (
-        <TableCell key={index} align="center">
+        <TableCell key={index} align="center" style={{ fontWeight: 'bold' }}>
             {cell}
         </TableCell>
     )
@@ -50,7 +50,7 @@ function cell(data: Row) {
     return Object.entries(data).map(([key, value]) => {
         if (key == 'createdAt' || key == 'updatedAt' || key == 'id') return
         return (
-            <TableCell key={key} align="left">
+            <TableCell key={key} align="center">
                 {value}
             </TableCell>
         )

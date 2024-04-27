@@ -29,7 +29,7 @@
     "terra": "docker compose run -it terra bash",
     "cert": "docker compose run --rm certbot certonly --manual --preferred-challenges -d 'auth.magnum.wondermove.in,magnum.wondermove.in'"
   },
-  "dependencies": {
+  "devDependencies": {
     "husky": "^9.0.11"
   }
 }

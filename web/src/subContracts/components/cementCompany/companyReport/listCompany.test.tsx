@@ -31,7 +31,7 @@ describe('Report Test', () => {
             </BrowserRouter>
         )
         await waitFor(() => {
-            expect(screen.getByText('advanceType')).toBeInTheDocument()
+            expect(screen.getByText('AdvanceType')).toBeInTheDocument()
             expect(screen.getByText('sathki')).toBeInTheDocument()
             expect(screen.getByText('70')).toBeInTheDocument()
             expect(screen.getByText('bcd123')).toBeInTheDocument()

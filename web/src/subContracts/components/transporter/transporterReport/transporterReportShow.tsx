@@ -39,14 +39,14 @@ const cellNames = [
     'Contact Person Number',
     'Address',
     'HasGst',
-    'Gst Number',
-    'Gst Percentage',
+    'GST Number',
+    'GST Percentage',
     'Has Tds',
     'Transporter Type',
     'Tds Percentage',
     'AccountHolder',
     'Account Number',
-    'branchName',
+    'BranchName',
     'IFSC',
     'AccountType Number'
 ]
@@ -55,7 +55,7 @@ const tableRow = (
     <TableRow>
         <TableCell>#</TableCell>
         {cellNames.map((name, index) => (
-            <TableCell key={index} align="left">
+            <TableCell key={index} align="center" style={{ fontWeight: 'bold' }}>
                 {name}
             </TableCell>
         ))}

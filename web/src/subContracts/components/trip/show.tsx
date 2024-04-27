@@ -55,12 +55,19 @@ const tableRow = (authoriser: boolean) => {
     const rowResult = authoriser
         ? tableCellData
         : tableCellData.filter((cell) => !hiddenFields.includes(cell))
-    return <TableRow>{rowResult.map((data, index) => tableCell(index, data))}</TableRow>
+    return (
+        <TableRow>
+            {rowResult.map((data, index) => (
+                <TableCell key={index} align="center">
+                    <span style={{ fontWeight: 'bold' }}>{data}</span>
+                </TableCell>
+            ))}
+        </TableRow>
+    )
 }
 const getTableHead = (authoriser: boolean) => {
-    return <TableHead>{tableRow(authoriser)}</TableHead>
+    return <TableHead style={{ fontWeight: '40px' }}>{tableRow(authoriser)}</TableHead>
 }
-
 const ShowTypography = (index: number, row: AllStockProps, authoriser: boolean) => {
     return (
         <>
@@ -163,10 +170,3 @@ const ListAllTrip: React.FC<Props> = ({ allStockTrips, setUpdate, update }) => {
 }
 
 export default ListAllTrip
-function tableCell(index: number, data: string) {
-    return (
-        <TableCell key={index} align="left">
-            {data}
-        </TableCell>
-    )
-}

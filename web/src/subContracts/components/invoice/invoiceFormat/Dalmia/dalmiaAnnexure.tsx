@@ -4,7 +4,7 @@ import { AnnexureProps, StockToUnloadingPointProps, rowProps } from '../../inter
 import dayjs from 'dayjs'
 import { toWords } from '../numberToWords'
 
-const Dalmia_Annexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
+const DalmiaAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
     return (
         <section id="dalmia_annexure_section">
             <div className="dalmia_annexure_main">
@@ -148,7 +148,7 @@ const Dalmia_Annexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total
     )
 }
 
-export default Dalmia_Annexure
+export default DalmiaAnnexure
 
 const tableRow = (row: rowProps, index: number) => {
     return (

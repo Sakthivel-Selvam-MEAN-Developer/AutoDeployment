@@ -8,7 +8,7 @@ import calculateTotals from '../calculateTotal'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import dayjs from 'dayjs'
 import { financialYear } from '../financialYear'
-import Dalmia_Annexure from './dalmiaAnnexure'
+import DalmiaAnnexure from './dalmiaAnnexure'
 import { toWords } from '../numberToWords'
 import { Box, CircularProgress } from '@mui/material'
 
@@ -349,7 +349,7 @@ const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({
                         </main>
                     </section>
                     <hr style={{ margin: '0 20px' }} />
-                    <Dalmia_Annexure
+                    <DalmiaAnnexure
                         tripDetails={trip}
                         lastBillNumber={lastBillNumber}
                         total={total}

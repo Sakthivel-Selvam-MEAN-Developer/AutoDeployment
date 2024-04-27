@@ -6,7 +6,7 @@ import ListTrips from './listTrips'
 const style = {
     marginBottom: '30px',
     display: 'flex',
-    justifyContent: 'right'
+    justifyContent: 'center'
 }
 const TripList: React.FC = () => {
     const [allStockTrips, setAllStockTrips] = useState([])

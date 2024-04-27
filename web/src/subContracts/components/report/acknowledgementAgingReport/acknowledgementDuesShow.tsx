@@ -67,16 +67,17 @@ const cellNames = [
 const cells = (cell: string, index: number) => {
     return (
         <TableCell key={index} align="center">
-            {cell}
+            <span style={{ fontWeight: 'bold' }}>{cell}</span>
         </TableCell>
     )
 }
 const tableRow = (
-    <TableRow>
+    <TableRow style={{ fontWeight: 'bold' }}>
         <TableCell>#</TableCell>
         {cellNames.map((name, index) => cells(name, index))}
     </TableRow>
 )
+
 function getTableHead() {
     return <TableHead>{tableRow}</TableHead>
 }
