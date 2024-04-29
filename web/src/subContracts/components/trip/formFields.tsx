@@ -21,6 +21,7 @@ import DateInput from '../../../form/DateInput.tsx'
 import Paper from '@mui/material/Paper'
 import { CheckUser } from '../../../auth/checkUser.tsx'
 import { FuelProps } from './newTrip.tsx'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime.ts'
 
 interface transporterProps {
     name: string
@@ -462,7 +463,7 @@ const FormField: React.FC<FormFieldProps> = ({
                         </TableRow>
                         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                             <TableCell>{fuelDetails.bunk.bunkName}</TableCell>
-                            <TableCell>{fuelDetails.fueledDate}</TableCell>
+                            <TableCell>{epochToMinimalDate(fuelDetails.fueledDate)}</TableCell>
                             <TableCell>{fuelDetails.invoiceNumber}</TableCell>
                             <TableCell>{fuelDetails.pricePerliter}</TableCell>
                             <TableCell>{fuelDetails.quantity}</TableCell>

@@ -98,7 +98,7 @@ describe('Add Acknowledgement Test', () => {
             screen.getByRole('listbox')
         })
         const opt = screen.getByRole('option', {
-            name: 'TN93D5512 abc123'
+            name: 'TN93D5512-abc123'
         })
         await userEvent.click(opt)
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))

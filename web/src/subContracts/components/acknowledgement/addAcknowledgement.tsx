@@ -73,11 +73,16 @@ const AddAcknowledgement: React.FC = () => {
                                           vehicleNumber =
                                               vehicleNumber?.loadingPointToStockPointTrip
                                       }
-                                      return `${vehicleNumber?.truck.vehicleNumber} ${vehicleNumber?.invoiceNumber}`
+                                      return `${vehicleNumber?.truck.vehicleNumber}-${vehicleNumber?.invoiceNumber}`
                                   })
                                 : []
                         }
-                        onChange={onChangeForVehicleList(vehicleslist, setTripId, setVehicleNumber)}
+                        onChange={onChangeForVehicleList(
+                            vehicleslist,
+                            setTripId,
+                            setVehicleNumber,
+                            setTripDetails
+                        )}
                     />
                     <SubmitButton name="Submit" type="submit" disabled={disable} />
                 </form>
@@ -118,7 +123,6 @@ const AddAcknowledgement: React.FC = () => {
                         <DueDateDialog tripClosed={tripClosed} paymentDetails={paymentDetails[0]} />
                     )}
                     {tripClosed && <p>Trip Closed...</p>}
-                    {acknowledgeDueTime === null && <p>Trip should be Unloaded</p>}
                 </div>
             </div>
         </>
@@ -128,19 +132,28 @@ export default AddAcknowledgement
 type onChangeType = (
     vehicleslist: never[],
     setTripId: React.Dispatch<React.SetStateAction<number>>,
-    setVehicleNumber: React.Dispatch<React.SetStateAction<string>>
+    setVehicleNumber: React.Dispatch<React.SetStateAction<string>>,
+    setTripDetails: React.Dispatch<React.SetStateAction<tripdetailsProps | null>>
 ) => void
 
-const onChangeForVehicleList: onChangeType = (vehicleslist, setTripId, setVehicleNumber) => {
+const onChangeForVehicleList: onChangeType = (
+    vehicleslist,
+    setTripId,
+    setVehicleNumber,
+    setTripDetails
+) => {
     return (_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+        setVehicleNumber('')
+        setTripDetails(null)
+        setTripId(0)
         const { id } = vehicleslist.find((trip) => {
             let tripType = findTripType(trip)
             if (tripType?.loadingPointToStockPointTrip !== undefined) {
                 tripType = tripType?.loadingPointToStockPointTrip
             }
             return (
-                tripType?.truck.vehicleNumber === newValue.split(' ')[0] &&
-                tripType?.invoiceNumber === newValue.split(' ')[1]
+                tripType?.truck.vehicleNumber === newValue.split('-')[0] &&
+                tripType?.invoiceNumber === newValue.split('-')[1]
             )
         }) || { id: 0 }
         setTripId(id)
