@@ -1,3 +1,21 @@
+- date: 27-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - should debug the error in test file for table header
+  completed:
+    - debuged the error in test file for table header
+    
+- date: 26-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - should debug error handling test error
+    - should modify the table header style
+  completed:
+    - debuged error handling test error
+    - modified the table header style
+    
 - date: 25-04-2024
   person: Barath
   project: subContract
@@ -21,7 +39,7 @@
   project: subContract
   planning:
     - should debug error handling test error
-
+    
 - date: 24-04-2024
   person: Barath,Sakthivel
   project: subContract
