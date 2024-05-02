@@ -1,3 +1,64 @@
+- date: 02-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add checkbox to generate invoice for company
+    - should allow loaded stock trips to create invoice
+- date: 02-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add daily betta and trip betta
+
+- date: 30-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should change invoice models from overallTrip to specific trips
+    - should create tabs in ui for loadingToStock, direct and stockToUnloading.
+  completed:
+    - changed invoice models from overallTrip to specific trips
+    - created tabs in ui for loadingToStock, direct and stockToUnloading.
+- date: 30-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add driver name dropDown and fetch their respective data
+  completed:
+    - added driver name dropDown and fetch their respective data
+
+- date: 29-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should explain subcontract to both ramya and sneka
+  completed:
+    - explained subcontract to both ramya and sneka
+    - worked on final pay issues and add acknowledgement issues 
+- date: 29-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should explain subcontract to both ramya and sneka
+    - worked on final pay issues and add acknowledgement issues
+  completed:
+    - explained subcontract to both ramya and sneka
+    - worked on final pay issues and add acknowledgement issues 
+
+- date: 27-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add dialog for acknowledgement with dueDate
+    - should create task list for transporter invoice
+  completed:
+    - added dialog for acknowledgement with dueDate
+    - created task list for transporter invoice
+- date: 27-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should research how to create users in keycloak on driver creation
 - date: 27-04-2024
   person: Sri Sneka,Ramya
   project: subContract
@@ -5,7 +66,23 @@
     - should debug the error in test file for table header
   completed:
     - debuged the error in test file for table header
-    
+
+- date: 26-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add loadingPoint,unloadingPoint,startDateand invoice in completed payments
+    - should add fields in gst paymentDues as final pay
+  completed:
+    - added loadingPoint,unloadingPoint,startDateand invoice in completed payments
+    - added fields in gst paymentDues as final pay
+- date: 26-04-2024
+  person: Sakthivel
+  project: subContract
+  planning:
+    - should add table inside paymentDues
+  completed:
+    - added table inside paymentDues
 - date: 26-04-2024
   person: Sri Sneka,Ramya
   project: subContract
@@ -15,7 +92,7 @@
   completed:
     - debuged error handling test error
     - modified the table header style
-    
+
 - date: 25-04-2024
   person: Barath
   project: subContract
