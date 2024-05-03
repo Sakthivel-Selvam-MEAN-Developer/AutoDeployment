@@ -1,19 +1,44 @@
+- date: 03-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should write test to ui and backend for invoice
+    - should test invoice and deploy
+- date: 03-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should create model for tripBetta
+- date: 03-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - should research how pagination is written 
+    - should display pagination number limited to data 
+
 - date: 02-04-2024
   person: Barath
   project: subContract
   planning:
     - should add checkbox to generate invoice for company
     - should allow loaded stock trips to create invoice
+  completed:
+    - added checkbox to generate invoice for company
+    - allowed loaded stock trips to create invoice
 - date: 02-04-2024
   person: Sakthivel
   project: driverSalary
   planning:
-    - should add daily betta and trip betta
+    - should create screen for trip betta
+  completed:
+    - created screen for trip betta
 - date: 02-04-2024
   person: Sri Sneka,Ramya
   project: subContract
   planning:
-    - should handle the defect in text based search
+    - should write task list for text based search
+  completed:
+    - written task list for text based search
 
 - date: 30-04-2024
   person: Barath
