@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 import prisma from '../../../prisma/index.ts'
+import { filterDataProps } from '../controller/invoice.ts'
 
 export const create = (
     data:
@@ -59,6 +60,22 @@ export const updateBillNumber = (id: number[], billNo: string) =>
         }
     })
 
+export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
+    prisma.loadingPointToUnloadingPointTrip.findMany({
+        where: {
+            loadingPoint: { cementCompany: { name: filterData.company } },
+            startDate: {
+                lte: filterData.startDate === 0 ? undefined : filterData.startDate,
+                gte: filterData.endDate === 0 ? undefined : filterData.endDate
+            },
+            overallTrip: { some: { acknowledgementStatus: true } }
+        },
+        include: {
+            loadingPoint: { include: { cementCompany: true } },
+            unloadingPoint: { include: { cementCompany: true } },
+            truck: true
+        }
+    })
 export const getInvoiceDetails = (id: number[]) =>
     prisma.loadingPointToUnloadingPointTrip.findMany({
         where: {

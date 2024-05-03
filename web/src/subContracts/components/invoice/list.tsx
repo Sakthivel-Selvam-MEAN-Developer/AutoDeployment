@@ -1,14 +1,15 @@
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import FormField from './formField'
-import { getOverallTripByCompany } from '../../services/overallTrips'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ListAllTripForInvoice from './show'
 import dayjs from 'dayjs'
 import { Button } from '@mui/material'
 import InvoiceDialog from './invoiceDialog'
-import { updateInvoiceDetails } from '../../services/invoice'
+import { getTripDetailsByFilterData, updateInvoiceDetails } from '../../services/invoice'
 import { getLastBillNumber } from '../../services/billNumber'
-interface dateProps {
+import { filterDataProps, invoiceFilterData } from './invoiceContext'
+import { Nullable } from '../../../types'
+export interface dateProps {
     $d: number
 }
 export interface cementCompanyProps {
@@ -24,24 +25,42 @@ export interface tripDetailsProps {
     tripId: number
     tripName: string
 }
+export interface tripDetails {
+    id: number
+    startDate: number
+    truck: {
+        vehicleNumber: string
+    }
+    loadingPoint: {
+        name: string
+    }
+    stockPoint: {
+        name: string
+    }
+    unloadingPoint: {
+        name: string
+    }
+    invoiceNumber: string
+    freightAmount: number
+    totalFreightAmount: number
+    loadingPointToStockPointTrip: { stockPoint: { name: string } }
+}
+
 const InvoiceList: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
-    const [tripDetails, setTripDetails] = useState([])
-    const [startDate, setStartDate] = useState<string | null>(null)
-    const [endDate, setEndDate] = useState<string | null>(null)
+    const [tripDetails, setTripDetails] = useState<tripDetails[]>([])
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
-    const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [tripId, setTripId] = useState<tripDetailsProps[]>([])
-    const [message, setMessage] = useState<string>('Select Cement Comapany to List Data..!')
     const [activate, setActivate] = useState<boolean>(false)
     const [lastBillNumber, setLastBillNumber] = useState<string>('')
+    const [filterData, setFilterData] = useState<Nullable<filterDataProps>>({
+        pageName: 'LoadingToUnloading',
+        startDate: 0,
+        endDate: 0,
+        cementCompanyName: ''
+    })
 
-    useEffect(() => {
-        setTripDetails([])
-        setTripId([])
-        setMessage('Select Cement Comapany to List Data..!')
-    }, [cementCompanyName])
-    const onSubmit: SubmitHandler<FieldValues> = async () => {
+    const onSubmit = async () => {
         getTripDetails()
         await generateBillNumber().then(setLastBillNumber)
     }
@@ -57,25 +76,8 @@ const InvoiceList: React.FC = () => {
         })
     }
     const getTripDetails = () => {
-        if (
-            (endDate !== null && startDate !== null && cementCompanyName !== '') ||
-            (cementCompanyName !== '' && startDate !== null) ||
-            cementCompanyName !== ''
-        ) {
-            const start_date =
-                startDate !== null
-                    ? dayjs(dayjs((startDate as unknown as dateProps)?.$d)).unix()
-                    : 0
-            const end_date =
-                endDate !== null ? dayjs(dayjs((endDate as unknown as dateProps)?.$d)).unix() : 0
-            getOverallTripByCompany(
-                cementCompanyName !== '' ? cementCompanyName : null,
-                start_date,
-                end_date
-            )
-                .then(setTripDetails)
-                .then(() => tripId.length === 0 && setMessage('No Records Found..!'))
-        } else alert("Cement Company can't be Empty..!\nand\nStart Date can't be Empty..!")
+        if (filterData?.cementCompanyName === '') return
+        getTripDetailsByFilterData(filterData).then(setTripDetails)
     }
     const updateInvoice = async () => {
         const data = {
@@ -85,55 +87,50 @@ const InvoiceList: React.FC = () => {
         await updateInvoiceDetails(data).then(getTripDetails)
     }
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexWrap: 'wrap'
-                }}
-            >
-                <FormField
-                    control={control}
-                    setStartDate={setStartDate}
-                    setEndDate={setEndDate}
-                    startDate={startDate}
-                    endDate={endDate}
-                    cementCompany={cementCompany}
-                    setCementCompany={setCementCompany}
-                    setCementCompanyName={setCementCompanyName}
-                />
-                <Button
-                    color="secondary"
-                    variant="contained"
-                    type="button"
-                    style={{ margin: '10px' }}
-                    onClick={handleClick}
-                    disabled={tripId.length === 0}
+        <invoiceFilterData.Provider value={{ filterData, setFilterData }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexWrap: 'wrap'
+                    }}
                 >
-                    Generate Invoice
-                </Button>
-            </div>
-            {tripDetails.length !== 0 ? (
+                    <FormField
+                        control={control}
+                        cementCompany={cementCompany}
+                        setCementCompany={setCementCompany}
+                    />
+                    <Button
+                        color="secondary"
+                        variant="contained"
+                        type="button"
+                        style={{ margin: '10px' }}
+                        onClick={handleClick}
+                        disabled={tripId.length === 0}
+                    >
+                        Generate Invoice
+                    </Button>
+                </div>
                 <ListAllTripForInvoice
                     tripDetails={tripDetails}
                     setTripId={setTripId}
                     tripId={tripId}
+                    setTripDetails={setTripDetails}
                 />
-            ) : (
-                <p style={{ marginTop: '30px' }}>{message}</p>
-            )}
-            {activate && (
-                <InvoiceDialog
-                    tripId={tripId}
-                    company={cementCompanyName}
-                    setActivate={setActivate}
-                    updateInvoice={updateInvoice}
-                    lastBillNumber={lastBillNumber}
-                />
-            )}
-        </form>
+                <br />
+                {activate && (
+                    <InvoiceDialog
+                        tripId={tripId}
+                        company={filterData?.cementCompanyName}
+                        setActivate={setActivate}
+                        updateInvoice={updateInvoice}
+                        lastBillNumber={lastBillNumber}
+                    />
+                )}
+            </form>
+        </invoiceFilterData.Provider>
     )
 }
 export default InvoiceList

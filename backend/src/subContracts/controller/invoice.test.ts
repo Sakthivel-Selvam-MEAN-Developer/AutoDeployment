@@ -10,18 +10,24 @@ const mockUpdateBillNumberS = vi.fn()
 const mockGetInvoiceDetailsU = vi.fn()
 const mockUpdateBillNumberU = vi.fn()
 const mockUpdateBillNumberB = vi.fn()
+const mockGetDirectTripsByinvoiceFilter = vi.fn()
+const mockGetStockTripsByinvoiceFilter = vi.fn()
+const mockGetUnloadingTripsByinvoiceFilter = vi.fn()
 
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberD(inputs, billNo),
-    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsD(inputs)
+    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsD(inputs),
+    getDirectTripsByinvoiceFilter: (inputs: any) => mockGetDirectTripsByinvoiceFilter(inputs)
 }))
 vi.mock('../models/loadingToStockPointTrip', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberS(inputs, billNo),
-    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsS(inputs)
+    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsS(inputs),
+    getStockTripsByinvoiceFilter: (inputs: any) => mockGetStockTripsByinvoiceFilter(inputs)
 }))
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberU(inputs, billNo),
-    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsU(inputs)
+    getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsU(inputs),
+    getUnloadingTripsByinvoiceFilter: (inputs: any) => mockGetUnloadingTripsByinvoiceFilter(inputs)
 }))
 vi.mock('../models/billNumber', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberB(inputs, billNo)
@@ -131,8 +137,14 @@ const mockBody2 = {
     ],
     billNo: 'MGL23A-1'
 }
+const mockFilterData = {
+    startDate: 1709317800,
+    endDate: 1709317800,
+    cementCompanyName: 'ultraTech',
+    pageName: 'LoadingToUnloading'
+}
 describe('Invoice Controller', async () => {
-    test('should able to get invoice details', async () => {
+    test('should able to update invoice details', async () => {
         mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
         mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
@@ -141,7 +153,7 @@ describe('Invoice Controller', async () => {
         expect(mockGetInvoiceDetailsS).toBeCalledTimes(1)
         expect(mockGetInvoiceDetailsU).toBeCalledTimes(1)
     })
-    test('should able to get invoice details', async () => {
+    test('should able to update billDetails details', async () => {
         await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
         expect(mockUpdateBillNumberD).toBeCalledTimes(1)
         expect(mockUpdateBillNumberS).toBeCalledTimes(1)
@@ -152,5 +164,29 @@ describe('Invoice Controller', async () => {
         await supertest(app).put('/api/invoice').send(mockBody).expect(200)
         await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
+    })
+    test('should able to get invoice details from direct trip', async () => {
+        mockGetDirectTripsByinvoiceFilter.mockResolvedValue(mockGetInvoiceDetailsDData)
+        await supertest(app)
+            .get('/api/invoice')
+            .query({ ...mockFilterData, pageName: 'LoadingToUnloading' })
+            .expect(200)
+        expect(mockGetDirectTripsByinvoiceFilter).toBeCalledTimes(1)
+    })
+    test('should able to get invoice details from loadingToStock trip', async () => {
+        mockGetStockTripsByinvoiceFilter.mockResolvedValue(mockGetInvoiceDetailsDData)
+        await supertest(app)
+            .get('/api/invoice')
+            .query({ ...mockFilterData, pageName: 'LoadingToStock' })
+            .expect(200)
+        expect(mockGetStockTripsByinvoiceFilter).toBeCalledTimes(1)
+    })
+    test('should able to get invoice details from stockToUnloading trip', async () => {
+        mockGetUnloadingTripsByinvoiceFilter.mockResolvedValue(mockGetInvoiceDetailsDData)
+        await supertest(app)
+            .get('/api/invoice')
+            .query({ ...mockFilterData, pageName: 'StockToUnloading' })
+            .expect(200)
+        expect(mockGetUnloadingTripsByinvoiceFilter).toBeCalledTimes(1)
     })
 })

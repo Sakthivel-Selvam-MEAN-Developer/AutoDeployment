@@ -17,7 +17,6 @@ app.options('*', cors())
 app.use(keycloak.middleware())
 
 setRoutes(app)
-
 // if (import.meta.env.PROD) {
 //     app.listen(8000)
 // }

@@ -5,7 +5,7 @@ import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
 import { InvoiceProp } from '../../interface'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import calculateTotals from '../calculateTotal'
-import Dalmia_Annexure from './dalmiaAnnexure'
+import DalmiaAnnexure from './dalmiaAnnexure'
 import { Box, CircularProgress } from '@mui/material'
 import dayjs from 'dayjs'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
@@ -276,7 +276,7 @@ const DalmiaKadappaInvoice: FC<InvoiceProps> = ({
                         </main>
                     </section>
                     <hr style={{ margin: '0 20px' }} />
-                    <Dalmia_Annexure
+                    <DalmiaAnnexure
                         tripDetails={trip}
                         lastBillNumber={lastBillNumber}
                         total={total}

@@ -11,13 +11,13 @@ export const auditRoute = async (req: any, res: any, next: NextFunction) => {
             const prevJSON = res.json
             const originalEnd = res.end
 
-            res.json = (data: any) => {
+            res.json = (data: { id: number }) => {
                 resDetails = data
                 prevJSON.call(res, data)
             }
 
-            res.end = async (...args: any[]) => {
-                const token: any = req.headers.authorization?.split(' ')[1]
+            res.end = async (...args: string[]) => {
+                const token: string = req.headers.authorization?.split(' ')[1]
                 const decodedToken: any = jwt.decode(token)
                 if (decodedToken === null) return
                 const userRoles = decodedToken.realm_access.roles

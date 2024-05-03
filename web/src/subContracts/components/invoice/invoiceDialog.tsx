@@ -59,7 +59,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 annexureTagID = 'dalmia_annexure_section'
                 break
         }
-        if (companyTagID !== '') {
+        if (companyTagID !== '' && company) {
             const invoiceData: HTMLElement | null = document.getElementById(companyTagID)
             const annexureData: HTMLElement | null = document.getElementById(annexureTagID)
             await downloadPdf(invoiceData, annexureData, company)

@@ -6,7 +6,6 @@ const mockListOverallTrip = vi.fn()
 const mockOverallTripByFiltrer = vi.fn()
 const mockgetTripByUnloadDate = vi.fn()
 const mockGetAllDiscrepancyReport = vi.fn()
-const mockGetTripDetailsByCompanyName = vi.fn()
 const mockTripStatusFilterCount = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
@@ -22,9 +21,7 @@ vi.mock('../models/overallTrip', () => ({
     ) => mockOverallTripByFiltrer(id1, id2, id3, id4, id5, pageNumber),
     tripStatusFilterCount: (id1: number, id2: number, id3: number, id4: number, id5: number) =>
         mockTripStatusFilterCount(id1, id2, id3, id4, id5),
-    getAllDiscrepancyReport: (from: number, to: number) => mockGetAllDiscrepancyReport(from, to),
-    getTripDetailsByCompanyName: (from: number, to: number) =>
-        mockGetTripDetailsByCompanyName(from, to)
+    getAllDiscrepancyReport: (from: number, to: number) => mockGetAllDiscrepancyReport(from, to)
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -111,11 +108,6 @@ describe('OverallTrip Controller', () => {
         mockgetTripByUnloadDate.mockResolvedValue(mockOverallTripData)
         await supertest(app).get('/api/overalltrip/acknowledgement/0').expect(200)
         expect(mockgetTripByUnloadDate).toBeCalledTimes(1)
-    })
-    test('should able to filter trip by unloadDate', async () => {
-        mockGetTripDetailsByCompanyName.mockResolvedValue(mockOverallTripData)
-        await supertest(app).get('/api/overalltrip/1/1700764200/1700764200').expect(200)
-        expect(mockGetTripDetailsByCompanyName).toBeCalledTimes(1)
     })
     test('should able to get discrepancy report', async () => {
         mockGetAllDiscrepancyReport.mockResolvedValue(mockOverallTripData)

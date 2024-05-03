@@ -9,7 +9,7 @@ export const create = (
 ) => prisma.paymentDues.createMany({ data })
 interface getOnlyActiveDuesByName {
     by: any[]
-    where: {
+    where?: {
         status: boolean
         NEFTStatus: boolean
         dueDate?: {
@@ -22,24 +22,17 @@ interface getOnlyActiveDuesByName {
     _count: { status: true }
     _sum: { payableAmount: true }
 }
+const searchQuery: getOnlyActiveDuesByName = {
+    by: ['name'],
+    _count: { status: true },
+    _sum: { payableAmount: true }
+}
 export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: string) => {
-    const query: getOnlyActiveDuesByName = {
-        by: ['name'],
-        where: {
-            status: false,
-            NEFTStatus: status,
-            NOT: { type: 'gst pay' },
-            type
-        },
-        _count: { status: true },
-        _sum: { payableAmount: true }
-    }
-    if (dueDate !== dayjs.utc().startOf('day').unix()) {
-        query.where.dueDate = { equals: dueDate }
-    } else {
-        query.where.dueDate = { lte: dueDate }
-    }
-    return prisma.paymentDues.groupBy(query)
+    searchQuery.where = { status: false, NEFTStatus: status, NOT: { type: 'gst pay' }, type }
+    if (dueDate !== dayjs.utc().startOf('day').unix())
+        searchQuery.where.dueDate = { equals: dueDate }
+    else searchQuery.where.dueDate = { lte: dueDate }
+    return prisma.paymentDues.groupBy(searchQuery)
 }
 interface findTripWithActiveDuesProps {
     where: {

@@ -10,6 +10,7 @@ import signature from '../signature.png'
 import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'
 import { Box, CircularProgress } from '@mui/material'
+import { Nullable } from '../../../../../types'
 export interface InvoiceProps {
     tripId: tripDetailsProps[]
     lastBillNumber: string
@@ -18,7 +19,7 @@ export interface InvoiceProps {
 }
 export interface UltraTechProps {
     tripId: tripDetailsProps[]
-    company: string
+    company: Nullable<string>
     setActivate: React.Dispatch<React.SetStateAction<boolean>>
     updateInvoice: () => void
     lastBillNumber: string

@@ -49,21 +49,27 @@ interface listTransporterProps {
     transporterDueData: OverallProps[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
+const rowHeaderData = [
+    'Vehicle Number',
+    'Start Date',
+    'Invoice Number',
+    'Loading Point',
+    'Unloading Point',
+    'Transporter Name',
+    'CSM Name',
+    'Due Date',
+    'Amount'
+]
 const tableCell = () => {
     return (
         <>
-            <TableCell align="left" style={{ fontWeight: 'bold' }}>
-                Transporter Name
-            </TableCell>
-            <TableCell align="left" style={{ fontWeight: 'bold' }}>
-                CSM Name
-            </TableCell>
-            <TableCell align="left" style={{ fontWeight: 'bold' }}>
-                Due Date
-            </TableCell>
-            <TableCell align="left" style={{ fontWeight: 'bold' }}>
-                Amount
-            </TableCell>
+            {rowHeaderData.map((name, index) => {
+                return (
+                    <TableCell key={index} align="left" style={{ fontWeight: 'bold' }}>
+                        {name}
+                    </TableCell>
+                )
+            })}
         </>
     )
 }

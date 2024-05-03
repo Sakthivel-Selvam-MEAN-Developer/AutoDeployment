@@ -1,15 +1,18 @@
 import { Request, Response } from 'express'
 import {
     updateBillNumber as updateLoadingToUnloading,
-    getInvoiceDetails as loadingToUnlaodingInvoice
+    getInvoiceDetails as loadingToUnlaodingInvoice,
+    getDirectTripsByinvoiceFilter
 } from '../models/loadingToUnloadingTrip.ts'
 import {
     updateBillNumber as updateLoadingToStock,
-    getInvoiceDetails as loadingToStockInvoice
+    getInvoiceDetails as loadingToStockInvoice,
+    getStockTripsByinvoiceFilter
 } from '../models/loadingToStockPointTrip.ts'
 import {
     updateBillNumber as updateStockToUnloading,
-    getInvoiceDetails as stockToUnlaodingInvoice
+    getInvoiceDetails as stockToUnlaodingInvoice,
+    getUnloadingTripsByinvoiceFilter
 } from '../models/stockPointToUnloadingPoint.ts'
 import { updateBillNumber } from '../models/billNumber.ts'
 
@@ -43,6 +46,44 @@ const groupTripId = (tripDetails: tripDetailsProps[]) => {
     })
     return { loadingToUnloading, loadingToStock, stockToUnloading }
 }
+export interface filterDataProps {
+    startDate: number
+    endDate: number
+    company: string
+}
+const getTripByType = async (type: string, filterData: filterDataProps) => {
+    switch (type) {
+        case 'LoadingToUnloading':
+            return getDirectTripsByinvoiceFilter(filterData)
+        case 'LoadingToStock':
+            return getStockTripsByinvoiceFilter(filterData)
+        case 'StockToUnloading':
+            return getUnloadingTripsByinvoiceFilter(filterData)
+        default:
+            return null
+    }
+}
+interface RequestQuery {
+    pageName: string
+    startDate: string
+    endDate: string
+    cementCompanyName: string
+}
+type listTripDetailsByCompanyNameProps = (
+    req: Request<object, object, object, RequestQuery>,
+    res: Response
+) => void
+export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = async (req, res) => {
+    const filterData = {
+        startDate: parseInt(req.query.startDate),
+        endDate: parseInt(req.query.endDate),
+        company: req.query.cementCompanyName
+    }
+    await getTripByType(req.query.pageName, filterData)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+
 export const getInvoiceDetails = (req: Request, res: Response) => {
     const { loadingToUnloading, loadingToStock, stockToUnloading }: invoiceProps = groupTripId(
         req.body

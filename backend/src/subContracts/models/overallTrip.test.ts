@@ -10,7 +10,6 @@ import {
     getOverAllTripIdByLoadingToStockId,
     getOverallTrip,
     getTripByUnloadDate,
-    getTripDetailsByCompanyName,
     tripStatusFilter,
     updateStockToUnloadingInOverall
 } from './overallTrip.ts'
@@ -443,37 +442,6 @@ describe('Overall Trip model', () => {
         })
         const actual = await getOverAllTripIdByLoadingToStockId(loadingToStockPointTrip.id)
         expect(actual?.id).toBe(overallTrip.id)
-    })
-    test('should able to get overall trip by cementCompany name', async () => {
-        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const unloadingPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'salem'
-        })
-        const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
-        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: loadingPricePointMarker.id
-        })
-        const deliveryPoint = await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: unloadingPricePointMarker.id
-        })
-        const trip = await createTrip({
-            ...seedFactoryToCustomerTrip,
-            loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            truckId: truck.id,
-            wantFuel: false
-        })
-        const overall = await create({ loadingPointToUnloadingPointTripId: trip.id })
-        await closeAcknowledgementStatusforOverAllTrip(overall.id)
-        const actual = await getTripDetailsByCompanyName('UltraTech Cements', 0, 0)
-        expect(actual[0].loadingPointToUnloadingPointTrip?.truckId).toBe(truck.id)
     })
     test('should able to get overall trip by filter', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

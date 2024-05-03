@@ -6,23 +6,21 @@ import seedTruck from '../seed/truck.ts'
 import {
     create,
     getAllTrip,
-    getInvoiceDetails,
+    getDirectTripsByinvoiceFilter,
     getOnlyActiveTripByVehicleNumber,
     getTripByVehicleNumber,
-    updateBillNumber,
     updateUnloadWeightforTrip
 } from './loadingToUnloadingTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
+import {
+    closeAcknowledgementStatusforOverAllTrip,
+    create as createOverallTrip
+} from './overallTrip.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
-import {
-    closeAcknowledgementStatusforOverAllTrip,
-    create as createOverall,
-    getTripDetailsByCompanyName
-} from './overallTrip.ts'
 
 describe('Trip model', () => {
     test('should able to create a trip', async () => {
@@ -110,7 +108,7 @@ describe('Trip model', () => {
         const actual = await updateUnloadWeightforTrip(trip.id)
         expect(actual.tripStatus).toBe(true)
     })
-    test('should able to update bill number To trip', async () => {
+    test('should able to get loading To Unloading Point for invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,
@@ -132,14 +130,16 @@ describe('Trip model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id,
-            wantFuel: true
+            truckId: truck.id
         })
-        const overall = await createOverall({ loadingPointToUnloadingPointTripId: trip.id })
-        await closeAcknowledgementStatusforOverAllTrip(overall.id)
-        const tripByCompany = await getTripDetailsByCompanyName('UltraTech Cements', 0, 0)
-        const actual = await getInvoiceDetails([tripByCompany[0].id])
-        await updateBillNumber([trip.id], 'MGL23A-1')
-        expect(actual !== null).toBe(true)
+        const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
+        await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
+        const mockFilterData = {
+            startDate: 1700764200,
+            endDate: 1700764200,
+            company: 'UltraTech Cements'
+        }
+        const actual = await getDirectTripsByinvoiceFilter(mockFilterData)
+        expect(actual[0].unloadingPointId).toBe(trip.unloadingPointId)
     })
 })

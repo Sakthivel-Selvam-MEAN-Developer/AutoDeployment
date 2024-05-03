@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 
 const fuelLogics = async (
@@ -80,30 +81,29 @@ const fuelLogics = async (
 }
 
 export default fuelLogics
-
-export function fuelDues(
+interface fuelProps {
+    id: number
+    fueledDate: number
+    invoiceNumber: string
+    pricePerliter: number
+    quantity: number
+    totalprice: number
+    paymentStatus: boolean
+    vehicleNumber: string
+    bunkId: number
+}
+type fuelDueType = (
     bunkname: string,
     vehicleNumber: string,
-    fuel: {
-        id: number
-        fueledDate: number
-        invoiceNumber: string
-        pricePerliter: number
-        quantity: number
-        totalprice: number
-        paymentStatus: boolean
-        vehicleNumber: string
-        bunkId: number
+    fuel: fuelProps
+) => Prisma.paymentDuesCreateManyInput | Prisma.paymentDuesCreateManyInput[]
+export const fuelDues: fuelDueType = (bunkname, vehicleNumber, fuel) => [
+    {
+        name: bunkname,
+        type: 'fuel pay',
+        fuelId: fuel.id,
+        vehicleNumber,
+        dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+        payableAmount: fuel.totalprice
     }
-) {
-    return [
-        {
-            name: bunkname,
-            type: 'fuel pay',
-            fuelId: fuel.id,
-            vehicleNumber,
-            dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-            payableAmount: fuel.totalprice
-        }
-    ]
-}
+]

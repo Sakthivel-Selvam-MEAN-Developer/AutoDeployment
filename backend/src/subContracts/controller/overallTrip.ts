@@ -4,7 +4,6 @@ import {
     getAllDiscrepancyReport,
     getOverallTrip,
     getTripByUnloadDate,
-    getTripDetailsByCompanyName,
     tripStatusFilter,
     tripStatusFilterCount
 } from '../models/overallTrip.ts'
@@ -30,23 +29,14 @@ export const listTripStatusReportDetails: listTripStatusReportDetailsProps = asy
     const { cementCompanyId, transporterId, loadingPointId, from, to, pageNumber } = req.query
     const skipNumber = (parseInt(pageNumber) - 1) * 200
     tripStatusFilter(cementCompanyId, transporterId, loadingPointId, from, to, skipNumber)
-        .then((filterData) => {
+        .then((filterData) =>
             tripStatusFilterCount(cementCompanyId, transporterId, loadingPointId, from, to).then(
                 (count) => res.status(200).json({ filterData, count })
             )
-        })
+        )
         .catch(() => res.status(500))
 }
 
-export const listTripDetailsByCompanyName = (req: Request, res: Response) => {
-    getTripDetailsByCompanyName(
-        req.params.company,
-        parseInt(req.params.startDate),
-        parseInt(req.params.endDate)
-    )
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
-}
 export const listTripDetailsByUnloadDate = (req: Request, res: Response) => {
     const date = dayjs().subtract(parseInt(req.params.date), 'days').startOf('day').unix()
     getTripByUnloadDate(date)

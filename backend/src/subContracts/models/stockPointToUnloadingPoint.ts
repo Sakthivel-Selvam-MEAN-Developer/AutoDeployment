@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 import prisma from '../../../prisma/index.ts'
+import { filterDataProps } from '../controller/invoice.ts'
 
 export const create = (
     data:
@@ -72,5 +73,21 @@ export const getInvoiceDetails = (id: number[]) =>
                     }
                 }
             }
+        }
+    })
+
+export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
+    prisma.stockPointToUnloadingPointTrip.findMany({
+        where: {
+            unloadingPoint: { cementCompany: { name: filterData.company } },
+            startDate: {
+                lte: filterData.startDate === 0 ? undefined : filterData.startDate,
+                gte: filterData.endDate === 0 ? undefined : filterData.endDate
+            }
+        },
+        include: {
+            loadingPointToStockPointTrip: { include: { stockPoint: true } },
+            unloadingPoint: { include: { cementCompany: true } },
+            truck: true
         }
     })

@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
+import { filterDataProps } from '../controller/invoice.ts'
 
 export const create = (
     data:
@@ -51,5 +52,20 @@ export const getInvoiceDetails = (id: number[]) =>
             freightAmount: true,
             truck: { select: { vehicleNumber: true } },
             filledLoad: true
+        }
+    })
+export const getStockTripsByinvoiceFilter = (filterData: filterDataProps) =>
+    prisma.loadingPointToStockPointTrip.findMany({
+        where: {
+            loadingPoint: { cementCompany: { name: filterData.company } },
+            startDate: {
+                lte: filterData.startDate === 0 ? undefined : filterData.startDate,
+                gte: filterData.endDate === 0 ? undefined : filterData.endDate
+            }
+        },
+        include: {
+            loadingPoint: { include: { cementCompany: true } },
+            stockPoint: { include: { cementCompany: true } },
+            truck: true
         }
     })

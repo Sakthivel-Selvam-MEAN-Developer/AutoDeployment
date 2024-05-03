@@ -6,12 +6,6 @@ export const getOverallTrip = () =>
         .get(`/overallTrip`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-type tripType = (company: string | null, startDate: number, endDate: number) => Promise<never[]>
-export const getOverallTripByCompany: tripType = (company, startDate, endDate) =>
-    axiosInstance
-        .get(`/overalltrip/${company}/${startDate}/${endDate}`)
-        .then(getData)
-        .catch(() => alert('Error Getting data'))
 
 export const getTripByUnloadDate = (date: number) =>
     axiosInstance
