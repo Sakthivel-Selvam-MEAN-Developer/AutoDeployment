@@ -29,9 +29,9 @@ const searchQuery: getOnlyActiveDuesByName = {
 }
 export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: string) => {
     searchQuery.where = { status: false, NEFTStatus: status, NOT: { type: 'gst pay' }, type }
-    if (dueDate !== dayjs.utc().startOf('day').unix())
+    if (dueDate !== dayjs.utc().startOf('day').unix()) {
         searchQuery.where.dueDate = { equals: dueDate }
-    else searchQuery.where.dueDate = { lte: dueDate }
+    } else searchQuery.where.dueDate = { lte: dueDate }
     return prisma.paymentDues.groupBy(searchQuery)
 }
 interface findTripWithActiveDuesProps {
