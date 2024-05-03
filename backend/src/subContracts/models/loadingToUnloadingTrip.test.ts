@@ -135,8 +135,8 @@ describe('Trip model', () => {
         const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
         const mockFilterData = {
-            startDate: 1700764200,
-            endDate: 1700764200,
+            startDate: 0,
+            endDate: 0,
             company: 'UltraTech Cements'
         }
         const actual = await getDirectTripsByinvoiceFilter(mockFilterData)

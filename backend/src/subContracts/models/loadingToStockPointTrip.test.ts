@@ -159,8 +159,8 @@ describe('Loading To Stock Trip model', () => {
             wantFuel: true
         })
         const mockFilterData = {
-            startDate: 1700764200,
-            endDate: 1700764200,
+            startDate: 0,
+            endDate: 0,
             company: 'UltraTech Cements'
         }
         const tripData = await getStockTripsByinvoiceFilter(mockFilterData)

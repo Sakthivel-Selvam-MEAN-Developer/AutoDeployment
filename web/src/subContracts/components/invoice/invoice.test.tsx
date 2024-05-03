@@ -7,12 +7,16 @@ import dayjs from 'dayjs'
 
 const mockAllCementCompany = vi.fn()
 const mockGetTripDetailsByFilterData = vi.fn()
+const mockGetLastBillNumber = vi.fn()
 
 vi.mock('../../services/cementCompany', () => ({
     getAllCementCompany: () => mockAllCementCompany()
 }))
 vi.mock('../../services/invoice', () => ({
     getTripDetailsByFilterData: (inputs: any) => mockGetTripDetailsByFilterData(inputs)
+}))
+vi.mock('../../services/billNumber', () => ({
+    getLastBillNumber: () => mockGetLastBillNumber()
 }))
 
 const mockCementData = [
@@ -39,10 +43,12 @@ const mockDirectTripData = [
         unloadingPoint: { name: 'Delhi' }
     }
 ]
+const mockBillNo = { lastBillNo: 'MGL23A-0' }
 describe('Trip Test', () => {
     test('checking the component called NewTrip', async () => {
         mockAllCementCompany.mockResolvedValue(mockCementData)
         mockGetTripDetailsByFilterData.mockResolvedValue(mockDirectTripData)
+        mockGetLastBillNumber.mockResolvedValue(mockBillNo)
         render(
             <BrowserRouter>
                 <InvoiceList />
@@ -72,5 +78,6 @@ describe('Trip Test', () => {
         expect(screen.getByText('LoadingToStock Trip')).toBeInTheDocument()
         expect(mockGetTripDetailsByFilterData).toHaveBeenCalledTimes(1)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
+        expect(mockGetLastBillNumber).toHaveBeenCalledTimes(1)
     })
 })

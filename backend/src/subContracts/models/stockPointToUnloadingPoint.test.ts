@@ -233,8 +233,8 @@ describe('stock Point to unloading point', () => {
             unloadingPointId: unloadingPoint.id
         })
         const mockFilterData = {
-            startDate: 1700764200,
-            endDate: 1700764200,
+            startDate: 0,
+            endDate: 0,
             company: 'UltraTech Cements'
         }
         const actual = await getUnloadingTripsByinvoiceFilter(mockFilterData)
