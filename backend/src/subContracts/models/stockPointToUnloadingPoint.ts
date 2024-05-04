@@ -83,7 +83,8 @@ export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
             startDate: {
                 lte: filterData.startDate === 0 ? undefined : filterData.startDate,
                 gte: filterData.endDate === 0 ? undefined : filterData.endDate
-            }
+            },
+            billNo: null
         },
         include: {
             loadingPointToStockPointTrip: { include: { stockPoint: true } },

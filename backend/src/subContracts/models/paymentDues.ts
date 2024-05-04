@@ -199,11 +199,15 @@ export const getUpcomingDuesByFilter = (name: string, from: number, to: number) 
                 select: {
                     loadingPointToStockPointTrip: {
                         include: {
+                            loadingPoint: true,
+                            stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
                             truck: { include: { transporter: { select: { csmName: true } } } }
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
                         include: {
+                            loadingPoint: true,
+                            unloadingPoint: true,
                             truck: { include: { transporter: { select: { csmName: true } } } }
                         }
                     }

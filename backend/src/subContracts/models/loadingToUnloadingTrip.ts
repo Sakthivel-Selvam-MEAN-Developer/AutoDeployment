@@ -68,6 +68,7 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
                 lte: filterData.startDate === 0 ? undefined : filterData.startDate,
                 gte: filterData.endDate === 0 ? undefined : filterData.endDate
             },
+            billNo: null,
             overallTrip: { some: { acknowledgementStatus: true } }
         },
         include: {

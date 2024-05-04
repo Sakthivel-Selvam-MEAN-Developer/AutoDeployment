@@ -8,7 +8,8 @@ import { cementCompanyProps, dateProps } from './list.tsx'
 import { Button } from '@mui/material'
 import { filterDataProps, invoiceFilterData } from './invoiceContext.ts'
 import dayjs from 'dayjs'
-
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 interface FormFieldsProps {
     control: Control
     cementCompany: cementCompanyProps[]
@@ -37,7 +38,9 @@ const FormField: React.FC<FormFieldsProps> = ({ control, cementCompany, setCemen
                     label="From Date"
                     value={startDate}
                     onChange={(newValue) => {
-                        const endDate = dayjs(dayjs((newValue as unknown as dateProps)?.$d)).unix()
+                        const endDate = dayjs
+                            .utc(dayjs((newValue as unknown as dateProps)?.$d))
+                            .unix()
                         setFilterData((preData: filterDataProps) => {
                             return { ...preData, endDate }
                         })
@@ -50,9 +53,9 @@ const FormField: React.FC<FormFieldsProps> = ({ control, cementCompany, setCemen
                     label="To Date"
                     value={endDate}
                     onChange={(newValue) => {
-                        const startDate = dayjs(
-                            dayjs((newValue as unknown as dateProps)?.$d)
-                        ).unix()
+                        const startDate = dayjs
+                            .utc(dayjs((newValue as unknown as dateProps)?.$d))
+                            .unix()
                         setFilterData((preData: filterDataProps) => {
                             return { ...preData, startDate }
                         })

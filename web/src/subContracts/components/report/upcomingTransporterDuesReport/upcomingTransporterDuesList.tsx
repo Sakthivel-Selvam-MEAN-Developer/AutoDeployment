@@ -7,6 +7,9 @@ import {
     getUpcomingDuesByFilter,
     getUpcomingDuesByFilterByDefault
 } from '../../../services/paymentDues'
+import utc from 'dayjs/plugin/utc'
+import dayjs from 'dayjs'
+dayjs.extend(utc)
 
 const ListAllUpcomingDues: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
@@ -27,9 +30,11 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
     }, [skipNumber, transporterList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (transporterName !== '' && data.from && data.to)
-            getUpcomingDuesByFilter(transporterName, data.from.unix(), data.to.unix()).then(
-                setTransporterList
-            )
+            getUpcomingDuesByFilter(
+                transporterName,
+                dayjs.utc(data.from).unix(),
+                dayjs.utc(data.to).unix()
+            ).then(setTransporterList)
         setShowDetails(true)
     }
     return (
