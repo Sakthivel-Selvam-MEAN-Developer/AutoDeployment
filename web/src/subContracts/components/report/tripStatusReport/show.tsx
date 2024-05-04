@@ -242,7 +242,7 @@ const DataGridTable: FC<dataGridTableProps> = ({ overallTrips, authoriser }) => 
     return (
         <div>
             <DataGrid
-                sx={{ width: '94vw', height: '30vw' }}
+                sx={{ width: '94vw', height: '27vw' }}
                 rows={finalData}
                 columns={columns}
                 getRowId={(row) => row.number}

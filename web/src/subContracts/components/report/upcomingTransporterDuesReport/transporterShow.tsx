@@ -1,15 +1,9 @@
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import { Button, Pagination, Stack } from '@mui/material'
+import { Box, Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { Dispatch, ReactElement } from 'react'
+import { Dispatch, FC } from 'react'
 import { SetStateAction } from 'jotai'
+import { DataGrid } from '@mui/x-data-grid'
 
 interface OverallProps {
     name: string
@@ -49,73 +43,74 @@ interface listTransporterProps {
     transporterDueData: OverallProps[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
 }
-const rowHeaderData = [
-    'Vehicle Number',
-    'Start Date',
-    'Invoice Number',
-    'Loading Point',
-    'Unloading Point',
-    'Transporter Name',
-    'CSM Name',
-    'Due Date',
-    'Amount'
-]
-const tableCell = () => {
-    return (
-        <>
-            {rowHeaderData.map((name, index) => {
-                return (
-                    <TableCell key={index} align="left" style={{ fontWeight: 'bold' }}>
-                        {name}
-                    </TableCell>
-                )
-            })}
-        </>
-    )
+interface TransporterGrid {
+    gridData: {
+        id: number
+        vehicleNumber: string | undefined
+        startDate: string | null
+        invoiceNumber: string | undefined
+        loadingPoint: string | undefined
+        unloadingPoint: string | undefined
+        transporterName: string
+        csmName: string | undefined
+        dueDate: string | 0
+        amount: number
+    }[]
 }
-function getTableHead() {
+
+const columns = [
+    { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', flex: 1 },
+    { field: 'startDate', headerName: 'Start Date', flex: 1 },
+    { field: 'invoiceNumber', headerName: 'Invoice Number', flex: 1 },
+    { field: 'loadingPoint', headerName: 'Loading Point', flex: 1 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', flex: 1 },
+    { field: 'transporterName', headerName: 'Transporter Name', flex: 1 },
+    { field: 'csmName', headerName: 'CSM Name', flex: 1 },
+    { field: 'dueDate', headerName: 'Due Date', flex: 1 },
+    { field: 'amount', headerName: 'Amount', flex: 1 }
+]
+const TransporterGrid: FC<TransporterGrid> = ({ gridData }) => {
     return (
-        <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                {tableCell()}
-            </TableRow>
-        </TableHead>
+        <Box sx={{ height: '26vw', width: '94vw' }}>
+            <DataGrid
+                loading={gridData.length === 0}
+                rows={gridData}
+                columns={columns}
+                pageSizeOptions={[100]}
+                disableRowSelectionOnClick
+            />
+        </Box>
     )
 }
 
-type cellType = (data: OverallProps, trip: props | null) => ReactElement
-const getCells: cellType = (data, trip) => {
+const getTripData = (data: OverallProps, trip: props | null, index: number) => {
+    return {
+        id: index,
+        vehicleNumber: trip?.truck.vehicleNumber,
+        startDate: trip && epochToMinimalDate(trip?.startDate),
+        invoiceNumber: trip?.invoiceNumber,
+        loadingPoint: trip?.loadingPoint.name,
+        unloadingPoint:
+            trip?.unloadingPoint !== undefined
+                ? trip?.unloadingPoint.name
+                : trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name,
+        transporterName: data.name,
+        csmName: trip?.truck.transporter.csmName,
+        dueDate: data.dueDate && epochToMinimalDate(data.dueDate),
+        amount: data.payableAmount
+    }
+}
+interface GridContainerProps {
+    transporterDueData: OverallProps[]
+}
+const GridContainer: FC<GridContainerProps> = ({ transporterDueData }) => {
+    const data = transporterDueData.map((row, index) => getTripData(row, getTripType(row), ++index))
     return (
         <>
-            <TableCell align="left">{trip?.truck.vehicleNumber}</TableCell>
-            <TableCell align="left">{trip && epochToMinimalDate(trip?.startDate)}</TableCell>
-            <TableCell align="left">{trip?.invoiceNumber}</TableCell>
-            <TableCell align="left">{trip?.loadingPoint.name}</TableCell>
-            <TableCell align="left">
-                {trip?.unloadingPoint !== undefined
-                    ? trip?.unloadingPoint.name
-                    : trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name}
-            </TableCell>
-            <TableCell align="left">{data.name}</TableCell>
-            <TableCell align="left">{trip?.truck.transporter.csmName}</TableCell>
-            <TableCell align="left">{epochToMinimalDate(data.dueDate)}</TableCell>
-            <TableCell align="left">{data.payableAmount}</TableCell>
+            <TransporterGrid gridData={data} />
         </>
     )
-}
-const tableBodyCell = (row: OverallProps, index: number, number: number) => {
-    const style = { '&:last-child td, &:last-child th': { border: 0 } }
-    return (
-        <TableRow key={index} sx={style}>
-            <TableCell> {++number} </TableCell>
-            {getCells(row, getTripType(row))}
-        </TableRow>
-    )
-}
-function getTableBody(allTrips: OverallProps[]) {
-    const number = 0
-    return <TableBody>{allTrips.map((row, index) => tableBodyCell(row, index, number))}</TableBody>
 }
 
 const getTripType = (row: OverallProps) => {
@@ -127,12 +122,18 @@ const getTripType = (row: OverallProps) => {
 }
 function download(listoverallTrip: OverallProps[]) {
     const downloadtripData: object[] = []
-    listoverallTrip.map((row: OverallProps) => {
-        downloadCSV(row, downloadtripData, listoverallTrip.length)
+    listoverallTrip.map((row: OverallProps, index: number) => {
+        downloadCSV(row, downloadtripData, listoverallTrip.length, getTripType(row), index)
     })
 }
-const downloadCSV = (Dues: OverallProps, downloadtripData: object[], num: number) => {
-    const data = { transporterName: Dues.name, dueDate: Dues.dueDate, amount: Dues.payableAmount }
+const downloadCSV = (
+    Dues: OverallProps,
+    downloadtripData: object[],
+    num: number,
+    trip: props | null,
+    index: number
+) => {
+    const data = getTripData(Dues, trip, index)
     downloadtripData.push(data)
     if (downloadtripData.length === num) {
         const data = downloadtripData
@@ -153,7 +154,10 @@ const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, se
     return (
         <>
             {generateCSVButton(transporterDueData)}
-            {tableContainer(transporterDueData)}
+            <br />
+            <br />
+            <br />
+            <GridContainer transporterDueData={transporterDueData} />
             {stack(setskipNumber)}
         </>
     )
@@ -177,19 +181,6 @@ function pagination(setskipNumber: Dispatch<SetStateAction<number>>) {
             color="primary"
             onChange={(_e, value) => setskipNumber(value - 1)}
         />
-    )
-}
-
-function tableContainer(transporterDueData: OverallProps[]) {
-    return <TableContainer component={Paper}>{table(transporterDueData)}</TableContainer>
-}
-
-function table(transporterDueData: OverallProps[]) {
-    return (
-        <Table sx={{ minWidth: 600 }} aria-label="simple table">
-            {getTableHead()}
-            {getTableBody(transporterDueData)}
-        </Table>
     )
 }
 
