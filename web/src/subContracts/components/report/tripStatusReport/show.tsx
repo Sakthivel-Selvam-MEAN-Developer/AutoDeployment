@@ -182,18 +182,22 @@ const downloadCSV = (listoverallTrip: Props[], authoriser: boolean) => {
 }
 
 const addAuthorisedColumns = (authoriser: boolean) => {
-    if (!authoriser || columns.some((column) => Object.keys(column).includes('freightAmount')))
-        return
-    const freightAmount = { field: 'freightAmount', headerName: 'Freight Rate', width: 100 }
-    const totalFreightAmount = {
-        field: 'totalFreightAmount',
-        headerName: 'Total Freight Amount',
-        width: 150
+    if (authoriser && !columns.some((column) => column.field === 'freightAmount')) {
+        const freightAmount = { field: 'freightAmount', headerName: 'Freight Rate', width: 100 }
+        const totalFreightAmount = {
+            field: 'totalFreightAmount',
+            headerName: 'Total Freight Amount',
+            width: 150
+        }
+        const margin = { field: 'margin', headerName: 'Margin', width: 100 }
+
+        // Find the index of 'bunkName' field in columns array
+        const bunkNameIndex = columns.findIndex((column) => column.field === 'bunkName')
+
+        // If 'bunkName' field is found, splice the new columns at that index
+        if (bunkNameIndex !== -1)
+            columns.splice(bunkNameIndex, 0, freightAmount, totalFreightAmount, margin)
     }
-    const margin = { field: 'margin', headerName: 'Margin', width: 100 }
-    const bunkNameIndex = columns.findIndex((column) => column.field === 'bunkName')
-    if (bunkNameIndex !== -1)
-        columns.splice(bunkNameIndex, 0, freightAmount, totalFreightAmount, margin)
 }
 
 const generateRow = (row: Props, index: number) => {
