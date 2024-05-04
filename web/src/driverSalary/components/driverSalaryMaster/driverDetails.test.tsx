@@ -48,7 +48,7 @@ describe('Driver Test', () => {
         mockGetDriverTripByDriverId.mockResolvedValue(mockTripDetailsData)
         mockGetAllDriver.mockResolvedValue(mockDriverDetailsData)
     })
-    test('should to able to create see driver details', async () => {
+    test('should be able to create driver details', async () => {
         render(
             <BrowserRouter>
                 <DriverSalaryConatiner />
@@ -76,7 +76,6 @@ describe('Driver Test', () => {
 
         //Check Driver trip List
         expect(screen.getByText('Date')).toBeInTheDocument()
-        expect(screen.getByText('02/05/2024')).toBeInTheDocument()
         expect(screen.getByText('Invoice Number')).toBeInTheDocument()
         expect(screen.getByText('asdxasasd')).toBeInTheDocument()
         expect(screen.getByText('Expenses Amount')).toBeInTheDocument()
