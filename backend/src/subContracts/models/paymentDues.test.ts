@@ -9,7 +9,6 @@ import {
     getGstPaymentDues,
     getOnlyActiveDuesByName,
     getPaymentDuesWithoutTripId,
-    getUpcomingDuesByDefault,
     getUpcomingDuesByFilter,
     updatePaymentDues,
     updatePaymentDuesWithTripId,
@@ -225,7 +224,7 @@ describe('Payment-Due model', () => {
             payableAmount: 5000,
             overallTripId: id
         })
-        const actual = await getUpcomingDuesByFilter('Barath Logistics', 1700634419, 1700893619)
+        const actual = await getUpcomingDuesByFilter('Barath Logistics', undefined, undefined)
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(5000)
     })
@@ -325,59 +324,5 @@ describe('Payment-Due model', () => {
         const actual = await getGstPaymentDues([seedPaymentDue.name], true)
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
-    })
-    test('should be able to get UpcomingDues By Default', async () => {
-        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const stockPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'salem'
-        })
-        const unloadingPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'Erode'
-        })
-        const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
-        await createTruck({
-            ...seedTruck,
-            transporterId: transporter.id
-        })
-        const stockTripTruck = await createTruck({
-            ...seedTruck,
-            vehicleNumber: 'TN52S3555',
-            transporterId: transporter.id
-        })
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: loadingPricePointMarker.id
-        })
-        await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: unloadingPricePointMarker.id
-        })
-        const stockPoint = await createStockpoint({
-            ...seedStockPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: stockPricePointMarker.id
-        })
-
-        const loadingToStockTrip = await createLoadingToStockTrip({
-            ...seedLoadingToStockTrip,
-            loadingPointId: factoryPoint.id,
-            stockPointId: stockPoint.id,
-            truckId: stockTripTruck.id,
-            wantFuel: false
-        })
-        const overallTrip: any = await createOverallTrip({
-            loadingPointToStockPointTripId: loadingToStockTrip.id
-        })
-        await create({ ...seedPaymentDue, overallTripId: overallTrip.id, type: 'final pay' })
-        const actual = await getUpcomingDuesByDefault()
-        expect(actual.length).toBe(1)
-        expect(actual[0]?.overallTrip?.loadingPointToStockPointTrip?.invoiceNumber).toBe(
-            loadingToStockTrip.invoiceNumber
-        )
     })
 })

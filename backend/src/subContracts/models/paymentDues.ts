@@ -184,14 +184,18 @@ export const getGstPaymentDues = (name: string[], status: boolean) =>
             }
         }
     })
-export const getUpcomingDuesByFilter = (name: string, from: number, to: number) =>
+export const getUpcomingDuesByFilter = (
+    name: string | undefined,
+    from: string | undefined,
+    to: string | undefined
+) =>
     prisma.paymentDues.findMany({
         where: {
             name,
             type: 'final pay',
             dueDate: {
-                gte: from,
-                lte: to
+                gte: from !== undefined ? parseInt(from) : undefined,
+                lte: to !== undefined ? parseInt(to) : undefined
             }
         },
         include: {
@@ -215,32 +219,7 @@ export const getUpcomingDuesByFilter = (name: string, from: number, to: number) 
             }
         }
     })
-export const getUpcomingDuesByDefault = () =>
-    prisma.paymentDues.findMany({
-        where: {
-            type: 'final pay'
-        },
-        include: {
-            overallTrip: {
-                select: {
-                    loadingPointToStockPointTrip: {
-                        include: {
-                            loadingPoint: true,
-                            stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
-                            truck: { include: { transporter: { select: { csmName: true } } } }
-                        }
-                    },
-                    loadingPointToUnloadingPointTrip: {
-                        include: {
-                            loadingPoint: true,
-                            unloadingPoint: true,
-                            truck: { include: { transporter: { select: { csmName: true } } } }
-                        }
-                    }
-                }
-            }
-        }
-    })
+
 export const getCompletedDues = (name: string, from: number, to: number, page: number) => {
     const whereCondition: any = {
         status: true,

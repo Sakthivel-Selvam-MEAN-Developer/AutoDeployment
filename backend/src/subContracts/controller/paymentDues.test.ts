@@ -18,8 +18,7 @@ const mockgetUpcomingDuesByFilter = vi.fn()
 const mockgetGstDuesGroupByName = vi.fn()
 const mockgetTransporterAccountByName = vi.fn()
 const mockgetGstPaymentDues = vi.fn()
-const mockGetUpcomingPaymentDues = vi.fn()
-const mockGeCompletedPaymentDues = vi.fn()
+const mockGetCompletedPaymentDues = vi.fn()
 const mockUpdateNEFTStatus = vi.fn()
 
 vi.mock('../models/paymentDues', () => ({
@@ -31,10 +30,9 @@ vi.mock('../models/paymentDues', () => ({
         mockgetUpcomingDuesByFilter(name, from, to),
     getGstDuesGroupByName: () => mockgetGstDuesGroupByName(),
     getGstPaymentDues: () => mockgetGstPaymentDues(),
-    getUpcomingDuesByDefault: () => mockGetUpcomingPaymentDues(),
     updatePaymentNEFTStatus: (dueId: number[]) => mockUpdateNEFTStatus(dueId),
     getCompletedDues: (name: string, from: number, to: number, page: number) =>
-        mockGeCompletedPaymentDues(name, from, to, page)
+        mockGetCompletedPaymentDues(name, from, to, page)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockGetAllTrip()
@@ -320,7 +318,23 @@ const mockTransporterDuesDues = {
     payableAmount: 20000,
     type: 'final pay',
     dueDate: 1706725800,
-    vehicleNumber: 'TN93D5512'
+    vehicleNumber: 'TN93D5512',
+    overallTrip: {
+        loadingPointToStockPointTrip: {
+            truck: {
+                transporter: {
+                    csmName: 'Bharath'
+                }
+            }
+        },
+        loadingPointToUnloadingPointTrip: {
+            truck: {
+                transporter: {
+                    csmName: 'Sakthivel'
+                }
+            }
+        }
+    }
 }
 const mockFuelData = [
     {
@@ -425,26 +439,6 @@ const mockGroupedGSTDetails = [
     }
 ]
 
-const mockUpcomigPaymentDuesData = [
-    {
-        overallTrip: {
-            loadingPointToStockPointTrip: {
-                truck: {
-                    transporter: {
-                        csmName: 'Bharath'
-                    }
-                }
-            },
-            loadingPointToUnloadingPointTrip: {
-                truck: {
-                    transporter: {
-                        csmName: 'Sakthivel'
-                    }
-                }
-            }
-        }
-    }
-]
 const mockCompletedPaymentDuesData = [
     {
         name: 'Bharath Petroleum',
@@ -488,10 +482,9 @@ describe('Payment Due Controller', () => {
     })
     test('should list all upcoming payment dues', async () => {
         mockgetUpcomingDuesByFilter.mockResolvedValue(mockTransporterDuesDues)
-        await supertest(app).get(
-            '/api/payment-dues/Barath%20Logistics%20Pvt%20Ltd/1706725800/1706725800'
-        )
-        expect(mockgetUpcomingDuesByFilter).toHaveBeenCalledTimes(1)
+        await supertest(app).get('/api/upcoming-payment-dues').expect(mockTransporterDuesDues)
+        await supertest(app).get('/api/upcoming-payment-dues').expect(200)
+        expect(mockgetUpcomingDuesByFilter).toHaveBeenCalledTimes(2)
     })
     test('should get the active transporter payment dues', async () => {
         mockgetOnlyActiveDuesByName.mockResolvedValue(mockGroupedDuesData)
@@ -524,23 +517,15 @@ describe('Payment Due Controller', () => {
         expect(mockgetGstDuesGroupByName).toHaveBeenCalledTimes(1)
         expect(mockgetGstPaymentDues).toHaveBeenCalledTimes(1)
     })
-    test('should list all upcoming payment dues by default', async () => {
-        mockGetUpcomingPaymentDues.mockResolvedValue(mockUpcomigPaymentDuesData)
-        await supertest(app)
-            .get('/api/upcoming-payment-dues/default')
-            .expect(mockUpcomigPaymentDuesData)
-        await supertest(app).get('/api/upcoming-payment-dues/default').expect(200)
-        expect(mockGetUpcomingPaymentDues).toHaveBeenCalledTimes(2)
-    })
-    test('should get upcoming payment dues', async () => {
-        mockGeCompletedPaymentDues.mockResolvedValue(mockCompletedPaymentDuesData)
+    test('should get completed payment dues', async () => {
+        mockGetCompletedPaymentDues.mockResolvedValue(mockCompletedPaymentDuesData)
         await supertest(app)
             .get('/api/completed-payment-dues/Bharath Petroleum/1710840451/1710841451/1')
             .expect(mockCompletedPaymentDuesData)
         await supertest(app)
             .get('/api/completed-payment-dues/Bharath Petroleum/1710840451/1710841451/1')
             .expect(200)
-        expect(mockGeCompletedPaymentDues).toHaveBeenCalledTimes(2)
+        expect(mockGetCompletedPaymentDues).toHaveBeenCalledTimes(2)
     })
     test('should update NEFT Status', async () => {
         mockUpdateNEFTStatus.mockResolvedValue(mockUpdateNEFTStatusData)

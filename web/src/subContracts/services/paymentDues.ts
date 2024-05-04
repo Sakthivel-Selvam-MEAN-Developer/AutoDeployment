@@ -45,15 +45,9 @@ export const getGstDues = (status: boolean) =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const getUpcomingDuesByFilter = (name: string, from: number, to: number) =>
+export const getUpcomingDuesByFilter = (filterData: object) =>
     axiosInstance
-        .get(`/payment-dues/${name}/${from}/${to}`)
-        .then(getData)
-        .catch(() => alert('Error Getting data'))
-
-export const getUpcomingDuesByFilterByDefault = () =>
-    axiosInstance
-        .get(`/upcoming-payment-dues/default`)
+        .get(`/upcoming-payment-dues/`, { params: filterData })
         .then(getData)
         .catch(() => alert('Error Getting data'))
 

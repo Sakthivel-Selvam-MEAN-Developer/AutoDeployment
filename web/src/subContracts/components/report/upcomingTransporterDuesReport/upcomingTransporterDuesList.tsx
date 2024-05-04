@@ -3,10 +3,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../../form/button'
 import TransporterDuesFilter from './transporterDuesFilter'
 import ListAllTransporterDetails from './transporterShow'
-import {
-    getUpcomingDuesByFilter,
-    getUpcomingDuesByFilterByDefault
-} from '../../../services/paymentDues'
+import { getUpcomingDuesByFilter } from '../../../services/paymentDues'
 import utc from 'dayjs/plugin/utc'
 import dayjs from 'dayjs'
 dayjs.extend(utc)
@@ -19,22 +16,17 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
     const [showDetails, setShowDetails] = useState(false)
     const [transporterName, setTransporterName] = useState('')
     useEffect(() => {
-        getUpcomingDuesByFilterByDefault().then((data) => {
-            setTransporterList(data), setTripWithPagination(data)
-        })
-    }, [])
-    useEffect(() => {
         const value = skipNumber * 15
         const Trip = transporterList ? transporterList.slice(value, value + 15) : []
         setTripWithPagination(Trip)
     }, [skipNumber, transporterList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        if (transporterName !== '' && data.from && data.to)
-            getUpcomingDuesByFilter(
-                transporterName,
-                dayjs.utc(data.from).unix(),
-                dayjs.utc(data.to).unix()
-            ).then(setTransporterList)
+        const filterData = {
+            transporterName: transporterName !== '' ? transporterName : undefined,
+            from: data.from !== undefined ? dayjs.utc(data.from).unix() : undefined,
+            to: data.to !== undefined ? dayjs.utc(data.to).unix() : undefined
+        }
+        getUpcomingDuesByFilter(filterData).then(setTransporterList)
         setShowDetails(true)
     }
     return (

@@ -4,7 +4,6 @@ import {
     donwloadNEFTFile,
     listAllCompletedDues,
     listAllUpcomingTransporterDues,
-    listAllUpcomingTransporterDuesByDefault,
     listGstDuesGroupByName,
     listOnlyActiveTransporterDues,
     updateNEFTStatus,
@@ -23,8 +22,7 @@ const paymentDues = (router: Router) => {
     router.get('/payment-dues', listOnlyActiveTransporterDues)
     router.put('/payment-dues', authorise(['Admin']), updatePayment)
     router.get('/payment-dues/:status', listGstDuesGroupByName)
-    router.get('/payment-dues/:name/:from/:to', listAllUpcomingTransporterDues)
-    router.get('/upcoming-payment-dues/default', listAllUpcomingTransporterDuesByDefault)
+    router.get('/upcoming-payment-dues', listAllUpcomingTransporterDues)
     router.get('/completed-payment-dues/:name/:from/:to/:page', listAllCompletedDues)
 }
 

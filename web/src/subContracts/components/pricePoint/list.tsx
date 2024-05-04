@@ -15,7 +15,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [unloadingPointId, setUnloadingPointId] = useState<number | null>(null)
     const [stockPointId, setStockPointId] = useState<number | null>(null)
     const [freightAmount, setFreightAmount] = useState<number>(0)
-    const [dueDate, setDueDate] = useState<number>(0)
     const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [category, setCategory] = useState<string>('')
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
@@ -42,7 +41,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 loadingPointId: loadingPointId,
                 unloadingPointId: unloadingPointId,
                 stockPointId: stockPointId,
-                payGeneratingDuration: dueDate,
                 freightAmount: freightAmount,
                 transporterPercentage: transporterPercentage,
                 transporterAmount: parseFloat(transporterAmountFloat)
@@ -54,7 +52,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                         clearForm(
                             setCategory,
                             setCementCompanyName,
-                            setDueDate,
                             setTransporterPercentage,
                             setOpenSuccessDialog
                         )
@@ -67,7 +64,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                         clearForm(
                             setCategory,
                             setCementCompanyName,
-                            setDueDate,
                             setTransporterPercentage,
                             setOpenSuccessDialog
                         )
@@ -80,7 +76,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                         clearForm(
                             setCategory,
                             setCementCompanyName,
-                            setDueDate,
                             setTransporterPercentage,
                             setOpenSuccessDialog
                         )
@@ -110,8 +105,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     setCategory={setCategory}
                     setCementCompanyName={setCementCompanyName}
                     cementCompanyName={cementCompanyName}
-                    setDueDate={setDueDate}
-                    dueDate={dueDate}
                 />
                 <SubmitButton name="Create / Update" type="submit" disabled={disable} />
                 <SuccessDialog
@@ -131,13 +124,11 @@ export default CreatePricepoint
 const clearForm = (
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>,
-    setDueDate: React.Dispatch<React.SetStateAction<number>>,
     setTransporterPercentage: React.Dispatch<React.SetStateAction<number>>,
     setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
     setCategory('')
     setCementCompanyName('')
-    setDueDate(0)
     setTransporterPercentage(0)
     setOpenSuccessDialog(true)
 }

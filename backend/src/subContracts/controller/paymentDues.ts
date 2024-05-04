@@ -7,7 +7,6 @@ import {
     getGstDuesGroupByName,
     getGstPaymentDues,
     getOnlyActiveDuesByName,
-    getUpcomingDuesByDefault,
     getUpcomingDuesByFilter,
     updatePaymentDues,
     updatePaymentNEFTStatus
@@ -303,14 +302,17 @@ export const listGstDuesGroupByName = async (req: Request, res: Response) => {
         .then((gstDueData) => res.status(200).json(gstDueData))
         .catch(() => res.sendStatus(500))
 }
-export const listAllUpcomingTransporterDues = (req: Request, res: Response) => {
-    const { name, from, to } = req.params
-    getUpcomingDuesByFilter(name, parseInt(from), parseInt(to))
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+interface RequestQuery {
+    transporterName: string
+    from: string
+    to: string
 }
-export const listAllUpcomingTransporterDuesByDefault = (_req: Request, res: Response) => {
-    getUpcomingDuesByDefault()
+export const listAllUpcomingTransporterDues = (
+    req: Request<object, object, object, RequestQuery>,
+    res: Response
+) => {
+    const { transporterName, from, to } = req.query
+    getUpcomingDuesByFilter(transporterName, from, to)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

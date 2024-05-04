@@ -4,7 +4,7 @@ import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import { Control, Controller } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
-import { InputAdornment, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 
@@ -26,8 +26,6 @@ export interface FormFieldsProps {
     category: string
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>
     cementCompanyName: string
-    setDueDate: React.Dispatch<React.SetStateAction<number>>
-    dueDate: number
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -46,9 +44,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
     transporterPercentage,
     category,
     setCementCompanyName,
-    cementCompanyName,
-    setDueDate,
-    dueDate
+    cementCompanyName
 }) => {
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
@@ -70,7 +66,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
         setStockPointName('')
         setFreightAmount(0)
         setTransporterPercentage(0)
-        setDueDate(0)
         clearSubForm()
     }
     const clearSubForm = () => {
@@ -92,7 +87,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 if (amount) {
                     setFreightAmount(amount.freightAmount)
                     setTransporterPercentage(amount.transporterPercentage)
-                    setDueDate(amount.payGeneratingDuration)
                 }
             })
         }
@@ -233,33 +227,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 InputProps={{ readOnly: true }}
                 InputLabelProps={{ shrink: true }}
             />
-            {category !== 'Stock - Unloading' && (
-                <Controller
-                    render={() => (
-                        <TextField
-                            sx={{ width: '200px' }}
-                            value={dueDate}
-                            label="Pay Generating Duration"
-                            inputProps={{ step: 1, min: 1, max: 45 }}
-                            type="number"
-                            onChange={(e) => {
-                                if (parseInt(e.target.value) <= 45 && parseInt(e.target.value) > 0)
-                                    setDueDate(parseInt(e.target.value))
-                                else if (e.target.value === '') setDueDate(0)
-                            }}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <b>Days</b>
-                                    </InputAdornment>
-                                )
-                            }}
-                        />
-                    )}
-                    name="payGeneratingDuration"
-                    control={control}
-                />
-            )}
         </div>
     )
 }
