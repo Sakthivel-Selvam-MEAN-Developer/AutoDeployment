@@ -27,22 +27,7 @@ const mockDriverTripData = {
 
 const mockGetDriverTripData = [
     {
-        id: 1,
-        acknowledgementStatus: false,
-        loadingPointToStockPointTripId: null,
-        stockPointToUnloadingPointTripId: null,
-        loadingPointToUnloadingPointTripId: 1,
-        loadingPointToUnloadingPointTrip: {
-            loadingPoint: {
-                id: 1,
-                name: 'Chennai-south',
-                cementCompanyId: 1,
-                pricePointMarkerId: 1
-            },
-            invoiceNumber: 'ABC123',
-            startDate: 1700764200
-        },
-        loadingPointToStockPointTrip: null
+        tripId: 1
     }
 ]
 

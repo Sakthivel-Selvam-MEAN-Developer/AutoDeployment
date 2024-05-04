@@ -5,8 +5,8 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import ExpensesFormField from './expenseFormField.tsx'
 import { getDriverTripByDriverId } from '../../services/driverTrip.ts'
 import { ExpenseTable } from './expenseTable.tsx'
-import { getExpenseByTripId } from '../../services/expenses.ts'
 import { AddedExpense } from './addedExpenses.tsx'
+import { getAllDriver } from '../../services/driver.ts'
 export interface expenseDetailsType {
     expenseType: string
     amount: number
@@ -14,18 +14,24 @@ export interface expenseDetailsType {
 }
 const ListExpenses: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
+    const [driverList, setDriverList] = useState<never[]>([])
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [expensesDetails, setExpensesDetails] = useState<expenseDetailsType[]>([])
     const [driverTripDetails, setDriverTripDetails] = useState([])
-    const [addedExpense, setAddedExpense] = useState<expenseDetailsType[]>([])
+    const [addedExpense] = useState<expenseDetailsType[]>([])
+    const [driverId, setDriverId] = useState<number>(0)
     const [tripId, setTripId] = useState(0)
     useEffect(() => {
-        //should change 1 to driverId
-        getDriverTripByDriverId(1).then(setDriverTripDetails)
-        if (tripId !== 0) getExpenseByTripId(tripId).then(setAddedExpense)
-    }, [tripId])
+        getAllDriver().then(setDriverList)
+    }, [])
+    useEffect(() => {
+        getDriverTripByDriverId(driverId).then((trips) => setDriverTripDetails(trips.trips))
+    }, [driverId])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        if (data.expenseType !== undefined && data.amount !== undefined) return
+        if (data.expenseType === undefined || data.amount === undefined || tripId === 0) {
+            alert('All Fields are Required')
+            return
+        }
         setExpensesDetails([
             ...expensesDetails,
             { expenseType: data.expenseType, amount: parseInt(data.amount), tripId: tripId }
@@ -39,6 +45,9 @@ const ListExpenses: React.FC = () => {
                     control={control}
                     driverTripDetails={driverTripDetails}
                     setTripId={setTripId}
+                    driverList={driverList}
+                    setDriverId={setDriverId}
+                    driverId={driverId}
                 />
                 <SubmitButton name="Add Expense" type="submit" />
                 <SuccessDialog

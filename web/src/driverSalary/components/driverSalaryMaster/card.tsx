@@ -30,7 +30,7 @@ function driverContent(content: string) {
     )
 }
 
-const Driver_Card: FC<driverCardProps> = ({ content, value }) => {
+const DriverCardField: FC<driverCardProps> = ({ content, value }) => {
     return (
         <Card sx={{ display: 'flex', marginRight: '20px', marginTop: '20px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -40,4 +40,4 @@ const Driver_Card: FC<driverCardProps> = ({ content, value }) => {
     )
 }
 
-export default Driver_Card
+export default DriverCardField

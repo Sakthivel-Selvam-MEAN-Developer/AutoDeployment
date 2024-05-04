@@ -12,7 +12,7 @@ export interface driverDialogProps {
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Driver_Dialog_For_All_Details: FC<driverDialogProps> = ({ setActivateDialog }) => {
+const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog }) => {
     const [open, setOpen] = React.useState(true)
     const handleClose = () => {
         setActivateDialog(false)
@@ -50,4 +50,4 @@ const Driver_Dialog_For_All_Details: FC<driverDialogProps> = ({ setActivateDialo
     )
 }
 
-export default Driver_Dialog_For_All_Details
+export default DriverDialogForAllDetails

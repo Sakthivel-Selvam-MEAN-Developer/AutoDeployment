@@ -8,6 +8,6 @@ describe('Driver model', () => {
         const driver = await createDriver(seedDriver)
         const driverTrip = await create({ ...seedDriverTrip, driverId: driver.id })
         const actual = await getAllDriverTripById(driverTrip.id)
-        expect(actual[0].id).toBe(driverTrip.id)
+        expect(actual[0].tripId).toBe(driverTrip.id)
     })
 })

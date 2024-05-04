@@ -7,10 +7,6 @@ export const create = (
 
 export const getAllDriverTripById = (id: number) =>
     prisma.driverTrip.findMany({
-        where: {
-            driverId: id
-        },
-        select: {
-            id: true
-        }
+        where: { driverId: id },
+        select: { tripId: true }
     })

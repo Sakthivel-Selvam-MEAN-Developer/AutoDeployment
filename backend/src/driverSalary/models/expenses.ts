@@ -12,9 +12,7 @@ export const getAllExpenses = () => prisma.expenses.findMany({})
 
 export const getAllExpenseByTripId = (id: number) =>
     prisma.expenses.findMany({
-        where: {
-            tripId: id
-        },
+        where: { tripId: id },
         select: { expenseType: true, tripId: true, id: true, amount: true }
     })
 
@@ -24,4 +22,15 @@ export const getAllExpenseForApproval = () =>
             expenseApproval: false
         },
         select: { expenseType: true, tripId: true, id: true, amount: true }
+    })
+
+export const getAllExpenseCountByTripId = (id: number[]) =>
+    prisma.expenses.findMany({
+        where: {
+            tripId: { in: id }
+        },
+        select: {
+            amount: true,
+            tripId: true
+        }
     })

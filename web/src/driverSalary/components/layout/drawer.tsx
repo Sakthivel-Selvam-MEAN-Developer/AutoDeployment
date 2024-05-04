@@ -13,6 +13,7 @@ import { styled, useTheme, Theme } from '@mui/material/styles'
 import MuiDrawer from '@mui/material/Drawer'
 import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 
 interface MiniDrawerProps {
     handleDrawerClose: () => void
@@ -88,8 +89,15 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     text="Expense Approval"
                     navigate="/driverSalary/expenseApproval"
                     drawerState={drawerState}
-                    index={2}
+                    index={3}
                     icon={<Receipt />}
+                />
+                <DrawerListItem
+                    text="Trip Betta"
+                    navigate="/driverSalary/tripbetta"
+                    drawerState={drawerState}
+                    index={4}
+                    icon={<CurrencyRupeeIcon />}
                 />
             </List>
         </Drawer>

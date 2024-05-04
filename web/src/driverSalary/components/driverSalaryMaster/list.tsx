@@ -1,28 +1,34 @@
-import { FC, ReactElement, useEffect, useState } from 'react'
-import { getDriverTripByDriverId } from '../../services/driverTrip'
+import { FC, ReactElement, useState } from 'react'
 import { tripProps } from './driverTable'
 import { driverDialog, driverFormFields, driverTable } from './listBody'
+import { expensesProps } from './driverDetails'
 
 type listTripType = (
-    driverTripDetails: tripProps[],
     activateDialog: boolean,
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
+    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
+    driverTrips: tripProps[],
+    expenses: expensesProps[]
 ) => ReactElement
-const listTripDetails: listTripType = (driverTripDetails, activateDialog, setActivateDialog) => {
+const listTripDetails: listTripType = (
+    activateDialog,
+    setActivateDialog,
+    driverTrips,
+    expenses
+) => {
     return (
         <>
             {driverFormFields(setActivateDialog)}
-            {driverTable(driverTripDetails, setActivateDialog)}
+            {driverTable(setActivateDialog, driverTrips, expenses)}
             {driverDialog(activateDialog, setActivateDialog)}
         </>
     )
 }
-const List_Trip_Details: FC = () => {
-    const [activateDialog, setActivateDialog] = useState(false)
-    const [driverTripDetails, setDriverTripDetails] = useState([])
-    useEffect(() => {
-        getDriverTripByDriverId(1).then(setDriverTripDetails) //should change 1 to driverId
-    }, [])
-    return <>{listTripDetails(driverTripDetails, activateDialog, setActivateDialog)}</>
+interface listTripDetailsProps {
+    driverTrips: tripProps[]
+    expenses: expensesProps[]
 }
-export default List_Trip_Details
+const ListTripDetails: FC<listTripDetailsProps> = ({ driverTrips, expenses }) => {
+    const [activateDialog, setActivateDialog] = useState(false)
+    return <>{listTripDetails(activateDialog, setActivateDialog, driverTrips, expenses)}</>
+}
+export default ListTripDetails

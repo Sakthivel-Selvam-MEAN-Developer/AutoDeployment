@@ -35,3 +35,47 @@
   query:
     - delete from "subContract"."fuel" where id=251;
     - delete from "subContract"."paymentDues" where id=1076;
+
+  date: 30-04-2024
+  person: Santhosh
+  description:
+    - update transporter hasTds and tdsPercentage
+  query:
+    - update "subContract"."transporter" set "hasTds" = true, "tdsPercentage"=1 where id=153;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=147;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=85;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=70;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=128;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=120;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=106;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=101;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=97;
+
+  date: 30-04-2024
+  person: Karthik
+  description:
+    - change truck from one transporter to another transporter
+  query:
+    - update "subContract"."truck" set "transporterId" =215 where id =279;
+  
+  date: 30-04-2024
+  person: Karthik
+  description:
+    - entered fuel without giving wantFuel in trip
+    - deleted payment dues (initial pay and fuel pay)
+    - deleted fuel
+    - deleted overallTrip and loadingToStockTrip
+  query:
+    - delete from "subContract"."loadingPointToStockPointTrip" where id=320;
+    - delete from "subContract"."paymentDues" where id=1259;
+    - delete from "subContract"."paymentDues" where id=1259;
+    - delete from "subContract"."fuel" where id=267;
+    - delete from "subContract"."overallTrip"  where id=634;
+
+  date: 03-05-2024
+  person: Santhosh
+  description:
+    - update transporter hasTds and tdsPercentage
+  query:
+    - update "subContract"."transporter" set "hasTds" = true, "tdsPercentage"=1 where id=120;
+    - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=149;

@@ -360,7 +360,7 @@ model pricePointMarker {
 
 model loadingPointToStockPointTrip {
   id                             Int                              @id @default(autoincrement())
-  acknowledgeDueTime             Int?                             
+  acknowledgeDueTime             Int?
   startDate                      Int
   filledLoad                     Float                            @db.DoublePrecision
   wantFuel                       Boolean?
@@ -582,7 +582,7 @@ model driver {
   bankName           String
   accountNumber      String             @unique
   accountBranch      String
-  ifcsCode           String             
+  ifcsCode           String
   createdAt          DateTime           @default(now()) @db.Timestamptz(6)
   updatedAt          DateTime           @updatedAt @db.Timestamptz(6)
   driverTrip         driverTrip[]
@@ -623,6 +623,19 @@ model expenses {
   createdAt       DateTime     @default(now()) @db.Timestamptz(6)
   updatedAt       DateTime     @updatedAt @db.Timestamptz(6)
   tripId          Int
+
+  @@schema("driverSalary")
+}
+
+model tripSalary {
+  id               Int  @id @default(autoincrement())
+  cementCompanyId  Int
+  loadingPointId   Int?
+  stockPointId    Int?
+  unloadingPointId Int?
+  tripBetta        Int
+  driverAdvance    Int
+  dailyBetta       Int
 
   @@schema("driverSalary")
 }

@@ -7,56 +7,32 @@ import {
     groupAllExpensesByTripId
 } from '../models/expenses.ts'
 
-function checkType(data: string) {
-    switch (data) {
-        case 'LOADING_CHARGES':
-            return expensesType.LOADING_CHARGES
-        case 'UNLOADING_CHARGES':
-            return expensesType.UNLOADING_CHARGES
-        case 'TOLL_EXPENSES':
-            return expensesType.TOLL_EXPENSES
-        case 'TRIP_ALLOWANCE':
-            return expensesType.TRIP_ALLOWANCE
-        case 'CASE_SLIP_EXPENSES':
-            return expensesType.CASE_SLIP_EXPENSES
-        case 'ROUTE_ALLOWANCES':
-            return expensesType.ROUTE_ALLOWANCES
-        case 'OFFICE_EXPENSES':
-            return expensesType.OFFICE_EXPENSES
-        case 'GREASING_CHARGES':
-            return expensesType.GREASING_CHARGES
-        case 'AIR_CHECKUP_CHARGES':
-            return expensesType.AIR_CHECKUP_CHARGES
-        case 'TOOLS_SPARES_CHARGES':
-            return expensesType.TOOLS_SPARES_CHARGES
-        case 'WORKSHOP_SHOWROOM_CHARGES':
-            return expensesType.WORKSHOP_SHOWROOM_CHARGES
-        case 'PHONE_ATM_CHARGES':
-            return expensesType.PHONE_ATM_CHARGES
-        case 'EMAIL_CHRGES':
-            return expensesType.EMAIL_CHRGES
-        case 'PUNCTURE_CHARGES':
-            return expensesType.PUNCTURE_CHARGES
-        case 'PARKING_CHARGES':
-            return expensesType.PARKING_CHARGES
-        case 'WEIGHT_BRIDGE_CHARGES':
-            return expensesType.WEIGHT_BRIDGE_CHARGES
-        case 'OIL_CHARGES':
-            return expensesType.OIL_CHARGES
-        case 'ADBLUE_OIL_CHARGES':
-            return expensesType.ADBLUE_OIL_CHARGES
-        case 'MECHANICAL_EXPENSES':
-            return expensesType.MECHANICAL_EXPENSES
-        case 'SAFETY_EXEPENSES':
-            return expensesType.SAFETY_EXEPENSES
-        case 'ELECTRICAL_EXPENSES':
-            return expensesType.ELECTRICAL_EXPENSES
-        case 'MISCELLANCEOUS_EXPENSES':
-            return expensesType.MISCELLANCEOUS_EXPENSES
-        default:
-            return ''
-    }
-}
+const checkType = (data: string) =>
+    ({
+        LOADING_CHARGES: expensesType.LOADING_CHARGES,
+        UNLOADING_CHARGES: expensesType.UNLOADING_CHARGES,
+        TOLL_EXPENSES: expensesType.TOLL_EXPENSES,
+        TRIP_ALLOWANCE: expensesType.TRIP_ALLOWANCE,
+        CASE_SLIP_EXPENSES: expensesType.CASE_SLIP_EXPENSES,
+        ROUTE_ALLOWANCES: expensesType.ROUTE_ALLOWANCES,
+        OFFICE_EXPENSES: expensesType.OFFICE_EXPENSES,
+        GREASING_CHARGES: expensesType.GREASING_CHARGES,
+        AIR_CHECKUP_CHARGES: expensesType.AIR_CHECKUP_CHARGES,
+        TOOLS_SPARES_CHARGES: expensesType.TOOLS_SPARES_CHARGES,
+        WORKSHOP_SHOWROOM_CHARGES: expensesType.WORKSHOP_SHOWROOM_CHARGES,
+        PHONE_ATM_CHARGES: expensesType.PHONE_ATM_CHARGES,
+        EMAIL_CHRGES: expensesType.EMAIL_CHRGES,
+        PUNCTURE_CHARGES: expensesType.PUNCTURE_CHARGES,
+        PARKING_CHARGES: expensesType.PARKING_CHARGES,
+        WEIGHT_BRIDGE_CHARGES: expensesType.WEIGHT_BRIDGE_CHARGES,
+        OIL_CHARGES: expensesType.OIL_CHARGES,
+        ADBLUE_OIL_CHARGES: expensesType.ADBLUE_OIL_CHARGES,
+        MECHANICAL_EXPENSES: expensesType.MECHANICAL_EXPENSES,
+        SAFETY_EXEPENSES: expensesType.SAFETY_EXEPENSES,
+        ELECTRICAL_EXPENSES: expensesType.ELECTRICAL_EXPENSES,
+        MISCELLANCEOUS_EXPENSES: expensesType.MISCELLANCEOUS_EXPENSES
+    })[data] || ''
+
 interface expensesTypeProps {
     expenseType: string
 }
@@ -77,7 +53,7 @@ export const ListAllExpenseByTripIdForApproval = async (_req: Request, res: Resp
         const details = falseExpense.filter((data) => trip.tripId === data.tripId)
         return { tripId: trip.tripId, tripExpenses: details }
     })
-    await res.status(200).json(d)
+    res.status(200).json(d)
 }
 type RequestQuery = {
     tripId: string

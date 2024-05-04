@@ -1,13 +1,17 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { Control } from 'react-hook-form'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { InputAdornment } from '@mui/material'
 import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
+import { AutocompleteWithDriverName } from './driverDetails.tsx'
 
 interface FormFieldProps {
     control: Control
     driverTripDetails: driverTripDetailsProps[]
     setTripId: React.Dispatch<React.SetStateAction<number>>
+    driverList: never[]
+    setDriverId: React.Dispatch<React.SetStateAction<number>>
+    driverId: number
 }
 interface driverTripDetailsProps {
     loadingPointToUnloadingPointTrip: {
@@ -53,13 +57,20 @@ const expenseTypes = [
     'ELECTRICAL_EXPENSES',
     'MISCELLANCEOUS_EXPENSES'
 ]
-const ExpensesFormField: React.FC<FormFieldProps> = ({ control, driverTripDetails, setTripId }) => {
+const ExpensesFormField: React.FC<FormFieldProps> = ({
+    control,
+    driverTripDetails,
+    setTripId,
+    driverList,
+    setDriverId,
+    driverId
+}) => {
     const [expense, setExpense] = useState('')
     const [invoice, setInvoice] = useState('')
 
     const handleTripSelection = (_: ChangeEvent<HTMLInputElement>, newValue: string) => {
         const { id } = tripDetails.find(({ invoiceNumber }: { invoiceNumber: string }) => {
-            return invoiceNumber === newValue
+            return invoiceNumber === newValue.split(' - ')[1]
         }) || { id: 0 }
         setInvoice(newValue)
         setTripId(id)
@@ -72,8 +83,13 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({ control, driverTripDetail
                 tripType = tripData.loadingPointToStockPointTrip
             else if (tripData.loadingPointToUnloadingPointTrip !== null)
                 tripType = tripData.loadingPointToUnloadingPointTrip
-            return { id: tripType.id, invoiceNumber: tripType.invoiceNumber }
+            return {
+                id: tripType.id,
+                invoiceNumber: tripType.invoiceNumber,
+                vehicleNumber: tripType.truck.vehicleNumber
+            }
         })
+    useEffect(() => setInvoice(''), [driverId])
     return (
         <div
             style={{
@@ -83,14 +99,17 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({ control, driverTripDetail
                 flexWrap: 'wrap'
             }}
         >
+            <AutocompleteWithDriverName driverList={driverList} setDriverId={setDriverId} />
             <AutoCompleteWithValue
                 control={control}
                 value={invoice}
                 fieldName="tripId"
-                label="Select Trip Invoice Number"
-                options={tripDetails.map(
-                    ({ invoiceNumber }: { invoiceNumber: string }) => invoiceNumber
-                )}
+                label="Select Trip with Invoice Number"
+                options={
+                    tripDetails
+                        ? tripDetails.map((data) => `${data.vehicleNumber} - ${data.invoiceNumber}`)
+                        : []
+                }
                 onChange={handleTripSelection}
             />
             <AutoCompleteWithValue

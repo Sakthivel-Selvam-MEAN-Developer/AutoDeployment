@@ -1,32 +1,33 @@
 import { ReactElement } from 'react'
-import Driver_Dialog_For_All_Details from './downloadAllDetailsDialog'
-import Driver_Table, { tripProps } from './driverTable'
-import Driver_FormFields from './formFields'
+import DriverDialogForAllDetails from './downloadAllDetailsDialog'
+import DriverTable, { tripProps } from './driverTable'
+import DriverFormFields from './formFields'
+import { expensesProps } from './driverDetails'
 
 type driverTableType = (
-    driverTripDetails: tripProps[],
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
+    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
+    driverTrips: tripProps[],
+    expenses: expensesProps[]
 ) => ReactElement
-export const driverTable: driverTableType = (driverTripDetails, setActivateDialog) => {
+export const driverTable: driverTableType = (setActivateDialog, driverTrips, expenses) => {
     return (
-        <Driver_Table driverTripDetails={driverTripDetails} setActivateDialog={setActivateDialog} />
+        <DriverTable
+            setActivateDialog={setActivateDialog}
+            driverTrips={driverTrips}
+            expenses={expenses}
+        />
     )
 }
 export const driverFormFields = (
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-    return <Driver_FormFields setActivateDialog={setActivateDialog} />
-}
+) => <DriverFormFields setActivateDialog={setActivateDialog} />
+
 type driverDialogType = (
     activateDialog: boolean,
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
 ) => ReactElement
 export const driverDialog: driverDialogType = (activateDialog, setActivateDialog) => {
     return (
-        <>
-            {activateDialog && (
-                <Driver_Dialog_For_All_Details setActivateDialog={setActivateDialog} />
-            )}
-        </>
+        <>{activateDialog && <DriverDialogForAllDetails setActivateDialog={setActivateDialog} />}</>
     )
 }

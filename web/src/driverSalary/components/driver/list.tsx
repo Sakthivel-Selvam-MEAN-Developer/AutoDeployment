@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { FC, ReactElement, useState } from 'react'
 import { FieldValues, SubmitHandler, UseFormSetValue, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import FormFields from './formField'
@@ -15,11 +15,11 @@ const clearForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('mobileNumber', '')
     clearDetails(setValue)
 }
-type successType = (
-    openSuccessDialog: boolean,
+interface successType {
+    openSuccessDialog: boolean
     setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
-) => ReactElement
-const successDialogBox: successType = (openSuccessDialog, setOpenSuccessDialog) => {
+}
+const SuccessDialogBox: FC<successType> = ({ openSuccessDialog, setOpenSuccessDialog }) => {
     return (
         <SuccessDialog
             open={openSuccessDialog}
@@ -37,22 +37,25 @@ const CreateDriver: React.FC = (): ReactElement => {
             licenseExpriryDate: data.licenseExpriryDate.unix(),
             dateofBirth: data.dateofBirth.unix()
         }
-        await createDriver(details).then(() => success())
-    }
-    const success = () => {
-        setOpenSuccessDialog(true)
-        clearForm(setValue)
+        await createDriver(details).then(() => {
+            setOpenSuccessDialog(true)
+            clearForm(setValue)
+        })
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormFields control={control} />
             <SubmitButton name="Submit" type="submit" />
-            {successDialogBox(openSuccessDialog, setOpenSuccessDialog)}
+            <SuccessDialogBox
+                openSuccessDialog={openSuccessDialog}
+                setOpenSuccessDialog={setOpenSuccessDialog}
+            />
         </form>
     )
 }
 export default CreateDriver
-function clearDetails(setValue: UseFormSetValue<FieldValues>) {
+
+const clearDetails = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('driverLicense', '')
     setValue('licenseExpriryDate', null)
     setValue('bankName', '')

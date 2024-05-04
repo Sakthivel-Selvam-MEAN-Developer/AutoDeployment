@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import ChettinadAriyalur from './invoiceFormat/Chettinad/chettinadAriyalur'
-import Chettinad_Karikkali_Stock from './invoiceFormat/Chettinad/chettinadKarikali'
+import ChettinadKarikkali from './invoiceFormat/Chettinad/chettinadKarikali'
 import UltraTechAPCW, { UltraTechProps } from './invoiceFormat/UltraTech/ultraTech-APCW'
 import { downloadPdf } from './invoiceFormat/downloadPdf'
 import DalmiaDalmiapuramInvoice from './invoiceFormat/Dalmia/dalmiaDalmiapuram'
@@ -80,7 +80,7 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 )
             case 'Chettinad Cement Corporation Private Ltd,Karikkali':
                 return (
-                    <Chettinad_Karikkali_Stock
+                    <ChettinadKarikkali
                         tripId={tripId}
                         lastBillNumber={lastBillNumber}
                         setLoading={setLoading}

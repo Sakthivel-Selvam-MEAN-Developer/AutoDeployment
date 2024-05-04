@@ -39,7 +39,7 @@ describe('Expense Approval test', () => {
         await userEvent.type(screen.getByLabelText('Enter Rejection Reason'), 'Too much Expense')
         expect(await screen.findByText('ABCD1234')).toBeInTheDocument()
         expect(await screen.findByText('Submit')).toBeInTheDocument()
-        expect(await screen.getByText('TRIP_ALLOWANCE')).toBeInTheDocument()
+        expect(screen.getByText('TRIP_ALLOWANCE')).toBeInTheDocument()
         expect(await screen.findByText('345345')).toBeInTheDocument()
         expect(mockGetAllExpenseByTripIdForApproval).toHaveBeenCalledTimes(1)
     })

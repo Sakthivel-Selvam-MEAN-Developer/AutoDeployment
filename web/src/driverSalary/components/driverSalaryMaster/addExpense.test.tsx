@@ -6,43 +6,53 @@ import userEvent from '@testing-library/user-event'
 
 const mockGetDriverTripByDriverId = vi.fn()
 const mockCreateExpense = vi.fn()
-const mockGetAllExpenseByTripId = vi.fn()
+const mockGetAllDriver = vi.fn()
 const mockGetAllExpenseByTripIdForApproval = vi.fn()
 
 vi.mock('../../services/driverTrip', () => ({
     getDriverTripByDriverId: (input: any) => mockGetDriverTripByDriverId(input)
 }))
+vi.mock('../../services/driver', () => ({
+    getAllDriver: () => mockGetAllDriver()
+}))
 vi.mock('../../services/expenses', () => ({
     createExpense: (input: any) => mockCreateExpense(input),
-    getExpenseByTripId: (input: any) => mockGetAllExpenseByTripId(input),
     getAllExpenseByTripIdForApproval: (input: any) => mockGetAllExpenseByTripIdForApproval(input)
 }))
-
-const mockgetDriverTripData = [
-    {
-        id: 1,
-        acknowledgementStatus: false,
-        loadingPointToStockPointTripId: null,
-        stockPointToUnloadingPointTripId: null,
-        loadingPointToUnloadingPointTripId: 1,
-        loadingPointToUnloadingPointTrip: {
-            loadingPoint: {
-                id: 1,
-                name: 'Chennai-south',
-                cementCompanyId: 1,
-                pricePointMarkerId: 1
+const mockDriverDetailsData = [{ id: 1, name: 'sakthi', mobileNumber: '09876543' }]
+const mockTripDetailsData = {
+    trips: [
+        {
+            id: 2,
+            loadingPointToUnloadingPointTrip: {
+                id: 2,
+                loadingPoint: {
+                    name: 'Chennai-south'
+                },
+                invoiceNumber: 'asdxasasd',
+                startDate: 1714588200,
+                unloadingPoint: {
+                    name: 'Salem'
+                },
+                truck: {
+                    vehicleNumber: 'TN12G9456'
+                }
             },
-            invoiceNumber: 'ABC123',
-            startDate: 1700764200
-        },
-        loadingPointToStockPointTrip: null
-    }
-]
+            loadingPointToStockPointTrip: null
+        }
+    ],
+    expensesDetails: [
+        {
+            amount: 1200,
+            tripId: 2
+        }
+    ]
+}
 
 describe('Add Expense Test', () => {
     beforeEach(() => {
-        mockGetDriverTripByDriverId.mockResolvedValue(mockgetDriverTripData)
-        mockGetAllExpenseByTripId.mockResolvedValue([])
+        mockGetAllDriver.mockResolvedValue(mockDriverDetailsData)
+        mockGetDriverTripByDriverId.mockResolvedValue(mockTripDetailsData)
     })
     test('should to able to create Expense', async () => {
         render(
@@ -50,16 +60,25 @@ describe('Add Expense Test', () => {
                 <ListExpenses />
             </BrowserRouter>
         )
-        //expenseNumber
+
+        // Select Driver Name
+        const driverList = screen.getByRole('combobox', { name: 'Select Driver Name' })
+        userEvent.click(driverList)
+        await waitFor(() => screen.getByRole('listbox'))
+        const cementCompanyOption = screen.getByRole('option', { name: 'sakthi - 09876543' })
+        userEvent.click(cementCompanyOption)
+        expect(await screen.findByDisplayValue('sakthi - 09876543')).toBeInTheDocument()
+
+        // Trip with Invoice Number
         const invoiceNumber = screen.getByRole('combobox', {
-            name: 'Select Trip Invoice Number'
+            name: 'Select Trip with Invoice Number'
         })
         await userEvent.click(invoiceNumber)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
         const invoiceOption = screen.getByRole('option', {
-            name: 'ABC123'
+            name: 'TN12G9456 - asdxasasd'
         })
         await userEvent.click(invoiceOption)
         //expenseType
@@ -83,7 +102,15 @@ describe('Add Expense Test', () => {
         //button
         const button = screen.getByRole('button', { name: 'Add Expense' })
         await userEvent.click(button)
-        expect(mockGetAllExpenseByTripId).toHaveBeenCalledTimes(1)
+
+        expect(screen.getByText('Expenses Details')).toBeInTheDocument()
+        expect(screen.getByText('Amount')).toBeInTheDocument()
+        expect(screen.getByText('LOADING_CHARGES')).toBeInTheDocument()
+
+        const createExpense = screen.getByRole('button', { name: 'Create Expense' })
+        await userEvent.click(createExpense)
+
+        expect(mockCreateExpense).toHaveBeenCalledTimes(1)
         expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(2)
     })
 })

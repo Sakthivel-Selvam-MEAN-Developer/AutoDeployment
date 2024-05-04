@@ -11,26 +11,38 @@ import {
 import { FC, ReactElement } from 'react'
 import DownloadIcon from '@mui/icons-material/Download'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { expensesProps } from './driverDetails'
 export interface driverDialogProps {
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
-    driverTripDetails: tripProps[]
+    driverTrips: tripProps[]
+    expenses: expensesProps[]
 }
 export interface tripProps {
-    loadingPointToUnloadingPointTrip: tripDetailProps
-    loadingPointToStockPointTrip: tripDetailProps
+    id: number
+    loadingPointToUnloadingPointTrip: tripDetailProps | null
+    loadingPointToStockPointTrip: loadingPointToStockPointTripProps | null
 }
 interface tripDetailProps {
     startDate: number
-    loadingPoint: {
-        name: string
-    }
     invoiceNumber: string
+    loadingPoint: { name: string }
+    unloadingPoint?: { name: string }
 }
-
+interface loadingPointToStockPointTripProps {
+    id: number
+    startDate: number
+    invoiceNumber: string
+    loadingPoint: { name: string }
+    stockPointToUnloadingPointTrip?: [{ unloadingPoint: { name: string } }]
+}
+interface getTripProps {
+    tripDetails: tripDetailProps | loadingPointToStockPointTripProps | null
+    unloadingPoint: string | undefined
+}
 const cellNames = [
     'S.No',
     'Date',
-    'From',
+    'Trip Route',
     'Invoice Number',
     'Expenses Amount',
     'Trip Betta',
@@ -48,23 +60,40 @@ const cells = (cell: string, index: number) => {
 }
 const tableRow = <TableRow>{cellNames.map((cell, index) => cells(cell, index))}</TableRow>
 const tableHead = <TableHead>{tableRow}</TableHead>
-const Driver_Table: FC<driverDialogProps> = ({ driverTripDetails, setActivateDialog }) => {
+const DriverTable: FC<driverDialogProps> = ({ setActivateDialog, driverTrips, expenses }) => {
     return (
-        <TableContainer component={Paper} sx={{ marginTop: '30px' }}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                {tableHead}
-                {tableBody(driverTripDetails, setActivateDialog)}
-            </Table>
-        </TableContainer>
+        <>
+            {driverTrips.length !== 0 ? (
+                <TableContainer component={Paper} sx={{ marginTop: '30px' }}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        {tableHead}
+                        {tableBody(setActivateDialog, driverTrips, expenses)}
+                    </Table>
+                </TableContainer>
+            ) : (
+                <p>Select Driver to Display Trips ..!</p>
+            )}
+        </>
     )
 }
 
-export default Driver_Table
+export default DriverTable
 
 const getTrip = (trip: tripProps) => {
-    return isLoadingToStock(trip)
-        ? trip.loadingPointToStockPointTrip
-        : trip.loadingPointToUnloadingPointTrip
+    if (isLoadingToStock(trip)) {
+        return {
+            tripDetails: trip.loadingPointToStockPointTrip,
+            unloadingPoint: trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip
+                ? trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip[0]
+                      .unloadingPoint.name
+                : 'Not Yet'
+        }
+    } else {
+        return {
+            tripDetails: trip.loadingPointToUnloadingPointTrip,
+            unloadingPoint: trip.loadingPointToUnloadingPointTrip?.unloadingPoint?.name
+        }
+    }
 }
 
 const buttonCell = (setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -76,47 +105,62 @@ const buttonCell = (setActivateDialog: React.Dispatch<React.SetStateAction<boole
         </TableCell>
     )
 }
-const driverDetailsCell = (trip: tripDetailProps) => {
+const tripDetailsCell = (trip: getTripProps, index: number) => {
     return (
         <>
-            <TableCell align="center">1</TableCell>
-            <TableCell align="center">{epochToMinimalDate(trip.startDate)}</TableCell>
-            <TableCell align="center">{trip.loadingPoint.name}</TableCell>
-            <TableCell align="center">{trip.invoiceNumber}</TableCell>
+            <TableCell align="center">{index + 1}</TableCell>
+            <TableCell align="center">
+                {trip.tripDetails?.startDate && epochToMinimalDate(trip.tripDetails?.startDate)}
+            </TableCell>
+            <TableCell align="center">{`${trip.tripDetails?.loadingPoint.name} - ${trip.unloadingPoint}`}</TableCell>
+            <TableCell align="center">{trip.tripDetails?.invoiceNumber}</TableCell>
         </>
     )
 }
-const driverAmountCells = (
-    <>
-        <TableCell align="center">{'\u20B9'} 2349</TableCell>
-        <TableCell align="center">{'\u20B9'} 6490</TableCell>
-        <TableCell align="center">{'\u20B9'} 5460</TableCell>
-        <TableCell align="center">{'\u20B9'} 13456</TableCell>
-    </>
-)
+const driverAmountCells = (totalExpenseAmount: number) => {
+    return (
+        <>
+            <TableCell align="center">
+                {'\u20B9'} {totalExpenseAmount}
+            </TableCell>
+            <TableCell align="center">{'\u20B9'} 6490</TableCell>
+            <TableCell align="center">{'\u20B9'} 5460</TableCell>
+            <TableCell align="center">{'\u20B9'} 13456</TableCell>
+        </>
+    )
+}
+
 type rowType = (
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
-    trip: tripDetailProps
+    trip: getTripProps,
+    index: number,
+    totalExpenseAmount: number
 ) => ReactElement
-const getRow: rowType = (setActivateDialog, trip) => {
+const getRow: rowType = (setActivateDialog, trip, index, totalExpenseAmount) => {
     return (
-        <TableRow>
-            {driverDetailsCell(trip)}
-            {driverAmountCells}
+        <TableRow key={index + 1}>
+            {tripDetailsCell(trip, index)}
+            {driverAmountCells(totalExpenseAmount)}
             {buttonCell(setActivateDialog)}
         </TableRow>
     )
 }
 type tableBody = (
-    driverTripDetails: tripProps[],
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
+    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
+    driverTrips: tripProps[],
+    expenses: expensesProps[]
 ) => ReactElement
-const tableBody: tableBody = (driverTripDetails, setActivateDialog) => {
+const tableBody: tableBody = (setActivateDialog, driverTrips, expenses) => {
     return (
         <TableBody>
-            {driverTripDetails &&
-                driverTripDetails.map((trip: tripProps) => {
-                    return getRow(setActivateDialog, getTrip(trip))
+            {driverTrips &&
+                driverTrips.map((trip: tripProps, index: number) => {
+                    const expenseByTrip = expenses.filter((expense) => expense.tripId === trip.id)
+                    const totalExpenseAmount = expenseByTrip.reduce(
+                        (total, expense) => total + expense.amount,
+                        0
+                    )
+                    return getRow(setActivateDialog, getTrip(trip), index, totalExpenseAmount)
                 })}
         </TableBody>
     )

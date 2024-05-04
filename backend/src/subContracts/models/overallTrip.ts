@@ -370,21 +370,28 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
 export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
     prisma.overallTrip.findMany({
         where: { id: { in: arrayOfId } },
-        include: {
+        select: {
+            id: true,
             loadingPointToUnloadingPointTrip: {
                 select: {
                     id: true,
-                    loadingPoint: true,
+                    loadingPoint: { select: { name: true } },
                     invoiceNumber: true,
-                    startDate: true
+                    startDate: true,
+                    unloadingPoint: { select: { name: true } },
+                    truck: { select: { vehicleNumber: true } }
                 }
             },
             loadingPointToStockPointTrip: {
                 select: {
                     id: true,
-                    loadingPoint: true,
+                    loadingPoint: { select: { name: true } },
                     invoiceNumber: true,
-                    startDate: true
+                    startDate: true,
+                    stockPointToUnloadingPointTrip: {
+                        select: { unloadingPoint: { select: { name: true } } }
+                    },
+                    truck: { select: { vehicleNumber: true } }
                 }
             }
         }

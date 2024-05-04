@@ -52,16 +52,10 @@ export interface filterDataProps {
     company: string
 }
 const getTripByType = async (type: string, filterData: filterDataProps) => {
-    switch (type) {
-        case 'LoadingToUnloading':
-            return getDirectTripsByinvoiceFilter(filterData)
-        case 'LoadingToStock':
-            return getStockTripsByinvoiceFilter(filterData)
-        case 'StockToUnloading':
-            return getUnloadingTripsByinvoiceFilter(filterData)
-        default:
-            return null
-    }
+    if (type === 'LoadingToUnloading') return getDirectTripsByinvoiceFilter(filterData)
+    if (type === 'LoadingToStock') return getStockTripsByinvoiceFilter(filterData)
+    if (type === 'StockToUnloading') return getUnloadingTripsByinvoiceFilter(filterData)
+    return null
 }
 interface RequestQuery {
     pageName: string

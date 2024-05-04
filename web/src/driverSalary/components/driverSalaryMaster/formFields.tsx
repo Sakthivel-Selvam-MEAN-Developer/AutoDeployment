@@ -29,7 +29,7 @@ const buttons = (setActivateDialog: React.Dispatch<React.SetStateAction<boolean>
     )
 }
 
-const Driver_FormFields: FC<driverDialogProps> = ({ setActivateDialog }) => {
+const DriverFormFields: FC<driverDialogProps> = ({ setActivateDialog }) => {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', margin: '30px 20px 0 0' }}>
             <Typography variant="h6">List of Trips</Typography>
@@ -38,4 +38,4 @@ const Driver_FormFields: FC<driverDialogProps> = ({ setActivateDialog }) => {
     )
 }
 
-export default Driver_FormFields
+export default DriverFormFields

@@ -36,7 +36,6 @@ export const createFuel = async (req: Request, res: Response) => {
         const activeTrip = await getOnlyActiveTripByVehicle(vehicleNumber)
         const fuel = await create({ ...req.body, overallTripId: activeTrip?.id })
         const trip = await getActiveTripByVehicle(vehicleNumber)
-
         return createDues(fuel, trip, bunkname, vehicleNumber)
             .then(() => res.sendStatus(200))
             .catch((error) => handlePrismaError(error, res))
