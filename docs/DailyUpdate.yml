@@ -1,3 +1,47 @@
+- date: 06-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should discuss with client for transpoter invoice
+    - should create page for transporter invoice
+    - should add transporter invoice in overall trip
+- date: 06-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should make api call to get trip salary details before create trip and driverTrip
+    - should display trip salary in driver trip list
+- date: 06-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - should create Maha Cements Invoice Format 
+
+- date: 04-04-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should change table to grid filter in upcoming payment dues
+    - should discuss with client for due issues
+    - should remove payment generation days in price point
+  completed:
+    - changed table to grid filter in upcoming payment dues
+    - discussed with client for due issues
+    - removed payment generation days in price point
+- date: 04-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should written test for modal and controller and frontend for trip Salary
+  completed:
+    - wrote test for modal and controller and frontend for trip Salary
+    - cleared header repeat error in Trip Status report
+- date: 04-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - should create Maha Cements Invoice Format 
+
 - date: 03-04-2024
   person: Barath
   project: subContract
