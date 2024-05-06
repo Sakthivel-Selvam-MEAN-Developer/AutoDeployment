@@ -4,7 +4,7 @@ import config from '../../config.ts'
 const getAxios = (token: string) =>
     axios.create({
         baseURL: config.backendUrl,
-        timeout: 2000,
+        timeout: 3000,
         headers: {
             'Content-Type': 'application/json',
             authorization: `Bearer ${token}`
