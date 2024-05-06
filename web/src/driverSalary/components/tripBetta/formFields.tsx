@@ -30,6 +30,7 @@ interface tripBettaFormFieldsProps {
     tripSalary: number
     driverAdvance: number
     dailySalary: number
+    clear: boolean
 }
 interface salaryDetailsProps {
     dailyBetta: number
@@ -56,7 +57,8 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
     setDailySalary,
     tripSalary,
     driverAdvance,
-    dailySalary
+    dailySalary,
+    clear
 }) => {
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
@@ -64,6 +66,14 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
     const [loadingPointName, setLoadingPointName] = useState('')
     const [unloadingPointName, setUnloadingPointName] = useState('')
     const [stockPointName, setStockPointName] = useState('')
+    useEffect(() => {
+        setLoadingPointName('')
+        setUnloadingPointName('')
+        setStockPointName('')
+        setLoadingPointId(null)
+        setUnloadingPointId(null)
+        setStockPointId(null)
+    }, [clear, category])
     useEffect(() => {
         if (cementCompanyName !== '') {
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)

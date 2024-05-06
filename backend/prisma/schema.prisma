@@ -631,7 +631,7 @@ model tripSalary {
   id               Int  @id @default(autoincrement())
   cementCompanyId  Int
   loadingPointId   Int?
-  stockPointId    Int?
+  stockPointId     Int?
   unloadingPointId Int?
   tripBetta        Int
   driverAdvance    Int

@@ -20,6 +20,7 @@ const AddTripBetta = () => {
     const [driverAdvance, setDriverAdvance] = useState<number>(0)
     const [dailySalary, setDailySalary] = useState<number>(0)
     const [category, setCategory] = useState<string>('')
+    const [clear, setClear] = useState<boolean>(false)
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
             setCementCompany(
@@ -27,17 +28,37 @@ const AddTripBetta = () => {
             )
         )
     }, [])
+    const clearForm = () => {
+        setClear(!clear)
+        setCementCompanyName('')
+        setCategory('')
+        setTripSalary(0)
+        setDriverAdvance(0)
+        setDailySalary(0)
+    }
     const onSubmit: SubmitHandler<FieldValues> = () => {
-        const tripSalaryDetails = {
-            cementCompanyId,
-            loadingPointId,
-            unloadingPointId,
-            stockPointId,
-            tripBetta: tripSalary,
-            dailyBetta: dailySalary,
-            driverAdvance
-        }
-        createTripSalary(tripSalaryDetails)
+        if (checkCondition()) {
+            const tripSalaryDetails = {
+                cementCompanyId,
+                loadingPointId,
+                unloadingPointId,
+                stockPointId,
+                tripBetta: tripSalary,
+                dailyBetta: dailySalary,
+                driverAdvance
+            }
+            createTripSalary(tripSalaryDetails).then(clearForm)
+        } else alert('All Fields Required')
+    }
+    const checkCondition = () => {
+        return (
+            ((loadingPointId && unloadingPointId) ||
+                (loadingPointId && stockPointId) ||
+                (stockPointId && unloadingPointId)) &&
+            tripSalary !== 0 &&
+            driverAdvance !== 0 &&
+            dailySalary !== 0
+        )
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -62,6 +83,7 @@ const AddTripBetta = () => {
                 tripSalary={tripSalary}
                 driverAdvance={driverAdvance}
                 dailySalary={dailySalary}
+                clear={clear}
             />
             <SubmitButton name="Create / Update" type="submit" disabled={false} />
         </form>
