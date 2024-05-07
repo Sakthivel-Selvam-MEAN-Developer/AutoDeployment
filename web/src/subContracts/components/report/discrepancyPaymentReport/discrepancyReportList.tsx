@@ -40,6 +40,7 @@ const ListAllDiscrepancyReport: React.FC = (): ReactElement => {
                 <ListDiscrepancyDetails
                     setskipNumber={setskipNumber}
                     discrepancyDueDetails={tripWithPagination}
+                    totalItems={discrepencyList.length}
                 />
             )}
         </>

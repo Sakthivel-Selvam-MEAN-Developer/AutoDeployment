@@ -27,6 +27,7 @@ interface Row {
 interface listProps {
     discrepancyDueDetails: Row[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
+    totalItems: number
 }
 
 const cellNames = [
@@ -126,31 +127,35 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
-const pagination = (setskipNumber: Dispatch<SetStateAction<number>>) => {
+const pagination = (setskipNumber: Dispatch<SetStateAction<number>>, totalItems: number) => {
     return (
         <Pagination
-            count={100}
+            count={Math.ceil(totalItems / 15)}
             size="large"
             color="primary"
             onChange={(_e, value) => setskipNumber(value - 1)}
         />
     )
 }
-const ListDiscrepancyDetails: React.FC<listProps> = ({ discrepancyDueDetails, setskipNumber }) => {
+const ListDiscrepancyDetails: React.FC<listProps> = ({
+    discrepancyDueDetails,
+    setskipNumber,
+    totalItems
+}) => {
     return (
         <>
             {generateCSVButton(discrepancyDueDetails)}
             {tableContainer(discrepancyDueDetails)}
-            {stack(setskipNumber)}
+            {stack(setskipNumber, totalItems)}
         </>
     )
 }
 
 export default ListDiscrepancyDetails
-function stack(setskipNumber: Dispatch<SetStateAction<number>>) {
+function stack(setskipNumber: Dispatch<SetStateAction<number>>, totalItems: number) {
     return (
         <div style={{ ...style, position: 'sticky' }}>
-            <Stack spacing={10}>{pagination(setskipNumber)}</Stack>
+            <Stack spacing={10}>{pagination(setskipNumber, totalItems)}</Stack>
         </div>
     )
 }

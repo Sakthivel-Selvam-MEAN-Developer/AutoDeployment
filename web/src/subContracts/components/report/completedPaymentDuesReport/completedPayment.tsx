@@ -75,7 +75,7 @@ const CompletedPayment: React.FC = () => {
                 <p style={{ marginTop: '30px', textAlign: 'center' }}>{message}</p>
             )}
             <div style={{ ...style, position: 'sticky' }}>
-                <StackPage setPage={setPage} />
+                <StackPage setPage={setPage} completedPaymentsLength={completedPayments.length} />
             </div>
         </form>
     )
@@ -83,12 +83,13 @@ const CompletedPayment: React.FC = () => {
 export default CompletedPayment
 interface stackProps {
     setPage: React.Dispatch<React.SetStateAction<number>>
+    completedPaymentsLength: number
 }
-const StackPage: FC<stackProps> = ({ setPage }) => {
+const StackPage: FC<stackProps> = ({ setPage, completedPaymentsLength }) => {
     return (
         <Stack spacing={10}>
             <Pagination
-                count={100}
+                count={Math.ceil(completedPaymentsLength / 15)}
                 size="large"
                 color="primary"
                 onChange={(_e, value) => {

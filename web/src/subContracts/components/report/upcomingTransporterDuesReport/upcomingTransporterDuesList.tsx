@@ -43,6 +43,7 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
                 <ListAllTransporterDetails
                     setskipNumber={setskipNumber}
                     transporterDueData={tripWithPagination}
+                    totalTransporterCount={transporterList.length}
                 />
             )}
         </>

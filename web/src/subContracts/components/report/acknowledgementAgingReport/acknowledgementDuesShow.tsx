@@ -52,6 +52,7 @@ interface shortageQuantity {
 interface listoverallTripProps {
     acknowledgementDueDetails: Props[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
+    totalTrips: number
 }
 
 const cellNames = [
@@ -157,7 +158,8 @@ const style = {
 }
 const ListAllAcknowledgementDueDetails: React.FC<listoverallTripProps> = ({
     acknowledgementDueDetails,
-    setskipNumber
+    setskipNumber,
+    totalTrips
 }) => {
     return (
         <>
@@ -175,7 +177,7 @@ const ListAllAcknowledgementDueDetails: React.FC<listoverallTripProps> = ({
             <div style={{ ...style, position: 'sticky' }}>
                 <Stack spacing={10}>
                     <Pagination
-                        count={100}
+                        count={Math.ceil(totalTrips / 15)}
                         size="large"
                         color="primary"
                         onChange={(_e, value) => setskipNumber(value - 1)}

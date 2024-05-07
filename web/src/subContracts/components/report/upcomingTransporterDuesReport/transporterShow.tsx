@@ -42,6 +42,7 @@ interface props {
 interface listTransporterProps {
     transporterDueData: OverallProps[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
+    totalTransporterCount: number
 }
 interface TransporterGrid {
     gridData: {
@@ -150,7 +151,11 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
-const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, setskipNumber }) => {
+const ListAllDetails: React.FC<listTransporterProps> = ({
+    transporterDueData,
+    setskipNumber,
+    totalTransporterCount
+}) => {
     return (
         <>
             {generateCSVButton(transporterDueData)}
@@ -158,25 +163,28 @@ const ListAllDetails: React.FC<listTransporterProps> = ({ transporterDueData, se
             <br />
             <br />
             <GridContainer transporterDueData={transporterDueData} />
-            {stack(setskipNumber)}
+            {stack(setskipNumber, totalTransporterCount)}
         </>
     )
 }
 
 export default ListAllDetails
 
-function stack(setskipNumber: Dispatch<SetStateAction<number>>) {
+function stack(setskipNumber: Dispatch<SetStateAction<number>>, totalTransporterCount: number) {
     return (
         <div style={{ ...style, position: 'sticky' }}>
-            <Stack spacing={10}>{pagination(setskipNumber)}</Stack>
+            <Stack spacing={10}>{pagination(setskipNumber, totalTransporterCount)}</Stack>
         </div>
     )
 }
 
-function pagination(setskipNumber: Dispatch<SetStateAction<number>>) {
+function pagination(
+    setskipNumber: Dispatch<SetStateAction<number>>,
+    totalTransporterCount: number
+) {
     return (
         <Pagination
-            count={100}
+            count={Math.ceil(totalTransporterCount / 15)}
             size="large"
             color="primary"
             onChange={(_e, value) => setskipNumber(value - 1)}

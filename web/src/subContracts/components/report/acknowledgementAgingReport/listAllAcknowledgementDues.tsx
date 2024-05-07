@@ -40,6 +40,7 @@ const ListAllAcknowledgementDues: React.FC = (): ReactElement => {
                 <ListAllAcknowledgementDueDetails
                     setskipNumber={setskipNumber}
                     acknowledgementDueDetails={tripWithPagination}
+                    totalTrips={acknowledgementList.length}
                 />
             )}
         </>
