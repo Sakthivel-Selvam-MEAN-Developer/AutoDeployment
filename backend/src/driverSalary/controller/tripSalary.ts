@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
-import { createTripSalary as create, getTripSalaryDetailsById } from '../models/tripSalary.ts'
+import {
+    createTripSalary as create,
+    getTripSalaryDetailsByLoactionId
+} from '../models/tripSalary.ts'
 
 export const createTripSalaryDetails = async (req: Request, res: Response) => {
     await create(req.body)
@@ -17,8 +20,8 @@ export const getTripSalaryDetails = async (
     req: Request<object, object, object, RequestQuery>,
     res: Response
 ) => {
-    const { cementCompanyId, loadingPointId, unloadingPointId, stockPointId } = req.query
-    getTripSalaryDetailsById(cementCompanyId, loadingPointId, unloadingPointId, stockPointId)
+    const { loadingPointId, unloadingPointId, stockPointId } = req.query
+    getTripSalaryDetailsByLoactionId(loadingPointId, unloadingPointId, stockPointId)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

@@ -23,20 +23,30 @@ export const createTripSalary = async (data: Prisma.tripSalaryCreateInput) => {
     return prisma.tripSalary.create({ data })
 }
 
-export const getTripSalaryDetailsById = (
-    cementCompanyId: string,
+export const getTripSalaryDetailsByLoactionId = (
     loadingPointId: string,
     unloadingPointId: string,
     stockPointId: string
 ) =>
     prisma.tripSalary.findFirst({
         where: {
-            cementCompanyId: parseInt(cementCompanyId),
             loadingPointId: parseInt(loadingPointId),
             unloadingPointId: parseInt(unloadingPointId),
             stockPointId: parseInt(stockPointId)
         },
         select: {
+            id: true,
+            dailyBetta: true,
+            driverAdvance: true,
+            tripBetta: true
+        }
+    })
+
+export const getTripSalaryDetailsById = (id: number[]) =>
+    prisma.tripSalary.findMany({
+        where: { id: { in: id } },
+        select: {
+            id: true,
             dailyBetta: true,
             driverAdvance: true,
             tripBetta: true

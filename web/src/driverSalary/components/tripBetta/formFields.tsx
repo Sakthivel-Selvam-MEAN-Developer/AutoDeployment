@@ -23,7 +23,6 @@ interface tripBettaFormFieldsProps {
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
     setCementCompanyId: React.Dispatch<React.SetStateAction<number>>
-    cementCompanyId: number
     setTripSalary: React.Dispatch<React.SetStateAction<number>>
     setDriverAdvance: React.Dispatch<React.SetStateAction<number>>
     setDailySalary: React.Dispatch<React.SetStateAction<number>>
@@ -51,7 +50,6 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
     setCategory,
     cementCompanyName,
     setCementCompanyId,
-    cementCompanyId,
     setTripSalary,
     setDriverAdvance,
     setDailySalary,
@@ -87,16 +85,13 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
             (stockPointId && loadingPointId) ||
             (stockPointId && unloadingPointId)
         ) {
-            getTripSalaryDetailsById(
-                cementCompanyId,
-                loadingPointId,
-                unloadingPointId,
-                stockPointId
-            ).then((salaryDetails: salaryDetailsProps) => {
-                setTripSalary(salaryDetails.tripBetta)
-                setDriverAdvance(salaryDetails.driverAdvance)
-                setDailySalary(salaryDetails.dailyBetta)
-            })
+            getTripSalaryDetailsById(loadingPointId, unloadingPointId, stockPointId).then(
+                (salaryDetails: salaryDetailsProps) => {
+                    setTripSalary(salaryDetails.tripBetta)
+                    setDriverAdvance(salaryDetails.driverAdvance)
+                    setDailySalary(salaryDetails.dailyBetta)
+                }
+            )
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loadingPointId, unloadingPointId, stockPointId])

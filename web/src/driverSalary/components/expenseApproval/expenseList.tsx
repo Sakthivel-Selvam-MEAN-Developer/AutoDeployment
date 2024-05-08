@@ -39,19 +39,15 @@ const ExpenseList: React.FC = (): ReactElement => {
                 userExpenseDetails.map((tripData: tripDataProps, index) => {
                     return (
                         <Accordion key={index}>
-                            {expenseAccordionSummary()}
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                id="panel1a-header"
+                                sx={{ borderBottom: '1px solid grey' }}
+                            >
+                                {expenseAccordionSummary()}
+                            </AccordionSummary>
                             <AccordionDetails sx={accordianStyle}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <Table
-                                        sx={{ width: 1100 }}
-                                        component={Paper}
-                                        aria-label="simple table"
-                                    >
-                                        <br />
-                                        {expenseTableHead()}
-                                        <ExpenseTableBody expenseDetails={tripData.tripExpenses} />
-                                    </Table>
-                                </div>
+                                {ExpenseTable(tripData)}
                             </AccordionDetails>
                         </Accordion>
                     )
@@ -127,6 +123,15 @@ const tableCell: tablecellTypes = (reason, setReason, approvalType, setApprovalT
     )
 }
 
+const ExpenseTable = (tripData: tripDataProps) => {
+    return (
+        <Table sx={{ width: 1100 }} component={Paper} aria-label="simple table">
+            {expenseTableHead()}
+            <ExpenseTableBody expenseDetails={tripData.tripExpenses} />
+        </Table>
+    )
+}
+
 function tableRow(expense: expenseDetailsProps) {
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -162,12 +167,8 @@ const expensesType = (
 )
 const expensesAmountAndMessage = (
     <>
-        <TableCell>
-            <b> Expense Amount</b>
-        </TableCell>
-        <TableCell>
-            <b> Message</b>
-        </TableCell>
+        <TableCell sx={{ fontWeight: 700 }}>Expense Amount</TableCell>
+        <TableCell sx={{ fontWeight: 700 }}>Message</TableCell>
     </>
 )
 
@@ -184,13 +185,9 @@ function expenseTableHead() {
     return <TableHead>{tableHeadRow}</TableHead>
 }
 
-function expenseAccordionSummary() {
+const expenseAccordionSummary = () => {
     return (
-        <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            id="panel1a-header"
-            sx={{ borderBottom: '1px solid grey' }}
-        >
+        <>
             <Typography sx={style}>
                 Name:<b> Sakthi Vel</b>
             </Typography>
@@ -203,6 +200,6 @@ function expenseAccordionSummary() {
             <Typography sx={style}>
                 Start date:<b>03/04/2024</b>
             </Typography>
-        </AccordionSummary>
+        </>
     )
 }

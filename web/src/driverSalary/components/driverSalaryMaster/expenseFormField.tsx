@@ -12,6 +12,8 @@ interface FormFieldProps {
     driverList: never[]
     setDriverId: React.Dispatch<React.SetStateAction<number>>
     driverId: number
+    setDriverName: React.Dispatch<React.SetStateAction<string | null>>
+    driverName: string | null
 }
 interface driverTripDetailsProps {
     loadingPointToUnloadingPointTrip: {
@@ -63,17 +65,20 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
     setTripId,
     driverList,
     setDriverId,
-    driverId
+    setDriverName,
+    driverId,
+    driverName
 }) => {
     const [expense, setExpense] = useState('')
     const [invoice, setInvoice] = useState('')
 
     const handleTripSelection = (_: ChangeEvent<HTMLInputElement>, newValue: string) => {
-        const { id } = tripDetails.find(({ invoiceNumber }: { invoiceNumber: string }) => {
+        const trip = tripDetails.find(({ invoiceNumber }: { invoiceNumber: string }) => {
             return invoiceNumber === newValue.split(' - ')[1]
-        }) || { id: 0 }
+        })
+        setDriverName(newValue)
         setInvoice(newValue)
-        setTripId(id)
+        setTripId(trip?.id)
     }
     const tripDetails =
         driverTripDetails &&
@@ -84,7 +89,7 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
             else if (tripData.loadingPointToUnloadingPointTrip !== null)
                 tripType = tripData.loadingPointToUnloadingPointTrip
             return {
-                id: tripType.id,
+                id: tripData.id,
                 invoiceNumber: tripType.invoiceNumber,
                 vehicleNumber: tripType.truck.vehicleNumber
             }
@@ -99,7 +104,12 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
                 flexWrap: 'wrap'
             }}
         >
-            <AutocompleteWithDriverName driverList={driverList} setDriverId={setDriverId} />
+            <AutocompleteWithDriverName
+                driverList={driverList}
+                setDriverId={setDriverId}
+                driverName={driverName}
+                setDriverName={setDriverName}
+            />
             <AutoCompleteWithValue
                 control={control}
                 value={invoice}

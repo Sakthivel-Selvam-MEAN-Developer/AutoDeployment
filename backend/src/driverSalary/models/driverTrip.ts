@@ -8,5 +8,11 @@ export const create = (
 export const getAllDriverTripById = (id: number) =>
     prisma.driverTrip.findMany({
         where: { driverId: id },
-        select: { tripId: true }
+        select: { id: true, tripId: true, tripSalaryId: true }
+    })
+
+export const getDriverIdByTripId = (id: number) =>
+    prisma.driverTrip.findFirst({
+        where: { tripId: id },
+        select: { driverId: true }
     })

@@ -13,7 +13,12 @@ export const getAllStockPointTrip = () =>
         include: {
             loadingPoint: { select: { name: true, cementCompanyId: true } },
             stockPoint: { select: { name: true } },
-            truck: { select: { vehicleNumber: true, transporter: { select: { name: true } } } },
+            truck: {
+                select: {
+                    vehicleNumber: true,
+                    transporter: { select: { name: true, transporterType: true } }
+                }
+            },
             stockPointToUnloadingPointTrip: true
         }
     })

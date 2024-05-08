@@ -15,7 +15,8 @@ const mockFuelWithoutTripId = vi.fn()
 const mockCreateTrip = vi.fn()
 const mockcreateStockPointTrip = vi.fn()
 const mockGetAllDriver = vi.fn()
-// const mockCreateDriverTrip = vi.fn()
+const mockGetTripSalaryDetailsById = vi.fn()
+const mockCreateDriverTrip = vi.fn()
 
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
@@ -44,14 +45,23 @@ vi.mock('../../services/stockPointTrip', () => ({
 vi.mock('../../../driverSalary/services/driver.ts', () => ({
     getAllDriver: () => mockGetAllDriver()
 }))
-// vi.mock('../../../driverSalary/services/driverTrip.ts', () => ({
-//     createDriverTrip: (input: any) => mockCreateDriverTrip(input)
-// }))
+vi.mock('../../../driverSalary/services/tripBetta.ts', () => ({
+    getTripSalaryDetailsById: () => mockGetTripSalaryDetailsById()
+}))
+vi.mock('../../../driverSalary/services/driverTrip.ts', () => ({
+    createDriverTrip: (input: any) => mockCreateDriverTrip(input)
+}))
 vi.mock('../../../auth/checkUser', () => ({
     CheckUser: () => {
         return { adminAccess: true, semiAccess: true }
     }
 }))
+const mockGetTripSalaryDetailsByIdData = {
+    id: 1,
+    dailyBetta: 350,
+    driverAdvance: 2000,
+    tripBetta: 4500
+}
 const mockCompanyData = [
     {
         name: 'UltraTech Cements',
@@ -81,14 +91,34 @@ const mockTruck = [
         capacity: 48
     }
 ]
+const mockOwnTruck = [
+    {
+        vehicleNumber: 'MG23MG8909',
+        capacity: 50
+    },
+    {
+        vehicleNumber: 'MG78MG8970',
+        capacity: 48
+    }
+]
 const mockTransporterData = [
     {
         name: 'Barath Logistics',
+        transporterType: 'Market Transporter',
         bankDetails: {
             accountHolder: 'Barath',
             accountNumber: 15602
         },
         trucks: mockTruck
+    },
+    {
+        name: 'Magnum Logistics',
+        transporterType: 'Own',
+        bankDetails: {
+            accountHolder: 'Magnum',
+            accountNumber: 1234567890
+        },
+        trucks: mockOwnTruck
     }
 ]
 const mockPricePointData = {
@@ -129,11 +159,11 @@ const mockGetAllDriverData = [
         name: 'sakthi'
     }
 ]
-// const mockCreateDriverData = {
-//     driverId: 1,
-//     tripId: 4,
-//     tripStartDate: 1709836200
-// }
+const mockCreateDriverData = {
+    driverId: 1,
+    tripId: 4,
+    tripStartDate: 1709836200
+}
 async function newFunction() {
     render(
         <BrowserRouter>
@@ -152,7 +182,6 @@ async function newFunction() {
         name: 'UltraTech Cements'
     })
     await userEvent.click(choice)
-
     //  Select Transporter
     const transporter = screen.getByRole('combobox', {
         name: 'Transporter'
@@ -165,20 +194,6 @@ async function newFunction() {
         name: 'Barath Logistics'
     })
     await userEvent.click(options)
-
-    //  Select Driver
-    // const driver = screen.getByRole('combobox', {
-    //     name: 'Select Driver'
-    // })
-    // await userEvent.click(driver)
-    // await waitFor(() => {
-    //     screen.getByRole('listbox')
-    // })
-    // const driverOptions = screen.getByRole('option', {
-    //     name: 'sakthi'
-    // })
-    // await userEvent.click(driverOptions)
-
     //  Select Truck Number
     const truck = screen.getByRole('combobox', {
         name: 'Truck Number'
@@ -191,7 +206,6 @@ async function newFunction() {
         name: 'TN93D5512'
     })
     await userEvent.click(optin)
-
     //  Select Category
     const category = screen.getByRole('combobox', {
         name: 'Select Category'
@@ -204,7 +218,6 @@ async function newFunction() {
         name: 'Unloading Point'
     })
     await userEvent.click(list)
-
     //  Select Loading Point
     const loading = screen.getByRole('combobox', {
         name: 'Loading Point'
@@ -217,7 +230,6 @@ async function newFunction() {
         name: 'Chennai'
     })
     await userEvent.click(opt)
-
     //  Select Unloading
     const unLoading = screen.getByRole('combobox', {
         name: 'Unloading Point'
@@ -230,7 +242,6 @@ async function newFunction() {
         name: 'Salem'
     })
     await userEvent.click(option)
-
     await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
     await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
     await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
@@ -245,7 +256,8 @@ describe('New trip test', () => {
         mockPricePoint.mockResolvedValue(mockPricePointData)
         mockCreateTrip.mockResolvedValue(tripData)
         mockGetAllDriver.mockResolvedValue(mockGetAllDriverData)
-        // mockCreateDriverTrip.mockResolvedValue(mockCreateDriverData)
+        mockGetTripSalaryDetailsById.mockResolvedValue(mockGetTripSalaryDetailsByIdData)
+        mockCreateDriverTrip.mockResolvedValue(mockCreateDriverData)
     })
     test('should fetch company data from Db', async () => {
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(0)
@@ -256,16 +268,12 @@ describe('New trip test', () => {
                 <NewTrip />
             </BrowserRouter>
         )
-        const companyName = screen.getByRole('combobox', {
-            name: 'Company Name'
-        })
+        const companyName = screen.getByRole('combobox', { name: 'Company Name' })
         await userEvent.click(companyName)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const opt = screen.getByRole('option', {
-            name: 'UltraTech Cements'
-        })
+        const opt = screen.getByRole('option', { name: 'UltraTech Cements' })
         await userEvent.click(opt)
         expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
@@ -281,16 +289,12 @@ describe('New trip test', () => {
                 <NewTrip />
             </BrowserRouter>
         )
-        const transporter = screen.getByRole('combobox', {
-            name: 'Transporter'
-        })
+        const transporter = screen.getByRole('combobox', { name: 'Transporter' })
         await userEvent.click(transporter)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const option = screen.getByRole('option', {
-            name: 'Barath Logistics'
-        })
+        const option = screen.getByRole('option', { name: 'Barath Logistics' })
         await userEvent.click(option)
         expect(mockTruckByTransporter).toHaveBeenCalledTimes(1)
         expect(await screen.findByDisplayValue('Barath Logistics')).toBeInTheDocument()
@@ -302,29 +306,19 @@ describe('New trip test', () => {
                 <NewTrip />
             </BrowserRouter>
         )
-        //  Select Transporter
-        const transporter = screen.getByRole('combobox', {
-            name: 'Transporter'
-        })
+        const transporter = screen.getByRole('combobox', { name: 'Transporter' })
         await userEvent.click(transporter)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const option = screen.getByRole('option', {
-            name: 'Barath Logistics'
-        })
+        const option = screen.getByRole('option', { name: 'Barath Logistics' })
         await userEvent.click(option)
-        //  Select Truck Number
-        const truck = screen.getByRole('combobox', {
-            name: 'Truck Number'
-        })
+        const truck = screen.getByRole('combobox', { name: 'Truck Number' })
         await userEvent.click(truck)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const opt = screen.getByRole('option', {
-            name: 'TN93D5512'
-        })
+        const opt = screen.getByRole('option', { name: 'TN93D5512' })
         await userEvent.click(opt)
         expect(await screen.findByDisplayValue('TN93D5512')).toBeInTheDocument()
     })
@@ -335,60 +329,38 @@ describe('New trip test', () => {
                 <NewTrip />
             </BrowserRouter>
         )
-        //  Select Company Name
-        const companyName = screen.getByRole('combobox', {
-            name: 'Company Name'
-        })
+        const companyName = screen.getByRole('combobox', { name: 'Company Name' })
         await userEvent.click(companyName)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const choice = screen.getByRole('option', {
-            name: 'UltraTech Cements'
-        })
+        const choice = screen.getByRole('option', { name: 'UltraTech Cements' })
         await userEvent.click(choice)
-
-        //  Select Category
-        const category = screen.getByRole('combobox', {
-            name: 'Select Category'
-        })
+        const category = screen.getByRole('combobox', { name: 'Select Category' })
         await userEvent.click(category)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const list = screen.getByRole('option', {
-            name: 'Unloading Point'
-        })
+        const list = screen.getByRole('option', { name: 'Unloading Point' })
         await userEvent.click(list)
-
-        //  Select Loading Point
         const loading = screen.getByRole('combobox', { name: 'Loading Point' })
         await userEvent.click(loading)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const opt = screen.getByRole('option', {
-            name: 'Chennai'
-        })
+        const opt = screen.getByRole('option', { name: 'Chennai' })
         await userEvent.click(opt)
         expect(await screen.findByDisplayValue('Chennai')).toBeInTheDocument()
-
-        //  Select Unloading
-        const unLoading = screen.getByRole('combobox', {
-            name: 'Unloading Point'
-        })
+        const unLoading = screen.getByRole('combobox', { name: 'Unloading Point' })
         await userEvent.click(unLoading)
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const option = screen.getByRole('option', {
-            name: 'Salem'
-        })
+        const option = screen.getByRole('option', { name: 'Salem' })
         await userEvent.click(option)
         expect(await screen.findByDisplayValue('Salem')).toBeInTheDocument()
         expect(screen.getByDisplayValue('1000.00')).toBeVisible()
         expect(screen.getByDisplayValue('900.00')).toBeVisible()
-
         await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
         expect(screen.getByDisplayValue('40')).toBeVisible()
         const quantity = screen.getByRole('spinbutton', {
@@ -420,35 +392,88 @@ describe('New trip test', () => {
         await newFunction()
         const checkbox = screen.getByTestId('want-fuel')
         fireEvent.click(checkbox)
-
         const start = screen.getByRole('button', { name: 'Start' })
         await userEvent.click(start)
-
         expect(mockCreateTrip).toHaveBeenCalledTimes(1)
-        // expect(mockCreateDriverTrip).toHaveBeenCalledTimes(1)
     })
     test('should create dues, if they already fueled before trip', async () => {
         mockFuelWithoutTripId.mockResolvedValue(mockFuelData)
         await newFunction()
         const checkbox = screen.getByTestId('want-fuel')
         fireEvent.click(checkbox)
-
         const start = screen.getByRole('button', { name: 'Start' })
         await userEvent.click(start)
-
         expect(mockCreateTrip).toHaveBeenCalledTimes(2)
-        // expect(mockCreateDriverTrip).toHaveBeenCalledTimes(2)
     })
     test.skip('should create dues, if they already fueled before trip', async () => {
         await newFunction()
-
         const checkbox = screen.getByTestId('stock-point')
         fireEvent.click(checkbox)
-
         const start = screen.getByRole('button', { name: 'Start' })
         await userEvent.click(start)
-
         expect(mockCreateTrip).toHaveBeenCalledTimes(2)
-        // expect(mockCreateDriverTrip).toHaveBeenCalledTimes(2)
+    })
+    test('should create driver trip when it own truck', async () => {
+        mockTruckByTransporter.mockResolvedValue(mockOwnTruck)
+        render(
+            <BrowserRouter>
+                <NewTrip />
+            </BrowserRouter>
+        )
+        const companyName = screen.getByRole('combobox', { name: 'Company Name' })
+        await userEvent.click(companyName)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const choice = screen.getByRole('option', { name: 'UltraTech Cements' })
+        await userEvent.click(choice)
+        const transporter = screen.getByRole('combobox', { name: 'Transporter' })
+        await userEvent.click(transporter)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const options = screen.getByRole('option', { name: 'Magnum Logistics' })
+        await userEvent.click(options)
+        const truck = screen.getByRole('combobox', { name: 'Truck Number' })
+        await userEvent.click(truck)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const optin = screen.getByRole('option', { name: 'MG23MG8909' })
+        await userEvent.click(optin)
+        const driver = screen.getByRole('combobox', { name: 'Select Driver' })
+        await userEvent.click(driver)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const driverOptions = screen.getByRole('option', { name: 'sakthi' })
+        await userEvent.click(driverOptions)
+        const category = screen.getByRole('combobox', { name: 'Select Category' })
+        await userEvent.click(category)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const list = screen.getByRole('option', { name: 'Unloading Point' })
+        await userEvent.click(list)
+        const loading = screen.getByRole('combobox', { name: 'Loading Point' })
+        await userEvent.click(loading)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const opt = screen.getByRole('option', { name: 'Chennai' })
+        await userEvent.click(opt)
+        const unLoading = screen.getByRole('combobox', { name: 'Unloading Point' })
+        await userEvent.click(unLoading)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const option = screen.getByRole('option', { name: 'Salem' })
+        await userEvent.click(option)
+        await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
+        await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
+        await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
+        const start = screen.getByRole('button', { name: 'Start' })
+        await userEvent.click(start)
+        expect(mockCreateDriverTrip).toHaveBeenCalledTimes(1)
     })
 })

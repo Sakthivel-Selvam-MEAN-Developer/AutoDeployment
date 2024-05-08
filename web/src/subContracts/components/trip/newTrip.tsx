@@ -10,6 +10,8 @@ import { createStockPointTrip } from '../../services/stockPointTrip.tsx'
 import { getAllDriver } from '../../../driverSalary/services/driver.ts'
 import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { createDriverTrip } from '../../../driverSalary/services/driverTrip.ts'
+import { getTripSalaryDetailsById } from '../../../driverSalary/services/tripBetta.ts'
+
 interface transporter {
     name: string
     transporterAmount: number
@@ -59,7 +61,12 @@ const NewTrip: React.FC = () => {
         setMargin(totalFreightAmount - totalTransporterAmount)
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        const tripSalaryDetails = await getTripSalaryDetailsById(
+            loadingPointId,
+            unloadingPointId,
+            stockPointId
+        ).then((data) => data)
         if (checkCondition(truckId, data, freightAmount, filledLoad)) {
             const freightAmountFloat = freightAmount.toFixed(2)
             const transporterAmountFloat = transporterAmount.toFixed(2)
@@ -85,10 +92,17 @@ const NewTrip: React.FC = () => {
                 tripStartDate: data.tripDate.startOf('day').unix(),
                 driverId
             }
-            if (category === 'Stock Point')
+            if (category === 'Stock Point' && tripSalaryDetails !== null)
                 createStockPointTrip({ ...details, stockPointId: stockPointId })
                     .then((trip) => {
-                        return ownTruck && createDriverTrip({ ...driverDetails, tripId: trip.id })
+                        return (
+                            ownTruck &&
+                            createDriverTrip({
+                                ...driverDetails,
+                                tripId: trip.id,
+                                tripSalaryId: tripSalaryDetails.id
+                            })
+                        )
                     })
                     .then(() => {
                         setOpenSuccessDialog(true)
@@ -110,11 +124,16 @@ const NewTrip: React.FC = () => {
                         alert(error.response.data.error)
                         setDisable(false)
                     })
-            else if (category === 'Unloading Point')
+            else if (category === 'Unloading Point' && tripSalaryDetails !== null)
                 createTrip({ ...details, unloadingPointId: unloadingPointId })
                     .then(
                         (trip) =>
-                            ownTruck && createDriverTrip({ ...driverDetails, tripId: trip.id })
+                            ownTruck &&
+                            createDriverTrip({
+                                ...driverDetails,
+                                tripId: trip.id,
+                                tripSalaryId: tripSalaryDetails.id
+                            })
                     )
                     .then(() => {
                         setOpenSuccessDialog(true)
@@ -136,7 +155,12 @@ const NewTrip: React.FC = () => {
                         alert(error.response.data.error)
                         setDisable(false)
                     })
-            else setDisable(false)
+            else if (tripSalaryDetails === null) {
+                alert(
+                    'There is No Trip Salary Details for Specified Locations. \nPlease Add Trip Salary Details for Specified Locations and Try Againg to Creat Trip.'
+                )
+                setDisable(false)
+            } else setDisable(false)
         } else alert('All fields Required')
     }
     useEffect(() => {

@@ -599,6 +599,7 @@ model driverTrip {
   updatedAt     DateTime @updatedAt @db.Timestamptz(6)
   driver        driver   @relation(fields: [driverId], references: [id])
   driverId      Int
+  tripSalaryId  Int
 
   @@schema("driverSalary")
 }

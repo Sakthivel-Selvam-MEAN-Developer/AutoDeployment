@@ -20,13 +20,19 @@ const ListExpenses: React.FC = () => {
     const [driverTripDetails, setDriverTripDetails] = useState([])
     const [addedExpense] = useState<expenseDetailsType[]>([])
     const [driverId, setDriverId] = useState<number>(0)
+    const [driverName, setDriverName] = useState<string | null>(null)
     const [tripId, setTripId] = useState(0)
+    const [clear, setClear] = useState<boolean>(false)
     useEffect(() => {
         getAllDriver().then(setDriverList)
     }, [])
     useEffect(() => {
         getDriverTripByDriverId(driverId).then((trips) => setDriverTripDetails(trips.trips))
     }, [driverId])
+    useEffect(() => {
+        setDriverId(0)
+        setDriverName('')
+    }, [clear])
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (data.expenseType === undefined || data.amount === undefined || tripId === 0) {
             alert('All Fields are Required')
@@ -48,6 +54,8 @@ const ListExpenses: React.FC = () => {
                     driverList={driverList}
                     setDriverId={setDriverId}
                     driverId={driverId}
+                    setDriverName={setDriverName}
+                    driverName={driverName}
                 />
                 <SubmitButton name="Add Expense" type="submit" />
                 <SuccessDialog
@@ -56,7 +64,14 @@ const ListExpenses: React.FC = () => {
                     message="Trip creation is successful"
                 />
             </form>
-            {expensesDetails.length !== 0 && <ExpenseTable expenseDetails={expensesDetails} />}
+            {expensesDetails.length !== 0 && (
+                <ExpenseTable
+                    expenseDetails={expensesDetails}
+                    setExpensesDetails={setExpensesDetails}
+                    setClear={setClear}
+                    clear={clear}
+                />
+            )}
         </>
     )
 }

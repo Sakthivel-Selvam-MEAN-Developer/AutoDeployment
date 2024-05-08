@@ -8,7 +8,7 @@ const mockGetTripSalaryDetailsById = vi.fn()
 
 vi.mock('../models/tripSalary', () => ({
     createTripSalary: (inputs: any) => mockCreateTripSalary(inputs),
-    getTripSalaryDetailsById: () => mockGetTripSalaryDetailsById()
+    getTripSalaryDetailsByLoactionId: (inputs: any) => mockGetTripSalaryDetailsById(inputs)
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -35,9 +35,9 @@ const mockRes = {
 } as unknown as Response
 
 const mockTripDetailsData = {
-    cementCompanyId: '1',
     loadingPointId: '1',
-    unloadingPointId: '1'
+    unloadingPointId: '1',
+    stockPointId: ''
 }
 describe('Trip Salary Controller', () => {
     test('should create trip salary details', async () => {

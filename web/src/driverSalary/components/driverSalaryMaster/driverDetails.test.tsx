@@ -33,7 +33,13 @@ const mockTripDetailsData = {
                     vehicleNumber: 'TN12G9456'
                 }
             },
-            loadingPointToStockPointTrip: null
+            loadingPointToStockPointTrip: null,
+            tripSalaryDeatails: {
+                totalTripBetta: 4500,
+                totalDriverAdvance: 2000,
+                totalTripSalary: 2500,
+                dailyBetta: 350
+            }
         }
     ],
     expensesDetails: [
@@ -80,6 +86,8 @@ describe('Driver Test', () => {
         expect(screen.getByText('asdxasasd')).toBeInTheDocument()
         expect(screen.getByText('Expenses Amount')).toBeInTheDocument()
         expect(screen.getByText('₹ 1200')).toBeInTheDocument()
+        expect(screen.getByText('₹ 4500')).toBeInTheDocument()
+        expect(screen.getByText('₹ 2000')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south - Salem')).toBeInTheDocument()
 
         await userEvent.type(screen.getByLabelText('Select Month & Year'), 'May2024')

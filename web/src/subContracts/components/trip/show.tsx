@@ -29,7 +29,7 @@ export interface AllStockProps {
     totalTransporterAmount: number
     transporterAmount: number
     tripStatus: boolean
-    truck: { vehicleNumber: string; transporter: { name: string } }
+    truck: { vehicleNumber: string; transporter: { name: string; transporterType: string } }
     truckId: number
     wantFuel: boolean
 }

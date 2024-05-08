@@ -76,7 +76,6 @@ const AddTripBetta = () => {
                 category={category}
                 cementCompanyName={cementCompanyName}
                 setCementCompanyId={setCementCompanyId}
-                cementCompanyId={cementCompanyId}
                 setTripSalary={setTripSalary}
                 setDriverAdvance={setDriverAdvance}
                 setDailySalary={setDailySalary}

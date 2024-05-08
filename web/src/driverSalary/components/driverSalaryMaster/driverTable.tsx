@@ -11,7 +11,7 @@ import {
 import { FC, ReactElement } from 'react'
 import DownloadIcon from '@mui/icons-material/Download'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import { expensesProps } from './driverDetails'
+import { expensesProps, tripSalaryProps } from './driverDetails'
 export interface driverDialogProps {
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
     driverTrips: tripProps[]
@@ -21,6 +21,7 @@ export interface tripProps {
     id: number
     loadingPointToUnloadingPointTrip: tripDetailProps | null
     loadingPointToStockPointTrip: loadingPointToStockPointTripProps | null
+    tripSalaryDeatails: tripSalaryProps
 }
 interface tripDetailProps {
     startDate: number
@@ -33,11 +34,12 @@ interface loadingPointToStockPointTripProps {
     startDate: number
     invoiceNumber: string
     loadingPoint: { name: string }
-    stockPointToUnloadingPointTrip?: [{ unloadingPoint: { name: string } }]
+    stockPointToUnloadingPointTrip: [{ unloadingPoint: { name: string } }]
 }
 interface getTripProps {
     tripDetails: tripDetailProps | loadingPointToStockPointTripProps | null
     unloadingPoint: string | undefined
+    tripSalaryDetails: tripSalaryProps
 }
 const cellNames = [
     'S.No',
@@ -83,7 +85,8 @@ const getTrip = (trip: tripProps) => {
     if (isLoadingToStock(trip)) {
         return {
             tripDetails: trip.loadingPointToStockPointTrip,
-            unloadingPoint: trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip
+            tripSalaryDetails: trip.tripSalaryDeatails,
+            unloadingPoint: trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip.length
                 ? trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip[0]
                       .unloadingPoint.name
                 : 'Not Yet'
@@ -91,6 +94,7 @@ const getTrip = (trip: tripProps) => {
     } else {
         return {
             tripDetails: trip.loadingPointToUnloadingPointTrip,
+            tripSalaryDetails: trip.tripSalaryDeatails,
             unloadingPoint: trip.loadingPointToUnloadingPointTrip?.unloadingPoint?.name
         }
     }
@@ -117,15 +121,22 @@ const tripDetailsCell = (trip: getTripProps, index: number) => {
         </>
     )
 }
-const driverAmountCells = (totalExpenseAmount: number) => {
+const driverAmountCells = (totalExpenseAmount: number, tripSalaryDeatails: tripSalaryProps) => {
     return (
         <>
             <TableCell align="center">
                 {'\u20B9'} {totalExpenseAmount}
             </TableCell>
-            <TableCell align="center">{'\u20B9'} 6490</TableCell>
-            <TableCell align="center">{'\u20B9'} 5460</TableCell>
-            <TableCell align="center">{'\u20B9'} 13456</TableCell>
+            <TableCell align="center">
+                {'\u20B9'} {tripSalaryDeatails.totalTripBetta}
+            </TableCell>
+            <TableCell align="center">
+                {'\u20B9'} {tripSalaryDeatails.totalDriverAdvance}
+            </TableCell>
+            <TableCell align="center">
+                {'\u20B9'}
+                {tripSalaryDeatails.totalTripSalary + totalExpenseAmount}
+            </TableCell>
         </>
     )
 }
@@ -140,7 +151,7 @@ const getRow: rowType = (setActivateDialog, trip, index, totalExpenseAmount) => 
     return (
         <TableRow key={index + 1}>
             {tripDetailsCell(trip, index)}
-            {driverAmountCells(totalExpenseAmount)}
+            {driverAmountCells(totalExpenseAmount, trip.tripSalaryDetails)}
             {buttonCell(setActivateDialog)}
         </TableRow>
     )

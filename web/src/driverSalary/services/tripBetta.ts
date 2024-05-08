@@ -21,13 +21,12 @@ export const createTripSalary = (data: tripSalaryProps) =>
 export const getAllCementCompany = () => axiosInstance.get('/cementCompany').then(getData)
 
 export const getTripSalaryDetailsById = (
-    cementCompanyId: number,
     loadingPointId: number | null,
     unloadingPointId: number | null,
     stockPointId: number | null
 ) =>
     axiosInstance
         .get('/getTripSalaryDetails', {
-            params: { cementCompanyId, loadingPointId, unloadingPointId, stockPointId }
+            params: { loadingPointId, unloadingPointId, stockPointId }
         })
         .then(getData)

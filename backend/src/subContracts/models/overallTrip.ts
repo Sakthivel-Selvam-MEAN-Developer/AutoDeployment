@@ -206,7 +206,8 @@ export const getOverAllTripIdByLoadingToStockId = (loadingPointToStockPointTripI
             loadingPointToStockPointTripId
         },
         select: {
-            id: true
+            id: true,
+            loadingPointToStockPointTrip: { select: { stockPointId: true } }
         }
     })
 export const getOverAllTripById = (id: number) =>

@@ -3,6 +3,7 @@ interface driverTripProps {
     tripStartDate: number
     driverId: number
     tripId: number
+    tripSalaryId: number
 }
 
 export const createDriverTrip = (data: driverTripProps) =>
