@@ -104,7 +104,7 @@ describe('Add Acknowledgement Test', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Submit' }))
         await userEvent.click(screen.getByText('Add Acknowledgement for the Trip'))
         await userEvent.click(screen.getByRole('button', { name: 'Acknowledgement Received' }))
-        expect(screen.getByText('The Final Pay Generation Date will be :')).toBeInTheDocument()
+        expect(screen.getByText('Added Acknowledgement:')).toBeInTheDocument()
         await userEvent.click(screen.getByRole('button', { name: 'Close' }))
         expect(mockgGetAllTripByAcknowledgementStatus).toHaveBeenCalledTimes(1)
         expect(mockgetTripById).toHaveBeenCalledTimes(1)

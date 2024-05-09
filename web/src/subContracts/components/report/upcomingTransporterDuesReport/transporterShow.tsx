@@ -60,20 +60,20 @@ interface TransporterGrid {
 }
 
 const columns = [
-    { field: 'id', headerName: 'ID', flex: 1 },
-    { field: 'vehicleNumber', headerName: 'Vehicle Number', flex: 1 },
-    { field: 'startDate', headerName: 'Start Date', flex: 1 },
-    { field: 'invoiceNumber', headerName: 'Invoice Number', flex: 1 },
-    { field: 'loadingPoint', headerName: 'Loading Point', flex: 1 },
-    { field: 'unloadingPoint', headerName: 'Unloading Point', flex: 1 },
-    { field: 'transporterName', headerName: 'Transporter Name', flex: 1 },
-    { field: 'csmName', headerName: 'CSM Name', flex: 1 },
-    { field: 'dueDate', headerName: 'Due Date', flex: 1 },
-    { field: 'amount', headerName: 'Amount', flex: 1 }
+    { field: 'id', headerName: 'ID', minWidth: 50, editable: true, flex: 1 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', minWidth: 100, flex: 1 },
+    { field: 'startDate', headerName: 'Start Date', minWidth: 100, flex: 1 },
+    { field: 'invoiceNumber', headerName: 'Invoice Number', minWidth: 100, flex: 1 },
+    { field: 'loadingPoint', headerName: 'Loading Point', minWidth: 120, flex: 1 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', minWidth: 120, flex: 1 },
+    { field: 'transporterName', headerName: 'Transporter Name', minWidth: 130, flex: 1 },
+    { field: 'csmName', headerName: 'CSM Name', minWidth: 100, flex: 1 },
+    { field: 'dueDate', headerName: 'Due Date', minWidth: 100, flex: 1 },
+    { field: 'amount', headerName: 'Amount', minWidth: 100, flex: 1 }
 ]
 const TransporterGrid: FC<TransporterGrid> = ({ gridData }) => {
     return (
-        <Box sx={{ height: '26vw', width: '94vw' }}>
+        <Box sx={{ height: 400, width: '94vw' }}>
             <DataGrid
                 loading={gridData.length === 0}
                 rows={gridData}

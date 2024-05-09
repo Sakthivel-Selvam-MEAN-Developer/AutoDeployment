@@ -9,7 +9,7 @@ import {
 import { FC, useState } from 'react'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { DialogContentsProps, DueDateDialogProps } from './addAcknowledgementTypes'
-const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed, paymentDetails }) => {
+export const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed, paymentDetails }) => {
     const [open, setOpen] = useState(tripClosed)
     const handleClose = () => setOpen(false)
     return (
@@ -19,7 +19,7 @@ const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed, paymentDetails }) =
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogBoxTitle paymentDetails={paymentDetails} />
+            <DialogBoxTitle />
             <DialogContents paymentDetails={paymentDetails} />
             <DialogActions>
                 <Button variant="contained" onClick={handleClose} autoFocus>
@@ -29,21 +29,22 @@ const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed, paymentDetails }) =
         </Dialog>
     )
 }
-export default DueDateDialog
 const DialogContents: FC<DialogContentsProps> = ({ paymentDetails }) => {
     return (
         <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                The Final Pay Generation Date will be :
-                <b>{epochToMinimalDate(paymentDetails.dueDate)}</b>
+                {paymentDetails.dueDate !== undefined ? (
+                    <p>
+                        The Final Pay Generation Date will be :
+                        <b>{epochToMinimalDate(paymentDetails.dueDate)}</b>{' '}
+                    </p>
+                ) : (
+                    <b>TransporterInvoice Not Generated</b>
+                )}
             </DialogContentText>
         </DialogContent>
     )
 }
-const DialogBoxTitle: FC<DialogContentsProps> = ({ paymentDetails }) => {
-    return (
-        <DialogTitle id="alert-dialog-title">
-            {`Due Date for vehicle : ${paymentDetails.vehicleNumber}`}
-        </DialogTitle>
-    )
+const DialogBoxTitle: FC = () => {
+    return <DialogTitle id="alert-dialog-title">{`Added Acknowledgement:`}</DialogTitle>
 }

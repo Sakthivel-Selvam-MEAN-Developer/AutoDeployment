@@ -11,7 +11,7 @@ import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { tripdetailsProps } from './types'
-import DueDateDialog from './dueDateDialog'
+import { DueDateDialog } from './dueDateDialog'
 
 const AddAcknowledgement: React.FC = () => {
     const currentTime = dayjs().unix()
@@ -120,7 +120,7 @@ const AddAcknowledgement: React.FC = () => {
                     ))}
                 <div>
                     {tripClosed && paymentDetails !== undefined && (
-                        <DueDateDialog tripClosed={tripClosed} paymentDetails={paymentDetails[0]} />
+                        <DueDateDialog tripClosed={tripClosed} paymentDetails={paymentDetails} />
                     )}
                     {tripClosed && <p>Trip Closed...</p>}
                 </div>
@@ -148,9 +148,8 @@ const onChangeForVehicleList: onChangeType = (
         setTripId(0)
         const { id } = vehicleslist.find((trip) => {
             let tripType = findTripType(trip)
-            if (tripType?.loadingPointToStockPointTrip !== undefined) {
+            if (tripType?.loadingPointToStockPointTrip !== undefined)
                 tripType = tripType?.loadingPointToStockPointTrip
-            }
             return (
                 tripType?.truck.vehicleNumber === newValue.split('-')[0] &&
                 tripType?.invoiceNumber === newValue.split('-')[1]

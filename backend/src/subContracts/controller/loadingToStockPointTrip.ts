@@ -11,6 +11,7 @@ import {
 import tripLogic from '../domain/tripLogics.ts'
 import { getCementCompanyByLocation } from '../models/loadingPoint.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
+import { getPricePoint } from '../models/pricePoint.ts'
 
 export const createStockPointTrip = async (req: Request, res: Response) => {
     try {
@@ -24,8 +25,16 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
         const companyDetails = await getCementCompanyByLocation(req.body.loadingPointId)
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
         const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
+        const pricePoint = await getPricePoint(
+            req.body.loadingPointId,
+            req.body.unloadingPointId,
+            req.body.stockPointId
+        )
         const { id } = await create(req.body).then(async (data) =>
-            createOverallTrip({ loadingPointToStockPointTripId: data.id })
+            createOverallTrip({
+                loadingPointToStockPointTripId: data.id,
+                finalPayDuration: pricePoint?.payGeneratingDuration
+            })
         )
         await tripLogic(
             req.body,

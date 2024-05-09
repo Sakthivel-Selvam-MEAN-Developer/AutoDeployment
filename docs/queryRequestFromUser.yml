@@ -79,3 +79,44 @@
   query:
     - update "subContract"."transporter" set "hasTds" = true, "tdsPercentage"=1 where id=120;
     - update "subContract"."transporter" set "hasTds" = false, "tdsPercentage"=0 where id=149;
+
+  date: 07-05-2024
+  person: Santhosh
+  description:
+    - updated transporter
+  query:
+    -  update "subContract"."transporter" set "tdsPercentage"=1  where id=88;
+    -  update "subContract"."transporter" set "ifsc"='UTIB0001191',"accountHolder"='REVATHI R',"accountNumber"='924020013229219',"accountTypeNumber"=11 where id=193 ;
+ 
+  date: 07-05-2024
+  person: Suresh
+  description:
+    - deleted repeated payments
+  query:
+    -  delete from "subContract"."paymentDues" where id=1097;
+    -  delete from "subContract"."paymentDues" where id=1098;
+    -  delete from "subContract"."paymentDues" where id=1099;
+    -  delete from "subContract"."paymentDues" where id=1100;
+    -  delete from "subContract"."paymentDues" where id=1101;
+    -  delete from "subContract"."paymentDues" where id=908;
+    -  delete from "subContract"."paymentDues" where id=909;
+    -  delete from "subContract"."paymentDues" where id=933;
+    -  delete from "subContract"."paymentDues" where id=1110;
+    -  delete from "subContract"."paymentDues" where id=1048;
+    -  delete from "subContract"."paymentDues" where id=1045;
+    -  delete from "subContract"."paymentDues" where id=1064;
+    -  delete from "subContract"."paymentDues" where id=1228;
+
+  date: 08-05-2024
+  person: Santhosh
+  description:
+    - deleted repeated payments
+    - deleted repeated payments
+    - deleted repeated payments
+    - updated navaladi to SNT Transport
+  query:
+    -  delete from "subContract"."paymentDues" where id=1089;
+    -  delete from "subContract"."paymentDues" where id=1224;
+    -  delete from "subContract"."paymentDues" where id=956;
+    -  update "subContract"."transporter" set "name"='SNT Transport(navaladi)' where id=194;
+ 

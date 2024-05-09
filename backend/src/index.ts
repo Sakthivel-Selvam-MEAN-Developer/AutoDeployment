@@ -31,6 +31,7 @@ import driverRoutes from './driverSalary/routes/driver.ts'
 import driverTripRoutes from './driverSalary/routes/driverTrip.ts'
 import expenseRoutes from './driverSalary/routes/expense.ts'
 import tripBettaRoutes from './driverSalary/routes/tripBetta.ts'
+import transporterInvoiceRoutes from './subContracts/routes/transporterInvoice.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -68,6 +69,7 @@ pointMarkerRoutes(router)
 accountTypeRoutes(router)
 invoiceRoutes(router)
 billNumber(router)
+transporterInvoiceRoutes(router)
 
 // driverSalary
 driverRoutes(router)

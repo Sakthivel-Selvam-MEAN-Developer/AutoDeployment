@@ -163,6 +163,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     icon={<Summarize />}
                     subs={reportSubs}
                 />
+                <DrawerListItem
+                    text="Transporter Invoice"
+                    navigate="/sub/transporterinvoice"
+                    drawerState={drawerState}
+                    index={9}
+                    icon={<Receipt />}
+                />
             </List>
         </Drawer>
     )

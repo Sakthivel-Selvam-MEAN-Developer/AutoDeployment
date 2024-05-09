@@ -1,7 +1,7 @@
 import { useAuth } from 'react-oidc-context'
 
-const adminUsers = ['vignesh', 'santhosh', 'suresh', 'wonderwhy']
-const semiUsers = ['kalaiyarasan']
+const adminUsers = ['vignesh', 'santhosh', 'suresh', 'wonderwhy', 'kalaiyarasan']
+const semiUsers: string[] = []
 
 export const CheckUser = () => {
     const auth = useAuth()

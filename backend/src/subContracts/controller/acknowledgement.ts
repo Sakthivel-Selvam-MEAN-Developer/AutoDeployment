@@ -37,40 +37,40 @@ export const getTransporterName = (overallTrip: any) => {
         return overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.name
     }
 }
-
+export const finalDueCreation = async (overallTrip: any, res: Response) => {
+    const transporterName = getTransporterName(overallTrip)
+    const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
+        tdsPercentage: null
+    }
+    const paymentDueDetails = await getDueByOverallTripId(overallTrip.id)
+    const { shortageAmount } = (await getShortageQuantityByOverallTripId(overallTrip.id)) || {
+        shortageAmount: 0
+    }
+    if (overallTrip.loadingPointToUnloadingPointTrip?.truck.transporter.transporterType !== 'Own') {
+        if (
+            overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip?.truck
+                .transporter.transporterType !== 'Own'
+        ) {
+            return finalDueLogic(
+                overallTrip,
+                paymentDueDetails,
+                shortageAmount,
+                tdsPercentage
+            ).then((finalDue) => {
+                if (finalDue !== null && finalDue !== undefined) {
+                    return createPaymentDues(finalDue).then(() =>
+                        res.status(200).json({ ...finalDue[0], id: finalDue[0].overallTripId })
+                    )
+                }
+            })
+        }
+    }
+}
 export const updateAcknowledgementStatusforOverAllTrip = async (req: Request, res: Response) => {
     await closeAcknowledgementStatusforOverAllTrip(parseInt(req.params.id))
-        .then(async (overallTrip) => {
-            const transporterName = getTransporterName(overallTrip)
-            const { tdsPercentage } = (await getPercentageByTransporter(transporterName)) || {
-                tdsPercentage: null
-            }
-            const paymentDueDetails = await getDueByOverallTripId(overallTrip.id)
-            const { shortageAmount } = (await getShortageQuantityByOverallTripId(
-                overallTrip.id
-            )) || { shortageAmount: 0 }
-            if (
-                overallTrip.loadingPointToUnloadingPointTrip?.truck.transporter.transporterType !==
-                'Own'
-            ) {
-                if (
-                    overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip?.truck
-                        .transporter.transporterType !== 'Own'
-                ) {
-                    return finalDueLogic(
-                        overallTrip,
-                        paymentDueDetails,
-                        shortageAmount,
-                        tdsPercentage
-                    ).then((finalDue) => {
-                        if (finalDue !== null && finalDue !== undefined) {
-                            return createPaymentDues(finalDue).then(() =>
-                                res.status(200).json(finalDue)
-                            )
-                        }
-                    })
-                }
-            }
+        .then((trip) => {
+            if (trip.transporterInvoice === '') return res.sendStatus(200)
+            finalDueCreation(trip, res)
         })
         .catch(() => res.sendStatus(500))
 }

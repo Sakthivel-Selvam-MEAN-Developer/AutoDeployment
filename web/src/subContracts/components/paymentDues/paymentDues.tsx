@@ -91,13 +91,15 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                                                                     <b>{list.number}</b>
                                                                 </Typography>
                                                             </TableCell>
-                                                            <TableCell align="left">
-                                                                <Typography sx={style}>
-                                                                    {epochToMinimalDate(
-                                                                        list.dueDate
-                                                                    )}
-                                                                </Typography>
-                                                            </TableCell>
+                                                            {type !== 'fuel pay' && (
+                                                                <TableCell align="left">
+                                                                    <Typography sx={style}>
+                                                                        {epochToMinimalDate(
+                                                                            list.date
+                                                                        )}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            )}
                                                             <TableCell align="left">
                                                                 <Typography sx={style}>
                                                                     {list.type !== 'fuel pay'
@@ -122,15 +124,13 @@ const PaymentDues: React.FC<paymentDuesProps> = ({ type }) => {
                                                                     {list.invoiceNumber}
                                                                 </Typography>
                                                             </TableCell>
-                                                            {type !== 'fuel pay' && (
-                                                                <TableCell align="left">
-                                                                    <Typography sx={style}>
-                                                                        {epochToMinimalDate(
-                                                                            list.date
-                                                                        )}
-                                                                    </Typography>
-                                                                </TableCell>
-                                                            )}
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {epochToMinimalDate(
+                                                                        list.dueDate
+                                                                    )}
+                                                                </Typography>
+                                                            </TableCell>
                                                             <TableCell align="left">
                                                                 <FormField
                                                                     setRefresh={setRefresh}

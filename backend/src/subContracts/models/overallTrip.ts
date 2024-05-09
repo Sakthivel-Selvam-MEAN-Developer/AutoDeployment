@@ -575,3 +575,91 @@ export const overallTripByPendingPaymentDues = () =>
             }
         }
     })
+export const getTripByTransporterInvoice = () =>
+    prisma.overallTrip.findMany({
+        orderBy: [
+            {
+                loadingPointToStockPointTrip: {
+                    startDate: 'desc'
+                }
+            },
+            {
+                loadingPointToUnloadingPointTrip: {
+                    startDate: 'desc'
+                }
+            }
+        ],
+        where: {
+            transporterInvoice: '',
+            NOT: [
+                {
+                    loadingPointToStockPointTrip: {
+                        truck: { transporter: { transporterType: 'Own' } }
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        truck: { transporter: { transporterType: 'Own' } }
+                    }
+                }
+            ]
+        },
+        include: {
+            loadingPointToStockPointTrip: {
+                include: {
+                    stockPointToUnloadingPointTrip: {
+                        include: { unloadingPoint: true }
+                    },
+                    loadingPoint: true,
+                    stockPoint: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: true
+                        }
+                    }
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    loadingPoint: true,
+                    unloadingPoint: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+export const updateTransporterInvoice = (invoice: string, id: number) =>
+    prisma.overallTrip.update({
+        where: {
+            id
+        },
+        data: {
+            transporterInvoice: invoice
+        },
+        include: {
+            stockPointToUnloadingPointTrip: {
+                include: {
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            truck: {
+                                include: { transporter: true }
+                            }
+                        }
+                    }
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: { transporter: true }
+                    }
+                }
+            }
+        }
+    })
