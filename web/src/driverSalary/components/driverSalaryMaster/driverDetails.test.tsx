@@ -44,7 +44,7 @@ const mockTripDetailsData = {
     ],
     expensesDetails: [
         {
-            amount: 1200,
+            acceptedAmount: 1200,
             tripId: 2
         }
     ]
@@ -54,7 +54,7 @@ describe('Driver Test', () => {
         mockGetDriverTripByDriverId.mockResolvedValue(mockTripDetailsData)
         mockGetAllDriver.mockResolvedValue(mockDriverDetailsData)
     })
-    test('should be able to create driver details', async () => {
+    test('should be able to list driver trip details', async () => {
         render(
             <BrowserRouter>
                 <DriverSalaryConatiner />
@@ -85,6 +85,7 @@ describe('Driver Test', () => {
         expect(screen.getByText('Invoice Number')).toBeInTheDocument()
         expect(screen.getByText('asdxasasd')).toBeInTheDocument()
         expect(screen.getByText('Expenses Amount')).toBeInTheDocument()
+        // screen.debug(undefined, 70000000)
         expect(screen.getByText('₹ 1200')).toBeInTheDocument()
         expect(screen.getByText('₹ 4500')).toBeInTheDocument()
         expect(screen.getByText('₹ 2000')).toBeInTheDocument()

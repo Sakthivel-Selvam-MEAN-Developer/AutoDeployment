@@ -12,7 +12,7 @@ export const getAllStockPointTrip = () =>
     prisma.loadingPointToStockPointTrip.findMany({
         include: {
             loadingPoint: { select: { name: true, cementCompanyId: true } },
-            stockPoint: { select: { name: true } },
+            stockPoint: { select: { name: true, id: true } },
             truck: {
                 select: {
                     vehicleNumber: true,

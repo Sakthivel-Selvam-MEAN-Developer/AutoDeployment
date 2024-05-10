@@ -44,7 +44,7 @@ export const tableBodyRow = (expense: expenseDetailsType) => {
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell>{expense.expenseType}</TableCell>
-            <TableCell>{`\u20B9 ${expense.amount}`}</TableCell>
+            <TableCell>{`\u20B9 ${expense.placedAmount}`}</TableCell>
         </TableRow>
     )
 }

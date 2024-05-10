@@ -168,7 +168,7 @@ const tableBody: tableBody = (setActivateDialog, driverTrips, expenses) => {
                 driverTrips.map((trip: tripProps, index: number) => {
                     const expenseByTrip = expenses.filter((expense) => expense.tripId === trip.id)
                     const totalExpenseAmount = expenseByTrip.reduce(
-                        (total, expense) => total + expense.amount,
+                        (total, expense) => total + expense.acceptedAmount,
                         0
                     )
                     return getRow(setActivateDialog, getTrip(trip), index, totalExpenseAmount)

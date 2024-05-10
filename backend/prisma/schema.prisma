@@ -619,13 +619,15 @@ model driverAttendance {
 }
 
 model expenses {
-  id              Int          @id @default(autoincrement())
-  expenseType     expensesType
-  amount          Int
-  expenseApproval Boolean      @default(false)
-  createdAt       DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt       DateTime     @updatedAt @db.Timestamptz(6)
-  tripId          Int
+  id               Int          @id @default(autoincrement())
+  expenseType      expensesType
+  placedAmount     Int
+  acceptedAmount   Int?
+  rejectableReason String?
+  expenseApproval  Boolean      @default(false)
+  createdAt        DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime     @updatedAt @db.Timestamptz(6)
+  tripId           Int
 
   @@schema("driverSalary")
 }

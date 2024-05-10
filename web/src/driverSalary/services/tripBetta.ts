@@ -1,5 +1,4 @@
 import { axiosInstance, getData } from '../../apiCalls'
-
 export interface tokenProps {
     headers: {
         authorization: string
@@ -14,12 +13,9 @@ interface tripSalaryProps {
     dailyBetta: number
     driverAdvance: number
 }
-
 export const createTripSalary = (data: tripSalaryProps) =>
     axiosInstance.post('/addTripSalary', data).then(getData)
-
 export const getAllCementCompany = () => axiosInstance.get('/cementCompany').then(getData)
-
 export const getTripSalaryDetailsById = (
     loadingPointId: number | null,
     unloadingPointId: number | null,

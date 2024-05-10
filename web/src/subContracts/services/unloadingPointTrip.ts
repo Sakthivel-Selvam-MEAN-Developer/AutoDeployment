@@ -7,8 +7,8 @@ interface dataProps {
     unloadingPointId: number | null
     loadingPointToStockPointTripId: number
 }
-export const createStockTrip = (data: dataProps, type: string) =>
+export const createStockTrip = (data: dataProps, type: string, stockPointId: number) =>
     axiosInstance
-        .post(`/unloading-trip/${type}`, data)
+        .post(`/unloading-trip`, data, { params: { stockPointId, type } })
         .then(getData)
-        .catch(() => alert('Error Getting data'))
+        .catch((error) => alert(error.response.data))

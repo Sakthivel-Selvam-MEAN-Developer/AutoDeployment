@@ -71,13 +71,23 @@ const mockBody = {
     loadingPointToStockPointTripId: 3,
     truckId: 6
 }
+const mockCreateDriverTripData = {
+    id: 10,
+    tripId: 44,
+    driverId: 34,
+    tripSalaryId: 3
+}
 describe('Trip Controller', () => {
     test('should able to create trip', async () => {
         mockCreateUnloadingPointTrip.mockResolvedValue(mockTripData)
         mockgetOverAllTripIdByLoadingToStockId.mockResolvedValue(
             mockOverAllTripIdByLoadingToStockId
         )
-        await supertest(app).post('/api/unloading-trip/Market Transporter').expect(200)
+        await supertest(app)
+            .post('/api/unloading-trip')
+            .send(mockBody)
+            .query({ type: 'Market Transporter', stockPointId: 1 })
+            .expect(200)
         expect(mockCreateUnloadingPointTrip).toBeCalledTimes(1)
         expect(mockupdateStockToUnloadingInOverall).toHaveBeenCalledWith(
             mockOverAllTripIdByLoadingToStockId.id,
@@ -94,8 +104,12 @@ describe('Trip Controller', () => {
         mockGetTripSalaryDetailsByLoactionId.mockResolvedValue(
             mockGetTripSalaryDetailsByLoactionIdData
         )
-
-        await supertest(app).post('/api/unloading-trip/Own').send(mockBody).expect(200)
+        mockCeateDriverTrip.mockResolvedValue(mockCreateDriverTripData)
+        await supertest(app)
+            .post('/api/unloading-trip')
+            .send(mockBody)
+            .query({ type: 'Own', stockPointId: 1 })
+            .expect(200)
 
         expect(mockCreateUnloadingPointTrip).toBeCalledTimes(2)
         expect(mockupdateStockToUnloadingInOverall).toHaveBeenCalledWith(

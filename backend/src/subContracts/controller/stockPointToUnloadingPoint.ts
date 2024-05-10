@@ -12,10 +12,6 @@ import {
     create as createDriverTrip
 } from '../../driverSalary/models/driverTrip.ts'
 
-interface dataProps {
-    id: number
-    loadingPointToStockPointTripId: number
-}
 interface rowProps {
     freightAmount: number
     invoiceNumber: string
@@ -27,31 +23,43 @@ interface rowProps {
     truckId: number
     unloadingPointId: number
 }
-const overAllTrip = async (stockToUnloading: dataProps, type: string, row: rowProps) => {
-    const overallTrip = await getOverAllTripIdByLoadingToStockId(
-        stockToUnloading.loadingPointToStockPointTripId
-    )
-    await updateStockToUnloadingInOverall(overallTrip?.id, stockToUnloading.id)
-    await closeStockTrip(stockToUnloading.loadingPointToStockPointTripId)
-    if (type !== 'Own') return
-    const driverId = await getDriverIdByTripId(overallTrip?.id || 0)
-    const stockPointId = overallTrip?.loadingPointToStockPointTrip?.stockPointId || ''
-    const tripSalary = await getTripSalaryDetailsByLoactionId(
-        '',
-        row.unloadingPointId.toString(),
-        stockPointId ? stockPointId.toString() : ''
-    )
-    await createDriverTrip({
-        tripId: overallTrip?.id || 0,
-        tripStartDate: row.startDate,
-        driverId: driverId?.driverId || 0,
-        tripSalaryId: tripSalary?.id || 0
+const createStockToUnloadTrip = async (data: rowProps) =>
+    create(data).then(async (stockToUnloading) => {
+        const overallTrip = await getOverAllTripIdByLoadingToStockId(
+            stockToUnloading.loadingPointToStockPointTripId
+        )
+        await updateStockToUnloadingInOverall(overallTrip?.id, stockToUnloading.id)
+        await closeStockTrip(stockToUnloading.loadingPointToStockPointTripId)
+        return overallTrip
     })
+interface RequestQuery {
+    type: string
+    stockPointId: string
 }
-export const createStockPointToUnloadingPointTrip = (req: Request, res: Response) => {
-    const { type } = req.params
-    create(req.body)
-        .then(async (stockToUnloading) => overAllTrip(stockToUnloading, type, req.body))
-        .then(() => res.sendStatus(200))
-        .catch((error) => handlePrismaError(error, res))
+export const createStockPointToUnloadingPointTrip = async (
+    req: Request<object, object, rowProps, RequestQuery>,
+    res: Response
+) => {
+    const { type, stockPointId } = req.query
+    if (type !== 'Own') {
+        createStockToUnloadTrip(req.body)
+            .then(() => res.sendStatus(200))
+            .catch((error) => handlePrismaError(error, res))
+    } else if (type === 'Own') {
+        const tripSalary = await getTripSalaryDetailsByLoactionId(
+            '',
+            req.body.unloadingPointId.toString(),
+            stockPointId.toString()
+        )
+        if (tripSalary !== null) {
+            const overallTrip = await createStockToUnloadTrip(req.body)
+            const driverId = await getDriverIdByTripId(overallTrip?.id || 0)
+            await createDriverTrip({
+                tripId: overallTrip?.id || 0,
+                tripStartDate: req.body.startDate,
+                driverId: driverId?.driverId || 0,
+                tripSalaryId: tripSalary.id || 0
+            }).then(() => res.sendStatus(200))
+        } else res.status(400).send('There is no trip salary details for specified locations')
+    }
 }

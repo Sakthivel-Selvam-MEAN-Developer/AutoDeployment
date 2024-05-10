@@ -29,7 +29,7 @@ function tableBodyRow(expense: expenseDetailsType) {
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell>{expense.expenseType}</TableCell>
-            <TableCell>{expense.amount}</TableCell>
+            <TableCell>{expense.placedAmount}</TableCell>
         </TableRow>
     )
 }

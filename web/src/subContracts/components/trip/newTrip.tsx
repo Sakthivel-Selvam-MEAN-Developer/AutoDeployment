@@ -92,9 +92,14 @@ const NewTrip: React.FC = () => {
                 tripStartDate: data.tripDate.startOf('day').unix(),
                 driverId
             }
-            if (category === 'Stock Point' && tripSalaryDetails !== null)
-                createStockPointTrip({ ...details, stockPointId: stockPointId })
-                    .then((trip) => {
+            const createStockTrip = async () => {
+                if (!ownTruck)
+                    return await createStockPointTrip({ ...details, stockPointId: stockPointId })
+                else if (ownTruck && tripSalaryDetails !== null)
+                    return await createStockPointTrip({
+                        ...details,
+                        stockPointId: stockPointId
+                    }).then((trip) => {
                         return (
                             ownTruck &&
                             createDriverTrip({
@@ -104,42 +109,30 @@ const NewTrip: React.FC = () => {
                             })
                         )
                     })
-                    .then(() => {
-                        setOpenSuccessDialog(true)
-                        setDisable(false)
-                    })
-                    .then(() =>
-                        clearForm(
-                            clear,
-                            setClear,
-                            setCategory,
-                            setValue,
-                            setListTruck,
-                            setFuelDetails,
-                            setFuel,
-                            setFilledLoad
-                        )
-                    )
-                    .catch((error) => {
-                        alert(error.response.data.error)
-                        setDisable(false)
-                    })
-            else if (category === 'Unloading Point' && tripSalaryDetails !== null)
-                createTrip({ ...details, unloadingPointId: unloadingPointId })
-                    .then(
-                        (trip) =>
+                else throw new Error('There is No Trip Salary Details for Specified Locations')
+            }
+            const createUnloadingTrip = async () => {
+                if (!ownTruck)
+                    return await createTrip({ ...details, unloadingPointId: unloadingPointId })
+                else if (ownTruck && tripSalaryDetails !== null)
+                    return await createTrip({
+                        ...details,
+                        unloadingPointId: unloadingPointId
+                    }).then((trip) => {
+                        return (
                             ownTruck &&
                             createDriverTrip({
                                 ...driverDetails,
                                 tripId: trip.id,
                                 tripSalaryId: tripSalaryDetails.id
                             })
-                    )
-                    .then(() => {
-                        setOpenSuccessDialog(true)
-                        setDisable(false)
+                        )
                     })
-                    .then(() =>
+                else throw new Error('There is No Trip Salary Details for Specified Locations')
+            }
+            if (category === 'Stock Point')
+                createStockTrip()
+                    .then(() => {
                         clearForm(
                             clear,
                             setClear,
@@ -150,17 +143,34 @@ const NewTrip: React.FC = () => {
                             setFuel,
                             setFilledLoad
                         )
-                    )
+                        setOpenSuccessDialog(true)
+                        setDisable(false)
+                    })
+                    .catch((error) => {
+                        alert(error.response ? error.response.data.error : error)
+                        setDisable(false)
+                    })
+            else if (category === 'Unloading Point')
+                createUnloadingTrip()
+                    .then(() => {
+                        clearForm(
+                            clear,
+                            setClear,
+                            setCategory,
+                            setValue,
+                            setListTruck,
+                            setFuelDetails,
+                            setFuel,
+                            setFilledLoad
+                        )
+                        setOpenSuccessDialog(true)
+                        setDisable(false)
+                    })
                     .catch((error) => {
                         alert(error.response.data.error)
                         setDisable(false)
                     })
-            else if (tripSalaryDetails === null) {
-                alert(
-                    'There is No Trip Salary Details for Specified Locations. \nPlease Add Trip Salary Details for Specified Locations and Try Againg to Creat Trip.'
-                )
-                setDisable(false)
-            } else setDisable(false)
+            else setDisable(false)
         } else alert('All fields Required')
     }
     useEffect(() => {

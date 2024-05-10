@@ -3,52 +3,32 @@ import {
     AccordionDetails,
     AccordionSummary,
     Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
     TextField,
     Typography
 } from '@mui/material'
 import React, { ChangeEvent, FC, ReactElement, useEffect, useState } from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import Paper from '@mui/material/Paper'
-import { getAllExpenseByTripIdForApproval } from '../../services/expenses'
+import { updateExpenseApproval } from '../../services/expenses'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue'
-import { FieldValues, useForm } from 'react-hook-form'
-interface tripDataProps {
-    tripExpenses: expenseDetailsProps[]
+import { Control, FieldValues, useForm } from 'react-hook-form'
+import { ExpenseAccordionSummaryProps, expense, expenseApprovalProps, props, trips } from './types'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+const divStyle = {
+    display: 'flex',
+    width: '100%',
+    padding: '10px 0 0 0'
 }
-interface expenseDetailsProps {
-    expenseType: string
-    amount: number
-}
-interface ExpenseTableBodyProps {
-    expenseDetails: expenseDetailsProps[]
-}
-const ExpenseList: React.FC = (): ReactElement => {
-    const [userExpenseDetails, setUserExpenseDetails] = useState([])
+const ExpenseList: props = (expensesForApproval, setReload, reload) => {
+    const { control } = useForm<FieldValues>()
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
-    useEffect(() => {
-        getAllExpenseByTripIdForApproval().then(setUserExpenseDetails)
-    }, [])
     return (
         <>
-            {userExpenseDetails.length !== 0 &&
-                userExpenseDetails.map((tripData: tripDataProps, index) => {
+            {expensesForApproval.length !== 0 &&
+                expensesForApproval.map((tripData: expenseApprovalProps, index) => {
                     return (
                         <Accordion key={index}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                id="panel1a-header"
-                                sx={{ borderBottom: '1px solid grey' }}
-                            >
-                                {expenseAccordionSummary()}
-                            </AccordionSummary>
-                            <AccordionDetails sx={accordianStyle}>
-                                {ExpenseTable(tripData)}
-                            </AccordionDetails>
+                            <AccordianSummaryField tripData={tripData} />
+                            {AccordionField(accordianStyle, tripData, control, setReload, reload)}
                         </Accordion>
                     )
                 })}
@@ -56,13 +36,13 @@ const ExpenseList: React.FC = (): ReactElement => {
     )
 }
 export default ExpenseList
-
-const AutoComplete = (
-    setReason: React.Dispatch<React.SetStateAction<string>>,
-    approvalType: string | null,
+interface Props {
+    setReason: React.Dispatch<React.SetStateAction<string>>
+    approvalType: string | null
     setApprovalType: React.Dispatch<React.SetStateAction<string | null>>
-) => {
-    const { control } = useForm<FieldValues>()
+    control: Control
+}
+const AutoComplete: FC<Props> = ({ setReason, approvalType, setApprovalType, control }) => {
     return (
         <AutoCompleteWithValue
             value={approvalType === null ? '' : approvalType}
@@ -78,128 +58,151 @@ const AutoComplete = (
     )
 }
 
+const getTrip = (trip: trips) => {
+    return trip.loadingPointToStockPointTrip !== null
+        ? trip.loadingPointToStockPointTrip
+        : trip.loadingPointToUnloadingPointTrip
+}
+
 const style = { width: '100%', padding: '10px 10px 0px' }
 
-const button = (reason: string, approvalType: string | null) => {
+const ExpenseAccordionSummary: FC<ExpenseAccordionSummaryProps> = ({ trip }) => {
+    const driverTrip = getTrip(trip)
+    const unloadingPoint =
+        trip.loadingPointToStockPointTrip !== null
+            ? trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip[0].unloadingPoint
+                  .name
+            : trip.loadingPointToUnloadingPointTrip?.unloadingPoint.name
     return (
-        <TableCell>
-            <Button disabled={reason === '' && approvalType === 'Rejectable'}>Submit</Button>
-        </TableCell>
+        <>
+            <Typography sx={style}>
+                <b>{driverTrip?.truck.vehicleNumber}</b>
+            </Typography>
+            <Typography sx={style}>{driverTrip?.invoiceNumber}</Typography>
+            <Typography sx={style}>
+                {`${driverTrip?.loadingPoint.name} - ${unloadingPoint}`}
+            </Typography>
+            <Typography sx={style}>{epochToMinimalDate(driverTrip?.startDate || 0)}</Typography>
+        </>
     )
 }
-
-const ExpenseTableBody = ({ expenseDetails }: ExpenseTableBodyProps) => {
-    return (
-        <TableBody>
-            {expenseDetails.map((expense: expenseDetailsProps) => {
-                return tableRow(expense)
-            })}
-        </TableBody>
-    )
+interface approvalProps {
+    expense: expense
+    control: Control
+    setReload: React.Dispatch<React.SetStateAction<boolean>>
+    reload: boolean
 }
-
-const RejectionReason: FC = () => {
-    const [approvalType, setApprovalType] = useState<string | null>('')
+const ExpenseApprovalFormFields: FC<approvalProps> = ({ expense, control, setReload, reload }) => {
     const [reason, setReason] = useState('')
+    const [acceptedExpense, setAcceptedExpense] = useState<number>(0)
+    const [approvalType, setApprovalType] = useState<string | null>('')
+    const [disabled, setDisabled] = useState<boolean>(true)
+    const handleExpenseApproval = async () => {
+        const expenseApproval = {
+            acceptedAmount: approvalType === 'Acceptable' ? expense.placedAmount : acceptedExpense,
+            rejectableReason: reason
+        }
+        await updateExpenseApproval(expenseApproval, expense.id).then(() => setReload(!reload))
+    }
+    useEffect(() => {
+        if (approvalType === 'Acceptable') setDisabled(false)
+        else if (approvalType === 'Rejectable' && reason !== '' && acceptedExpense !== 0)
+            setDisabled(false)
+        else setDisabled(true)
+    }, [approvalType, reason, acceptedExpense])
     return (
-        <>
-            {tableCell(reason, setReason, approvalType, setApprovalType)}
-            {button(reason, approvalType)}
-        </>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingBottom: '10px'
+            }}
+        >
+            <div style={{ flex: 1 }}>
+                <Typography>{expense.expenseType}</Typography>
+            </div>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+                <Typography>{`\u20B9 ${expense.placedAmount}`}</Typography>
+            </div>
+            <div style={{ flex: 1 }}>
+                <AutoComplete
+                    setReason={setReason}
+                    approvalType={approvalType}
+                    setApprovalType={setApprovalType}
+                    control={control}
+                />
+            </div>
+            <div style={{ flex: 1 }}>
+                <TextField
+                    disabled={approvalType === 'Acceptable'}
+                    type="text"
+                    value={reason}
+                    label="Enter Rejection Reason"
+                    name="rejectionReason"
+                    variant="outlined"
+                    onChange={(e) => setReason(e.target.value)}
+                    sx={{ width: '300px', margin: '0 10px' }}
+                />
+            </div>
+            <div style={{ flex: 1 }}>
+                <TextField
+                    disabled={approvalType === 'Acceptable'}
+                    type="number"
+                    value={acceptedExpense}
+                    label="Enter Modified Expense Amount"
+                    name="modifiedExpense"
+                    variant="outlined"
+                    inputProps={{ step: 1, min: 0 }}
+                    onChange={(e) => {
+                        if (parseInt(e.target.value) === 0 || e.target.value === '')
+                            setAcceptedExpense(0)
+                        else setAcceptedExpense(parseInt(e.target.value))
+                    }}
+                    sx={{ width: '300px', margin: '0 10px' }}
+                />
+            </div>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+                <Button disabled={disabled} onClick={handleExpenseApproval}>
+                    Submit
+                </Button>
+            </div>
+        </div>
     )
 }
-type tablecellTypes = (
-    reason: string,
-    setReason: React.Dispatch<React.SetStateAction<string>>,
-    approvalType: string | null,
-    setApprovalType: React.Dispatch<React.SetStateAction<string | null>>
+const AccordianSummaryField: FC<{ tripData: expenseApprovalProps }> = ({ tripData }) => {
+    return (
+        <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            id="panel1a-header"
+            sx={{ borderBottom: '1px solid grey' }}
+        >
+            <ExpenseAccordionSummary trip={tripData.trip} />
+        </AccordionSummary>
+    )
+}
+type type = (
+    accordianStyle: { display: string; borderBottom: string },
+    tripData: expenseApprovalProps,
+    control: Control,
+    setReload: React.Dispatch<React.SetStateAction<boolean>>,
+    reload: boolean
 ) => ReactElement
-const tableCell: tablecellTypes = (reason, setReason, approvalType, setApprovalType) => {
+const AccordionField: type = (accordianStyle, tripData, control, setReload, reload) => {
     return (
-        <>
-            <TableCell>{AutoComplete(setReason, approvalType, setApprovalType)}</TableCell>
-            <TableCell>{formfield(reason, setReason, approvalType)}</TableCell>
-        </>
-    )
-}
-
-const ExpenseTable = (tripData: tripDataProps) => {
-    return (
-        <Table sx={{ width: 1100 }} component={Paper} aria-label="simple table">
-            {expenseTableHead()}
-            <ExpenseTableBody expenseDetails={tripData.tripExpenses} />
-        </Table>
-    )
-}
-
-function tableRow(expense: expenseDetailsProps) {
-    return (
-        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell>{expense.expenseType}</TableCell>
-            <TableCell>{expense.amount}</TableCell>
-            <RejectionReason />
-        </TableRow>
-    )
-}
-
-function formfield(
-    reason: string,
-    setReason: React.Dispatch<React.SetStateAction<string>>,
-    approvalType: string | null
-) {
-    return (
-        <TextField
-            disabled={approvalType === 'Acceptable'}
-            value={reason}
-            label="Enter Rejection Reason"
-            name="rejectionReason"
-            variant="outlined"
-            onChange={(e) => setReason(e.target.value)}
-            sx={{ width: '200px', margin: '0 10px' }}
-        />
-    )
-}
-
-const expensesType = (
-    <TableCell>
-        <b> Expense Type</b>
-    </TableCell>
-)
-const expensesAmountAndMessage = (
-    <>
-        <TableCell sx={{ fontWeight: 700 }}>Expense Amount</TableCell>
-        <TableCell sx={{ fontWeight: 700 }}>Message</TableCell>
-    </>
-)
-
-const tableHeadRow = (
-    <TableRow>
-        {expensesType}
-        {expensesAmountAndMessage}
-        <TableCell></TableCell>
-        <TableCell></TableCell>
-    </TableRow>
-)
-
-function expenseTableHead() {
-    return <TableHead>{tableHeadRow}</TableHead>
-}
-
-const expenseAccordionSummary = () => {
-    return (
-        <>
-            <Typography sx={style}>
-                Name:<b> Sakthi Vel</b>
-            </Typography>
-            <Typography sx={style}>
-                Invoice Number:<b>ABCD1234</b>
-            </Typography>
-            <Typography sx={style}>
-                Loading Point:<b> Salem</b>
-            </Typography>
-            <Typography sx={style}>
-                Start date:<b>03/04/2024</b>
-            </Typography>
-        </>
+        <AccordionDetails sx={accordianStyle}>
+            <div style={{ ...divStyle, flexDirection: 'column' }}>
+                {tripData.expense &&
+                    tripData.expense.map((expense: expense, index) => (
+                        <ExpenseApprovalFormFields
+                            key={index}
+                            expense={expense}
+                            control={control}
+                            setReload={setReload}
+                            reload={reload}
+                        />
+                    ))}
+            </div>
+        </AccordionDetails>
     )
 }

@@ -23,9 +23,7 @@ const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog })
     React.useEffect(() => {
         if (open) {
             const { current: descriptionElement } = descriptionElementRef
-            if (descriptionElement !== null) {
-                descriptionElement.focus()
-            }
+            if (descriptionElement !== null) descriptionElement.focus()
         }
     }, [open])
     return (
@@ -49,5 +47,4 @@ const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog })
         </Dialog>
     )
 }
-
 export default DriverDialogForAllDetails

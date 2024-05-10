@@ -5,11 +5,18 @@ export interface tokenProps {
         authorization: string
     }
 }
+interface updateExpense {
+    acceptedAmount: number
+    rejectableReason: string
+}
 export const createExpense = (data: expenseProps) =>
     axiosInstance.post(`/expenses`, data).then(getData)
 
 export const getExpenseByTripId = (id: number) =>
     axiosInstance.get(`/expenses`, { params: { tripId: id } }).then(getData)
 
-export const getAllExpenseByTripIdForApproval = () =>
-    axiosInstance.get(`/expensesApproval`).then(getData)
+export const getAllExpenseByTripIdForApproval = (driverId: number) =>
+    axiosInstance.get(`/expensesApproval`, { params: { driverId } }).then(getData)
+
+export const updateExpenseApproval = (data: updateExpense, expenseId: number) =>
+    axiosInstance.post(`/updateExpensesApproval`, data, { params: { expenseId } }).then(getData)

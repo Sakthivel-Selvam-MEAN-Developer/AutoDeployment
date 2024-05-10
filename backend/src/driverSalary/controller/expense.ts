@@ -4,8 +4,10 @@ import {
     create,
     getAllExpenseByTripId,
     getAllExpenseForApproval,
-    groupAllExpensesByTripId
+    updateExpenseApproval as updateExpense
 } from '../models/expenses.ts'
+import { getAllDriverTripById } from '../models/driverTrip.ts'
+import { getOverAllTripByArrayOfId } from '../../subContracts/models/overallTrip.ts'
 
 const checkType = (data: string) =>
     ({
@@ -46,14 +48,27 @@ export const createExpense = async (req: Request, res: Response) => {
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
 }
-export const ListAllExpenseByTripIdForApproval = async (_req: Request, res: Response) => {
-    const allTripId = await groupAllExpensesByTripId()
-    const falseExpense = await getAllExpenseForApproval()
-    const d = allTripId.map((trip) => {
-        const details = falseExpense.filter((data) => trip.tripId === data.tripId)
-        return { tripId: trip.tripId, tripExpenses: details }
+interface QueryParam {
+    driverId: string
+}
+const expenseApproval = async (alltripIds: number[]) => {
+    const falseExpense = await getAllExpenseForApproval(alltripIds)
+    const alltripId = [...new Set(falseExpense.map((id) => id.tripId))]
+    const overallTrip = await getOverAllTripByArrayOfId(alltripId)
+    return overallTrip.map((trip) => {
+        const falseExpenseByTripId = falseExpense.filter((expense) => expense.tripId === trip.id)
+        return { trip, expense: falseExpenseByTripId }
     })
-    res.status(200).json(d)
+}
+export const ListAllExpenseByTripIdForApproval = async (
+    req: Request<object, object, object, QueryParam>,
+    res: Response
+) => {
+    const { driverId } = req.query
+    const allTripIdByDriverId = await getAllDriverTripById(parseInt(driverId))
+    const alltripIds = [...new Set(allTripIdByDriverId.map((id) => id.tripId))]
+    const combinedTrip = await expenseApproval(alltripIds)
+    res.status(200).json(combinedTrip)
 }
 type RequestQuery = {
     tripId: string
@@ -64,6 +79,22 @@ export const listAllExpenseByTripId = async (
 ) => {
     const { tripId } = req.query
     getAllExpenseByTripId(parseInt(tripId))
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+type RequestExpenseQuery = {
+    expenseId: string
+}
+export interface updateExpenseType {
+    acceptedAmount: number
+    rejectableReason: string
+}
+export const updateExpenseApproval = async (
+    req: Request<object, object, updateExpenseType, RequestExpenseQuery>,
+    res: Response
+) => {
+    const { expenseId } = req.query
+    updateExpense(parseInt(expenseId), req.body)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

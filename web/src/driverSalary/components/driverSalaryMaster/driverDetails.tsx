@@ -9,7 +9,7 @@ import { getAllDriver } from '../../services/driver'
 import { getDriverTripByDriverId } from '../../services/driverTrip'
 import { tripProps } from './driverTable'
 
-interface datePickerProps {
+interface props {
     driverList: driverProps[]
     setDriverId: React.Dispatch<React.SetStateAction<number>>
     driverName: string | null
@@ -21,8 +21,6 @@ interface driverDetailsProps {
     numberOfTrips: number
     numberOfExpenses: number
     dailyBetta: number
-    driverName: string | null
-    setDriverName: React.Dispatch<React.SetStateAction<string | null>>
 }
 interface numberOfTripsProps {
     numberOfTrips: number
@@ -47,16 +45,15 @@ const style = {
     marginRight: '20px'
 }
 export interface expensesProps {
-    amount: number
+    acceptedAmount: number
     tripId: number
 }
 const DriverSalaryConatiner: FC = () => {
     const [driverList, setDriverList] = useState<never[]>([])
     const [driverId, setDriverId] = useState<number>(0)
-    const [driverName, setDriverName] = useState<string | null>(null)
     const [numberOfTrips, setNumberOfTrips] = useState<number>(0)
     const [numberOfExpenses, setNumberOfExpenses] = useState<number>(0)
-    const [expenses, setExpenses] = useState<expensesProps[]>([{ amount: 0, tripId: 0 }])
+    const [expenses, setExpenses] = useState<expensesProps[]>([{ acceptedAmount: 0, tripId: 0 }])
     const [driverTrips, setDriverTrips] = useState<tripProps[]>([])
     const [dailyBetta, setDailyBetta] = useState<number>(0)
     useEffect(() => {
@@ -79,8 +76,6 @@ const DriverSalaryConatiner: FC = () => {
                 numberOfTrips={numberOfTrips}
                 numberOfExpenses={numberOfExpenses}
                 dailyBetta={dailyBetta}
-                setDriverName={setDriverName}
-                driverName={driverName}
             />
             <ListTripDetails driverTrips={driverTrips} expenses={expenses} />
         </>
@@ -93,10 +88,9 @@ const DriverDetails: FC<driverDetailsProps> = ({
     setDriverId,
     numberOfTrips,
     numberOfExpenses,
-    dailyBetta,
-    setDriverName,
-    driverName
+    dailyBetta
 }) => {
+    const [driverName, setDriverName] = useState<string | null>(null)
     return (
         <>
             <DatePickerField
@@ -114,12 +108,7 @@ const DriverDetails: FC<driverDetailsProps> = ({
     )
 }
 
-const DatePickerField: FC<datePickerProps> = ({
-    driverList,
-    setDriverId,
-    setDriverName,
-    driverName
-}) => {
+const DatePickerField: FC<props> = ({ driverList, setDriverId, setDriverName, driverName }) => {
     return (
         <div style={style}>
             <h2>Welcome Sakthivel Selvam</h2>

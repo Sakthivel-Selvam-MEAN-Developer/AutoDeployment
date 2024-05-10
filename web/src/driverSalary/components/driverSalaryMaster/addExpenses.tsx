@@ -9,7 +9,7 @@ import { AddedExpense } from './addedExpenses.tsx'
 import { getAllDriver } from '../../services/driver.ts'
 export interface expenseDetailsType {
     expenseType: string
-    amount: number
+    placedAmount: number
     tripId: number
 }
 const ListExpenses: React.FC = () => {
@@ -40,7 +40,7 @@ const ListExpenses: React.FC = () => {
         }
         setExpensesDetails([
             ...expensesDetails,
-            { expenseType: data.expenseType, amount: parseInt(data.amount), tripId: tripId }
+            { expenseType: data.expenseType, placedAmount: parseInt(data.amount), tripId: tripId }
         ])
     }
     return (
