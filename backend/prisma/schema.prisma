@@ -547,6 +547,7 @@ model overallTrip {
   acknowledgementStatus              Boolean                           @default(false)
   finalPayDuration                   Int                               @default(0)
   transporterInvoice                 String                            @default("")
+  acknowledgementDate                Int?                              
   paymentDues                        paymentDues[]
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])

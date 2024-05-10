@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client'
+import dayjs from 'dayjs'
 import prisma from '../../../prisma/index.ts'
 
 export const create = (
@@ -33,6 +34,7 @@ export const getOverallTrip = () =>
                     }
                 }
             },
+
             loadingPointToUnloadingPointTrip: {
                 include: {
                     loadingPoint: true,
@@ -164,7 +166,8 @@ export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
             id
         },
         data: {
-            acknowledgementStatus: true
+            acknowledgementStatus: true,
+            acknowledgementDate: dayjs().startOf('day').unix()
         },
         include: {
             loadingPointToStockPointTrip: true,

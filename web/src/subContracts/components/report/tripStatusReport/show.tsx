@@ -10,6 +10,8 @@ import { overallTripsProps } from './tripFilterForm.tsx'
 import { DataGrid } from '@mui/x-data-grid'
 
 interface Row {
+    paymentDues(paymentDues: any): string
+    acknowledgementDate: any
     stockPointToUnloadingPointTrip: [
         {
             unloadingPoint: {
@@ -52,6 +54,7 @@ interface fuel {
     bunk: bunk
 }
 interface shortage {
+    unloadedDate: any
     shortageQuantity: number | string
     shortageAmount: number | string
 }
@@ -60,6 +63,7 @@ interface bunk {
 }
 interface Props {
     acknowledgementStatus: boolean
+    acknowledgementDate: number
     loadingPointToStockPointTrip: Row
     loadingPointToUnloadingPointTrip: Row
     stockPointToUnloadingPointTrip: Row
@@ -69,6 +73,7 @@ interface Props {
     number: number
 }
 interface paymentType {
+    dueDate: number
     type: string
     status: boolean
 }
@@ -110,6 +115,9 @@ interface finalDataProps {
     quantity: string | number
     amount: string | number
     status: string
+    acknowledgementDate: string
+    dueDate: string
+    unloadedDate: string
     type: string
 }
 
@@ -140,12 +148,18 @@ const columns = [
     { field: 'bunkName', headerName: 'Bunk Name', width: 190 },
     { field: 'fuelQuantity', headerName: 'Diesel Quantity', width: 140 },
     { field: 'fuelPrice', headerName: 'Diesel Amount', width: 140 },
+    { field: 'unloadedDate', headerName: 'Unloaded Date', width: 150 },
     { field: 'quantity', headerName: 'Shortage Quantity', width: 150 },
     { field: 'amount', headerName: 'Shortage Amount', width: 150 },
+    { field: 'acknowledgementDate', headerName: 'Acknowledgement Date', width: 150 },
     { field: 'status', headerName: 'Trip Status', width: 230 },
+    { field: 'dueDate', headerName: 'Payment DueDate', width: 150 },
     { field: 'type', headerName: 'Payment Status', width: 150 }
 ]
 const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
+    if (!arrayOfDues || arrayOfDues.length === 0) {
+        return 'No payment data available'
+    }
     const initial = arrayOfDues.filter((due) => {
         return due.type === 'initial pay' && due.status === true
     })
@@ -235,7 +249,16 @@ const generateRow = (row: Props, index: number) => {
             : !row.acknowledgementStatus
               ? 'Waiting For Acknowledgement'
               : 'Completed',
-        type: checkPaymentStatus(row.paymentDues)
+        type: checkPaymentStatus(row.paymentDues),
+        acknowledgementDate: row.acknowledgementDate
+            ? epochToMinimalDate(row.acknowledgementDate)
+            : 'Needed to be Acknowledge',
+        unloadedDate:
+            row.shortageQuantity.length !== 0
+                ? epochToMinimalDate(row.shortageQuantity[0].unloadedDate)
+                : 'Not Yet Unloaded',
+        dueDate:
+            row.paymentDues.length !== 0 ? epochToMinimalDate(row.paymentDues[0].dueDate) : 'Null'
     })
 }
 
