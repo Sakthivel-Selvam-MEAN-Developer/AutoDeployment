@@ -7,19 +7,14 @@ const TransporterInvoiceTable: FC<TransporterInvoiceProps> = ({ tripDetails, set
     const direct = tripDetails.filter((trip) => trip.loadingPointToUnloadingPointTrip !== null)
     return (
         <>
-            {direct.length !== 0 && (
-                <TransporterTripTable
-                    direct={direct}
-                    setTripDetails={setTripDetails}
-                    stock={stock}
-                />
-            )}
+            <TransporterTripTable direct={direct} setTripDetails={setTripDetails} stock={stock} />
             <br />
         </>
     )
 }
 export default TransporterInvoiceTable
 const TransporterTripTable: FC<tripTableProps> = ({ direct, setTripDetails, stock }) => {
+    console.log(direct, stock)
     return (
         <div style={{ width: '100%' }}>
             <TripTable trip={direct} setTripDetails={setTripDetails} tableName={'Direct Trip'} />

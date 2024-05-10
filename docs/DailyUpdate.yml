@@ -1,3 +1,93 @@
+- date: 10-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should write test for transporterinvoice for ui
+    - should test transporterinvoice and deploy
+- date: 10-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should discuss with client for driver attendance  
+- date: 10-04-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should fix error in test
+
+- date: 09-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should remove trip from ui for which invoice is added
+    - should display popup saying transporter invoice not submitted in acknowledegement page 
+    - should write test for transporterinvoice for backend
+  completed:
+    - removed trip from ui for which invoice is added
+    - displayed popup saying transporter invoice not submitted in acknowledegement page 
+    - written test for transporterinvoice for backend
+- date: 09-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should able approve expenses for trip created by driver
+    - should solve driver trip issues in trip page
+  completed:
+    - approved expenses for trip created by driver
+    - solved driver trip issues in trip page
+- date: 09-04-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should create and display acknowledgementDate
+  completed:
+    - created and displayed acknowledgementDate
+
+- date: 08-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should make add acknowledgement doest not create final pay without transporter invoice.
+    - should handle query request from user
+  completed:
+    - made add acknowledgement doest not create final pay without transporter invoice.
+- date: 08-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should create expenses approval
+  completed:
+    - created expenses approval
+- date: 08-04-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should display unloading Date and payment dueDate
+  completed:
+    - displayed unloading Date and payment dueDate
+
+- date: 07-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should delete duplicate final pay
+    - should generate final pay after transporter invoice
+  completed:
+    - deleted duplicate final pay
+    - generated final pay after transporter invoice
+- date: 07-04-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should display trip salary in driver trip list
+  completed:
+    - displayed trip salary in driver trip list
+- date: 07-04-2024
+  person: Sri Sneka,Ramya
+  project: subContract
+  planning:
+    - should make pagination display by record count
+
 - date: 06-06-2024
   person: Barath
   project: subContract
@@ -5,17 +95,24 @@
     - should discuss with client for transpoter invoice
     - should create page for transporter invoice
     - should add transporter invoice in overall trip
+  completed:
+    - discussed with client for transpoter invoice
+    - created page for transporter invoice
+    - added transporter invoice in overall trip
 - date: 06-04-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should make api call to get trip salary details before create trip and driverTrip
-    - should display trip salary in driver trip list
+  completed:
+    - made api call to get trip salary details before create trip and driverTrip
 - date: 06-04-2024
   person: Sri Sneka,Ramya
   project: subContract
   planning:
-    - should create Maha Cements Invoice Format 
+    - should create Maha Cements Invoice Format
+  completed:
+    - created Maha Cements Invoice Format
 
 - date: 04-04-2024
   person: Barath
@@ -40,7 +137,7 @@
   person: Sri Sneka,Ramya
   project: subContract
   planning:
-    - should create Maha Cements Invoice Format 
+    - should create Maha Cements Invoice Format
 
 - date: 03-04-2024
   person: Barath
@@ -57,8 +154,8 @@
   person: Sri Sneka,Ramya
   project: subContract
   planning:
-    - should research how pagination is written 
-    - should display pagination number limited to data 
+    - should research how pagination is written
+    - should display pagination number limited to data
 
 - date: 02-04-2024
   person: Barath
@@ -105,7 +202,7 @@
   project: subContract
   planning:
     - should handle the defect in text based search
-  
+
 - date: 29-04-2024
   person: Barath
   project: subContract
@@ -113,7 +210,7 @@
     - should explain subcontract to both ramya and sneka
   completed:
     - explained subcontract to both ramya and sneka
-    - worked on final pay issues and add acknowledgement issues 
+    - worked on final pay issues and add acknowledgement issues
 - date: 29-04-2024
   person: Sakthivel
   project: subContract
@@ -122,7 +219,7 @@
     - worked on final pay issues and add acknowledgement issues
   completed:
     - explained subcontract to both ramya and sneka
-    - worked on final pay issues and add acknowledgement issues 
+    - worked on final pay issues and add acknowledgement issues
 - date: 29-04-2024
   person: Sri Sneka,Ramya
   project: subContract
@@ -130,7 +227,7 @@
     - should get a knowledge of subcontract from Barath and Sakthivel
   completed:
     - explained subcontract by Barath and Sakthivel
-    
+
 - date: 27-04-2024
   person: Barath
   project: subContract
@@ -202,7 +299,7 @@
   project: subContract
   planning:
     - should debug error handling test error
-    
+
 - date: 24-04-2024
   person: Barath,Sakthivel
   project: subContract
@@ -213,7 +310,7 @@
   completed:
     - debugged production test error
     - tested every code developed from cards in trello
-    - rewritten codes with logic error in paymentDues and trip Status report 
+    - rewritten codes with logic error in paymentDues and trip Status report
     - depolyed
 - date: 24-04-2024
   person: Sri Sneka,Ramya
@@ -244,7 +341,7 @@
 - data: 23-04-2024
   person: Sri Sneka, Ramya
   project: subContract
-  planning: 
+  planning:
     - Error handling
 
 - date: 22-04-2024
@@ -264,7 +361,7 @@
 - data: 22-04-2024
   person: Sri Sneka, Ramya
   project: subContract
-  planning: 
+  planning:
     - Error handling
 
 - date: 20-04-2024
@@ -289,11 +386,11 @@
 - date: 20-04-2024
   person: Sri Sneka
   project: subContract
-  planning: 
-    - should disable the button when api request send and 
-      should enable the button if it catch error  
-  completed: 
-    - disabled the button when api request send and 
+  planning:
+    - should disable the button when api request send and
+      should enable the button if it catch error
+  completed:
+    - disabled the button when api request send and
       enabled the button if it catch error
 
 - date: 18-04-2024
@@ -399,16 +496,16 @@
     - should test every test cases and review the code
   completed:
     - tested every test cases and review the code
-    - deployed the finalpay duration and user authorization 
+    - deployed the finalpay duration and user authorization
     - fixed discrepancy report
 
 - date: 11-04-2024
   person: Barath,SakthiVel
   project: subContract
   planning:
-    - should allow users with user authorization 
+    - should allow users with user authorization
   completed:
-    - allowed users with user authorization 
+    - allowed users with user authorization
 
 - date: 10-04-2024
   person: Barath,Sakthivel
@@ -486,7 +583,7 @@
   completed:
     - discussed for multiple fuel with client
     - handled negative final pay and initial pay
-  
+
 - date: 03-04-2024
   person: Barath
   project: driverSalary
@@ -500,7 +597,7 @@
   person: Sakthivel
   project: driverSalary
   leave: true
-    
+
 - date: 02-04-2024
   person: Barath
   project: driverSalary
@@ -594,10 +691,10 @@
   person: Sakthivel
   project: driverSalary
   planning:
-    - should change trip logic by advanceType 
+    - should change trip logic by advanceType
   completed:
-    - changed trip logic by advanceType 
-    
+    - changed trip logic by advanceType
+
 - date: 25-3-2024
   person: Barath, Sakthivel
   project: driverSalary
@@ -609,7 +706,7 @@
     - wrote test for driver salary master ui
     - changed advanced type in fuel logic
     - inserted data given by the Client
-    
+
 - date: 23-3-2024
   person: Barath, Sakthivel
   project: driverSalary
@@ -619,7 +716,7 @@
   completed:
     - added advance type in cement company
     - implemented logic for paying 100% based on advance type
-    
+
 - date: 22-3-2024
   person: Barath
   project: driverSalary
@@ -634,7 +731,7 @@
   project: driverSalary
   planning:
     - should create ui for driver salary master
-    
+
 - date: 21-3-2024
   person: Barath, Sakthivel
   project: subContract
@@ -644,7 +741,7 @@
   completed:
     - done discussion for driver salary
     - created a design for driver salary in draw.io
-    
+
 - date: 20-3-2024
   person: Barath, Sakthivel
   project: subContract
@@ -652,7 +749,7 @@
     - Audit logs for keycloak user
   completed:
     - completed audit logs for keycloak user
-    
+
 - date: 19-3-2024
   person: Barath, Sakthivel
   project: subContract
@@ -660,25 +757,25 @@
     - writen test for keycloak and paramters assertion
   completed:
     - wrote test for keycloak and paramters assertion
-    
+
 - date: 18-3-2024
   person: Barath, Sakthivel
   project: subContract
   planning:
-    - revision on keycloak 
-    
+    - revision on keycloak
+
 - date: 16-3-2024
   person: Barath, Sakthivel
   project: subContract
   planning:
-    - fix keycloak sizing error 
+    - fix keycloak sizing error
 
 - date: 15-3-2024
   person: Barath
   project: subContract
   planning:
     - deploy keycloak
-  completed: 
+  completed:
     - deployed keycloak
 - date: 15-3-2024
   person: Sakthivel
@@ -746,7 +843,7 @@
   person: Sakthivel
   project: subContract
   leave: true
-  
+
 - date: 8-3-2024
   person: Barath
   project: subContract
@@ -771,7 +868,7 @@
   person: Sakthivel
   project: subContract
   planning:
-    - should create invoice for dalmia kadappa  
+    - should create invoice for dalmia kadappa
 
 - date: 6-3-2024
   person: Barath
@@ -784,9 +881,9 @@
   person: Sakthivel
   project: subContract
   planning:
-    - should create invoice for dalmia dalmiapuram  
+    - should create invoice for dalmia dalmiapuram
   completed:
-    - created invoice for dalmia dalmiapuram 
+    - created invoice for dalmia dalmiapuram
 
 - date: 5-3-2024
   person: Barath
@@ -859,7 +956,7 @@
   project: subContract
   planning:
     - dalmiapuram invoice
-   
+
 - date: 28-2-2024
   person: Muthu, Sakthivel,Barath
   project: subContract
@@ -884,7 +981,7 @@
     - seed data to aws rds
   completed:
     - seeded in transporter, pricePointMarker, cementCompany, loadingPoint, unloadingPoint, stockPoint
-    
+
 - date: 24-2-2024
   person: Barath
   project: subContract
@@ -894,7 +991,7 @@
   project: subContract
   planning:
     - seed data to aws rds
-    
+
 - date: 23-2-2024
   person: Barath
   project: subContract
@@ -911,7 +1008,7 @@
     - able to generate invoice for chettinad cements
   completed:
     - able to generate invoice for chettinad cements
-  
+
 - date: 22-2-2024
   person: Barath, Muthu, Sakthivel
   project: subContract
@@ -943,7 +1040,7 @@
   completed:
     - snapshot test for ui
     - chettinad direct bill template
-    
+
 - date: 20-2-2024
   person: Barath
   project: subContract
@@ -985,7 +1082,7 @@
   project: subContract
   planning:
     - dockerise the whole project
-    
+
 - date: 16-2-2024
   person: Barath, Muthu, Sakthivel
   project: subContract
@@ -1016,7 +1113,7 @@
     - review with client for preview for generate invoice
   completed:
     - can download the invoice in pdf format
-    
+
 - date: 14-2-2024
   person: Barath
   project: subContract
@@ -1099,7 +1196,7 @@
     - displaying NEFT generated gst dues
   completed:
     - displayed NEFT generated gst dues
-    
+
 - date: 9-2-2024
   person: Barath
   project: subContract
@@ -1119,7 +1216,7 @@
     - generate NEFT for gst dues
   completed:
     - able to generate NEFT for gst dues
-    
+
 - date: 8-2-2024
   person: Barath
   project: subContract
@@ -1240,7 +1337,7 @@
   planning:
     - disable closing acknowledgement button until 24hrs after closed the trip
   completed:
-    -  disable closing acknowledgement button until 24hrs after closed the trip
+    - disable closing acknowledgement button until 24hrs after closed the trip
 - date: 24-1-2024
   person: Sakthivel
   planning:
@@ -1273,12 +1370,10 @@
   person: Muthu
   planning:
     - creating final due for transporter
-  completed:
-    -able to create final due for a trip
+  completed: -able to create final due for a trip
 - date: 22-1-2024
   person: Sakthivel
   leave: true
-
 
 - date: 20-1-2024
   person: Muthu
@@ -1294,10 +1389,10 @@
 - date: 20-1-2024
   person: Barath
   planning:
-  - ui code fronted and connecting to backend
-  - closing tripStatus
+    - ui code fronted and connecting to backend
+    - closing tripStatus
   completed:
-    - written ui code for acknowledegement and written model 
+    - written ui code for acknowledegement and written model
     - test for model, controller and frontend acknowledgement
     - closing Trip by on Click
 
@@ -1374,7 +1469,7 @@
 - date: 11-1-2024
   person: Sakthivel
   planning:
-     - Paired with Barath
+    - Paired with Barath
 - date: 11-1-2024
   person: muthu
   leave: true
@@ -1388,7 +1483,7 @@
 - date: 10-1-2024
   person: Sakthivel
   planning:
-     - Paired with Barath
+    - Paired with Barath
 - date: 10-1-2024
   person: muthu
   leave: true

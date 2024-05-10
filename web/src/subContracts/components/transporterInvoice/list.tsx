@@ -10,6 +10,7 @@ const TransporterInvoiceList: React.FC = () => {
     }, [])
     return (
         <div
+            data-testid="test"
             style={{
                 display: 'flex',
                 justifyContent: 'space-between',
