@@ -11,6 +11,8 @@ export const updateTransporterInvoiceinTrip = (req: Request, res: Response) => {
     const { id, invoice } = req.body
     updateTransporterInvoice(invoice, id)
         .then(async (data) => {
+            const finalPay = data.paymentDues.find((due) => due.type === 'final pay')
+            if (finalPay !== undefined) return res.status(200).json(data)
             if (data.acknowledgementStatus === false) return res.status(200).json(data)
             await finalDueCreation(data, res)
         })

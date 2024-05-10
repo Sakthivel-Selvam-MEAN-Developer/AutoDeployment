@@ -643,6 +643,7 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
             transporterInvoice: invoice
         },
         include: {
+            paymentDues: true,
             stockPointToUnloadingPointTrip: {
                 include: {
                     loadingPointToStockPointTrip: {

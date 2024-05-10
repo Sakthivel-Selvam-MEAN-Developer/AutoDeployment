@@ -10,7 +10,9 @@ import {
     LocalGasStation,
     LibraryAddCheck,
     DirectionsBus,
-    Summarize
+    Summarize,
+    NoteAlt,
+    FileDownload
 } from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -153,22 +155,22 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                         navigate="/sub/invoice"
                         drawerState={drawerState}
                         index={9}
-                        icon={<Receipt />}
+                        icon={<FileDownload />}
                     />
                 )}
+                <DrawerListItem
+                    text="Transporter Invoice"
+                    navigate="/sub/transporterinvoice"
+                    drawerState={drawerState}
+                    index={9}
+                    icon={<NoteAlt />}
+                />
                 <DrawerCollapse
                     index={8}
                     drawerState={drawerState}
                     text="Reports"
                     icon={<Summarize />}
                     subs={reportSubs}
-                />
-                <DrawerListItem
-                    text="Transporter Invoice"
-                    navigate="/sub/transporterinvoice"
-                    drawerState={drawerState}
-                    index={9}
-                    icon={<Receipt />}
                 />
             </List>
         </Drawer>
