@@ -10,8 +10,7 @@ import { overallTripsProps } from './tripFilterForm.tsx'
 import { DataGrid } from '@mui/x-data-grid'
 
 interface Row {
-    paymentDues(paymentDues: any): string
-    acknowledgementDate: any
+    acknowledgementDate: number
     stockPointToUnloadingPointTrip: [
         {
             unloadingPoint: {
@@ -54,7 +53,7 @@ interface fuel {
     bunk: bunk
 }
 interface shortage {
-    unloadedDate: any
+    unloadedDate: number
     shortageQuantity: number | string
     shortageAmount: number | string
 }
@@ -157,18 +156,14 @@ const columns = [
     { field: 'type', headerName: 'Payment Status', width: 150 }
 ]
 const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
-    if (!arrayOfDues || arrayOfDues.length === 0) {
-        return 'No payment data available'
-    }
+    if (!arrayOfDues || arrayOfDues.length === 0) return 'No payment data available'
     const initial = arrayOfDues.filter((due) => {
         return due.type === 'initial pay' && due.status === true
     })
     const final = arrayOfDues.filter((due) => {
         return due.type === 'final pay' && due.status === true
     })
-    const gst = arrayOfDues.filter((due) => {
-        return due.type === 'gst pay'
-    })
+    const gst = arrayOfDues.filter((due) => due.type === 'gst pay')
     return initial.length !== 1
         ? 'Advance Pending'
         : final.length === 1
