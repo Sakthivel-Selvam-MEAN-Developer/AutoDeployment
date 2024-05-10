@@ -136,7 +136,10 @@ describe('Transporter Invoice Controller', () => {
     })
     test('should able to update Transporter Invoice', async () => {
         mockUpdateTransporterInvoice.mockResolvedValue(transporterInvoiceData[0])
-        await supertest(app).put('/api/transporterinvoice').send({ id: 4, invoice: 'abcd' }).expect(200)
+        await supertest(app)
+            .put('/api/transporterinvoice')
+            .send({ id: 4, invoice: 'abcd' })
+            .expect(200)
         expect(mockUpdateTransporterInvoice).toBeCalledTimes(2)
     })
 })

@@ -7,13 +7,15 @@ export const listTripByTransporterInvoice = (_req: Request, res: Response) => {
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
+const checkPreFinalPay = (data: object, finalPay: undefined | object, res: Response) => {
+    if (finalPay !== undefined) return res.status(200).json(data)
+}
 export const updateTransporterInvoiceinTrip = (req: Request, res: Response) => {
-    const { id, invoice } = req.body
-    updateTransporterInvoice(invoice, id)
+    updateTransporterInvoice(req.body.invoice, req.body.id)
         .then(async (data) => {
-            const finalPay = data.paymentDues.find((due) => due.type === 'final pay')
-            if (finalPay !== undefined) return res.status(200).json(data)
             if (data.acknowledgementStatus === false) return res.status(200).json(data)
+            const finalPay = data.paymentDues.find((due) => due.type === 'final pay')
+            checkPreFinalPay(data, finalPay, res)
             await finalDueCreation(data, res)
         })
         .catch(() => res.status(500))

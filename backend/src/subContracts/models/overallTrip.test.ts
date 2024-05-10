@@ -534,7 +534,6 @@ describe('Overall Trip model', () => {
         })
         await create({ loadingPointToUnloadingPointTripId: trip.id })
         const actual = await getTripByTransporterInvoice()
-        console.log(actual)
         expect(actual[0].loadingPointToUnloadingPointTrip?.invoiceNumber).toBe(trip.invoiceNumber)
     })
     test('should able to update transporterinvoice in overallTrip', async () => {
@@ -565,7 +564,6 @@ describe('Overall Trip model', () => {
         })
         const overalltrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         const actual = await updateTransporterInvoice('abc', overalltrip.id)
-        console.log(actual)
         expect(actual.transporterInvoice).toBe('abc')
     })
     test.skip('should able to get overall data by from and to', async () => {
