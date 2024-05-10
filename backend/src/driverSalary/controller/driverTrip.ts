@@ -16,11 +16,13 @@ type listAllDriverTripByIdType = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
 ) => void
-const getOverallTrip = async (allTrips: { id: number; tripId: number; tripSalaryId: number }[]) => {
+const getOverallTrip = async (
+    allTrips: { id: number; tripId: number; tripSalaryId: number | null }[]
+) => {
     const tripSalaryIds: number[] = []
     const overAllTripIds: number[] = []
     allTrips.forEach((tripId) => {
-        tripSalaryIds.push(tripId.tripSalaryId)
+        tripSalaryIds.push(tripId.tripSalaryId !== null ? tripId.tripSalaryId : 0)
         overAllTripIds.push(tripId.tripId)
     })
     const allTripsById = await getOverAllTripByArrayOfId(overAllTripIds)
