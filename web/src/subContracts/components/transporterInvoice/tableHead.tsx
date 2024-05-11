@@ -6,7 +6,6 @@ const cellNames = [
     'Vehicle Number',
     'Start Date',
     'Loading Point',
-    'Unloading Point',
     'Invoice Number',
     'Transporter Name',
     'CSM Name',

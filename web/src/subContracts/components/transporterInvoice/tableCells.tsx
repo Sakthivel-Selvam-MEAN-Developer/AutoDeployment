@@ -11,7 +11,6 @@ export const GetCells: FC<GetCellsProps> = ({ trip, id, setTripDetails }) => {
             <TableCell align="left">{trip?.truck.vehicleNumber}</TableCell>
             <TableCell align="left">{trip && epochToMinimalDate(trip.startDate)}</TableCell>
             <TableCell align="left">{trip?.loadingPoint.name}</TableCell>
-            <TableCell align="left">{trip?.loadingPoint.name}</TableCell>
             <TableCell align="left">{trip?.invoiceNumber}</TableCell>
             <TableCell align="left">{trip?.truck.transporter.name}</TableCell>
             <TableCell align="left">{trip?.truck.transporter.csmName}</TableCell>

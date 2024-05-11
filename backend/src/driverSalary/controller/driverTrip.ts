@@ -53,7 +53,7 @@ const getOverallTrip = async (
                 totalTripBetta,
                 totalDriverAdvance,
                 totalTripSalary: totalTripBetta - totalDriverAdvance,
-                dailyBetta: tripDetails[0].dailyBetta
+                dailyBetta: tripDetails.length ? tripDetails[0].dailyBetta : 0
             }
         }
     })
