@@ -41,7 +41,21 @@ const mockOverallTripData = [
         paymentDues: [],
         paymentDuesId: null,
         shortageQuantityId: [],
-        shortageQuantity: null,
+        shortageQuantity: [
+            {
+                id: 1,
+                overallTripId: 1,
+                shortageQuantity: 1000,
+                shortageAmount: 8000,
+                approvalStatus: false,
+                reason: 'Test reason',
+                filledLoad: 40,
+                unloadedQuantity: 39000,
+                unloadedDate: Date.now(),
+                createdAt: new Date(),
+                updatedAt: new Date()
+            }
+        ],
         loadingPointToStockPointTrip: null,
         loadingPointToUnloadingPointTrip: {
             id: 1,
