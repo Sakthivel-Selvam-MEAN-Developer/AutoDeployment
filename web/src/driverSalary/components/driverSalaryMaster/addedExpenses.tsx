@@ -9,6 +9,9 @@ const tabelHeadRow = (
 export const AddedExpense = ({ addedExpense }: { addedExpense: expenseDetailsType[] }) => {
     return (
         <>
+            <p>
+                <b>Added Expenses</b>
+            </p>
             {table(addedExpense)}
             <br />
         </>
@@ -17,17 +20,17 @@ export const AddedExpense = ({ addedExpense }: { addedExpense: expenseDetailsTyp
 function table(addedExpense: expenseDetailsType[]) {
     return (
         <Table sx={{ width: 650 }} component={Paper} aria-label="simple table">
-            <b>Added Expenses</b>
-            <br />
             {tabelHeadRow}
-            {addedExpense.map((expense: expenseDetailsType) => tableBodyRow(expense))}
+            {addedExpense.map((expense: expenseDetailsType, index: number) =>
+                tableBodyRow(expense, index)
+            )}
         </Table>
     )
 }
 
-function tableBodyRow(expense: expenseDetailsType) {
+function tableBodyRow(expense: expenseDetailsType, index: number) {
     return (
-        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }} key={index}>
             <TableCell>{expense.expenseType}</TableCell>
             <TableCell>{expense.placedAmount}</TableCell>
         </TableRow>

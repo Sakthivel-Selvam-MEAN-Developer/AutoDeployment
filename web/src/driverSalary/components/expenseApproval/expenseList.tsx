@@ -23,15 +23,18 @@ const ExpenseList: props = (expensesForApproval, setReload, reload) => {
     const accordianStyle = { display: 'flex', borderBottom: '1px solid grey' }
     return (
         <>
-            {expensesForApproval.length !== 0 &&
+            {expensesForApproval.length !== 0 ? (
                 expensesForApproval.map((tripData: expenseApprovalProps, index) => {
                     return (
-                        <Accordion key={index}>
+                        <Accordion key={index} sx={{ marginTop: '20px' }}>
                             <AccordianSummaryField tripData={tripData} />
                             {AccordionField(accordianStyle, tripData, control, setReload, reload)}
                         </Accordion>
                     )
-                })}
+                })
+            ) : (
+                <p>No Expense for Approval..!</p>
+            )}
         </>
     )
 }

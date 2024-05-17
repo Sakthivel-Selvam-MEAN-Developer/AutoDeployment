@@ -15,7 +15,7 @@ const downloadButton = (setActivateDialog: React.Dispatch<React.SetStateAction<b
 const addExpensesButton = (
     <Link to={'/driverSalary/employee-salary/addexpenses'}>
         <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-            Add Expense
+            Add Expense / Adavance
         </Button>
     </Link>
 )

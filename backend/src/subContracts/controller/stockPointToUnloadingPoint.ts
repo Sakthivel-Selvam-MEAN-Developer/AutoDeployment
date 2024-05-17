@@ -9,7 +9,7 @@ import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { getTripSalaryDetailsByLoactionId } from '../../driverSalary/models/tripSalary.ts'
 import {
     getDriverIdByTripId,
-    create as createDriverTrip
+    updateDriverTripWithTripSalaryId
 } from '../../driverSalary/models/driverTrip.ts'
 
 interface rowProps {
@@ -23,6 +23,7 @@ interface rowProps {
     truckId: number
     unloadingPointId: number
 }
+
 const createStockToUnloadTrip = async (data: rowProps) =>
     create(data).then(async (stockToUnloading) => {
         const overallTrip = await getOverAllTripIdByLoadingToStockId(
@@ -53,13 +54,10 @@ export const createStockPointToUnloadingPointTrip = async (
         )
         if (tripSalary !== null) {
             const overallTrip = await createStockToUnloadTrip(req.body)
-            const driverId = await getDriverIdByTripId(overallTrip?.id || 0)
-            await createDriverTrip({
-                tripId: overallTrip?.id || 0,
-                tripStartDate: req.body.startDate,
-                driverId: driverId?.driverId || 0,
-                tripSalaryId: tripSalary.id || 0
-            }).then(() => res.sendStatus(200))
+            const driverTrip = await getDriverIdByTripId(overallTrip?.id || 0)
+            await updateDriverTripWithTripSalaryId(driverTrip?.id || 0, tripSalary.id).then(
+                (data) => res.status(200).json(data)
+            )
         } else res.status(400).send('There is no trip salary details for specified locations')
     }
 }

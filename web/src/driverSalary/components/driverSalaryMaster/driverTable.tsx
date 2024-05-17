@@ -131,7 +131,7 @@ const driverAmountCells = (totalExpenseAmount: number, tripSalaryDeatails: tripS
                 {'\u20B9'} {tripSalaryDeatails.totalTripBetta}
             </TableCell>
             <TableCell align="center">
-                {'\u20B9'} {tripSalaryDeatails.totalDriverAdvance}
+                {'\u20B9'} {tripSalaryDeatails.totalAdvance}
             </TableCell>
             <TableCell align="center">
                 {'\u20B9'}

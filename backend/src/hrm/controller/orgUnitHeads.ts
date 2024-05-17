@@ -29,7 +29,5 @@ export const childOrgLeavesEachOrg = (req: Request, res: Response) => {
     getEmployeeOrgId(req.params.employeeId)
         .then(({ orgUnitId }: any) => isEmployeeHeadOfParentOrg(orgUnitId))
         .then(getOrgHeadLeaveForEachOrg)
-        .then((data) => {
-            res.status(200).json(data)
-        })
+        .then((data) => res.status(200).json(data))
 }

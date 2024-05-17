@@ -11,7 +11,7 @@ interface tripSalaryProps {
     stockPointId: number | null
     tripBetta: number
     dailyBetta: number
-    driverAdvance: number
+    appPayAdvance: number
 }
 export const createTripSalary = (data: tripSalaryProps) =>
     axiosInstance.post('/addTripSalary', data).then(getData)

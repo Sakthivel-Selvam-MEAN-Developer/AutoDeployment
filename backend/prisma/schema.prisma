@@ -547,7 +547,7 @@ model overallTrip {
   acknowledgementStatus              Boolean                           @default(false)
   finalPayDuration                   Int                               @default(0)
   transporterInvoice                 String                            @default("")
-  acknowledgementDate                Int?                              
+  acknowledgementDate                Int?
   paymentDues                        paymentDues[]
   loadingPointToStockPointTripId     Int?
   loadingPointToStockPointTrip       loadingPointToStockPointTrip?     @relation(fields: [loadingPointToStockPointTripId], references: [id])
@@ -594,14 +594,16 @@ model driver {
 }
 
 model driverTrip {
-  id            Int      @id @default(autoincrement())
-  tripId        Int
-  tripStartDate Int
-  createdAt     DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
-  driver        driver   @relation(fields: [driverId], references: [id])
-  driverId      Int
-  tripSalaryId  Int?
+  id                    Int      @id @default(autoincrement())
+  tripId                Int
+  tripStartDate         Int
+  createdAt             DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime @updatedAt @db.Timestamptz(6)
+  driver                driver   @relation(fields: [driverId], references: [id])
+  driverId              Int
+  unloadingTripSalaryId Int?
+  stockTripSalaryId     Int?
+  driverAdvance         Int[]
 
   @@schema("driverSalary")
 }
@@ -639,7 +641,7 @@ model tripSalary {
   stockPointId     Int?
   unloadingPointId Int?
   tripBetta        Int
-  driverAdvance    Int
+  appPayAdvance    Int
   dailyBetta       Int
 
   @@schema("driverSalary")

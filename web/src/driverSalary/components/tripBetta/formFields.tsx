@@ -24,16 +24,16 @@ interface tripBettaFormFieldsProps {
     setCategory: React.Dispatch<React.SetStateAction<string>>
     setCementCompanyId: React.Dispatch<React.SetStateAction<number>>
     setTripSalary: React.Dispatch<React.SetStateAction<number>>
-    setDriverAdvance: React.Dispatch<React.SetStateAction<number>>
+    setAppPayAdvance: React.Dispatch<React.SetStateAction<number>>
     setDailySalary: React.Dispatch<React.SetStateAction<number>>
     tripSalary: number
-    driverAdvance: number
+    appPayAdvance: number
     dailySalary: number
     clear: boolean
 }
 interface salaryDetailsProps {
     dailyBetta: number
-    driverAdvance: number
+    appPayAdvance: number
     tripBetta: number
 }
 const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
@@ -51,10 +51,10 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
     cementCompanyName,
     setCementCompanyId,
     setTripSalary,
-    setDriverAdvance,
+    setAppPayAdvance,
     setDailySalary,
     tripSalary,
-    driverAdvance,
+    appPayAdvance,
     dailySalary,
     clear
 }) => {
@@ -88,7 +88,7 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
             getTripSalaryDetailsById(loadingPointId, unloadingPointId, stockPointId).then(
                 (salaryDetails: salaryDetailsProps) => {
                     setTripSalary(salaryDetails.tripBetta)
-                    setDriverAdvance(salaryDetails.driverAdvance)
+                    setAppPayAdvance(salaryDetails.appPayAdvance)
                     setDailySalary(salaryDetails.dailyBetta)
                 }
             )
@@ -201,10 +201,10 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
             />
             <NumberInputWithValue
                 control={control}
-                value={driverAdvance}
-                onChange={(event) => setDriverAdvance(parseInt(event.target.value))}
-                label="Driver Advance"
-                fieldName="driverAdvance"
+                value={appPayAdvance}
+                onChange={(event) => setAppPayAdvance(parseInt(event.target.value))}
+                label="App Pay Advance"
+                fieldName="appPayAdvance"
                 type="number"
                 InputProps={{
                     endAdornment: (

@@ -4,11 +4,11 @@ import {
     getTripSalaryDetailsByLoactionId
 } from '../models/tripSalary.ts'
 
-export const createTripSalaryDetails = async (req: Request, res: Response) => {
-    await create(req.body)
+export const createTripSalaryDetails = async (req: Request, res: Response) =>
+    create(req.body)
         .then(() => res.sendStatus(200))
         .catch(() => res.status(500))
-}
+
 export interface RequestQuery {
     cementCompanyId: string
     loadingPointId: string

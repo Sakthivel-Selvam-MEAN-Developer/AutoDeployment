@@ -46,7 +46,7 @@ describe('Trip Details Test', () => {
         mockAllUnloadingPoint.mockResolvedValue(mockUnloadingPointData)
         mockGetTripSalaryDetailsById.mockResolvedValue({
             dailyBetta: 250,
-            driverAdvance: 2000,
+            appPayAdvance: 2000,
             tripBetta: 9000
         })
         render(
@@ -95,7 +95,7 @@ describe('Trip Details Test', () => {
         expect(screen.getByRole('spinbutton', { name: 'Driver Daily Salary' }))
         expect(screen.getByDisplayValue('250')).toBeVisible()
 
-        expect(screen.getByRole('spinbutton', { name: 'Driver Advance' }))
+        expect(screen.getByRole('spinbutton', { name: 'App Pay Advance' }))
         expect(screen.getByDisplayValue('2000')).toBeVisible()
 
         // Click Button

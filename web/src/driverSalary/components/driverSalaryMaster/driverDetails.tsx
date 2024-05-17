@@ -34,7 +34,7 @@ interface driverProps {
 }
 export interface tripSalaryProps {
     dailyBetta: number
-    totalDriverAdvance: number
+    totalAdvance: number
     totalTripBetta: number
     totalTripSalary: number
 }

@@ -6,5 +6,5 @@ export const seedTripSalary = {
     unloadingPointId: 1,
     tripBetta: 7000,
     dailyBetta: 350,
-    driverAdvance: 3000
+    appPayAdvance: 3000
 }

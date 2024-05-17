@@ -3,7 +3,7 @@ interface driverTripProps {
     tripStartDate: number
     driverId: number
     tripId: number
-    tripSalaryId: number
+    unloadingTripSalaryId: number
 }
 
 export const createDriverTrip = (data: driverTripProps) =>
@@ -11,3 +11,10 @@ export const createDriverTrip = (data: driverTripProps) =>
 
 export const getDriverTripByDriverId = (id: number) =>
     axiosInstance.get(`/drivertrip`, { params: { driverId: id } }).then(getData)
+
+interface updateProps {
+    tripId: number
+    driverAdvance: string
+}
+export const updateDriverAdvance = (data: updateProps) =>
+    axiosInstance.put(`/drivertrip/updateDriverAdvance`, data).then(getData)

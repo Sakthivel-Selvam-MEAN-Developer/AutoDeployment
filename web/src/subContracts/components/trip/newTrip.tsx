@@ -105,7 +105,7 @@ const NewTrip: React.FC = () => {
                             createDriverTrip({
                                 ...driverDetails,
                                 tripId: trip.id,
-                                tripSalaryId: tripSalaryDetails.id
+                                unloadingTripSalaryId: tripSalaryDetails.id
                             })
                         )
                     })
@@ -124,7 +124,7 @@ const NewTrip: React.FC = () => {
                             createDriverTrip({
                                 ...driverDetails,
                                 tripId: trip.id,
-                                tripSalaryId: tripSalaryDetails.id
+                                unloadingTripSalaryId: tripSalaryDetails.id
                             })
                         )
                     })

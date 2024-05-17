@@ -36,9 +36,9 @@ const mockTripDetailsData = {
             loadingPointToStockPointTrip: null,
             tripSalaryDeatails: {
                 totalTripBetta: 4500,
-                totalDriverAdvance: 2000,
-                totalTripSalary: 2500,
-                dailyBetta: 350
+                totalAdvance: 2000,
+                dailyBetta: 350,
+                totalTripSalary: 2500
             }
         }
     ],
@@ -85,7 +85,6 @@ describe('Driver Test', () => {
         expect(screen.getByText('Invoice Number')).toBeInTheDocument()
         expect(screen.getByText('asdxasasd')).toBeInTheDocument()
         expect(screen.getByText('Expenses Amount')).toBeInTheDocument()
-        // screen.debug(undefined, 70000000)
         expect(screen.getByText('₹ 1200')).toBeInTheDocument()
         expect(screen.getByText('₹ 4500')).toBeInTheDocument()
         expect(screen.getByText('₹ 2000')).toBeInTheDocument()

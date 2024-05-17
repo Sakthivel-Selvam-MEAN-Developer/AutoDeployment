@@ -14,6 +14,8 @@ interface FormFieldProps {
     driverId: number
     setDriverName: React.Dispatch<React.SetStateAction<string | null>>
     driverName: string | null
+    setCategory: React.Dispatch<React.SetStateAction<string>>
+    category: string
 }
 interface driverTripDetailsProps {
     loadingPointToUnloadingPointTrip: {
@@ -67,7 +69,9 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
     setDriverId,
     setDriverName,
     driverId,
-    driverName
+    driverName,
+    setCategory,
+    category
 }) => {
     const [expense, setExpense] = useState('')
     const [invoice, setInvoice] = useState('')
@@ -76,7 +80,6 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
         const trip = tripDetails.find(({ invoiceNumber }: { invoiceNumber: string }) => {
             return invoiceNumber === newValue.split(' - ')[1]
         })
-        setDriverName(newValue)
         setInvoice(newValue)
         setTripId(trip?.id)
     }
@@ -124,28 +127,58 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
             />
             <AutoCompleteWithValue
                 control={control}
-                value={expense}
-                fieldName="expenseType"
-                label="Expense Type"
-                options={expenseTypes.map((type) => type)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    setExpense(newValue)
-                }}
+                value={category}
+                fieldName="category"
+                label="Select Category"
+                options={['Driver Advance', 'Driver Expense']}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) =>
+                    setCategory(newValue)
+                }
             />
-            <NumberInputWithProps
-                control={control}
-                label="Expense Amount"
-                fieldName="amount"
-                type="number"
-                inputProps={{ step: 'any', min: '0' }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <b>Rs</b>
-                        </InputAdornment>
-                    )
-                }}
-            />
+            {category === 'Driver Expense' && (
+                <AutoCompleteWithValue
+                    control={control}
+                    value={expense}
+                    fieldName="expenseType"
+                    label="Expense Type"
+                    options={expenseTypes.map((type) => type)}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                        setExpense(newValue)
+                    }}
+                />
+            )}
+            {category === 'Driver Expense' && (
+                <NumberInputWithProps
+                    control={control}
+                    label="Expense Amount"
+                    fieldName="amount"
+                    type="number"
+                    inputProps={{ step: 'any', min: '0' }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Rs</b>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+            )}
+            {category === 'Driver Advance' && (
+                <NumberInputWithProps
+                    control={control}
+                    label="Driver Advance"
+                    fieldName="driverAdvance"
+                    type="number"
+                    inputProps={{ step: 'any', min: '0' }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <b>Rs</b>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+            )}
         </div>
     )
 }

@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { create, getAllDriverTripById } from '../models/driverTrip.ts'
+import {
+    create,
+    getAllDriverTripById,
+    getDriverIdByTripId,
+    updateDriverAdvanceByTripId
+} from '../models/driverTrip.ts'
 import { getOverAllTripByArrayOfId } from '../../subContracts/models/overallTrip.ts'
 import { getAllExpenseCountByTripId } from '../models/expenses.ts'
 import { getTripSalaryDetailsById } from '../models/tripSalary.ts'
@@ -16,13 +21,46 @@ type listAllDriverTripByIdType = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
 ) => void
-const getOverallTrip = async (
-    allTrips: { id: number; tripId: number; tripSalaryId: number | null }[]
-) => {
+interface allTripProps {
+    id: number
+    tripId: number
+    unloadingTripSalaryId: number | null
+    stockTripSalaryId: number | null
+    driverAdvance: number[]
+}
+interface tripSalaryProps {
+    id: number
+    dailyBetta: number
+    appPayAdvance: number
+    tripBetta: number
+}
+type props = (
+    tripDetails: tripSalaryProps[],
+    tripAdvanceDetails: allTripProps | undefined,
+    data: allTripProps
+) => { totalTripBetta: number; totalAdvance: number | undefined }
+const getTotalTripSalary: props = (tripDetails, tripAdvanceDetails, data) => {
+    const matchTripSalary = tripDetails.filter(
+        (salary) => salary.id === data.unloadingTripSalaryId || salary.id === data.stockTripSalaryId
+    )
+    const totalTripBetta = matchTripSalary.reduce(
+        (acc, getTripSalary) => acc + getTripSalary.tripBetta,
+        0
+    )
+    const totalAdvance = tripAdvanceDetails?.driverAdvance.reduce(
+        (acc, current) => acc + current,
+        0
+    )
+    return matchTripSalary
+        ? { totalTripBetta, totalAdvance }
+        : { totalTripBetta: 0, totalAdvance: 0 }
+}
+const getOverallTrip = async (allTrips: allTripProps[]) => {
     const tripSalaryIds: number[] = []
     const overAllTripIds: number[] = []
     allTrips.forEach((tripId) => {
-        tripSalaryIds.push(tripId.tripSalaryId !== null ? tripId.tripSalaryId : 0)
+        tripSalaryIds.push(tripId.unloadingTripSalaryId !== null ? tripId.unloadingTripSalaryId : 0)
+        tripSalaryIds.push(tripId.stockTripSalaryId !== null ? tripId.stockTripSalaryId : 0)
         overAllTripIds.push(tripId.tripId)
     })
     const allTripsById = await getOverAllTripByArrayOfId(overAllTripIds)
@@ -30,30 +68,19 @@ const getOverallTrip = async (
     const tripDetails = await getTripSalaryDetailsById(tripSalaryIds)
     const combinedData = allTripsById.map((trip) => {
         const tripSalary = allTrips.filter((salary) => salary.tripId === trip.id)
-        const totalTripSalary = tripSalary.map((data) => {
-            const matchTripSalary = tripDetails.find((salary) => salary.id === data.tripSalaryId)
-            return matchTripSalary
-                ? {
-                      tripBetta: matchTripSalary.tripBetta,
-                      driverAdvance: matchTripSalary.driverAdvance
-                  }
-                : { tripBetta: 0, driverAdvance: 0 }
-        })
-        const totalTripBetta = totalTripSalary.reduce(
-            (acc, getTripSalary) => acc + getTripSalary.tripBetta,
-            0
-        )
-        const totalDriverAdvance = totalTripSalary.reduce(
-            (acc, getTripSalary) => acc + getTripSalary.driverAdvance,
-            0
+        const tripAdvanceDetails = allTrips.find((tripAdvance) => tripAdvance.tripId === trip.id)
+        const totalTripSalary = tripSalary.map((data) =>
+            getTotalTripSalary(tripDetails, tripAdvanceDetails, data)
         )
         return {
             ...trip,
             tripSalaryDeatails: {
-                totalTripBetta,
-                totalDriverAdvance,
-                totalTripSalary: totalTripBetta - totalDriverAdvance,
-                dailyBetta: tripDetails.length ? tripDetails[0].dailyBetta : 0
+                totalTripBetta: totalTripSalary && totalTripSalary[0].totalTripBetta,
+                totalAdvance: totalTripSalary && totalTripSalary[0].totalAdvance,
+                dailyBetta: tripDetails.length ? tripDetails[0].dailyBetta : 0,
+                totalTripSalary:
+                    totalTripSalary &&
+                    totalTripSalary[0].totalTripBetta - (totalTripSalary[0].totalAdvance || 0)
             }
         }
     })
@@ -63,6 +90,13 @@ export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res)
     const { driverId } = req.query
     await getAllDriverTripById(parseInt(driverId))
         .then(async (allTrips) => getOverallTrip(allTrips))
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
+}
+export const updateDriverAdvance = async (req: Request, res: Response) => {
+    const dataBody = req.body
+    const driverTrip = await getDriverIdByTripId(dataBody.tripId)
+    updateDriverAdvanceByTripId(driverTrip?.id || 0, parseInt(dataBody.driverAdvance))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

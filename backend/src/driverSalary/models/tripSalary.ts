@@ -15,7 +15,7 @@ export const createTripSalary = async (data: Prisma.tripSalaryCreateInput) => {
             where: { id: tripSalaryData.id },
             data: {
                 dailyBetta: data.dailyBetta,
-                driverAdvance: data.driverAdvance,
+                appPayAdvance: data.appPayAdvance,
                 tripBetta: data.tripBetta
             }
         })
@@ -37,7 +37,7 @@ export const getTripSalaryDetailsByLoactionId = (
         select: {
             id: true,
             dailyBetta: true,
-            driverAdvance: true,
+            appPayAdvance: true,
             tripBetta: true
         }
     })
@@ -48,7 +48,7 @@ export const getTripSalaryDetailsById = (id: number[]) =>
         select: {
             id: true,
             dailyBetta: true,
-            driverAdvance: true,
+            appPayAdvance: true,
             tripBetta: true
         }
     })

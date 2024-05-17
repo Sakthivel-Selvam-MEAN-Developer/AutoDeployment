@@ -17,7 +17,7 @@ const AddTripBetta = () => {
     const [cementCompanyName, setCementCompanyName] = useState<string>('')
     const [cementCompanyId, setCementCompanyId] = useState<number>(0)
     const [tripSalary, setTripSalary] = useState<number>(0)
-    const [driverAdvance, setDriverAdvance] = useState<number>(0)
+    const [appPayAdvance, setAppPayAdvance] = useState<number>(0)
     const [dailySalary, setDailySalary] = useState<number>(0)
     const [category, setCategory] = useState<string>('')
     const [clear, setClear] = useState<boolean>(false)
@@ -33,7 +33,7 @@ const AddTripBetta = () => {
         setCementCompanyName('')
         setCategory('')
         setTripSalary(0)
-        setDriverAdvance(0)
+        setAppPayAdvance(0)
         setDailySalary(0)
     }
     const onSubmit: SubmitHandler<FieldValues> = () => {
@@ -45,7 +45,7 @@ const AddTripBetta = () => {
                 stockPointId,
                 tripBetta: tripSalary,
                 dailyBetta: dailySalary,
-                driverAdvance
+                appPayAdvance
             }
             createTripSalary(tripSalaryDetails).then(clearForm)
         } else alert('All Fields Required')
@@ -56,7 +56,7 @@ const AddTripBetta = () => {
                 (loadingPointId && stockPointId) ||
                 (stockPointId && unloadingPointId)) &&
             tripSalary !== 0 &&
-            driverAdvance !== 0 &&
+            appPayAdvance !== 0 &&
             dailySalary !== 0
         )
     }
@@ -77,10 +77,10 @@ const AddTripBetta = () => {
                 cementCompanyName={cementCompanyName}
                 setCementCompanyId={setCementCompanyId}
                 setTripSalary={setTripSalary}
-                setDriverAdvance={setDriverAdvance}
+                setAppPayAdvance={setAppPayAdvance}
                 setDailySalary={setDailySalary}
                 tripSalary={tripSalary}
-                driverAdvance={driverAdvance}
+                appPayAdvance={appPayAdvance}
                 dailySalary={dailySalary}
                 clear={clear}
             />

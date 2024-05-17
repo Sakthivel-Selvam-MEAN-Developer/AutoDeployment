@@ -10,6 +10,8 @@ import ExpenseApprovalList from './driverSalary/components/expenseApproval/expen
 import ExpenseApproval from './driverSalary/components/expenseApproval'
 import TripBetta from './driverSalary/components/tripBetta'
 import AddTripBetta from './driverSalary/components/tripBetta/list'
+import DriverAttendance from './driverSalary/components/driverAttendance'
+import DriverDailyAttendane from './driverSalary/components/driverAttendance/driverAttendance'
 
 const driverSalaryRoutes = {
     path: '/driversalary',
@@ -66,6 +68,16 @@ const driverSalaryRoutes = {
                 {
                     path: '',
                     element: <AddTripBetta />
+                }
+            ]
+        },
+        {
+            path: 'attendance',
+            element: <DriverAttendance />,
+            children: [
+                {
+                    path: '',
+                    element: <DriverDailyAttendane />
                 }
             ]
         }

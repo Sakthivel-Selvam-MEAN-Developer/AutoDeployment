@@ -9,6 +9,7 @@ const mockCloseStockTrip = vi.fn()
 const mockGetDriverIdByTripId = vi.fn()
 const mockGetTripSalaryDetailsByLoactionId = vi.fn()
 const mockCeateDriverTrip = vi.fn()
+const mockUpdateDriverTripWithTripSalaryId = vi.fn()
 
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
     create: (inputs: any) => mockCreateUnloadingPointTrip(inputs)
@@ -18,7 +19,9 @@ vi.mock('../models/loadingToStockPointTrip', () => ({
 }))
 vi.mock('../../driverSalary/models/driverTrip', () => ({
     create: (inputs: any) => mockCeateDriverTrip(inputs),
-    getDriverIdByTripId: (inputs: any) => mockGetDriverIdByTripId(inputs)
+    getDriverIdByTripId: (inputs: any) => mockGetDriverIdByTripId(inputs),
+    updateDriverTripWithTripSalaryId: (input1: any, input2: any) =>
+        mockUpdateDriverTripWithTripSalaryId(input1, input2)
 }))
 vi.mock('../../driverSalary/models/tripSalary', () => ({
     getTripSalaryDetailsByLoactionId: (input1: any, input2: any, input3: any) =>
@@ -58,7 +61,7 @@ const mockGetTripSalaryDetailsByLoactionIdData = {
     driverAdvance: 1200,
     tripBetta: 4500
 }
-const mockGetDriverIdByTripIdData = { driverId: 1 }
+const mockGetDriverIdByTripIdData = { driverId: 1, id: 1 }
 
 const mockBody = {
     startDate: 1714501800,
@@ -71,11 +74,14 @@ const mockBody = {
     loadingPointToStockPointTripId: 3,
     truckId: 6
 }
-const mockCreateDriverTripData = {
-    id: 10,
-    tripId: 44,
-    driverId: 34,
-    tripSalaryId: 3
+const mockUpdateDriverTripWithTripSalaryIdData = {
+    id: 4,
+    tripId: 5,
+    tripStartDate: 1714674600,
+    driverId: 1,
+    unloadingTripSalaryId: 1,
+    stockTripSalaryId: 2,
+    driverAdvance: []
 }
 describe('Trip Controller', () => {
     test('should able to create trip', async () => {
@@ -104,7 +110,9 @@ describe('Trip Controller', () => {
         mockGetTripSalaryDetailsByLoactionId.mockResolvedValue(
             mockGetTripSalaryDetailsByLoactionIdData
         )
-        mockCeateDriverTrip.mockResolvedValue(mockCreateDriverTripData)
+        mockUpdateDriverTripWithTripSalaryId.mockResolvedValue(
+            mockUpdateDriverTripWithTripSalaryIdData
+        )
         await supertest(app)
             .post('/api/unloading-trip')
             .send(mockBody)
@@ -123,15 +131,13 @@ describe('Trip Controller', () => {
             mockBody.unloadingPointId.toString(),
             mockOverAllTripIdByLoadingToStockId.loadingPointToStockPointTrip.stockPointId.toString()
         )
+        expect(mockUpdateDriverTripWithTripSalaryId).toHaveBeenCalledWith(
+            mockGetDriverIdByTripIdData.id,
+            mockGetTripSalaryDetailsByLoactionIdData.id
+        )
 
         expect(mockGetTripSalaryDetailsByLoactionId).toHaveBeenCalledTimes(1)
         expect(mockGetDriverIdByTripId).toHaveBeenCalledTimes(1)
-
-        expect(mockCeateDriverTrip).toHaveBeenCalledWith({
-            tripId: mockOverAllTripIdByLoadingToStockId.id,
-            tripStartDate: mockBody.startDate,
-            driverId: mockGetDriverIdByTripIdData.driverId,
-            tripSalaryId: mockGetTripSalaryDetailsByLoactionIdData.id
-        })
+        expect(mockUpdateDriverTripWithTripSalaryId).toHaveBeenCalledTimes(1)
     })
 })
