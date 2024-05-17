@@ -120,3 +120,9 @@
     -  delete from "subContract"."paymentDues" where id=956;
     -  update "subContract"."transporter" set "name"='SNT Transport(navaladi)' where id=194;
  
+  date: 14-05-2024
+  person: Santhosh
+  description:
+    - updated from titanium to kurinji transport for vehicle:TN36BT4713
+  query:
+    -  update "subContract"."truck" set "transporterId"=204  where id=720;

@@ -362,6 +362,8 @@ model loadingPointToStockPointTrip {
   id                             Int                              @id @default(autoincrement())
   acknowledgeDueTime             Int?
   startDate                      Int
+  partyName                      String                           @default("")
+  lrNumber                       String                           @default("")
   filledLoad                     Float                            @db.DoublePrecision
   wantFuel                       Boolean?
   tripStatus                     Boolean                          @default(false)
@@ -389,6 +391,8 @@ model loadingPointToStockPointTrip {
 model stockPointToUnloadingPointTrip {
   id                             Int                          @id @default(autoincrement())
   startDate                      Int
+  partyName                      String                       @default("")
+  lrNumber                       String                       @default("")
   invoiceNumber                  String                       @unique
   tripStatus                     Boolean                      @default(false)
   acknowledgeDueTime             Int?
@@ -417,6 +421,8 @@ model loadingPointToUnloadingPointTrip {
   wantFuel               Boolean?
   tripStatus             Boolean        @default(false)
   acknowledgeDueTime     Int?
+  partyName              String         @default("")
+  lrNumber               String         @default("")
   freightAmount          Float          @db.DoublePrecision
   transporterAmount      Float          @db.DoublePrecision
   totalFreightAmount     Float          @db.DoublePrecision

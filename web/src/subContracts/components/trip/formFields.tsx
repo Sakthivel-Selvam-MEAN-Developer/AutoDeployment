@@ -347,6 +347,8 @@ const FormField: React.FC<FormFieldProps> = ({
                     />
                 )}
                 <TextInput control={control} label="Invoice Number" fieldName="invoiceNumber" />
+                <TextInput control={control} label="Lr Number" fieldName="lrNumber" />
+                <TextInput control={control} label="Party Name" fieldName="partyName" />
                 <Controller
                     render={() => (
                         <TextField

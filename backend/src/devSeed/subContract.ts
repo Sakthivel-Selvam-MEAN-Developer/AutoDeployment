@@ -44,6 +44,10 @@ async function addFuelStations() {
     ('Credit Card',52, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
     await prisma.$executeRaw`INSERT INTO "subContract"."billNo" ("id","lastBillNo")
     VALUES (1,'MGL23A-0');`
+    await prisma.$executeRaw`INSERT INTO "subContract"."pricePoint" ( "freightAmount" , "transporterAmount" , "transporterPercentage" ,"createdAt","updatedAt", "loadingPointId" , "unloadingPointId" , "stockPointId" , "payGeneratingDuration" )
+    VALUES (1200,1176,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,1,null, 1,0);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."pricePoint" ( "freightAmount" , "transporterAmount" , "transporterPercentage" ,"createdAt","updatedAt", "loadingPointId" , "unloadingPointId" , "stockPointId" , "payGeneratingDuration" )
+    VALUES (1000,880,12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,null,1, 1,0);`
 }
 
 async function seedSubContract() {

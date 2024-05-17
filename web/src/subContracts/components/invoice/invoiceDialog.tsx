@@ -11,18 +11,21 @@ import UltraTechAPCW, { UltraTechProps } from './invoiceFormat/UltraTech/ultraTe
 import { downloadPdf } from './invoiceFormat/downloadPdf'
 import DalmiaDalmiapuramInvoice from './invoiceFormat/Dalmia/dalmiaDalmiapuram'
 import DalmiaKadappaInvoice from './invoiceFormat/Dalmia/dalmiaKadapa'
+import { billNoContext } from './invoiceContext'
+import MahaInvoice from './invoiceFormat/Maha/mahaInvoice'
 
 const InvoiceDialog: React.FC<UltraTechProps> = ({
     tripId,
     company,
     setActivate,
-    updateInvoice,
-    lastBillNumber
+    updateInvoice
 }) => {
     const [open, setOpen] = React.useState(true)
+    const { setInvoiceValues } = React.useContext(billNoContext)
     const handleClose = () => {
         setActivate(false)
         setOpen(false)
+        setInvoiceValues({ billNo: '', date: 0 })
     }
     const [loading, setLoading] = React.useState<boolean>(true)
 
@@ -50,13 +53,17 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 companyTagID = 'chettinad-karikali-section'
                 annexureTagID = 'chettinad_annexure_main'
                 break
-            case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
+            case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
                 companyTagID = 'dalmia_kadappa_section'
                 annexureTagID = 'dalmia_annexure_section'
                 break
-            case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
+            case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
                 companyTagID = 'dalmia_dalmiapuram_section'
                 annexureTagID = 'dalmia_annexure_section'
+                break
+            case 'Sree Jayajothi Cement Private Limited (Maha Cement)':
+                companyTagID = 'maha-section'
+                annexureTagID = 'Maha_annexure_section'
                 break
         }
         if (companyTagID !== '' && company) {
@@ -70,50 +77,33 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
     const getContentBasedOnCompany = () => {
         switch (company) {
             case 'ULTRATECH CEMENT LIMITED,TADIPATRI':
-                return (
-                    <UltraTechAPCW
-                        tripId={tripId}
-                        lastBillNumber={lastBillNumber}
-                        setLoading={setLoading}
-                        loading={loading}
-                    />
-                )
+                return <UltraTechAPCW tripId={tripId} setLoading={setLoading} loading={loading} />
             case 'Chettinad Cement Corporation Private Ltd,Karikkali':
                 return (
-                    <ChettinadKarikkali
-                        tripId={tripId}
-                        lastBillNumber={lastBillNumber}
-                        setLoading={setLoading}
-                        loading={loading}
-                    />
+                    <ChettinadKarikkali tripId={tripId} setLoading={setLoading} loading={loading} />
                 )
             case 'Chettinad Cement Corporation Private Ltd. Ariyalur':
                 return (
-                    <ChettinadAriyalur
-                        tripId={tripId}
-                        lastBillNumber={lastBillNumber}
-                        setLoading={setLoading}
-                        loading={loading}
-                    />
+                    <ChettinadAriyalur tripId={tripId} setLoading={setLoading} loading={loading} />
                 )
             case 'Dalmia Cement (Bharat) Limited,Jammalmadugu':
                 return (
-                    <DalmiaDalmiapuramInvoice
+                    <DalmiaKadappaInvoice
                         tripId={tripId}
-                        lastBillNumber={lastBillNumber}
                         setLoading={setLoading}
                         loading={loading}
                     />
                 )
             case 'Dalmia Cement (Bharat) Limited,Dalmapuram':
                 return (
-                    <DalmiaKadappaInvoice
+                    <DalmiaDalmiapuramInvoice
                         tripId={tripId}
-                        lastBillNumber={lastBillNumber}
                         setLoading={setLoading}
                         loading={loading}
                     />
                 )
+            case 'Sree Jayajothi Cement Private Limited (Maha Cement)':
+                return <MahaInvoice tripId={tripId} setLoading={setLoading} loading={loading} />
         }
     }
     return (

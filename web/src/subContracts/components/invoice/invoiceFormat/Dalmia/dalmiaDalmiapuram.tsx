@@ -1,23 +1,17 @@
 import './style.css'
-import signature from '../signature.png'
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { InvoiceProp } from '../../interface'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
 import calculateTotals from '../calculateTotal'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
-import dayjs from 'dayjs'
 import { financialYear } from '../financialYear'
 import DalmiaAnnexure from './dalmiaAnnexure'
 import { toWords } from '../numberToWords'
 import { Box, CircularProgress } from '@mui/material'
+import { billNoContext } from '../../invoiceContext'
 
-const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({
-    tripId,
-    lastBillNumber,
-    setLoading,
-    loading
-}) => {
+const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [total, setTotal] = useState({
         totalAmount: 0,
         totalFilledLoad: 0,
@@ -27,6 +21,7 @@ const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({
         shortageQuantity: 0
     })
     const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
+    const { invoiceValues } = useContext(billNoContext)
 
     useEffect(() => {
         getInvoiceDetails(tripId)
@@ -70,13 +65,13 @@ const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({
                                         <td>PF Code</td>
                                         <td>Nil</td>
                                         <td colSpan={2}>Bill No</td>
-                                        <td>{lastBillNumber}</td>
+                                        <td>{invoiceValues.billNo}</td>
                                     </tr>
                                     <tr>
                                         <td>ESI Code</td>
                                         <td>Nil</td>
                                         <td colSpan={2}>Bill Date</td>
-                                        <td>{dayjs().format('DD/MM/YYYY')}</td>
+                                        <td>{epochToMinimalDate(invoiceValues.date)}</td>
                                     </tr>
                                     <tr>
                                         <td>Vendor Code</td>
@@ -335,7 +330,7 @@ const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({
                                             <br />
                                         </td>
                                         <td className="tc">
-                                            <img src={signature} alt="signature" />
+                                            <div style={{ padding: '50px' }}></div>
                                         </td>
                                     </tr>
                                     <tr className="border">
@@ -351,7 +346,7 @@ const DalmiaDalmiapuramInvoice: FC<InvoiceProps> = ({
                     <hr style={{ margin: '0 20px' }} />
                     <DalmiaAnnexure
                         tripDetails={trip}
-                        lastBillNumber={lastBillNumber}
+                        billNo={invoiceValues.billNo}
                         total={total}
                     />
                 </>

@@ -188,7 +188,8 @@ describe('stock Point to unloading point', () => {
         const unloadingPointTrip = await create({
             ...seedStockPointToUnloadingPoint,
             loadingPointToStockPointTripId: loadingPointToStockPoint.id,
-            unloadingPointId: unloadingPoint.id
+            unloadingPointId: unloadingPoint.id,
+            tripStatus: true
         })
         const actual = await getInvoiceDetails([unloadingPointTrip.id])
         expect(actual[0].invoiceNumber).toBe(unloadingPointTrip.invoiceNumber)
@@ -230,7 +231,8 @@ describe('stock Point to unloading point', () => {
         const unloadingPointTrip = await create({
             ...seedStockPointToUnloadingPoint,
             loadingPointToStockPointTripId: loadingPointToStockPoint.id,
-            unloadingPointId: unloadingPoint.id
+            unloadingPointId: unloadingPoint.id,
+            tripStatus: true
         })
         const mockFilterData = {
             startDate: 0,

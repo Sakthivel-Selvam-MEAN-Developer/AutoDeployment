@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import MockDate from 'mockdate'
 import DalmiaDalmiapuramInvoice from './dalmiaDalmiapuram'
 import DalmiaKadappaInvoice from './dalmiaKadapa'
+import { billNoContext } from '../../invoiceContext'
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
         convert: vi.fn().mockReturnValue('Ten Lakhs Only')
@@ -20,11 +21,22 @@ describe('Chettinad invoice component', () => {
                     tripName: 'LoadingToUnloading'
                 }
             ],
-            lastBillNumber: 'MGL23A-1',
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<DalmiaDalmiapuramInvoice {...getProps()} />)
+        const { asFragment } = render(
+            <billNoContext.Provider
+                value={{
+                    invoiceValues: {
+                        billNo: 'asd',
+                        date: 1704886154
+                    },
+                    setInvoiceValues: () => {}
+                }}
+            >
+                <DalmiaDalmiapuramInvoice {...getProps()} />
+            </billNoContext.Provider>
+        )
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })
@@ -38,11 +50,22 @@ describe('Chettinad invoice component', () => {
                     tripName: 'LoadingToUnloading'
                 }
             ],
-            lastBillNumber: 'MGL23A-1',
             setLoading: vi.fn(),
             loading: false
         })
-        const { asFragment } = render(<DalmiaKadappaInvoice {...getProps()} />)
+        const { asFragment } = render(
+            <billNoContext.Provider
+                value={{
+                    invoiceValues: {
+                        billNo: 'asd',
+                        date: 1704886154
+                    },
+                    setInvoiceValues: () => {}
+                }}
+            >
+                <DalmiaKadappaInvoice {...getProps()} />
+            </billNoContext.Provider>
+        )
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()
     })

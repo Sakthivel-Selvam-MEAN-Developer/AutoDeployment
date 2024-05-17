@@ -7,7 +7,7 @@ export const downloadPdf = async (
     annexureData: HTMLElement | null,
     company: string
 ) => {
-    if (company !== 'UltraTech Cements') {
+    if (company !== 'ULTRATECH CEMENT LIMITED,TADIPATRI') {
         if (invoiceData !== null) {
             const invoiceImgData = await html2canvas(invoiceData).then((canvas) =>
                 canvas.toDataURL('image/png')

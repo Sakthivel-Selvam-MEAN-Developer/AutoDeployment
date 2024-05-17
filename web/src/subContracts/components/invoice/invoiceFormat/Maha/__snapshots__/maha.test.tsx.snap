@@ -1,0 +1,865 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] = `
+<DocumentFragment>
+  <section
+    id="maha-section"
+    style="padding: 20px;"
+  >
+    <main
+      class="maha-main"
+    >
+      <div
+        class="container"
+        style="height: auto;"
+      >
+        <h3
+          style="text-align: center;"
+        >
+          TAX INVOICE
+        </h3>
+        <div
+          class="header bt bl br"
+          style="display: flex; justify-content: space-between; flex-direction: row;"
+        >
+          <h5
+            style="padding: 7px 20px;"
+          >
+            Invoice No : asd
+          </h5>
+          <h5
+            class="bl "
+            style="padding: 7px 20px; text-align: center;"
+          >
+            GST NO: 33ABBFM2821M2ZD
+          </h5>
+        </div>
+        <div
+          class="invoice-details bt br bl"
+          style="display: flex; justify-content: space-between;"
+        >
+          <div
+            class="empty"
+          />
+          <div
+            class="invoice-details-body bl"
+          >
+            <div
+              class="invoice bb"
+            >
+              <h5
+                class="br"
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                Invoice Date
+              </h5>
+              <h5
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                10/01/2024
+              </h5>
+            </div>
+            <div
+              class="invoice bb"
+            >
+              <h5
+                class="br"
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                PAN No
+              </h5>
+              <h5
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                ABBFM2821M
+              </h5>
+            </div>
+            <div
+              class="invoice bb"
+            >
+              <h5
+                class="br"
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                Vendor Code
+              </h5>
+              <h5
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                2101049
+              </h5>
+            </div>
+            <div
+              class="invoice bb"
+            >
+              <h5
+                class="br"
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                Financial Year
+              </h5>
+              <h5
+                style="text-align: center; padding: 7px 20px; font-weight: bold;"
+              >
+                FY2024-2025
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bl br "
+          style="padding: 5px;"
+        >
+          <h5>
+            To
+          </h5>
+          <br />
+          <h5>
+            SREE JAYA JOTHI CEMENT PRIVATE LTD
+          </h5>
+          <br />
+          <h5>
+            SRINAGAR,YANAKANDLA,BANAGANAPALLI MANDAL
+          </h5>
+          <br />
+          <h5>
+            KURNOOL DISTRICT,ANDHRA PRADESH.
+          </h5>
+          <br />
+          <h5>
+            GSTIN NO : 37AAKCS4185M1ZM
+          </h5>
+          <br />
+          <h5>
+            PAN No : AAKCS4185M
+          </h5>
+          <br />
+          <h5>
+            HSN/SAC - 996791
+          </h5>
+        </div>
+        <table
+          class="bl br bt bb"
+          style="width: 100%; border-collapse: collapse;"
+        >
+          <tbody>
+            <tr>
+              <td
+                class="br"
+                colspan="5"
+                style="padding: 5px; width: 45%;"
+              >
+                <h5>
+                  Whether the tax is payable on reverse charge basis No
+                </h5>
+              </td>
+              <td
+                colspan="2"
+                style="width: 10%;"
+              />
+              <td
+                colspan="4"
+                style="padding: 5px; width: 45%; font-size: small; font-weight: bold;"
+              >
+                STATE NAME & CODE: ANDRA PRADESH-37
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          class="bl br "
+        >
+          <h5
+            style="padding: 2px;"
+          >
+            Sir,
+          </h5>
+          <h5
+            style="padding: 2px;"
+          >
+            SUB: SUBMISSION OF PRIMARY TRANSPORTATION BILL
+          </h5>
+          <h5
+            style="padding: 2px;"
+          >
+            PRODUCT: BULKER CEMENT
+          </h5>
+        </div>
+        <table
+          class="bl br bb bt"
+          style="width: 100%; border-collapse: collapse; font-size: 13px; font-family: Times New Roman, Times, serif;"
+        >
+          <tbody>
+            <tr
+              class="bb"
+            >
+              <td
+                class="br"
+                style="text-align: center; width: 10%; font-size: small;"
+              >
+                <h5>
+                  SNo
+                </h5>
+              </td>
+              <td
+                class="br"
+                style="text-align: center; width: 35%; font-size: small;"
+              >
+                <h5>
+                  CONSIGNEE 'S NAME
+                </h5>
+              </td>
+              <td
+                class="br"
+                style="text-align: center; width: 10%; font-size: small;"
+              >
+                <h5>
+                  DESTINATION
+                </h5>
+              </td>
+              <td
+                class="br"
+                style="text-align: center; font-size: small;"
+              >
+                <h5>
+                  (MT)
+                </h5>
+              </td>
+              <td
+                class="br"
+                style="text-align: center; font-size: small;"
+              >
+                <h5>
+                  Freight (RS)
+                </h5>
+              </td>
+              <td
+                class="br"
+                style="text-align: center; font-size: small;"
+              >
+                <h5>
+                  Total Amount
+                </h5>
+              </td>
+            </tr>
+            <tr>
+              <td
+                class="br bb"
+                style="text-align: center;"
+              >
+                1
+              </td>
+              <td
+                class="br bb"
+                style="text-align: center;"
+              >
+                MEGHA ENGINEERING AND INFRASTRUCTURES
+              </td>
+              <td
+                class="br bb"
+                style="text-align: center;"
+              >
+                As Per Annexure
+              </td>
+              <td
+                class="br bb"
+                style="text-align: center;"
+              >
+                0.00
+              </td>
+              <td
+                class="br bb"
+                style="text-align: center;"
+              >
+                As Per Annexure
+              </td>
+              <td
+                class="br bb"
+                style="text-align: right;"
+              >
+                0.00
+              </td>
+            </tr>
+            <tr
+              style="height: 20px;"
+            >
+              <td
+                class="br"
+              />
+              <td
+                class="br"
+              />
+              <td
+                class="br"
+              />
+              <td
+                class="br"
+              />
+              <td
+                class="br"
+              />
+              <td
+                class="br"
+              />
+            </tr>
+            <tr
+              style="height: 20px;"
+            >
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+            </tr>
+            <tr
+              style="height: 20px;"
+            >
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+              <td
+                class="br bt"
+              />
+            </tr>
+            <tr
+              style="height: 30px;"
+            >
+              <td
+                class="bt bl br "
+                colspan="3"
+                style="text-align: center; width: 50px; font-size: small;"
+              >
+                <h5>
+                  GROSS TOTAL
+                </h5>
+              </td>
+              <td
+                class="bt bl br"
+                style="font-size: small; text-align: right; padding: 2px;"
+              >
+                <h5>
+                  0.00
+                </h5>
+              </td>
+              <td
+                class="bt bl br"
+                style="text-align: center; font-size: small;"
+              />
+              <td
+                class="bt bl br"
+                style="font-size: small; text-align: right; padding: 2px;"
+              >
+                <h5>
+                  0.00
+                </h5>
+              </td>
+            </tr>
+            <tr
+              style="height: 20px;"
+            >
+              <td
+                class="bt "
+                colspan="2"
+                rowspan="2"
+                style="text-align: center; width: 50px;"
+              />
+              <td
+                class="bt bl br"
+                style="text-align: center; font-size: small;"
+              >
+                <h5>
+                  IGST
+                </h5>
+              </td>
+              <td
+                class="bt br"
+                style="font-size: small; text-align: right; padding: 2px;"
+              >
+                <h5>
+                  12%
+                </h5>
+              </td>
+              <td
+                class="bt br"
+                style="text-align: center;"
+              />
+              <td
+                class="bt "
+                style="font-size: small; text-align: right; padding: 2px;"
+              >
+                <h5>
+                  0.00
+                </h5>
+              </td>
+            </tr>
+            <tr
+              style="height: 20px;"
+            >
+              <td
+                class="bl br bt"
+                style="text-align: center; width: 50px; font-size: small; padding: 2px;"
+              >
+                <h5>
+                  Round off
+                </h5>
+              </td>
+              <td
+                class="bl br bt"
+                style="text-align: center;"
+              />
+              <td
+                class="bl br bt"
+                style="text-align: center;"
+              />
+              <td
+                class="bl br bt"
+                style="font-size: small; text-align: right; padding: 2px;"
+              >
+                <h5>
+                  0.00
+                </h5>
+              </td>
+            </tr>
+            <tr
+              style="height: 20px;"
+            >
+              <td
+                class="bt bb br"
+                colspan="5"
+                style="text-align: right; padding: 5px; font-size: small;"
+              >
+                <h4>
+                  TOTAL AMOUNT
+                </h4>
+              </td>
+              <td
+                class="bt bb"
+                style="font-size: small; text-align: right; padding: 2px;"
+              >
+                <h4>
+                  0.00
+                </h4>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          class="bl br "
+        >
+          <h5
+            style="padding: 2px;"
+          >
+            Rupees(in words): Ten Lakhs Only
+          </h5>
+        </div>
+        <div
+          class="bl br bb bt"
+        >
+          <h5
+            style="padding: 2px;"
+          >
+            Certified that the particulars given above are true and Correct
+          </h5>
+        </div>
+        <div
+          class="bl br bb "
+        >
+          <h5
+            style="padding: 2px;"
+          >
+            Thank you and assuring our best services at all times
+          </h5>
+        </div>
+        <div
+          class="bl br  "
+        >
+          <h5
+            style="padding: 2px;"
+          >
+            We have taken registration under the CGST Act, 2017 and have exercised the option to pay tax on services of GTA in relation to transport of goods supplied by us during the Financial Year 2024-2025 under forward charge: Yes
+          </h5>
+        </div>
+        <table
+          class="bl br bb bt"
+          style="width: 100%; border-collapse: collapse;"
+        >
+          <tbody>
+            <tr>
+              <th
+                class="bt bb br"
+                style="width: 60%; font-size: small;"
+              >
+                Bank Details:-
+              </th>
+              <th
+                class="bt bb"
+                style="width: 40%;"
+              />
+            </tr>
+            <tr
+              class="bl br"
+              style="padding: 30px; font-size: small;"
+            >
+              <td>
+                <p
+                  style="padding: 10px 0px 0px 2px;"
+                >
+                  Bank Name         Indian Overseas Bank 
+                </p>
+                <p
+                  style="padding: 5px 0px 0px 2px;"
+                >
+                  Account Name     MAGNUM LOGISTICS
+                </p>
+                <p
+                  style="padding: 5px 0px 0px 2px;"
+                >
+                  Account No         159433000055555
+                </p>
+                <p
+                  style="padding: 5px 0px 0px 2px;"
+                >
+                  Branch                 Kollampalayam
+                </p>
+                <p
+                  style="padding: 5px 0px 0px 2px;"
+                >
+                  IFSC Code          IOBA0001594
+                </p>
+                <br />
+                <br />
+              </td>
+              <td
+                class="bl"
+              >
+                <div>
+                  <h2
+                    style="text-align: center;"
+                  >
+                    For Magnum Logistics
+                  </h2>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <h4
+                    style="text-align: center;"
+                  >
+                    Authorised Signatory
+                  </h4>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </section>
+  <hr />
+  <section
+    id="Maha_annexure_section"
+    style="padding: 20px;"
+  >
+    <main
+      class="Maha_annexure_main"
+    >
+      <div
+        style="display: flex; justify-content: center;"
+      >
+        <h2
+          style="border-bottom: 2px solid black;"
+        >
+          ANNEXURE
+        </h2>
+      </div>
+      <div
+        class="container"
+      >
+        <div
+          style="display: flex; justify-content: space-between;"
+        >
+          <div
+            class="transport_info"
+          >
+            <p>
+              <b>
+                Transporter Name:
+              </b>
+            </p>
+            <p>
+              <b>
+                MAGNUM LOGISTICS
+              </b>
+            </p>
+            <p>
+              30/A, Attayampalayam,Anthetti Thottam, 
+              <br />
+              Gangapuram,GST NO: 33ABBFM2821M2ZD,
+              <br />
+              PAN No:ABBFM2821M
+            </p>
+            <p>
+              Erode(Dt), Tamilnadu-638 102, Ph: 8220018402
+            </p>
+            <p>
+              Email Id : magnumlogistics.erd@gmail.com
+            </p>
+          </div>
+          <div
+            class="Address_info"
+          >
+            <p>
+              <b>
+                To
+              </b>
+            </p>
+            <b>
+              SREE JAYA JOTHI CEMENT PRIVATE LTD
+            </b>
+            <br />
+            <p>
+              SRINAGAR,YANAKANDLA,BANAGANAPALLI MANDAL
+            </p>
+            <p>
+              KURNOOL DISTRICT,ANDHRA PRADESH.
+            </p>
+            <p>
+              GSTIN NO : 37AAKCS4185M1ZM
+            </p>
+            <p>
+              PAN NO:AAKCS4185M
+            </p>
+          </div>
+          <div
+            class="invoice_details"
+          >
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    Invoice No
+                  </td>
+                  <td>
+                    asd
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Invoice Date
+                  </td>
+                  <td>
+                    10/01/2024
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    PAN No
+                  </td>
+                  <td>
+                    ABBFM2821M
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Vendor Code
+                  </td>
+                  <td>
+                    2101049
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div
+          class="invoice_details_2"
+        >
+          <p>
+            <b>
+              Period From 01/01/1970 To 01/01/1970
+            </b>
+          </p>
+          <table
+            style="width: 100%; border-collapse: collapse; font-size: 13.5px;"
+          >
+            <tbody>
+              <tr>
+                <th>
+                  SL NO
+                </th>
+                <th>
+                  INVOICE NO
+                </th>
+                <th>
+                  DATE
+                </th>
+                <th>
+                  TRUCK NO
+                </th>
+                <th>
+                  CONSIGNEE'S NAME
+                </th>
+                <th>
+                  DESTINATION
+                </th>
+                <th>
+                  QTY
+                </th>
+                <th>
+                  FREIGHT RATE
+                </th>
+                <th>
+                  FREIGHT AMOUNT
+                </th>
+                <th>
+                  Shortage
+                </th>
+                <th>
+                  TOTAL AMOUNT
+                </th>
+              </tr>
+              <tr>
+                <td
+                  colspan="6"
+                  style="text-align: right;"
+                >
+                  <b>
+                    GROSS TOTAL AMOUNT
+                  </b>
+                </td>
+                <td
+                  style="text-align: right;"
+                >
+                   
+                  <b>
+                    0.00
+                  </b>
+                </td>
+                <td />
+                <td />
+                <td />
+                <td
+                  style="text-align: right;"
+                >
+                  <b>
+                    0.00
+                  </b>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  colspan="10"
+                  style="text-align: right;"
+                >
+                  <b>
+                    IGST 12%
+                  </b>
+                </td>
+                <td
+                  style="text-align: right;"
+                >
+                  <b>
+                    0.00
+                  </b>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  colspan="10"
+                  style="text-align: right;"
+                >
+                  <b>
+                    ROUND OFF
+                  </b>
+                </td>
+                <td
+                  style="text-align: right;"
+                >
+                  <b>
+                    0.00
+                  </b>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  colspan="10"
+                  style="text-align: right;"
+                >
+                  <b>
+                    Total Amount
+                  </b>
+                </td>
+                <td
+                  style="text-align: right;"
+                >
+                  <b>
+                    0.00
+                  </b>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="GST_details"
+        >
+          <p>
+            No of Challans : 0
+          </p>
+          <br />
+          <p>
+            GST will be paid by Magnum Logistics
+          </p>
+          <p>
+            GSTIN : 33ABBFM2821M2ZD
+          </p>
+          <br />
+          <div
+            style="display: flex; justify-content: space-between;"
+          >
+            <p>
+              Whether Tax Payment On Reverse charge Basis : NO
+            </p>
+            <div
+              class="Magum"
+            >
+              <b>
+                For Magnum Logistics
+              </b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+</DocumentFragment>
+`;

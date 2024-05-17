@@ -14,7 +14,6 @@ const TransporterInvoiceTable: FC<TransporterInvoiceProps> = ({ tripDetails, set
 }
 export default TransporterInvoiceTable
 const TransporterTripTable: FC<tripTableProps> = ({ direct, setTripDetails, stock }) => {
-    console.log(direct, stock)
     return (
         <div style={{ width: '100%' }}>
             <TripTable trip={direct} setTripDetails={setTripDetails} tableName={'Direct Trip'} />

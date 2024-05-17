@@ -1,8 +1,6 @@
-import { FC, useEffect, useState } from 'react'
-import signature from '../signature.png'
+import { FC, useContext, useEffect, useState } from 'react'
 import './style.css'
 import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
-import dayjs from 'dayjs'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import { InvoiceProp } from '../../interface'
 import { toWords } from '../numberToWords'
@@ -11,8 +9,9 @@ import ChettinadAnnexure from './chettinadAnnexure'
 import { Box, CircularProgress } from '@mui/material'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import calculateTotals from '../calculateTotal'
+import { billNoContext } from '../../invoiceContext'
 
-const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
+const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [total, setTotal] = useState({
         totalAmount: 0,
         totalFilledLoad: 0,
@@ -23,6 +22,7 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
     })
 
     const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
+    const { invoiceValues } = useContext(billNoContext)
     useEffect(() => {
         getInvoiceDetails(tripId)
             .then((data) => setTrip({ ...data }))
@@ -32,7 +32,6 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
     useEffect(() => {
         if (trip !== null) setTotal(calculateTotals(trip))
     }, [trip])
-
     return (
         <>
             {loading ? (
@@ -59,11 +58,13 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
                                     <div className="date df-fc jsp">
                                         <div className="df jsp bb">
                                             <p className="p-5 br">Bill No</p>
-                                            <p className="p-5">{lastBillNumber}</p>
+                                            <p className="p-5">{invoiceValues.billNo}</p>
                                         </div>
                                         <div className="df jsp bb">
                                             <p className="p-5 br">Date</p>
-                                            <p className="p-5">{dayjs().format('DD/MM/YYYY')}</p>
+                                            <p className="p-5">
+                                                {epochToMinimalDate(invoiceValues.date)}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -289,11 +290,7 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
                                 </div>
                                 <div className="df-fc jsp ai">
                                     <h3 className="ta p-2">For Magnum Logistics</h3>
-                                    <img
-                                        src={signature}
-                                        alt="signature"
-                                        style={{ width: '300px' }}
-                                    />
+                                    <div style={{ padding: '50px' }}></div>
                                     <h4 className="ta pb">Authorised Signatory</h4>
                                 </div>
                             </div>
@@ -302,7 +299,7 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadi
                     <hr style={{ margin: '0 20px' }} />
                     <ChettinadAnnexure
                         tripDetails={trip}
-                        lastBillNumber={lastBillNumber}
+                        billNo={invoiceValues.billNo}
                         total={total}
                     />
                 </>

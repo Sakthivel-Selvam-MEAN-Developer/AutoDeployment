@@ -12,6 +12,8 @@ interface dataProps {
     totalTransporterAmount: number
     margin: number
     wantFuel: boolean
+    partyName: string
+    lrNumber: string
 }
 
 export const getAllTrip = () =>

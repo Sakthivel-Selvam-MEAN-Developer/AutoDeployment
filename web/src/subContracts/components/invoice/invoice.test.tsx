@@ -78,6 +78,5 @@ describe('Trip Test', () => {
         expect(screen.getByText('LoadingToStock Trip')).toBeInTheDocument()
         expect(mockGetTripDetailsByFilterData).toHaveBeenCalledTimes(1)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
-        expect(mockGetLastBillNumber).toHaveBeenCalledTimes(1)
     })
 })

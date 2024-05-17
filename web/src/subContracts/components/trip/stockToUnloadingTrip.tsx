@@ -36,6 +36,8 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
     const [freightAmount, setFreightAmount] = useState<number>(0)
     const [transporterAmount, setTransporterAmount] = useState<number>(0)
     const [invoiceNumber, setInvoiceNumber] = useState<string>('')
+    const [lrNumber, setLrNumber] = useState<string>('')
+    const [partyName, setPartyName] = useState<string>('')
     const [stockDate, setStockDate] = useState<number>(0)
     const authoriser = CheckUser()
     const coverDateToEpoc = (date: any) => {
@@ -58,7 +60,9 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             totalTransporterAmount: parseFloat(totalTransporterAmountFloat),
             unloadingPointId,
             loadingPointToStockPointTripId: row.id,
-            truckId: row.truckId
+            truckId: row.truckId,
+            partyName,
+            lrNumber
         }
         createStockTrip(details, row.truck.transporter.transporterType, row.stockPointId).then(
             () => {
@@ -116,6 +120,20 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                     variant="outlined"
                     value={invoiceNumber}
                     onChange={(e) => setInvoiceNumber(e.target.value)}
+                />
+                <TextField
+                    sx={{ marginLeft: '20px' }}
+                    value={lrNumber}
+                    onChange={(e) => setLrNumber(e.target.value)}
+                    label="Lr Number"
+                    name="lrNumber"
+                />
+                <TextField
+                    sx={{ marginLeft: '20px' }}
+                    value={partyName}
+                    onChange={(e) => setPartyName(e.target.value)}
+                    label="Party Name"
+                    name="partyName"
                 />
                 <Autocomplete
                     sx={{ width: '200px', marginLeft: '20px' }}

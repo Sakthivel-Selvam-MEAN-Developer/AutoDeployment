@@ -13,6 +13,8 @@ interface dataProps {
     margin: number
     wantFuel: boolean
     stockPointId: number | null
+    partyName: string | undefined
+    lrNumber: string | undefined
 }
 
 export const createStockPointTrip = (data: dataProps) =>

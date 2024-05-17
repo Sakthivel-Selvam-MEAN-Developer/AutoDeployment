@@ -48,6 +48,8 @@ export const getInvoiceDetails = (id: number[]) =>
         where: { id: { in: id } },
         select: {
             startDate: true,
+            partyName: true,
+            lrNumber: true,
             stockPoint: { select: { name: true } },
             loadingPoint: { select: { name: true } },
             overallTrip: {

@@ -38,12 +38,12 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
           <h4
             class="p-2"
           >
-            INVOICE NO : AW/ML/24-24/48
+            INVOICE NO : asd
           </h4>
           <h4
             class="p-2"
           >
-            DATE : 31/05/2021
+            DATE : 10/01/2024
           </h4>
           <h4
             class="p-2"
@@ -621,11 +621,8 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
           >
             for MAGNUM LOGISTICS
           </h4>
-          <img
-            alt="signature"
-            class="p-2"
-            src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
-            style="padding: 15px; width: inherit;"
+          <div
+            style="padding: 50px;"
           />
           <div>
             <h5
@@ -719,7 +716,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               </div>
             </div>
             <div>
-              MGL23A-1
+              asd
             </div>
           </div>
           <div
@@ -734,7 +731,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               </div>
             </div>
             <div>
-              31-05-2021
+              10/01/2024
             </div>
           </div>
           <div
@@ -937,7 +934,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               <p
                 class="p-5"
               >
-                MGL23A-1
+                asd
               </p>
             </div>
             <div
@@ -951,7 +948,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               <p
                 class="p-5"
               >
-                31/05/2021
+                10/01/2024
               </p>
             </div>
           </div>
@@ -1419,10 +1416,8 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
           >
             For Magnum Logistics
           </h3>
-          <img
-            alt="signature"
-            src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
-            style="width: 300px;"
+          <div
+            style="padding: 50px;"
           />
           <h4
             class="ta pb"
@@ -1500,7 +1495,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               </div>
             </div>
             <div>
-              MGL23A-1
+              asd
             </div>
           </div>
           <div
@@ -1515,7 +1510,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               </div>
             </div>
             <div>
-              31-05-2021
+              10/01/2024
             </div>
           </div>
           <div

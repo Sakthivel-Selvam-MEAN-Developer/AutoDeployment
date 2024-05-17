@@ -67,7 +67,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               Bill No
             </td>
             <td>
-              MGL23A-1
+              asd
             </td>
           </tr>
           <tr>
@@ -83,7 +83,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               Bill Date
             </td>
             <td>
-              31/05/2021
+              10/01/2024
             </td>
           </tr>
           <tr>
@@ -620,9 +620,8 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
             <td
               class="tc"
             >
-              <img
-                alt="signature"
-                src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
+              <div
+                style="padding: 50px;"
               />
             </td>
           </tr>
@@ -731,12 +730,12 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
           <tbody>
             <tr>
               <th>
-                Bill No: MGL23A-1
+                Bill No: asd
               </th>
             </tr>
             <tr>
               <th>
-                Bill Date: 31-05-2021
+                Bill Date: 10/01/2024
               </th>
             </tr>
             <tr>
@@ -917,7 +916,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               Inv No.
             </td>
             <td>
-              DCK/23-24/33
+              asd
             </td>
           </tr>
           <tr>
@@ -937,7 +936,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               Date
             </td>
             <td>
-              31/05/2021
+              10/01/2024
             </td>
           </tr>
           <tr
@@ -1323,12 +1322,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               class="tc"
               colspan="4"
               rowspan="5"
-            >
-              <img
-                alt="signature"
-                src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
-              />
-            </td>
+            />
           </tr>
           <tr
             class="border"
@@ -1461,12 +1455,12 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
           <tbody>
             <tr>
               <th>
-                Bill No: MGL23A-1
+                Bill No: asd
               </th>
             </tr>
             <tr>
               <th>
-                Bill Date: 31-05-2021
+                Bill Date: 10/01/2024
               </th>
             </tr>
             <tr>

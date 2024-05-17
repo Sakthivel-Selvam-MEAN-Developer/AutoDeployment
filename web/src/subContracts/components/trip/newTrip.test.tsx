@@ -143,6 +143,8 @@ const tripData = {
     loadingPointId: 1,
     unloadingPointId: 1,
     startDate: dayjs().unix(),
+    lrNumber: 'asdfghjk',
+    partyName: 'asdfghj',
     filledLoad: 40,
     invoiceNumber: 'RTD43D',
     freightAmount: 1000,
@@ -243,6 +245,8 @@ async function newFunction() {
     })
     await userEvent.click(option)
     await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
+    await userEvent.type(screen.getByLabelText('Lr Number'), 'asdfghjk')
+    await userEvent.type(screen.getByLabelText('Party Name'), 'asdfghj')
     await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
     await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
 }
@@ -390,6 +394,8 @@ describe('New trip test', () => {
     test('should not create dues untill fuel created, if they need fuel', async () => {
         mockFuelWithoutTripId.mockResolvedValue(null)
         await newFunction()
+        expect(screen.getByDisplayValue('asdfghjk')).toBeVisible()
+        expect(screen.getByDisplayValue('asdfghj')).toBeVisible()
         const checkbox = screen.getByTestId('want-fuel')
         fireEvent.click(checkbox)
         const start = screen.getByRole('button', { name: 'Start' })

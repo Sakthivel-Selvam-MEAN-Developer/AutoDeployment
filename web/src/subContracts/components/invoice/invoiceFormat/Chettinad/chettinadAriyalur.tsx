@@ -1,6 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import './style.css'
-import signature from '../signature.png'
 import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import { InvoiceProp } from '../../interface'
@@ -8,11 +7,11 @@ import { financialYear } from '../financialYear'
 import { Box, CircularProgress } from '@mui/material'
 import calculateTotals from '../calculateTotal'
 import ChettinadAnnexure from './chettinadAnnexure'
-import dayjs from 'dayjs'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../numberToWords'
+import { billNoContext } from '../../invoiceContext'
 
-const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
+const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [total, setTotal] = useState({
         totalAmount: 0,
         totalFilledLoad: 0,
@@ -23,6 +22,7 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadin
     })
 
     const [trip, setTrip] = useState<InvoiceProp>({} as InvoiceProp)
+    const { invoiceValues } = useContext(billNoContext)
     useEffect(() => {
         getInvoiceDetails(tripId)
             .then((data) => setTrip({ ...data }))
@@ -52,8 +52,10 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadin
                                     <h4 className="p-2">Vendor Code : 3600428</h4>
                                 </div>
                                 <div className="bl pr" style={{ width: '40vw' }}>
-                                    <h4 className="p-2">INVOICE NO : AW/ML/24-24/48</h4>
-                                    <h4 className="p-2">DATE : {dayjs().format('DD/MM/YYYY')}</h4>
+                                    <h4 className="p-2">INVOICE NO : {invoiceValues.billNo}</h4>
+                                    <h4 className="p-2">
+                                        DATE : {epochToMinimalDate(invoiceValues.date)}
+                                    </h4>
                                     <h4 className="p-2">PAN No : ABBFM2821M2</h4>
                                 </div>
                             </div>
@@ -356,12 +358,7 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadin
                                 </div>
                                 <div style={{ width: '30vw' }}>
                                     <h4 className="ta p-2 bb bg">for MAGNUM LOGISTICS</h4>
-                                    <img
-                                        src={signature}
-                                        alt="signature"
-                                        className="p-2"
-                                        style={{ padding: '15px', width: 'inherit' }}
-                                    />
+                                    <div style={{ padding: '50px' }}></div>
                                     <div>
                                         <h5 className="p-2 ta bg bt bb">Authorised Signatory</h5>
                                         <div className="pb pt pl">
@@ -376,8 +373,8 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoadin
                     <hr style={{ margin: '0 20px' }} />
                     <ChettinadAnnexure
                         tripDetails={trip}
-                        lastBillNumber={lastBillNumber}
                         total={total}
+                        billNo={invoiceValues.billNo}
                     />
                 </>
             )}

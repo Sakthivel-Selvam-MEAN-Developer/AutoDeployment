@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { tripDetailsProps } from '../../list'
 import './style.css'
 import { getInvoiceDetails } from '../../../../services/invoice'
@@ -6,26 +6,26 @@ import { LoadingToStockPointProps, StockToUnloadingPointProps } from '../../inte
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import dayjs from 'dayjs'
 import { InvoiceProp as tripProps } from '../../interface'
-import signature from '../signature.png'
 import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'
 import { Box, CircularProgress } from '@mui/material'
 import { Nullable } from '../../../../../types'
+import { billNoContext } from '../../invoiceContext'
 export interface InvoiceProps {
     tripId: tripDetailsProps[]
-    lastBillNumber: string
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
     loading: boolean
 }
 export interface UltraTechProps {
     tripId: tripDetailsProps[]
+    setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps[]>>
     company: Nullable<string>
     setActivate: React.Dispatch<React.SetStateAction<boolean>>
     updateInvoice: () => void
-    lastBillNumber: string
 }
-const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoading, loading }) => {
+const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [trip, setTrip] = useState<tripProps>()
+    const { invoiceValues } = useContext(billNoContext)
     let totalFilledLoad = 0
     let totalAmount = 0
     useEffect(() => {
@@ -51,8 +51,8 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                             <p>201 BANGALOW THOTTAM,KADAPANALLUR POST,BHAVANI ERODE,ERODE,638311</p>
                         </div>
                         <div className="details">
-                            <p>PAN : ASNAIIBSB</p>
-                            <p>GSTN : ASKJAHSKJHSJKS</p>
+                            <p>PAN : ABBFM2821M</p>
+                            <p>GSTN : 33ABBFM2821M2ZD</p>
                             <p>STATE : TAMILNADU</p>
                             <p>STATE CODE : 33</p>
                         </div>
@@ -87,11 +87,11 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                                 <h4>Generation Date:- {dayjs().format('DD-MM-YYYY')} </h4>
                                 <h4>Vendor Code:- 0002406621 </h4>
                                 <h4>Vendor Name:- MAGNUM LOGISTICS</h4>
-                                <h2>Bill No:- {lastBillNumber}</h2>
+                                <h2>Bill No:- {invoiceValues.billNo}</h2>
                             </div>
                             <div className="flag">
                                 <h4>FLAG:- Y </h4>
-                                <h4> Bill Date:- {dayjs().format('DD-MM-YYYY')}</h4>
+                                <h4> Bill Date:- {epochToMinimalDate(invoiceValues.date)}</h4>
                             </div>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                                         <h4>Total</h4>
                                     </td>
                                     <td>
-                                        <b>{totalFilledLoad}</b>
+                                        <b>{totalFilledLoad.toFixed(2)}</b>
                                     </td>
                                     <td />
                                     <td>
@@ -221,7 +221,7 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, lastBillNumber, setLoad
                             <h5 style={{ marginRight: '5px' }}>For</h5>
                             <h4>MAGNUM LOGISTICS</h4>
                         </div>
-                        <img src={signature} alt="signature" />
+                        <div style={{ padding: '50px' }}></div>
                         <h5>Authorized Signatory</h5>
                     </div>
                 </main>
@@ -235,10 +235,10 @@ const tableRow = (row: LoadingToStockPointProps, index: number) => {
     return (
         <tr>
             <td>{index + 1}</td>
-            <td>6993354494</td>
-            <td>763- 8937 5 76 77</td>
+            <td>{row.invoiceNumber}</td>
+            <td>{row.lrNumber}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
-            <td />
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
             <td>{row.truck.vehicleNumber}</td>
             <td>5116</td>
@@ -259,10 +259,10 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
     return (
         <tr>
             <td>{index + 1}</td>
-            <td>6993354494</td>
-            <td>763- 8937 5 76 77</td>
+            <td>{row.invoiceNumber}</td>
+            <td>{row.lrNumber}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
-            <td />
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
             <td>5116</td>

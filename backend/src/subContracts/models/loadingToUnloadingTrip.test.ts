@@ -130,7 +130,8 @@ describe('Trip model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id
+            truckId: truck.id,
+            tripStatus: true
         })
         const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)

@@ -1,10 +1,13 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import './style.css'
 import { AnnexureProps, StockToUnloadingPointProps, rowProps } from '../../interface'
 import dayjs from 'dayjs'
 import { toWords } from '../numberToWords'
+import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
+import { billNoContext } from '../../invoiceContext'
 
-const DalmiaAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
+const DalmiaAnnexure: FC<AnnexureProps> = ({ tripDetails, billNo, total }) => {
+    const { invoiceValues } = useContext(billNoContext)
     return (
         <section id="dalmia_annexure_section">
             <div className="dalmia_annexure_main">
@@ -53,10 +56,10 @@ const DalmiaAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total 
                     <table style={{ width: '320px' }}>
                         <tbody>
                             <tr>
-                                <th>Bill No: {lastBillNumber}</th>
+                                <th>Bill No: {billNo}</th>
                             </tr>
                             <tr>
-                                <th>Bill Date: {dayjs().format('DD-MM-YYYY')}</th>
+                                <th>Bill Date: {epochToMinimalDate(invoiceValues.date)}</th>
                             </tr>
                             <tr>
                                 <th>For Dist. Channel: STOCK TRANSFER</th>

@@ -1,0 +1,119 @@
+.Maha-main {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+}
+
+.container {
+    /* margin: 20px; */
+    padding: 20px;
+    width: 100%;
+}
+
+.transport_info {
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.Address_info {
+    margin-bottom: 20px;
+    display: inline-block;
+
+    left: 20px;
+}
+
+.invoice_details {
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: inline-block;
+
+    left: 30px;
+}
+
+.invoice_details_2 {
+    width: 100%;
+}
+
+.invoice_details_2 p {
+    text-align: center;
+}
+
+.Maha_annexure_main > table,
+.Maha_annexure_main > th {
+    border: 1px solid black;
+    padding: 10px;
+}
+.invoice_details_2 table,
+.invoice_details table,
+.invoice_details_2 th,
+.invoice_details th,
+.invoice_details_2 td,
+.invoice_details td {
+    border: 1px solid black;
+    padding: 4px;
+    border-collapse: collapse;
+}
+.invoice_details_2 table th {
+    background-color: rgba(128, 128, 128, 0.318);
+}
+
+.Maha_annexure_main > th > td {
+    text-align: center;
+}
+
+.GST_details {
+    font-weight: 600;
+}
+
+.Magum {
+    font-size: 20px;
+}
+
+.container * {
+    margin: 0;
+    padding: 0;
+}
+
+.header > * {
+    flex: 1;
+}
+
+.invoice-details > * {
+    flex: 1;
+}
+
+.invoice-details-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.invoice-details-body .invoice {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.invoice-details-body .invoice > * {
+    flex: 1;
+}
+
+.bb {
+    border-bottom: 2px solid black;
+}
+
+.bt {
+    border-top: 2px solid black;
+}
+
+.br {
+    border-right: 2px solid black;
+}
+
+.bl {
+    border-left: 2px solid black;
+}
+#Maha_annexure_main {
+    font-family: 'Times New Roman', Times, serif !important;
+}

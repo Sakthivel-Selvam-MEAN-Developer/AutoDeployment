@@ -69,6 +69,7 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
                 gte: filterData.endDate === 0 ? undefined : filterData.endDate
             },
             billNo: null,
+            tripStatus: true,
             overallTrip: { some: { acknowledgementStatus: true } }
         },
         include: {
@@ -82,10 +83,13 @@ export const getInvoiceDetails = (id: number[]) =>
         where: {
             id: {
                 in: id
-            }
+            },
+            tripStatus: true
         },
         select: {
             startDate: true,
+            partyName: true,
+            lrNumber: true,
             unloadingPoint: {
                 select: {
                     name: true

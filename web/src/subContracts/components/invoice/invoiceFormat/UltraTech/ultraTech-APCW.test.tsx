@@ -2,6 +2,7 @@ import { vi } from 'vitest'
 import { render } from '@testing-library/react'
 import UltraTechAPCW from './ultraTech-APCW'
 import MockDate from 'mockdate'
+import { billNoContext } from '../../invoiceContext'
 
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
@@ -20,12 +21,23 @@ describe('UltraTech_APCW invoice component', () => {
                     tripName: 'LoadingToUnloading'
                 }
             ],
-            lastBillNumber: 'MGL23A-1',
             setLoading: vi.fn(),
             loading: false
         })
 
-        const { asFragment } = render(<UltraTechAPCW {...getProps()} />)
+        const { asFragment } = render(
+            <billNoContext.Provider
+                value={{
+                    invoiceValues: {
+                        billNo: 'asd',
+                        date: 1704886154
+                    },
+                    setInvoiceValues: () => {}
+                }}
+            >
+                <UltraTechAPCW {...getProps()} />{' '}
+            </billNoContext.Provider>
+        )
 
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()

@@ -24,7 +24,10 @@ const calculateTotals = (trip: InvoiceProp) => {
             numberOfTrips += 1
             totalAmount += loadingToStock.freightAmount * loadingToStock.filledLoad
             totalFilledLoad += loadingToStock.filledLoad
-            shortageQuantity += loadingToStock.overallTrip[0].shortageQuantity[0].shortageQuantity
+            if (loadingToStock.overallTrip[0].shortageQuantity.length > 0) {
+                shortageQuantity +=
+                    loadingToStock.overallTrip[0].shortageQuantity[0].shortageQuantity
+            }
         })
     if (trip.loadingPointToUnloadingPointTrip)
         trip.loadingPointToUnloadingPointTrip.map((loadingToUnloading) => {

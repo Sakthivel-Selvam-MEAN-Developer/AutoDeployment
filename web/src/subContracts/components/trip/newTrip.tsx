@@ -86,7 +86,9 @@ const NewTrip: React.FC = () => {
                 totalTransporterAmount:
                     ownTruck === false ? parseFloat(totalTransporterAmountFloat) : 0,
                 margin: ownTruck === false ? parseFloat(marginFloat) : 0,
-                wantFuel: ownTruck === false ? fuel : ownTruckFuel
+                wantFuel: ownTruck === false ? fuel : ownTruckFuel,
+                partyName: data.partyName,
+                lrNumber: data.lrNumber
             }
             const driverDetails = {
                 tripStartDate: data.tripDate.startOf('day').unix(),
@@ -113,11 +115,16 @@ const NewTrip: React.FC = () => {
             }
             const createUnloadingTrip = async () => {
                 if (!ownTruck)
-                    return await createTrip({ ...details, unloadingPointId: unloadingPointId })
-                else if (ownTruck && tripSalaryDetails !== null)
                     return await createTrip({
                         ...details,
                         unloadingPointId: unloadingPointId
+                    })
+                else if (ownTruck && tripSalaryDetails !== null)
+                    return await createTrip({
+                        ...details,
+                        unloadingPointId: unloadingPointId,
+                        partyName: data.partyName,
+                        lrNumber: data.lrNumber
                     }).then((trip) => {
                         return (
                             ownTruck &&

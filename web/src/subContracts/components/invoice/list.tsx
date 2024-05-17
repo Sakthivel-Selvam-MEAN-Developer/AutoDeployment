@@ -1,14 +1,13 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import FormField from './formField'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ListAllTripForInvoice from './show'
-import dayjs from 'dayjs'
 import { Button } from '@mui/material'
-import InvoiceDialog from './invoiceDialog'
 import { getTripDetailsByFilterData, updateInvoiceDetails } from '../../services/invoice'
-import { getLastBillNumber } from '../../services/billNumber'
-import { filterDataProps, invoiceFilterData } from './invoiceContext'
+import { billNoContext, filterDataProps, invoiceFilterData } from './invoiceContext'
 import { Nullable } from '../../../types'
+import { InvoiceFieldDialog } from './fieldDialog'
+import InvoiceDialog from './invoiceDialog'
 export interface dateProps {
     $d: number
 }
@@ -45,36 +44,35 @@ export interface tripDetails {
     totalFreightAmount: number
     loadingPointToStockPointTrip: { stockPoint: { name: string } }
 }
-
+const defaultFilterData = {
+    pageName: 'LoadingToUnloading',
+    startDate: 0,
+    endDate: 0,
+    cementCompanyName: ''
+}
+export interface invoiceValuesProps {
+    billNo: string
+    date: number
+}
 const InvoiceList: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [tripDetails, setTripDetails] = useState<tripDetails[]>([])
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
     const [tripId, setTripId] = useState<tripDetailsProps[]>([])
-    const [activate, setActivate] = useState<boolean>(false)
-    const [lastBillNumber, setLastBillNumber] = useState<string>('')
-    const [filterData, setFilterData] = useState<Nullable<filterDataProps>>({
-        pageName: 'LoadingToUnloading',
-        startDate: 0,
-        endDate: 0,
-        cementCompanyName: ''
-    })
-
+    const [activateInvoice, setActivateInvoice] = useState<boolean>(false)
+    const [activateFields, setActivateFields] = useState<boolean>(false)
+    const [invoiceValues, setInvoiceValues] = useState<invoiceValuesProps>({} as invoiceValuesProps)
+    const [filterData, setFilterData] = useState<Nullable<filterDataProps>>(defaultFilterData)
+    useEffect(() => {
+        setTripDetails([])
+        setTripId([])
+        setActivateInvoice(false)
+    }, [filterData?.cementCompanyName])
     const onSubmit = async () => {
         getTripDetails()
-        await generateBillNumber().then(setLastBillNumber)
     }
-    const handleClick = () => setActivate(true)
+    const handleClick = () => setActivateFields(true)
 
-    const generateBillNumber = async () => {
-        return await getLastBillNumber().then((billNo) => {
-            const financialYear =
-                dayjs().month() < 3
-                    ? `${String(dayjs().year() - 1).slice(-2)}`
-                    : `${String(dayjs().year()).slice(-2)}`
-            return `MGL${financialYear}A-${parseInt(billNo.lastBillNo.split('-')[1]) + 1}`
-        })
-    }
     const getTripDetails = () => {
         if (filterData?.cementCompanyName === '') return
         getTripDetailsByFilterData(filterData).then(setTripDetails)
@@ -82,7 +80,7 @@ const InvoiceList: React.FC = () => {
     const updateInvoice = async () => {
         const data = {
             trip: tripId,
-            billNo: lastBillNumber
+            billNo: invoiceValues.billNo
         }
         await updateInvoiceDetails(data).then(getTripDetails)
     }
@@ -113,23 +111,30 @@ const InvoiceList: React.FC = () => {
                         Generate Invoice
                     </Button>
                 </div>
-                <ListAllTripForInvoice
-                    tripDetails={tripDetails}
-                    setTripId={setTripId}
-                    tripId={tripId}
-                    setTripDetails={setTripDetails}
+            </form>
+            <ListAllTripForInvoice
+                tripDetails={tripDetails}
+                setTripId={setTripId}
+                tripId={tripId}
+                setTripDetails={setTripDetails}
+            />
+            <br />
+            <billNoContext.Provider value={{ setInvoiceValues, invoiceValues }}>
+                <InvoiceFieldDialog
+                    activateFields={activateFields}
+                    setActivateFields={setActivateFields}
+                    setActivateInvoice={setActivateInvoice}
                 />
-                <br />
-                {activate && (
+                {activateInvoice && tripDetails.length !== 0 && (
                     <InvoiceDialog
                         tripId={tripId}
+                        setTripId={setTripId}
                         company={filterData?.cementCompanyName}
-                        setActivate={setActivate}
+                        setActivate={setActivateInvoice}
                         updateInvoice={updateInvoice}
-                        lastBillNumber={lastBillNumber}
                     />
                 )}
-            </form>
+            </billNoContext.Provider>
         </invoiceFilterData.Provider>
     )
 }

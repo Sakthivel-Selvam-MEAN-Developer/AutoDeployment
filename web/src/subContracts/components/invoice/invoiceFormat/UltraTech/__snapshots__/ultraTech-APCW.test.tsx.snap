@@ -29,10 +29,10 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
         class="details"
       >
         <p>
-          PAN : ASNAIIBSB
+          PAN : ABBFM2821M
         </p>
         <p>
-          GSTN : ASKJAHSKJHSJKS
+          GSTN : 33ABBFM2821M2ZD
         </p>
         <p>
           STATE : TAMILNADU
@@ -115,7 +115,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
             Vendor Name:- MAGNUM LOGISTICS
           </h4>
           <h2>
-            Bill No:- MGL23A-1
+            Bill No:- asd
           </h2>
         </div>
         <div
@@ -125,7 +125,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
             FLAG:- Y 
           </h4>
           <h4>
-             Bill Date:- 31-05-2021
+             Bill Date:- 10/01/2024
           </h4>
         </div>
       </div>
@@ -199,7 +199,7 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
             </td>
             <td>
               <b>
-                0
+                0.00
               </b>
             </td>
             <td />
@@ -292,14 +292,14 @@ exports[`UltraTech_APCW invoice component > renders correctly 1`] = `
           MAGNUM LOGISTICS
         </h4>
       </div>
-      <img
-        alt="signature"
-        src="/src/subContracts/components/invoice/invoiceFormat/signature.png"
+      <div
+        style="padding: 50px;"
       />
       <h5>
         Authorized Signatory
       </h5>
     </div>
   </main>
+   
 </DocumentFragment>
 `;

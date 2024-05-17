@@ -79,7 +79,6 @@ const TableRowContainer: FC<TableRowContainerProps> = ({ index, row, tripId, set
         <>
             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell sx={{ textAlign: 'left' }}>
-                    {' '}
                     <Checkbox
                         onClick={() => {
                             const obj = {

@@ -217,15 +217,16 @@ export interface stockToUnloadingProps {
 
 export interface AnnexureProps {
     tripDetails: InvoiceProp
-    lastBillNumber: string
-    total: {
-        totalAmount: number
-        totalFilledLoad: number
-        numberOfTrips: number
-        fromDate: number
-        endDate: number
-        shortageQuantity: number
-    }
+    billNo: string
+    total: totalProps
+}
+export interface totalProps {
+    totalAmount: number
+    totalFilledLoad: number
+    numberOfTrips: number
+    fromDate: number
+    endDate: number
+    shortageQuantity: number
 }
 export interface InvoiceProp {
     loadingPointToUnloadingPointTrip: LoadingToUnloadingPointProps[]
@@ -234,6 +235,7 @@ export interface InvoiceProp {
 }
 export interface rowProps {
     startDate: number
+    partyName?: string
     unloadingPoint: {
         name: string
     }
@@ -261,6 +263,8 @@ export interface rowProps {
 }
 export interface LoadingToUnloadingPointProps {
     startDate: number
+    partyName: string
+    lrNumber: string
     unloadingPoint: {
         name: string
     }
@@ -287,6 +291,8 @@ export interface LoadingToUnloadingPointProps {
     invoiceNumber: string
 }
 export interface LoadingToStockPointProps {
+    lrNumber: string
+    partyName: string
     startDate: number
     stockPoint: {
         name: string
@@ -315,6 +321,8 @@ export interface LoadingToStockPointProps {
 }
 export interface StockToUnloadingPointProps {
     startDate: number
+    partyName: string
+    lrNumber: string
     unloadingPoint: {
         name: string
     }

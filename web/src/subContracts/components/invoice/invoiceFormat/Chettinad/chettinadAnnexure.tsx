@@ -1,9 +1,10 @@
-import { FC } from 'react'
-import dayjs from 'dayjs'
+import { FC, useContext } from 'react'
 import { AnnexureProps, StockToUnloadingPointProps, rowProps } from '../../interface'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
+import { billNoContext } from '../../invoiceContext'
 
-const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, total }) => {
+const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) => {
+    const { invoiceValues } = useContext(billNoContext)
     return (
         <section style={{ padding: '20px' }} id="chettinad_annexure_main">
             <main className="chettinad_annexure_main">
@@ -29,14 +30,14 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, lastBillNumber, tot
                                 <div>BILL NO</div>
                                 <div>:</div>
                             </div>
-                            <div>{lastBillNumber}</div>
+                            <div>{invoiceValues.billNo}</div>
                         </div>
                         <div className="list">
                             <div>
                                 <div>DATE</div>
                                 <div>:</div>
                             </div>
-                            <div>{dayjs().format('DD-MM-YYYY')}</div>
+                            <div>{epochToMinimalDate(invoiceValues.date)}</div>
                         </div>
                         <div className="list">
                             <div>
@@ -139,7 +140,7 @@ const tableRow = (row: rowProps, index: number) => {
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
-            <td></td>
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
             <td>{row.truck.vehicleNumber}</td>
             <td>{row.filledLoad}</td>
@@ -155,6 +156,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
             <td>{row.loadingPointToStockPointTrip.filledLoad}</td>
