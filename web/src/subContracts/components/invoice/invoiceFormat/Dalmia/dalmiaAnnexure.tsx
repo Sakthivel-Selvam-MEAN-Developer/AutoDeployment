@@ -159,7 +159,7 @@ const tableRow = (row: rowProps, index: number) => {
             <td className="tc">{index + 1}</td>
             <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
             <td></td>
-            <td></td>
+            <td>{row.lrNumber}</td>
             <td className="tc">
                 {row.loadingPoint.name} -
                 {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}

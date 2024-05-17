@@ -235,7 +235,8 @@ export interface InvoiceProp {
 }
 export interface rowProps {
     startDate: number
-    partyName?: string
+    partyName: string
+    lrNumber: string
     unloadingPoint: {
         name: string
     }

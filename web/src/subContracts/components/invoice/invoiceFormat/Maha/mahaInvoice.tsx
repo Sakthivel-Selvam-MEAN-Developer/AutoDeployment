@@ -535,7 +535,7 @@ const tableRow = (total: totalProps) => {
                 1
             </td>
             <td className="br bb" style={{ textAlign: 'center' }}>
-                MEGHA ENGINEERING AND INFRASTRUCTURES
+                As Per Annexure
             </td>
             <td className="br bb" style={{ textAlign: 'center' }}>
                 As Per Annexure
