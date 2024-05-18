@@ -1,26 +1,209 @@
-- date: 10-06-2024
+- date: 18-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should make auto populated billNo to manual
+- date: 18-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should update driver attendance
+- date: 18-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should add unloading km in unload page
+
+- date: 17-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should make auto populated billNo to manual
+    - should create a dialog before invoice dialog asking billNo and Bill Date
+    - should change all billoNo and invoice date from auto to manual.    
+    - should deploy
+  completed:
+    - made auto populated billNo to manual
+    - created a dialog before invoice dialog asking billNo and Bill Date
+    - changed all billoNo and invoice date from auto to manual.
+    - deployed
+- date: 17-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add loading km in trip creation
+    - should add unloading km in unload page
+  completed:
+    - add loading km in trip creation
+- date: 17-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should create screen for driver daily attendance
+    - should create model and controller
+  completed:
+    - created screen for driver daily attendance
+    - created model and controller
+
+- date: 16-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should change maha format and its annexure from html to react
+    - should fix the alignment issues in maha format and its annexure
+  completed:
+    - changed maha format and its annexure from html to react
+    - fixed the alignment issues in maha format and its annexure
+- date: 16-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should create model and controller for driver advance with test
+  completed:
+    - created model and controller for driver advance with test
+- date: 16-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should add disel Km in fuel page
+  completed:
+    - added disel Km in fuel page
+
+- date: 15-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add party name and lr number in all previous formats
+    - should integrate maha format
+  completed:
+    - added party name and lr number in all previous formats
+    - integrated maha format with annexure
+- date: 15-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should create model and controller for driver advance with test
+- date: 15-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should add gst field in trip status
+  completed:
+    - added gst field in trip status
+
+- date: 14-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should align the magnum signature for all the formats
+    - should change ultraTech gst number and pan number.
+  completed:
+    - aligned the magnum signature for all the formats
+    - changed ultraTech gst number and pan number.
+- date: 14-05-2024
+  person: Sakthivel
+  project: driverSalary
+  leave: true
+- date: 14-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should add dataGrid to filter in acknowledgement
+    - should minus 30 percent in margin
+  completed:
+    - reduced 30 perccent in margin
+
+- date: 13-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add lr number,party name fields in loadingToUnloading,stockToUnloading trips
+    - should delete digital signature for all formates
+  completed:
+    - added lr number party name fields in loadingToUnloading,stockToUnloading trips
+    - deleted digital signature for all formates
+- date: 13-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should fix migration issues
+  completed:
+    - fixed migration issues
+- date: 13-05-2024
+  person: Ramya,
+  project: subContract
+  leave: true
+
+- date: 11-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should fix failed instance
+    - should swap dalmia kadappa format and dalima dalmiapuram format.
+  completed:
+    - fixed failed instance
+    - swaped dalmia kadappa format and dalima dalmiapuram format.
+- date: 11-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add driver advance fields in expenses with test
+  completed:
+    - added driver advance fields in expenses with test
+- date: 11-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should add dataGrid to filter in acknowledgement
+
+- date: 10-05-2024
   person: Barath
   project: subContract
   planning:
     - should write test for transporterinvoice for ui
     - should test transporterinvoice and deploy
-- date: 10-04-2024
+  completed:
+    - written test for transporterinvoice for ui
+    - tested transporterinvoice and deployed
+- date: 10-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should discuss with client for driver attendance  
-- date: 10-04-2024
-  person: Ramya
+  completed:
+    - discussed with client for driver attendance  
+- date: 10-05-2024
+  person: Ramya,Sri Sneka
   project: subContract
   planning:
     - should fix error in test
-- date: 10-04-2024
-  person: Sri Sneka
+  completed:
+    - fixed error in test
+- date: 10-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should write test for transporterinvoice for ui
+    - should test transporterinvoice and deploy
+  completed:
+    - written test for transporterinvoice for ui
+    - tested transporterinvoice and deployed
+- date: 10-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should discuss with client for driver attendance  
+  completed:
+    - discussed with client for driver attendance  
+- date: 10-05-2024
+  person: Ramya,Sri Sneka
   project: subContract
   planning:
     - should fix error in test
+  completed:
+    - fixed error in test
 
-- date: 09-06-2024
+- date: 09-05-2024
   person: Barath
   project: subContract
   planning:
@@ -31,7 +214,7 @@
     - removed trip from ui for which invoice is added
     - displayed popup saying transporter invoice not submitted in acknowledegement page 
     - written test for transporterinvoice for backend
-- date: 09-04-2024
+- date: 09-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
@@ -40,20 +223,20 @@
   completed:
     - approved expenses for trip created by driver
     - solved driver trip issues in trip page
-- date: 09-04-2024
+- date: 09-05-2024
   person: Ramya
   project: subContract
   planning:
     - should create and display acknowledgementDate
   completed:
     - created and displayed acknowledgementDate
-- date: 09-04-2024
+- date: 09-05-2024
   person: Sri Sneka
   project: subContract
   planning:
     - should not be display discrepancy araised because of shortage
 
-- date: 08-06-2024
+- date: 08-05-2024
   person: Barath
   project: subContract
   planning:
@@ -61,27 +244,27 @@
     - should handle query request from user
   completed:
     - made add acknowledgement doest not create final pay without transporter invoice.
-- date: 08-04-2024
+- date: 08-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should create expenses approval
   completed:
     - created expenses approval
-- date: 08-04-2024
+- date: 08-05-2024
   person: Ramya
   project: subContract
   planning:
     - should display unloading Date and payment dueDate
   completed:
     - displayed unloading Date and payment dueDate
-- date: 08-04-2024
+- date: 08-05-2024
   person: Sri Sneka
   project: subContract
   planning:
     - should not be display discrepancy araised because of shortage 
 
-- date: 07-06-2024
+- date: 07-05-2024
   person: Barath
   project: subContract
   planning:
@@ -90,20 +273,20 @@
   completed:
     - deleted duplicate final pay
     - generated final pay after transporter invoice
-- date: 07-04-2024
+- date: 07-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should display trip salary in driver trip list
   completed:
     - displayed trip salary in driver trip list
-- date: 07-04-2024
+- date: 07-05-2024
   person: Sri Sneka,Ramya
   project: subContract
   planning:
     - should make pagination display by record count
 
-- date: 06-06-2024
+- date: 06-05-2024
   person: Barath
   project: subContract
   planning:
@@ -114,14 +297,14 @@
     - discussed with client for transpoter invoice
     - created page for transporter invoice
     - added transporter invoice in overall trip
-- date: 06-04-2024
+- date: 06-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should make api call to get trip salary details before create trip and driverTrip
   completed:
     - made api call to get trip salary details before create trip and driverTrip
-- date: 06-04-2024
+- date: 06-05-2024
   person: Sri Sneka,Ramya
   project: subContract
   planning:
@@ -129,7 +312,7 @@
   completed:
     - created Maha Cements Invoice Format
 
-- date: 04-04-2024
+- date: 04-05-2024
   person: Barath
   project: subContract
   planning:
@@ -140,7 +323,7 @@
     - changed table to grid filter in upcoming payment dues
     - discussed with client for due issues
     - removed payment generation days in price point
-- date: 04-04-2024
+- date: 04-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
@@ -148,31 +331,31 @@
   completed:
     - wrote test for modal and controller and frontend for trip Salary
     - cleared header repeat error in Trip Status report
-- date: 04-04-2024
+- date: 04-05-2024
   person: Sri Sneka,Ramya
   project: subContract
   planning:
     - should create Maha Cements Invoice Format
 
-- date: 03-04-2024
+- date: 03-05-2024
   person: Barath
   project: subContract
   planning:
     - should write test to ui and backend for invoice
     - should test invoice and deploy
-- date: 03-04-2024
+- date: 03-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should create model for tripBetta
-- date: 03-04-2024
+- date: 03-05-2024
   person: Sri Sneka,Ramya
   project: subContract
   planning:
     - should research how pagination is written
     - should display pagination number limited to data
 
-- date: 02-04-2024
+- date: 02-05-2024
   person: Barath
   project: subContract
   planning:
@@ -181,14 +364,14 @@
   completed:
     - added checkbox to generate invoice for company
     - allowed loaded stock trips to create invoice
-- date: 02-04-2024
+- date: 02-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should create screen for trip betta
   completed:
     - created screen for trip betta
-- date: 02-04-2024
+- date: 02-05-2024
   person: Sri Sneka,Ramya
   project: subContract
   planning:
