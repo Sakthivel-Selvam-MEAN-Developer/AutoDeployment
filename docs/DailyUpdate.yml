@@ -13,6 +13,12 @@
   project: subContract
   planning:
     - should add unloading km in unload page
+- date: 18-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should display cementCompany Name, billNo in the trip status
+    - should display recent trip first in the trip status
 
 - date: 17-05-2024
   person: Barath
@@ -44,6 +50,11 @@
   completed:
     - created screen for driver daily attendance
     - created model and controller
+- date: 17-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should add vehicleNumber field in trip status for filter
 
 - date: 16-05-2024
   person: Barath
@@ -68,6 +79,11 @@
     - should add disel Km in fuel page
   completed:
     - added disel Km in fuel page
+- date: 16-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should add vehicleNumber field in trip status for filter
 
 - date: 15-05-2024
   person: Barath
@@ -90,6 +106,13 @@
     - should add gst field in trip status
   completed:
     - added gst field in trip status
+- date: 15-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should add invoice field in trip status 
+  completed:
+    - added invoice field in trip status
 
 - date: 14-05-2024
   person: Barath
@@ -112,6 +135,13 @@
     - should minus 30 percent in margin
   completed:
     - reduced 30 perccent in margin
+- date: 14-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should not be display discrepancy araised because of shortage and check with model data
+  completed:
+    -  displayed discrepancy araised not because of shortage and checked with model data
 
 - date: 13-05-2024
   person: Barath
@@ -133,7 +163,12 @@
   person: Ramya,
   project: subContract
   leave: true
-
+- date: 13-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should fix error in the test 
+    
 - date: 11-05-2024
   person: Barath
   project: subContract
@@ -155,6 +190,9 @@
   project: subContract
   planning:
     - should add dataGrid to filter in acknowledgement
+- date: 11-05-2024
+  person: Sri Sneka
+  leave: true
 
 - date: 10-05-2024
   person: Barath
