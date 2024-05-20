@@ -146,8 +146,9 @@ const MahaAnnexure: FC<MahaAnnexure> = ({ tripDetails, total }) => {
                                 <td style={{ textAlign: 'right' }}>
                                     <b>
                                         {(
-                                            (total.totalAmount * 12) / 100 +
-                                            total.totalAmount -
+                                            Math.round(
+                                                (total.totalAmount * 12) / 100 + total.totalAmount
+                                            ) -
                                             ((total.totalAmount * 12) / 100 + total.totalAmount)
                                         ).toFixed(2)}
                                     </b>
@@ -159,9 +160,8 @@ const MahaAnnexure: FC<MahaAnnexure> = ({ tripDetails, total }) => {
                                 </td>
                                 <td style={{ textAlign: 'right' }}>
                                     <b>
-                                        {(
-                                            (total.totalAmount * 12) / 100 +
-                                            total.totalAmount
+                                        {Math.round(
+                                            (total.totalAmount * 12) / 100 + total.totalAmount
                                         ).toFixed(2)}
                                     </b>
                                 </td>

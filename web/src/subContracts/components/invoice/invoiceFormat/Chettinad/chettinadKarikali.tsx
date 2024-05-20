@@ -186,13 +186,15 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =
                                             <h3 className="ta bb" style={{ width: '200px' }}>
                                                 Taxable Value
                                             </h3>
-                                            <p className="te pt pr">{total.totalAmount}</p>
+                                            <p className="te pt pr">
+                                                {total.totalAmount.toFixed(2)}
+                                            </p>
                                         </div>
                                         <h3
                                             style={{ height: '29px', width: '200px' }}
                                             className="te p-2 bt"
                                         >
-                                            {total.totalAmount}
+                                            {total.totalAmount.toFixed(2)}
                                         </h3>
                                     </div>
                                 </div>
@@ -204,14 +206,14 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =
                                         <p className="p-2">Add : CGST</p>
                                         <p className="p-2">6%</p>
                                         <p style={{ width: '202px' }} className="te p-2 bl">
-                                            {total.totalAmount * (6 / 100)}
+                                            {(total.totalAmount * (6 / 100)).toFixed(2)}
                                         </p>
                                     </div>
                                     <div className="df jsp bb">
                                         <p className="p-2">Add : SGST</p>
                                         <p className="p-2">6%</p>
                                         <p style={{ width: '202px' }} className="te p-2 bl">
-                                            {total.totalAmount * (6 / 100)}
+                                            {(total.totalAmount * (6 / 100)).toFixed(2)}
                                         </p>
                                     </div>
                                     <div className="df jsp bb">
@@ -222,7 +224,7 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =
                                     <div className="df jsp bb">
                                         <p className="p-2">Total Tax Amount : GST</p>
                                         <p style={{ width: '202px' }} className="te p-2 bl">
-                                            {total.totalAmount * (6 / 100) * 2}
+                                            {(total.totalAmount * (6 / 100) * 2).toFixed(2)}
                                         </p>
                                     </div>
                                     <div className="df jsp bb">

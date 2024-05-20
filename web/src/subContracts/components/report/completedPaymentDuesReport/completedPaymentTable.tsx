@@ -90,7 +90,7 @@ const GetCells: FC<getCellsProps> = ({ row, index }) => {
             <TableCell align="left">
                 {row.overallTrip !== null && row.overallTrip.stockPointToUnloadingPointTrip !== null
                     ? row.overallTrip.stockPointToUnloadingPointTrip.unloadingPoint.name
-                    : row.overallTrip !== null
+                    : trip?.unloadingPoint !== undefined
                       ? trip?.unloadingPoint.name
                       : 'Null'}
             </TableCell>

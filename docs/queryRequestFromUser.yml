@@ -1,4 +1,4 @@
-  date: 11-04-2024
+date: 11-04-2024
   person: Suresh
   description:
     - Update TruckId from LoadingToStockTrip to StockToUnloadingTrip
@@ -126,3 +126,20 @@
     - updated from titanium to kurinji transport for vehicle:TN36BT4713
   query:
     -  update "subContract"."truck" set "transporterId"=204  where id=720;
+
+  date: 18-05-2024
+  person: Santhosh
+  description:
+    - updated paymentDues name from navaladi to SNT Transport(navaladi)
+  query:
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=962;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=963;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1234;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1181;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1235;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1124;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1123;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1121;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1120;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1458;
+    - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1456;

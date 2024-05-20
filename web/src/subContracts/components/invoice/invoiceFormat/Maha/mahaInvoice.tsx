@@ -391,8 +391,10 @@ const MahaInvoice: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
                                         >
                                             <h5>
                                                 {(
-                                                    (total.totalAmount * 12) / 100 +
-                                                    total.totalAmount -
+                                                    Math.round(
+                                                        (total.totalAmount * 12) / 100 +
+                                                            total.totalAmount
+                                                    ) -
                                                     ((total.totalAmount * 12) / 100 +
                                                         total.totalAmount)
                                                 ).toFixed(2)}
@@ -420,9 +422,8 @@ const MahaInvoice: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
                                             className="bt bb"
                                         >
                                             <h4>
-                                                {(
-                                                    total.totalAmount * 0.12 +
-                                                    total.totalAmount
+                                                {Math.round(
+                                                    total.totalAmount * 0.12 + total.totalAmount
                                                 ).toFixed(2)}
                                             </h4>
                                         </td>
