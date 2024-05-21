@@ -1,43 +1,42 @@
-| Packages              | Priority     | Barath    | Muthu | Sakthivel |
-|-----------------------|--------------|-----------|-------|-----------|
-| postgres              |              |           |       |           |
-| lint                  |              |           |       |           |
-| husky                 | good to know | dont know | no    |           |
-| jest                  | Must         | know      | no    |           |
-| ts-jest               | Must         | dont know | no    |           |
-| ts-node               | Must         | dont know | no    |           |
-| prisma                | Must         | dont know | no    |           |
-| typescript            | Must         | dont know | no    |           |
-| vite                  | Must         | dont know | no    |           |
-| vitest                | Must         | dont know | no    |           |
-| @emotion/react        | Must         | dont know | no    |           |
-| @emotion/styled       | Must         | dont know | no    |           |
-| @mui/icons-material   | good to know | know      | no    |           |
-| @mui/material         | good to know | know      | no    |           |
-| @mui/x-date-pickers   | Must         | dont know | no    |           |
-| react                 | Must         | expert    | no    |           |
-| react-dom             | Must         | expert    | no    |           |
-| react-hook-form       | Must         | dont know | no    |           |
-| react-router-dom      | Must         | expert    | no    |           |
-| recharts              | Must         | dont know | no    |           |
-| @jest/globals         | Must         | know      | no    |           |
-| @prisma/client        | Must         | dont know | no    |           |
-| axios                 | Must         | expert    | no    |           |
-| compression           | Must         | dont know | no    |           |
-| cors                  | Must         | expert    | no    |           |
-| dayjs                 | Must         | dont know | no    |           |
-| dotenv-cli            | Must         | dont know | no    |           |
-| express               | Must         | expert    | no    |           |
-| helmet                | Must         | dont know | no    |           |
-| morgan                | Must         | dont know | no    |           |
-| nock                  | Must         | dont know | no    |           |
-| helmet                | Must         | dont know | no    |           |
-| winston               | Must         | dont know | no    |           |
-| git actions           |              |           |       |           |
-| git                   |              |           |       |           |
-| linux commands        |              |           |       |           |
-| docker                |              |           |       |           |
-| docker compose        |              |           |       |           |
-| aws                   |              |           |       |           |
-| dns                   |              |           |       |           |
-| react testing library |              |           |       |           |
+| Packages              | Priority     | Barath    | Ramya       | Sakthivel |
+|-----------------------|--------------|-----------|-------------|-----------|
+| postgres              | must         | know      | know        |  know     |
+| lint                  | must         | expert    | dont know   |  expert   |
+| prettier              | good to know | expert    | dont know   |  expert   |
+| husky                 | good to know | know      | dont know   |  know     |
+| jest                  | Must         | know      | dont know   |  know     |
+| prisma                | Must         | know      | know        |  know     |
+| typescript            | Must         | know      | know        |  know     |
+| vitest                | Must         | know      | know        |  know     |
+| @mui/material         | good to know | expert    | know        |  expert   |
+| react                 | Must         | know      | know        |  know     |
+| react-dom             | Must         | know      | know        |  know     |
+| react-hook-form       | good to know | know      | know        |  know     |
+| react-router-dom      | Must         | know      | know        |  know     |
+| recharts              | good to know | know      | dont know   |  dont know|
+| @jest/globals         | Must         | know      | dont know   |  know     |
+| node                  | Must         | know      | know        |  know     |
+| axios                 | Must         | expert    | know        |  expert   |
+| cors                  | Must         | expert    | dont know   |  know     |
+| dayjs                 | Must         | expert    | know        |  expert   |
+| dotenv-cli            | Must         | expert    | dont know   |  expert   |
+| express               | Must         | expert    | know        |  know     |
+| helmet                | Must         | know      | dont know   |  know     |
+| morgan                | Must         | dont know | dont know   |  dont know|
+| winston               | Must         | know      | dont know   |  know     |
+| git actions           | Must         | know      | know        |  know     |
+| git                   | Must         | know      | know        |  know     |
+| linux commands        | Must         | know      | dont know   |  know     |
+| docker                | Must         | know      | know        |  know     |
+| docker compose        | Must         | know      | dont know   |  know     |
+| aws                   | Must         | know      | dont know   |  know     |
+| dns                   | good to know | know      | dont know   |  know     |
+| react testing library | Must         | know      | dont know   |  know     |
+| terraForm             | Must         | know      | dont know   |  know     |
+| certbot               | Must         | dont know | dont know   |  dont know|
+| keycloak              | Must         | know      | dont know   |  know     |
+| nginx                 | Must         | know      | dont know   |  know     |
+| react-oidc-context    | Must         | know      | dont know   |  know     |
+| supertest             | Must         | know      | dont know   |  know     |
+| jsonwebtoken          | good to know | know      | dont know   |  know     |
+| pm2                   | good to know | know      | dont know   |  know     |
