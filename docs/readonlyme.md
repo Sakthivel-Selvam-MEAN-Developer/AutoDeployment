@@ -1,7 +1,7 @@
 | Packages              | Priority     | Barath    | Ramya       | Sakthivel | Ravishankar | Sri Sneka  |
 |-----------------------|--------------|-----------|-------------|-----------|-------------|------------|
 | postgres              | must         | know      | know        |  know     |  know       | know       |     
-| lint                  | must         | expert    | dont know   |  expert   |  don't know | know       |
+| lint                  | must         | expert    | know        |  expert   |  don't know | know       |
 | prettier              | good to know | expert    | dont know   |  expert   |  don't know | know       |
 | husky                 | good to know | know      | dont know   |  know     |  don't know | don't know | 
 | jest                  | Must         | know      | dont know   |  know     |  know       | know       |
