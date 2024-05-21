@@ -4,8 +4,13 @@ import { useEffect, useState } from 'react'
 import ListAllTripForInvoice from './show'
 import { Button } from '@mui/material'
 import { getTripDetailsByFilterData, updateInvoiceDetails } from '../../services/invoice'
-import { billNoContext, filterDataProps, invoiceFilterData } from './invoiceContext'
-import { Nullable } from '../../../types'
+import {
+    billNoContext,
+    filterDataProps,
+    invoiceFilterData,
+    partyNamesContext,
+    partyNamesProps
+} from './invoiceContext'
 import { InvoiceFieldDialog } from './fieldDialog'
 import InvoiceDialog from './invoiceDialog'
 export interface dateProps {
@@ -62,7 +67,8 @@ const InvoiceList: React.FC = () => {
     const [activateInvoice, setActivateInvoice] = useState<boolean>(false)
     const [activateFields, setActivateFields] = useState<boolean>(false)
     const [invoiceValues, setInvoiceValues] = useState<invoiceValuesProps>({} as invoiceValuesProps)
-    const [filterData, setFilterData] = useState<Nullable<filterDataProps>>(defaultFilterData)
+    const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
+    const [partyNames, setPartyNames] = useState<partyNamesProps[]>([])
     useEffect(() => {
         setTripDetails([])
         setTripId([])
@@ -112,29 +118,30 @@ const InvoiceList: React.FC = () => {
                     </Button>
                 </div>
             </form>
-            <ListAllTripForInvoice
-                tripDetails={tripDetails}
-                setTripId={setTripId}
-                tripId={tripId}
-                setTripDetails={setTripDetails}
-            />
-            <br />
-            <billNoContext.Provider value={{ setInvoiceValues, invoiceValues }}>
-                <InvoiceFieldDialog
-                    activateFields={activateFields}
-                    setActivateFields={setActivateFields}
-                    setActivateInvoice={setActivateInvoice}
+            <partyNamesContext.Provider value={{ partyNames, setPartyNames }}>
+                <ListAllTripForInvoice
+                    tripDetails={tripDetails}
+                    setTripId={setTripId}
+                    setTripDetails={setTripDetails}
                 />
-                {activateInvoice && tripDetails.length !== 0 && (
-                    <InvoiceDialog
-                        tripId={tripId}
-                        setTripId={setTripId}
-                        company={filterData?.cementCompanyName}
-                        setActivate={setActivateInvoice}
-                        updateInvoice={updateInvoice}
+                <br />
+                <billNoContext.Provider value={{ setInvoiceValues, invoiceValues }}>
+                    <InvoiceFieldDialog
+                        activateFields={activateFields}
+                        setActivateFields={setActivateFields}
+                        setActivateInvoice={setActivateInvoice}
                     />
-                )}
-            </billNoContext.Provider>
+                    {activateInvoice && tripDetails.length !== 0 && (
+                        <InvoiceDialog
+                            tripId={tripId}
+                            setTripId={setTripId}
+                            company={filterData?.cementCompanyName}
+                            setActivate={setActivateInvoice}
+                            updateInvoice={updateInvoice}
+                        />
+                    )}
+                </billNoContext.Provider>
+            </partyNamesContext.Provider>
         </invoiceFilterData.Provider>
     )
 }

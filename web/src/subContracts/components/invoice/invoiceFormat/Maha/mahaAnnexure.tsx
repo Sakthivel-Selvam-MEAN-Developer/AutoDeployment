@@ -2,14 +2,14 @@ import { FC, useContext } from 'react'
 import { InvoiceProp, rowProps, StockToUnloadingPointProps, totalProps } from '../../interface'
 import './style.css'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
-import { billNoContext } from '../../invoiceContext'
+import { billNoContext, partyNamesContext, partyNamesProps } from '../../invoiceContext'
 interface MahaAnnexure {
     tripDetails: InvoiceProp
     total: totalProps
 }
-
 const MahaAnnexure: FC<MahaAnnexure> = ({ tripDetails, total }) => {
     const { invoiceValues } = useContext(billNoContext)
+    const { partyNames } = useContext(partyNamesContext)
     return (
         <section style={{ padding: '20px' }} id="Maha_annexure_section">
             <main className="Maha_annexure_main">
@@ -101,19 +101,23 @@ const MahaAnnexure: FC<MahaAnnexure> = ({ tripDetails, total }) => {
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToUnloadingPointTrip.map(
                                     (loadingToUnloading, index) => {
-                                        return tableRow(loadingToUnloading, index)
+                                        return tableRow(loadingToUnloading, index, partyNames)
                                     }
                                 )}
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToStockPointTrip.map(
                                     (loadingToStock, index) => {
-                                        return tableRow(loadingToStock, index)
+                                        return tableRow(loadingToStock, index, partyNames)
                                     }
                                 )}
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.stockPointToUnloadingPointTrip.map(
                                     (stockToUnloading, index) => {
-                                        return tableRowForStockToUnloading(stockToUnloading, index)
+                                        return tableRowForStockToUnloading(
+                                            stockToUnloading,
+                                            index,
+                                            partyNames
+                                        )
                                     }
                                 )}
                             <tr>
@@ -188,14 +192,16 @@ const MahaAnnexure: FC<MahaAnnexure> = ({ tripDetails, total }) => {
 }
 
 export default MahaAnnexure
-const tableRow = (row: rowProps, index: number) => {
+
+const tableRow = (row: rowProps, index: number, partyNames: partyNamesProps[]) => {
+    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td style={{ textAlign: 'center' }}>{index + 1}</td>
             <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
             <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
             <td style={{ textAlign: 'center' }}>{row.truck.vehicleNumber}</td>
-            <td style={{ textAlign: 'center' }}>{row.partyName}</td>
+            <td style={{ textAlign: 'center' }}>{name[0].partyName}</td>
             <td style={{ textAlign: 'center' }}>
                 {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}
             </td>
@@ -215,8 +221,13 @@ const tableRow = (row: rowProps, index: number) => {
         </tr>
     )
 }
-
-const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
+type StockToUnloadingProps = (
+    row: StockToUnloadingPointProps,
+    index: number,
+    partyNames: partyNamesProps[]
+) => JSX.Element
+const tableRowForStockToUnloading: StockToUnloadingProps = (row, index, partyNames) => {
+    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td style={{ textAlign: 'center' }}>{index + 1}</td>
@@ -225,7 +236,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
             <td style={{ textAlign: 'center' }}>
                 {row.loadingPointToStockPointTrip.truck.vehicleNumber}
             </td>
-            <td style={{ textAlign: 'center' }}>{row.partyName}</td>
+            <td style={{ textAlign: 'center' }}>{name[0].partyName}</td>
             <td style={{ textAlign: 'center' }}>{row.unloadingPoint.name}</td>
             <td style={{ textAlign: 'right' }}>
                 {row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}

@@ -72,7 +72,7 @@ describe('Trip Test', () => {
         await userEvent.click(start)
         expect(screen.getByText('RTD43D')).toBeInTheDocument()
         expect(screen.getByText('Erode')).toBeInTheDocument()
-        expect(screen.getByText('Total Freight Amount')).toBeInTheDocument()
+        expect(screen.getAllByText('Total Freight Amount'))
         expect(screen.getByText('40000')).toBeInTheDocument()
         expect(screen.getByText('Direct Trip')).toBeInTheDocument()
         expect(screen.getByText('LoadingToStock Trip')).toBeInTheDocument()

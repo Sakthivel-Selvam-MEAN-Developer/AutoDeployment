@@ -2,7 +2,7 @@ import { vi } from 'vitest'
 import { render } from '@testing-library/react'
 import MockDate from 'mockdate'
 import MahaInvoice from './mahaInvoice'
-import { billNoContext } from '../../invoiceContext'
+import { billNoContext, partyNamesContext } from '../../invoiceContext'
 
 vi.mock('to-words', () => ({
     ToWords: vi.fn().mockImplementation(() => ({
@@ -25,17 +25,24 @@ describe('Chettinad invoice component', () => {
             loading: false
         })
         const { asFragment } = render(
-            <billNoContext.Provider
+            <partyNamesContext.Provider
                 value={{
-                    invoiceValues: {
-                        billNo: 'asd',
-                        date: 1704886154
-                    },
-                    setInvoiceValues: () => {}
+                    partyNames: [{ invoiceNumber: 'sdfgh', partyName: 'sdfgh' }],
+                    setPartyNames: () => []
                 }}
             >
-                <MahaInvoice {...getProps()} />
-            </billNoContext.Provider>
+                <billNoContext.Provider
+                    value={{
+                        invoiceValues: {
+                            billNo: 'asd',
+                            date: 1704886154
+                        },
+                        setInvoiceValues: () => {}
+                    }}
+                >
+                    <MahaInvoice {...getProps()} />
+                </billNoContext.Provider>
+            </partyNamesContext.Provider>
         )
         expect(asFragment()).toMatchSnapshot()
         MockDate.reset()

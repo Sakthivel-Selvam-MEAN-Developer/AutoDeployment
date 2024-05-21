@@ -6,10 +6,10 @@ import { InvoiceProp } from '../../interface'
 import { financialYear } from '../financialYear'
 import { Box, CircularProgress } from '@mui/material'
 import calculateTotals from '../calculateTotal'
-import ChettinadAnnexure from './chettinadAnnexure'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../numberToWords'
 import { billNoContext } from '../../invoiceContext'
+import ChettinadAriyalurAnnexure from './chettinadAriyalurAnnexure'
 
 const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [total, setTotal] = useState({
@@ -371,7 +371,7 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =>
                         </main>
                     </section>
                     <hr style={{ margin: '0 20px' }} />
-                    <ChettinadAnnexure
+                    <ChettinadAriyalurAnnexure
                         tripDetails={trip}
                         total={total}
                         billNo={invoiceValues.billNo}

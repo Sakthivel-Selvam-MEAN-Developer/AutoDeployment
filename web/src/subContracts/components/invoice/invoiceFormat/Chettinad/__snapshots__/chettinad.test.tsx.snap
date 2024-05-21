@@ -653,7 +653,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
     style="margin: 0px 20px;"
   />
   <section
-    id="chettinad_annexure_main"
+    id="chettinad_ariyalur_annexure_main"
     style="padding: 20px;"
   >
     <main
@@ -692,13 +692,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
             Chettinad Cement Corpn Ltd.,
           </p>
           <p>
-            Rani Meyyammai Nagar,Karikkali,
-          </p>
-          <p>
-            Vedasandur.TK, Dindigul.DT-62470
-          </p>
-          <p>
-            Karikkali.
+            Keelapaluvur,Ariyalur Dist-621707
           </p>
         </div>
         <div
@@ -797,7 +791,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
                 INVOICE NO
               </th>
               <th>
-                PARTY NAME
+                SHIP TO PARTY
               </th>
               <th>
                 DESTINATION
@@ -807,6 +801,9 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               </th>
               <th>
                 Inv Qty
+              </th>
+              <th>
+                W.NO
               </th>
               <th>
                 RATE/TON

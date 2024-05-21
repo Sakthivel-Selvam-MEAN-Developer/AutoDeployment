@@ -1,13 +1,12 @@
 import { FC, useContext } from 'react'
 import { AnnexureProps, StockToUnloadingPointProps, rowProps } from '../../interface'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
-import { billNoContext, partyNamesContext, partyNamesProps } from '../../invoiceContext'
+import { billNoContext } from '../../invoiceContext'
 
-const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) => {
+const ChettinadAriyalurAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) => {
     const { invoiceValues } = useContext(billNoContext)
-    const { partyNames } = useContext(partyNamesContext)
     return (
-        <section style={{ padding: '20px' }} id="chettinad_annexure_main">
+        <section style={{ padding: '20px' }} id="chettinad_ariyalur_annexure_main">
             <main className="chettinad_annexure_main">
                 <div className="header">
                     <div className="magnum-address">
@@ -21,9 +20,7 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) => {
                     <div className="company-address">
                         <h4>TO</h4>
                         <p>Chettinad Cement Corpn Ltd.,</p>
-                        <p>Rani Meyyammai Nagar,Karikkali,</p>
-                        <p>Vedasandur.TK, Dindigul.DT-62470</p>
-                        <p>Karikkali.</p>
+                        <p>Keelapaluvur,Ariyalur Dist-621707</p>
                     </div>
                     <div className="magnum-details">
                         <div className="list">
@@ -70,33 +67,30 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) => {
                                 <th>S.NO</th>
                                 <th>DATE</th>
                                 <th>INVOICE NO</th>
-                                <th>PARTY NAME</th>
+                                <th>SHIP TO PARTY</th>
                                 <th>DESTINATION</th>
                                 <th>TRUCK NO</th>
                                 <th>Inv Qty</th>
+                                <th>W.NO</th>
                                 <th>RATE/TON</th>
                                 <th>FREIGHT</th>
                             </tr>
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToUnloadingPointTrip.map(
                                     (loadingToUnloading, index) => {
-                                        return tableRow(loadingToUnloading, index, partyNames)
+                                        return tableRow(loadingToUnloading, index)
                                     }
                                 )}
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToStockPointTrip.map(
                                     (loadingToStock, index) => {
-                                        return tableRow(loadingToStock, index, partyNames)
+                                        return tableRow(loadingToStock, index)
                                     }
                                 )}
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.stockPointToUnloadingPointTrip.map(
                                     (stockToUnloading, index) => {
-                                        return tableRowForStockToUnloading(
-                                            stockToUnloading,
-                                            index,
-                                            partyNames
-                                        )
+                                        return tableRowForStockToUnloading(stockToUnloading, index)
                                     }
                                 )}
                             <tr>
@@ -137,40 +131,36 @@ const ChettinadAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) => {
     )
 }
 
-export default ChettinadAnnexure
+export default ChettinadAriyalurAnnexure
 
-const tableRow = (row: rowProps, index: number, partyNames: partyNamesProps[]) => {
-    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
+const tableRow = (row: rowProps, index: number) => {
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
-            <td>{name[0].partyName}</td>
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
             <td>{row.truck.vehicleNumber}</td>
             <td>{row.filledLoad}</td>
+            <td>22</td>
             <td>{row.freightAmount.toFixed(2)}</td>
             <td>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
         </tr>
     )
 }
 
-const tableRowForStockToUnloading = (
-    row: StockToUnloadingPointProps,
-    index: number,
-    partyNames: partyNamesProps[]
-) => {
-    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
+const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
-            <td>{name[0].partyName}</td>
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
             <td>{row.loadingPointToStockPointTrip.filledLoad}</td>
+            <td>22</td>
             <td>{row.freightAmount.toFixed(2)}</td>
             <td>{(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}</td>
         </tr>

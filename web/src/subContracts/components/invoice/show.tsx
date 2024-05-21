@@ -1,31 +1,32 @@
 import Table from '@mui/material/Table'
-import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
 import { getTableHead } from './table'
-import { Box, Checkbox, Tab, TableBody, TableCell, TableRow, Tabs } from '@mui/material'
+import { Box, Button, Tab, TableBody, TableCell, TableRow, Tabs, TextField } from '@mui/material'
 import { tripDetails, tripDetailsProps } from './list'
-import { FC, useContext } from 'react'
+import { FC, useContext, useState } from 'react'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import { filterDataProps, invoiceFilterData } from './invoiceContext'
+import { filterDataProps, invoiceFilterData, partyNamesContext } from './invoiceContext'
 import { getTripDetailsByFilterData } from '../../services/invoice'
-interface tripProps {
+import { SelectedTableContainer } from './selectedTripsTable'
+import {
+    InvoicePartyNameFieldProps,
+    TableBodyProps,
+    tableProps,
+    TableRowContainerProps
+} from './showTypes'
+export interface tripProps {
     tripDetails: tripDetails[]
     setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps[]>>
-    tripId: tripDetailsProps[]
     setTripDetails: React.Dispatch<React.SetStateAction<tripDetails[]>>
 }
-
-const ListAllTripForInvoice: FC<tripProps> = ({
-    tripDetails,
-    setTripId,
-    tripId,
-    setTripDetails
-}) => {
+const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripDetails }) => {
     const { filterData, setFilterData } = useContext(invoiceFilterData)
+    const { setPartyNames } = useContext(partyNamesContext)
     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
         if (filterData.cementCompanyName === '') return
         setTripDetails([])
         setTripId([])
+        setPartyNames([])
         await getTripDetailsByFilterData({ ...filterData, pageName: newValue }).then(setTripDetails)
         setFilterData((prevData: filterDataProps) => {
             return { ...prevData, pageName: newValue }
@@ -34,61 +35,56 @@ const ListAllTripForInvoice: FC<tripProps> = ({
     return (
         <>
             <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Direct Trip" value="LoadingToUnloading" />
-                        <Tab label="LoadingToStock Trip" value="LoadingToStock" />
-                        <Tab label="StockToUnloading Trip" value="StockToUnloading" />
-                    </Tabs>
-                </Box>
+                <InvoiceTabs handleChange={handleChange} />
             </Box>
-            <InvoiceTableContainer
+            <InvoiceContainer
                 tripDetails={tripDetails}
                 setTripId={setTripId}
-                tripId={tripId}
+                setTripDetails={setTripDetails}
             />
         </>
     )
 }
-export default ListAllTripForInvoice
-interface TableRowContainerProps {
-    index: number
-    tripId: tripDetailsProps[]
-    setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps[]>>
-    row: tripDetails
+interface InvoiceTabs {
+    handleChange: (_event: React.SyntheticEvent, newValue: string) => Promise<void>
 }
-
-const TableRowContainer: FC<TableRowContainerProps> = ({ index, row, tripId, setTripId }) => {
+const InvoiceTabs: FC<InvoiceTabs> = ({ handleChange }) => {
+    return (
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs onChange={handleChange} aria-label="basic tabs example">
+                <Tab label="Direct Trip" value="LoadingToUnloading" />
+                <Tab label="LoadingToStock Trip" value="LoadingToStock" />
+                <Tab label="StockToUnloading Trip" value="StockToUnloading" />
+            </Tabs>
+        </Box>
+    )
+}
+export default ListAllTripForInvoice
+const TableRowContainer: FC<TableRowContainerProps> = ({
+    index,
+    row,
+    setTripId,
+    tripDetails,
+    setSelectedTrip,
+    setTripDetails
+}) => {
     const { filterData } = useContext(invoiceFilterData)
     const handleClick = (obj: tripDetailsProps) => {
-        if (
-            tripId.find(
-                (detail: tripDetailsProps) =>
-                    detail.tripId === obj.tripId && detail.tripName === obj.tripName
-            )
-        )
-            setTripId(
-                tripId.filter(
-                    (detail: tripDetailsProps) =>
-                        !(detail.tripId === obj.tripId && detail.tripName === obj.tripName)
-                )
-            )
-        else setTripId((prev: tripDetailsProps[]) => [...prev, obj])
+        const selectedTrip = tripDetails.filter((trip) => {
+            return trip.id === obj.tripId
+        })
+        setTripId((prev) => [...prev, obj])
+        setSelectedTrip((prev) => [...prev, ...selectedTrip])
+        setTripDetails((prev) => {
+            const data = prev.filter((trip) => {
+                return trip.id !== obj.tripId
+            })
+            return [...data]
+        })
     }
     return (
         <>
             <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell sx={{ textAlign: 'left' }}>
-                    <Checkbox
-                        onClick={() => {
-                            const obj = {
-                                tripId: row.id,
-                                tripName: filterData.pageName
-                            }
-                            handleClick(obj)
-                        }}
-                    />
-                </TableCell>
                 <TableCell sx={{ textAlign: 'left' }}>
                     {epochToMinimalDate(row.startDate)}
                 </TableCell>
@@ -106,51 +102,82 @@ const TableRowContainer: FC<TableRowContainerProps> = ({ index, row, tripId, set
                 </TableCell>
                 <TableCell sx={{ textAlign: 'left' }}>{row.freightAmount}</TableCell>
                 <TableCell sx={{ textAlign: 'left' }}>{row.totalFreightAmount}</TableCell>
+                <InvoicePartyNameField
+                    handleClick={handleClick}
+                    row={row}
+                    pageName={filterData.pageName}
+                />
             </TableRow>
         </>
     )
 }
-interface InvoiceTableContainerProps {
-    tripDetails: tripDetails[]
-    tripId: tripDetailsProps[]
-    setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps[]>>
-}
-const InvoiceTableContainer: FC<InvoiceTableContainerProps> = ({
-    tripDetails,
-    tripId,
-    setTripId
-}) => {
-    return (
-        <TableContainer component={Paper} sx={{ marginTop: '30px' }}>
-            <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                {getTableHead()}
-                <TableBodyContainer
-                    tripDetails={tripDetails}
-                    tripId={tripId}
-                    setTripId={setTripId}
-                />
-            </Table>
-        </TableContainer>
-    )
-}
-const TableBodyContainer: FC<InvoiceTableContainerProps> = ({ tripDetails, tripId, setTripId }) => {
-    let count = 0
+const InvoicePartyNameField: FC<InvoicePartyNameFieldProps> = ({ row, handleClick, pageName }) => {
+    const [partyName, setPartyName] = useState('')
+    const { setPartyNames } = useContext(partyNamesContext)
+    const buttonClick = () => {
+        const obj = {
+            tripId: row.id,
+            tripName: pageName
+        }
+        setPartyNames((preData) => {
+            return [...preData, { invoiceNumber: row.invoiceNumber, partyName }]
+        })
+        handleClick(obj)
+        setPartyName('')
+    }
     return (
         <>
-            <TableBody>
-                {tripDetails.length !== 0 &&
-                    tripDetails.map((row: tripDetails) => {
-                        return (
-                            <TableRowContainer
-                                key={++count}
-                                index={++count}
-                                row={row}
-                                setTripId={setTripId}
-                                tripId={tripId}
-                            />
-                        )
-                    })}
-            </TableBody>
+            <TableCell>
+                <TextField
+                    label="Enter Party Name"
+                    value={partyName}
+                    onChange={(e) => setPartyName(e.target.value)}
+                />
+            </TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>
+                <Button onClick={buttonClick}> Add </Button>
+            </TableCell>
         </>
+    )
+}
+const InvoiceContainer: FC<tableProps> = ({ tripDetails, setTripId, setTripDetails }) => {
+    const [selectedTrip, setSelectedTrip] = useState<tripDetails[]>([])
+    return (
+        <>
+            <SelectedTableContainer selectedTrip={selectedTrip} />
+            <Table component={Paper} sx={{ marginTop: '30px', minWidth: 600 }}>
+                {getTableHead()}
+                <TableContainer
+                    setSelectedTrip={setSelectedTrip}
+                    tripDetails={tripDetails}
+                    setTripId={setTripId}
+                    setTripDetails={setTripDetails}
+                />
+            </Table>
+        </>
+    )
+}
+const TableContainer: FC<TableBodyProps> = ({
+    tripDetails,
+    setTripId,
+    setTripDetails,
+    setSelectedTrip
+}) => {
+    let count = 0
+    return (
+        <TableBody>
+            {tripDetails.length !== 0 &&
+                tripDetails.map((row: tripDetails) => (
+                    <TableRowContainer
+                        key={++count}
+                        index={++count}
+                        row={row}
+                        tripDetails={tripDetails}
+                        setSelectedTrip={setSelectedTrip}
+                        setTripId={setTripId}
+                        setTripDetails={setTripDetails}
+                    />
+                ))}
+        </TableBody>
     )
 }

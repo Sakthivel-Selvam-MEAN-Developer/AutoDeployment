@@ -10,7 +10,7 @@ import { toWords } from '../numberToWords'
 import { financialYear } from '../financialYear'
 import { Box, CircularProgress } from '@mui/material'
 import { Nullable } from '../../../../../types'
-import { billNoContext } from '../../invoiceContext'
+import { billNoContext, partyNamesContext, partyNamesProps } from '../../invoiceContext'
 export interface InvoiceProps {
     tripId: tripDetailsProps[]
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -26,6 +26,7 @@ export interface UltraTechProps {
 const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [trip, setTrip] = useState<tripProps>()
     const { invoiceValues } = useContext(billNoContext)
+    const { partyNames } = useContext(partyNamesContext)
     let totalFilledLoad = 0
     let totalAmount = 0
     useEffect(() => {
@@ -124,7 +125,7 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) 
                                                 loadingToUnloading.freightAmount *
                                                 loadingToUnloading.filledLoad
                                             totalFilledLoad += loadingToUnloading.filledLoad
-                                            return tableRow(loadingToUnloading, index)
+                                            return tableRow(loadingToUnloading, index, partyNames)
                                         }
                                     )}
                                 {trip &&
@@ -134,7 +135,7 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) 
                                                 loadingToStock.freightAmount *
                                                 loadingToStock.filledLoad
                                             totalFilledLoad += loadingToStock.filledLoad
-                                            return tableRow(loadingToStock, index)
+                                            return tableRow(loadingToStock, index, partyNames)
                                         }
                                     )}
                                 {trip &&
@@ -149,7 +150,8 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) 
                                                     .filledLoad
                                             return tableRowForStockToUnloading(
                                                 stockToUnloading,
-                                                index
+                                                index,
+                                                partyNames
                                             )
                                         }
                                     )}
@@ -231,14 +233,15 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) 
 }
 export default UltraTechAPCW
 
-const tableRow = (row: LoadingToStockPointProps, index: number) => {
+const tableRow = (row: LoadingToStockPointProps, index: number, partyNames: partyNamesProps[]) => {
+    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{row.invoiceNumber}</td>
             <td>{row.lrNumber}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
-            <td>{row.partyName}</td>
+            <td>{name[0].partyName}</td>
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
             <td>{row.truck.vehicleNumber}</td>
             <td>5116</td>
@@ -255,14 +258,19 @@ const tableRow = (row: LoadingToStockPointProps, index: number) => {
     )
 }
 
-const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
+const tableRowForStockToUnloading = (
+    row: StockToUnloadingPointProps,
+    index: number,
+    partyNames: partyNamesProps[]
+) => {
+    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{row.invoiceNumber}</td>
             <td>{row.lrNumber}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
-            <td>{row.partyName}</td>
+            <td>{name[0].partyName}</td>
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
             <td>5116</td>

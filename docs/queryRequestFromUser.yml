@@ -143,3 +143,55 @@ date: 11-04-2024
     - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1120;
     - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1458;
     - update "subContract"."paymentDues" set "name"='SNT Transport(navaladi)' where id=1456;
+
+  date: 20-05-2024
+  person: Santhosh
+  description:
+    - updated loadingPointToStockPointTrip from want fuel false to true
+    - deleted generated initial Pay for this trip
+  query:
+    - update "subContract"."loadingPointToStockPointTrip" set "wantFuel"=true  where id=424;
+    - delete from "subContract"."paymentDues" where id=1720;
+
+  date: 20-05-2024
+  person: Santhosh
+  description:
+    - deleted duplicate final pay in paymentDues
+  query:
+    - delete from "subContract"."paymentDues" where id in (1786,1776,1775,1727,1754,1728,1708,1749,1783,1777,1752,1729,1709,1730,1732,1771,1785,1731,1753,1784,1782,1781,1768,1733,1734,1789,1735,1761,1760,1736,1737,1750,1738,1772,1751,1759,1791,1739,1769,1710,1763,1740,1787,1741,1778,1743,1790,1767,1747,1755,1742,1706,1758,1745,1773,1707,1744,1756,1788,1746,1774,1711,1757,1748,1689,1688);
+ 
+  date: 21-05-2024
+  person: Santhosh
+  description:
+    - updated truck transporter from ranjith sk transport to prasaad transport
+  query:
+    - update "subContract"."truck" set "transporterId"=225  where id=553;
+
+  date: 21-05-2024
+  person: Santhosh
+  description:
+    - updated payGenrationDuration in pricePoint
+  query:
+    - update "subContract"."pricePoint" set "payGeneratingDuration"=15 where id in (170,171,172,175,176);
+    - update "subContract"."pricePoint" set "payGeneratingDuration"=10 where id in (161,162,164,167,166);
+    - update "subContract"."pricePoint" set "payGeneratingDuration"=3 where id in (169,173,168);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
