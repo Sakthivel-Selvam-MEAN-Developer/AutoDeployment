@@ -83,32 +83,28 @@ const TableRowContainer: FC<TableRowContainerProps> = ({
         })
     }
     return (
-        <>
-            <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell sx={{ textAlign: 'left' }}>
-                    {epochToMinimalDate(row.startDate)}
-                </TableCell>
-                <TableCell sx={{ textAlign: 'left' }}>{row.invoiceNumber}</TableCell>
-                <TableCell sx={{ textAlign: 'left' }}>{row.truck.vehicleNumber}</TableCell>
-                <TableCell sx={{ textAlign: 'left' }}>
-                    {filterData.pageName !== 'StockToUnloading'
-                        ? row.loadingPoint.name
-                        : row.loadingPointToStockPointTrip.stockPoint.name}
-                </TableCell>
-                <TableCell sx={{ textAlign: 'left' }}>
-                    {filterData.pageName === 'LoadingToStock'
-                        ? row.stockPoint.name
-                        : row.unloadingPoint.name}
-                </TableCell>
-                <TableCell sx={{ textAlign: 'left' }}>{row.freightAmount}</TableCell>
-                <TableCell sx={{ textAlign: 'left' }}>{row.totalFreightAmount}</TableCell>
-                <InvoicePartyNameField
-                    handleClick={handleClick}
-                    row={row}
-                    pageName={filterData.pageName}
-                />
-            </TableRow>
-        </>
+        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell sx={{ textAlign: 'left' }}>{epochToMinimalDate(row.startDate)}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{row.invoiceNumber}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{row.truck.vehicleNumber}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>
+                {filterData.pageName !== 'StockToUnloading'
+                    ? row.loadingPoint.name
+                    : row.loadingPointToStockPointTrip.stockPoint.name}
+            </TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>
+                {filterData.pageName === 'LoadingToStock'
+                    ? row.stockPoint.name
+                    : row.unloadingPoint.name}
+            </TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{row.freightAmount}</TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{row.totalFreightAmount}</TableCell>
+            <InvoicePartyNameField
+                handleClick={handleClick}
+                row={row}
+                pageName={filterData.pageName}
+            />
+        </TableRow>
     )
 }
 const InvoicePartyNameField: FC<InvoicePartyNameFieldProps> = ({ row, handleClick, pageName }) => {
@@ -144,7 +140,7 @@ const InvoiceContainer: FC<tableProps> = ({ tripDetails, setTripId, setTripDetai
     const [selectedTrip, setSelectedTrip] = useState<tripDetails[]>([])
     return (
         <>
-            <SelectedTableContainer selectedTrip={selectedTrip} />
+            <SelectedTableContainer selectedTrip={selectedTrip} setSelectedTrip={setSelectedTrip} />
             <Table component={Paper} sx={{ marginTop: '30px', minWidth: 600 }}>
                 {getTableHead()}
                 <TableContainer

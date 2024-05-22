@@ -1,48 +1,42 @@
-import { Paper, Table, TableCell, TableContainer, TableRow } from '@mui/material'
+import { Paper, Table, TableContainer, TableRow } from '@mui/material'
 import { tripDetails } from './list'
-import { FC, useContext } from 'react'
-import { partyNamesContext } from './invoiceContext'
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { FC, useContext, useEffect } from 'react'
+import { invoiceFilterData, partyNamesContext } from './invoiceContext'
 import { getSelectedTableHead } from './table'
-interface SelectedTableProps {
-    selectedTrip: tripDetails[]
-}
-const SelectedTableBody: FC<SelectedTableProps> = ({ selectedTrip }) => {
+import { SelectedProps } from './interface'
+import { SelectedTableCells } from './selectedTableCells'
+const SelectedTableBody: FC<SelectedProps> = ({ selectedTrip, setSelectedTrip }) => {
+    const { setPartyNames } = useContext(partyNamesContext)
+    const { filterData } = useContext(invoiceFilterData)
+    useEffect(() => {
+        setSelectedTrip([])
+        setPartyNames([])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filterData.pageName, filterData.cementCompanyName])
     return (
         <>
-            {selectedTrip.map((data, index) => {
-                return (
-                    <TableRow key={index}>
-                        <SelectedTableCells cells={data} />
-                    </TableRow>
-                )
-            })}
+            {selectedTrip.length > 0 &&
+                selectedTrip.map((data, index) => {
+                    return <TableRowContainer key={index} data={data} />
+                })}
         </>
     )
 }
-interface cellProps {
-    cells: tripDetails
+interface TableRowContainerProps {
+    data: tripDetails
 }
-const SelectedTableCells: FC<cellProps> = ({ cells }) => {
-    const { partyNames } = useContext(partyNamesContext)
-    const partyName = partyNames.filter((trip) => trip.invoiceNumber === cells.invoiceNumber)
-    return (
-        <>
-            <TableCell sx={{ textAlign: 'left' }}>{epochToMinimalDate(cells.startDate)}</TableCell>
-            <TableCell sx={{ textAlign: 'left' }}>{cells.invoiceNumber}</TableCell>
-            <TableCell sx={{ textAlign: 'left' }}>{cells.truck.vehicleNumber}</TableCell>
-            <TableCell sx={{ textAlign: 'left' }}>{cells.freightAmount}</TableCell>
-            <TableCell sx={{ textAlign: 'left' }}>{cells.totalFreightAmount}</TableCell>
-            <TableCell sx={{ textAlign: 'left' }}>{partyName[0].partyName}</TableCell>
-        </>
-    )
-}
-export const SelectedTableContainer: FC<SelectedTableProps> = ({ selectedTrip }) => {
+const TableRowContainer: FC<TableRowContainerProps> = ({ data }) => (
+    <TableRow>
+        <SelectedTableCells cells={data} />
+    </TableRow>
+)
+
+export const SelectedTableContainer: FC<SelectedProps> = ({ selectedTrip, setSelectedTrip }) => {
     return (
         <TableContainer component={Paper} sx={{ marginTop: '30px' }}>
             <Table sx={{ minWidth: 600 }} aria-label="simple table">
                 {getSelectedTableHead()}
-                <SelectedTableBody selectedTrip={selectedTrip} />
+                <SelectedTableBody selectedTrip={selectedTrip} setSelectedTrip={setSelectedTrip} />
             </Table>
         </TableContainer>
     )

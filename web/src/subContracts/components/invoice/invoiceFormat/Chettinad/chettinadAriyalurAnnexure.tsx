@@ -1,10 +1,11 @@
-import { FC, useContext } from 'react'
+import React, { FC, useContext } from 'react'
 import { AnnexureProps, StockToUnloadingPointProps, rowProps } from '../../interface'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
-import { billNoContext } from '../../invoiceContext'
+import { billNoContext, partyNamesContext, partyNamesProps } from '../../invoiceContext'
 
 const ChettinadAriyalurAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) => {
     const { invoiceValues } = useContext(billNoContext)
+    const { partyNames } = useContext(partyNamesContext)
     return (
         <section style={{ padding: '20px' }} id="chettinad_ariyalur_annexure_main">
             <main className="chettinad_annexure_main">
@@ -78,19 +79,23 @@ const ChettinadAriyalurAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) =>
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToUnloadingPointTrip.map(
                                     (loadingToUnloading, index) => {
-                                        return tableRow(loadingToUnloading, index)
+                                        return tableRow(loadingToUnloading, index, partyNames)
                                     }
                                 )}
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.loadingPointToStockPointTrip.map(
                                     (loadingToStock, index) => {
-                                        return tableRow(loadingToStock, index)
+                                        return tableRow(loadingToStock, index, partyNames)
                                     }
                                 )}
                             {Object.keys(tripDetails).length !== 0 &&
                                 tripDetails.stockPointToUnloadingPointTrip.map(
                                     (stockToUnloading, index) => {
-                                        return tableRowForStockToUnloading(stockToUnloading, index)
+                                        return tableRowForStockToUnloading(
+                                            stockToUnloading,
+                                            index,
+                                            partyNames
+                                        )
                                     }
                                 )}
                             <tr>
@@ -133,13 +138,14 @@ const ChettinadAriyalurAnnexure: FC<AnnexureProps> = ({ tripDetails, total }) =>
 
 export default ChettinadAriyalurAnnexure
 
-const tableRow = (row: rowProps, index: number) => {
+const tableRow = (row: rowProps, index: number, partyNames: partyNamesProps[]) => {
+    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
-            <td>{row.partyName}</td>
+            <td>{name[0].partyName}</td>
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
             <td>{row.truck.vehicleNumber}</td>
             <td>{row.filledLoad}</td>
@@ -149,14 +155,19 @@ const tableRow = (row: rowProps, index: number) => {
         </tr>
     )
 }
-
-const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
+type tableRowForStockToUnloadingProps = (
+    row: StockToUnloadingPointProps,
+    index: number,
+    partyNames: partyNamesProps[]
+) => React.ReactNode
+const tableRowForStockToUnloading: tableRowForStockToUnloadingProps = (row, index, partyNames) => {
+    const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
-            <td>{row.partyName}</td>
+            <td>{name[0].partyName}</td>
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
             <td>{row.loadingPointToStockPointTrip.filledLoad}</td>

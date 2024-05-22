@@ -1,3 +1,5 @@
+import { tripDetails } from './list'
+
 export interface loadingPointToStockPointTrip {
     id: number
     startDate: number
@@ -347,4 +349,11 @@ export interface StockToUnloadingPointProps {
             ]
         }
     ]
+}
+export interface cellProps {
+    cells: tripDetails
+}
+export interface SelectedProps {
+    selectedTrip: tripDetails[]
+    setSelectedTrip: React.Dispatch<React.SetStateAction<tripDetails[]>>
 }
