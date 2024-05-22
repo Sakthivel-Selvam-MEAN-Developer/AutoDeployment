@@ -220,7 +220,9 @@ const addAuthorisedColumns = (authoriser: boolean) => {
 
 const generateRow = (row: Props, index: number) => {
     const data = loadingToStock(row)
-    const unloadingPoint = data.unloadingPoint ? data.unloadingPoint.name : 'Null'
+    const unloadingPoint = data.unloadingPoint
+        ? data.unloadingPoint.name
+        : data.stockPointToUnloadingPointTrip[0].unloadingPoint.name
     const loadingKilometer = data.loadingKilometer
     const unloadingKilometer = data.unloadingKilometer
     const ranKm =
