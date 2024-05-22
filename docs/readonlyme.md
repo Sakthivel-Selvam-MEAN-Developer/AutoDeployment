@@ -1,13 +1,13 @@
 | Packages              | Priority     | Barath    | Ramya       | Sakthivel | Ravishankar | Sri Sneka  |
 |-----------------------|--------------|-----------|-------------|-----------|-------------|------------|
 | postgres              | must         | know      | know        |  know     |  know       | know       |     
-| lint                  | must         | expert    | know        |  expert   |  don't know | know       |
-| prettier              | good to know | expert    | dont know   |  expert   |  don't know | know       |
-| husky                 | good to know | know      | dont know   |  know     |  don't know | don't know | 
+| lint                  | must         | expert    | know        |  expert   |  know       | know       |
+| prettier              | good to know | expert    | dont know   |  expert   |  know       | know       |
+| husky                 | good to know | know      | dont know   |  know     |  know       | don't know | 
 | jest                  | Must         | know      | dont know   |  know     |  know       | know       |
 | prisma                | Must         | know      | know        |  know     |  know       | know       |
 | typescript            | Must         | know      | know        |  know     |  expert     | know       |
-| vitest                | Must         | know      | know        |  know     |  don't know | know       |
+| vitest                | Must         | know      | know        |  know     |  know       | know       |
 | @mui/material         | good to know | expert    | know        |  expert   |  expert     | know       |
 | react                 | Must         | know      | know        |  know     |  expert     | know       |
 | react-dom             | Must         | know      | know        |  know     |  expert     | know       |
@@ -19,7 +19,7 @@
 | axios                 | Must         | expert    | know        |  expert   |  expert     | know       |
 | cors                  | Must         | expert    | dont know   |  know     |  expert     | know       |
 | dayjs                 | Must         | expert    | know        |  expert   |  don't know | know       |
-| dotenv-cli            | Must         | expert    | dont know   |  expert   |  don't know | don't know |
+| dotenv-cli            | Must         | expert    | dont know   |  expert   |  know       | don't know |
 | express               | Must         | expert    | know        |  know     |  know       | know       |
 | helmet                | Must         | know      | dont know   |  know     |  don't know | don't know |
 | morgan                | Must         | dont know | dont know   |  dont know|  know       | don't know |
