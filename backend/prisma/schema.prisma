@@ -372,7 +372,7 @@ model loadingPointToStockPointTrip {
   totalFreightAmount             Float                            @db.DoublePrecision
   totalTransporterAmount         Float                            @db.DoublePrecision
   margin                         Float                            @db.DoublePrecision
-  loadingKilometer               Float                            @db.DoublePrecision
+  loadingKilometer               Float?                            @db.DoublePrecision
   unloadingKilometer             Float?                           @db.DoublePrecision
   loadingPointId                 Int
   invoiceNumber                  String                           @unique
@@ -470,7 +470,7 @@ model fuel {
   pricePerliter    Float        @db.DoublePrecision
   quantity         Float        @db.DoublePrecision
   totalprice       Float        @db.DoublePrecision
-  dieselkilometer  Float        @db.DoublePrecision
+  dieselkilometer  Float?       @db.DoublePrecision
   paymentStatus    Boolean      @default(false)
   vehicleNumber    String
   bunk             bunk         @relation(fields: [bunkId], references: [id])
