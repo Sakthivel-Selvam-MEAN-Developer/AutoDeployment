@@ -8,6 +8,7 @@ import { TripFilters } from '../../../types/tripFilters.ts'
 import { tripStatusFilter } from '../../../services/overallTrips.ts'
 import { overallTripsProps } from './tripFilterForm.tsx'
 import { DataGrid } from '@mui/x-data-grid'
+import { FLOAT } from 'html2canvas/dist/types/css/property-descriptors/float'
 
 interface Row {
     acknowledgementDate: number
@@ -18,6 +19,7 @@ interface Row {
             }
         }
     ]
+
     freightAmount: number
     transporterAmount: number
     totalFreightAmount: number
@@ -30,6 +32,7 @@ interface Row {
         transporter: {
             name: string
             csmName: string
+            gstPercentage: FLOAT | string
         }
     }
     endDate: number
@@ -40,6 +43,8 @@ interface Row {
     unloadingPoint: {
         name: string
     }
+    loadingKilometer: number
+    unloadingKilometer: number
     stockPoint: {
         name: string
     }
@@ -98,6 +103,7 @@ interface finalDataProps {
     startDate: string
     invoiceNumber: string
     transporterName: string
+    gstPercentage: FLOAT | string
     csmName: string
     loadingPoint: string
     stockPoint: string
@@ -117,6 +123,7 @@ interface finalDataProps {
     acknowledgementDate: string
     dueDate: string
     unloadedDate: string
+    ranKm: number
     type: string
 }
 
@@ -137,6 +144,7 @@ const columns = [
     { field: 'startDate', headerName: 'Start Date', width: 120 },
     { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
     { field: 'transporterName', headerName: 'Transporter', width: 240 },
+    { field: 'gstPercentage', headerName: 'GST Percentage', width: 200 },
     { field: 'csmName', headerName: 'CSM Name', width: 130 },
     { field: 'loadingPoint', headerName: 'Loading Point', width: 150 },
     { field: 'stockPoint', headerName: 'Stock Point', width: 150 },
@@ -148,6 +156,7 @@ const columns = [
     { field: 'fuelQuantity', headerName: 'Diesel Quantity', width: 140 },
     { field: 'fuelPrice', headerName: 'Diesel Amount', width: 140 },
     { field: 'unloadedDate', headerName: 'Unloaded Date', width: 150 },
+    { field: 'ranKm', headerName: 'Total Ran Kilometer', width: 150 },
     { field: 'quantity', headerName: 'Shortage Quantity', width: 150 },
     { field: 'amount', headerName: 'Shortage Amount', width: 150 },
     { field: 'acknowledgementDate', headerName: 'Acknowledgement Date', width: 150 },
@@ -212,12 +221,19 @@ const addAuthorisedColumns = (authoriser: boolean) => {
 const generateRow = (row: Props, index: number) => {
     const data = loadingToStock(row)
     const unloadingPoint = data.unloadingPoint ? data.unloadingPoint.name : 'Null'
+    const loadingKilometer = data.loadingKilometer
+    const unloadingKilometer = data.unloadingKilometer
+    const ranKm =
+        unloadingKilometer - loadingKilometer >= 0 ? unloadingKilometer - loadingKilometer : 0
     finalData.push({
         number: ++index,
         vehicleNumber: data.truck.vehicleNumber,
         startDate: epochToMinimalDate(data.startDate),
         invoiceNumber: data.invoiceNumber,
         transporterName: data.truck.transporter.name,
+        gstPercentage: data.truck.transporter.gstPercentage
+            ? data.truck.transporter.gstPercentage
+            : 'No GST',
         csmName: data.truck.transporter.csmName,
         loadingPoint: data.loadingPoint.name,
         stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',
@@ -253,7 +269,8 @@ const generateRow = (row: Props, index: number) => {
                 ? epochToMinimalDate(row.shortageQuantity[0].unloadedDate)
                 : 'Not Yet Unloaded',
         dueDate:
-            row.paymentDues.length !== 0 ? epochToMinimalDate(row.paymentDues[0].dueDate) : 'Null'
+            row.paymentDues.length !== 0 ? epochToMinimalDate(row.paymentDues[0].dueDate) : 'Null',
+        ranKm
     })
 }
 
@@ -319,7 +336,6 @@ const PaginationField = (
         />
     )
 }
-
 const loadingToStock = (row: Props) => {
     if (
         row.loadingPointToUnloadingPointTrip !== null &&

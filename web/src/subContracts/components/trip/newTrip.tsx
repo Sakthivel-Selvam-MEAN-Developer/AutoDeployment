@@ -43,6 +43,7 @@ const NewTrip: React.FC = () => {
     const [totalTransporterAmount, setTotalTransporterAmount] = useState(0)
     const [totalFreightAmount, setTotalFreightAmount] = useState(0)
     const [margin, setMargin] = useState(0)
+    const [loadingKilometer, setLoadingKilometer] = useState(0)
     const [fuel, setFuel] = useState(false)
     const [filledLoad, setFilledLoad] = useState<number | null>(null)
     const [category, setCategory] = useState<string>('')
@@ -58,7 +59,7 @@ const NewTrip: React.FC = () => {
     useEffect(() => {
         setTotalFreightAmount(freightAmount * (filledLoad !== null ? filledLoad : 0))
         setTotalTransporterAmount(transporterAmount * (filledLoad !== null ? filledLoad : 0))
-        setMargin(totalFreightAmount - totalTransporterAmount)
+        setMargin(((totalFreightAmount - totalTransporterAmount) * 70) / 100)
     }, [filledLoad, freightAmount, transporterAmount, totalFreightAmount, totalTransporterAmount])
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -80,6 +81,7 @@ const NewTrip: React.FC = () => {
                 startDate: data.tripDate.startOf('day').unix(),
                 filledLoad: filledLoad,
                 invoiceNumber: data.invoiceNumber,
+                loadingKilometer: loadingKilometer,
                 freightAmount: parseFloat(freightAmountFloat),
                 transporterAmount: ownTruck === false ? parseFloat(transporterAmountFloat) : 0,
                 totalFreightAmount: parseFloat(totalFreightAmountFloat),
@@ -230,6 +232,8 @@ const NewTrip: React.FC = () => {
                 driverName={driverName}
                 filledLoad={filledLoad}
                 setFilledLoad={setFilledLoad}
+                setLoadingKilometer={setLoadingKilometer}
+                loadingKilometer={loadingKilometer}
             />
             <SubmitButton name="Start" type="submit" disabled={disable} />
             <SuccessDialog

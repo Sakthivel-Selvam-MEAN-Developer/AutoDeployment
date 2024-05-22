@@ -8,7 +8,9 @@ const mockGetAllActivetripTripByTripStatus = vi.fn()
 const mockGetAllTripByAcknowledgementStatus = vi.fn()
 const mockOverAllTripById = vi.fn()
 const mockUpdateWeightForStockTrip = vi.fn()
+const mockupdateUnloadingKilometer = vi.fn()
 const mockUpdateWeightForTrip = vi.fn()
+
 const mockAcknowledgeStatusforOverAllTrip = vi.fn()
 const mockCreateShortageQuantity = vi.fn()
 const mockGetPercentageByTransporter = vi.fn()
@@ -24,6 +26,8 @@ vi.mock('../models/overallTrip', () => ({
         mockAcknowledgeStatusforOverAllTrip(inputs)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
+    updateUnloadingKilometer: (id: number, unloadingKilometer: number) =>
+        mockupdateUnloadingKilometer(id, unloadingKilometer),
     updateUnloadWeightforTrip: (inputs: any, data: any) =>
         mockUpdateWeightForStockTrip(inputs, data)
 }))
@@ -179,6 +183,10 @@ const mockOverAllTripByTripIdData = {
 const mockUpdateData = {
     id: 1
 }
+const mockUnloadingKilometer = {
+    id: 1,
+    unloadingKilometer: 1000
+}
 const mockPercentageByTransporterData = {
     gstPercentage: 10
 }
@@ -249,10 +257,12 @@ describe('Acknowledgement Controller', () => {
         mockGetPercentageByTransporter.mockResolvedValue(mockPercentageByTransporterData)
         mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
+        mockupdateUnloadingKilometer.mockResolvedValue(mockUnloadingKilometer)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
         mockcreatePaymentDues.mockResolvedValue(mockGstDuesData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(2)
+        expect(mockupdateUnloadingKilometer).toBeCalledTimes(1)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(0)
     })

@@ -151,6 +151,7 @@ const tripData = {
     transporterAmount: 900,
     totalFreightAmount: 40000,
     totalTransporterAmount: 36000,
+    loadingKilometer: 1000,
     margin: 4000,
     wantFuel: true
 }
@@ -249,6 +250,7 @@ async function newFunction() {
     await userEvent.type(screen.getByLabelText('Party Name'), 'asdfghj')
     await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
     await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
+    await userEvent.type(screen.getByLabelText('Loading Kilometer'), '1000')
 }
 describe('New trip test', () => {
     beforeEach(() => {
@@ -389,7 +391,7 @@ describe('New trip test', () => {
         }) as HTMLInputElement
         expect(parseInt(totalFreightValue.value)).toBe(totalFreight)
         expect(parseInt(totalTransporterValue.value)).toBe(totalTransporter)
-        expect(parseInt(totalMargin.value)).toBe(totalFreight - totalTransporter)
+        expect(parseInt(totalMargin.value)).toBe(((totalFreight - totalTransporter) * 70) / 100)
     })
     test('should not create dues untill fuel created, if they need fuel', async () => {
         mockFuelWithoutTripId.mockResolvedValue(null)

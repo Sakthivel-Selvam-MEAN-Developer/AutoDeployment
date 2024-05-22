@@ -1,7 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 import { filterDataProps } from '../controller/invoice.ts'
-
 export const create = (
     data:
         | Prisma.loadingPointToStockPointTripCreateInput
@@ -30,6 +29,15 @@ export const closeStockTrip = (id: number) =>
         },
         data: {
             tripStatus: true
+        }
+    })
+export const updateStockunloadingKilometer = (id: number, unloadingKilometer: number) =>
+    prisma.loadingPointToStockPointTrip.update({
+        where: {
+            id
+        },
+        data: {
+            unloadingKilometer
         }
     })
 

@@ -15,8 +15,10 @@ interface FormFieldsProps {
     totalPrice: number
     pricePerliter: number
     quantity: number
+    dieselkilometer: number
     setPricePerliter: React.Dispatch<SetStateAction<number>>
     setQuantity: React.Dispatch<SetStateAction<number>>
+    setDieselkilometer: React.Dispatch<SetStateAction<number>>
 }
 
 const FuelFormFields: React.FC<FormFieldsProps> = ({
@@ -24,14 +26,15 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
     setBunkId,
     totalPrice,
     pricePerliter,
+    dieselkilometer,
     quantity,
     setPricePerliter,
-    setQuantity
+    setQuantity,
+    setDieselkilometer
 }) => {
     const [bunkList, setBunkList] = useState([])
     const [bunkLocation, setBunkLocation] = useState<string>('')
     const [vehicleList, setvehicleList] = useState([])
-
     useEffect(() => {
         getAllBunk().then(setBunkList)
         getAllTruck().then(setvehicleList)
@@ -140,6 +143,20 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                 InputLabelProps={{ shrink: true }}
             />
             <TextInput control={control} label="Diesel Bill Number" fieldName="invoiceNumber" />
+            <TextField
+                label="Diesel Kilometer"
+                name="kilometer"
+                type="number"
+                sx={{ width: '200px' }}
+                inputProps={{
+                    pattern: '[0-9]{6}',
+                    title: 'Please enter exactly 6 digits.',
+                    min: 0,
+                    max: 999999
+                }}
+                value={dieselkilometer}
+                onChange={(e) => setDieselkilometer(parseInt(e.target.value))}
+            />
         </div>
     )
 }

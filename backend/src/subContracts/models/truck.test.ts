@@ -70,7 +70,8 @@ describe('Truck model', () => {
             ...seedLoadingToUnloadingTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truckWithActiveTrip.id
+            truckId: truckWithActiveTrip.id,
+            loadingKilometer: 0
         })
 
         const actual = await getTruckByTransporter(transporter.name)

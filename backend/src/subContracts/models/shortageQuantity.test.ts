@@ -44,7 +44,8 @@ describe('Shortage Quantity model', () => {
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
             truckId: unloadingTripTruck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const trip = await createOverallTrip({
             loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id

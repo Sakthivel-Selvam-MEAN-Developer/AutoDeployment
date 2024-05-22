@@ -42,7 +42,8 @@ describe('Loading To Stock Trip model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: true
+            wantFuel: true,
+            loadingKilometer: 0
         })
         const actual = await getAllStockPointTrip()
         expect(actual.length).toBe(1)
@@ -71,7 +72,8 @@ describe('Loading To Stock Trip model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: true
+            wantFuel: true,
+            loadingKilometer: 0
         })
         const actual = await closeStockTrip(trip.id)
         expect(actual.tripStatus).toBe(true)
@@ -99,7 +101,8 @@ describe('Loading To Stock Trip model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: true
+            wantFuel: true,
+            loadingKilometer: 0
         })
         await updateBillNumber([trip.id], 'MGL')
         const tripData = await getAllStockPointTrip()
@@ -128,7 +131,8 @@ describe('Loading To Stock Trip model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: true
+            wantFuel: true,
+            loadingKilometer: 0
         })
         const tripData = await getInvoiceDetails([trip.id])
         expect(tripData[0].invoiceNumber).toBe(trip.invoiceNumber)
@@ -156,7 +160,8 @@ describe('Loading To Stock Trip model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: true
+            wantFuel: true,
+            loadingKilometer: 0
         })
         const mockFilterData = {
             startDate: 0,

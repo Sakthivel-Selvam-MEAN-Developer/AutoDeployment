@@ -55,7 +55,8 @@ describe('stock Point to unloading point', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const unloadingPointTrip = await create({
             ...seedStockPointToUnloadingPoint,
@@ -98,7 +99,8 @@ describe('stock Point to unloading point', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const unloadingPointTrip = await create({
             ...seedStockPointToUnloadingPoint,
@@ -140,7 +142,8 @@ describe('stock Point to unloading point', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const unloadingPointTrip = await create({
             ...seedStockPointToUnloadingPoint,
@@ -183,7 +186,8 @@ describe('stock Point to unloading point', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const unloadingPointTrip = await create({
             ...seedStockPointToUnloadingPoint,
@@ -226,7 +230,8 @@ describe('stock Point to unloading point', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: truck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const unloadingPointTrip = await create({
             ...seedStockPointToUnloadingPoint,

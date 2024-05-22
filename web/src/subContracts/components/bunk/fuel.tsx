@@ -14,6 +14,7 @@ const Fuel: React.FC = (): ReactElement => {
     const [quantity, setQuantity] = useState<number>(0)
     const [pricePerliter, setPricePerliter] = useState<number>(0)
     const [disable, setDisable] = useState(false)
+    const [dieselkilometer, setDieselkilometer] = useState(0)
     useEffect(() => {
         setTotalPrice(quantity * pricePerliter)
     }, [quantity, pricePerliter])
@@ -24,7 +25,8 @@ const Fuel: React.FC = (): ReactElement => {
             data.fuelDate !== undefined &&
             pricePerliter !== 0 &&
             quantity !== 0 &&
-            data.invoiceNumber !== undefined
+            data.invoiceNumber !== undefined &&
+            dieselkilometer !== 0
         ) {
             setDisable(true)
             const totalpriceFloat = totalPrice.toFixed(2)
@@ -35,7 +37,8 @@ const Fuel: React.FC = (): ReactElement => {
                 totalprice: parseFloat(totalpriceFloat),
                 bunkId: bunkId,
                 fueledDate: data.fuelDate.unix(),
-                invoiceNumber: data.invoiceNumber
+                invoiceNumber: data.invoiceNumber,
+                dieselkilometer: dieselkilometer
             }
             createFuel(details, data.bunkId)
                 .then(() => {
@@ -43,6 +46,7 @@ const Fuel: React.FC = (): ReactElement => {
                     setDisable(false)
                 })
                 .catch((error) => {
+                    console.log(error)
                     alert(error.response.data.error)
                     setDisable(false)
                 })
@@ -59,6 +63,8 @@ const Fuel: React.FC = (): ReactElement => {
                     quantity={quantity}
                     setPricePerliter={setPricePerliter}
                     setQuantity={setQuantity}
+                    setDieselkilometer={setDieselkilometer}
+                    dieselkilometer={dieselkilometer}
                 />
                 <SubmitButton name="Add Fuel" type="submit" disabled={disable} />
             </form>

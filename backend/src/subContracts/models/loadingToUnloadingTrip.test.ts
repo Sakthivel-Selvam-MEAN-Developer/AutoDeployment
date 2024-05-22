@@ -46,7 +46,8 @@ describe('Trip model', () => {
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
             truckId: truck.id,
-            wantFuel: true
+            wantFuel: true,
+            loadingKilometer: 0
         })
         const tripByVehicleNumber = await getTripByVehicleNumber('TN93D5512')
         expect(tripByVehicleNumber?.totalTransporterAmount).toBe(trip.totalTransporterAmount)
@@ -76,7 +77,8 @@ describe('Trip model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id
+            truckId: truck.id,
+            loadingKilometer: 0
         })
         const activeTrip = await getOnlyActiveTripByVehicleNumber(truck.vehicleNumber)
         expect(activeTrip?.id).toBe(trip.id)
@@ -103,7 +105,8 @@ describe('Trip model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id
+            truckId: truck.id,
+            loadingKilometer: 0
         })
         const actual = await updateUnloadWeightforTrip(trip.id)
         expect(actual.tripStatus).toBe(true)
@@ -131,7 +134,8 @@ describe('Trip model', () => {
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
             truckId: truck.id,
-            tripStatus: true
+            tripStatus: true,
+            loadingKilometer: 0
         })
         const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)

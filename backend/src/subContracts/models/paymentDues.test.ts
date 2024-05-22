@@ -85,7 +85,8 @@ describe('Payment-Due model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: stockTripTruck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const { id } = await createOverallTrip({
             loadingPointToStockPointTripId: loadingToStockTrip.id
@@ -153,7 +154,8 @@ describe('Payment-Due model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: stockTripTruck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const { id } = await createOverallTrip({
             loadingPointToStockPointTripId: loadingToStockTrip.id
@@ -211,7 +213,8 @@ describe('Payment-Due model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: stockTripTruck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const { id } = await createOverallTrip({
             loadingPointToStockPointTripId: loadingToStockTrip.id
@@ -290,7 +293,8 @@ describe('Payment-Due model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             truckId: stockTripTruck.id,
-            wantFuel: false
+            wantFuel: false,
+            loadingKilometer: 0
         })
         const overallTrip: any = await createOverallTrip({
             loadingPointToStockPointTripId: loadingToStockTrip.id

@@ -56,6 +56,7 @@ interface FormFieldProps {
     setCategory: React.Dispatch<React.SetStateAction<string>>
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setTransporterAmount: React.Dispatch<React.SetStateAction<number>>
+    setLoadingKilometer: React.Dispatch<React.SetStateAction<number>>
     setOwnTruck: React.Dispatch<React.SetStateAction<boolean>>
     setownTruckFuel: React.Dispatch<React.SetStateAction<boolean>>
     category: string
@@ -72,6 +73,7 @@ interface FormFieldProps {
     driversList: never[]
     setDriverName: React.Dispatch<React.SetStateAction<string>>
     driverName: string
+    loadingKilometer: number
 }
 const FormField: React.FC<FormFieldProps> = ({
     control,
@@ -93,6 +95,7 @@ const FormField: React.FC<FormFieldProps> = ({
     setValue,
     setFreightAmount,
     setTransporterAmount,
+    setLoadingKilometer,
     ownTruck,
     setownTruckFuel,
     clear,
@@ -106,7 +109,8 @@ const FormField: React.FC<FormFieldProps> = ({
     setDriverId,
     driversList,
     setDriverName,
-    driverName
+    driverName,
+    loadingKilometer
 }) => {
     const [transporterName, setTransporterName] = useState<string | null>('')
     const [cementCompanyName, setCementCompanyName] = useState<string | null>('')
@@ -118,7 +122,6 @@ const FormField: React.FC<FormFieldProps> = ({
     const [loadingPointName, setLoadingPointName] = useState<string>('')
     const [stockPointName, setStockPointName] = useState<string>('')
     const [unloadingPointName, setUnloadingPointName] = useState<string>('')
-
     useEffect(() => {
         if (cementCompanyName !== null && cementCompanyName !== '')
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
@@ -438,6 +441,22 @@ const FormField: React.FC<FormFieldProps> = ({
                         InputLabelProps={{
                             shrink: true
                         }}
+                    />
+                )}
+                {ownTruck === false && (
+                    <TextField
+                        label="Loading Kilometer"
+                        name="kilometer"
+                        type="number"
+                        sx={{ width: '200px' }}
+                        inputProps={{
+                            pattern: '[0-9]{6}',
+                            title: 'Please enter exactly 6 digits.',
+                            min: 1,
+                            max: 999999
+                        }}
+                        value={loadingKilometer}
+                        onChange={(e) => setLoadingKilometer(parseInt(e.target.value))}
                     />
                 )}
                 {ownTruck === false && (

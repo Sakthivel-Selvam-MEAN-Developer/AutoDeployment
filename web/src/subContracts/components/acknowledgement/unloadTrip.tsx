@@ -21,7 +21,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
     const [shortageAmount, setShortageAmount] = useState<number>(0)
     const [shortageQuantity, setShortageQuantity] = useState<number>(0)
     const [unloadedDate, setUnloadedDate] = useState<Date | null>(null)
-
+    const [unloadingKilometer, setUnloadingKilometer] = useState<number>(0)
     const style = {
         padding: ' 0 20px 20px 20px',
         margin: '30px 20%',
@@ -64,7 +64,8 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
             reason,
             filledLoad: filledLoad * 1000,
             unloadedQuantity: unload,
-            unloadedDate: dayjs(date, 'DD/MM/YYYY').unix()
+            unloadedDate: dayjs(date, 'DD/MM/YYYY').unix(),
+            unloadingKilometer
         }
         await closeTrip(details)
         setRender(!render)
@@ -172,7 +173,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                             />
                         </LocalizationProvider>
                         <Autocomplete
-                            sx={{ width: '200px', margin: '10px 20px 10px 0' }}
+                            sx={{ width: '150px', margin: '10px 20px 10px 0' }}
                             value={approvalType}
                             options={['Acceptable', 'Rejectable']}
                             onChange={(_event, newValue) => {
@@ -184,7 +185,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                             )}
                         />
                         <TextField
-                            sx={{ width: '200px', margin: '10px 20px 10px 0' }}
+                            sx={{ width: '150px', margin: '10px 20px 10px 0' }}
                             id="outlined-basic"
                             label="Reason for Rejection"
                             variant="outlined"
@@ -193,7 +194,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                             disabled={approvalType !== 'Rejectable'}
                         />
                         <TextField
-                            sx={{ width: '200px', marginRight: '20px' }}
+                            sx={{ width: '150px', marginRight: '20px' }}
                             id="outlined-basic"
                             label="Shortage Amount"
                             variant="outlined"
@@ -203,6 +204,20 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                             InputProps={{
                                 endAdornment: <InputAdornment position="start">RS</InputAdornment>
                             }}
+                        />
+                        <TextField
+                            label="Unloading Kilometer"
+                            name="kilometer"
+                            type="number"
+                            sx={{ width: '200px' }}
+                            inputProps={{
+                                pattern: '[0-9]{6}',
+                                title: 'Please enter exactly 6 digits.',
+                                min: 0,
+                                max: 999999
+                            }}
+                            value={unloadingKilometer}
+                            onChange={(e) => setUnloadingKilometer(parseInt(e.target.value))}
                         />
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>

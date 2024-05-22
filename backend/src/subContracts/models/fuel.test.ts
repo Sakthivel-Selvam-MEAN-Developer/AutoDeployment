@@ -47,14 +47,16 @@ describe('Fuel model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id
+            truckId: truck.id,
+            loadingKilometer: 0
         })
         const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
         const bunk = await create(seedBunk)
         await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
-            overallTripId: overAllTrip.id
+            overallTripId: overAllTrip.id,
+            dieselkilometer: 0
         })
         const actual = await getAllFuel()
         expect(actual.length).toBe(1)
@@ -64,7 +66,8 @@ describe('Fuel model', () => {
         const bunk = await create(seedBunkWithoutDep)
         await createFuel({
             ...seedFuel,
-            bunkId: bunk.id
+            bunkId: bunk.id,
+            dieselkilometer: 0
         })
         const actual = await getFuelWithoutTrip(seedFuel.vehicleNumber)
         expect(actual?.vehicleNumber).toBe(seedFuel.vehicleNumber)
@@ -78,7 +81,8 @@ describe('Fuel model', () => {
         const bunk = await create(seedBunkWithoutDep)
         const fuel = await createFuel({
             ...seedFuel,
-            bunkId: bunk.id
+            bunkId: bunk.id,
+            dieselkilometer: 0
         })
         expect(fuel.overallTripId).toBe(null)
 
@@ -98,7 +102,8 @@ describe('Fuel model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id
+            truckId: truck.id,
+            loadingKilometer: 0
         })
         const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
 
@@ -109,7 +114,8 @@ describe('Fuel model', () => {
         const bunk = await create(seedBunkWithoutDep)
         await createFuel({
             ...seedFuel,
-            bunkId: bunk.id
+            bunkId: bunk.id,
+            dieselkilometer: 0
         })
         const actual = await getFuelDetailsWithoutTrip()
         expect(actual[0].bunk.id).toBe(bunk.id)
@@ -118,7 +124,8 @@ describe('Fuel model', () => {
         const bunk = await create(seedBunkWithoutDep)
         const fuel = await createFuel({
             ...seedFuel,
-            bunkId: bunk.id
+            bunkId: bunk.id,
+            dieselkilometer: 0
         })
         const actual = await updateFuelStatus(fuel.id)
         await getAllFuel()

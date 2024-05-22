@@ -5,7 +5,10 @@ import {
     getAllTripByAcknowledgementStatus,
     getOverAllTripById
 } from '../models/overallTrip.ts'
-import { updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
+import {
+    updateUnloadWeightforTrip,
+    updateUnloadingKilometer
+} from '../models/loadingToUnloadingTrip.ts'
 import { updateUnloadWeightForStockTrip } from '../models/stockPointToUnloadingPoint.ts'
 import finalDueLogic from '../domain/finalDueLogic.ts'
 import { create as createPaymentDues, getDueByOverallTripId } from '../models/paymentDues.ts'
@@ -14,6 +17,7 @@ import {
     getShortageQuantityByOverallTripId
 } from '../models/shortageQuantity.ts'
 import { getPercentageByTransporter } from '../models/transporter.ts'
+import { updateStockunloadingKilometer } from '../models/loadingToStockPointTrip.ts'
 import gstDueLogic from '../domain/gstDueLogic.ts'
 
 export const listAllActivetripTripByTripStatus = (_req: Request, res: Response) => {
@@ -89,7 +93,17 @@ export const closeTripById = async (req: Request, res: Response) => {
             const { gstPercentage } = (await getPercentageByTransporter(transporterName)) || {
                 gstPercentage: null
             }
-            await createShortageQuantity(req.body)
+            const newObj = {
+                approvalStatus: req.body.approvalStatus,
+                filledLoad: req.body.filledLoad,
+                overallTripId: req.body.overallTripId,
+                reason: req.body.reason,
+                shortageAmount: req.body.shortageAmount,
+                shortageQuantity: req.body.shortageQuantity,
+                unloadedDate: req.body.unloadedDate,
+                unloadedQuantity: req.body.unloadedQuantity
+            }
+            await createShortageQuantity(newObj)
 
             if (
                 overAllTripData &&
@@ -134,6 +148,17 @@ export const closeTripById = async (req: Request, res: Response) => {
                     transporterAmount =
                         overAllTripData.loadingPointToUnloadingPointTrip.transporterAmount *
                         (req.body.unloadedQuantity / 1000)
+                }
+                if (overAllTripData && overAllTripData.loadingPointToStockPointTrip !== null) {
+                    await updateStockunloadingKilometer(
+                        overAllTripData.loadingPointToStockPointTrip.id,
+                        req.body.unloadingKilometer
+                    )
+                } else {
+                    await updateUnloadingKilometer(
+                        overAllTripData.loadingPointToUnloadingPointTrip.id,
+                        req.body.unloadingKilometer
+                    )
                 }
                 const vehicleNumber =
                     overAllTripData.loadingPointToUnloadingPointTrip?.truck.vehicleNumber
