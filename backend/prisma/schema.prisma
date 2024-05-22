@@ -372,7 +372,7 @@ model loadingPointToStockPointTrip {
   totalFreightAmount             Float                            @db.DoublePrecision
   totalTransporterAmount         Float                            @db.DoublePrecision
   margin                         Float                            @db.DoublePrecision
-  loadingKilometer               Float?                            @db.DoublePrecision
+  loadingKilometer               Float?                           @db.DoublePrecision
   unloadingKilometer             Float?                           @db.DoublePrecision
   loadingPointId                 Int
   invoiceNumber                  String                           @unique
@@ -430,7 +430,7 @@ model loadingPointToUnloadingPointTrip {
   totalFreightAmount     Float          @db.DoublePrecision
   totalTransporterAmount Float          @db.DoublePrecision
   margin                 Float          @db.DoublePrecision
-  loadingKilometer       Float          @db.DoublePrecision
+  loadingKilometer       Float?         @db.DoublePrecision
   unloadingKilometer     Float?         @db.DoublePrecision
   invoiceNumber          String         @unique
   loadingPointId         Int
@@ -464,21 +464,21 @@ model bunk {
 }
 
 model fuel {
-  id               Int          @id @default(autoincrement())
-  fueledDate       Int
-  invoiceNumber    String       @unique
-  pricePerliter    Float        @db.DoublePrecision
-  quantity         Float        @db.DoublePrecision
-  totalprice       Float        @db.DoublePrecision
-  dieselkilometer  Float?       @db.DoublePrecision
-  paymentStatus    Boolean      @default(false)
-  vehicleNumber    String
-  bunk             bunk         @relation(fields: [bunkId], references: [id])
-  bunkId           Int
-  overallTrip      overallTrip? @relation(fields: [overallTripId], references: [id])
-  overallTripId    Int?
-  createdAt        DateTime     @default(now()) @db.Timestamptz(6)
-  updatedAt        DateTime     @default(now()) @db.Timestamptz(6)
+  id              Int          @id @default(autoincrement())
+  fueledDate      Int
+  invoiceNumber   String       @unique
+  pricePerliter   Float        @db.DoublePrecision
+  quantity        Float        @db.DoublePrecision
+  totalprice      Float        @db.DoublePrecision
+  dieselkilometer Float?       @db.DoublePrecision
+  paymentStatus   Boolean      @default(false)
+  vehicleNumber   String
+  bunk            bunk         @relation(fields: [bunkId], references: [id])
+  bunkId          Int
+  overallTrip     overallTrip? @relation(fields: [overallTripId], references: [id])
+  overallTripId   Int?
+  createdAt       DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime     @default(now()) @db.Timestamptz(6)
 
   @@schema("subContract")
 }
