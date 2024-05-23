@@ -13,7 +13,8 @@ import {
     getAllStockPointTrip,
     getInvoiceDetails,
     getStockTripsByinvoiceFilter,
-    updateBillNumber
+    updateBillNumber,
+    getAllStockPointInvoiceNumbers
 } from './loadingToStockPointTrip.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
@@ -170,5 +171,34 @@ describe('Loading To Stock Trip model', () => {
         }
         const tripData = await getStockTripsByinvoiceFilter(mockFilterData)
         expect(tripData[0].invoiceNumber).toBe(trip.invoiceNumber)
+    })
+    test('should able to get all stock point invoice numbers', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const trip = await create({
+            ...seedFactoryToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: true
+        })
+        const invoiceNumbers = await getAllStockPointInvoiceNumbers()
+        expect(invoiceNumbers.length).toBe(1)
+        expect(invoiceNumbers[0].invoiceNumber).toBe(trip.invoiceNumber)
     })
 })

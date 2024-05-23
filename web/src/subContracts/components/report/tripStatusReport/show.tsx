@@ -12,14 +12,17 @@ import { FLOAT } from 'html2canvas/dist/types/css/property-descriptors/float'
 
 interface Row {
     acknowledgementDate: number
+    billNo: string
     stockPointToUnloadingPointTrip: [
         {
             unloadingPoint: {
                 name: string
             }
+            billNo: string
         }
     ]
 
+    transporterInvoice: string
     freightAmount: number
     transporterAmount: number
     totalFreightAmount: number
@@ -39,6 +42,9 @@ interface Row {
     invoiceNumber: string
     loadingPoint: {
         name: string
+        cementCompany: {
+            name: string
+        }
     }
     unloadingPoint: {
         name: string
@@ -75,6 +81,7 @@ interface Props {
     fuel: fuel[]
     shortageQuantity: shortage[]
     number: number
+    transporterInvoice: string
 }
 interface paymentType {
     dueDate: number
@@ -99,6 +106,7 @@ interface dataGridTableProps {
 }
 interface finalDataProps {
     number: number
+    cementCompany: string
     vehicleNumber: string
     startDate: string
     invoiceNumber: string
@@ -114,6 +122,9 @@ interface finalDataProps {
     totalFreightAmount: number
     totalTransporterAmount: number
     margin: number
+    transporterInvoice: string
+    primaryBillNo: string
+    secondaryBillNo: string
     bunkName: string
     fuelQuantity: string | number
     fuelPrice: string | number
@@ -121,7 +132,6 @@ interface finalDataProps {
     amount: string | number
     status: string
     acknowledgementDate: string
-    dueDate: string
     unloadedDate: string
     ranKm: number
     type: string
@@ -140,6 +150,7 @@ const style = {
 let finalData: finalDataProps[] = []
 const columns = [
     { field: 'number', headerName: '#', width: 50 },
+    { field: 'cementCompany', headerName: 'CementCompany Name', width: 240 },
     { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
     { field: 'startDate', headerName: 'Start Date', width: 120 },
     { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
@@ -152,6 +163,9 @@ const columns = [
     { field: 'filledLoad', headerName: 'Filled Load', width: 100 },
     { field: 'transporterAmount', headerName: 'Transporter Rate', width: 130 },
     { field: 'totalTransporterAmount', headerName: 'Total Transporter Amount', width: 180 },
+    { field: 'transporterInvoice', headerName: 'Transporter Invoice', width: 150 },
+    { field: 'primaryBillNo', headerName: 'Primary BillNo', width: 150 },
+    { field: 'secondaryBillNo', headerName: 'Secondary BillNo', width: 150 },
     { field: 'bunkName', headerName: 'Bunk Name', width: 190 },
     { field: 'fuelQuantity', headerName: 'Diesel Quantity', width: 140 },
     { field: 'fuelPrice', headerName: 'Diesel Amount', width: 140 },
@@ -161,7 +175,6 @@ const columns = [
     { field: 'amount', headerName: 'Shortage Amount', width: 150 },
     { field: 'acknowledgementDate', headerName: 'Acknowledgement Date', width: 150 },
     { field: 'status', headerName: 'Trip Status', width: 230 },
-    { field: 'dueDate', headerName: 'Payment DueDate', width: 150 },
     { field: 'type', headerName: 'Payment Status', width: 150 }
 ]
 const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
@@ -227,8 +240,24 @@ const generateRow = (row: Props, index: number) => {
     const unloadingKilometer = data.unloadingKilometer
     const ranKm =
         unloadingKilometer - loadingKilometer >= 0 ? unloadingKilometer - loadingKilometer : 0
+    let primaryBillNo = 'unbilled'
+    let secondaryBillNo = 'unbilled'
+    if (row.loadingPointToUnloadingPointTrip) {
+        primaryBillNo = row.loadingPointToUnloadingPointTrip.billNo ?? 'unbilled'
+        secondaryBillNo = 'Not Applicable'
+    } else if (row.loadingPointToStockPointTrip) {
+        primaryBillNo = row.loadingPointToStockPointTrip.billNo ?? 'unbilled'
+        if (
+            row.loadingPointToStockPointTrip.stockPointToUnloadingPointTrip &&
+            row.loadingPointToStockPointTrip.stockPointToUnloadingPointTrip.length > 0
+        ) {
+            secondaryBillNo =
+                row.loadingPointToStockPointTrip.stockPointToUnloadingPointTrip[0].billNo
+        }
+    }
     finalData.push({
         number: ++index,
+        cementCompany: data.loadingPoint.cementCompany.name,
         vehicleNumber: data.truck.vehicleNumber,
         startDate: epochToMinimalDate(data.startDate),
         invoiceNumber: data.invoiceNumber,
@@ -246,6 +275,9 @@ const generateRow = (row: Props, index: number) => {
         totalFreightAmount: data.totalFreightAmount,
         totalTransporterAmount: data.totalTransporterAmount,
         margin: data.margin,
+        transporterInvoice: row.transporterInvoice ? 'Yes' : 'No',
+        primaryBillNo,
+        secondaryBillNo,
         bunkName: row.fuel.length !== 0 ? row.fuel[0].bunk.bunkName : 'Not Fueled',
         fuelQuantity: row.fuel.length !== 0 ? row.fuel[0].quantity : 'Not Fueled',
         fuelPrice: row.fuel.length !== 0 ? row.fuel[0].totalprice : 'Not Fueled',
@@ -261,7 +293,7 @@ const generateRow = (row: Props, index: number) => {
             ? 'Running'
             : !row.acknowledgementStatus
               ? 'Waiting For Acknowledgement'
-              : 'Completed',
+              : 'Acknowledgement received',
         type: checkPaymentStatus(row.paymentDues),
         acknowledgementDate: row.acknowledgementDate
             ? epochToMinimalDate(row.acknowledgementDate)
@@ -270,8 +302,6 @@ const generateRow = (row: Props, index: number) => {
             row.shortageQuantity.length !== 0
                 ? epochToMinimalDate(row.shortageQuantity[0].unloadedDate)
                 : 'Not Yet Unloaded',
-        dueDate:
-            row.paymentDues.length !== 0 ? epochToMinimalDate(row.paymentDues[0].dueDate) : 'Null',
         ranKm
     })
 }

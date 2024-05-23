@@ -71,3 +71,9 @@ export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
             truck: true
         }
     })
+export const getAllStockToUnloadingPointInvoiceNumbers = () =>
+    prisma.stockPointToUnloadingPointTrip.findMany({
+        select: {
+            invoiceNumber: true
+        }
+    })

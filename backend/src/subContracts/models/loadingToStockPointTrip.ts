@@ -85,3 +85,9 @@ export const getStockTripsByinvoiceFilter = (filterData: filterDataProps) =>
             truck: true
         }
     })
+export const getAllStockPointInvoiceNumbers = () =>
+    prisma.loadingPointToStockPointTrip.findMany({
+        select: {
+            invoiceNumber: true
+        }
+    })

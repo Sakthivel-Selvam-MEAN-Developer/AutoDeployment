@@ -20,3 +20,5 @@ export const getAllUnloadingPoint = (cementCompanyId: number) =>
         .get(`/unloading/${cementCompanyId}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+export const getAllInvoiceNumbers = () => axiosInstance.get('/invoiceNumber').then(getData)

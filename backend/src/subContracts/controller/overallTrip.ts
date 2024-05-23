@@ -7,6 +7,9 @@ import {
     tripStatusFilter,
     tripStatusFilterCount
 } from '../models/overallTrip.ts'
+import { getAllUnloadingPointInvoiceNumbers } from '../models/loadingToUnloadingTrip.ts'
+import { getAllStockPointInvoiceNumbers } from '../models/loadingToStockPointTrip.ts'
+import { getAllStockToUnloadingPointInvoiceNumbers } from '../models/stockPointToUnloadingPoint.ts'
 
 export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) => {
     getOverallTrip()
@@ -17,6 +20,8 @@ type RequestQuery = {
     cementCompanyId: string
     transporterId: string
     loadingPointId: string
+    vehicleNumber: string
+    invoiceNumber: string
     from: string
     to: string
     pageNumber: string
@@ -26,14 +31,45 @@ type listTripStatusReportDetailsProps = (
     res: Response
 ) => void
 export const listTripStatusReportDetails: listTripStatusReportDetailsProps = async (req, res) => {
-    const { cementCompanyId, transporterId, loadingPointId, from, to, pageNumber } = req.query
+    const {
+        cementCompanyId,
+        transporterId,
+        loadingPointId,
+        vehicleNumber,
+        invoiceNumber,
+        from,
+        to,
+        pageNumber
+    } = req.query
     const skipNumber = (parseInt(pageNumber) - 1) * 200
-    tripStatusFilter(cementCompanyId, transporterId, loadingPointId, from, to, skipNumber)
-        .then((filterData) =>
-            tripStatusFilterCount(cementCompanyId, transporterId, loadingPointId, from, to).then(
-                (count) => res.status(200).json({ filterData, count })
-            )
-        )
+    tripStatusFilter(
+        cementCompanyId,
+        transporterId,
+        loadingPointId,
+        vehicleNumber,
+        invoiceNumber,
+        from,
+        to,
+        skipNumber
+    )
+        .then((filterData) => {
+            filterData.sort((a, b) => {
+                const dateA = new Date(a.createdAt)
+                const dateB = new Date(b.createdAt)
+                if (dateA > dateB) return -1
+                if (dateA < dateB) return 1
+                return 0
+            })
+            tripStatusFilterCount(
+                cementCompanyId,
+                transporterId,
+                loadingPointId,
+                vehicleNumber,
+                invoiceNumber,
+                from,
+                to
+            ).then((count) => res.status(200).json({ filterData, count }))
+        })
         .catch(() => res.status(500))
 }
 
@@ -153,4 +189,21 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
             res.status(200).json(filteredData)
         })
         .catch(() => res.status(500))
+}
+
+export const listAllInvoiceNumbers = async (_req: Request, res: Response) => {
+    try {
+        const stockPointInvoiceNumbers = await getAllStockPointInvoiceNumbers()
+        const stockToUnloadingPointInvoiceNumbers =
+            await getAllStockToUnloadingPointInvoiceNumbers()
+        const unloadingPointInvoiceNumbers = await getAllUnloadingPointInvoiceNumbers()
+        const allInvoiceNumbers = [
+            ...stockPointInvoiceNumbers,
+            ...stockToUnloadingPointInvoiceNumbers,
+            ...unloadingPointInvoiceNumbers
+        ]
+        res.status(200).json(allInvoiceNumbers)
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' })
+    }
 }

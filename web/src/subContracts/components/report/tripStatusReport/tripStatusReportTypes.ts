@@ -8,6 +8,8 @@ export type dispatchType =
     | { type: string; cementCompanyId: number }
     | { type: string; transporterId: number }
     | { type: string; loadinPointId: number }
+    | { type: string; vehicleNumber: string }
+    | { type: string; invoiceNumber: string }
     | { type: string; from: number; to: number }
     | { type: string; pageNumber: number }
 export interface TripFilterFormProps {
@@ -24,6 +26,8 @@ export type ActionType = {
     cementCompanyId: number
     transporterId: number
     loadinPointId: number
+    vehicleNumber: string
+    invoiceNumber: string
     from: number
     to: number
     pageNumber: number

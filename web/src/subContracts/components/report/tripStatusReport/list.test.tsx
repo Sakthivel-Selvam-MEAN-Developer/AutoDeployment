@@ -9,10 +9,24 @@ const mockGetOverallTripByFilter = vi.fn()
 const mockLoadingPointByCompanyName = vi.fn()
 const mockAllTransporter = vi.fn()
 const mockAllCementCompany = vi.fn()
+const mockAllTruck = vi.fn()
+const mockAllInvoiceNumbers = vi.fn()
 
 vi.mock('../../../services/overallTrips', () => ({
-    tripStatusFilter: (cementCompanyId: any, transporterId: any, loadingPointId: any) =>
-        mockGetOverallTripByFilter(cementCompanyId, transporterId, loadingPointId)
+    tripStatusFilter: (
+        cementCompanyId: any,
+        transporterId: any,
+        loadingPointId: any,
+        vehicleNumber: any,
+        invoiceNumber: any
+    ) =>
+        mockGetOverallTripByFilter(
+            cementCompanyId,
+            transporterId,
+            loadingPointId,
+            vehicleNumber,
+            invoiceNumber
+        )
 }))
 vi.mock('../../../services/loadingPoint', () => ({
     getLoadingPointByCompanyName: () => mockLoadingPointByCompanyName()
@@ -22,6 +36,12 @@ vi.mock('../../../services/transporter', () => ({
 }))
 vi.mock('../../../services/cementCompany', () => ({
     getAllCementCompany: () => mockAllCementCompany()
+}))
+vi.mock('../../../services/truck', () => ({
+    getAllTruck: () => mockAllTruck()
+}))
+vi.mock('../../../services/unloadingPoint', () => ({
+    getAllInvoiceNumbers: () => mockAllInvoiceNumbers()
 }))
 vi.mock('../../../../auth/checkUser', () => ({
     CheckUser: () => () => {
@@ -105,6 +125,16 @@ const mockFactory = [
         cementCompany: mockCompanyData
     }
 ]
+const mockTruckData = [
+    {
+        vehicleNumber: 'TN93D5512'
+    }
+]
+const mockInvoiceData = [
+    {
+        invoiceNumber: 'ABC123'
+    }
+]
 
 describe('Report Test', () => {
     beforeEach(() => {
@@ -113,6 +143,8 @@ describe('Report Test', () => {
         mockAllTransporter.mockResolvedValue(mockTransporterData)
         mockAllCementCompany.mockResolvedValue(mockCompanyData)
         mockLoadingPointByCompanyName.mockResolvedValue(mockFactory)
+        mockAllTruck.mockResolvedValue(mockTruckData)
+        mockAllInvoiceNumbers.mockResolvedValue(mockInvoiceData)
     })
 
     test('should to able to create inputs working', async () => {
@@ -159,10 +191,37 @@ describe('Report Test', () => {
             name: 'Chennai-south'
         })
         await userEvent.click(opt)
+        // Select Vehicle Number
+        const vehicleNumber = screen.getByRole('combobox', {
+            name: 'Select Vehicle Number'
+        })
+        await userEvent.click(vehicleNumber)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const vehicleChoice = screen.getByRole('option', {
+            name: 'TN93D5512'
+        })
+        await userEvent.click(vehicleChoice)
+
+        // Select Invoice Number
+        const invoiceNumber = screen.getByRole('combobox', {
+            name: 'Select Invoice Number'
+        })
+        await userEvent.click(invoiceNumber)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const invoiceChoice = screen.getByRole('option', {
+            name: 'ABC123'
+        })
+        await userEvent.click(invoiceChoice)
 
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
         expect(mockLoadingPointByCompanyName).toHaveBeenCalledTimes(1)
+        expect(mockAllTruck).toHaveBeenCalledTimes(1)
+        expect(mockAllInvoiceNumbers).toHaveBeenCalledTimes(1)
     })
     test('should be able to view trip data after clicking submit', async () => {
         render(
@@ -222,6 +281,32 @@ describe('Report Test', () => {
             name: 'Chennai-south'
         })
         await userEvent.click(opt)
+
+        //  Select Vehicle Number
+        const vehicleNumber = screen.getByRole('combobox', {
+            name: 'Select Vehicle Number'
+        })
+        await userEvent.click(vehicleNumber)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const vehicleChoice = screen.getByRole('option', {
+            name: 'TN93D5512'
+        })
+        await userEvent.click(vehicleChoice)
+
+        //  Select Invoice Number
+        const invoiceNumber = screen.getByRole('combobox', {
+            name: 'Select Invoice Number'
+        })
+        await userEvent.click(invoiceNumber)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const invoiceChoice = screen.getByRole('option', {
+            name: 'ABC123'
+        })
+        await userEvent.click(invoiceChoice)
         const start = screen.getByRole('button', { name: 'Filter' })
         await userEvent.click(start)
 
@@ -230,6 +315,8 @@ describe('Report Test', () => {
         expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         expect(screen.getByText('Chennai-south')).toBeInTheDocument()
         expect(screen.getByText('Advance Pending')).toBeInTheDocument()
+        expect(screen.getByText('TN93D5512')).toBeInTheDocument()
+        expect(screen.getByText('ABC123')).toBeInTheDocument()
         expect(mockGetOverallTripByFilter).toHaveBeenCalledTimes(2)
     })
 })

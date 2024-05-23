@@ -9,6 +9,8 @@ export const initialFilterData = {
     cementCompanyId: undefined,
     loadinPointId: undefined,
     transporterId: undefined,
+    vehicleNumber: undefined,
+    invoiceNumber: undefined,
     from: undefined,
     to: undefined
 }

@@ -253,6 +253,8 @@ export const overallTripByFilter = (
     cementCompanyId: number,
     transporterId: number,
     loadingPointId: number,
+    vehicleNumber: string,
+    invoiceNumber: string,
     from: number,
     to: number
 ) =>
@@ -271,7 +273,12 @@ export const overallTripByFilter = (
                             loadingPointToUnloadingPointTrip: { loadingPoint: { cementCompanyId } }
                         },
                         {
-                            loadingPointToUnloadingPointTrip: { truck: { transporterId } }
+                            loadingPointToUnloadingPointTrip: {
+                                truck: { transporterId, vehicleNumber }
+                            }
+                        },
+                        {
+                            loadingPointToUnloadingPointTrip: { invoiceNumber }
                         }
                     ]
                 },
@@ -287,7 +294,12 @@ export const overallTripByFilter = (
                             loadingPointToStockPointTrip: { loadingPoint: { cementCompanyId } }
                         },
                         {
-                            loadingPointToStockPointTrip: { truck: { transporterId } }
+                            loadingPointToStockPointTrip: {
+                                truck: { transporterId, vehicleNumber }
+                            }
+                        },
+                        {
+                            loadingPointToUnloadingPointTrip: { invoiceNumber }
                         }
                     ]
                 }
@@ -299,15 +311,15 @@ export const overallTripByFilter = (
             loadingPointToStockPointTrip: {
                 include: {
                     truck: { include: { transporter: true } },
-                    loadingPoint: true,
+                    loadingPoint: { include: { cementCompany: true } },
                     stockPoint: true
                 }
             },
-            stockPointToUnloadingPointTrip: { select: { unloadingPoint: true } },
+            stockPointToUnloadingPointTrip: { select: { billNo: true, unloadingPoint: true } },
             loadingPointToUnloadingPointTrip: {
                 include: {
                     truck: { include: { transporter: true } },
-                    loadingPoint: true
+                    loadingPoint: { include: { cementCompany: true } }
                 }
             }
         }
@@ -336,18 +348,29 @@ export const getTripByUnloadDate = (date: number) =>
             }
         }
     })
-
 export const getAllDiscrepancyReport = (from: number, to: number) =>
     prisma.overallTrip.findMany({
         where: {
             OR: [
                 {
                     acknowledgementStatus: true,
-                    loadingPointToStockPointTrip: { startDate: { gte: from, lte: to } }
+                    transporterInvoice: {
+                        not: ''
+                    },
+                    loadingPointToStockPointTrip: {
+                        startDate: { gte: from, lte: to },
+                        truck: { transporter: { transporterType: { not: 'Own' } } }
+                    }
                 },
                 {
                     acknowledgementStatus: true,
-                    loadingPointToUnloadingPointTrip: { startDate: { gte: from, lte: to } }
+                    transporterInvoice: {
+                        not: ''
+                    },
+                    loadingPointToUnloadingPointTrip: {
+                        startDate: { gte: from, lte: to },
+                        truck: { transporter: { transporterType: { not: 'Own' } } }
+                    }
                 }
             ]
         },
@@ -404,6 +427,8 @@ export const tripStatusFilter = (
     cementCompanyId?: string,
     transporterId?: string,
     loadingPointId?: string,
+    vehicleNumber?: string,
+    invoiceNumber?: string,
     from?: string,
     to?: string,
     skipNumber?: number
@@ -427,9 +452,11 @@ export const tripStatusFilter = (
                                     ? undefined
                                     : parseInt(cementCompanyId)
                         },
+                        invoiceNumber: invoiceNumber === undefined ? undefined : invoiceNumber,
                         truck: {
                             transporterId:
-                                transporterId === undefined ? undefined : parseInt(transporterId)
+                                transporterId === undefined ? undefined : parseInt(transporterId),
+                            vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
                         }
                     }
                 },
@@ -447,9 +474,11 @@ export const tripStatusFilter = (
                                     ? undefined
                                     : parseInt(cementCompanyId)
                         },
+                        invoiceNumber: invoiceNumber === undefined ? undefined : invoiceNumber,
                         truck: {
                             transporterId:
-                                transporterId === undefined ? undefined : parseInt(transporterId)
+                                transporterId === undefined ? undefined : parseInt(transporterId),
+                            vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
                         }
                     }
                 }
@@ -462,15 +491,17 @@ export const tripStatusFilter = (
             loadingPointToStockPointTrip: {
                 include: {
                     truck: { include: { transporter: true } },
-                    loadingPoint: true,
+                    loadingPoint: { include: { cementCompany: true } },
                     stockPoint: true,
-                    stockPointToUnloadingPointTrip: { select: { unloadingPoint: true } }
+                    stockPointToUnloadingPointTrip: {
+                        select: { unloadingPoint: true, billNo: true }
+                    }
                 }
             },
             loadingPointToUnloadingPointTrip: {
                 include: {
                     truck: { include: { transporter: true } },
-                    loadingPoint: true,
+                    loadingPoint: { include: { cementCompany: true } },
                     unloadingPoint: true
                 }
             }
@@ -481,6 +512,8 @@ export const tripStatusFilterCount = (
     cementCompanyId?: string,
     transporterId?: string,
     loadingPointId?: string,
+    vehicleNumber?: string,
+    invoiceNumber?: string,
     from?: string,
     to?: string
 ) =>
@@ -501,9 +534,11 @@ export const tripStatusFilterCount = (
                                     ? undefined
                                     : parseInt(cementCompanyId)
                         },
+                        invoiceNumber: invoiceNumber === undefined ? undefined : invoiceNumber,
                         truck: {
                             transporterId:
-                                transporterId === undefined ? undefined : parseInt(transporterId)
+                                transporterId === undefined ? undefined : parseInt(transporterId),
+                            vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
                         }
                     }
                 },
@@ -521,9 +556,11 @@ export const tripStatusFilterCount = (
                                     ? undefined
                                     : parseInt(cementCompanyId)
                         },
+                        invoiceNumber: invoiceNumber === undefined ? undefined : invoiceNumber,
                         truck: {
                             transporterId:
-                                transporterId === undefined ? undefined : parseInt(transporterId)
+                                transporterId === undefined ? undefined : parseInt(transporterId),
+                            vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
                         }
                     }
                 }
@@ -607,30 +644,69 @@ export const getTripByTransporterInvoice = () =>
                 }
             ]
         },
-        include: {
+        select: {
             loadingPointToStockPointTrip: {
-                include: {
-                    stockPointToUnloadingPointTrip: {
-                        include: { unloadingPoint: true }
+                select: {
+                    startDate: true,
+                    invoiceNumber: true,
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
                     },
-                    loadingPoint: true,
-                    stockPoint: true,
                     truck: {
                         select: {
                             vehicleNumber: true,
-                            transporter: true
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true
+                                }
+                            }
+                        }
+                    },
+                    stockPointToUnloadingPointTrip: {
+                        select: {
+                            startDate: true,
+                            invoiceNumber: true,
+                            unloadingPoint: {
+                                select: {
+                                    name: true
+                                }
+                            },
+                            truck: {
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: {
+                                        select: {
+                                            name: true,
+                                            csmName: true
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             },
             loadingPointToUnloadingPointTrip: {
-                include: {
-                    loadingPoint: true,
-                    unloadingPoint: true,
+                select: {
+                    startDate: true,
+                    invoiceNumber: true,
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
                     truck: {
                         select: {
                             vehicleNumber: true,
-                            transporter: true
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true
+                                }
+                            }
                         }
                     }
                 }

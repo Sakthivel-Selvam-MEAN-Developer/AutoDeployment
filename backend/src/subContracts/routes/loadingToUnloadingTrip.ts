@@ -10,5 +10,4 @@ const tripRoutes = (router: Router) => {
     router.post('/trip', createTrip)
     router.get('/trip/:trucknumber', ListTripByVehicleNumber)
 }
-
 export default tripRoutes

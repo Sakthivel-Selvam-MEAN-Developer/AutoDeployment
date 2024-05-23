@@ -128,3 +128,9 @@ export const getInvoiceDetails = (id: number[]) =>
             filledLoad: true
         }
     })
+export const getAllUnloadingPointInvoiceNumbers = () =>
+    prisma.loadingPointToUnloadingPointTrip.findMany({
+        select: {
+            invoiceNumber: true
+        }
+    })

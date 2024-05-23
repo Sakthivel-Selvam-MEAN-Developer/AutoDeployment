@@ -3,7 +3,8 @@ import {
     listOverallTripWithPaymentStatus,
     listTripDetailsByUnloadDate,
     listTripStatusReportDetails,
-    listAllDiscrepancyReport
+    listAllDiscrepancyReport,
+    listAllInvoiceNumbers
 } from '../controller/overallTrip.ts'
 
 const overallTrip = (router: Router) => {
@@ -11,6 +12,7 @@ const overallTrip = (router: Router) => {
     router.get('/overalltrip/tripstatusreport', listTripStatusReportDetails)
     router.get('/overalltrip/acknowledgement/:date', listTripDetailsByUnloadDate)
     router.get('/overalltrip/report/discrepancy/:from/:to', listAllDiscrepancyReport)
+    router.get('/invoiceNumber', listAllInvoiceNumbers)
 }
 
 export default overallTrip
