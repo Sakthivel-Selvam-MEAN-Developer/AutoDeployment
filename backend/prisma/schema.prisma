@@ -583,24 +583,23 @@ model billNo {
 }
 
 model driver {
-  id                 Int                @id @default(autoincrement())
+  id                 Int          @id @default(autoincrement())
   name               String
   fatherName         String
   dateofBirth        Int
-  aadharNumber       String             @unique
-  panNumber          String             @unique
+  aadharNumber       String       @unique
+  panNumber          String       @unique
   address            String
-  mobileNumber       String             @unique
-  driverLicense      String             @unique
+  mobileNumber       String       @unique
+  driverLicense      String       @unique
   licenseExpriryDate Int
   bankName           String
-  accountNumber      String             @unique
+  accountNumber      String       @unique
   accountBranch      String
   ifcsCode           String
-  createdAt          DateTime           @default(now()) @db.Timestamptz(6)
-  updatedAt          DateTime           @updatedAt @db.Timestamptz(6)
+  createdAt          DateTime     @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime     @updatedAt @db.Timestamptz(6)
   driverTrip         driverTrip[]
-  driverAttendance   driverAttendance[]
 
   @@schema("driverSalary")
 }
@@ -621,13 +620,11 @@ model driverTrip {
 }
 
 model driverAttendance {
-  id             Int      @id @default(autoincrement())
-  date           Int
-  driverPresence Boolean
-  createdAt      DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime @updatedAt @db.Timestamptz(6)
-  driver         driver   @relation(fields: [driverId], references: [id])
-  driverId       Int
+  id         Int      @id @default(autoincrement())
+  attendance Json[]
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
+  driverId   Int
 
   @@schema("driverSalary")
 }

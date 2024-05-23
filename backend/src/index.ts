@@ -32,6 +32,7 @@ import driverTripRoutes from './driverSalary/routes/driverTrip.ts'
 import expenseRoutes from './driverSalary/routes/expense.ts'
 import tripBettaRoutes from './driverSalary/routes/tripBetta.ts'
 import transporterInvoiceRoutes from './subContracts/routes/transporterInvoice.ts'
+import driverAttendanceRoutes from './driverSalary/routes/driverAttendance.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -76,5 +77,6 @@ driverRoutes(router)
 driverTripRoutes(router)
 expenseRoutes(router)
 tripBettaRoutes(router)
+driverAttendanceRoutes(router)
 
 export default router

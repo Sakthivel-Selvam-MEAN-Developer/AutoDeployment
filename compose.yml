@@ -21,14 +21,14 @@ services:
     volumes:
       - ./:/app/
     working_dir: /app
-    command: ["sh", "-c","/app/deploy/setup.sh"]
+    command: [ "sh", "-c", "/app/deploy/setup.sh" ]
 
   migrate:
     image: node:21.5.0-alpine3.18
     volumes:
       - ./:/app/
     working_dir: /app
-    command: ["yarn", "b", "prismaMigrateDev" ]
+    command: [ "yarn", "b", "prismaMigrateDev" ]
     depends_on:
       - setup
 
@@ -53,7 +53,7 @@ services:
       - 8000:8000
     networks:
       - postgres-network
-    command: ["yarn", "b", "runProd"]
+    command: [ "yarn", "b", "runProd" ]
 
   certbot:
     image: certbot/certbot:v2.9.0
@@ -72,7 +72,7 @@ services:
       - ./nginx/logs:/usr/share/nginx/logs
     networks:
       - postgres-network
-    command: [nginx-debug, '-g', 'daemon off;']
+    command: [ nginx-debug, '-g', 'daemon off;' ]
 
   local-nginx:
     image: nginx:1.25.3-alpine3.18
@@ -88,18 +88,18 @@ services:
     command: [ nginx-debug, '-g', 'daemon off;' ]
 
   terra:
-     image: "alpine/terragrunt:1.7.3"
-     platform: linux/amd64
-     environment:
-       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-       AWS_DEFAULT_REGION: "us-east-1"
-       GANDI_PERSONAL_ACCESS_TOKEN: ${GANDI_PERSONAL_ACCESS_TOKEN}
-       TF_LOG: error
-     volumes:
-       - ./:/app/
-     working_dir: /app/deploy/live/test
-     command: ["bash"]
+    image: "alpine/terragrunt:1.7.3"
+    platform: linux/amd64
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: "us-east-1"
+      GANDI_PERSONAL_ACCESS_TOKEN: ${GANDI_PERSONAL_ACCESS_TOKEN}
+      TF_LOG: error
+    volumes:
+      - ./:/app/
+    working_dir: /app/deploy/live/test
+    command: [ "bash" ]
 
 networks:
   postgres-network:

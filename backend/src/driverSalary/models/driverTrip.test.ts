@@ -4,7 +4,7 @@ import seedDriver from '../seed/driver.ts'
 import { create as createDriver } from './driver.ts'
 
 describe('Driver model', () => {
-    test('should able to createa nmd get All Driver Trip By Id', async () => {
+    test('should able to create and get All Driver Trip By Id', async () => {
         const driver = await createDriver(seedDriver)
         const driverTrip = await create({
             ...seedDriverTrip,

@@ -11,3 +11,5 @@ export interface tokenProps {
 export const createDriver = (data: driverProps) => axiosInstance.post(`/driver`, data).then(getData)
 
 export const getAllDriver = () => axiosInstance.get(`/driver`).then(getData)
+
+export const getFilteredDriverDetails = () => axiosInstance.get(`/fillterDriver`).then(getData)
