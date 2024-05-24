@@ -4,7 +4,7 @@ import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { Control, Controller } from 'react-hook-form'
 import { getAllBunk } from '../../services/bunk.ts'
 import { InputAdornment, TextField } from '@mui/material'
-import { getAllTruck } from '../../services/truck.ts'
+import { getAllTruck, getNumberByTruckId } from '../../services/truck.ts'
 import DateInput from '../../../form/DateInput.tsx'
 import TextInput from '../../../form/TextInput.tsx'
 import { SetStateAction } from 'jotai'
@@ -20,7 +20,19 @@ interface FormFieldsProps {
     setQuantity: React.Dispatch<SetStateAction<number>>
     setDieselkilometer: React.Dispatch<SetStateAction<number>>
 }
-
+interface vehicleProps {
+    id: number
+    vehicleNumber: string
+    capacity: number
+    transporterId: number
+}
+interface transporterType {
+    vehicleNumber: string
+    transporter: {
+        name: string
+        transporterType: string
+    }
+}
 const FuelFormFields: React.FC<FormFieldsProps> = ({
     control,
     setBunkId,
@@ -34,11 +46,16 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
 }) => {
     const [bunkList, setBunkList] = useState([])
     const [bunkLocation, setBunkLocation] = useState<string>('')
-    const [vehicleList, setvehicleList] = useState([])
+    const [vehicleList, setvehicleList] = useState<vehicleProps[]>([])
+    const [truckId, setTruckId] = useState<number>(0)
+    const [transporterType, setTransporterType] = useState<transporterType>()
     useEffect(() => {
         getAllBunk().then(setBunkList)
         getAllTruck().then(setvehicleList)
     }, [])
+    useEffect(() => {
+        getNumberByTruckId(truckId).then(setTransporterType)
+    }, [truckId])
 
     return (
         <div
@@ -80,7 +97,10 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                 fieldName="vehicleNumber"
                 label="Vehicle Number"
                 options={vehicleList ? vehicleList.map(({ vehicleNumber }) => vehicleNumber) : []}
-                onChange={() => {}}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    const data = vehicleList.filter((vehicle) => newValue === vehicle.vehicleNumber)
+                    setTruckId(data[0].id)
+                }}
             />
             <Controller
                 render={() => (
@@ -143,20 +163,22 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                 InputLabelProps={{ shrink: true }}
             />
             <TextInput control={control} label="Diesel Bill Number" fieldName="invoiceNumber" />
-            <TextField
-                label="Diesel Kilometer"
-                name="kilometer"
-                type="number"
-                sx={{ width: '200px' }}
-                inputProps={{
-                    pattern: '[0-9]{6}',
-                    title: 'Please enter exactly 6 digits.',
-                    min: 0,
-                    max: 999999
-                }}
-                value={dieselkilometer}
-                onChange={(e) => setDieselkilometer(parseInt(e.target.value))}
-            />
+            {transporterType?.transporter.transporterType === 'Own' && (
+                <TextField
+                    label="Diesel Kilometer"
+                    name="kilometer"
+                    type="number"
+                    sx={{ width: '200px' }}
+                    inputProps={{
+                        pattern: '[0-9]{6}',
+                        title: 'Please enter exactly 6 digits.',
+                        min: 0,
+                        max: 999999
+                    }}
+                    value={dieselkilometer}
+                    onChange={(e) => setDieselkilometer(parseInt(e.target.value))}
+                />
+            )}
         </div>
     )
 }

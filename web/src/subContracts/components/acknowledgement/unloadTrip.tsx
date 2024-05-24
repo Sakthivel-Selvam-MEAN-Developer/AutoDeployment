@@ -205,20 +205,27 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                                 endAdornment: <InputAdornment position="start">RS</InputAdornment>
                             }}
                         />
-                        <TextField
-                            label="Unloading Kilometer"
-                            name="kilometer"
-                            type="number"
-                            sx={{ width: '200px' }}
-                            inputProps={{
-                                pattern: '[0-9]{6}',
-                                title: 'Please enter exactly 6 digits.',
-                                min: 0,
-                                max: 999999
-                            }}
-                            value={unloadingKilometer}
-                            onChange={(e) => setUnloadingKilometer(parseInt(e.target.value))}
-                        />
+                        {(tripDetails.stockPointToUnloadingPointTrip !== null
+                            ? tripDetails.stockPointToUnloadingPointTrip
+                                  .loadingPointToStockPointTrip.truck.transporter
+                                  .transporterType === 'Own'
+                            : tripDetails.loadingPointToUnloadingPointTrip.truck.transporter
+                                  .transporterType === 'Own') && (
+                            <TextField
+                                label="Unloading Kilometer"
+                                name="kilometer"
+                                type="number"
+                                sx={{ width: '200px' }}
+                                inputProps={{
+                                    pattern: '[0-9]{6}',
+                                    title: 'Please enter exactly 6 digits.',
+                                    min: 0,
+                                    max: 999999
+                                }}
+                                value={unloadingKilometer}
+                                onChange={(e) => setUnloadingKilometer(parseInt(e.target.value))}
+                            />
+                        )}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                         <Button

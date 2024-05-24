@@ -443,7 +443,7 @@ const FormField: React.FC<FormFieldProps> = ({
                         }}
                     />
                 )}
-                {ownTruck === false && (
+                {ownTruck === true && (
                     <TextField
                         label="Loading Kilometer"
                         name="kilometer"

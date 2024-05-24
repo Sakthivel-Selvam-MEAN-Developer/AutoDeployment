@@ -37,3 +37,9 @@ export const closeTrip = (tripDetails: dataProps) =>
         .put(`/acknowledgement/trip`, tripDetails)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+export const getNumberByTruckId = (id: number) =>
+    axiosInstance
+        .get(`/truck/transpotertype/${id}`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

@@ -7,6 +7,7 @@ import Fuel from './fuel'
 const mockCreateFuel = vi.fn()
 const mockAllBunk = vi.fn()
 const mockAllTruck = vi.fn()
+const mockNumberByTruckId = vi.fn()
 
 vi.mock('../../services/fuel', () => ({
     createFuel: (inputs: any) => mockCreateFuel(inputs)
@@ -15,7 +16,8 @@ vi.mock('../../services/bunk', () => ({
     getAllBunk: () => mockAllBunk()
 }))
 vi.mock('../../services/truck', () => ({
-    getAllTruck: () => mockAllTruck()
+    getAllTruck: () => mockAllTruck(),
+    getNumberByTruckId: () => mockNumberByTruckId()
 }))
 
 const mockFuelData = {
@@ -42,12 +44,19 @@ const mockTruck = [
         vehicleNumber: 'TN56CC5678'
     }
 ]
-
+const mockNumByTruckId = {
+    vehicleNumber: 'TN56CC5678',
+    transporter: {
+        name: 'Magnum Logistics Pvt Ltd',
+        transporterType: 'Own'
+    }
+}
 describe('Add Fuel Details', () => {
     beforeEach(() => {
         mockCreateFuel.mockResolvedValue(mockFuelData)
         mockAllBunk.mockResolvedValue(mockAllBunkData)
         mockAllTruck.mockResolvedValue(mockTruck)
+        mockNumberByTruckId.mockResolvedValue(mockNumByTruckId)
     })
     test('should fetch bunk & station data from Db', async () => {
         expect(mockAllBunk).toHaveBeenCalledTimes(0)

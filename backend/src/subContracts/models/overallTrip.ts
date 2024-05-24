@@ -744,3 +744,13 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
             }
         }
     })
+export const getNumberByTruckId = (id: number) =>
+    prisma.truck.findFirst({
+        where: { id },
+        select: {
+            vehicleNumber: true,
+            transporter: {
+                select: { name: true, transporterType: true }
+            }
+        }
+    })

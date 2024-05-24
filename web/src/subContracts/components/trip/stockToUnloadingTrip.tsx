@@ -228,17 +228,15 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                         endAdornment: null
                     }}
                 />
-                <div style={{ marginLeft: '20px', display: 'flex' }}>
-                    <Button
-                        disabled={
-                            invoiceNumber === '' || unloadingPointName === '' || stockDate === 0
-                        }
-                        type="submit"
-                        sx={{ width: '100px' }}
-                    >
-                        Create
-                    </Button>
-                </div>
+
+                <Button
+                    style={{ marginLeft: '20px', display: 'flex' }}
+                    disabled={invoiceNumber === '' || unloadingPointName === '' || stockDate === 0}
+                    type="submit"
+                    sx={{ width: '100px' }}
+                >
+                    Create
+                </Button>
             </form>
         </div>
     )

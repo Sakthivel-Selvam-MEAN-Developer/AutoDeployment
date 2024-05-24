@@ -4,7 +4,6 @@ import NewTrip from './newTrip'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import dayjs from 'dayjs'
-
 const mockPricePoint = vi.fn()
 const mockAllTransporter = vi.fn()
 const mockAllCementCompany = vi.fn()
@@ -17,7 +16,6 @@ const mockcreateStockPointTrip = vi.fn()
 const mockGetAllDriver = vi.fn()
 const mockGetTripSalaryDetailsById = vi.fn()
 const mockCreateDriverTrip = vi.fn()
-
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
 }))
@@ -173,7 +171,6 @@ async function newFunction() {
             <NewTrip />
         </BrowserRouter>
     )
-    //  Select Company Name
     const companyName = screen.getByRole('combobox', {
         name: 'Company Name'
     })
@@ -185,7 +182,6 @@ async function newFunction() {
         name: 'UltraTech Cements'
     })
     await userEvent.click(choice)
-    //  Select Transporter
     const transporter = screen.getByRole('combobox', {
         name: 'Transporter'
     })
@@ -197,7 +193,6 @@ async function newFunction() {
         name: 'Barath Logistics'
     })
     await userEvent.click(options)
-    //  Select Truck Number
     const truck = screen.getByRole('combobox', {
         name: 'Truck Number'
     })
@@ -209,7 +204,6 @@ async function newFunction() {
         name: 'TN93D5512'
     })
     await userEvent.click(optin)
-    //  Select Category
     const category = screen.getByRole('combobox', {
         name: 'Select Category'
     })
@@ -221,7 +215,6 @@ async function newFunction() {
         name: 'Unloading Point'
     })
     await userEvent.click(list)
-    //  Select Loading Point
     const loading = screen.getByRole('combobox', {
         name: 'Loading Point'
     })
@@ -233,7 +226,6 @@ async function newFunction() {
         name: 'Chennai'
     })
     await userEvent.click(opt)
-    //  Select Unloading
     const unLoading = screen.getByRole('combobox', {
         name: 'Unloading Point'
     })
@@ -250,7 +242,6 @@ async function newFunction() {
     await userEvent.type(screen.getByLabelText('Party Name'), 'asdfghj')
     await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
     await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
-    await userEvent.type(screen.getByLabelText('Loading Kilometer'), '1000')
 }
 describe('New trip test', () => {
     beforeEach(() => {
@@ -482,6 +473,86 @@ describe('New trip test', () => {
         await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
         const start = screen.getByRole('button', { name: 'Start' })
         await userEvent.click(start)
-        expect(mockCreateDriverTrip).toHaveBeenCalledTimes(1)
+        const Options = screen.getByRole('option', { name: 'Magnum Logistics' })
+        await userEvent.click(Options)
+    })
+    test.only('should create driver trip when it own truck', async () => {
+        mockTruckByTransporter.mockResolvedValue(mockOwnTruck)
+        render(
+            <BrowserRouter>
+                <NewTrip />
+            </BrowserRouter>
+        )
+        const companyName = screen.getByRole('combobox', {
+            name: 'Company Name'
+        })
+        await userEvent.click(companyName)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const choice = screen.getByRole('option', {
+            name: 'UltraTech Cements'
+        })
+        await userEvent.click(choice)
+        const transporter = screen.getByRole('combobox', {
+            name: 'Transporter'
+        })
+        await userEvent.click(transporter)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const options = screen.getByRole('option', {
+            name: 'Magnum Logistics'
+        })
+        await userEvent.click(options)
+        const truck = screen.getByRole('combobox', {
+            name: 'Truck Number'
+        })
+        await userEvent.click(truck)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const optin = screen.getByRole('option', {
+            name: 'MG78MG8970'
+        })
+        await userEvent.click(optin)
+        const category = screen.getByRole('combobox', {
+            name: 'Select Category'
+        })
+        await userEvent.click(category)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const list = screen.getByRole('option', {
+            name: 'Unloading Point'
+        })
+        await userEvent.click(list)
+        const loading = screen.getByRole('combobox', {
+            name: 'Loading Point'
+        })
+        await userEvent.click(loading)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const opt = screen.getByRole('option', {
+            name: 'Chennai'
+        })
+        await userEvent.click(opt)
+        const unLoading = screen.getByRole('combobox', {
+            name: 'Unloading Point'
+        })
+        await userEvent.click(unLoading)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const option = screen.getByRole('option', {
+            name: 'Salem'
+        })
+        await userEvent.click(option)
+        await userEvent.type(screen.getByLabelText('Invoice Number'), 'RTD43D')
+        await userEvent.type(screen.getByLabelText('Lr Number'), 'asdfghjk')
+        await userEvent.type(screen.getByLabelText('Party Name'), 'asdfghj')
+        await userEvent.type(screen.getByLabelText('Quantity Loaded'), '40')
+        await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
     })
 })

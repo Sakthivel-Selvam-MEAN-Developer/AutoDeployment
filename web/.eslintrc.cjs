@@ -43,7 +43,7 @@ module.exports = {
         {
             files: ['*.test.tsx', '*.test.ts'],
             rules: {
-                'max-lines': ['error', 500],
+                'max-lines': ['error', 600],
                 'max-lines-per-function': ['error', 500],
                 "@typescript-eslint/no-explicit-any": "off",
                 "max-statements": ["warn", 50],

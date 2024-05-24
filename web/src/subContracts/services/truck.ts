@@ -17,3 +17,8 @@ export const getTruckByTransporter = (transporterName: string) =>
         .get(`/transporter-truck/${transporterName}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+export const getNumberByTruckId = (id: number) =>
+    axiosInstance
+        .get(`/truck/transpotertype/${id}`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

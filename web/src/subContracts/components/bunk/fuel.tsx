@@ -15,6 +15,7 @@ const Fuel: React.FC = (): ReactElement => {
     const [pricePerliter, setPricePerliter] = useState<number>(0)
     const [disable, setDisable] = useState(false)
     const [dieselkilometer, setDieselkilometer] = useState(0)
+
     useEffect(() => {
         setTotalPrice(quantity * pricePerliter)
     }, [quantity, pricePerliter])

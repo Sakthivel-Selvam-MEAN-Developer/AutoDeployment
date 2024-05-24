@@ -32,3 +32,12 @@ export const getTransporterAccountByName = (transporterNames: string[]) =>
             accountHolder: true
         }
     })
+// export const getTransporterByTruckNumber = (truckNumber: string) =>
+//     prisma.transporter.findFirst({
+//         where: { truck: { number: truckNumber }, transporterType: 'Own' },
+//         select: {
+//             id: true,
+//             name: true,
+//             transporterType: true
+//         }
+//     });

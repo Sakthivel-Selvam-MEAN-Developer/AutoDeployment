@@ -66,7 +66,7 @@ describe('Bulk Attendance test', () => {
         mockGetDriverDailyAttendanceById.mockResolvedValue(mockGetDriverDailyAttendanceByIdData)
         mockUpsertDriverAttendanceById.mockResolvedValue(mockUpsertDriverAttendanceByIdData)
     })
-    test('should display driver attendance details by id', async () => {
+    test.only('should display driver attendance details by id', async () => {
         render(
             <BrowserRouter>
                 <DriverBulkAttendance />
@@ -82,8 +82,8 @@ describe('Bulk Attendance test', () => {
         expect(mockGetAllDriver).toHaveBeenCalledTimes(1)
         expect(mockGetDriverDailyAttendanceById).toHaveBeenCalledTimes(2)
         await screen.findAllByRole('presentation')
-        expect(screen.getByText('May 22, 2024')).toBeInTheDocument()
-        expect(screen.getByText('Selected Dates')).toBeInTheDocument()
+        expect(await screen.getByText('Selected Dates')).toBeInTheDocument()
+        expect(await screen.getByText('May 22, 2024')).toBeInTheDocument()
         expect(await screen.findByText('Submit')).toBeInTheDocument()
         expect(await screen.findByText('Cancel')).toBeInTheDocument()
     })

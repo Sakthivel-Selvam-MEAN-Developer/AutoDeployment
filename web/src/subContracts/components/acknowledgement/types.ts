@@ -2,6 +2,7 @@ interface truck {
     vehicleNumber: string
     transporter: {
         name: string
+        transporterType: string
     }
 }
 interface pointProps {
