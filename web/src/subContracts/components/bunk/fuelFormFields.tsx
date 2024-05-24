@@ -19,6 +19,8 @@ interface FormFieldsProps {
     setPricePerliter: React.Dispatch<SetStateAction<number>>
     setQuantity: React.Dispatch<SetStateAction<number>>
     setDieselkilometer: React.Dispatch<SetStateAction<number>>
+    setTransporterType: React.Dispatch<SetStateAction<transporterType>>
+    transporterType: transporterType
 }
 interface vehicleProps {
     id: number
@@ -26,7 +28,7 @@ interface vehicleProps {
     capacity: number
     transporterId: number
 }
-interface transporterType {
+export interface transporterType {
     vehicleNumber: string
     transporter: {
         name: string
@@ -42,13 +44,14 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
     quantity,
     setPricePerliter,
     setQuantity,
-    setDieselkilometer
+    setDieselkilometer,
+    setTransporterType,
+    transporterType
 }) => {
     const [bunkList, setBunkList] = useState([])
     const [bunkLocation, setBunkLocation] = useState<string>('')
     const [vehicleList, setvehicleList] = useState<vehicleProps[]>([])
     const [truckId, setTruckId] = useState<number>(0)
-    const [transporterType, setTransporterType] = useState<transporterType>()
     useEffect(() => {
         getAllBunk().then(setBunkList)
         getAllTruck().then(setvehicleList)
@@ -163,22 +166,24 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                 InputLabelProps={{ shrink: true }}
             />
             <TextInput control={control} label="Diesel Bill Number" fieldName="invoiceNumber" />
-            {transporterType?.transporter.transporterType === 'Own' && (
-                <TextField
-                    label="Diesel Kilometer"
-                    name="kilometer"
-                    type="number"
-                    sx={{ width: '200px' }}
-                    inputProps={{
-                        pattern: '[0-9]{6}',
-                        title: 'Please enter exactly 6 digits.',
-                        min: 0,
-                        max: 999999
-                    }}
-                    value={dieselkilometer}
-                    onChange={(e) => setDieselkilometer(parseInt(e.target.value))}
-                />
-            )}
+
+            {transporterType !== undefined &&
+                transporterType?.transporter.transporterType === 'Own' && (
+                    <TextField
+                        label="Diesel Kilometer"
+                        name="kilometer"
+                        type="number"
+                        sx={{ width: '200px' }}
+                        inputProps={{
+                            pattern: '[0-9]{6}',
+                            title: 'Please enter exactly 6 digits.',
+                            min: 0,
+                            max: 999999
+                        }}
+                        value={dieselkilometer}
+                        onChange={(e) => setDieselkilometer(parseInt(e.target.value))}
+                    />
+                )}
         </div>
     )
 }

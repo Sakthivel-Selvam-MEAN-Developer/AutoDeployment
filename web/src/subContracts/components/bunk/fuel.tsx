@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
-import FuelFormFields from './fuelFormFields'
+import FuelFormFields, { transporterType } from './fuelFormFields'
 import { createFuel } from '../../services/fuel'
 import SuccessDialog from '../../../commonUtils/SuccessDialog'
 import { useNavigate } from 'react-router-dom'
@@ -15,6 +15,10 @@ const Fuel: React.FC = (): ReactElement => {
     const [pricePerliter, setPricePerliter] = useState<number>(0)
     const [disable, setDisable] = useState(false)
     const [dieselkilometer, setDieselkilometer] = useState(0)
+    const [transporterType, setTransporterType] = useState<transporterType>({
+        transporter: { transporterType: 'Market', name: '' },
+        vehicleNumber: ''
+    })
 
     useEffect(() => {
         setTotalPrice(quantity * pricePerliter)
@@ -26,9 +30,12 @@ const Fuel: React.FC = (): ReactElement => {
             data.fuelDate !== undefined &&
             pricePerliter !== 0 &&
             quantity !== 0 &&
-            data.invoiceNumber !== undefined &&
-            dieselkilometer !== 0
+            data.invoiceNumber !== undefined
         ) {
+            if (transporterType.transporter.transporterType === 'Own' && dieselkilometer === 0) {
+                alert('Diesel Kilometer should not be Zero')
+                return
+            }
             setDisable(true)
             const totalpriceFloat = totalPrice.toFixed(2)
             const details = {
@@ -47,7 +54,6 @@ const Fuel: React.FC = (): ReactElement => {
                     setDisable(false)
                 })
                 .catch((error) => {
-                    console.log(error)
                     alert(error.response.data.error)
                     setDisable(false)
                 })
@@ -66,6 +72,8 @@ const Fuel: React.FC = (): ReactElement => {
                     setQuantity={setQuantity}
                     setDieselkilometer={setDieselkilometer}
                     dieselkilometer={dieselkilometer}
+                    setTransporterType={setTransporterType}
+                    transporterType={transporterType}
                 />
                 <SubmitButton name="Add Fuel" type="submit" disabled={disable} />
             </form>
@@ -73,7 +81,7 @@ const Fuel: React.FC = (): ReactElement => {
                 open={openSuccessDialog}
                 handleClose={() => {
                     setOpenSuccessDialog(false)
-                    navigate('/sub/trip')
+                    navigate('/sub/bunk')
                 }}
                 message="Fuel Created Succesfully"
             />
