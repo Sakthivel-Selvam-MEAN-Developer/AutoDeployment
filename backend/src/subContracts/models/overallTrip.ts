@@ -645,6 +645,7 @@ export const getTripByTransporterInvoice = () =>
             ]
         },
         select: {
+            id: true,
             loadingPointToStockPointTrip: {
                 select: {
                     startDate: true,
