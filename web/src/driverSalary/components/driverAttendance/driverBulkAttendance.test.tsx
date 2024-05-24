@@ -66,7 +66,7 @@ describe('Bulk Attendance test', () => {
         mockGetDriverDailyAttendanceById.mockResolvedValue(mockGetDriverDailyAttendanceByIdData)
         mockUpsertDriverAttendanceById.mockResolvedValue(mockUpsertDriverAttendanceByIdData)
     })
-    test.only('should display driver attendance details by id', async () => {
+    test('should display driver attendance details by id', async () => {
         render(
             <BrowserRouter>
                 <DriverBulkAttendance />

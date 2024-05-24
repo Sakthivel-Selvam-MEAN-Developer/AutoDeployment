@@ -473,10 +473,8 @@ describe('New trip test', () => {
         await userEvent.type(screen.getByLabelText('Trip Start Date'), '24012023')
         const start = screen.getByRole('button', { name: 'Start' })
         await userEvent.click(start)
-        const Options = screen.getByRole('option', { name: 'Magnum Logistics' })
-        await userEvent.click(Options)
     })
-    test.only('should create driver trip when it own truck', async () => {
+    test('should create driver trip when it own truck', async () => {
         mockTruckByTransporter.mockResolvedValue(mockOwnTruck)
         render(
             <BrowserRouter>
