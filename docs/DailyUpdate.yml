@@ -12,7 +12,9 @@
   person: Ramya
   project: subContract
   planning:
-    - 
+    - should apply filter for the completed Payment field
+  completed:
+    -  applied filter for the completed Payment field
 - date: 25-05-2024
   person: Sri Sneka
   project: subContract
@@ -43,7 +45,9 @@
   person: Ramya
   project: subContract
   planning:
-    - 
+    -  should apply filter for the Acknowledgement Aging report
+  completed:
+    -  applied filter for the Acknowledgement Aging report
 - date: 24-05-2024
   person: Sri Sneka
   project: subContract
@@ -70,7 +74,9 @@
   person: Ramya
   project: subContract
   planning:
-    - 
+    - should add dropdown for partial fill or full tank fill in fuel page for magnum vehicle
+  completed:
+    - added dropdown for partial fill or full tank fill in fuel page for magnum vehicle
 - date: 23-05-2024
   person: Sri Sneka
   project: subContract
@@ -100,7 +106,9 @@
   person: Ramya
   project: subContract
   planning:
-    - 
+    - should fix the lint error
+  completed:
+    - fixed the lint error
 - date: 22-05-2024
   person: Sri Sneka
   project: subContract
@@ -127,7 +135,9 @@
   person: Ramya
   project: subContract
   planning:
-    - 
+    - should write test for all newly added fields
+  completed:
+    - written tests for all newly added fields
 - date: 21-05-2024
   person: Sri Sneka
   project: subContract
@@ -156,7 +166,9 @@
   person: Ramya
   project: subContract
   planning:
-    - 
+    - should add total ran kilometer in Trip Status 
+  completed:
+    - added total ran kilometer in Trip Status 
 - date: 20-05-2024
   person: Sri Sneka
   project: subContract
