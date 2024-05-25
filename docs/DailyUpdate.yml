@@ -19,7 +19,8 @@
   person: Sri Sneka
   project: subContract
   planning:
-    - 
+    - should write test and fix the lint error
+    - should see how keycloak works in our application
 
 - date: 24-05-2024
   person: Barath
@@ -52,7 +53,11 @@
   person: Sri Sneka
   project: subContract
   planning:
-    - 
+    - should add Invoice number search option in Transporter Invoice 
+    - should add filter button in Transporter Invoice 
+  completed:
+    - added Invoice number search option in Transporter Invoice 
+    - added filter button in Transporter Invoice 
 
 - date: 23-05-2024
   person: Barath
@@ -81,7 +86,11 @@
   person: Sri Sneka
   project: subContract
   planning:
-    - 
+    - should not display Magnum Trip in the discrepancy report
+    - should show the discrepancy report for completed payment trips
+   completed:
+    - not displayed Magnum Trip in the discrepancy report
+    - showed the discrepancy report for completed payment trips
 
 - date: 22-05-2024
   person: Barath
@@ -113,7 +122,13 @@
   person: Sri Sneka
   project: subContract
   planning:
-    - 
+    - should fix the lint error
+    - create the templete model for trip status dialogbox
+    - ask the templete for trip status dialogbox
+  completed:
+    - fixed the lint error
+    - created the templete model for trip status dialogbox
+    - asked the templete for trip status dialogbox
 
 - date: 21-05-2024
   person: Barath
@@ -142,7 +157,9 @@
   person: Sri Sneka
   project: subContract
   planning:
-    - 
+    - should write the test for all newly added fields
+  completed:
+    - written test for all newly added fields
 
 - date: 20-05-2024
   person: Barath
@@ -173,7 +190,11 @@
   person: Sri Sneka
   project: subContract
   planning:
-    - 
+    - should add transporter invoice in Trip Status
+    - should add primary and secondary billno in Trip Status
+  completed:
+    - added transporter invoice in Trip Status
+    - added primary and secondary billno in Trip Status
 
 - date: 18-05-2024
   person: Barath
@@ -198,6 +219,9 @@
   planning:
     - should display cementCompany Name, billNo in the trip status
     - should display recent trip first in the trip status
+  completed: 
+    - displayed cementCompany Name, billNo in the trip status
+    - displayed recent trip first in the trip status
 
 - date: 17-05-2024
   person: Barath
