@@ -1,13 +1,180 @@
+- date: 25-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should write test for acknowledgement Approval
+- date: 25-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should write domain logic for p&l calculation
+- date: 25-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - 
+- date: 25-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - 
+
+- date: 24-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should create final payment after shortage approval
+    - should find and update dueDate in paymentDues
+    - should find and update acknowledgementDate in overallTrip 
+  completed:
+    - created final payment after shortage approval
+    - found and updated dueDate in paymentDues
+    - found and updated acknowledgementDate in overallTrip 
+- date: 24-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should create a screen for p&l report
+    - should list only magnum trip
+  completed:
+    - created a screen for p&l report
+    - listed only magnum trip
+- date: 24-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - 
+- date: 24-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - 
+
+- date: 23-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should display trip details inb table 
+    - should allow users to edit shortage quantity and approve shortage
+  completed:
+    - displayed trip details inb table
+    - allowed users to edit shortage quantity and approve shortage
+- date: 23-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should create and update driver bulk attendance with test
+  completed:
+    - created and updated driver bulk attendance with test
+- date: 23-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - 
+- date: 23-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - 
+
+- date: 22-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add overalltripId and type combination to be unique in paymentDues
+    - should deploy the change in production
+    - should add acknowledgementApproval in overallTrip model
+  completed:
+    - added overalltripId and type combination to be unique in paymentDues
+    - deployed the change in production
+    - added acknowledgementApproval in overallTrip model
+- date: 22-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add model controller for driver bulk attendance
+    - should update driver bulk attendance
+  completed:
+    - added model controller for driver bulk attendance
+- date: 22-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - 
+- date: 22-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - 
+
+- date: 21-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add partyName field in invoice 
+    - should fix transporterInvoice final pay error
+    - should delete duplicate final pay
+  completed:
+    - added partyName field in invoice
+    - fixed transporterInvoice final pay error
+    - deleted duplicate final pay
+- date: 21-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should add model controller for driver bulk attendance with test
+- date: 21-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - 
+- date: 21-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - 
+
+- date: 20-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add chettinad ariyalue annexure
+    - should add wheelNo
+    - should add partyName field in invoice 
+  completed:
+    - added chettinad ariyalue annexure
+    - added wheelNo
+    - added partyName field in invoice 
+- date: 20-05-2024
+  person: Sakthivel
+  project: driverSalary
+  planning:
+    - should create a screen for driver bulk attendance
+  completed:
+    - created a screen for driver bulk attendance
+- date: 20-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - 
+- date: 20-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - 
+
 - date: 18-05-2024
   person: Barath
   project: subContract
   planning:
-    - should make auto populated billNo to manual
+    - should make invoice changes
 - date: 18-05-2024
   person: Sakthivel
   project: driverSalary
   planning:
-    - should update driver attendance
+    - should update driver daily attendance
+  completed:
+    - updated driver daily attendance
 - date: 18-05-2024
   person: Ramya
   project: subContract

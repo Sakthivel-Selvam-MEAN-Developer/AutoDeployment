@@ -176,10 +176,119 @@ date: 11-04-2024
     - update "subContract"."pricePoint" set "payGeneratingDuration"=10 where id in (161,162,164,167,166);
     - update "subContract"."pricePoint" set "payGeneratingDuration"=3 where id in (169,173,168);
 
-
-
-
-
+  date: 25-05-2024
+  person: Santhosh
+  description:
+    - updated dueDate in paymentDues and acknowledgement date in overallTrip
+  query:
+    - update "subContract"."paymentDues" set "dueDate"=1713205800 where id=1055;
+    - update "subContract"."paymentDues" set "dueDate"=1713033000 where id=523;
+    - update "subContract"."paymentDues" set "dueDate"=1713551400 where id=801;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1347;
+    - update "subContract"."paymentDues" set "dueDate"=1714588200 where id=925;
+    - update "subContract"."paymentDues" set "dueDate"=1714588200 where id=927;
+    - update "subContract"."paymentDues" set "dueDate"=1713551400 where id=800;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=939;
+    - update "subContract"."paymentDues" set "dueDate"=1715020200 where id=1315;
+    - update "subContract"."paymentDues" set "dueDate"=1715193000 where id=1237;
+    - update "subContract"."paymentDues" set "dueDate"=1716489000 where id=1058;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=964;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1122;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1322;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1323;
+    - update "subContract"."paymentDues" set "dueDate"=1715970600 where id=1493;
+    - update "subContract"."paymentDues" set "dueDate"=1716143400 where id=1543;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1460;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1545;
+    - update "subContract"."paymentDues" set "dueDate"=1715452200 where id=1518;
+    - update "subContract"."paymentDues" set "dueDate"=1716143400 where id=1541;
+    - update "subContract"."paymentDues" set "dueDate"=1715970600 where id=1476;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1546;
+    - update "subContract"."paymentDues" set "dueDate"=1715797800 where id=1517;
+    - update "subContract"."paymentDues" set "dueDate"=1715452200 where id=1548;
+    - update "subContract"."paymentDues" set "dueDate"=1715452200 where id=1551;
+    - update "subContract"."paymentDues" set "dueDate"=1716143400 where id=1569;
+    - update "subContract"."paymentDues" set "dueDate"=1716575400 where id=1573;
+    - update "subContract"."paymentDues" set "dueDate"=1713205800 where id=802;
+    - update "subContract"."paymentDues" set "dueDate"=1712946600 where id=1059;
+    - update "subContract"."paymentDues" set "dueDate"=1713897000 where id=799;
+    - update "subContract"."paymentDues" set "dueDate"=1713983400 where id=1019;
+    - update "subContract"."paymentDues" set "dueDate"=1715020200 where id=929;
+    - update "subContract"."paymentDues" set "dueDate"=1714761000 where id=1017;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id=1480;
+    - update "subContract"."paymentDues" set "dueDate"=1714761000 where id=1018;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id=1180;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id=1454;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id=1411;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id=1412;
+    - update "subContract"."paymentDues" set "dueDate"=1716402600 where id=1494;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id=1402;
+    - update "subContract"."paymentDues" set "dueDate"=1716316200 where id=1579;
+    - update "subContract"."paymentDues" set "dueDate"=1716143400 where id=1581;
+    - update "subContract"."paymentDues" set "dueDate"=1716489000 where id=1514;
+    - update "subContract"."paymentDues" set "dueDate"=1716575400 where id=1575;
+    - update "subContract"."paymentDues" set "dueDate"=1715970600 where id=1492;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id=1403;
+    - update "subContract"."paymentDues" set "dueDate"=1716402600 where id=1455;
+    - update "subContract"."paymentDues" set "dueDate"=1716575400 where id=1544;
+    - update "subContract"."paymentDues" set "dueDate"=1716575400 where id=1453;
+    - update "subContract"."paymentDues" set "dueDate"=1715970600 where id=1491;
+    - update "subContract"."paymentDues" set "dueDate"=1716575400 where id=1576;
+    - update "subContract"."paymentDues" set "dueDate"=1716402600 where id=1516;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1712341800 where id=163;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1712169000 where id=271;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1712860200 where id=284;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714674600 where id=303;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713724200 where id=345;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713724200 where id=346;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713292200 where id=373;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=436;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714329000 where id=415;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714329000 where id=354;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714761000 where id=459;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=457;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=527;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=614;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=626;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714674600 where id=647;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=562;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=669;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=705;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714156200 where id=726;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=699;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715106600 where id=656;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=711;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714501800 where id=738;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714156200 where id=706;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714156200 where id=653;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=682;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715711400 where id=651;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1711909800 where id=118;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1712341800 where id=183;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713292200 where id=277;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713119400 where id=396;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713724200 where id=387;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713897000 where id=425;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714933800 where id=439;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1713897000 where id=495;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714242600 where id=584;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714933800 where id=523;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714933800 where id=547;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714933800 where id=577;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715106600 where id=680;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714933800 where id=597;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715020200 where id=650;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714847400 where id=546;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715193000 where id=685;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=629;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715106600 where id=617;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1714933800 where id=606;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715106600 where id=627;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=596;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=618;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715106600 where id=655;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=638;
+    - update "subContract"."overallTrip" set "acknowledgementDate"=1715106600 where id=652;
 
 
 
