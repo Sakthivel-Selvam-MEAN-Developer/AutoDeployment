@@ -3,14 +3,8 @@ import AutoComplete from '../../../../form/AutoComplete.tsx'
 import { Control } from 'react-hook-form'
 import { getAllCementCompany } from '../../../services/cementCompany.ts'
 import { dispatchData } from './tripStatusContext.ts'
-import {
-    TransporterField,
-    FactoryField,
-    DateField,
-    VehicleNumberField,
-    InvoiceNumberField
-} from './TransporterField.tsx'
 import { divStyle } from './updateFilterProps.ts'
+import FilterField from './filterField.tsx'
 export interface FormFieldsProps {
     control: Control
 }
@@ -38,15 +32,11 @@ const TripFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
                     setCementCompanyName(newValue)
                 }}
             />
-            <TransporterField control={control} dispatch={dispatch} />
-            <VehicleNumberField control={control} dispatch={dispatch} />
-            <InvoiceNumberField control={control} dispatch={dispatch} />
-            <FactoryField
+            <FilterField
                 control={control}
                 dispatch={dispatch}
                 cementCompanyName={cementCompanyName}
             />
-            <DateField control={control} />
         </div>
     )
 }

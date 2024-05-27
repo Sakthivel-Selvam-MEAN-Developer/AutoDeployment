@@ -30,6 +30,8 @@
     "cert": "docker compose run --rm certbot certonly --manual --preferred-challenges -d 'auth.magnum.wondermove.in,magnum.wondermove.in'"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.5",
+    "@types/jest": "^29.5.12",
     "husky": "^9.0.11"
   }
 }

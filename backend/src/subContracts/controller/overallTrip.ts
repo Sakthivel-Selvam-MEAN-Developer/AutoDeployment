@@ -190,18 +190,14 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
         })
         .catch(() => res.status(500))
 }
-
+const getAllInvoiceNumbers = async () => [
+    ...(await getAllStockPointInvoiceNumbers()),
+    ...(await getAllStockToUnloadingPointInvoiceNumbers()),
+    ...(await getAllUnloadingPointInvoiceNumbers())
+]
 export const listAllInvoiceNumbers = async (_req: Request, res: Response) => {
     try {
-        const stockPointInvoiceNumbers = await getAllStockPointInvoiceNumbers()
-        const stockToUnloadingPointInvoiceNumbers =
-            await getAllStockToUnloadingPointInvoiceNumbers()
-        const unloadingPointInvoiceNumbers = await getAllUnloadingPointInvoiceNumbers()
-        const allInvoiceNumbers = [
-            ...stockPointInvoiceNumbers,
-            ...stockToUnloadingPointInvoiceNumbers,
-            ...unloadingPointInvoiceNumbers
-        ]
+        const allInvoiceNumbers = await getAllInvoiceNumbers()
         res.status(200).json(allInvoiceNumbers)
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' })

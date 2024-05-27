@@ -252,7 +252,8 @@ const generateRow = (row: Props, index: number) => {
             row.loadingPointToStockPointTrip.stockPointToUnloadingPointTrip.length > 0
         ) {
             secondaryBillNo =
-                row.loadingPointToStockPointTrip.stockPointToUnloadingPointTrip[0].billNo
+                row.loadingPointToStockPointTrip.stockPointToUnloadingPointTrip[0].billNo ??
+                'unbilled'
         }
     }
     finalData.push({
@@ -304,6 +305,7 @@ const generateRow = (row: Props, index: number) => {
                 : 'Not Yet Unloaded',
         ranKm
     })
+    console.log(finalData)
 }
 
 const DataGridTable: FC<dataGridTableProps> = ({ overallTrips, authoriser }) => {

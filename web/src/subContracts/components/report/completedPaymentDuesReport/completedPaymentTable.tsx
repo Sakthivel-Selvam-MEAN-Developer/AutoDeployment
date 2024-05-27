@@ -130,6 +130,13 @@ function download(completedPayments: completedPaymentsProps[]) {
         downloadCSV(data, downloadDueData, completedPayments.length)
     })
 }
+const getCsmName = (data: completedPaymentsProps) => {
+    return data.type !== 'fuel pay'
+        ? data.overallTrip.loadingPointToUnloadingPointTrip !== null
+            ? data.overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.csmName
+            : data.overallTrip.loadingPointToStockPointTrip.truck.transporter.csmName
+        : 'NUll'
+}
 const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], num: number) => {
     const addData = {
         TransporterName: data.name,
@@ -137,12 +144,7 @@ const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], n
         PaymentType: data.type,
         TransactionId: data.transactionId,
         PaidAmount: data.payableAmount,
-        CsmName:
-            data.type !== 'fuel pay'
-                ? data.overallTrip.loadingPointToUnloadingPointTrip !== null
-                    ? data.overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.csmName
-                    : data.overallTrip.loadingPointToStockPointTrip.truck.transporter.csmName
-                : 'NUll'
+        CsmName: getCsmName(data)
     }
     downloadtripData.push(addData)
     if (downloadtripData.length === num) {

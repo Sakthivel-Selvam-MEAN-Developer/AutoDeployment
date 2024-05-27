@@ -88,11 +88,9 @@ export const getInvoiceDetails = (req: Request, res: Response) => {
         stockToUnlaodingInvoice(stockToUnloading)
     ])
         .then((data) => {
-            const [
-                loadingPointToUnloadingPointTrip,
-                loadingPointToStockPointTrip,
-                stockPointToUnloadingPointTrip
-            ] = data
+            const loadingPointToUnloadingPointTrip = data[0]
+            const loadingPointToStockPointTrip = data[1]
+            const stockPointToUnloadingPointTrip = data[2]
             return {
                 loadingPointToUnloadingPointTrip,
                 loadingPointToStockPointTrip,

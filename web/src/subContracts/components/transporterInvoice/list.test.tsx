@@ -1,17 +1,20 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import { vi } from 'vitest'
+import { vi, describe, test, expect } from 'vitest'
 import TransporterInvoiceList from './list'
 import userEvent from '@testing-library/user-event'
 
 const mockGetTripByTransporterInvoice = vi.fn()
 const mockUpdateTransporterInvoice = vi.fn()
+const mockGetAllInvoiceNumbers = vi.fn()
 
 vi.mock('../../services/transporterInvoice', () => ({
     getTripByTransporterInvoice: () => mockGetTripByTransporterInvoice(),
     updateTransporterInvoice: () => mockUpdateTransporterInvoice()
 }))
-
+vi.mock('../../services/unloadingPoint', () => ({
+    getAllInvoiceNumbers: () => mockGetAllInvoiceNumbers()
+}))
 const mockOverallTripData = [
     {
         id: 4,
@@ -56,16 +59,24 @@ const mockOverallTripData = [
         }
     }
 ]
+const mockInvoiceNumbers = [{ invoiceNumber: '21ed23qw' }, { invoiceNumber: '22ed23qw' }]
 
 describe('transporterInvoice Test', () => {
     test('should be able to view trip data for transporter', async () => {
         mockGetTripByTransporterInvoice.mockResolvedValue(mockOverallTripData)
         mockUpdateTransporterInvoice.mockResolvedValue(mockOverallTripData)
+        mockGetAllInvoiceNumbers.mockResolvedValue(mockInvoiceNumbers)
         render(
             <BrowserRouter>
                 <TransporterInvoiceList />
             </BrowserRouter>
         )
+        const invoiceNumberInput = screen.getByLabelText('Select Invoice Number')
+        expect(invoiceNumberInput)
+        await userEvent.type(invoiceNumberInput, '21ed23qw')
+        const filterButton = screen.getByRole('button', { name: 'FILTER' })
+        expect(filterButton)
+        await userEvent.click(filterButton)
         await waitFor(() => {
             expect(screen.getAllByText('Invoice Number'))
             expect(screen.getAllByText('Start Date'))
