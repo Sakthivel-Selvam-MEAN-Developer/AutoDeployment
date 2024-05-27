@@ -1,15 +1,11 @@
 import supertest from 'supertest'
 import { Request, Response, NextFunction } from 'express'
-import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
 
 const mockGetTripByTransporterInvoice = vi.fn()
 const mockUpdateTransporterInvoice = vi.fn()
 const mockGetPercentageByTransporter = vi.fn()
-const mockcreatePaymentDues = vi.fn()
-const mockGetDueByOverallTripId = vi.fn()
-const mockGetShortageQuantityByOverallTripId = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getTripByTransporterInvoice: () => mockGetTripByTransporterInvoice(),
@@ -17,14 +13,6 @@ vi.mock('../models/overallTrip', () => ({
 }))
 vi.mock('../models/transporter', () => ({
     getPercentageByTransporter: (tds: any) => mockGetPercentageByTransporter(tds)
-}))
-vi.mock('../models/paymentDues', () => ({
-    create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
-    getDueByOverallTripId: (id: number) => mockGetDueByOverallTripId(id)
-}))
-vi.mock('../models/shortageQuantity', () => ({
-    getShortageQuantityByOverallTripId: (inputs: any) =>
-        mockGetShortageQuantityByOverallTripId(inputs)
 }))
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
@@ -95,20 +83,6 @@ const transporterInvoiceData = [
         }
     }
 ]
-
-const mockGstDuesData = [
-    {
-        name: 'Muthu Logistics',
-        type: 'gst pay',
-        dueDate: 1707244200,
-        payableAmount: 3600,
-        overallTripId: 4,
-        vehicleNumber: 'TN93D5512'
-    }
-]
-const mockgetPercentageByTransporterData = { tdsPercentage: 2 }
-const mockGetDueByOverallTripIdData = { shortageAmount: 4000 }
-
 describe('Transporter Invoice Controller', () => {
     test('should able to get Transporter Invoice', async () => {
         mockGetTripByTransporterInvoice.mockResolvedValue(transporterInvoiceData)
@@ -120,19 +94,11 @@ describe('Transporter Invoice Controller', () => {
             ...transporterInvoiceData[0],
             acknowledgementStatus: true
         })
-        mockGetPercentageByTransporter.mockResolvedValue(mockgetPercentageByTransporterData)
-        mockGetDueByOverallTripId.mockResolvedValue([{ ...mockGstDuesData, overallTripId: 4 }])
-        mockGetShortageQuantityByOverallTripId.mockResolvedValue(mockGetDueByOverallTripIdData)
-        mockcreatePaymentDues.mockResolvedValue(mockGstDuesData)
         await supertest(app)
             .put('/api/transporterinvoice')
             .send({ id: 4, invoice: 'abcd' })
             .expect(200)
         expect(mockUpdateTransporterInvoice).toBeCalledTimes(1)
-        expect(mockGetPercentageByTransporter).toBeCalledTimes(1)
-        expect(mockGetDueByOverallTripId).toBeCalledTimes(1)
-        expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(1)
-        expect(mockcreatePaymentDues).toBeCalledTimes(1)
     })
     test('should able to update Transporter Invoice', async () => {
         mockUpdateTransporterInvoice.mockResolvedValue(transporterInvoiceData[0])

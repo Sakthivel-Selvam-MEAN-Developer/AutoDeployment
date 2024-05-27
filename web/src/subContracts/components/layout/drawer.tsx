@@ -12,7 +12,8 @@ import {
     DirectionsBus,
     Summarize,
     NoteAlt,
-    FileDownload
+    FileDownload,
+    Beenhere
 } from '@mui/icons-material'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -149,6 +150,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={7}
                     icon={<LibraryAddCheck />}
                 />
+                <DrawerListItem
+                    text="Transporter Invoice"
+                    navigate="/sub/transporterinvoice"
+                    drawerState={drawerState}
+                    index={8}
+                    icon={<NoteAlt />}
+                />
                 {authoriser.adminAccess && (
                     <DrawerListItem
                         text="Invoice"
@@ -159,14 +167,14 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     />
                 )}
                 <DrawerListItem
-                    text="Transporter Invoice"
-                    navigate="/sub/transporterinvoice"
+                    text="Acknowledgement Approval"
+                    navigate="/sub/acknowledgementapproval"
                     drawerState={drawerState}
-                    index={9}
-                    icon={<NoteAlt />}
+                    index={10}
+                    icon={<Beenhere />}
                 />
                 <DrawerCollapse
-                    index={8}
+                    index={11}
                     drawerState={drawerState}
                     text="Reports"
                     icon={<Summarize />}

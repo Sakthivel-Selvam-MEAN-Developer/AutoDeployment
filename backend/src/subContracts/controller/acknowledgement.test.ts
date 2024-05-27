@@ -234,8 +234,6 @@ const mockGstDuesData = [
         vehicleNumber: 'TN93D5512'
     }
 ]
-const mockgetPercentageByTransporterData = { tdsPercentage: 2 }
-const mockGetDueByOverallTripIdData = { shortageAmount: 4000 }
 describe('Acknowledgement Controller', () => {
     test('should able to get all vehicle number from overAllTrip', async () => {
         mockGetAllActivetripTripByTripStatus.mockResolvedValue(mockOverAllTrip)
@@ -275,16 +273,8 @@ describe('Acknowledgement Controller', () => {
     })
     test('should able update acknowledgement status with create final due', async () => {
         mockAcknowledgeStatusforOverAllTrip.mockResolvedValue(mockAcknowledgeStatusforAllTrip)
-        mockGetPercentageByTransporter.mockResolvedValue(mockgetPercentageByTransporterData)
-        mockGetDueByOverallTripId.mockResolvedValue([{ ...mockGstDuesData, overallTripId: 12 }])
-        mockGetShortageQuantityByOverallTripId.mockResolvedValue(mockGetDueByOverallTripIdData)
-        mockcreatePaymentDues.mockResolvedValue(mockGstDuesData)
         await supertest(app).put('/api/acknowledge/12').expect(200)
         expect(mockAcknowledgeStatusforOverAllTrip).toBeCalledTimes(1)
-        expect(mockGetPercentageByTransporter).toBeCalledTimes(3)
-        expect(mockGetDueByOverallTripId).toBeCalledTimes(1)
-        expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(1)
-        expect(mockcreatePaymentDues).toBeCalledTimes(3)
     })
     test('should have super admin role for stockTrip', async () => {
         await supertest(app).put('/api/acknowledgement/trip').expect(200)

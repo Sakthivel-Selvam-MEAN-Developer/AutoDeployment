@@ -30,6 +30,8 @@ import CompletedPayment from './subContracts/components/report/completedPaymentD
 import AddAcknowledgement from './subContracts/components/acknowledgement/addAcknowledgement'
 import TransporterInvoice from './subContracts/components/transporterInvoice'
 import TransporterInvoiceList from './subContracts/components/transporterInvoice/list'
+import AcknowledgementApprovalList from './subContracts/components/finalPayApproval/list'
+import AcknowledgementApproval from './subContracts/components/finalPayApproval'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -177,6 +179,16 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <TransporterInvoiceList />
+                }
+            ]
+        },
+        {
+            path: 'acknowledgementapproval',
+            element: <AcknowledgementApproval />,
+            children: [
+                {
+                    path: '',
+                    element: <AcknowledgementApprovalList />
                 }
             ]
         }

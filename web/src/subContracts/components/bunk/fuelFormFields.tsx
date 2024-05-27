@@ -58,6 +58,7 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
     }, [])
     useEffect(() => {
         getNumberByTruckId(truckId).then(setTransporterType)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [truckId])
 
     return (

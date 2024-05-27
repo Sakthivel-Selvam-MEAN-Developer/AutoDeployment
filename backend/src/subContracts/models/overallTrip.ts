@@ -168,31 +168,6 @@ export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
         data: {
             acknowledgementStatus: true,
             acknowledgementDate: dayjs().startOf('day').unix()
-        },
-        include: {
-            loadingPointToStockPointTrip: true,
-            loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
-                        }
-                    }
-                }
-            },
-            stockPointToUnloadingPointTrip: {
-                include: {
-                    loadingPointToStockPointTrip: {
-                        include: {
-                            truck: {
-                                include: {
-                                    transporter: true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     })
 export const updateStockToUnloadingInOverall = (
@@ -721,25 +696,76 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
         },
         data: {
             transporterInvoice: invoice
+        }
+    })
+export const updateAcknowledgementApproval = (id: number) =>
+    prisma.overallTrip.update({
+        where: {
+            id
+        },
+        data: {
+            acknowledgementApproval: true
         },
         include: {
-            paymentDues: true,
+            loadingPointToStockPointTrip: true,
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: {
+                            transporter: true
+                        }
+                    }
+                }
+            },
             stockPointToUnloadingPointTrip: {
                 include: {
                     loadingPointToStockPointTrip: {
                         include: {
                             truck: {
-                                include: { transporter: true }
+                                include: {
+                                    transporter: true
+                                }
                             }
                         }
                     }
+                }
+            }
+        }
+    })
+export const getTripForAcknowlegementApproval = () =>
+    prisma.overallTrip.findMany({
+        where: {
+            acknowledgementApproval: false,
+            acknowledgementStatus: true,
+            transporterInvoice: {
+                not: {
+                    equals: ''
+                }
+            }
+        },
+        include: {
+            paymentDues: true,
+            shortageQuantity: true,
+            stockPointToUnloadingPointTrip: {
+                include: {
+                    unloadingPoint: true
                 }
             },
             loadingPointToUnloadingPointTrip: {
                 include: {
                     truck: {
                         include: { transporter: true }
-                    }
+                    },
+                    loadingPoint: true,
+                    unloadingPoint: true
+                }
+            },
+            loadingPointToStockPointTrip: {
+                include: {
+                    truck: {
+                        include: { transporter: true }
+                    },
+                    loadingPoint: true
                 }
             }
         }

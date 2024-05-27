@@ -11,7 +11,9 @@ import {
     getOverallTrip,
     getTripByTransporterInvoice,
     getTripByUnloadDate,
+    getTripForAcknowlegementApproval,
     tripStatusFilter,
+    updateAcknowledgementApproval,
     updateStockToUnloadingInOverall,
     updateTransporterInvoice
 } from './overallTrip.ts'
@@ -582,6 +584,78 @@ describe('Overall Trip model', () => {
         const overalltrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         const actual = await updateTransporterInvoice('abc', overalltrip.id)
         expect(actual.transporterInvoice).toBe('abc')
+    })
+    test('should able to get overallTrip For AcknowlegementApproval', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overalltrip = await create({
+            loadingPointToUnloadingPointTripId: trip.id,
+            acknowledgementApproval: false,
+            acknowledgementStatus: true,
+            transporterInvoice: 'asdfghjk'
+        })
+        const actual = await getTripForAcknowlegementApproval()
+        expect(actual[0].transporterInvoice).toBe(overalltrip.transporterInvoice)
+    })
+    test('should able to get overallTrip For AcknowlegementApproval', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overalltrip = await create({
+            loadingPointToUnloadingPointTripId: trip.id,
+            acknowledgementApproval: false,
+            acknowledgementStatus: true,
+            transporterInvoice: 'asdfghjk'
+        })
+        const actual = await updateAcknowledgementApproval(overalltrip.id)
+        expect(actual.acknowledgementApproval).toBe(!overalltrip.acknowledgementApproval)
     })
     test.skip('should able to get overall data by from and to', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

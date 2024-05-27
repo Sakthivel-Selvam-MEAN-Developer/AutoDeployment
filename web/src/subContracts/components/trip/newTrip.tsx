@@ -263,7 +263,6 @@ const clearForm = (
     setFuel: React.Dispatch<React.SetStateAction<boolean>>,
     setFilledLoad: React.Dispatch<React.SetStateAction<number | null>>
 ) => {
-    console.log()
     setClear(!clear)
     setCategory('')
     setValue('tripDate', null)

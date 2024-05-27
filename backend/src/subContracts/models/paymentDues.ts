@@ -128,7 +128,8 @@ export const getDueByOverallTripId = (overallTripId: number) =>
             NOT: { type: 'gst pay' }
         },
         select: {
-            payableAmount: true
+            payableAmount: true,
+            type: true
         }
     })
 export const updatePaymentNEFTStatus = (dueId: number[]) =>

@@ -8,5 +8,19 @@ export const create = (
 export const getShortageQuantityByOverallTripId = (overallTripId: number) =>
     prisma.shortageQuantity.findFirst({
         where: { overallTripId },
-        select: { shortageAmount: true }
+        select: { shortageAmount: true, unloadedQuantity: true, filledLoad: true }
+    })
+interface shortageProps {
+    unloadedQuantity: number
+    shortageQuantity: number
+    shortageAmount: number
+}
+export const updateShortageInOverallTrip = (id: number, newShortage: shortageProps) =>
+    prisma.shortageQuantity.update({
+        where: { id },
+        data: {
+            unloadedQuantity: newShortage.unloadedQuantity,
+            shortageQuantity: newShortage.shortageQuantity,
+            shortageAmount: newShortage.shortageAmount
+        }
     })
