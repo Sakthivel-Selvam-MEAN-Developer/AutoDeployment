@@ -48,7 +48,7 @@ describe('Final Due Logics Test', async () => {
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: 1716661800,
+                dueDate: 1716681600,
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 9872
@@ -102,7 +102,7 @@ describe('Final Due Logics Test', async () => {
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: 1716661800,
+                dueDate: 1716681600,
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 588.95

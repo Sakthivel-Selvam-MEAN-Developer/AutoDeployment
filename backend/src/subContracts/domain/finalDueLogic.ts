@@ -55,7 +55,7 @@ const finalDueLogic = async (
             type: 'final pay',
             dueDate: acknowledgementDate
                 .add(overallTrip.finalPayDuration, 'day')
-                .startOf('day')
+                // .startOf('day')
                 .unix(),
             overallTripId: overallTrip.id,
             vehicleNumber: dueDetails.truck.vehicleNumber,
