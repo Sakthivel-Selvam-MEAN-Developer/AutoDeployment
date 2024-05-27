@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import finalDueLogic from './finalDueLogic.ts'
 
 describe('Final Due Logics Test', async () => {
@@ -7,6 +6,7 @@ describe('Final Due Logics Test', async () => {
             id: 12,
             finalPayDuration: 1,
             acknowledgementStatus: false,
+            acknowledgementDate: 1716595200,
             loadingPointToStockPointTrip: null,
             stockPointToUnloadingPointTrip: null,
             loadingPointToUnloadingPointTrip: {
@@ -48,7 +48,7 @@ describe('Final Due Logics Test', async () => {
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: dayjs().add(1, 'day').startOf('day').unix(),
+                dueDate: 1716661800,
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 9872
@@ -59,6 +59,7 @@ describe('Final Due Logics Test', async () => {
         const overallTrip = {
             id: 2,
             acknowledgementStatus: true,
+            acknowledgementDate: 1716595200,
             finalPayDuration: 1,
             loadingPointToUnloadingPointTripId: null,
             loadingPointToUnloadingPointTrip: null,
@@ -101,7 +102,7 @@ describe('Final Due Logics Test', async () => {
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: dayjs().add(1, 'day').startOf('day').unix(),
+                dueDate: 1716661800,
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 588.95
