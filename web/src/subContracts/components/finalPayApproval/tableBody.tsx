@@ -26,9 +26,10 @@ interface TableCells {
 }
 const center = { textAlign: 'center' }
 const TableCells: FC<TableCells> = ({ trip, overallTrip }) => {
-    const unloading = overallTrip.stockPointToUnloadingPointTrip !== null ?
-        overallTrip.stockPointToUnloadingPointTrip.unloadingPoint?.name :
-        overallTrip.loadingPointToUnloadingPointTrip.unloadingPoint?.name
+    const unloading =
+        overallTrip.stockPointToUnloadingPointTrip !== null
+            ? overallTrip.stockPointToUnloadingPointTrip.unloadingPoint?.name
+            : overallTrip.loadingPointToUnloadingPointTrip.unloadingPoint?.name
     return (
         <>
             <TableCell sx={center}>{trip?.truck.vehicleNumber}</TableCell>

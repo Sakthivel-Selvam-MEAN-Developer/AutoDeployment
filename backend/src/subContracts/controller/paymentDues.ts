@@ -287,7 +287,8 @@ export const groupGstDue = async (
                                   .name
                             : trip?.unloadingPoint.name,
                     invoiceNumber: trip?.invoiceNumber,
-                    startDate: trip?.startDate
+                    startDate: trip?.startDate,
+                    transporterInvoice: matchingTrip.overallTrip.transporterInvoice
                 }
             })
         }

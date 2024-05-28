@@ -19,6 +19,7 @@ interface tripProp {
     unloadingPoint: string
     invoiceNumber: string
     startDate: number
+    transporterInvoice: string
 }
 interface bankDetailProps {
     name: string
@@ -75,6 +76,7 @@ const accordionDetails = (
         transporterName: data.name,
         loadingPoint: list.loadingPoint,
         unloadingPoint: list.unloadingPoint,
+        transporterInvoice: list.transporterInvoice,
         startDate: epochToMinimalDate(list.startDate),
         invoiceNumber: list.invoiceNumber
     }
@@ -96,10 +98,13 @@ const accordionDetails = (
                 <b>{list.vehicleNumber}</b>
             </Typography>
             <Typography sx={style}>{list.type} </Typography>
+            <Typography sx={style}>{list.invoiceNumber} </Typography>
             <Typography sx={style}>{epochToMinimalDate(list.startDate)} </Typography>
             <Typography sx={style}>{list.loadingPoint} </Typography>
             <Typography sx={style}>{list.unloadingPoint} </Typography>
-            <Typography sx={style}>{list.invoiceNumber} </Typography>
+            <Typography sx={style}>
+                {list.transporterInvoice !== '' ? list.transporterInvoice : 'Null'}{' '}
+            </Typography>
             <Typography sx={style}>{list.amount} </Typography>
         </AccordionDetails>
     )

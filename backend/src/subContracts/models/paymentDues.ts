@@ -163,6 +163,7 @@ export const getGstPaymentDues = (name: string[], status: boolean) =>
         include: {
             overallTrip: {
                 select: {
+                    transporterInvoice: true,
                     loadingPointToStockPointTrip: {
                         select: {
                             startDate: true,
