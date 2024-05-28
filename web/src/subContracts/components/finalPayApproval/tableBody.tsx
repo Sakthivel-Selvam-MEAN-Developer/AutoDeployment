@@ -26,6 +26,11 @@ interface TableCells {
 }
 const center = { textAlign: 'center' }
 const TableCells: FC<TableCells> = ({ trip, overallTrip }) => {
+    const unloading = trip?.unloadingPoint
+        ? trip.unloadingPoint.name
+        : trip?.stockPointToUnloadingPointTrip
+          ? trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name
+          : ''
     return (
         <>
             <TableCell sx={center}>{trip?.truck.vehicleNumber}</TableCell>
@@ -35,7 +40,7 @@ const TableCells: FC<TableCells> = ({ trip, overallTrip }) => {
             <TableCell sx={center}>{trip?.invoiceNumber}</TableCell>
             <TableCell sx={center}>{trip?.truck.transporter.name}</TableCell>
             <TableCell sx={center}>{trip?.loadingPoint.name}</TableCell>
-            <TableCell sx={center}>{trip?.unloadingPoint.name}</TableCell>
+            <TableCell sx={center}>{unloading}</TableCell>
             <TableFields overallTrip={overallTrip} />
         </>
     )

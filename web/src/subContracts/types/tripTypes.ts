@@ -24,10 +24,15 @@ export interface tripDetailsProps {
         id: number
         name: string
     }
-    unloadingPoint: {
+    unloadingPoint?: {
         id: number
         name: string
-    }
+    } | null
+    stockPointToUnloadingPointTrip?:
+        | {
+              unloadingPoint: { name: string }
+          }[]
+        | null
 }
 export interface shortageQuantity {
     id: number

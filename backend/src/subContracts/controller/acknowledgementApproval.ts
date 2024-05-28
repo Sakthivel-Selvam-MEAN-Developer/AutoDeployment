@@ -16,9 +16,10 @@ import { calculateShortage } from '../domain/shortageLogic.ts'
 export const listTripForAcknowlegementApproval = (_req: Request, res: Response) => {
     getTripForAcknowlegementApproval()
         .then((data) => {
-            const filteredData = data.filter(
-                ({ shortageQuantity }) => shortageQuantity[0].approvalStatus === false
-            )
+            const filteredData = data.filter((trip) => {
+                const finalpay = trip.paymentDues.filter(({ type }) => type === 'final pay')
+                return finalpay.length === 0
+            })
             res.status(200).json(filteredData)
         })
         .catch(() => res.status(500))

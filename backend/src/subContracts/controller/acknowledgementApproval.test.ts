@@ -49,6 +49,7 @@ const mockOverAllTrip = [
                 approvalStatus: false
             }
         ],
+        paymentDues: [],
         acknowledgementStatus: false,
         stockPointToUnloadingPointTripId: null,
         loadingPointToUnloadingPointTripId: null,

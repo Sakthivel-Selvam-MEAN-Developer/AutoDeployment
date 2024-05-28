@@ -42,7 +42,7 @@ const ShortageConatiner: FC<ShortageProps> = ({ editStatus, shortage, quantity, 
 }
 const TextFieldConatiner: FC<TextFieldConatinerProps> = ({ quantity, setQuantity }) => (
     <TextField
-        label="Edit shortage Quantity"
+        label="Edit Unloaded Quantity"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value !== '' ? parseFloat(e.target.value) : 0)}
     />
