@@ -83,9 +83,9 @@ export const closeTripById = async (req: Request, res: Response) => {
                         overAllTripData.loadingPointToStockPointTrip.totalTransporterAmount
                 } else {
                     transporterAmount =
-                        (overAllTripData.stockPointToUnloadingPointTrip.transporterAmount +
-                            overAllTripData.loadingPointToStockPointTrip.transporterAmount) *
-                        (req.body.unloadedQuantity / 1000)
+                        overAllTripData.stockPointToUnloadingPointTrip.totalTransporterAmount +
+                        overAllTripData.loadingPointToStockPointTrip.totalTransporterAmount -
+                        req.body.shortageAmount
                 }
                 const vehicleNumber =
                     overAllTripData.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
@@ -112,8 +112,8 @@ export const closeTripById = async (req: Request, res: Response) => {
                         overAllTripData.loadingPointToUnloadingPointTrip.totalTransporterAmount
                 } else {
                     transporterAmount =
-                        overAllTripData.loadingPointToUnloadingPointTrip.transporterAmount *
-                        (req.body.unloadedQuantity / 1000)
+                        overAllTripData.loadingPointToUnloadingPointTrip.totalTransporterAmount -
+                        req.body.shortageAmount
                 }
                 if (overAllTripData && overAllTripData.loadingPointToStockPointTrip !== null) {
                     await updateStockunloadingKilometer(
