@@ -1,7 +1,8 @@
 import { Control } from 'react-hook-form'
 import NumberInput from '../../../../form/NumberInput'
 import { InputAdornment } from '@mui/material'
-export interface FormFieldsProps {
+
+interface FormFieldsProps {
     control: Control
 }
 const AcknowledgementDuesFilter: React.FC<FormFieldsProps> = ({ control }) => {
@@ -17,10 +18,12 @@ const AcknowledgementDuesFilter: React.FC<FormFieldsProps> = ({ control }) => {
                         <InputAdornment position="end">
                             <b>Days</b>
                         </InputAdornment>
-                    )
+                    ),
+                    inputProps: { min: 1 }
                 }}
             />
         </div>
     )
 }
+
 export default AcknowledgementDuesFilter

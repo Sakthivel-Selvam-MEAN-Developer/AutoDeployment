@@ -1,18 +1,14 @@
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
+import { DataGrid } from '@mui/x-data-grid'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
+
 interface unloadingProps {
     unloadingPoint: {
         name: string
     }
 }
+
 interface Row {
     freightAmount: number
     transporterAmount: number
@@ -40,157 +36,126 @@ interface Row {
     filledLoad: string
     startDate: number
 }
+
 interface Props {
     acknowledgementStatus: boolean
     loadingPointToStockPointTrip: Row
     loadingPointToUnloadingPointTrip: Row
     shortageQuantity: shortageQuantity[]
 }
+
 interface shortageQuantity {
     unloadedDate: number
 }
+
 interface listoverallTripProps {
     acknowledgementDueDetails: Props[]
     setskipNumber: React.Dispatch<React.SetStateAction<number>>
     totalTrips: number
 }
 
-const cellNames = [
-    'Vehicle Number',
-    'Start Date',
-    'Loading Point',
-    'Unloading Point',
-    'Unloading Date',
-    'Invoice Number',
-    'Transporter Name',
-    'CSM Name'
+const columns = [
+    { field: 'id', headerName: '#', width: 100 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 200 },
+    { field: 'startDate', headerName: 'Start Date', width: 200 },
+    { field: 'loadingPoint', headerName: 'Loading Point', width: 200 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', width: 200 },
+    { field: 'unloadDate', headerName: 'Unloading Date', width: 200 },
+    { field: 'invoiceNumber', headerName: 'Invoice Number', width: 200 },
+    { field: 'transporterName', headerName: 'Transporter Name', width: 250 },
+    { field: 'csmName', headerName: 'CSM Name', width: 250 }
 ]
-const cells = (cell: string, index: number) => {
-    return (
-        <TableCell key={index} align="center">
-            <span style={{ fontWeight: 'bold' }}>{cell}</span>
-        </TableCell>
-    )
-}
-const tableRow = (
-    <TableRow style={{ fontWeight: 'bold' }}>
-        <TableCell>#</TableCell>
-        {cellNames.map((name, index) => cells(name, index))}
-    </TableRow>
-)
 
-function getTableHead() {
-    return <TableHead>{tableRow}</TableHead>
-}
-const getCells = (data: Row, num: number, unloadDate: number) => {
-    return (
-        <>
-            <TableCell> {num} </TableCell>
-            <TableCell align="left">{data.truck.vehicleNumber}</TableCell>
-            <TableCell align="left">{epochToMinimalDate(data.startDate)}</TableCell>
-            <TableCell align="left">{data.loadingPoint.name}</TableCell>
-            <TableCell align="left">
-                {data?.unloadingPoint !== undefined
-                    ? data?.unloadingPoint.name
-                    : data?.stockPointToUnloadingPointTrip[0].unloadingPoint.name}
-            </TableCell>
-            <TableCell align="left">{epochToMinimalDate(unloadDate)}</TableCell>
-            <TableCell align="left">{data.invoiceNumber}</TableCell>
-            <TableCell align="left">{data.truck.transporter.name}</TableCell>
-            <TableCell align="left">{data.truck.transporter.csmName}</TableCell>
-        </>
-    )
-}
-function getTableBody(allTrips: Props[]) {
-    let number = 0
-    return (
-        <TableBody>
-            {allTrips.map((row: Props, index) => (
-                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    {getCells(
-                        loadingToStock(row)
-                            ? row.loadingPointToStockPointTrip
-                            : row.loadingPointToUnloadingPointTrip,
-                        ++number,
-                        row.shortageQuantity[0].unloadedDate
-                    )}
-                </TableRow>
-            ))}
-        </TableBody>
-    )
-}
-const download = (listoverallTrip: Props[]) => {
-    const downloadtripData: object[] = []
-    listoverallTrip.map((row: Props) => {
-        downloadCSV(
-            loadingToStock(row)
-                ? row.loadingPointToStockPointTrip
-                : row.loadingPointToUnloadingPointTrip,
-            row.shortageQuantity[0].unloadedDate,
-            listoverallTrip.length,
-            downloadtripData
-        )
-    })
-}
-const downloadCSV = (data: Row, date: number, num: number, downloadtripData: object[]) => {
-    const addData = {
-        vehicleNmber: data.truck.vehicleNumber,
-        unloadingDate: epochToMinimalDate(date),
-        invoiceNumber: data.invoiceNumber,
-        transporterName: data.truck.transporter.name,
-        CsmName: data.truck.transporter.csmName
-    }
-    downloadtripData.push(addData)
-    if (downloadtripData.length === num) {
-        const data = downloadtripData
-        const fileName = 'Acknowledgement Due Dates'
-        const exportType = exportFromJSON.types.csv
-        exportFromJSON({ data, fileName, exportType })
-    }
-}
-const style = {
-    display: 'flex',
-    bottom: '0',
-    width: '100%',
-    justifyContent: 'center',
-    padding: '10px 0',
-    background: 'white'
-}
-const ListAllAcknowledgementDueDetails: React.FC<listoverallTripProps> = ({
+const ListAllAcknowledgementDueDetails = ({
     acknowledgementDueDetails,
     setskipNumber,
     totalTrips
-}) => {
+}: listoverallTripProps) => {
+    const rows = acknowledgementDueDetails.map((row, index) => ({
+        id: index + 1,
+        vehicleNumber:
+            row.loadingPointToUnloadingPointTrip !== null
+                ? row.loadingPointToUnloadingPointTrip.truck.vehicleNumber
+                : row.loadingPointToStockPointTrip.truck.vehicleNumber,
+        startDate: epochToMinimalDate(
+            row.loadingPointToUnloadingPointTrip !== null
+                ? row.loadingPointToUnloadingPointTrip.startDate
+                : row.loadingPointToStockPointTrip.startDate
+        ),
+        loadingPoint:
+            row.loadingPointToUnloadingPointTrip !== null
+                ? row.loadingPointToUnloadingPointTrip.loadingPoint.name
+                : row.loadingPointToStockPointTrip.loadingPoint.name,
+        unloadingPoint:
+            row.loadingPointToUnloadingPointTrip !== null
+                ? row.loadingPointToUnloadingPointTrip.unloadingPoint.name
+                : row.loadingPointToStockPointTrip.stockPointToUnloadingPointTrip[0].unloadingPoint
+                      .name,
+        unloadDate: epochToMinimalDate(row.shortageQuantity[0].unloadedDate),
+        invoiceNumber:
+            row.loadingPointToUnloadingPointTrip !== null
+                ? row.loadingPointToUnloadingPointTrip.invoiceNumber
+                : row.loadingPointToStockPointTrip.invoiceNumber,
+        transporterName:
+            row.loadingPointToUnloadingPointTrip !== null
+                ? row.loadingPointToUnloadingPointTrip.truck.transporter.name
+                : row.loadingPointToStockPointTrip.truck.transporter.name,
+        csmName:
+            row.loadingPointToUnloadingPointTrip !== null
+                ? row.loadingPointToUnloadingPointTrip.truck.transporter.csmName
+                : row.loadingPointToStockPointTrip.truck.transporter.csmName
+    }))
+    const download = () => {
+        const downloadtripData = rows.map((row) => ({
+            vehicleNumber: row.vehicleNumber,
+            unloadDate: row.unloadDate,
+            invoiceNumber: row.invoiceNumber,
+            transporterName: row.transporterName,
+            csmName: row.csmName
+        }))
+        const fileName = 'Acknowledgement Due Dates'
+        const exportType = exportFromJSON.types.csv
+        exportFromJSON({ data: downloadtripData, fileName, exportType })
+    }
+
     return (
         <>
             <br />
-            <div style={{ float: 'right' }}>
-                <Button onClick={() => download(acknowledgementDueDetails)} variant="contained">
+            <div style={{ float: 'right', marginTop: '10px' }}>
+                <Button onClick={download} variant="contained">
                     Generate Form
                 </Button>
             </div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                    {getTableHead()} {getTableBody(acknowledgementDueDetails)}
-                </Table>
-            </TableContainer>
-            <div style={{ ...style, position: 'sticky' }}>
-                <Stack spacing={10}>
-                    <Pagination
-                        count={Math.ceil(totalTrips / 15)}
-                        size="large"
-                        color="primary"
-                        onChange={(_e, value) => setskipNumber(value - 1)}
-                    />
-                </Stack>
+            <div style={{ height: 1000, width: '100%', marginTop: '70px' }}>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSizeOptions={[100]}
+                    pagination
+                    autoHeight
+                />
             </div>
+            <div
+                style={{
+                    display: 'flex',
+                    bottom: 0,
+                    width: '100%',
+                    justifyContent: 'center',
+                    padding: '10px 0',
+                    background: 'white',
+                    position: 'sticky'
+                }}
+            />
+            <Stack spacing={10}>
+                <Pagination
+                    count={Math.ceil(totalTrips / 15)}
+                    size="large"
+                    color="primary"
+                    onChange={(_e, value) => setskipNumber(value - 1)}
+                />
+            </Stack>
         </>
     )
 }
 
 export default ListAllAcknowledgementDueDetails
-function loadingToStock(row: Props) {
-    return (
-        row.loadingPointToStockPointTrip !== null && row.loadingPointToStockPointTrip !== undefined
-    )
-}

@@ -463,6 +463,7 @@ export const tripStatusFilter = (
             fuel: { include: { bunk: true } },
             shortageQuantity: true,
             paymentDues: true,
+            stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
             loadingPointToStockPointTrip: {
                 include: {
                     truck: { include: { transporter: true } },

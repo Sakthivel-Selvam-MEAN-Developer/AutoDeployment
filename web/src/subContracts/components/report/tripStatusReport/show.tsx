@@ -233,9 +233,6 @@ const addAuthorisedColumns = (authoriser: boolean) => {
 
 const generateRow = (row: Props, index: number) => {
     const data = loadingToStock(row)
-    const unloadingPoint = data.unloadingPoint
-        ? data.unloadingPoint.name
-        : data.stockPointToUnloadingPointTrip[0].unloadingPoint.name
     const loadingKilometer = data.loadingKilometer
     const unloadingKilometer = data.unloadingKilometer
     const ranKm =
@@ -269,7 +266,7 @@ const generateRow = (row: Props, index: number) => {
         csmName: data.truck.transporter.csmName,
         loadingPoint: data.loadingPoint.name,
         stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',
-        unloadingPoint,
+        unloadingPoint: data.unloadingPoint ? data.unloadingPoint.name : 'null',
         filledLoad: data.filledLoad,
         freightAmount: data.freightAmount,
         transporterAmount: data.transporterAmount,
@@ -374,17 +371,22 @@ const loadingToStock = (row: Props) => {
     if (
         row.loadingPointToUnloadingPointTrip !== null &&
         row.loadingPointToUnloadingPointTrip !== undefined
-    )
-        return row.loadingPointToUnloadingPointTrip
-    else if (
-        row.stockPointToUnloadingPointTrip !== null &&
-        row.stockPointToUnloadingPointTrip !== undefined
+    ) {
+        return {
+            ...row.loadingPointToUnloadingPointTrip,
+            unloadingPoint: row.loadingPointToUnloadingPointTrip.unloadingPoint
+        }
+    } else if (
+        row.loadingPointToStockPointTrip !== null &&
+        row.stockPointToUnloadingPointTrip !== null
     ) {
         return {
             ...row.loadingPointToStockPointTrip,
             unloadingPoint: row.stockPointToUnloadingPointTrip.unloadingPoint
         }
-    } else return row.loadingPointToStockPointTrip
+    } else {
+        return row.loadingPointToStockPointTrip
+    }
 }
 
 const ListAllDetails: React.FC<listoverallTripProps> = ({

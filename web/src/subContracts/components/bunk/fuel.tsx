@@ -20,6 +20,7 @@ const Fuel: React.FC = (): ReactElement => {
         vehicleNumber: ''
     })
 
+    const [fuelType, setFuelType] = useState<string>('')
     useEffect(() => {
         setTotalPrice(quantity * pricePerliter)
     }, [quantity, pricePerliter])
@@ -46,7 +47,8 @@ const Fuel: React.FC = (): ReactElement => {
                 bunkId: bunkId,
                 fueledDate: data.fuelDate.unix(),
                 invoiceNumber: data.invoiceNumber,
-                dieselkilometer: dieselkilometer
+                dieselkilometer: dieselkilometer,
+                fuelType: fuelType
             }
             createFuel(details, data.bunkId)
                 .then(() => {
@@ -74,6 +76,8 @@ const Fuel: React.FC = (): ReactElement => {
                     dieselkilometer={dieselkilometer}
                     setTransporterType={setTransporterType}
                     transporterType={transporterType}
+                    fuelType={fuelType}
+                    setFuelType={setFuelType}
                 />
                 <SubmitButton name="Add Fuel" type="submit" disabled={disable} />
             </form>

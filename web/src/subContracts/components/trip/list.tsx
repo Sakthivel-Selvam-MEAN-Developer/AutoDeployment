@@ -6,7 +6,8 @@ import ListTrips from './listTrips'
 const style = {
     marginBottom: '30px',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    textDecoration: 'none'
 }
 const TripList: React.FC = () => {
     const [allStockTrips, setAllStockTrips] = useState([])
@@ -19,13 +20,11 @@ const TripList: React.FC = () => {
     }, [update])
     return (
         <>
-            <div style={style}>
-                <Link to={'/sub/trip/add'}>
-                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-                        Assign New Trip
-                    </Button>
-                </Link>
-            </div>
+            <Link to={'/sub/trip/add'} style={style}>
+                <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                    Assign New Trip
+                </Button>
+            </Link>
             <ListTrips
                 allStockTrips={allStockTrips}
                 setUpdate={setUpdate}

@@ -44,20 +44,24 @@ const CreateTransporter: React.FC = (): ReactElement => {
                 setLoading(false)
             })
     }
-    const style = { marginBottom: '30px', display: 'flex', justifyContent: 'right' }
+    const style = {
+        marginBottom: '30px',
+        display: 'flex',
+        justifyContent: 'right',
+        textDecoration: 'none'
+    }
     const handleClose = () => setOpenSuccessDialog(false)
     useEffect(() => {
         getAllAccountTypes().then(setAccountTypes)
     }, [])
     return (
         <>
-            <div style={style}>
-                <Link to={'/sub/transporter/addvehicle'}>
-                    <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-                        Add Vehicle
-                    </Button>
-                </Link>
-            </div>
+            <Link to={'/sub/transporter/addvehicle'} style={style}>
+                <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                    Add Vehicle
+                </Button>
+            </Link>
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormFields
                     control={control}

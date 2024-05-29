@@ -19,7 +19,6 @@ vi.mock('../../services/truck', () => ({
     getAllTruck: () => mockAllTruck(),
     getNumberByTruckId: () => mockNumberByTruckId()
 }))
-
 const mockFuelData = {
     vehicleNumber: 'TN56CC5678',
     pricePerliter: 103,
@@ -29,6 +28,7 @@ const mockFuelData = {
     invoiceNumber: 'RTD43D',
     fueledDate: 1706553000
 }
+
 const mockAllBunkData = [
     {
         bunkName: 'Barath Petroleum',
@@ -48,17 +48,49 @@ const mockNumByTruckId = {
     vehicleNumber: 'TN56CC5678',
     transporter: {
         name: 'Magnum Logistics Pvt Ltd',
-        transporterType: 'Own'
+        transporterType: 'Own',
+        fueltype: 'partial fill',
+        dieselKilometer: 10000
     }
 }
+const mockNumByTruckIdforMarket = {
+    vehicleNumber: 'TN12R9456',
+    transporter: {
+        name: 'Deepak Logistics Pvt Ltd',
+        transporterType: 'Market Transporter'
+    }
+}
+const mockFueData = {
+    vehicleNumber: 'TN56CC5678',
+    pricePerliter: 103,
+    quantity: 10,
+    totalprice: 1030,
+    fuelStationId: 1,
+    invoiceNumber: 'RTD43D',
+    fueledDate: 1706553000
+}
+
+const mockAllbunkData = [
+    {
+        bunkName: 'Barath Petroleum',
+        location: 'erode',
+        accountHolder: 'Barath',
+        accountNumber: '3642182',
+        ifsc: 'ICIC0005642',
+        accountTypeNumber: 10
+    }
+]
+const mockTruckforMarket = [
+    {
+        vehicleNumber: 'TN12R9456'
+    }
+]
 describe('Add Fuel Details', () => {
-    beforeEach(() => {
+    test('should fetch bunk & station data from Db', async () => {
         mockCreateFuel.mockResolvedValue(mockFuelData)
         mockAllBunk.mockResolvedValue(mockAllBunkData)
         mockAllTruck.mockResolvedValue(mockTruck)
         mockNumberByTruckId.mockResolvedValue(mockNumByTruckId)
-    })
-    test('should fetch bunk & station data from Db', async () => {
         expect(mockAllBunk).toHaveBeenCalledTimes(0)
         expect(mockAllTruck).toHaveBeenCalledTimes(0)
         render(
@@ -78,28 +110,86 @@ describe('Add Fuel Details', () => {
         expect(await screen.findByDisplayValue('Barath Petroleum')).toBeInTheDocument()
 
         expect(await screen.findByDisplayValue('erode')).toBeInTheDocument()
+        const vehicle = screen.getByRole('combobox', {
+            name: 'Vehicle Number'
+        })
+        await userEvent.click(vehicle)
 
-        // Select Vehicle in trip
+        const opt3 = screen.getByRole('option', {
+            name: 'TN56CC5678'
+        })
+        await userEvent.click(opt3)
+        expect(await screen.findByDisplayValue('TN56CC5678')).toBeInTheDocument()
+        await userEvent.type(screen.getByLabelText('Fuel per Liter'), '103')
+        expect(screen.getByDisplayValue('103')).toBeVisible()
+        await userEvent.type(screen.getByLabelText('Fuel Quantity'), '10')
+        expect(screen.getByDisplayValue('10')).toBeVisible()
+        const fuelPerLiter = screen.getByRole('spinbutton', {
+            name: 'Fuel per Liter'
+        }) as HTMLInputElement
+        const totalQuantity = screen.getByRole('spinbutton', {
+            name: 'Fuel Quantity'
+        }) as HTMLInputElement
+        const totalPrice = screen.getByRole('spinbutton', {
+            name: 'Total Price'
+        }) as HTMLInputElement
+        expect(parseInt(totalPrice.value)).toBe(
+            parseInt(fuelPerLiter.value) * parseInt(totalQuantity.value)
+        )
+        await userEvent.type(screen.getByLabelText('Fueled Date'), '30012024')
+        await userEvent.type(screen.getByLabelText('Diesel Bill Number'), 'RTD43D')
+        const opt4 = screen.getByRole('combobox', {
+            name: 'Diesel Type'
+        })
+        await userEvent.click(opt4)
+        await waitFor(() => screen.getByRole('listbox'))
+        await userEvent.type(screen.getByLabelText('Diesel Bill Number'), 'Partial fill')
+        await userEvent.type(screen.getByLabelText('Diesel Kilometer'), '10000')
+        const save = screen.getByRole('button', { name: 'Add Fuel' })
+        expect(save).toBeInTheDocument()
+        await userEvent.click(save)
+        expect(mockAllBunk).toHaveBeenCalledTimes(1)
+        expect(mockAllTruck).toHaveBeenCalledTimes(1)
+        expect(mockNumberByTruckId).toHaveBeenCalledTimes(2)
+    })
+    test('shouldnot display diesel kilometer and dieselType for market vehicle', async () => {
+        mockCreateFuel.mockResolvedValue(mockFueData)
+        mockAllBunk.mockResolvedValue(mockAllbunkData)
+        mockAllTruck.mockResolvedValue(mockTruckforMarket)
+        mockNumberByTruckId.mockResolvedValue(mockNumByTruckIdforMarket)
+        expect(mockAllBunk).toHaveBeenCalledTimes(1)
+        expect(mockAllTruck).toHaveBeenCalledTimes(1)
+        render(
+            <BrowserRouter>
+                <Fuel />
+            </BrowserRouter>
+        )
+        const bunkName = screen.getByRole('combobox', {
+            name: 'Select Bunk'
+        })
+        await userEvent.click(bunkName)
+        await waitFor(() => screen.getByRole('listbox'))
+        const opt = screen.getByRole('option', {
+            name: 'Barath Petroleum'
+        })
+        await userEvent.click(opt)
+        expect(await screen.findByDisplayValue('Barath Petroleum')).toBeInTheDocument()
+        expect(await screen.findByDisplayValue('erode')).toBeInTheDocument()
+        screen.debug(undefined, 70000000)
         const vehicle = screen.getByRole('combobox', {
             name: 'Vehicle Number'
         })
         await userEvent.click(vehicle)
         await waitFor(() => screen.getByRole('listbox'))
         const opt3 = screen.getByRole('option', {
-            name: 'TN56CC5678'
+            name: 'TN12R9456'
         })
         await userEvent.click(opt3)
-        expect(await screen.findByDisplayValue('TN56CC5678')).toBeInTheDocument()
-
-        // Input the Fuel price
+        expect(await screen.findByDisplayValue('TN12R9456')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Fuel per Liter'), '103')
         expect(screen.getByDisplayValue('103')).toBeVisible()
-
-        // Input the Fuel quantity
         await userEvent.type(screen.getByLabelText('Fuel Quantity'), '10')
         expect(screen.getByDisplayValue('10')).toBeVisible()
-
-        // Calculate Total Price
         const fuelPerLiter = screen.getByRole('spinbutton', {
             name: 'Fuel per Liter'
         }) as HTMLInputElement
@@ -117,7 +207,7 @@ describe('Add Fuel Details', () => {
         const save = screen.getByRole('button', { name: 'Add Fuel' })
         expect(save).toBeInTheDocument()
         await userEvent.click(save)
-        expect(mockAllBunk).toHaveBeenCalledTimes(1)
-        expect(mockAllTruck).toHaveBeenCalledTimes(1)
+        expect(mockAllBunk).toHaveBeenCalledTimes(2)
+        expect(mockAllTruck).toHaveBeenCalledTimes(2)
     })
 })

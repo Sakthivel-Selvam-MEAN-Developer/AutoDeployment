@@ -1,7 +1,5 @@
-import Table from '@mui/material/Table'
-import TableContainer from '@mui/material/TableContainer'
-import Paper from '@mui/material/Paper'
-import { Button, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
+import { Button } from '@mui/material'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import exportFromJSON from 'export-from-json'
 import { FC } from 'react'
@@ -9,6 +7,7 @@ import { FC } from 'react'
 interface Props {
     completedPayments: completedPaymentsProps[]
 }
+
 interface completedPaymentsProps {
     vehicleNumber: string
     name: string
@@ -35,100 +34,55 @@ interface completedPaymentsProps {
         }
     }
 }
-const cellData = [
-    'Vehicle Number',
-    'Invoice Number',
-    'Loading Point',
-    'UnLoading Point',
-    'Transporter Name',
-    'Payment Date',
-    'Payment Type',
-    'Transaction Id',
-    'Amount',
-    'CSM Name'
+
+const columns = [
+    { field: 'id', headerName: '#', width: 70 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', minWidth: 100, flex: 1 },
+    { field: 'invoiceNumber', headerName: 'Invoice Number', minWidth: 100, flex: 1 },
+    { field: 'loadingPoint', headerName: 'Loading Point', minWidth: 100, flex: 1 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', minWidth: 100, flex: 1 },
+    { field: 'name', headerName: 'Name', minWidth: 100, flex: 1 },
+    { field: 'paidAt', headerName: 'Payment Date', minWidth: 100, flex: 1 },
+    { field: 'type', headerName: 'Payment Type', minWidth: 100, flex: 1 },
+    { field: 'transactionId', headerName: 'Transaction Id', minWidth: 100, flex: 1 },
+    { field: 'payableAmount', headerName: 'Amount', minWidth: 100, flex: 1 },
+    { field: 'csmName', headerName: 'CSM Name', minWidth: 100, flex: 1 }
 ]
-function getRow() {
-    return (
-        <TableRow>
-            <TableCell>#</TableCell>
-            {cellData.map((data) => (
-                <TableCell key={data} align="left">
-                    {data}
-                </TableCell>
-            ))}
-        </TableRow>
-    )
-}
-const getTableHead = () => {
-    return <TableHead>{getRow()}</TableHead>
+const rows = (completedPayments: completedPaymentsProps[]) => {
+    return completedPayments.map((row, index) => {
+        const trip = getTripType(row)
+        return {
+            id: index + 1,
+            vehicleNumber: row.vehicleNumber,
+            invoiceNumber: row.overallTrip !== null ? trip?.invoiceNumber : 'Null',
+            loadingPoint: row.overallTrip ? trip?.loadingPoint.name ?? 'Null' : 'Null',
+            unloadingPoint:
+                row.overallTrip && row.overallTrip.stockPointToUnloadingPointTrip
+                    ? row.overallTrip.stockPointToUnloadingPointTrip.unloadingPoint.name
+                    : trip?.unloadingPoint?.name ?? 'Null',
+            name: row.name,
+            paidAt: row.paidAt,
+            type: row.type,
+            transactionId: row.transactionId,
+            payableAmount: row.payableAmount,
+            csmName: trip !== null ? trip?.truck.transporter.csmName : 'Null'
+        }
+    })
 }
 const getTripType = (row: completedPaymentsProps) => {
-    let type
     if (row.overallTrip && row.overallTrip.loadingPointToStockPointTrip !== null) {
-        type = row.overallTrip.loadingPointToStockPointTrip
+        return row.overallTrip.loadingPointToStockPointTrip
     } else if (row.overallTrip && row.overallTrip.loadingPointToUnloadingPointTrip !== null) {
-        type = row.overallTrip.loadingPointToUnloadingPointTrip
+        return row.overallTrip.loadingPointToUnloadingPointTrip
     }
-    return type
-}
-interface getCellsProps {
-    row: completedPaymentsProps
-    index: number
-}
-const GetCells: FC<getCellsProps> = ({ row, index }) => {
-    const trip = getTripType(row)
-    return (
-        <>
-            <TableCell> {index + 1} </TableCell>
-            <TableCell align="left">{row.vehicleNumber}</TableCell>
-            <TableCell align="left">
-                {row.overallTrip !== null ? trip?.invoiceNumber : 'Null'}
-            </TableCell>
-            <TableCell align="left">
-                {row.overallTrip !== null ? trip?.loadingPoint.name : 'Null'}
-            </TableCell>
-            <TableCell align="left">
-                {row.overallTrip !== null && row.overallTrip.stockPointToUnloadingPointTrip !== null
-                    ? row.overallTrip.stockPointToUnloadingPointTrip.unloadingPoint.name
-                    : trip?.unloadingPoint !== undefined
-                      ? trip?.unloadingPoint.name
-                      : 'Null'}
-            </TableCell>
-            <TableCell align="left">{row.name}</TableCell>
-            <TableCell align="left">{epochToMinimalDate(row.paidAt)}</TableCell>
-            <TableCell align="left">{row.type}</TableCell>
-            <TableCell align="left">{row.transactionId}</TableCell>
-            <TableCell align="left">{row.payableAmount}</TableCell>
-            <TableCell align="left">
-                {row.type !== 'fuel pay'
-                    ? row.overallTrip !== null && trip?.truck.transporter.csmName
-                    : 'NUll'}
-            </TableCell>
-        </>
-    )
-}
-const getTableBody = (allTrips: completedPaymentsProps[]) => {
-    return (
-        <>
-            <TableBody>
-                {allTrips.map((row: completedPaymentsProps, index: number) => (
-                    <TableRow
-                        key={index}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <GetCells row={row} index={index} />
-                    </TableRow>
-                ))}
-            </TableBody>
-        </>
-    )
+    return null
 }
 
 function download(completedPayments: completedPaymentsProps[]) {
     const downloadDueData: object[] = []
-    completedPayments.map((data) => {
+    completedPayments.forEach((data) =>
         downloadCSV(data, downloadDueData, completedPayments.length)
-    })
+    )
 }
 const getCsmName = (data: completedPaymentsProps) => {
     return data.type !== 'fuel pay'
@@ -154,35 +108,30 @@ const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], n
         exportFromJSON({ data, fileName, exportType })
     }
 }
-const style = {
-    marginBottom: '30px',
-    display: 'flex',
-    justifyContent: 'right'
-}
+
 const CompletedPaymentTable: React.FC<Props> = ({ completedPayments }) => {
     return (
         <>
             <DownloadCsvButton completedPayments={completedPayments} />
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                    {getTableHead()}
-                    {getTableBody(completedPayments)}
-                </Table>
-            </TableContainer>
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid rows={rows(completedPayments)} columns={columns} pageSizeOptions={[5]} />
+            </div>
         </>
     )
 }
 
-export default CompletedPaymentTable
 interface DownloadCsvButtonProps {
     completedPayments: completedPaymentsProps[]
 }
+
 const DownloadCsvButton: FC<DownloadCsvButtonProps> = ({ completedPayments }) => {
     return (
-        <div style={style}>
+        <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'right' }}>
             <Button color="primary" variant="contained" onClick={() => download(completedPayments)}>
                 Download Report
             </Button>
         </div>
     )
 }
+
+export default CompletedPaymentTable

@@ -16,11 +16,13 @@ interface FormFieldsProps {
     pricePerliter: number
     quantity: number
     dieselkilometer: number
+    fuelType: string
     setPricePerliter: React.Dispatch<SetStateAction<number>>
     setQuantity: React.Dispatch<SetStateAction<number>>
     setDieselkilometer: React.Dispatch<SetStateAction<number>>
     setTransporterType: React.Dispatch<SetStateAction<transporterType>>
     transporterType: transporterType
+    setFuelType: React.Dispatch<SetStateAction<string>>
 }
 interface vehicleProps {
     id: number
@@ -46,7 +48,8 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
     setQuantity,
     setDieselkilometer,
     setTransporterType,
-    transporterType
+    transporterType,
+    setFuelType
 }) => {
     const [bunkList, setBunkList] = useState([])
     const [bunkLocation, setBunkLocation] = useState<string>('')
@@ -185,6 +188,20 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                         onChange={(e) => setDieselkilometer(parseInt(e.target.value))}
                     />
                 )}
+
+            {transporterType?.transporter.transporterType === 'Own' && (
+                <AutoComplete
+                    control={control}
+                    fieldName="Dieseltype"
+                    label="Diesel Type"
+                    options={['Partial fill', 'Full tank']}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string | null) => {
+                        if (newValue) {
+                            setFuelType(newValue)
+                        }
+                    }}
+                />
+            )}
         </div>
     )
 }

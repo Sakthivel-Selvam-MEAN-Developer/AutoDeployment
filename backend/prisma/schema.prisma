@@ -471,6 +471,7 @@ model fuel {
   quantity        Float        @db.DoublePrecision
   totalprice      Float        @db.DoublePrecision
   dieselkilometer Float        @default(0) @db.DoublePrecision
+  fuelType        String?       
   paymentStatus   Boolean      @default(false)
   vehicleNumber   String
   bunk            bunk         @relation(fields: [bunkId], references: [id])
