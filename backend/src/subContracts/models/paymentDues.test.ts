@@ -231,7 +231,7 @@ describe('Payment-Due model', () => {
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(5000)
     })
-    test.only('should get only completed the payment dues', async () => {
+    test('should get only completed the payment dues', async () => {
         await create(seedPaymentDue)
         const type = 'initial pay'
         const dues = await findTripWithActiveDues(dueDate, false, type)
