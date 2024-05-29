@@ -151,8 +151,8 @@ const onChangeForVehicleList: onChangeType = (
             if (tripType?.loadingPointToStockPointTrip !== undefined)
                 tripType = tripType?.loadingPointToStockPointTrip
             return (
-                tripType?.truck.vehicleNumber === newValue.split('-')[0] &&
-                tripType?.invoiceNumber === newValue.split('-')[1]
+                tripType?.truck.vehicleNumber === newValue.split(/-(.*)/s)[0] &&
+                tripType?.invoiceNumber === newValue.split(/-(.*)/s)[1]
             )
         }) || { id: 0 }
         setTripId(id)
