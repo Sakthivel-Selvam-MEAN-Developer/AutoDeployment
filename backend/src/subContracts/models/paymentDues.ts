@@ -198,7 +198,8 @@ export const getUpcomingDuesByFilter = (
             dueDate: {
                 gte: from !== undefined ? parseInt(from) : undefined,
                 lte: to !== undefined ? parseInt(to) : undefined
-            }
+            },
+            status: false
         },
         include: {
             overallTrip: {
@@ -207,7 +208,7 @@ export const getUpcomingDuesByFilter = (
                         include: {
                             loadingPoint: true,
                             stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
-                            truck: { include: { transporter: { select: { csmName: true } } } }
+                            truck: { include: { transporter: { select: { csmName: true } } } },
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
