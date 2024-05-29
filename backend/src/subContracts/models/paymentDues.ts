@@ -208,7 +208,7 @@ export const getUpcomingDuesByFilter = (
                         include: {
                             loadingPoint: true,
                             stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
-                            truck: { include: { transporter: { select: { csmName: true } } } },
+                            truck: { include: { transporter: { select: { csmName: true } } } }
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
