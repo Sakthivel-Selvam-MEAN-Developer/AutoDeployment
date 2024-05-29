@@ -38,12 +38,7 @@ const TransporterInvoiceList: React.FC = () => {
             }}
         >
             <InvoiceNumberField onSearch={handleSearch} />
-            {showTable && (
-                <TransporterInvoiceTable
-                    tripDetails={filteredTripDetails}
-                    setTripDetails={setTripDetails}
-                />
-            )}
+            {showTable && <TransporterInvoiceTable tripDetails={filteredTripDetails} />}
         </div>
     )
 }

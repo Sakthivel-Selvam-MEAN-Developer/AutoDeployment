@@ -771,6 +771,57 @@ export const getTripForAcknowlegementApproval = () =>
             }
         }
     })
+export const getTripForPricePointApproval = () =>
+    prisma.overallTrip.findMany({
+        where: {
+            // pricePointApprovalStatus: false
+            acknowledgementApproval: false
+        },
+        include: {
+            loadingPointToStockPointTrip: {
+                select: {
+                    startDate: true,
+                    invoiceNumber: true,
+                    filledLoad: true,
+                    freightAmount: true,
+                    transporterAmount: true,
+                    loadingPoint: { select: { name: true } },
+                    truck: {
+                        select: {
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true
+                                }
+                            },
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                select: {
+                    startDate: true,
+                    invoiceNumber: true,
+                    filledLoad: true,
+                    freightAmount: true,
+                    transporterAmount: true,
+                    loadingPoint: { select: { name: true } },
+                    truck: {
+                        select: {
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true
+                                }
+                            },
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            }
+        }
+    })
 export const getNumberByTruckId = (id: number) =>
     prisma.truck.findFirst({
         where: { id },

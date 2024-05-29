@@ -25,6 +25,7 @@ const CompletedPayment: React.FC = () => {
     const [page, setPage] = useState(1)
     const [name, setName] = useState('')
     const [from, setFrom] = useState(0)
+    const [payType, setPayType] = useState('')
     const [to, setTo] = useState(0)
     const [message, setMessage] = useState<string>('Please Select Any One...')
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -33,21 +34,21 @@ const CompletedPayment: React.FC = () => {
         const to = data.to !== undefined ? data.to.unix() : 0
         setFrom(from)
         setTo(to)
-        if (name !== '' || (from !== 0 && to !== 0)) {
+        if (name !== '' || (from !== 0 && to !== 0) || payType !== '') {
             setLoading(true)
-            getCompletedDues(name !== '' ? name : 'null', from, to, page)
+            getCompletedDues(name !== '' ? name : 'null', from, to, page, payType)
                 .then(setCompletedPayments)
                 .then(() => {
                     completedPayments.length === 0 && setMessage('No Records Found...')
                     setLoading(false)
                 })
-        } else if (from === 0 && to === 0 && name === '')
+        } else if (from === 0 && to === 0 && name === '' && payType === '')
             alert('Please Select Valid Date Or Name...')
     }
     useEffect(() => {
-        if (name !== '' || (from !== 0 && to !== 0)) {
+        if (name !== '' || (from !== 0 && to !== 0) || payType !== null) {
             setLoading(true)
-            getCompletedDues(name, from, to, page)
+            getCompletedDues(name, from, to, page, payType)
                 .then(setCompletedPayments)
                 .then(() => {
                     completedPayments.length === 0 && setMessage('No Records Found...')
@@ -63,6 +64,7 @@ const CompletedPayment: React.FC = () => {
                 setName={setName}
                 vendor={vendor}
                 setVendor={setVendor}
+                setPayType={setPayType}
             />
             <br />
             {loading ? (

@@ -22,9 +22,9 @@ const TextFieldContainer: FC<TextFieldContainerProps> = ({ id, setTripDetails })
     const [invoice, setInvoice] = useState('')
     const onSubmit = () => {
         if (invoice === '') return
-        updateTransporterInvoice({ invoice, id }).then((Tripid) => {
+        updateTransporterInvoice({ invoice, id }).then(() => {
             setInvoice('')
-            setTripDetails((tripData) => tripData.filter((trip) => trip.id !== Tripid.id))
+            setTripDetails((tripData) => tripData.filter((trip) => trip.id !== id))
         })
     }
     return <TextFieldCell invoice={invoice} setInvoice={setInvoice} onSubmit={onSubmit} />

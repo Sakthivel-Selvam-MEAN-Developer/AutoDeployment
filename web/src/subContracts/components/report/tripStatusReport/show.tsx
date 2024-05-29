@@ -88,7 +88,7 @@ interface paymentType {
     type: string
     status: boolean
 }
-interface listoverallTripProps {
+interface listTripProps {
     overallTrips: Props[]
     setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
     setCount: React.Dispatch<React.SetStateAction<number>>
@@ -389,12 +389,7 @@ const loadingToStock = (row: Props) => {
     }
 }
 
-const ListAllDetails: React.FC<listoverallTripProps> = ({
-    setOverallTrips,
-    overallTrips,
-    count,
-    setCount
-}) => {
+const ListAllDetails: FC<listTripProps> = ({ setOverallTrips, overallTrips, count, setCount }) => {
     const authoriser = CheckUser()
     const { dispatch } = useContext(dispatchData)
     if (overallTrips && overallTrips.length === 0) return

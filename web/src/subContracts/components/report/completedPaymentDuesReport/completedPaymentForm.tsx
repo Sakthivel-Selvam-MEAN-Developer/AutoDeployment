@@ -12,12 +12,14 @@ interface FormFieldsProps {
     vendor: vendorProps[]
     setName: React.Dispatch<React.SetStateAction<string>>
     setVendor: React.Dispatch<React.SetStateAction<vendorProps[]>>
+    setPayType: React.Dispatch<React.SetStateAction<string>>
 }
 const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
     control,
     vendor,
     setVendor,
-    setName
+    setName,
+    setPayType
 }) => {
     useEffect(() => {
         getAllTransporterName()
@@ -67,6 +69,15 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
                     options={vendor ? vendor.map(({ name }) => name) : []}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
                         setName(value)
+                    }}
+                />
+                <AutoComplete
+                    control={control}
+                    fieldName="type"
+                    label="Select Payment Type"
+                    options={['Final Pay', 'Initial Pay', 'Fuel Pay']}
+                    onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
+                        setPayType(value.toLocaleLowerCase())
                     }}
                 />
                 <Button

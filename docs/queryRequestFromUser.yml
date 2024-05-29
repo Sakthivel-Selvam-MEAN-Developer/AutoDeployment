@@ -290,6 +290,44 @@ date: 11-04-2024
     - update "subContract"."overallTrip" set "acknowledgementDate"=1715279400 where id=638;
     - update "subContract"."overallTrip" set "acknowledgementDate"=1715106600 where id=652;
 
+  date: 28-05-2024
+  person: Santhosh
+  description:
+    - updated dueDate in paymentDues in overallTrip
+  query:
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id= 1972;
+    - update "subContract"."paymentDues" set "dueDate"=1716489000 where id= 1973;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id= 1779;
+    - update "subContract"."paymentDues" set "dueDate"=1717439400 where id= 1895;
+    - update "subContract"."paymentDues" set "dueDate"=1715538600 where id= 1780;
+    - update "subContract"."paymentDues" set "dueDate"=1716748200 where id= 1925;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id= 1974;
+    - update "subContract"."paymentDues" set "dueDate"=1716575400 where id= 1839;
+    - update "subContract"."paymentDues" set "dueDate"=1716661800 where id= 1869;
+    - update "subContract"."paymentDues" set "dueDate"=1716402600 where id= 1903;
+    - update "subContract"."paymentDues" set "dueDate"=1717093800 where id= 1917;
+    - update "subContract"."paymentDues" set "dueDate"=1716834600 where id= 1926;
+    - update "subContract"."paymentDues" set "dueDate"=1716229800 where id= 1975;
+    - update "subContract"."paymentDues" set "dueDate"=1716057000 where id= 1868;
+    - update "subContract"."paymentDues" set "dueDate"=1717007400 where id= 1984;
+    - update "subContract"."paymentDues" set "dueDate"=1716834600 where id= 1860;
+    - update "subContract"."paymentDues" set "dueDate"=1715711400 where id= 1492;
+    - update "subContract"."paymentDues" set "dueDate"=1717007400 where id= 1851;
+    - update "subContract"."paymentDues" set "dueDate"=1717007400 where id= 1841;
+    - update "subContract"."paymentDues" set "dueDate"=1717266600 where id= 1905;
+    - update "subContract"."paymentDues" set "dueDate"=1717439400 where id= 1907;
+    - update "subContract"."paymentDues" set "dueDate"=1717093800 where id= 1853;
+    - update "subContract"."paymentDues" set "dueDate"=1716402600 where id= 1854;
+    - update "subContract"."paymentDues" set "dueDate"=1717180200 where id= 1899;
+    - update "subContract"."paymentDues" set "dueDate"=1717266600 where id= 1915;
+    - update "subContract"."paymentDues" set "dueDate"=1716921000 where id= 1857;
+    - update "subContract"."paymentDues" set "dueDate"=1717093800 where id= 1017;
+    - update "subContract"."paymentDues" set "dueDate"=1717439400 where id= 1904;
+    - update "subContract"."paymentDues" set "dueDate"=1717698600 where id= 1913;
+    - update "subContract"."paymentDues" set "dueDate"=1716921000 where id= 1856;
+    - update "subContract"."paymentDues" set "dueDate"=1716921000 where id= 1858;
+    - update "subContract"."paymentDues" set "dueDate"=1717093800 where id= 1018;
+    - update "subContract"."paymentDues" set "dueDate"=1717266600 where id= 1897;
 
 
 

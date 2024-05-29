@@ -23,7 +23,7 @@ const paymentDues = (router: Router) => {
     router.put('/payment-dues', authorise(['Admin']), updatePayment)
     router.get('/payment-dues/:status', listGstDuesGroupByName)
     router.get('/upcoming-payment-dues', listAllUpcomingTransporterDues)
-    router.get('/completed-payment-dues/:name/:from/:to/:page', listAllCompletedDues)
+    router.get('/completed-payment-dues', listAllCompletedDues)
 }
 
 export default paymentDues

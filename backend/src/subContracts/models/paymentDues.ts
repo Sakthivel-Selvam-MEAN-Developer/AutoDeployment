@@ -223,28 +223,40 @@ export const getUpcomingDuesByFilter = (
         }
     })
 
-export const getCompletedDues = (name: string, from: number, to: number, page: number) => {
+export const getCompletedDues = (
+    name: string,
+    from: number,
+    to: number,
+    _page: number,
+    type: string
+) => {
     const whereCondition: any = {
         status: true,
         AND: []
     }
-    if (name !== 'null' && from !== 0 && to !== 0) {
+    if (name !== 'null' && from !== 0 && to !== 0 && type !== null) {
         whereCondition.AND.push({
             name,
             paidAt: {
                 gte: from,
                 lte: to
-            }
+            },
+            type
         })
-    } else if (name !== 'null') {
+    }
+    if (name !== 'null') {
         whereCondition.AND.push({ name })
-    } else if (from !== 0 && to !== 0) {
+    }
+    if (from !== 0 && to !== 0) {
         whereCondition.AND.push({
             paidAt: {
                 gte: from,
                 lte: to
             }
         })
+    }
+    if (type !== '') {
+        whereCondition.AND.push({ type })
     }
     return prisma.paymentDues.findMany({
         where: whereCondition,
@@ -273,8 +285,6 @@ export const getCompletedDues = (name: string, from: number, to: number, page: n
                     }
                 }
             }
-        },
-        skip: (page - 1) * 10,
-        take: 10
+        }
     })
 }

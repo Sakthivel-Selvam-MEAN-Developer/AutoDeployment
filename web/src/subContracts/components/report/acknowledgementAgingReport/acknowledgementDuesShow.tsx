@@ -1,7 +1,8 @@
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, Pagination, Stack } from '@mui/material'
+import { Box, Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
+import { FC } from 'react'
 
 interface unloadingProps {
     unloadingPoint: {
@@ -55,15 +56,15 @@ interface listoverallTripProps {
 }
 
 const columns = [
-    { field: 'id', headerName: '#', width: 100 },
-    { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 200 },
-    { field: 'startDate', headerName: 'Start Date', width: 200 },
-    { field: 'loadingPoint', headerName: 'Loading Point', width: 200 },
-    { field: 'unloadingPoint', headerName: 'Unloading Point', width: 200 },
-    { field: 'unloadDate', headerName: 'Unloading Date', width: 200 },
-    { field: 'invoiceNumber', headerName: 'Invoice Number', width: 200 },
-    { field: 'transporterName', headerName: 'Transporter Name', width: 250 },
-    { field: 'csmName', headerName: 'CSM Name', width: 250 }
+    { field: 'id', headerName: '#', flex: 1, minWidth: 100 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', flex: 1, minWidth: 100 },
+    { field: 'startDate', headerName: 'Start Date', flex: 1, minWidth: 100 },
+    { field: 'loadingPoint', headerName: 'Loading Point', flex: 1, minWidth: 100 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', flex: 1, minWidth: 100 },
+    { field: 'unloadDate', headerName: 'Unloading Date', flex: 1, minWidth: 100 },
+    { field: 'invoiceNumber', headerName: 'Invoice Number', flex: 1, minWidth: 100 },
+    { field: 'transporterName', headerName: 'Transporter Name', flex: 1, minWidth: 100 },
+    { field: 'csmName', headerName: 'CSM Name', flex: 1, minWidth: 100 }
 ]
 
 const ListAllAcknowledgementDueDetails = ({
@@ -126,15 +127,17 @@ const ListAllAcknowledgementDueDetails = ({
                     Generate Form
                 </Button>
             </div>
-            <div style={{ height: 1000, width: '100%', marginTop: '70px' }}>
+            <br />
+            <br />
+            <br />
+            <Box sx={{ height: 400, width: '94vw' }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
                     pageSizeOptions={[100]}
-                    pagination
-                    autoHeight
+                    disableRowSelectionOnClick
                 />
-            </div>
+            </Box>
             <div
                 style={{
                     display: 'flex',
@@ -145,17 +148,26 @@ const ListAllAcknowledgementDueDetails = ({
                     background: 'white',
                     position: 'sticky'
                 }}
-            />
-            <Stack spacing={10}>
-                <Pagination
-                    count={Math.ceil(totalTrips / 15)}
-                    size="large"
-                    color="primary"
-                    onChange={(_e, value) => setskipNumber(value - 1)}
-                />
-            </Stack>
+            >
+                <PaginationContainer totalTrips={totalTrips} setskipNumber={setskipNumber} />
+            </div>
         </>
     )
 }
-
+interface PaginationProps {
+    setskipNumber: React.Dispatch<React.SetStateAction<number>>
+    totalTrips: number
+}
+const PaginationContainer: FC<PaginationProps> = ({ totalTrips, setskipNumber }) => {
+    return (
+        <Stack spacing={10}>
+            <Pagination
+                count={Math.ceil(totalTrips / 15)}
+                size="large"
+                color="primary"
+                onChange={(_e, value) => setskipNumber(value - 1)}
+            />
+        </Stack>
+    )
+}
 export default ListAllAcknowledgementDueDetails

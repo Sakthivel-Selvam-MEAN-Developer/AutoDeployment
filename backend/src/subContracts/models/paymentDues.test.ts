@@ -231,7 +231,7 @@ describe('Payment-Due model', () => {
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(5000)
     })
-    test('should get only completed the payment dues', async () => {
+    test.only('should get only completed the payment dues', async () => {
         await create(seedPaymentDue)
         const type = 'initial pay'
         const dues = await findTripWithActiveDues(dueDate, false, type)
@@ -241,7 +241,14 @@ describe('Payment-Due model', () => {
             paidAt: dueDate
         }
         await updatePaymentDues(wantToUpdate)
-        const actual = await getCompletedDues(seedPaymentDue.name, dueDate, dueDate, 1)
+        const actual = await getCompletedDues(
+            seedPaymentDue.name,
+            dueDate,
+            dueDate,
+            1,
+            'initial pay'
+        )
+        console.log(actual)
         expect(actual.length).toBe(1)
         expect(actual[0].transactionId).toBe('abc')
     })

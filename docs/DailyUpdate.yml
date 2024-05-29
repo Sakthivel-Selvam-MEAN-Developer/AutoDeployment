@@ -1,8 +1,38 @@
+- date: 29-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should add type filter in paymentDues
+    - should solve completed payment filter issues
+    - should remove added invoice in transporterInvoice
+
+- date: 28-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should create page for PricePoint Approval
+    - should update dueDate in paymentDues
+  completed:
+    - created page for PricePoint Approval
+    - updated dueDate in paymentDues
+
+- date: 27-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should write model and controller for PricePoint Approval
+    - should create page for PricePoint Approval
+  completed:
+    - written model and controller for PricePoint Approval
+
 - date: 25-05-2024
   person: Barath
   project: subContract
   planning:
     - should write test for acknowledgement Approval
+  completed:
+    - written test for acknowledgement Approval
+    - dueDate updated in paymentDues
 - date: 25-05-2024
   person: Sakthivel
   project: driverSalary

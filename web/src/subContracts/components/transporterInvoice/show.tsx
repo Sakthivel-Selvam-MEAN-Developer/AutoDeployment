@@ -1,25 +1,27 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { TransporterInvoiceProps, tripTableProps } from './type'
 import { TripTable } from './table'
 
-const TransporterInvoiceTable: FC<TransporterInvoiceProps> = ({ tripDetails, setTripDetails }) => {
+const TransporterInvoiceTable: FC<TransporterInvoiceProps> = ({ tripDetails }) => {
     const stock = tripDetails.filter((trip) => trip.loadingPointToStockPointTrip !== null)
     const direct = tripDetails.filter((trip) => trip.loadingPointToUnloadingPointTrip !== null)
     return (
         <>
-            <TransporterTripTable direct={direct} setTripDetails={setTripDetails} stock={stock} />
+            <TransporterTripTable direct={direct} stock={stock} />
             <br />
         </>
     )
 }
 export default TransporterInvoiceTable
-const TransporterTripTable: FC<tripTableProps> = ({ direct, setTripDetails, stock }) => {
+const TransporterTripTable: FC<tripTableProps> = ({ direct, stock }) => {
+    const [directTrip, setDirectTrip] = useState(direct)
+    const [stockTrip, setStockTrip] = useState(stock)
     return (
         <div style={{ width: '100%' }}>
-            <TripTable trip={direct} setTripDetails={setTripDetails} tableName={'Direct Trip'} />
+            <TripTable trip={directTrip} setTripDetails={setDirectTrip} tableName={'Direct Trip'} />
             <TripTable
-                trip={stock}
-                setTripDetails={setTripDetails}
+                trip={stockTrip}
+                setTripDetails={setStockTrip}
                 tableName={'LoadingToStock Trip'}
             />
         </div>

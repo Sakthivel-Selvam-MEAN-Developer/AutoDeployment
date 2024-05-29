@@ -166,15 +166,22 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                         icon={<FileDownload />}
                     />
                 )}
+                {/* <DrawerListItem
+                    text="PricePoint Approval"
+                    navigate="/sub/pricepointapproval"
+                    drawerState={drawerState}
+                    index={10}
+                    icon={<Beenhere />}
+                /> */}
                 <DrawerListItem
                     text="Acknowledgement Approval"
                     navigate="/sub/acknowledgementapproval"
                     drawerState={drawerState}
-                    index={10}
+                    index={11}
                     icon={<Beenhere />}
                 />
                 <DrawerCollapse
-                    index={11}
+                    index={12}
                     drawerState={drawerState}
                     text="Reports"
                     icon={<Summarize />}

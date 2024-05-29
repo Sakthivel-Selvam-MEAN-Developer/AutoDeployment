@@ -32,6 +32,8 @@ import TransporterInvoice from './subContracts/components/transporterInvoice'
 import TransporterInvoiceList from './subContracts/components/transporterInvoice/list'
 import AcknowledgementApprovalList from './subContracts/components/finalPayApproval/list'
 import AcknowledgementApproval from './subContracts/components/finalPayApproval'
+// import PricePointApproval from './subContracts/components/pricePointApproval'
+// import PricePointApprovalList from './subContracts/components/pricePointApproval/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -192,6 +194,16 @@ const sunContractRoutes = {
                 }
             ]
         }
+        // {
+        //     path: 'pricepointapproval',
+        //     element: <PricePointApproval />,
+        //     children: [
+        //         {
+        //             path: '',
+        //             element: <PricePointApprovalList />
+        //         }
+        //     ]
+        // },
     ]
 }
 export default sunContractRoutes

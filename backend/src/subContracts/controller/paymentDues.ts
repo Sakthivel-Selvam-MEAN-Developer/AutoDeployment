@@ -317,10 +317,19 @@ export const listAllUpcomingTransporterDues = (
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
-
-export const listAllCompletedDues = (req: Request, res: Response) => {
-    const { name, from, to, page } = req.params
-    getCompletedDues(name, parseInt(from), parseInt(to), parseInt(page))
+interface CompletedQuery {
+    name: string
+    from: string
+    to: string
+    page: string
+    payType: string
+}
+export const listAllCompletedDues = (
+    req: Request<object, object, object, CompletedQuery>,
+    res: Response
+) => {
+    const { name, from, to, page, payType } = req.query
+    getCompletedDues(name, parseInt(from), parseInt(to), parseInt(page), payType)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

@@ -1,6 +1,5 @@
 export interface TransporterInvoiceProps {
     tripDetails: tripDetailProps[]
-    setTripDetails: React.Dispatch<React.SetStateAction<tripDetailProps[]>>
 }
 export interface tripDetailProps {
     id: number
@@ -35,7 +34,6 @@ export interface textCellProps {
 }
 export interface tripTableProps {
     direct: tripDetailProps[]
-    setTripDetails: React.Dispatch<React.SetStateAction<tripDetailProps[]>>
     stock: tripDetailProps[]
 }
 export interface TableConatinerProps {
