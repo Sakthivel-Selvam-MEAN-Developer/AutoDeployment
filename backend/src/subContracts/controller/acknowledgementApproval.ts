@@ -16,7 +16,8 @@ export const listTripForAcknowlegementApproval = (_req: Request, res: Response) 
                 const pay = trip.paymentDues.filter((due) => due.type === 'final pay')
                 return pay.length === 0 ? trip : null
             })
-            res.status(200).json(tripDetails)
+            const trips = tripDetails.filter((trip) => trip !== null)
+            res.status(200).json(trips)
         })
         .catch(() => res.status(500))
 }
