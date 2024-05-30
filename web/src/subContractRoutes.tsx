@@ -30,8 +30,8 @@ import CompletedPayment from './subContracts/components/report/completedPaymentD
 import AddAcknowledgement from './subContracts/components/acknowledgement/addAcknowledgement'
 import TransporterInvoice from './subContracts/components/transporterInvoice'
 import TransporterInvoiceList from './subContracts/components/transporterInvoice/list'
-import AcknowledgementApprovalList from './subContracts/components/finalPayApproval/list'
-import AcknowledgementApproval from './subContracts/components/finalPayApproval'
+import AcknowledgementApprovalList from './subContracts/components/acknowledgementApproval/list'
+import AcknowledgementApproval from './subContracts/components/acknowledgementApproval'
 // import PricePointApproval from './subContracts/components/pricePointApproval'
 // import PricePointApprovalList from './subContracts/components/pricePointApproval/list'
 const sunContractRoutes = {

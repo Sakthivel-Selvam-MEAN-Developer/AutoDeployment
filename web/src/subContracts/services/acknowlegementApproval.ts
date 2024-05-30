@@ -6,8 +6,12 @@ export const getTripForAcknowlegementApproval = () =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const approveAcknowledgement = (id: number, unloadedQuantity: number) =>
+export const approveAcknowledgement = (
+    id: number,
+    unloadedQuantity: number,
+    approvalStatus: boolean
+) =>
     axiosInstance
-        .put(`/acknowlegementapproval`, { id, unloadedQuantity })
+        .put(`/acknowlegementapproval`, { id, unloadedQuantity, approvalStatus })
         .then(getData)
         .catch(() => alert('Error Getting data'))

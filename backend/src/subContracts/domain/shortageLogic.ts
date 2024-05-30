@@ -2,13 +2,21 @@ export interface shortageProps {
     filledLoad: number
     unloadedQuantity: number
     shortageAmount: number
+    approvalStatus: boolean
 }
-export const calculateShortage = (unloadedQuantity: number, oldShortage: shortageProps) => {
-    const newShortage = {
-        unloadedQuantity,
-        shortageQuantity: oldShortage.filledLoad - unloadedQuantity,
-        shortageAmount:
-            oldShortage.filledLoad > 100 ? (oldShortage.filledLoad - unloadedQuantity) * 8 : 0
+const shortageAmount = (newShortage: shortageProps, oldShortage: shortageProps) => {
+    if (oldShortage.filledLoad > 100) {
+        return (oldShortage.filledLoad - newShortage.unloadedQuantity) * 8
     }
-    return newShortage
+    return 0
+}
+export const calculateShortage = (newShortage: shortageProps, oldShortage: shortageProps) => {
+    const amount = shortageAmount(newShortage, oldShortage)
+    const shortage = {
+        unloadedQuantity: newShortage.unloadedQuantity,
+        shortageQuantity: oldShortage.filledLoad - newShortage.unloadedQuantity,
+        shortageAmount: newShortage.approvalStatus === true ? 0 : amount,
+        approvalStatus: newShortage.approvalStatus
+    }
+    return shortage
 }

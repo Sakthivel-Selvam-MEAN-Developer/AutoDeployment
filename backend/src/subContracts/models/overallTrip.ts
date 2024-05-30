@@ -607,6 +607,7 @@ export const getTripByTransporterInvoice = () =>
         ],
         where: {
             transporterInvoice: '',
+            acknowledgementApproval: true,
             NOT: [
                 {
                     loadingPointToStockPointTrip: {
@@ -697,6 +698,27 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
         },
         data: {
             transporterInvoice: invoice
+        },
+        include: {
+            paymentDues: true,
+            stockPointToUnloadingPointTrip: {
+                include: {
+                    loadingPointToStockPointTrip: {
+                        include: {
+                            truck: {
+                                include: { transporter: true }
+                            }
+                        }
+                    }
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                include: {
+                    truck: {
+                        include: { transporter: true }
+                    }
+                }
+            }
         }
     })
 export const updateAcknowledgementApproval = (id: number) =>
@@ -737,12 +759,7 @@ export const getTripForAcknowlegementApproval = () =>
     prisma.overallTrip.findMany({
         where: {
             acknowledgementApproval: false,
-            acknowledgementStatus: true,
-            transporterInvoice: {
-                not: {
-                    equals: ''
-                }
-            }
+            acknowledgementStatus: true
         },
         include: {
             paymentDues: true,

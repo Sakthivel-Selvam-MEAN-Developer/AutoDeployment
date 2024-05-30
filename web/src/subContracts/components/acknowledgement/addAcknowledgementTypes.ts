@@ -1,6 +1,5 @@
 export interface DueDateDialogProps {
     tripClosed: boolean
-    paymentDetails: paymentDetailsProps
 }
 export interface paymentDetailsProps {
     dueDate: number
@@ -9,7 +8,4 @@ export interface paymentDetailsProps {
     payableAmount: number
     type: string
     vehicleNumber: string
-}
-export interface DialogContentsProps {
-    paymentDetails: paymentDetailsProps
 }

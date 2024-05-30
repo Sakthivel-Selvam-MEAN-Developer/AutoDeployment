@@ -25,11 +25,12 @@ interface TableCells {
     overallTrip: overallTripProps
 }
 const center = { textAlign: 'center' }
+const unloadingPoint = (overallTrip: overallTripProps) => {
+    return overallTrip.stockPointToUnloadingPointTrip !== null
+        ? overallTrip.stockPointToUnloadingPointTrip.unloadingPoint?.name
+        : overallTrip.loadingPointToUnloadingPointTrip.unloadingPoint?.name
+}
 const TableCells: FC<TableCells> = ({ trip, overallTrip }) => {
-    const unloading =
-        overallTrip.stockPointToUnloadingPointTrip !== null
-            ? overallTrip.stockPointToUnloadingPointTrip.unloadingPoint?.name
-            : overallTrip.loadingPointToUnloadingPointTrip.unloadingPoint?.name
     return (
         <>
             <TableCell sx={center}>{trip?.truck.vehicleNumber}</TableCell>
@@ -39,7 +40,7 @@ const TableCells: FC<TableCells> = ({ trip, overallTrip }) => {
             <TableCell sx={center}>{trip?.invoiceNumber}</TableCell>
             <TableCell sx={center}>{trip?.truck.transporter.name}</TableCell>
             <TableCell sx={center}>{trip?.loadingPoint.name}</TableCell>
-            <TableCell sx={center}>{unloading}</TableCell>
+            <TableCell sx={center}>{unloadingPoint(overallTrip)}</TableCell>
             <TableFields overallTrip={overallTrip} />
         </>
     )

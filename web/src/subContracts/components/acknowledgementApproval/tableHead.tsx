@@ -9,6 +9,7 @@ const tablehead = [
     'Loading Point',
     'Unloading Point',
     'Unloaded Quantity',
+    'Approval type',
     'Actions'
 ]
 const center = { textAlign: 'center' }

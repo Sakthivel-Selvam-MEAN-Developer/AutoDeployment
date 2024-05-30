@@ -7,9 +7,8 @@ import {
     DialogTitle
 } from '@mui/material'
 import { FC, useState } from 'react'
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import { DialogContentsProps, DueDateDialogProps } from './addAcknowledgementTypes'
-export const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed, paymentDetails }) => {
+import { DueDateDialogProps } from './addAcknowledgementTypes'
+export const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed }) => {
     const [open, setOpen] = useState(tripClosed)
     const handleClose = () => setOpen(false)
     return (
@@ -20,7 +19,7 @@ export const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed, paymentDetai
             aria-describedby="alert-dialog-description"
         >
             <DialogBoxTitle />
-            <DialogContents paymentDetails={paymentDetails} />
+            <DialogContents />
             <DialogActions>
                 <Button variant="contained" onClick={handleClose} autoFocus>
                     Close
@@ -29,22 +28,15 @@ export const DueDateDialog: FC<DueDateDialogProps> = ({ tripClosed, paymentDetai
         </Dialog>
     )
 }
-const DialogContents: FC<DialogContentsProps> = ({ paymentDetails }) => {
+const DialogContents: FC = () => {
     return (
         <DialogContent>
             <DialogContentText id="alert-dialog-description">
-                {paymentDetails.dueDate !== undefined ? (
-                    <p>
-                        The Final Pay Generation Date will be :
-                        <b>{epochToMinimalDate(paymentDetails.dueDate)}</b>{' '}
-                    </p>
-                ) : (
-                    <b>TransporterInvoice Not Generated</b>
-                )}
+                Acknowledgement Added Successfully
             </DialogContentText>
         </DialogContent>
     )
 }
 const DialogBoxTitle: FC = () => {
-    return <DialogTitle id="alert-dialog-title">{`Added Acknowledgement:`}</DialogTitle>
+    return <DialogTitle id="alert-dialog-title">{`Acknowledgement Status:`}</DialogTitle>
 }

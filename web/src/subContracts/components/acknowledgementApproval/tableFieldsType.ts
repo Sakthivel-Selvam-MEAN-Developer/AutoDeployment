@@ -5,9 +5,8 @@ export interface TableFieldsProps {
 }
 export interface ShortageProps {
     editStatus: boolean
+    approvalStatus: boolean
     shortage: number
-    quantity: number
-    setQuantity: React.Dispatch<React.SetStateAction<number>>
 }
 export interface TextFieldConatinerProps {
     quantity: number

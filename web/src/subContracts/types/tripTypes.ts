@@ -37,12 +37,10 @@ export interface tripDetailsProps {
 export interface shortageQuantity {
     id: number
     overallTripId: number
-    shortageQuantity: number
-    shortageAmount: number
+    approvalStatus: boolean
     filledLoad: number
     unloadedQuantity: number
 }
-
 export interface overallTripProps {
     id: number
     loadingPointToStockPointTrip: tripDetailsProps

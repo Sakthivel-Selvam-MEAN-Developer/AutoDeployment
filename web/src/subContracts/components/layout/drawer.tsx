@@ -151,10 +151,17 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     icon={<LibraryAddCheck />}
                 />
                 <DrawerListItem
+                    text="Acknowledgement Approval"
+                    navigate="/sub/acknowledgementapproval"
+                    drawerState={drawerState}
+                    index={8}
+                    icon={<Beenhere />}
+                />
+                <DrawerListItem
                     text="Transporter Invoice"
                     navigate="/sub/transporterinvoice"
                     drawerState={drawerState}
-                    index={8}
+                    index={9}
                     icon={<NoteAlt />}
                 />
                 {authoriser.adminAccess && (
@@ -162,7 +169,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                         text="Invoice"
                         navigate="/sub/invoice"
                         drawerState={drawerState}
-                        index={9}
+                        index={10}
                         icon={<FileDownload />}
                     />
                 )}
@@ -170,16 +177,9 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     text="PricePoint Approval"
                     navigate="/sub/pricepointapproval"
                     drawerState={drawerState}
-                    index={10}
-                    icon={<Beenhere />}
-                /> */}
-                <DrawerListItem
-                    text="Acknowledgement Approval"
-                    navigate="/sub/acknowledgementapproval"
-                    drawerState={drawerState}
                     index={11}
                     icon={<Beenhere />}
-                />
+                /> */}
                 <DrawerCollapse
                     index={12}
                     drawerState={drawerState}
