@@ -5,6 +5,11 @@ export interface tableProps {
     setDriverId: React.Dispatch<React.SetStateAction<number[]>>
     driverId: number[]
 }
+export interface tableProp {
+    driver: driverProps
+    setDriverId: React.Dispatch<React.SetStateAction<number[]>>
+    driverId: number[]
+}
 interface driverProps {
     id: number
     name: string

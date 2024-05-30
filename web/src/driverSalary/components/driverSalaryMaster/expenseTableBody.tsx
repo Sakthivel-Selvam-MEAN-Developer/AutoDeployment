@@ -10,16 +10,27 @@ export const tableHeadRow = (
     </TableRow>
 )
 type expenseType = (
-    expenseDetails: expenseDetailsType[],
-    setExpenses: React.Dispatch<React.SetStateAction<expenseDetailsType[]>>,
+    expenses: expenseDetailsType[],
+    setDetails: React.Dispatch<React.SetStateAction<expenseDetailsType[]>>,
     setClear: React.Dispatch<React.SetStateAction<boolean>>,
-    clear: boolean
+    clear: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setMessage: React.Dispatch<React.SetStateAction<string>>
 ) => ReactElement
-export const createExpenses: expenseType = (expenseDetails, setExpenses, setClear, clear) => {
+export const createExpenses: expenseType = (
+    expenses,
+    setDetails,
+    setClear,
+    clear,
+    setOpen,
+    setMessage
+) => {
     const handleCreateExpenses = async () => {
-        if (await createExpense(expenseDetails)) {
-            setExpenses([])
+        if (await createExpense(expenses)) {
+            setDetails([])
             setClear(!clear)
+            setMessage('Expenses Creation is Successfull')
+            setOpen(true)
         }
     }
     return (
@@ -28,23 +39,5 @@ export const createExpenses: expenseType = (expenseDetails, setExpenses, setClea
                 Create Expense
             </Button>
         </div>
-    )
-}
-export const tableBody = (expenseDetails: expenseDetailsType[]) => {
-    return (
-        <>
-            {tableHeadRow}
-            {expenseDetails.map((expense: expenseDetailsType) => {
-                return tableBodyRow(expense)
-            })}
-        </>
-    )
-}
-export const tableBodyRow = (expense: expenseDetailsType) => {
-    return (
-        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell>{expense.expenseType}</TableCell>
-            <TableCell>{`\u20B9 ${expense.placedAmount}`}</TableCell>
-        </TableRow>
     )
 }

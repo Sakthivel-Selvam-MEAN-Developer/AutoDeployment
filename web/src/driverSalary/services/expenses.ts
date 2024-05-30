@@ -12,7 +12,7 @@ interface updateExpense {
 export const createExpense = (data: expenseProps) =>
     axiosInstance.post(`/expenses`, data).then(getData)
 
-export const getExpenseByTripId = (id: number) =>
+export const getExpenseByTripId = (id: number | undefined) =>
     axiosInstance.get(`/expenses`, { params: { tripId: id } }).then(getData)
 
 export const getAllExpenseByTripIdForApproval = (driverId: number) =>

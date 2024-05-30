@@ -8,7 +8,7 @@ import { AutocompleteWithDriverName } from './driverDetails.tsx'
 interface FormFieldProps {
     control: Control
     driverTripDetails: driverTripDetailsProps[]
-    setTripId: React.Dispatch<React.SetStateAction<number>>
+    setTripId: React.Dispatch<React.SetStateAction<number | undefined>>
     driverList: never[]
     setDriverId: React.Dispatch<React.SetStateAction<number>>
     driverId: number
@@ -18,6 +18,7 @@ interface FormFieldProps {
     category: string
 }
 interface driverTripDetailsProps {
+    id: number
     loadingPointToUnloadingPointTrip: {
         id: number
         loadingPoint: {
@@ -26,6 +27,9 @@ interface driverTripDetailsProps {
         }
         invoiceNumber: string
         startDate: number
+        truck: {
+            vehicleNumber: string | undefined
+        }
     }
     loadingPointToStockPointTrip: {
         id: number
@@ -35,6 +39,9 @@ interface driverTripDetailsProps {
         }
         invoiceNumber: string
         startDate: number
+        truck: {
+            vehicleNumber: string | undefined
+        }
     }
 }
 const expenseTypes = [
@@ -77,15 +84,17 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
     const [invoice, setInvoice] = useState('')
 
     const handleTripSelection = (_: ChangeEvent<HTMLInputElement>, newValue: string) => {
-        const trip = tripDetails.find(({ invoiceNumber }: { invoiceNumber: string }) => {
-            return invoiceNumber === newValue.split(' - ')[1]
-        })
+        const trip = tripDetails.find(
+            ({ invoiceNumber }: { invoiceNumber: string | undefined }) => {
+                return invoiceNumber === newValue.split(' - ')[1]
+            }
+        )
         setInvoice(newValue)
         setTripId(trip?.id)
     }
     const tripDetails =
         driverTripDetails &&
-        driverTripDetails.map((tripData: any) => {
+        driverTripDetails.map((tripData) => {
             let tripType
             if (tripData.loadingPointToStockPointTrip !== null)
                 tripType = tripData.loadingPointToStockPointTrip
@@ -93,8 +102,8 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
                 tripType = tripData.loadingPointToUnloadingPointTrip
             return {
                 id: tripData.id,
-                invoiceNumber: tripType.invoiceNumber,
-                vehicleNumber: tripType.truck.vehicleNumber
+                invoiceNumber: tripType?.invoiceNumber,
+                vehicleNumber: tripType?.truck.vehicleNumber
             }
         })
     useEffect(() => setInvoice(''), [driverId])

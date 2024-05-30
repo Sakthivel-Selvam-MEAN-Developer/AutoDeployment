@@ -9,7 +9,7 @@ import {
     Checkbox
 } from '@mui/material'
 import { FC } from 'react'
-import { tableProps } from './type'
+import { tableProp, tableProps } from './type'
 
 const DailyAttendaneTableHead = () => {
     return (
@@ -27,24 +27,31 @@ const DailyAttendaneTableBody: FC<tableProps> = ({ driverList, setDriverId, driv
     return (
         <TableBody>
             {driverList.map((driver) => (
-                <TableRow
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                <DriverListRow
                     key={driver.id}
-                >
-                    <TableCell align="center">
-                        <Checkbox
-                            onClick={() => {
-                                if (driverId.includes(driver.id))
-                                    setDriverId((prev) => prev.filter((id) => id !== driver.id))
-                                else setDriverId([...driverId, driver.id])
-                            }}
-                        />
-                    </TableCell>
-                    <TableCell align="center">{driver.name}</TableCell>
-                    <TableCell align="center">{driver.mobileNumber}</TableCell>
-                </TableRow>
+                    driver={driver}
+                    setDriverId={setDriverId}
+                    driverId={driverId}
+                />
             ))}
         </TableBody>
+    )
+}
+const DriverListRow: FC<tableProp> = ({ driver, setDriverId, driverId }) => {
+    return (
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align="center">
+                <Checkbox
+                    onClick={() => {
+                        if (driverId.includes(driver.id))
+                            setDriverId((prev) => prev.filter((id) => id !== driver.id))
+                        else setDriverId([...driverId, driver.id])
+                    }}
+                />
+            </TableCell>
+            <TableCell align="center">{driver.name}</TableCell>
+            <TableCell align="center">{driver.mobileNumber}</TableCell>
+        </TableRow>
     )
 }
 

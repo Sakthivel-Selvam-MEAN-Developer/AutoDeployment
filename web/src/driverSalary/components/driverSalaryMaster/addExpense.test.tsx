@@ -125,7 +125,7 @@ describe('Add Expense Test', () => {
         const button = screen.getByRole('button', { name: 'Add Expense' })
         await userEvent.click(button)
 
-        expect(screen.getByText('Expenses Details')).toBeInTheDocument()
+        expect(screen.getByText('Expense Details')).toBeInTheDocument()
         expect(screen.getByText('LOADING_CHARGES')).toBeInTheDocument()
 
         const createExpense = screen.getByRole('button', { name: 'Create Expense' })

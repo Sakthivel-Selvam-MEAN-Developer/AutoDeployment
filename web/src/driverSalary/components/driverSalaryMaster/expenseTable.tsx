@@ -1,33 +1,37 @@
-import { Paper, Table } from '@mui/material'
+import { Paper, Table, Typography } from '@mui/material'
 import { expenseDetailsType } from './addExpenses.tsx'
-import { createExpenses, tableBody } from './expenseTableBody.tsx'
-interface expenseTableProps {
-    expenseDetails: expenseDetailsType[]
-    setExpensesDetails: React.Dispatch<React.SetStateAction<expenseDetailsType[]>>
+import { createExpenses } from './expenseTableBody.tsx'
+import { tableBody } from './expenseTableRow.tsx'
+import { FC } from 'react'
+interface props {
+    expenses: expenseDetailsType[]
+    setDetails: React.Dispatch<React.SetStateAction<expenseDetailsType[]>>
     setClear: React.Dispatch<React.SetStateAction<boolean>>
+    setMessage: React.Dispatch<React.SetStateAction<string>>
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
     clear: boolean
 }
-export const ExpenseTable: React.FC<expenseTableProps> = ({
-    expenseDetails,
-    setExpensesDetails,
+export const ExpenseTable: FC<props> = ({
+    expenses,
+    setDetails,
     setClear,
-    clear
+    setMessage,
+    clear,
+    setOpen
 }) => {
     return (
         <>
             <br />
-            {table(expenseDetails)}
+            {table(expenses)}
             <br />
-            {createExpenses(expenseDetails, setExpensesDetails, setClear, clear)}
+            {createExpenses(expenses, setDetails, setClear, clear, setOpen, setMessage)}
         </>
     )
 }
 function table(expenseDetails: expenseDetailsType[]) {
     return (
         <>
-            <p>
-                <b>Expenses Details</b>
-            </p>
+            <Typography sx={{ marginBottom: '20px', fontWeight: 700 }}>Expense Details</Typography>
             <Table sx={{ width: 700 }} component={Paper} aria-label="simple table">
                 {tableBody(expenseDetails)}
             </Table>

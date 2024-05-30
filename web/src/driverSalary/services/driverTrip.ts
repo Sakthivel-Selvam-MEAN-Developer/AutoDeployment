@@ -13,7 +13,7 @@ export const getDriverTripByDriverId = (id: number) =>
     axiosInstance.get(`/drivertrip`, { params: { driverId: id } }).then(getData)
 
 interface updateProps {
-    tripId: number
+    tripId: number | undefined
     driverAdvance: string
 }
 export const updateDriverAdvance = (data: updateProps) =>
