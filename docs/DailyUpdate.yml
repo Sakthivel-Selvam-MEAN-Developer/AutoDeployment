@@ -1,3 +1,17 @@
+- date: 30-05-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should allow acknowledgement approval without transporter invoice
+    - should display only acknowledgement added trips
+    - should generate final pay after transporter invoice
+    - should let users update approval status in acknowledgement approval
+  completed:
+    - allowed acknowledgement approval without transporter invoice
+    - displayed only acknowledgement added trips
+    - generated final pay after transporter invoice
+    - allowed users to update approval status in acknowledgement approval
+
 - date: 29-05-2024
   person: Barath
   project: subContract
@@ -5,6 +19,10 @@
     - should add type filter in paymentDues
     - should solve completed payment filter issues
     - should remove added invoice in transporterInvoice
+  completed:
+    - added type filter in paymentDues
+    - found completed payment filter issues
+    - removed already added invoice after submit in transporterInvoice
 
 - date: 28-05-2024
   person: Barath

@@ -73,6 +73,7 @@ interface bunk {
 }
 interface Props {
     acknowledgementStatus: boolean
+    acknowledgementApproval: boolean
     acknowledgementDate: number
     loadingPointToStockPointTrip: Row
     loadingPointToUnloadingPointTrip: Row
@@ -291,7 +292,11 @@ const generateRow = (row: Props, index: number) => {
             ? 'Running'
             : !row.acknowledgementStatus
               ? 'Waiting For Acknowledgement'
-              : 'Acknowledgement received',
+              : !row.acknowledgementApproval
+                ? 'Acknowledgement not Approved'
+                : !row.transporterInvoice
+                  ? 'TransporterInvoice Not Recevied'
+                  : 'TransporterInvoice Recevied',
         type: checkPaymentStatus(row.paymentDues),
         acknowledgementDate: row.acknowledgementDate
             ? epochToMinimalDate(row.acknowledgementDate)
@@ -302,7 +307,6 @@ const generateRow = (row: Props, index: number) => {
                 : 'Not Yet Unloaded',
         ranKm
     })
-    console.log(finalData)
 }
 
 const DataGridTable: FC<dataGridTableProps> = ({ overallTrips, authoriser }) => {
