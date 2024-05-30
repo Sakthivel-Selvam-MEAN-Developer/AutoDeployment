@@ -1,0 +1,67 @@
+services:
+  db:
+    image: "timescale/timescaledb-ha:pg15-ts2.12"
+    platform: linux/amd64
+    environment:
+      POSTGRES_PASSWORD: "chumma"
+    networks:
+      - test-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  setup:
+    image: node:21.5.0-alpine3.18
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    command: [ "sh", "-c", "/app/deploy/setup.sh" ]
+    depends_on:
+      - db
+
+  migrate:
+    image: node:21.5.0-alpine3.18
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    command: [ "yarn", "b", "prismaMigrateDev" ]
+    depends_on:
+      - setup
+
+  keycloak:
+    image: "quay.io/keycloak/keycloak:23.0.7-0"
+    networks:
+      - test-network
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+      - KEYCLOAK_UPDATE_REALM=false
+    volumes:
+      - ./keycloak:/config
+    command: ["--verbose", "--config-file=/config/keycloak.conf", "start"]
+
+  backend:
+    image: arm64v8/node:21.5.0-alpine3.18
+    volumes:
+      - ./:/app/
+    working_dir: /app
+    networks:
+      - test-network
+    command: [ "yarn", "b", "runProd" ]
+
+  local-nginx:
+    image: nginx:1.25.3-alpine3.18
+    volumes:
+      - ./nginx/nginx-local.conf:/etc/nginx/nginx.conf
+      - ./nginx:/usr/share/nginx
+      - ./nginx/logs:/usr/share/nginx/logs
+    networks:
+      - postgres-network
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+
+
+networks:
+  test-network:
+    driver: bridge

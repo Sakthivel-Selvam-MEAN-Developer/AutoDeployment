@@ -1,0 +1,17 @@
+{
+  "name": "uitest",
+  "version": "1.0.0",
+  "description": "ui tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WonderWhyDev/wonder-why.git"
+  },
+  "private": true,
+  "devDependencies": {
+    "cypress": "^13.10.0"
+  }
+}

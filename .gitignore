@@ -16,3 +16,4 @@ nginx/html/*
 keycloak/keycloak.aws.conf
 docker/certs/*
 nginx/certs/*
+uiTest/cypress/e2e/samples

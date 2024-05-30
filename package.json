@@ -7,7 +7,8 @@
     "frontend",
     "backend",
     "apps",
-    "web"
+    "web",
+    "uiTest"
   ],
   "scripts": {
     "u": "yarn workspace web",
