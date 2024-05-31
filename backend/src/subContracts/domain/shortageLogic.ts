@@ -5,7 +5,7 @@ export interface shortageProps {
     approvalStatus: boolean
 }
 const shortageAmount = (newShortage: shortageProps, oldShortage: shortageProps) => {
-    if (oldShortage.filledLoad > 100) {
+    if (oldShortage.filledLoad - newShortage.unloadedQuantity > 100) {
         return (oldShortage.filledLoad - newShortage.unloadedQuantity) * 8
     }
     return 0
