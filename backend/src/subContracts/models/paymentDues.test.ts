@@ -220,14 +220,22 @@ describe('Payment-Due model', () => {
             loadingPointToStockPointTripId: loadingToStockTrip.id
         })
         await create({ ...seedPaymentDue, overallTripId: id })
+        const date = dayjs().add(1, 'day').unix()
         await create({
             ...seedPaymentDue,
             type: 'final pay',
             name: 'Barath Logistics',
             payableAmount: 5000,
-            overallTripId: id
+            overallTripId: id,
+            dueDate: date
         })
-        const actual = await getUpcomingDuesByFilter('Barath Logistics', undefined, undefined)
+        const currentDate = dayjs().startOf('day').unix()
+        const actual = await getUpcomingDuesByFilter(
+            'Barath Logistics',
+            undefined,
+            undefined,
+            currentDate
+        )
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(5000)
     })
