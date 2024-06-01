@@ -161,11 +161,11 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =>
                                             Qty
                                         </h4>
                                         <p className="ta df jc ai" style={{ height: '50px' }}>
-                                            {total.totalFilledLoad}
+                                            {total.totalFilledLoad.toFixed(2)}
                                         </p>
                                     </div>
                                     <p style={{ height: '24px' }} className="df jc ai ta bt bg bb">
-                                        {total.totalFilledLoad}
+                                        {total.totalFilledLoad.toFixed(2)}
                                     </p>
                                 </div>
                                 <div style={{ width: '7vw' }} className="br">
@@ -198,7 +198,7 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =>
                                                 Total
                                             </h4>
                                             <p className="ta df jc ai" style={{ height: '50px' }}>
-                                                {total.totalAmount}
+                                                {total.totalAmount.toFixed(2)}
                                             </p>
                                         </div>
                                         <div style={{ width: '9vw' }} className="br bb">
@@ -220,7 +220,7 @@ const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =>
                                                 Taxable value
                                             </h4>
                                             <p className="df je ai pr" style={{ height: '50px' }}>
-                                                {total.totalAmount}
+                                                {total.totalAmount.toFixed(2)}
                                             </p>
                                         </div>
                                     </div>

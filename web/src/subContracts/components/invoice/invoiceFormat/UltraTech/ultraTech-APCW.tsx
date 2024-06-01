@@ -245,9 +245,9 @@ const tableRow = (row: LoadingToStockPointProps, index: number, partyNames: part
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
             <td>{row.truck.vehicleNumber}</td>
             <td>5116</td>
-            <td>{row.filledLoad}</td>
-            <td>{row.freightAmount}</td>
-            <td>{row.filledLoad * row.freightAmount}</td>
+            <td>{row.filledLoad.toFixed(2)}</td>
+            <td>{row.freightAmount.toFixed(2)}</td>
+            <td>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -274,9 +274,9 @@ const tableRowForStockToUnloading = (
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
             <td>5116</td>
-            <td>{row.loadingPointToStockPointTrip.filledLoad}</td>
-            <td>{row.freightAmount}</td>
-            <td>{row.loadingPointToStockPointTrip.filledLoad * row.freightAmount}</td>
+            <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
+            <td>{row.freightAmount.toFixed(2)}</td>
+            <td>{(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}</td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
