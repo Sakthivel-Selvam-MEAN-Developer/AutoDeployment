@@ -26,7 +26,7 @@ export const ApproveButton: FC<ApproveButtonProps> = ({ overallTrip, setEditStat
     const { fieldValues, setFieldValues } = useContext(fieldData)
     const onClick = () =>
         approveAcknowledgement(
-            overallTrip.id,
+            overallTrip.shortageQuantity[0].id,
             fieldValues.quantity,
             fieldValues.approvalStatus
         ).then(() => {
