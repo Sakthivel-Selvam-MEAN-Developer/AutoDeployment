@@ -164,7 +164,7 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) 
                                     </td>
                                     <td />
                                     <td>
-                                        <b>{totalAmount}</b>
+                                        <b>{totalAmount.toFixed(2)}</b>
                                     </td>
                                     <td />
                                     <td />
@@ -172,7 +172,7 @@ const UltraTechAPCW: React.FC<InvoiceProps> = ({ tripId, setLoading, loading }) 
                                     <td />
                                     <td />
                                     <td>
-                                        <b>{totalAmount}</b>
+                                        <b>{totalAmount.toFixed(2)}</b>
                                     </td>
                                 </tr>
                                 <tr>

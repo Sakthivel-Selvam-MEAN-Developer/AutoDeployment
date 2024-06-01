@@ -1176,14 +1176,14 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               <p
                 class="ta pt"
               >
-                0
+                0.00
               </p>
             </div>
             <h3
               class="ta p-2 bt"
               style="height: 29px;"
             >
-              0
+              0.00
             </h3>
           </div>
           <div

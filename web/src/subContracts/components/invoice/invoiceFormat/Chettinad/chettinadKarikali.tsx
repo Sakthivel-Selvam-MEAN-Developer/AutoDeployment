@@ -168,10 +168,12 @@ const ChettinadKarikkali: FC<InvoiceProps> = ({ tripId, setLoading, loading }) =
                                     <div className="df-fc jsp br">
                                         <div>
                                             <h3 className="ta bb">Qty</h3>
-                                            <p className="ta pt">{total.totalFilledLoad}</p>
+                                            <p className="ta pt">
+                                                {total.totalFilledLoad.toFixed(2)}
+                                            </p>
                                         </div>
                                         <h3 style={{ height: '29px' }} className="ta p-2 bt">
-                                            {total.totalFilledLoad}
+                                            {total.totalFilledLoad.toFixed(2)}
                                         </h3>
                                     </div>
                                     <div className="df-fc jsp br">

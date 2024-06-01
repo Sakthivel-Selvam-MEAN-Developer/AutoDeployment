@@ -117,10 +117,10 @@ const DalmiaAnnexure: FC<AnnexureProps> = ({ tripDetails, billNo, total }) => {
                                 <td></td>
                                 <td></td>
                                 <td className="tc">TOTAL VALUE</td>
-                                <td className="tc">{total.totalFilledLoad}</td>
+                                <td className="tc">{total.totalFilledLoad.toFixed(2)}</td>
                                 <td></td>
-                                <td className="tc">{total.totalAmount}</td>
-                                <td className="tc">{total.shortageQuantity}</td>
+                                <td className="tc">{total.totalAmount.toFixed(2)}</td>
+                                <td className="tc">{total.shortageQuantity.toFixed(2)}</td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -165,10 +165,12 @@ const tableRow = (row: rowProps, index: number) => {
                 {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}
             </td>
             <td className="tc">{row.truck.vehicleNumber}</td>
-            <td className="tc">{row.filledLoad}</td>
-            <td className="tc">{row.freightAmount}</td>
+            <td className="tc">{row.filledLoad.toFixed(2)}</td>
+            <td className="tc">{row.freightAmount.toFixed(2)}</td>
             <td className="tc">{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
-            <td className="tc">{row.overallTrip[0].shortageQuantity[0].shortageQuantity}</td>
+            <td className="tc">
+                {row.overallTrip[0].shortageQuantity[0].shortageQuantity.toFixed(2)}
+            </td>
             <td></td>
         </tr>
     )
@@ -185,12 +187,14 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
                 {row.loadingPointToStockPointTrip.stockPoint.name} - {row.unloadingPoint.name}
             </td>
             <td className="tc">{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
-            <td className="tc">{row.loadingPointToStockPointTrip.filledLoad}</td>
-            <td className="tc">{row.freightAmount}</td>
+            <td className="tc">{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
+            <td className="tc">{row.freightAmount.toFixed(2)}</td>
             <td className="tc">
                 {(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}
             </td>
-            <td className="tc">{row.overallTrip[0].shortageQuantity[0].shortageQuantity}</td>
+            <td className="tc">
+                {row.overallTrip[0].shortageQuantity[0].shortageQuantity.toFixed(2)}
+            </td>
             <td></td>
         </tr>
     )
