@@ -24,6 +24,17 @@ variable "instance_type" {
   default     = "t4g.micro"
 }
 
+//import the vpc module
+import {
+  to = aws_vpc.main
+  id = "vpc-08b28f125cf790d28"
+}
+
+// resource for vpc
+resource "aws_vpc" "main" {
+  cidr_block = "172.31.0.0/16"
+}
+
 resource "aws_instance" "app_server" {
   ami           = "ami-0bbebc09f0a12d4d9"
   instance_type =  var.instance_type
@@ -50,7 +61,7 @@ output "public_ip" {
 }
 
 //add a dns record in gandi
-resource "gandi_livedns_record" "www" {
+resource "gandi_livedns_record" "magnum" {
   name = "@"
   type = "A"
   values = [aws_eip.ip.public_ip]
