@@ -114,7 +114,9 @@ const DalmiaKadappaInvoice: FC<InvoiceProps> = ({ tripId, setLoading, loading })
                                         <td className="border">Material: Cement</td>
                                         <td className="border tc">As Per Annexure</td>
                                         <td className="border" />
-                                        <td className="border tc">{total.totalFilledLoad}</td>
+                                        <td className="border tc">
+                                            {total.totalFilledLoad.toFixed(2)}
+                                        </td>
                                         <td className="border tc">As Per Annexure</td>
                                         <td className="border tr">
                                             {total.totalAmount.toFixed(2)}
@@ -155,7 +157,7 @@ const DalmiaKadappaInvoice: FC<InvoiceProps> = ({ tripId, setLoading, loading })
                                             Total
                                         </td>
                                         <td />
-                                        <td className="tc">{total.totalFilledLoad}</td>
+                                        <td className="tc">{total.totalFilledLoad.toFixed(2)}</td>
                                         <td />
                                         <td className="tr">{total.totalAmount.toFixed(2)}</td>
                                     </tr>

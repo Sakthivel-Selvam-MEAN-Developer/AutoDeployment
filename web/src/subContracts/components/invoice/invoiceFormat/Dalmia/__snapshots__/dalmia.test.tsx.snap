@@ -256,7 +256,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
             <td
               class="border tc"
             >
-              0
+              0.00
             </td>
             <td
               class="border tc"
@@ -266,7 +266,7 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
             <td
               class="border tr"
             >
-              0
+              0.00
             </td>
           </tr>
           <tr
@@ -354,13 +354,13 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
             <td
               class="tc"
             >
-              0
+              0.00
             </td>
             <td />
             <td
               class=" tr"
             >
-              0
+              0.00
             </td>
           </tr>
           <tr
@@ -814,18 +814,18 @@ exports[`Chettinad invoice component > chettinad ariyalur renders correctly 1`] 
               <td
                 class="tc"
               >
-                0
+                0.00
               </td>
               <td />
               <td
                 class="tc"
               >
-                0
+                0.00
               </td>
               <td
                 class="tc"
               >
-                0
+                0.00
               </td>
               <td />
             </tr>
@@ -1088,7 +1088,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
             <td
               class="border tc"
             >
-              0
+              0.00
             </td>
             <td
               class="border tc"
@@ -1184,7 +1184,7 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
             <td
               class="tc"
             >
-              0
+              0.00
             </td>
             <td />
             <td
@@ -1539,18 +1539,18 @@ exports[`Chettinad invoice component > chettinad karikali renders correctly 1`] 
               <td
                 class="tc"
               >
-                0
+                0.00
               </td>
               <td />
               <td
                 class="tc"
               >
-                0
+                0.00
               </td>
               <td
                 class="tc"
               >
-                0
+                0.00
               </td>
               <td />
             </tr>

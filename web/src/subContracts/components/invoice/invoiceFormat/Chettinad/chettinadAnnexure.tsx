@@ -149,7 +149,7 @@ const tableRow = (row: rowProps, index: number, partyNames: partyNamesProps[]) =
             <td>{name[0].partyName}</td>
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint.name}</td>
             <td>{row.truck.vehicleNumber}</td>
-            <td>{row.filledLoad}</td>
+            <td>{row.filledLoad.toFixed(2)}</td>
             <td>{row.freightAmount.toFixed(2)}</td>
             <td>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
         </tr>
@@ -170,7 +170,7 @@ const tableRowForStockToUnloading = (
             <td>{name[0].partyName}</td>
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
-            <td>{row.loadingPointToStockPointTrip.filledLoad}</td>
+            <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
             <td>{row.freightAmount.toFixed(2)}</td>
             <td>{(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}</td>
         </tr>
