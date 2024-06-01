@@ -35,6 +35,7 @@ import transporterInvoiceRoutes from './subContracts/routes/transporterInvoice.t
 import driverAttendanceRoutes from './driverSalary/routes/driverAttendance.ts'
 import acknowlegementApprovalRoutes from './subContracts/routes/acknowlegementApproval.ts'
 import pricePointApprovalRoutes from './subContracts/routes/pricePointApproval.ts'
+import profitAndLoss from './subContracts/routes/profitAndLoss.ts'
 
 // import gpsStopRoutes from './gpsStops'
 
@@ -75,6 +76,7 @@ billNumber(router)
 transporterInvoiceRoutes(router)
 acknowlegementApprovalRoutes(router)
 pricePointApprovalRoutes(router)
+profitAndLoss(router)
 
 // driverSalary
 driverRoutes(router)

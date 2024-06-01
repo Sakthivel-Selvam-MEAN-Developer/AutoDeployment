@@ -849,3 +849,110 @@ export const getNumberByTruckId = (id: number) =>
             }
         }
     })
+
+export const getOverallTripByVehicleNumber = (vehicleNumber: string) =>
+    prisma.overallTrip.findMany({
+        where: {
+            OR: [
+                {
+                    loadingPointToStockPointTrip: {
+                        truck: { vehicleNumber }
+                    },
+                    acknowledgementStatus: true
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        truck: { vehicleNumber }
+                    },
+                    acknowledgementStatus: true
+                }
+            ]
+        },
+        orderBy: {
+            id: 'desc'
+        },
+        take: 2,
+        select: {
+            id: true,
+            shortageQuantity: {
+                select: {
+                    unloadedDate: true,
+                    shortageAmount: true
+                }
+            },
+            paymentDues: {
+                select: { payableAmount: true }
+            },
+            loadingPointToStockPointTrip: {
+                select: {
+                    loadingKilometer: true,
+                    unloadingKilometer: true,
+                    filledLoad: true,
+                    totalFreightAmount: true,
+                    startDate: true,
+                    invoiceNumber: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true
+                                }
+                            }
+                        }
+                    },
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    stockPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    stockPointToUnloadingPointTrip: {
+                        select: {
+                            unloadingPoint: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            loadingPointToUnloadingPointTrip: {
+                select: {
+                    loadingKilometer: true,
+                    unloadingKilometer: true,
+                    filledLoad: true,
+                    totalFreightAmount: true,
+                    invoiceNumber: true,
+                    startDate: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true
+                                }
+                            }
+                        }
+                    },
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    unloadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            }
+        }
+    })

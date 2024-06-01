@@ -7,7 +7,8 @@ const getAxios = (token: string) =>
         timeout: 3000,
         headers: {
             'Content-Type': 'application/json',
-            authorization: `Bearer ${token}`
+            authorization: `Bearer ${token}`,
+            hostname: `${window.location.protocol}//${window.location.hostname}`
         }
     })
 

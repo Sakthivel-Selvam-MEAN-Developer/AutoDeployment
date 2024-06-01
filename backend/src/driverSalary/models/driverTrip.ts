@@ -38,3 +38,15 @@ export const updateDriverAdvanceByTripId = (id: number, driverAdvance: number) =
             }
         }
     })
+
+export const getDriverTripByOverallId = (id: number) =>
+    prisma.driverTrip.findMany({
+        where: { tripId: id },
+        select: {
+            id: true,
+            driverId: true,
+            stockTripSalaryId: true,
+            unloadingTripSalaryId: true,
+            tripId: true
+        }
+    })

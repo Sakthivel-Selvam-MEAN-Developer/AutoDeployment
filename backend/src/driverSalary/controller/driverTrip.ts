@@ -3,6 +3,7 @@ import {
     create,
     getAllDriverTripById,
     getDriverIdByTripId,
+    getDriverTripByOverallId,
     updateDriverAdvanceByTripId
 } from '../models/driverTrip.ts'
 import { getOverAllTripByArrayOfId } from '../../subContracts/models/overallTrip.ts'
@@ -99,4 +100,23 @@ export const updateDriverAdvance = async (req: Request, res: Response) => {
     updateDriverAdvanceByTripId(driverTrip?.id || 0, parseInt(dataBody.driverAdvance))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
+}
+
+interface Query {
+    id: string
+}
+export const listAllDriverTripByOverallId = async (
+    req: Request<object, object, object, Query>,
+    res: Response
+) => {
+    const overallId = parseInt(req.query.id)
+    const tripSalaryId: number[] = []
+    const driverTrip = await getDriverTripByOverallId(overallId)
+    const tripId = driverTrip.map((data) => data.tripId)
+    const expenses = await getAllExpenseCountByTripId(tripId)
+    driverTrip.forEach(({ stockTripSalaryId, unloadingTripSalaryId }) => {
+        tripSalaryId.push(stockTripSalaryId || 0, unloadingTripSalaryId || 0)
+    })
+    const tripSalaryDetails = await getTripSalaryDetailsById(tripSalaryId)
+    res.status(200).json({ expenses, tripSalaryDetails, driverTrip })
 }
