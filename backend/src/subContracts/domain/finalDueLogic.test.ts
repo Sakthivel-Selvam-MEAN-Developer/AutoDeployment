@@ -5,7 +5,11 @@ describe('Final Due Logics Test', async () => {
         const overallTrip = {
             id: 12,
             finalPayDuration: 1,
+            paymentDues: [],
+            shortageQuantity: [],
             acknowledgementStatus: false,
+            acknowledgementApproval: true,
+            transporterInvoice: 'default-invoice',
             acknowledgementDate: 1716595200,
             loadingPointToStockPointTrip: null,
             stockPointToUnloadingPointTrip: null,
@@ -23,7 +27,9 @@ describe('Final Due Logics Test', async () => {
                 truck: {
                     vehicleNumber: 'TN30S7777',
                     transporter: {
-                        name: 'Muthu Logistics'
+                        name: 'Muthu Logistics',
+                        tdsPercentage: null,
+                        transporterType: 'Market'
                     }
                 }
             }
@@ -61,6 +67,11 @@ describe('Final Due Logics Test', async () => {
             acknowledgementStatus: true,
             acknowledgementDate: 1716595200,
             finalPayDuration: 1,
+            paymentDues: [],
+            shortageQuantity: [],
+            acknowledgementApproval: true,
+            transporterInvoice: 'default-invoice',
+            loadingPointToStockPointTrip: null,
             loadingPointToUnloadingPointTripId: null,
             loadingPointToUnloadingPointTrip: null,
             stockPointToUnloadingPointTrip: {
@@ -79,7 +90,9 @@ describe('Final Due Logics Test', async () => {
                     truck: {
                         vehicleNumber: 'TN30S7777',
                         transporter: {
-                            name: 'Muthu Logistics'
+                            name: 'Muthu Logistics',
+                            tdsPercentage: null,
+                            transporterType: 'Market'
                         }
                     }
                 }

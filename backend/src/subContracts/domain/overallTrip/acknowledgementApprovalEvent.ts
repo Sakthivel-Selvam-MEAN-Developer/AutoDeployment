@@ -1,17 +1,15 @@
 import finalDueLogic from '../finalDueLogic.ts'
+import overallTripProps from '../overallTripsTypes.ts'
 
-export const getTransporterName = (overallTrip: any) => {
+export const getTransporterName = (overallTrip: overallTripProps) => {
     if (overallTrip.loadingPointToStockPointTrip !== null) {
         return overallTrip.loadingPointToStockPointTrip.truck.transporter
     }
-    if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
-        return overallTrip.loadingPointToUnloadingPointTrip.truck.transporter
-    }
+
+    return overallTrip?.loadingPointToUnloadingPointTrip?.truck.transporter
 }
-export const finalDueCreation = async (overallTrip: any) => {
-    const finalPay = overallTrip.paymentDues.filter(
-        (due: { type: string }) => due.type === 'final pay'
-    )
+export const finalDueCreation = async (overallTrip: overallTripProps) => {
+    const finalPay = overallTrip.paymentDues.filter((due) => due.type === 'final pay')
     if (
         overallTrip.acknowledgementApproval === false ||
         overallTrip.transporterInvoice === '' ||
@@ -21,7 +19,7 @@ export const finalDueCreation = async (overallTrip: any) => {
     }
     const transporter = getTransporterName(overallTrip)
     const tdsPercentage = transporter?.tdsPercentage || null
-    const paymentDueDetails = overallTrip.paymentDues.filter((pay: any) => pay.type !== 'gst pay')
+    const paymentDueDetails = overallTrip.paymentDues.filter((pay) => pay.type !== 'gst pay')
     const { shortageAmount } = overallTrip.shortageQuantity[0]
     if (
         overallTrip.loadingPointToUnloadingPointTrip?.truck.transporter.transporterType === 'Own' ||

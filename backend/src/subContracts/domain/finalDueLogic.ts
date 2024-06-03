@@ -1,10 +1,11 @@
 import dayjs from 'dayjs'
+import overallTripProps from './overallTripsTypes.ts'
 
 interface dataProps {
     payableAmount: number
 }
 const finalDueLogic = async (
-    overallTrip: any,
+    overallTrip: overallTripProps,
     paymentDueDetails: dataProps[],
     shortageAmount: number,
     tdsPercentage: number | null
@@ -41,24 +42,21 @@ const finalDueLogic = async (
             (tdsPercentage !== null ? tdsPercentage / 100 : 0)
         dueDetails = overallTrip.loadingPointToUnloadingPointTrip
         amount = dueDetails.totalTransporterAmount * 0.3 - (-amount + shortageAmount + tdsAmount)
-    } else if (
-        overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount === 0 &&
-        overallTrip.loadingPointToStockPointTrip.totalTransporterAmount === 0
-    ) {
-        return null
     }
-    if (amount === 0) return
-    const acknowledgementDate = dayjs.unix(overallTrip.acknowledgementDate)
+    if (amount === 0) return false
+    const acknowledgementDate = dayjs.unix(
+        overallTrip.acknowledgementDate ? overallTrip.acknowledgementDate : 0
+    )
     const paymentDues = [
         {
-            name: dueDetails.truck.transporter.name,
+            name: dueDetails?.truck.transporter.name,
             type: 'final pay',
             dueDate: acknowledgementDate
-                .add(overallTrip.finalPayDuration, 'day')
+                .add(overallTrip.finalPayDuration ? overallTrip.finalPayDuration : 0, 'day')
                 // .startOf('day')
                 .unix(),
             overallTripId: overallTrip.id,
-            vehicleNumber: dueDetails.truck.vehicleNumber,
+            vehicleNumber: dueDetails?.truck.vehicleNumber,
             payableAmount: parseFloat(amount.toFixed(2))
         }
     ]

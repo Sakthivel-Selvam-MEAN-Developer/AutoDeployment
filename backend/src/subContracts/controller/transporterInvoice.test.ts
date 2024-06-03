@@ -6,25 +6,17 @@ import { Role } from '../roles.ts'
 
 const mockGetTripByTransporterInvoice = vi.fn()
 const mockUpdateTransporterInvoice = vi.fn()
-const mockGetPercentageByTransporter = vi.fn()
 const mockcreatePaymentDues = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
-const mockGetShortageQuantityByOverallTripId = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getTripByTransporterInvoice: () => mockGetTripByTransporterInvoice(),
-    updateTransporterInvoice: (inputs: any) => mockUpdateTransporterInvoice(inputs)
+    updateTransporterInvoice: (invoice: any, id: number) =>
+        mockUpdateTransporterInvoice(invoice, id)
 }))
 vi.mock('../models/paymentDues', () => ({
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
     getDueByOverallTripId: (id: number) => mockGetDueByOverallTripId(id)
-}))
-vi.mock('../models/shortageQuantity', () => ({
-    getShortageQuantityByOverallTripId: (inputs: any) =>
-        mockGetShortageQuantityByOverallTripId(inputs)
-}))
-vi.mock('../models/transporter', () => ({
-    getPercentageByTransporter: (tds: any) => mockGetPercentageByTransporter(tds)
 }))
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
@@ -53,10 +45,22 @@ const transporterInvoiceData = [
         id: 4,
         acknowledgementStatus: true,
         finalPayDuration: 0,
-        transporterInvoice: '',
+        transporterInvoice: 'wefd',
         loadingPointToStockPointTripId: null,
         stockPointToUnloadingPointTripId: null,
         paymentDues: [],
+        shortageQuantity: [
+            {
+                id: 1,
+                overallTripId: 1,
+                shortageQuantity: 1000,
+                shortageAmount: 8000,
+                approvalStatus: false,
+                reason: 'Test reason',
+                filledLoad: 40,
+                unloadedQuantity: 39000
+            }
+        ],
         stockPointToUnloadingPointTrip: null,
         loadingPointToUnloadingPointTripId: 3,
         loadingPointToStockPointTrip: null,
@@ -94,8 +98,6 @@ const transporterInvoiceData = [
         }
     }
 ]
-const mockgetPercentageByTransporterData = { tdsPercentage: 2 }
-const mockGetDueByOverallTripIdData = { shortageAmount: 4000 }
 const mockGetDuesData = [
     {
         name: 'Deepak Logistics Pvt Ltd',
@@ -114,18 +116,12 @@ describe('Transporter Invoice Controller', () => {
     })
     test('should able to update Transporter Invoice in overallTrip', async () => {
         mockUpdateTransporterInvoice.mockResolvedValue(transporterInvoiceData[0])
-        mockGetPercentageByTransporter.mockResolvedValue(mockgetPercentageByTransporterData)
-        mockGetDueByOverallTripId.mockResolvedValue([{ ...mockGetDuesData, overallTripId: 1 }])
-        mockGetShortageQuantityByOverallTripId.mockResolvedValue(mockGetDueByOverallTripIdData)
         mockcreatePaymentDues.mockResolvedValue(mockGetDuesData)
         await supertest(app)
             .put('/api/transporterinvoice')
             .send({ invoice: 'abcd', id: 4 })
             .expect(200)
         expect(mockUpdateTransporterInvoice).toBeCalledTimes(1)
-        expect(mockGetPercentageByTransporter).toBeCalledTimes(1)
-        expect(mockGetDueByOverallTripId).toBeCalledTimes(1)
-        expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(1)
         expect(mockcreatePaymentDues).toBeCalledTimes(1)
     })
 })

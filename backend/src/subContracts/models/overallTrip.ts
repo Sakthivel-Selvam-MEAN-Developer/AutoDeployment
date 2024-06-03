@@ -607,16 +607,17 @@ export const getTripByTransporterInvoice = () =>
         ],
         where: {
             transporterInvoice: '',
-            acknowledgementApproval: true,
-            NOT: [
+            OR: [
                 {
                     loadingPointToStockPointTrip: {
-                        truck: { transporter: { transporterType: 'Own' } }
+                        truck: { transporter: { transporterType: { not: 'Own' } } },
+                        tripStatus: true
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
-                        truck: { transporter: { transporterType: 'Own' } }
+                        truck: { transporter: { transporterType: { not: 'Own' } } },
+                        tripStatus: true
                     }
                 }
             ]
@@ -699,29 +700,73 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
         data: {
             transporterInvoice: invoice
         },
-        include: {
+        select: {
+            id: true,
+            acknowledgementApproval: true,
+            acknowledgementDate: true,
+            finalPayDuration: true,
+            transporterInvoice: true,
             paymentDues: true,
+            shortageQuantity: true,
             stockPointToUnloadingPointTrip: {
-                include: {
+                select: {
+                    totalTransporterAmount: true,
                     loadingPointToStockPointTrip: {
-                        include: {
+                        select: {
+                            totalTransporterAmount: true,
                             truck: {
-                                include: { transporter: true }
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: {
+                                        select: {
+                                            name: true,
+                                            tdsPercentage: true,
+                                            transporterType: true
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             },
             loadingPointToUnloadingPointTrip: {
-                include: {
+                select: {
+                    totalTransporterAmount: true,
                     truck: {
-                        include: { transporter: true }
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    tdsPercentage: true,
+                                    transporterType: true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            loadingPointToStockPointTrip: {
+                select: {
+                    totalTransporterAmount: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    tdsPercentage: true,
+                                    transporterType: true
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     })
-export const updateAcknowledgementApproval = (id: number) =>
+export const updateAcknowledgementApproval = async (id: number) =>
     prisma.overallTrip.update({
         where: {
             id
@@ -729,24 +774,64 @@ export const updateAcknowledgementApproval = (id: number) =>
         data: {
             acknowledgementApproval: true
         },
-        include: {
-            loadingPointToStockPointTrip: true,
-            loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
+        select: {
+            id: true,
+            acknowledgementApproval: true,
+            acknowledgementDate: true,
+            finalPayDuration: true,
+            transporterInvoice: true,
+            paymentDues: true,
+            shortageQuantity: true,
+            stockPointToUnloadingPointTrip: {
+                select: {
+                    totalTransporterAmount: true,
+                    loadingPointToStockPointTrip: {
+                        select: {
+                            totalTransporterAmount: true,
+                            truck: {
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: {
+                                        select: {
+                                            name: true,
+                                            tdsPercentage: true,
+                                            transporterType: true
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             },
-            stockPointToUnloadingPointTrip: {
-                include: {
-                    loadingPointToStockPointTrip: {
-                        include: {
-                            truck: {
-                                include: {
-                                    transporter: true
+            loadingPointToUnloadingPointTrip: {
+                select: {
+                    totalTransporterAmount: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    tdsPercentage: true,
+                                    transporterType: true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            loadingPointToStockPointTrip: {
+                select: {
+                    totalTransporterAmount: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    tdsPercentage: true,
+                                    transporterType: true
                                 }
                             }
                         }

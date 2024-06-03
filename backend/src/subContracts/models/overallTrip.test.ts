@@ -548,7 +548,8 @@ describe('Overall Trip model', () => {
             unloadingPointId: deliveryPoint.id,
             truckId: truck.id,
             wantFuel: false,
-            loadingKilometer: 0
+            loadingKilometer: 0,
+            tripStatus: true
         })
         await create({ loadingPointToUnloadingPointTripId: trip.id, acknowledgementApproval: true })
         const actual = await getTripByTransporterInvoice()
