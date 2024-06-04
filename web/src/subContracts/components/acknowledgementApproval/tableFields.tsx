@@ -1,15 +1,21 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { TableCell } from '@mui/material'
 import { ApproveButton, EditButton } from './buttons'
 import { ShortageProps, TableFieldsProps } from './tableFieldsType'
 import { fieldData } from './approvalContext'
 import { TextFieldConatiner } from './tableInput'
 import { Container } from './dropDownContainer'
-export const TableFields: FC<TableFieldsProps> = ({ overallTrip }) => {
+export const TableFields: FC<TableFieldsProps> = ({ overallTrip, setSendStatus }) => {
+    useEffect(() => {
+        setFieldValues({
+            quantity: shortage.unloadedQuantity,
+            approvalStatus: shortage.approvalStatus
+        })
+    }, [overallTrip])
     const shortage = overallTrip.shortageQuantity[0]
     const [fieldValues, setFieldValues] = useState({
-        quantity: shortage.unloadedQuantity,
-        approvalStatus: shortage.approvalStatus
+        quantity: 0,
+        approvalStatus: true
     })
     const [editStatus, setEditStatus] = useState(true)
     return (
@@ -25,7 +31,11 @@ export const TableFields: FC<TableFieldsProps> = ({ overallTrip }) => {
                     shortage={shortage.unloadedQuantity}
                     editStatus={editStatus}
                 />
-                <ApproveButton overallTrip={overallTrip} setEditStatus={setEditStatus} />
+                <ApproveButton
+                    overallTrip={overallTrip}
+                    setSendStatus={setSendStatus}
+                    setEditStatus={setEditStatus}
+                />
             </TableCell>
         </fieldData.Provider>
     )

@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import { FC, useContext } from 'react'
 import { approveAcknowledgement } from '../../services/acknowlegementApproval'
-import { fieldData, tripContext } from './approvalContext'
+import { fieldData } from './approvalContext'
 import { ApproveButtonProps, BProps } from './buttontype'
 export const EditButton: FC<BProps> = ({ setEditStatus, shortage, editStatus }) => {
     const { setFieldValues } = useContext(fieldData)
@@ -21,20 +21,20 @@ export const EditButton: FC<BProps> = ({ setEditStatus, shortage, editStatus }) 
         </Button>
     )
 }
-export const ApproveButton: FC<ApproveButtonProps> = ({ overallTrip, setEditStatus }) => {
-    const { setTripDetails } = useContext(tripContext)
-    const { fieldValues, setFieldValues } = useContext(fieldData)
+export const ApproveButton: FC<ApproveButtonProps> = ({
+    overallTrip,
+    setSendStatus,
+    setEditStatus
+}) => {
+    const { fieldValues } = useContext(fieldData)
     const onClick = () =>
         approveAcknowledgement(
             overallTrip.id,
             fieldValues.quantity,
             fieldValues.approvalStatus
         ).then(() => {
-            setTripDetails((prev) => prev.filter(({ id }) => overallTrip.id !== id))
+            setSendStatus((prev) => !prev)
             setEditStatus(true)
-            setFieldValues((prev) => {
-                return { ...prev, quantity: 0, approvalStatus: true }
-            })
         })
     return <ButtonConatiner onClick={onClick} />
 }

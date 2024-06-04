@@ -5,12 +5,14 @@ import { tripContext } from './approvalContext'
 import { overallTripProps } from '../../types/tripTypes'
 const AcknowledgementApprovalList: React.FC = (): ReactElement => {
     const [tripDetails, setTripDetails] = useState<overallTripProps[]>([])
+    const [sendStatus, setSendStatus] = useState(false)
     useEffect(() => {
         getTripForAcknowlegementApproval().then(setTripDetails)
-    }, [])
+        console.log(sendStatus, tripDetails)
+    }, [sendStatus])
     return (
         <tripContext.Provider value={{ tripDetails, setTripDetails }}>
-            <ApprovalTable tripDetails={tripDetails} />
+            <ApprovalTable tripDetails={tripDetails} setSendStatus={setSendStatus} />
         </tripContext.Provider>
     )
 }

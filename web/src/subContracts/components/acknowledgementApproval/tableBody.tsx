@@ -6,23 +6,25 @@ import { TableFields } from './tableFields'
 
 interface TableBodyContainer {
     overallTrip: overallTripProps
+    setSendStatus: React.Dispatch<React.SetStateAction<boolean>>
 }
 const findTripType = (trip: overallTripProps) => {
     return trip.loadingPointToStockPointTrip !== null
         ? trip.loadingPointToStockPointTrip
         : trip.loadingPointToUnloadingPointTrip
 }
-export const TableBodyContainer: FC<TableBodyContainer> = ({ overallTrip }) => {
+export const TableBodyContainer: FC<TableBodyContainer> = ({ overallTrip, setSendStatus }) => {
     const trip = findTripType(overallTrip)
     return (
         <TableRow>
-            <TableCells trip={trip} overallTrip={overallTrip} />
+            <TableCells trip={trip} overallTrip={overallTrip} setSendStatus={setSendStatus} />
         </TableRow>
     )
 }
 interface TableCells {
     trip: tripDetailsProps | undefined
     overallTrip: overallTripProps
+    setSendStatus: React.Dispatch<React.SetStateAction<boolean>>
 }
 const center = { textAlign: 'center' }
 const unloadingPoint = (overallTrip: overallTripProps) => {
@@ -30,7 +32,7 @@ const unloadingPoint = (overallTrip: overallTripProps) => {
         ? overallTrip.stockPointToUnloadingPointTrip.unloadingPoint?.name
         : overallTrip.loadingPointToUnloadingPointTrip.unloadingPoint?.name
 }
-const TableCells: FC<TableCells> = ({ trip, overallTrip }) => {
+const TableCells: FC<TableCells> = ({ trip, overallTrip, setSendStatus }) => {
     return (
         <>
             <TableCell sx={center}>{trip?.truck.vehicleNumber}</TableCell>
@@ -41,7 +43,7 @@ const TableCells: FC<TableCells> = ({ trip, overallTrip }) => {
             <TableCell sx={center}>{trip?.truck.transporter.name}</TableCell>
             <TableCell sx={center}>{trip?.loadingPoint.name}</TableCell>
             <TableCell sx={center}>{unloadingPoint(overallTrip)}</TableCell>
-            <TableFields overallTrip={overallTrip} />
+            <TableFields overallTrip={overallTrip} setSendStatus={setSendStatus} />
         </>
     )
 }

@@ -2,6 +2,7 @@ import { overallTripProps } from '../../types/tripTypes'
 
 export interface TableFieldsProps {
     overallTrip: overallTripProps
+    setSendStatus: React.Dispatch<React.SetStateAction<boolean>>
 }
 export interface ShortageProps {
     editStatus: boolean

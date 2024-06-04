@@ -3,6 +3,7 @@ import { overallTripProps } from '../../types/tripTypes'
 export interface ApproveButtonProps {
     overallTrip: overallTripProps
     setEditStatus: React.Dispatch<React.SetStateAction<boolean>>
+    setSendStatus: React.Dispatch<React.SetStateAction<boolean>>
 }
 export interface BProps {
     setEditStatus: React.Dispatch<React.SetStateAction<boolean>>
