@@ -84,3 +84,75 @@ export interface responseDetails {
     shortageAmount: number
     vehicleExpense: number
 }
+
+export interface fuelProps {
+    id: number
+    fueledDate: number
+    overallTripId: number
+    invoiceNumber: string
+    pricePerliter: number
+    quantity: number
+    totalprice: number
+    paymentStatus: boolean
+    vehicleNumber: string
+    bunkId: number
+}
+interface truck {
+    vehicleNumber: string
+    transporterId: number
+    transporter: {
+        id: number
+        csmName: string
+        name: string
+        tdsPercentage: number | null
+        transporterType: string
+    }
+}
+interface loadingPoint {
+    id: number
+    name: string
+    cementCompanyId: number
+    cementCompany: {
+        name: string
+    }
+}
+export interface overallTrip {
+    id: number
+    acknowledgementStatus: boolean
+    acknowledgementApproval: boolean
+    finalPayDuration: number
+    transporterInvoice: string
+    acknowledgementDate: number | null
+    loadingPointToStockPointTripId: number | null
+    stockPointToUnloadingPointTripId: number | null
+    loadingPointToUnloadingPointTripId: number
+    createdAt: Date
+    updatedAt: Date
+    loadingPointToStockPointTrip: number | null
+    loadingPointToUnloadingPointTrip: {
+        id: number
+        startDate: number
+        filledLoad: number
+        wantFuel: boolean
+        tripStatus: boolean
+        acknowledgeDueTime: number | null
+        partyName: string
+        lrNumber: string
+        freightAmount: number
+        transporterAmount: number
+        totalFreightAmount: number
+        totalTransporterAmount: number
+        margin: number
+        loadingKilometer: number
+        unloadingKilometer: number
+        invoiceNumber: string
+        loadingPointId: number
+        createdAt: Date
+        updatedAt: Date
+        unloadingPointId: number
+        truckId: number
+        billNo: null
+        truck: truck
+        loadingPoint: loadingPoint
+    }
+}
