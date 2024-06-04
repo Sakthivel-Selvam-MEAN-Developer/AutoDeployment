@@ -6,18 +6,18 @@ import { fieldData } from './approvalContext'
 import { TextFieldConatiner } from './tableInput'
 import { Container } from './dropDownContainer'
 export const TableFields: FC<TableFieldsProps> = ({ overallTrip, setSendStatus }) => {
-    useEffect(() => {
-        setFieldValues({
-            quantity: shortage.unloadedQuantity,
-            approvalStatus: shortage.approvalStatus
-        })
-    }, [overallTrip])
     const shortage = overallTrip.shortageQuantity[0]
     const [fieldValues, setFieldValues] = useState({
         quantity: 0,
         approvalStatus: true
     })
     const [editStatus, setEditStatus] = useState(true)
+    useEffect(() => {
+        setFieldValues({
+            quantity: shortage.unloadedQuantity,
+            approvalStatus: shortage.approvalStatus
+        })
+    }, [overallTrip])
     return (
         <fieldData.Provider value={{ fieldValues, setFieldValues }}>
             <ShortageConatiner
