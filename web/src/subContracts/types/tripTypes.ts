@@ -40,6 +40,7 @@ export interface shortageQuantity {
     approvalStatus: boolean
     filledLoad: number
     unloadedQuantity: number
+    shortageQuantity:number
 }
 export interface overallTripProps {
     id: number
