@@ -107,7 +107,7 @@ describe('Acknowledgement Approval Controller', () => {
         await supertest(app).get('/api/acknowlegementapproval').expect(200)
         expect(mockGetTripForAcknowlegementApproval).toBeCalledTimes(1)
     })
-    test.only('should able to update Acknowledgement Approval in overAllTrip', async () => {
+    test('should able to update Acknowledgement Approval in overAllTrip', async () => {
         mockGetShortageQuantityByOverallTripId.mockResolvedValue(shortage)
         mockUpdateShortageInOverallTrip.mockResolvedValue(shortage)
         mockUpdateAcknowledgementApproval.mockResolvedValue(mockOverAllTrip[0])
