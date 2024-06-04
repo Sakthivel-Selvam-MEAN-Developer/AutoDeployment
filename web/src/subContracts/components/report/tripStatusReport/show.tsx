@@ -2,13 +2,14 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { Button, Pagination, Stack } from '@mui/material'
 import exportFromJSON from 'export-from-json'
 import { CheckUser } from '../../../../auth/checkUser.tsx'
-import { Dispatch, FC, useContext } from 'react'
+import { Dispatch, FC, useContext, useState } from 'react'
 import { dispatchData, filterData } from './tripStatusContext.ts'
 import { TripFilters } from '../../../types/tripFilters.ts'
 import { tripStatusFilter } from '../../../services/overallTrips.ts'
 import { overallTripsProps } from './tripFilterForm.tsx'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { FLOAT } from 'html2canvas/dist/types/css/property-descriptors/float'
+import { DialogBox } from './dialogBox.tsx'
 
 interface Row {
     acknowledgementDate: number
@@ -67,6 +68,7 @@ interface shortage {
     unloadedDate: number
     shortageQuantity: number | string
     shortageAmount: number | string
+    unloadedQuantity: number | string
 }
 interface bunk {
     bunkName: string
@@ -105,7 +107,7 @@ interface dataGridTableProps {
     overallTrips: Props[]
     authoriser: boolean
 }
-interface finalDataProps {
+export interface finalDataProps {
     number: number
     cementCompany: string
     vehicleNumber: string
@@ -129,13 +131,14 @@ interface finalDataProps {
     bunkName: string
     fuelQuantity: string | number
     fuelPrice: string | number
-    quantity: string | number
-    amount: string | number
+    unloadedQuantity: number | string
+    shortageQuantity: string | number
+    shortageAmount: string | number
     status: string
     acknowledgementDate: string
     unloadedDate: string
     ranKm: number
-    type: string
+    paymentStatus: string
 }
 
 export type ActionType = { type: string; pageNumber: number }
@@ -156,27 +159,17 @@ const columns = [
     { field: 'startDate', headerName: 'Start Date', width: 120 },
     { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
     { field: 'transporterName', headerName: 'Transporter', width: 240 },
-    { field: 'gstPercentage', headerName: 'GST Percentage', width: 200 },
     { field: 'csmName', headerName: 'CSM Name', width: 130 },
-    { field: 'loadingPoint', headerName: 'Loading Point', width: 150 },
-    { field: 'stockPoint', headerName: 'Stock Point', width: 150 },
-    { field: 'unloadingPoint', headerName: 'Unloading Point', width: 150 },
-    { field: 'filledLoad', headerName: 'Filled Load', width: 100 },
-    { field: 'transporterAmount', headerName: 'Transporter Rate', width: 130 },
-    { field: 'totalTransporterAmount', headerName: 'Total Transporter Amount', width: 180 },
-    { field: 'transporterInvoice', headerName: 'Transporter Invoice', width: 150 },
-    { field: 'primaryBillNo', headerName: 'Primary BillNo', width: 150 },
-    { field: 'secondaryBillNo', headerName: 'Secondary BillNo', width: 150 },
-    { field: 'bunkName', headerName: 'Bunk Name', width: 190 },
-    { field: 'fuelQuantity', headerName: 'Diesel Quantity', width: 140 },
-    { field: 'fuelPrice', headerName: 'Diesel Amount', width: 140 },
-    { field: 'unloadedDate', headerName: 'Unloaded Date', width: 150 },
-    { field: 'ranKm', headerName: 'Total Ran Kilometer', width: 150 },
-    { field: 'quantity', headerName: 'Shortage Quantity', width: 150 },
-    { field: 'amount', headerName: 'Shortage Amount', width: 150 },
-    { field: 'acknowledgementDate', headerName: 'Acknowledgement Date', width: 150 },
-    { field: 'status', headerName: 'Trip Status', width: 230 },
-    { field: 'type', headerName: 'Payment Status', width: 150 }
+    {
+        field: 'action',
+        headerName: 'Action',
+        width: 150,
+        renderCell: (params: any) => (
+            <Button onClick={() => params.handleShowMore(params.row)} variant="contained">
+                Show More
+            </Button>
+        )
+    }
 ]
 const checkPaymentStatus = (arrayOfDues: paymentType[]) => {
     if (!arrayOfDues || arrayOfDues.length === 0) return 'No payment data available'
@@ -254,6 +247,10 @@ const generateRow = (row: Props, index: number) => {
                 'unbilled'
         }
     }
+    const unloadedQuantity =
+        row.shortageQuantity.length !== 0
+            ? row.shortageQuantity[0].unloadedQuantity
+            : 'Not Yet Unloaded'
     finalData.push({
         number: ++index,
         cementCompany: data.loadingPoint.cementCompany.name,
@@ -280,11 +277,12 @@ const generateRow = (row: Props, index: number) => {
         bunkName: row.fuel.length !== 0 ? row.fuel[0].bunk.bunkName : 'Not Fueled',
         fuelQuantity: row.fuel.length !== 0 ? row.fuel[0].quantity : 'Not Fueled',
         fuelPrice: row.fuel.length !== 0 ? row.fuel[0].totalprice : 'Not Fueled',
-        quantity:
+        unloadedQuantity: unloadedQuantity,
+        shortageQuantity:
             row.shortageQuantity.length !== 0
                 ? row.shortageQuantity[0].shortageQuantity
                 : 'No Shortage',
-        amount:
+        shortageAmount:
             row.shortageQuantity.length !== 0
                 ? row.shortageQuantity[0].shortageAmount
                 : 'No Shortage',
@@ -292,12 +290,8 @@ const generateRow = (row: Props, index: number) => {
             ? 'Running'
             : !row.acknowledgementStatus
               ? 'Waiting For Acknowledgement'
-              : !row.acknowledgementApproval
-                ? 'Acknowledgement not Approved'
-                : !row.transporterInvoice
-                  ? 'TransporterInvoice Not Recevied'
-                  : 'TransporterInvoice Recevied',
-        type: checkPaymentStatus(row.paymentDues),
+              : 'Acknowledgement received',
+        paymentStatus: checkPaymentStatus(row.paymentDues),
         acknowledgementDate: row.acknowledgementDate
             ? epochToMinimalDate(row.acknowledgementDate)
             : 'Needed to be Acknowledge',
@@ -308,23 +302,55 @@ const generateRow = (row: Props, index: number) => {
         ranKm
     })
 }
-
-const DataGridTable: FC<dataGridTableProps> = ({ overallTrips, authoriser }) => {
+const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser }) => {
+    const [openDialog, setOpenDialog] = useState(false)
+    const [selectedRow, setSelectedRow] = useState<finalDataProps | null>(null)
+    const handleShowMore = (row: finalDataProps) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { number, freightAmount, totalFreightAmount, margin, ...filteredRow } = row
+        setSelectedRow(filteredRow as finalDataProps)
+        setOpenDialog(true)
+    }
     finalData = []
     overallTrips.map((row: Props, index: number) => generateRow(row, index))
     addAuthorisedColumns(authoriser)
+    const adjustedColumns: GridColDef[] = columns.map((column) => ({
+        flex: 0.5,
+        ...column,
+        type: 'string',
+        renderCell: (params) => {
+            if (column.field === 'action') {
+                return (
+                    <Button
+                        onClick={() => handleShowMore(params.row)}
+                        variant="contained"
+                        size="small"
+                    >
+                        Show More
+                    </Button>
+                )
+            }
+            return params.value
+        }
+    }))
     return (
         <div>
             <DataGrid
-                sx={{ width: '94vw', height: '27vw' }}
+                sx={{ width: '88vw', height: '22vw', marginLeft: 4 }}
                 rows={finalData}
-                columns={columns}
+                columns={adjustedColumns}
                 getRowId={(row) => row.number}
             />
+            {selectedRow && (
+                <DialogBox
+                    open={openDialog}
+                    onClose={() => setOpenDialog(false)}
+                    row={selectedRow}
+                />
+            )}
         </div>
     )
 }
-
 const generateCSVbutton = (listoverallTrip: Props[], authoriser: boolean) => {
     return (
         <div style={{ float: 'right', marginTop: '10px', marginBottom: '20px' }}>

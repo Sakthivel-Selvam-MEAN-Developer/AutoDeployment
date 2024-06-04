@@ -13,6 +13,7 @@ interface OverallProps {
         loadingPointToUnloadingPointTrip: props
         loadingPointToStockPointTrip: props
     }
+    type: string
 }
 interface unloadingProps {
     unloadingPoint: {
@@ -68,6 +69,7 @@ const columns = [
     { field: 'unloadingPoint', headerName: 'Unloading Point', minWidth: 120, flex: 1 },
     { field: 'transporterName', headerName: 'Transporter Name', minWidth: 130, flex: 1 },
     { field: 'csmName', headerName: 'CSM Name', minWidth: 100, flex: 1 },
+    { field: 'type', headerName: 'Type', minWidth: 100, flex: 1 },
     { field: 'dueDate', headerName: 'Due Date', minWidth: 100, flex: 1 },
     { field: 'amount', headerName: 'Amount', minWidth: 100, flex: 1 }
 ]
@@ -98,6 +100,7 @@ const getTripData = (data: OverallProps, trip: props | null, index: number) => {
                 : trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name,
         transporterName: data.name,
         csmName: trip?.truck.transporter.csmName,
+        type: data.type,
         dueDate: data.dueDate && epochToMinimalDate(data.dueDate),
         amount: data.payableAmount
     }

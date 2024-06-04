@@ -3,17 +3,8 @@ import { TripFilterForm } from './tripFilterForm'
 import { filterData, dispatchData } from './tripStatusContext'
 import ListAllDetails from './show'
 import { updateFilterProps } from './updateFilterProps'
+import { initialFilterData } from './tripStatusActionType'
 
-export const initialFilterData = {
-    pageNumber: 1,
-    cementCompanyId: undefined,
-    loadinPointId: undefined,
-    transporterId: undefined,
-    vehicleNumber: undefined,
-    invoiceNumber: undefined,
-    from: undefined,
-    to: undefined
-}
 const ListAllTrip: React.FC = (): ReactElement => {
     const [overallTrips, setOverallTrips] = useState([])
     const [count, setCount] = useState<number>(0)

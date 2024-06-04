@@ -1,5 +1,5 @@
 import { TripFilters } from '../../../types/tripFilters'
-import { initialFilterData } from './list'
+import { initialFilterData } from './tripStatusActionType'
 type ActionType = {
     type: string
     cementCompanyId: number

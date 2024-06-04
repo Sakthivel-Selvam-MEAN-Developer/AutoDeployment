@@ -329,6 +329,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
             OR: [
                 {
                     acknowledgementStatus: true,
+                    acknowledgementApproval: true,
                     transporterInvoice: {
                         not: ''
                     },
@@ -339,6 +340,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
                 },
                 {
                     acknowledgementStatus: true,
+                    acknowledgementApproval: true,
                     transporterInvoice: {
                         not: ''
                     },
@@ -347,7 +349,15 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
                         truck: { transporter: { transporterType: { not: 'Own' } } }
                     }
                 }
-            ]
+            ],
+            paymentDues: {
+                some: {
+                    type: 'final pay',
+                    transactionId: {
+                        not: ''
+                    }
+                }
+            }
         },
         include: {
             paymentDues: true,

@@ -313,8 +313,7 @@ export const listAllUpcomingTransporterDues = (
     res: Response
 ) => {
     const { transporterName, from, to } = req.query
-    const currentDate = dayjs().startOf('day').unix()
-    getUpcomingDuesByFilter(transporterName, from, to, currentDate)
+    getUpcomingDuesByFilter(transporterName, from, to)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
