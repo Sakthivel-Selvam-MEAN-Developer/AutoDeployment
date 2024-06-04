@@ -63,7 +63,7 @@ describe('acknowledgement Approval Test', () => {
         expect(screen.getByText('Transporter')).toBeVisible()
         await waitFor(() => {
             expect(screen.getByText('wefr')).toBeInTheDocument()
-            expect(screen.getByText('34000')).toBeInTheDocument()
+            expect(screen.getAllByText('34000'))
             expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
         })
         expect(screen.getByRole('button', { name: 'Edit' }))

@@ -8,6 +8,8 @@ const tablehead = [
     'Transporter',
     'Loading Point',
     'Unloading Point',
+    'Loaded Quantity',
+    'Shortage Quantity',
     'Unloaded Quantity',
     'Approval type',
     'Actions'

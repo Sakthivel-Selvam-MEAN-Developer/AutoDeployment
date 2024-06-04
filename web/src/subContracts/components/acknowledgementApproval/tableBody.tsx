@@ -43,6 +43,8 @@ const TableCells: FC<TableCells> = ({ trip, overallTrip, setSendStatus }) => {
             <TableCell sx={center}>{trip?.truck.transporter.name}</TableCell>
             <TableCell sx={center}>{trip?.loadingPoint.name}</TableCell>
             <TableCell sx={center}>{unloadingPoint(overallTrip)}</TableCell>
+            <TableCell sx={center}>{overallTrip.shortageQuantity[0].filledLoad}</TableCell>
+            <TableCell sx={center}>{overallTrip.shortageQuantity[0].shortageQuantity}</TableCell>
             <TableFields overallTrip={overallTrip} setSendStatus={setSendStatus} />
         </>
     )
