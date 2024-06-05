@@ -4,7 +4,7 @@ interface dataProps {
     wantFuel: boolean
     totalTransporterAmount: number
 }
-interface fuelProps {
+export interface fuelProps {
     totalprice: number
 }
 

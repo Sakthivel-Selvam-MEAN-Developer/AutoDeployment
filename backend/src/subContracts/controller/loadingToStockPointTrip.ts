@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import { create, getAllStockPointTrip } from '../models/loadingToStockPointTrip.ts'
-import { getNumberByTruckId } from '../models/truck.ts'
 import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 import { create as createOverallTrip } from '../models/overallTrip.ts'
 import {
@@ -8,62 +7,54 @@ import {
     getPaymentDuesWithoutTripId,
     updatePaymentDuesWithTripId
 } from '../models/paymentDues.ts'
-import tripLogic from '../domain/tripLogics.ts'
-import { getCementCompanyByLocation } from '../models/loadingPoint.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
+import { loadingToStockTripLogic } from '../domain/loadingToStockTripLogic.ts'
+import { props } from '../domain/types.ts'
 
+export const updateFuelDetails = (
+    fuelDetails: any,
+    vehicleNumber: string,
+    overallTripId: number
+) => {
+    if (!fuelDetails) return
+    return updateFuelWithTripId({ id: fuelDetails.id, overallTripId })
+        .then(() => getPaymentDuesWithoutTripId(vehicleNumber))
+        .then((paymetDue) => updatePaymentDuesWithTripId({ id: paymetDue?.id, overallTripId }))
+}
 export const createStockPointTrip = async (req: Request, res: Response) => {
+    let details: props = {} as props
     try {
-        const {
-            vehicleNumber,
-            transporter: { name, transporterType }
-        } = (await getNumberByTruckId(req.body.truckId)) || {
-            vehicleNumber: '',
-            transporter: { name: '', transporterType: '' }
-        }
-        const companyDetails = await getCementCompanyByLocation(req.body.loadingPointId)
-        const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
-        const paymentDetails = await getPaymentDuesWithoutTripId(vehicleNumber)
         const pricePoint = await getPricePoint(
             req.body.loadingPointId,
             req.body.unloadingPointId,
             req.body.stockPointId
         )
-        const { id } = await create(req.body).then(async (data) =>
-            createOverallTrip({
+        const { id } = await create(req.body).then(async (data) => {
+            details = data
+            return createOverallTrip({
                 loadingPointToStockPointTripId: data.id,
                 finalPayDuration: pricePoint?.payGeneratingDuration
             })
-        )
-        await tripLogic(
-            req.body,
+        })
+        const fuelDetails = await getFuelWithoutTrip(details?.truck.vehicleNumber)
+        await loadingToStockTripLogic(
+            details.truck.transporter.transporterType,
+            req,
             fuelDetails,
-            name,
+            details.truck.transporter.name,
             id,
-            vehicleNumber,
+            details.truck.vehicleNumber,
             'LoadingToStock',
-            companyDetails?.cementCompany.advanceType
+            details.loadingPoint.cementCompany.advanceType,
+            res
         )
             .then(async (data) => {
-                if (data === undefined && transporterType === 'Own') return
-                if (req.body.wantFuel !== true && fuelDetails !== null) {
-                    await updateFuelWithTripId({ id: fuelDetails.id, overallTripId: id }).then(
-                        async () => {
-                            await updatePaymentDuesWithTripId({
-                                id: paymentDetails?.id,
-                                overallTripId: id
-                            })
-                            if (req.body.totalTransporterAmount !== 0 && data !== undefined) {
-                                await createPaymentDues(data)
-                            }
-                        }
-                    )
-                } else if (req.body.wantFuel !== true && fuelDetails === null) {
-                    if (req.body.totalTransporterAmount !== 0 && data !== undefined) {
-                        await createPaymentDues(data)
-                    }
-                }
+                if (data === undefined) return res.status(200)
+                await createPaymentDues(data)
+            })
+            .then(async () => {
+                await updateFuelDetails(fuelDetails, details.truck.vehicleNumber, id)
             })
             .then(() => res.status(200).json({ id }))
             .catch((error) => handlePrismaError(error, res))

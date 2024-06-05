@@ -156,3 +156,26 @@ export interface overallTrip {
         loadingPoint: loadingPoint
     }
 }
+export interface props {
+    loadingPoint: { cementCompany: { advanceType: number } }
+    truck: { vehicleNumber: string; transporter: { name: string; transporterType: string } }
+    id: number
+    acknowledgeDueTime: number | null
+    startDate: number
+    partyName: string
+    lrNumber: string
+    filledLoad: number
+    wantFuel: boolean | null
+    tripStatus: boolean
+    freightAmount: number
+    transporterAmount: number
+    totalFreightAmount: number
+    totalTransporterAmount: number
+    margin: number
+    loadingKilometer: number
+    unloadingKilometer: number
+    loadingPointId: number
+    invoiceNumber: string
+    stockPointId: number
+    truckId: number
+}

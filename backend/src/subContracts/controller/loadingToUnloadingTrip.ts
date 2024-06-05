@@ -1,18 +1,28 @@
 import { Request, Response } from 'express'
 import { create, getAllTrip, getTripByVehicleNumber } from '../models/loadingToUnloadingTrip.ts'
 import { create as createOverallTrip } from '../models/overallTrip.ts'
-import tripLogic from '../domain/tripLogics.ts'
-import { getNumberByTruckId } from '../models/truck.ts'
 import {
     create as createPaymentDues,
     getPaymentDuesWithoutTripId,
     updatePaymentDuesWithTripId
 } from '../models/paymentDues.ts'
 import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
-import { getCementCompanyByLocation } from '../models/loadingPoint.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
+import { loadingToUnloadingTripLogic } from '../domain/loadingToUnloadingTripLogic.ts'
 
+export interface props {
+    truck: {
+        transporter: {
+            name: string
+            transporterType: string
+        }
+        vehicleNumber: string
+    }
+    loadingPoint: {
+        cementCompany: { advanceType: number }
+    }
+}
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
 }
@@ -46,44 +56,45 @@ const updateFuelDetails = (
         .then((paymetDue) => updatePaymentDuesWithTripId({ id: paymetDue?.id, overallTripId }))
 }
 export const createTrip = async (req: Request, res: Response) => {
-    try {
-        const {
-            vehicleNumber,
-            transporter: { name, transporterType }
-        } = (await getNumberByTruckId(req.body.truckId)) || {
+    let details: props = {
+        truck: {
             vehicleNumber: '',
             transporter: { name: '', transporterType: '' }
-        }
-        const companyDetails = await getCementCompanyByLocation(req.body.loadingPointId)
-        const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
+        },
+        loadingPoint: { cementCompany: { advanceType: 0 } }
+    }
+    try {
         const pricePoint = await getPricePoint(
             req.body.loadingPointId,
             req.body.unloadingPointId,
             req.body.stockPointId
         )
-        const { id: overallTripId } = await create(req.body).then(async (data) =>
-            createOverallTrip({
+        const { id: overallTripId } = await create(req.body).then(async (data) => {
+            details = data
+            return createOverallTrip({
                 loadingPointToUnloadingPointTripId: data.id,
                 finalPayDuration: pricePoint?.payGeneratingDuration
             })
-        )
+        })
 
-        if (transporterType === 'Own') return res.status(200).json({ id: overallTripId })
-        await tripLogic(
-            req.body,
+        const fuelDetails = await getFuelWithoutTrip(details.truck.vehicleNumber)
+        await loadingToUnloadingTripLogic(
+            details.truck.transporter.transporterType,
+            req,
             fuelDetails,
-            name,
+            details.truck.transporter.name,
             overallTripId,
-            vehicleNumber,
+            details.truck.vehicleNumber,
             'LoadingToUnloading',
-            companyDetails?.cementCompany.advanceType
+            details.loadingPoint.cementCompany.advanceType,
+            res
         )
             .then(async (data) => {
                 if (data === undefined) return res.status(200)
                 await createPaymentDues(data)
             })
             .then(async () => {
-                await updateFuelDetails(fuelDetails, vehicleNumber, overallTripId)
+                await updateFuelDetails(fuelDetails, details.truck.vehicleNumber, overallTripId)
             })
             .then(() => res.status(200).json({ id: overallTripId }))
             .catch((error) => handlePrismaError(error, res))

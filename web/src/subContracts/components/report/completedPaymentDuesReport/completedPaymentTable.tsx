@@ -42,7 +42,13 @@ const columns = [
     { field: 'loadingPoint', headerName: 'Loading Point', minWidth: 100, flex: 1 },
     { field: 'unloadingPoint', headerName: 'Unloading Point', minWidth: 100, flex: 1 },
     { field: 'name', headerName: 'Name', minWidth: 100, flex: 1 },
-    { field: 'paidAt', headerName: 'Payment Date', minWidth: 100, flex: 1 },
+    {
+        field: 'paidAt',
+        headerName: 'Payment Date',
+        minWidth: 100,
+        flex: 1,
+        valueFormatter: (value: number) => epochToMinimalDate(value)
+    },
     { field: 'type', headerName: 'Payment Type', minWidth: 100, flex: 1 },
     { field: 'transactionId', headerName: 'Transaction Id', minWidth: 100, flex: 1 },
     { field: 'payableAmount', headerName: 'Amount', minWidth: 100, flex: 1 },

@@ -1,8 +1,8 @@
 import supertest from 'supertest'
 import dayjs from 'dayjs'
-import { NextFunction } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
-import tripLogic from '../domain/tripLogics.ts'
+import { loadingToStockTripLogic } from '../domain/loadingToStockTripLogic.ts'
 
 const mockCreateTrip = vi.fn()
 const mockStockPointTrip = vi.fn()
@@ -14,6 +14,7 @@ const mockUpdatePaymentDuesWithTripId = vi.fn()
 const mockGetFuelWithoutTrip = vi.fn()
 const mockUpdateFuelWithTripId = vi.fn()
 const mockGetCementCompanyByLocation = vi.fn()
+const mockGetPricePoint = vi.fn()
 
 vi.mock('../models/loadingToStockPointTrip', () => ({
     create: (inputs: any) => mockCreateTrip(inputs),
@@ -21,6 +22,10 @@ vi.mock('../models/loadingToStockPointTrip', () => ({
 }))
 vi.mock('../models/overallTrip', () => ({
     create: (inputs: any) => mockCreateOverallTrip(inputs)
+}))
+vi.mock('../models/pricePoint', () => ({
+    getPricePoint: (input1: any, input2: any, input3: any) =>
+        mockGetPricePoint(input1, input2, input3)
 }))
 vi.mock('../models/truck', () => ({
     getNumberByTruckId: (truckId: any) => mockGetNumberByTruckId(truckId)
@@ -79,7 +84,7 @@ const mockTripData1 = {
     id: 1,
     truckId: 1,
     loadingPointId: 1,
-    unloadingPointId: 1,
+    stockPointId: 1,
     startDate: 1703679340,
     filledLoad: 48,
     invoiceNumber: 'AGTH5312WE',
@@ -88,13 +93,23 @@ const mockTripData1 = {
     totalFreightAmount: 48000,
     totalTransporterAmount: 43200,
     margin: 4800,
-    wantFuel: false
+    wantFuel: false,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Barath Logistics Pvt Ltd',
+            transporterType: 'Market'
+        }
+    },
+    loadingPoint: {
+        cementCompany: { advanceType: 70 }
+    }
 }
 const mockTripData2 = {
     id: 1,
     truckId: 1,
     loadingPointId: 1,
-    unloadingPointId: 1,
+    stockPointId: 1,
     startDate: 1703679340,
     filledLoad: 48,
     invoiceNumber: 'AGTH5312WE',
@@ -103,14 +118,19 @@ const mockTripData2 = {
     totalFreightAmount: 48000,
     totalTransporterAmount: 43200,
     margin: 4800,
-    wantFuel: true
-}
-const mockgetNumberByTruckIdData = {
-    vehicleNumber: 'TN93D5512',
-    transporter: {
-        name: 'Barath Logistics Pvt Ltd'
+    wantFuel: true,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Barath Logistics Pvt Ltd',
+            transporterType: 'Market'
+        }
+    },
+    loadingPoint: {
+        cementCompany: { advanceType: 70 }
     }
 }
+
 const mockcreateOverallTripData = {
     id: 1
 }
@@ -121,7 +141,7 @@ const mockcreatePaymentDuesData1 = [
         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
         overallTripId: 1,
         vehicleNumber: 'TN93D5512',
-        payableAmount: 30240,
+        payableAmount: 35280,
         transactionId: '',
         NEFTStatus: false,
         paidAt: 0
@@ -134,31 +154,72 @@ const mockcreatePaymentDuesData2 = [
         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
         overallTripId: 1,
         vehicleNumber: 'TN93D5512',
-        payableAmount: 29240,
+        payableAmount: 23280,
         transactionId: '',
         NEFTStatus: false,
         paidAt: 0
     }
 ]
 
-const tripdata1 = {
-    wantFuel: false,
-    totalTransporterAmount: 43200
-}
-const tripdata2 = {
-    wantFuel: false,
-    totalTransporterAmount: 43200
-}
+const mockRes = {
+    sendStatus: vi.fn().mockReturnThis(),
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+} as unknown as Response
 
-const fuelData = {
-    totalprice: 1000
-}
-const mockCemenCompanyData = {
-    cementCompany: {
-        advanceType: 70
+const mockReq = {
+    body: {
+        truckId: 2,
+        loadingPointId: 1,
+        startDate: 1717525800,
+        filledLoad: 56,
+        invoiceNumber: 'zaxc',
+        loadingKilometer: 0,
+        freightAmount: 1000,
+        transporterAmount: 900,
+        totalFreightAmount: 56000,
+        totalTransporterAmount: 50400,
+        margin: 3920,
+        wantFuel: false,
+        partyName: 'zxczx',
+        lrNumber: 'zxczxc',
+        stockPointId: 1
     }
+} as unknown as Request
+const mockReq2 = {
+    body: {
+        truckId: 2,
+        loadingPointId: 1,
+        startDate: 1717525800,
+        filledLoad: 56,
+        invoiceNumber: 'zaxc',
+        loadingKilometer: 0,
+        freightAmount: 1000,
+        transporterAmount: 900,
+        totalFreightAmount: 56000,
+        totalTransporterAmount: 50400,
+        margin: 3920,
+        wantFuel: true,
+        partyName: 'zxczx',
+        lrNumber: 'zxczxc',
+        stockPointId: 1
+    }
+} as unknown as Request
+const mockFuelDetails = {
+    id: 1,
+    fueledDate: 1718908200,
+    invoiceNumber: 'axsdcrtysdfcu',
+    pricePerliter: 100,
+    quantity: 120,
+    totalprice: 12000,
+    dieselkilometer: 0,
+    fuelType: '',
+    paymentStatus: false,
+    vehicleNumber: 'TN29B3246',
+    bunkId: 2,
+    overallTripId: null,
+    bunk: { bunkName: 'Sakthivel Barath Petroleum' }
 }
-
 describe('Trip Controller', () => {
     test('should able to access all trip', async () => {
         mockStockPointTrip.mockResolvedValue(mockGetTripData)
@@ -168,51 +229,58 @@ describe('Trip Controller', () => {
     })
     test('should able to create trip with payment dues with without fuel', async () => {
         mockCreateTrip.mockResolvedValue(mockTripData1)
-        mockGetNumberByTruckId.mockResolvedValue(mockgetNumberByTruckIdData)
+        mockGetPricePoint.mockResolvedValue({
+            freightAmount: 1000,
+            transporterAmount: 900,
+            transporterPercentage: 70,
+            payGeneratingDuration: 0
+        })
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData1)
         mockGetFuelWithoutTrip.mockResolvedValue(null)
-        mockGetCementCompanyByLocation.mockResolvedValue(mockCemenCompanyData)
-        await supertest(app).post('/api/stock-trip').expect(200)
-        const acutal = await tripLogic(
-            tripdata1,
+        await supertest(app).post('/api/stock-trip').send(mockReq.body).expect(200)
+        const acutal = await loadingToStockTripLogic(
+            mockTripData1.truck.transporter.transporterType,
+            mockReq,
             null,
-            'Barath Logistics Pvt Ltd',
-            1,
-            'TN93D5512',
-            'LoadingToUnloading',
-            0
+            mockTripData1.truck.transporter.name,
+            mockTripData1.id,
+            mockTripData1.truck.vehicleNumber,
+            'LoadingToStock',
+            mockTripData1.loadingPoint.cementCompany.advanceType,
+            mockRes
         )
         expect(acutal).toEqual(mockcreatePaymentDuesData1)
         expect(mockCreateTrip).toBeCalledTimes(1)
-        expect(mockGetNumberByTruckId).toBeCalledTimes(1)
         expect(mockCreateOverallTrip).toBeCalledTimes(1)
         expect(mockCreatePaymentDues).toBeCalledTimes(1)
-        expect(mockGetPaymentDuesWithoutTripId).toBeCalledTimes(1)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(1)
     })
     test('should able to create trip with payment dues with fuel', async () => {
         mockCreateTrip.mockResolvedValue(mockTripData2)
-        mockGetNumberByTruckId.mockResolvedValue(mockgetNumberByTruckIdData)
+        mockGetPricePoint.mockResolvedValue({
+            freightAmount: 1000,
+            transporterAmount: 900,
+            transporterPercentage: 70,
+            payGeneratingDuration: 0
+        })
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData2)
-        mockGetCementCompanyByLocation.mockResolvedValue(mockCemenCompanyData)
-        await supertest(app).post('/api/stock-trip').expect(200)
-        const acutal = await tripLogic(
-            tripdata2,
-            fuelData,
-            'Barath Logistics Pvt Ltd',
-            1,
-            'TN93D5512',
-            'LoadingToUnloading',
-            0
+        await supertest(app).post('/api/stock-trip').send(mockReq2.body).expect(200)
+        const acutal = await loadingToStockTripLogic(
+            mockTripData2.truck.transporter.transporterType,
+            mockReq,
+            mockFuelDetails,
+            mockTripData2.truck.transporter.name,
+            mockTripData2.id,
+            mockTripData2.truck.vehicleNumber,
+            'LoadingToStock',
+            mockTripData2.loadingPoint.cementCompany.advanceType,
+            mockRes
         )
         expect(acutal).toEqual(mockcreatePaymentDuesData2)
         expect(mockCreateTrip).toBeCalledTimes(2)
-        expect(mockGetNumberByTruckId).toBeCalledTimes(2)
         expect(mockCreateOverallTrip).toBeCalledTimes(2)
-        expect(mockCreatePaymentDues).toBeCalledTimes(2)
-        expect(mockGetPaymentDuesWithoutTripId).toBeCalledTimes(2)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(2)
     })
 })
