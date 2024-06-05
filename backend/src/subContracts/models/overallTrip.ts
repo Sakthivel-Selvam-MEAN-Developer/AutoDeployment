@@ -193,16 +193,42 @@ export const getOverAllTripById = (id: number) =>
         where: {
             id
         },
-        include: {
+        select: {
+            id: true,
             stockPointToUnloadingPointTrip: {
-                include: {
-                    unloadingPoint: true,
+                select: {
+                    id: true,
+                    tripStatus: true,
+                    startDate: true,
+                    totalTransporterAmount: true,
+                    unloadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
                     loadingPointToStockPointTrip: {
-                        include: {
-                            loadingPoint: true,
+                        select: {
+                            id: true,
+                            invoiceNumber: true,
+                            filledLoad: true,
+                            startDate: true,
+                            totalTransporterAmount: true,
+                            tripStatus: true,
+                            loadingPoint: {
+                                select: {
+                                    name: true
+                                }
+                            },
                             truck: {
-                                include: {
-                                    transporter: true
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: {
+                                        select: {
+                                            name: true,
+                                            transporterType: true,
+                                            gstPercentage: true
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -210,17 +236,59 @@ export const getOverAllTripById = (id: number) =>
                 }
             },
             loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: {
-                        include: {
-                            transporter: true
+                select: {
+                    id: true,
+                    invoiceNumber: true,
+                    filledLoad: true,
+                    startDate: true,
+                    totalTransporterAmount: true,
+                    tripStatus: true,
+                    loadingPoint: {
+                        select: {
+                            name: true
                         }
                     },
-                    loadingPoint: true,
-                    unloadingPoint: true
+                    unloadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    transporterType: true,
+                                    gstPercentage: true
+                                }
+                            }
+                        }
+                    }
                 }
             },
-            loadingPointToStockPointTrip: true
+            loadingPointToStockPointTrip: {
+                select: {
+                    id: true,
+                    invoiceNumber: true,
+                    filledLoad: true,
+                    startDate: true,
+                    totalTransporterAmount: true,
+                    tripStatus: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    transporterType: true,
+                                    gstPercentage: true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     })
 

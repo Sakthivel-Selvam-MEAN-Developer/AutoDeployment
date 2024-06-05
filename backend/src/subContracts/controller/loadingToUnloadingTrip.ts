@@ -16,8 +16,30 @@ import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
 }
-
-const updateFuelDetails = (fuelDetails: any, vehicleNumber: string, overallTripId: number) => {
+export interface fuelProps {
+    id: number
+    fueledDate: number
+    invoiceNumber: string
+    pricePerliter: number
+    quantity: number
+    totalprice: number
+    dieselkilometer: number
+    fuelType: string | null
+    paymentStatus: boolean
+    vehicleNumber: string
+    bunk: {
+        bunkName: string
+    }
+    bunkId: number
+    overallTripId: number | null
+    createdAt: Date
+    updatedAt: Date
+}
+const updateFuelDetails = (
+    fuelDetails: fuelProps | null,
+    vehicleNumber: string,
+    overallTripId: number
+) => {
     if (!fuelDetails) return
     return updateFuelWithTripId({ id: fuelDetails.id, overallTripId })
         .then(() => getPaymentDuesWithoutTripId(vehicleNumber))

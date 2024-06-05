@@ -17,7 +17,7 @@ export const getAllTransporterName = () =>
 export const getPercentageByTransporter = (name: string) =>
     prisma.transporter.findUnique({
         where: { name, OR: [{ hasTds: true }, { hasGst: true }] },
-        select: { tdsPercentage: true, gstPercentage: true }
+        select: { gstPercentage: true }
     })
 
 export const getTransporterAccountByName = (transporterNames: string[]) =>
