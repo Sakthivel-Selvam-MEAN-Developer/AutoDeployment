@@ -6,26 +6,27 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { finalDataProps } from './show'
 import { Column } from './dialogBoxUtils'
+import { closeButtonStyles, columnsContainerStyles } from './dialogboxStyle'
 
 interface DialogBoxProps {
     open: boolean
     onClose: () => void
     row: finalDataProps
+    authoriser: boolean
 }
-const closeButtonStyles = {
-    position: 'absolute',
-    right: 8,
-    top: 8
+const filterColumns = (keys: string[], authoriser: boolean): string[] => {
+    if (authoriser) return keys
+    return keys.filter((key) => !['freightAmount', 'totalFreightAmount', 'margin'].includes(key))
 }
-const columnsContainerStyles = {
-    display: 'flex',
-    justifyContent: 'space-around'
-}
-export const DialogBox: React.FC<DialogBoxProps> = ({ open, onClose, row }) => {
-    const keys = Object.keys(row)
+const splitKeys = (keys: string[]): [string[], string[]] => {
     const half = Math.ceil(keys.length / 2)
-    const firstColumn = keys.slice(0, half)
-    const secondColumn = keys.slice(half)
+    return [keys.slice(0, half), keys.slice(half)]
+}
+export const DialogBox: React.FC<DialogBoxProps> = ({ open, onClose, row, authoriser }) => {
+    const keys = Object.keys(row)
+    const [firstColumn, secondColumn] = splitKeys(keys)
+    const filteredFirstColumn = filterColumns(firstColumn, authoriser)
+    const filteredSecondColumn = filterColumns(secondColumn, authoriser)
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
             <DialogTitle>
@@ -37,8 +38,8 @@ export const DialogBox: React.FC<DialogBoxProps> = ({ open, onClose, row }) => {
             </IconButton>
             <DialogContent dividers style={columnsContainerStyles}>
                 {[
-                    <Column key="firstColumn" keys={firstColumn} row={row} />,
-                    <Column key="secondColumn" keys={secondColumn} row={row} />
+                    <Column key="firstColumn" keys={filteredFirstColumn} row={row} />,
+                    <Column key="secondColumn" keys={filteredSecondColumn} row={row} />
                 ]}
             </DialogContent>
         </Dialog>

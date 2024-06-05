@@ -306,9 +306,7 @@ const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser 
     const [openDialog, setOpenDialog] = useState(false)
     const [selectedRow, setSelectedRow] = useState<finalDataProps | null>(null)
     const handleShowMore = (row: finalDataProps) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { number, freightAmount, totalFreightAmount, margin, ...filteredRow } = row
-        setSelectedRow(filteredRow as finalDataProps)
+        setSelectedRow(row)
         setOpenDialog(true)
     }
     finalData = []
@@ -346,6 +344,7 @@ const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser 
                     open={openDialog}
                     onClose={() => setOpenDialog(false)}
                     row={selectedRow}
+                    authoriser={authoriser}
                 />
             )}
         </div>
