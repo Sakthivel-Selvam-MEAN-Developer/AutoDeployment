@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { loadingToUnloadingTripLogic } from '../loadingToUnloadingTripLogic.ts'
 
 const mockTripDetails = {
@@ -28,24 +28,22 @@ const mockTripDetails = {
     }
 }
 const mockReq = {
-    body: {
-        truckId: 2,
-        loadingPointId: 1,
-        startDate: 1717525800,
-        filledLoad: 56,
-        invoiceNumber: 'zaxc',
-        loadingKilometer: 0,
-        freightAmount: 1000,
-        transporterAmount: 900,
-        totalFreightAmount: 56000,
-        totalTransporterAmount: 50400,
-        margin: 3920,
-        wantFuel: false,
-        partyName: 'zxczx',
-        lrNumber: 'zxczxc',
-        stockPointId: 1
-    }
-} as unknown as Request
+    truckId: 2,
+    loadingPointId: 1,
+    startDate: 1717525800,
+    filledLoad: 56,
+    invoiceNumber: 'zaxc',
+    loadingKilometer: 0,
+    freightAmount: 1000,
+    transporterAmount: 900,
+    totalFreightAmount: 56000,
+    totalTransporterAmount: 50400,
+    margin: 3920,
+    wantFuel: false,
+    partyName: 'zxczx',
+    lrNumber: 'zxczxc',
+    stockPointId: 1
+}
 const mockRes = {
     sendStatus: vi.fn().mockReturnThis(),
     status: vi.fn().mockReturnThis(),
@@ -96,7 +94,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
         expect(actual).toEqual(mockResponse)
     })
     test('when loadingtounloading trip is created and want fuel is true initial pay should not be generate', async () => {
-        const req = { ...mockReq, body: { ...mockReq.body, wantFuel: true } } as unknown as Request
+        const req = { ...mockReq, wantFuel: true }
         const actual = await loadingToUnloadingTripLogic(
             mockTripDetails.truck.transporter.transporterType,
             req,
@@ -111,7 +109,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
         expect(actual).toEqual(undefined)
     })
     test('when loadingtounloading trip is created and before fueled initial pay should be generated after subtract the fuel amount', async () => {
-        const req = { ...mockReq, body: { ...mockReq.body, wantFuel: true } } as unknown as Request
+        const req = { ...mockReq, body: { ...mockReq, wantFuel: true } }
         const actual = await loadingToUnloadingTripLogic(
             mockTripDetails.truck.transporter.transporterType,
             req,

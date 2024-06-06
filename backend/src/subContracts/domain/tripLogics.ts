@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-interface dataProps {
+export interface dataProps {
     wantFuel: boolean
     totalTransporterAmount: number
 }

@@ -71,9 +71,6 @@ const NewTrip: React.FC = () => {
         if (checkCondition(truckId, data, freightAmount, filledLoad)) {
             const freightAmountFloat = freightAmount.toFixed(2)
             const transporterAmountFloat = transporterAmount.toFixed(2)
-            const totalFreightAmountFloat = totalFreightAmount.toFixed(2)
-            const totalTransporterAmountFloat = totalTransporterAmount.toFixed(2)
-            const marginFloat = margin.toFixed(2)
             setDisable(true)
             const details = {
                 truckId: truckId,
@@ -84,10 +81,6 @@ const NewTrip: React.FC = () => {
                 loadingKilometer: loadingKilometer,
                 freightAmount: parseFloat(freightAmountFloat),
                 transporterAmount: ownTruck === false ? parseFloat(transporterAmountFloat) : 0,
-                totalFreightAmount: parseFloat(totalFreightAmountFloat),
-                totalTransporterAmount:
-                    ownTruck === false ? parseFloat(totalTransporterAmountFloat) : 0,
-                margin: ownTruck === false ? parseFloat(marginFloat) : 0,
                 wantFuel: ownTruck === false ? fuel : ownTruckFuel,
                 partyName: data.partyName,
                 lrNumber: data.lrNumber

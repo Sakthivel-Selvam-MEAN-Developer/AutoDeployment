@@ -168,43 +168,39 @@ const mockRes = {
 } as unknown as Response
 
 const mockReq = {
-    body: {
-        truckId: 2,
-        loadingPointId: 1,
-        startDate: 1717525800,
-        filledLoad: 56,
-        invoiceNumber: 'zaxc',
-        loadingKilometer: 0,
-        freightAmount: 1000,
-        transporterAmount: 900,
-        totalFreightAmount: 56000,
-        totalTransporterAmount: 50400,
-        margin: 3920,
-        wantFuel: false,
-        partyName: 'zxczx',
-        lrNumber: 'zxczxc',
-        stockPointId: 1
-    }
-} as unknown as Request
+    truckId: 2,
+    loadingPointId: 1,
+    startDate: 1717525800,
+    filledLoad: 56,
+    invoiceNumber: 'zaxc',
+    loadingKilometer: 0,
+    freightAmount: 1000,
+    transporterAmount: 900,
+    totalFreightAmount: 56000,
+    totalTransporterAmount: 50400,
+    margin: 3920,
+    wantFuel: false,
+    partyName: 'zxczx',
+    lrNumber: 'zxczxc',
+    stockPointId: 1
+}
 const mockReq2 = {
-    body: {
-        truckId: 2,
-        loadingPointId: 1,
-        startDate: 1717525800,
-        filledLoad: 56,
-        invoiceNumber: 'zaxc',
-        loadingKilometer: 0,
-        freightAmount: 1000,
-        transporterAmount: 900,
-        totalFreightAmount: 56000,
-        totalTransporterAmount: 50400,
-        margin: 3920,
-        wantFuel: true,
-        partyName: 'zxczx',
-        lrNumber: 'zxczxc',
-        stockPointId: 1
-    }
-} as unknown as Request
+    truckId: 2,
+    loadingPointId: 1,
+    startDate: 1717525800,
+    filledLoad: 56,
+    invoiceNumber: 'zaxc',
+    loadingKilometer: 0,
+    freightAmount: 1000,
+    transporterAmount: 900,
+    totalFreightAmount: 56000,
+    totalTransporterAmount: 50400,
+    margin: 3920,
+    wantFuel: true,
+    partyName: 'zxczx',
+    lrNumber: 'zxczxc',
+    stockPointId: 1
+}
 const mockFuelDetails = {
     id: 1,
     fueledDate: 1718908200,
@@ -238,7 +234,7 @@ describe('Trip Controller', () => {
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData1)
         mockGetFuelWithoutTrip.mockResolvedValue(null)
-        await supertest(app).post('/api/stock-trip').send(mockReq.body).expect(200)
+        await supertest(app).post('/api/stock-trip').send(mockReq).expect(200)
         const acutal = await loadingToStockTripLogic(
             mockTripData1.truck.transporter.transporterType,
             mockReq,
@@ -266,7 +262,7 @@ describe('Trip Controller', () => {
         })
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData2)
-        await supertest(app).post('/api/stock-trip').send(mockReq2.body).expect(200)
+        await supertest(app).post('/api/stock-trip').send(mockReq2).expect(200)
         const acutal = await loadingToStockTripLogic(
             mockTripData2.truck.transporter.transporterType,
             mockReq,

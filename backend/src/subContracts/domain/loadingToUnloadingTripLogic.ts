@@ -1,9 +1,9 @@
 import { Response, Request } from 'express'
-import tripLogic, { fuelProps } from './tripLogics.ts'
+import tripLogic, { dataProps, fuelProps } from './tripLogics.ts'
 
 export const loadingToUnloadingTripLogic = async (
     transporterType: string,
-    req: Request,
+    body: dataProps,
     fuelDetails: fuelProps | null,
     transporterName: string,
     overallTripId: number,
@@ -17,7 +17,7 @@ export const loadingToUnloadingTripLogic = async (
         return
     }
     return tripLogic(
-        req.body,
+        body,
         fuelDetails,
         transporterName,
         overallTripId,
@@ -25,4 +25,14 @@ export const loadingToUnloadingTripLogic = async (
         type,
         advanceType
     )
+}
+export const amountCalculation = async (req: Request) => {
+    const totalTransporterAmount = req.body.transporterAmount * req.body.filledLoad
+    const totalFreightAmount = req.body.freightAmount * req.body.filledLoad
+    return {
+        ...req.body,
+        totalFreightAmount: totalFreightAmount.toFixed(2),
+        totalTransporterAmount: totalTransporterAmount.toFixed(2),
+        margin: ((totalFreightAmount - totalTransporterAmount) * (70 / 100)).toFixed(2)
+    }
 }

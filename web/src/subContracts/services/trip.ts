@@ -8,9 +8,6 @@ interface dataProps {
     invoiceNumber: string
     freightAmount: number
     transporterAmount: number
-    totalFreightAmount: number
-    totalTransporterAmount: number
-    margin: number
     wantFuel: boolean
     partyName: string
     lrNumber: string

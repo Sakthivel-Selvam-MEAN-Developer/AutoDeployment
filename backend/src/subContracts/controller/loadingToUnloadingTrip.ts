@@ -9,7 +9,10 @@ import {
 import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
-import { loadingToUnloadingTripLogic } from '../domain/loadingToUnloadingTripLogic.ts'
+import {
+    amountCalculation,
+    loadingToUnloadingTripLogic
+} from '../domain/loadingToUnloadingTripLogic.ts'
 
 export interface props {
     truck: {
@@ -64,23 +67,23 @@ export const createTrip = async (req: Request, res: Response) => {
         loadingPoint: { cementCompany: { advanceType: 0 } }
     }
     try {
+        const body = await amountCalculation(req)
         const pricePoint = await getPricePoint(
             req.body.loadingPointId,
             req.body.unloadingPointId,
             req.body.stockPointId
         )
-        const { id: overallTripId } = await create(req.body).then(async (data) => {
+        const { id: overallTripId } = await create(body).then(async (data) => {
             details = data
             return createOverallTrip({
                 loadingPointToUnloadingPointTripId: data.id,
                 finalPayDuration: pricePoint?.payGeneratingDuration
             })
         })
-
         const fuelDetails = await getFuelWithoutTrip(details.truck.vehicleNumber)
         await loadingToUnloadingTripLogic(
             details.truck.transporter.transporterType,
-            req,
+            body,
             fuelDetails,
             details.truck.transporter.name,
             overallTripId,
