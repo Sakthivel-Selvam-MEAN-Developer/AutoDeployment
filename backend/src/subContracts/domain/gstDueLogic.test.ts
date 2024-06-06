@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { gstCalculation } from './gstDueLogic.ts'
 
 const alltrip = {
@@ -45,7 +46,7 @@ const alltrip = {
 const gstOutputData = {
     name: 'kms Transport',
     type: 'gst pay',
-    dueDate: 1717439400,
+    dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
     payableAmount: 3000,
     overallTripId: 1,
     vehicleNumber: 'TN34MA3483'

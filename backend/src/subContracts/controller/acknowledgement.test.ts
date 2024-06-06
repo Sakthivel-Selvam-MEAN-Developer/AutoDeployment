@@ -17,6 +17,7 @@ const mockGetPercentageByTransporter = vi.fn()
 const mockcreatePaymentDues = vi.fn()
 const mockGetShortageQuantityByOverallTripId = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
+const mockUpdateStockunloadingKilometer = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getAllActivetripTripByTripStatus: () => mockGetAllActivetripTripByTripStatus(),
@@ -30,6 +31,10 @@ vi.mock('../models/loadingToUnloadingTrip', () => ({
         mockupdateUnloadingKilometer(id, unloadingKilometer),
     updateUnloadWeightforTrip: (inputs: any, data: any) =>
         mockUpdateWeightForStockTrip(inputs, data)
+}))
+vi.mock('../models/loadingToStockPointTrip', () => ({
+    updateStockunloadingKilometer: (inputs: any, data: any) =>
+        mockUpdateStockunloadingKilometer(inputs, data)
 }))
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
     updateUnloadWeightForStockTrip: (inputs: any, data: any) =>
@@ -130,7 +135,8 @@ const mockOverAllTripByTripIdData = {
         truck: {
             vehicleNumber: 'TN93D5512',
             transporter: {
-                name: 'Muthu Logistics'
+                name: 'Muthu Logistics',
+                gstPercentage: 5
             }
         },
         loadingPoint: {
@@ -154,7 +160,8 @@ const mockOverAllTripByTripIdData = {
             truck: {
                 vehicleNumber: 'TN93D5512',
                 transporter: {
-                    name: 'Muthu Logistics'
+                    name: 'Muthu Logistics',
+                    gstPercentage: 5
                 }
             },
             loadingPoint: {
@@ -277,6 +284,7 @@ describe('Acknowledgement Controller', () => {
         expect(mockAcknowledgeStatusforOverAllTrip).toBeCalledTimes(1)
     })
     test('should have super admin role for stockTrip', async () => {
+        mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
     })

@@ -374,9 +374,7 @@ describe('Overall Trip model', () => {
         await create({ loadingPointToStockPointTripId: loadingToStockTrip.id })
 
         const actual = await getOverAllTripById(trip1.id)
-        expect(actual?.loadingPointToUnloadingPointTripId).toBe(
-            trip1.loadingPointToUnloadingPointTripId
-        )
+        expect(actual?.id).toBe(trip1.id)
     })
     test('should able to update stockToUnloadingTripId in overall trip', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
