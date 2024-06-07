@@ -6,14 +6,10 @@ import userEvent from '@testing-library/user-event'
 
 const mockGetTripByTransporterInvoice = vi.fn()
 const mockUpdateTransporterInvoice = vi.fn()
-const mockGetAllInvoiceNumbers = vi.fn()
 
 vi.mock('../../services/transporterInvoice', () => ({
     getTripByTransporterInvoice: () => mockGetTripByTransporterInvoice(),
     updateTransporterInvoice: () => mockUpdateTransporterInvoice()
-}))
-vi.mock('../../services/unloadingPoint', () => ({
-    getAllInvoiceNumbers: () => mockGetAllInvoiceNumbers()
 }))
 const mockOverallTripData = [
     {
@@ -59,13 +55,11 @@ const mockOverallTripData = [
         }
     }
 ]
-const mockInvoiceNumbers = [{ invoiceNumber: '21ed23qw' }, { invoiceNumber: '22ed23qw' }]
 
 describe('transporterInvoice Test', () => {
     test('should be able to view trip data for transporter', async () => {
         mockGetTripByTransporterInvoice.mockResolvedValue(mockOverallTripData)
         mockUpdateTransporterInvoice.mockResolvedValue(mockOverallTripData)
-        mockGetAllInvoiceNumbers.mockResolvedValue(mockInvoiceNumbers)
         render(
             <BrowserRouter>
                 <TransporterInvoiceList />
@@ -89,6 +83,6 @@ describe('transporterInvoice Test', () => {
         expect(screen.getAllByText('Submit'))
         const start = screen.getByRole('button', { name: 'Submit' })
         await userEvent.click(start)
-        expect(mockGetTripByTransporterInvoice).toHaveBeenCalledTimes(1)
+        expect(mockGetTripByTransporterInvoice).toHaveBeenCalledTimes(2)
     })
 })

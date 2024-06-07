@@ -3,8 +3,9 @@ import { getTripByTransporterInvoice, updateTransporterInvoice } from '../models
 import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { finalDueCreation } from '../domain/overallTrip/acknowledgementApprovalEvent.ts'
 
-export const listTripByTransporterInvoice = (_req: Request, res: Response) => {
-    getTripByTransporterInvoice()
+export const listTripByTransporterInvoice = (req: Request, res: Response) => {
+    const invoiceNumber = req.query.invoiceNumber === '' ? undefined : req.query.invoiceNumber
+    getTripByTransporterInvoice(invoiceNumber as string)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

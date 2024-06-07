@@ -30,7 +30,6 @@ export const DialogBox: React.FC<DialogBoxProps> = ({ open, onClose, row, author
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
             <DialogTitle>
-                {' '}
                 <b>Trip Details</b>
             </DialogTitle>
             <IconButton onClick={onClose} sx={closeButtonStyles}>

@@ -334,7 +334,7 @@ const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser 
     return (
         <div>
             <DataGrid
-                sx={{ width: '88vw', height: '22vw', marginLeft: 4 }}
+                sx={{ width: '88vw', height: '27vw', marginLeft: 4 }}
                 rows={finalData}
                 columns={adjustedColumns}
                 getRowId={(row) => row.number}
@@ -413,9 +413,7 @@ const loadingToStock = (row: Props) => {
             ...row.loadingPointToStockPointTrip,
             unloadingPoint: row.stockPointToUnloadingPointTrip.unloadingPoint
         }
-    } else {
-        return row.loadingPointToStockPointTrip
-    }
+    } else return row.loadingPointToStockPointTrip
 }
 
 const ListAllDetails: FC<listTripProps> = ({ setOverallTrips, overallTrips, count, setCount }) => {

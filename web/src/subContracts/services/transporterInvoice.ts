@@ -1,8 +1,8 @@
 import { axiosInstance, getData } from '../../apiCalls'
 
-export const getTripByTransporterInvoice = () =>
+export const getTripByTransporterInvoice = async (invoiceNumber?: string) =>
     axiosInstance
-        .get('/transporterinvoice')
+        .get('/transporterinvoice', { params: { invoiceNumber } })
         .then(getData)
         .catch(() => alert('Error Getting data'))
 interface invoiceProps {

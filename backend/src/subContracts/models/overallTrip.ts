@@ -672,7 +672,7 @@ export const overallTripByPendingPaymentDues = () =>
             }
         }
     })
-export const getTripByTransporterInvoice = () =>
+export const getTripByTransporterInvoice = (invoiceNumber: string) =>
     prisma.overallTrip.findMany({
         orderBy: [
             {
@@ -691,12 +691,14 @@ export const getTripByTransporterInvoice = () =>
             OR: [
                 {
                     loadingPointToStockPointTrip: {
+                        invoiceNumber,
                         truck: { transporter: { transporterType: { not: 'Own' } } },
                         tripStatus: true
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
+                        invoiceNumber,
                         truck: { transporter: { transporterType: { not: 'Own' } } },
                         tripStatus: true
                     }

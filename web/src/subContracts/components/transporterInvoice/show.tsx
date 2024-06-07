@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { TransporterInvoiceProps, tripTableProps } from './type'
 import { TripTable } from './table'
 
@@ -16,6 +16,10 @@ export default TransporterInvoiceTable
 const TransporterTripTable: FC<tripTableProps> = ({ direct, stock }) => {
     const [directTrip, setDirectTrip] = useState(direct)
     const [stockTrip, setStockTrip] = useState(stock)
+    useEffect(() => {
+        setDirectTrip(direct)
+        setStockTrip(stock)
+    }, [direct, stock])
     return (
         <div style={{ width: '100%' }}>
             <TripTable trip={directTrip} setTripDetails={setDirectTrip} tableName={'Direct Trip'} />

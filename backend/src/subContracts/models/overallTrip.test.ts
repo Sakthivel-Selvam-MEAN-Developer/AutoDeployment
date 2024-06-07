@@ -550,7 +550,7 @@ describe('Overall Trip model', () => {
             tripStatus: true
         })
         await create({ loadingPointToUnloadingPointTripId: trip.id, acknowledgementApproval: true })
-        const actual = await getTripByTransporterInvoice()
+        const actual = await getTripByTransporterInvoice(trip.invoiceNumber)
         expect(actual[0].loadingPointToUnloadingPointTrip?.invoiceNumber).toBe(trip.invoiceNumber)
     })
     test('should able to update transporterinvoice in overallTrip', async () => {

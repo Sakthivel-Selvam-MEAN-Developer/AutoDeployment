@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { Autocomplete, TextField } from '@mui/material'
-import { getAllInvoiceNumbers } from '../../services/unloadingPoint'
+import { getTripByTransporterInvoice } from '../../services/transporterInvoice'
 import SubmitButton from '../../../form/button'
 
 interface InvoiceNumberSearchProps {
@@ -14,8 +14,17 @@ const InvoiceNumberField: FC<InvoiceNumberSearchProps> = ({ onSearch }) => {
     const { handleSubmit, control, setValue } = useForm<FormValues>()
     const [invoiceNumbers, setInvoiceNumbers] = useState<string[]>([])
     useEffect(() => {
-        getAllInvoiceNumbers().then((data) => {
-            setInvoiceNumbers(data.map((item: { invoiceNumber: string }) => item.invoiceNumber))
+        getTripByTransporterInvoice('').then((data) => {
+            const invoiceNumbersList: string[] = []
+            data.forEach((item: any) => {
+                if (item.loadingPointToStockPointTrip?.invoiceNumber) {
+                    invoiceNumbersList.push(item.loadingPointToStockPointTrip.invoiceNumber)
+                }
+                if (item.loadingPointToUnloadingPointTrip?.invoiceNumber) {
+                    invoiceNumbersList.push(item.loadingPointToUnloadingPointTrip.invoiceNumber)
+                }
+            })
+            setInvoiceNumbers(invoiceNumbersList)
         })
     }, [])
     const onSubmit: SubmitHandler<FormValues> = (data) => {
