@@ -26,9 +26,31 @@ export const loadingToStockTripLogic = async (
         advanceType
     )
 }
-export const amountCalculation = async (req: Request) => {
-    const totalTransporterAmount = req.body.transporterAmount * req.body.filledLoad
-    const totalFreightAmount = req.body.freightAmount * req.body.filledLoad
-    const margin = totalFreightAmount - totalTransporterAmount
-    return { ...req.body, totalFreightAmount, totalTransporterAmount, margin: margin * (70 / 100) }
+export const amountCalculation = async (
+    req: Request,
+    transporterAmount: number,
+    freightAmount: number,
+    transporterType: string
+) => {
+    const totalTransporterAmount = transporterAmount * req.body.filledLoad
+    const totalFreightAmount = freightAmount * req.body.filledLoad
+    const margin = parseFloat(((totalFreightAmount - totalTransporterAmount) * 0.7).toFixed(2))
+    if (transporterType === 'Own') {
+        return {
+            ...req.body,
+            totalFreightAmount: parseFloat(totalFreightAmount.toFixed(2)),
+            totalTransporterAmount: 0,
+            margin: 0,
+            transporterAmount: 0,
+            freightAmount
+        }
+    }
+    return {
+        ...req.body,
+        totalFreightAmount: parseFloat(totalFreightAmount.toFixed(2)),
+        totalTransporterAmount: parseFloat(totalTransporterAmount.toFixed(2)),
+        margin,
+        transporterAmount,
+        freightAmount
+    }
 }

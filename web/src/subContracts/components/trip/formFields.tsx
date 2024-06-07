@@ -459,14 +459,12 @@ const FormField: React.FC<FormFieldProps> = ({
                         onChange={(e) => setLoadingKilometer(parseInt(e.target.value))}
                     />
                 )}
-                {ownTruck === false && (
-                    <FormControlLabel
-                        disabled={disableWantFuel}
-                        data-testid={'want-fuel'}
-                        control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
-                        label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
-                    />
-                )}
+                <FormControlLabel
+                    disabled={disableWantFuel}
+                    data-testid={'want-fuel'}
+                    control={<Switch checked={fuel} onChange={() => setFuel(!fuel)} />}
+                    label={fuel ? 'Fuel Required' : 'Fuel Not Required'}
+                />
             </div>
             <br />
             <div>

@@ -9,12 +9,13 @@ import {
 } from '../models/paymentDues.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
-import { loadingToStockTripLogic } from '../domain/loadingToStockTripLogic.ts'
+import { amountCalculation, loadingToStockTripLogic } from '../domain/loadingToStockTripLogic.ts'
 import { props } from '../domain/types.ts'
-import { amountCalculation } from '../domain/loadingToUnloadingTripLogic.ts'
+import { getNumberByTruckId } from '../models/truck.ts'
+import { fuelProps } from './loadingToUnloadingTrip.ts'
 
 export const updateFuelDetails = (
-    fuelDetails: any,
+    fuelDetails: fuelProps | null,
     vehicleNumber: string,
     overallTripId: number
 ) => {
@@ -26,11 +27,23 @@ export const updateFuelDetails = (
 export const createStockPointTrip = async (req: Request, res: Response) => {
     let details: props = {} as props
     try {
-        const body = await amountCalculation(req)
+        const {
+            vehicleNumber,
+            transporter: { name, transporterType }
+        } = (await getNumberByTruckId(req.body.truckId)) || {
+            vehicleNumber: '',
+            transporter: { name: '', transporterType: '' }
+        }
         const pricePoint = await getPricePoint(
             req.body.loadingPointId,
             req.body.unloadingPointId,
             req.body.stockPointId
+        )
+        const body = await amountCalculation(
+            req,
+            pricePoint?.transporterAmount || 0,
+            pricePoint?.freightAmount || 0,
+            transporterType
         )
         const { id } = await create(body).then(async (data) => {
             details = data
@@ -41,12 +54,12 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
         })
         const fuelDetails = await getFuelWithoutTrip(details?.truck.vehicleNumber)
         await loadingToStockTripLogic(
-            details.truck.transporter.transporterType,
+            transporterType,
             body,
             fuelDetails,
-            details.truck.transporter.name,
+            name,
             id,
-            details.truck.vehicleNumber,
+            vehicleNumber,
             'LoadingToStock',
             details.loadingPoint.cementCompany.advanceType,
             res

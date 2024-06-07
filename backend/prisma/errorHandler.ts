@@ -2,7 +2,7 @@ import { Response } from 'express'
 import { Prisma } from '@prisma/client'
 
 export const handlePrismaError = (err: any, res: Response) => {
-  if ((err as Prisma.PrismaClientKnownRequestError).code) {
+    if ((err as Prisma.PrismaClientKnownRequestError).code) {
         switch (err.code) {
             case 'P2002':
                 res.status(500).json({ error: `Duplicate field value at field :  ${err.meta?.target}` })

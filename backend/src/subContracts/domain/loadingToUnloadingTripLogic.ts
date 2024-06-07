@@ -26,13 +26,31 @@ export const loadingToUnloadingTripLogic = async (
         advanceType
     )
 }
-export const amountCalculation = async (req: Request) => {
-    const totalTransporterAmount = req.body.transporterAmount * req.body.filledLoad
-    const totalFreightAmount = req.body.freightAmount * req.body.filledLoad
+export const amountCalculation = async (
+    req: Request,
+    transporterAmount: number,
+    freightAmount: number,
+    transporterType: string
+) => {
+    const totalTransporterAmount = transporterAmount * req.body.filledLoad
+    const totalFreightAmount = freightAmount * req.body.filledLoad
+    const margin = parseFloat(((totalFreightAmount - totalTransporterAmount) * 0.7).toFixed(2))
+    if (transporterType === 'Own') {
+        return {
+            ...req.body,
+            totalFreightAmount: parseFloat(totalFreightAmount.toFixed(2)),
+            totalTransporterAmount: 0,
+            margin: 0,
+            transporterAmount: 0,
+            freightAmount
+        }
+    }
     return {
         ...req.body,
-        totalFreightAmount: totalFreightAmount.toFixed(2),
-        totalTransporterAmount: totalTransporterAmount.toFixed(2),
-        margin: ((totalFreightAmount - totalTransporterAmount) * (70 / 100)).toFixed(2)
+        totalFreightAmount: parseFloat(totalFreightAmount.toFixed(2)),
+        totalTransporterAmount: parseFloat(totalTransporterAmount.toFixed(2)),
+        margin,
+        transporterAmount,
+        freightAmount
     }
 }

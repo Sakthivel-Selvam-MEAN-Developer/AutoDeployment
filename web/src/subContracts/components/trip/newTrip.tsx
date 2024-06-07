@@ -69,8 +69,6 @@ const NewTrip: React.FC = () => {
             stockPointId
         ).then((data) => data)
         if (checkCondition(truckId, data, freightAmount, filledLoad)) {
-            const freightAmountFloat = freightAmount.toFixed(2)
-            const transporterAmountFloat = transporterAmount.toFixed(2)
             setDisable(true)
             const details = {
                 truckId: truckId,
@@ -79,8 +77,6 @@ const NewTrip: React.FC = () => {
                 filledLoad: filledLoad,
                 invoiceNumber: data.invoiceNumber,
                 loadingKilometer: loadingKilometer,
-                freightAmount: parseFloat(freightAmountFloat),
-                transporterAmount: ownTruck === false ? parseFloat(transporterAmountFloat) : 0,
                 wantFuel: ownTruck === false ? fuel : ownTruckFuel,
                 partyName: data.partyName,
                 lrNumber: data.lrNumber

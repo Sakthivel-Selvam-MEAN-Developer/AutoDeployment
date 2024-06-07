@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { create, getAllTrip, getTripByVehicleNumber } from '../models/loadingToUnloadingTrip.ts'
-import { create as createOverallTrip } from '../models/overallTrip.ts'
+import { create as createOverallTrip, getNumberByTruckId } from '../models/overallTrip.ts'
 import {
     create as createPaymentDues,
     getPaymentDuesWithoutTripId,
@@ -67,11 +67,23 @@ export const createTrip = async (req: Request, res: Response) => {
         loadingPoint: { cementCompany: { advanceType: 0 } }
     }
     try {
-        const body = await amountCalculation(req)
+        const {
+            vehicleNumber,
+            transporter: { name, transporterType }
+        } = (await getNumberByTruckId(req.body.truckId)) || {
+            vehicleNumber: '',
+            transporter: { name: '', transporterType: '' }
+        }
         const pricePoint = await getPricePoint(
             req.body.loadingPointId,
             req.body.unloadingPointId,
             req.body.stockPointId
+        )
+        const body = await amountCalculation(
+            req,
+            pricePoint?.transporterAmount || 0,
+            pricePoint?.freightAmount || 0,
+            transporterType
         )
         const { id: overallTripId } = await create(body).then(async (data) => {
             details = data
@@ -82,12 +94,12 @@ export const createTrip = async (req: Request, res: Response) => {
         })
         const fuelDetails = await getFuelWithoutTrip(details.truck.vehicleNumber)
         await loadingToUnloadingTripLogic(
-            details.truck.transporter.transporterType,
+            transporterType,
             body,
             fuelDetails,
-            details.truck.transporter.name,
+            name,
             overallTripId,
-            details.truck.vehicleNumber,
+            vehicleNumber,
             'LoadingToUnloading',
             details.loadingPoint.cementCompany.advanceType,
             res

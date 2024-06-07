@@ -195,6 +195,7 @@ export const getOverAllTripById = (id: number) =>
         },
         select: {
             id: true,
+            acknowledgementStatus: true,
             stockPointToUnloadingPointTrip: {
                 select: {
                     id: true,
@@ -209,6 +210,7 @@ export const getOverAllTripById = (id: number) =>
                     loadingPointToStockPointTrip: {
                         select: {
                             id: true,
+                            acknowledgeDueTime: true,
                             invoiceNumber: true,
                             filledLoad: true,
                             startDate: true,
@@ -241,6 +243,7 @@ export const getOverAllTripById = (id: number) =>
                     invoiceNumber: true,
                     filledLoad: true,
                     startDate: true,
+                    acknowledgeDueTime: true,
                     totalTransporterAmount: true,
                     tripStatus: true,
                     loadingPoint: {

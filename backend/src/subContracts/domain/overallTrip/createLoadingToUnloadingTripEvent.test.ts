@@ -79,7 +79,7 @@ const mockFuelDetails = {
     bunk: { bunkName: 'Sakthivel Barath Petroleum' }
 }
 describe('For an overall trip when trip is created for market vehicle', async () => {
-    test('when loadingtounloading trip is created initial pay should be generated', async () => {
+    test('when loading to unloading trip is created initial pay should be generated', async () => {
         const actual = await loadingToUnloadingTripLogic(
             mockTripDetails.truck.transporter.transporterType,
             mockReq,
@@ -93,7 +93,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
         )
         expect(actual).toEqual(mockResponse)
     })
-    test('when loadingtounloading trip is created and want fuel is true initial pay should not be generate', async () => {
+    test('when loading to unloading trip is created and want fuel is true initial pay should not be generate', async () => {
         const req = { ...mockReq, wantFuel: true }
         const actual = await loadingToUnloadingTripLogic(
             mockTripDetails.truck.transporter.transporterType,
@@ -108,7 +108,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
         )
         expect(actual).toEqual(undefined)
     })
-    test('when loadingtounloading trip is created and before fueled initial pay should be generated after subtract the fuel amount', async () => {
+    test('when loading to unloading trip is created and before fueled initial pay should be generated after subtract the fuel amount', async () => {
         const req = { ...mockReq, body: { ...mockReq, wantFuel: true } }
         const actual = await loadingToUnloadingTripLogic(
             mockTripDetails.truck.transporter.transporterType,
@@ -123,7 +123,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
         )
         expect(actual).toEqual([{ ...mockResponse[0], payableAmount: 23280 }])
     })
-    test('when loadingtounloading trip is created and advance type is 100% initialpay should be generated with 70%', async () => {
+    test('when loading to unloading trip is created and advance type is 100% initialpay should be generated with 70%', async () => {
         const advanceType = 100
         const actual = await loadingToUnloadingTripLogic(
             mockTripDetails.truck.transporter.transporterType,
@@ -143,7 +143,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
 // For Own Vehicle
 
 describe('For an overall trip when trip is created for Own Vehicle', () => {
-    test('when loadingtounloading trip is created and transporter type is own initial pay should not be generated', async () => {
+    test('when loading to unloading trip is created and transporter type is own initial pay should not be generated', async () => {
         const transporterType = 'Own'
         const actual = await loadingToUnloadingTripLogic(
             transporterType,

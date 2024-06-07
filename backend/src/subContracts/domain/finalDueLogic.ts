@@ -43,20 +43,20 @@ const finalDueLogic = async (
         dueDetails = overallTrip.loadingPointToUnloadingPointTrip
         amount = dueDetails.totalTransporterAmount * 0.3 - (-amount + shortageAmount + tdsAmount)
     }
-    if (amount === 0) return false
+    if (amount === 0 || dueDetails === undefined) return false
     const acknowledgementDate = dayjs.unix(
         overallTrip.acknowledgementDate ? overallTrip.acknowledgementDate : 0
     )
     const paymentDues = [
         {
-            name: dueDetails?.truck.transporter.name,
+            name: dueDetails.truck.transporter.name,
             type: 'final pay',
             dueDate: acknowledgementDate
                 .add(overallTrip.finalPayDuration ? overallTrip.finalPayDuration : 0, 'day')
                 // .startOf('day')
                 .unix(),
             overallTripId: overallTrip.id,
-            vehicleNumber: dueDetails?.truck.vehicleNumber,
+            vehicleNumber: dueDetails.truck.vehicleNumber,
             payableAmount: parseFloat(amount.toFixed(2))
         }
     ]

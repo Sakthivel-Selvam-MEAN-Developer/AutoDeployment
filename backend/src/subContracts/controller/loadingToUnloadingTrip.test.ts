@@ -8,13 +8,13 @@ const mockgetTrip = vi.fn()
 const mockCreateTrip = vi.fn()
 const mockGetTripByVehicleNumber = vi.fn()
 const mockCreateOverallTrip = vi.fn()
-const mockGetNumberByTruckId = vi.fn()
 const mockCreatePaymentDues = vi.fn()
 const mockGetPaymentDuesWithoutTripId = vi.fn()
 const mockUpdatePaymentDuesWithTripId = vi.fn()
 const mockGetFuelWithoutTrip = vi.fn()
 const mockUpdateFuelWithTripId = vi.fn()
 const mockGetCementCompanyByLocation = vi.fn()
+const mockGetNumberByTruckId = vi.fn()
 
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockgetTrip(),
@@ -22,7 +22,8 @@ vi.mock('../models/loadingToUnloadingTrip', () => ({
     getTripByVehicleNumber: () => mockGetTripByVehicleNumber()
 }))
 vi.mock('../models/overallTrip', () => ({
-    create: (inputs: any) => mockCreateOverallTrip(inputs)
+    create: (inputs: any) => mockCreateOverallTrip(inputs),
+    getNumberByTruckId: (inputs: any) => mockGetNumberByTruckId(inputs)
 }))
 vi.mock('../models/truck', () => ({
     getNumberByTruckId: (truckId: any) => mockGetNumberByTruckId(truckId)

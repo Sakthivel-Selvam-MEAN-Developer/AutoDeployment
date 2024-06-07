@@ -6,8 +6,6 @@ interface dataProps {
     startDate: number
     filledLoad: number | null
     invoiceNumber: string
-    freightAmount: number
-    transporterAmount: number
     wantFuel: boolean
     stockPointId: number | null
     partyName: string | undefined
