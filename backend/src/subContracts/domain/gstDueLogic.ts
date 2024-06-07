@@ -9,17 +9,20 @@ interface Truck {
     }
 }
 interface LoadingPointToStockPointTrip {
+    filledLoad?: number
     totalTransporterAmount: number
     truck: Truck
 }
 interface TripDetails {
     id: number
+    filledLoad?: number
     totalTransporterAmount: number
     truck: Truck
 }
 interface stockPointToUnloadingPointTrip {
     id: number
     totalTransporterAmount: number
+    filledLoad?: number
     loadingPointToStockPointTrip?: LoadingPointToStockPointTrip
 }
 export interface allTrips {
@@ -67,7 +70,13 @@ export const gstCalculation = async (
     overAllTripData: allTrips
 ) => {
     const trip = findTrip(overAllTripData)
-    if (trip === undefined || gstPercentage === null) return
+    if (
+        trip === undefined ||
+        gstPercentage === null ||
+        trip.truck.transporter.transporterType === 'Own'
+    ) {
+        return
+    }
     let transporterAmount = 0
     let stockToUnloadingTransporterAmount = 0
     if (overAllTripData.stockPointToUnloadingPointTrip !== null) {

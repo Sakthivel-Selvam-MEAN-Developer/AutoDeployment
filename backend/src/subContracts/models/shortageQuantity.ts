@@ -19,7 +19,7 @@ export const getShortageQuantityByOverallTripId = (overallTripId: number) =>
 interface shortageProps {
     unloadedQuantity: number
     shortageQuantity: number
-    shortageAmount: number
+    shortageAmount: number | undefined
     approvalStatus: boolean
 }
 export const updateShortageByOverallTripId = (id: number, newShortage: shortageProps) =>

@@ -20,3 +20,17 @@ export const calculateShortage = (newShortage: shortageProps, oldShortage: short
     }
     return shortage
 }
+type shortCal = (filledLoad: number, unload: number) => number | false
+
+export const amountCalculation = (filledLoad: number, unload: number) => {
+    if (filledLoad * 1000 >= unload) {
+        return (filledLoad * 1000 - unload) * 8
+    }
+    return false
+}
+
+export const shortageAmountCalculation: shortCal = (filledLoad, unload) => {
+    if (filledLoad * 1000 - unload > 100) return amountCalculation(filledLoad, unload)
+
+    return false
+}

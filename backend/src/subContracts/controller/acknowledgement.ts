@@ -14,6 +14,7 @@ import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { create as createShortageQuantity } from '../models/shortageQuantity.ts'
 import { updateStockunloadingKilometer } from '../models/loadingToStockPointTrip.ts'
 import { allTrips, gstCalculation } from '../domain/gstDueLogic.ts'
+import { shortageAmountCalculation } from '../domain/shortageLogic.ts'
 
 export const listAllActivetripTripByTripStatus = (_req: Request, res: Response) => {
     getAllActivetripTripByTripStatus()
@@ -27,14 +28,13 @@ export const listAllTripToByAcknowledgementStatus = (_req: Request, res: Respons
 }
 const checkUnloadingPointTrip = (overallTrip: allTrips) => {
     if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
-        return overallTrip.loadingPointToUnloadingPointTrip.truck.transporter
+        return overallTrip.loadingPointToUnloadingPointTrip
     }
 }
-export const getTransporterName = (overallTrip: allTrips) => {
+export const getTrip = (overallTrip: allTrips) => {
     if (overallTrip.stockPointToUnloadingPointTrip !== null) {
         return overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
-            ? overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip?.truck
-                  .transporter
+            ? overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip
             : null
     }
     return checkUnloadingPointTrip(overallTrip)
@@ -52,21 +52,37 @@ export const OverAllTripById = (req: Request, res: Response) => {
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
-
+type shortCal = (filledLoad: number | boolean | undefined, unload: number) => number | false
+export const shotageCalculation: shortCal = (filledLoad, unload) => {
+    if (typeof filledLoad === 'number') {
+        return shortageAmountCalculation(filledLoad as number, unload)
+    }
+    return false
+}
 export const closeTripById = async (req: Request, res: Response) => {
     await getOverAllTripById(req.body.overallTripId)
         .then(async (overAllTripData) => {
             let gstPercentage = null
             if (overAllTripData === null) return res.sendStatus(500)
-            const transporter = getTransporterName(overAllTripData)
-            if (transporter?.gstPercentage !== undefined) {
-                gstPercentage = transporter?.gstPercentage
+            const getTripDetails = getTrip(overAllTripData)
+            if (getTripDetails?.truck.transporter.gstPercentage !== undefined) {
+                gstPercentage = getTripDetails?.truck.transporter.gstPercentage
+            }
+            let shortageAmount: number | boolean = false
+            if (req.body.approvalStatus !== true) {
+                shortageAmount = shotageCalculation(
+                    getTripDetails?.filledLoad,
+                    req.body.unloadedQuantity
+                )
+                if (shortageAmount === false) {
+                    shortageAmount = 0
+                }
             }
             const shortage = {
                 overallTripId: req.body.overallTripId,
                 reason: req.body.reason,
                 filledLoad: req.body.filledLoad,
-                shortageAmount: req.body.shortageAmount,
+                shortageAmount: shortageAmount || 0,
                 shortageQuantity: req.body.shortageQuantity,
                 approvalStatus: req.body.approvalStatus,
                 unloadedDate: req.body.unloadedDate,

@@ -77,6 +77,7 @@ const mockOverAllTrip = [
                 vehicleNumber: 'TN93D5512',
                 transporter: {
                     name: 'Muthu Logistics',
+                    transporterType: 'Market',
                     hasGst: true,
                     gstPercentage: 10
                 }
