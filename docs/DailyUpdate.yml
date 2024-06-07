@@ -1,3 +1,71 @@
+
+- date: 06-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should move NEFT file logic from controller to domain
+    - should write test for NEFT logic
+    - should pair with sneka for testing and fix issues
+  completed:
+    - moved NEFT file logic from controller to domain
+    - written test for NEFT logic
+    - paired with sneka for testing and fix issues
+- date: 06-06-2024
+  person: Ramya,Sakthivel
+  project: subContract
+  planning:
+    - should amount calculation logics are move to backend domain 
+  completed:
+    - amount calculation logics are moved to backend domain  
+- date: 05-06-2024
+  person: Barath,Ravi shankar
+  project: subContract
+  planning:
+    - should test the flow of close trip logic 
+    - should decrease lint  
+  completed:
+    - tested the flow of close trip logic 
+    - decreased lint 
+- date: 05-06-2024
+  person: Ramya,Sakthivel
+  project: subContract
+  planning:
+    - should write test cases for create trip event 
+  completed:
+    -  written test for create trip event
+- date: 04-06-2024
+  person: Barath,Ravi shankar
+  project: subContract
+  planning:
+    - should move shortage logic from controller to domain
+    - should write test for shortage logic
+    - should refactor close trip logic 
+  completed:
+    - moved shortage logic from controller to domain
+    - written test for shortage logic
+    - refactored close trip logic
+- date: 04-06-2024
+  person: Ramya,Sakthivel
+  project: subContract
+  planning:
+    - should write testcase for fuel creation event in domain
+  completed:
+    -  written test for fuel creation event in domain
+- date: 03-06-2024
+  person: Barath, Ravi shankar
+  project: subContract
+  planning:
+    - should write test for acknowledgement approval event in domain
+  completed:
+    - written test for acknowledgement approval event in domain
+- date: 03-06-2024
+  person: Sakthi
+  project: subContract
+  leave: true
+- date: 03-06-2024
+  person: Ramya
+  project: subContract
+  leave: true
 - date: 30-05-2024
   person: Barath
   project: subContract
@@ -33,7 +101,13 @@
   completed:
     - created page for PricePoint Approval
     - updated dueDate in paymentDues
-
+- date: 28-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should fix the lint
+  completed:
+    - fixed the lint 
 - date: 27-05-2024
   person: Barath
   project: subContract
@@ -42,7 +116,13 @@
     - should create page for PricePoint Approval
   completed:
     - written model and controller for PricePoint Approval
-
+- date: 27-05-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should create Pagination for completed payment page
+  completed:
+    - written Pagination for completed payment page
 - date: 25-05-2024
   person: Barath
   project: subContract
