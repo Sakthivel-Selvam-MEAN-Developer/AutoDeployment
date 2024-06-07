@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import dayjs from 'dayjs'
 import {
     create,
     findTripWithActiveDues,
@@ -16,6 +15,7 @@ import { getTransporterAccountByName } from '../models/transporter.ts'
 import { getBunkAccountByName } from '../models/bunk.ts'
 import { overallTripByPendingPaymentDues } from '../models/overallTrip.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
+import { dataProps, getNEFTData } from '../domain/neftLogic.ts'
 
 interface transporterAccountProps {
     name: string
@@ -333,53 +333,8 @@ export const listAllCompletedDues = (
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
-interface bankDetailsProps {
-    ifsc: string
-    accountTypeNumber: number
-    accountNumber: number | string
-    accountHolder: string
-    bunkName: string
-    name: string
-    branchName: string
-}
-interface dataProps {
-    type: string
-    bankDetails: bankDetailsProps[]
-    payableAmount: number
-}
-const getType = (type: string) => {
-    if (type === 'initial pay') return { neftType: 'INITIALPAY', type: 'MagnumAdvance' }
-    if (type === 'fuel pay') return { neftType: 'FUELPAY', type: 'MagnumFuel' }
-    if (type === 'final pay') return { neftType: 'FINALPAY', type: 'MagnumFinal' }
-    if (type === 'gst pay') return { neftType: 'GSTPAY', type: 'MagnumGST' }
-}
-interface type {
-    neftType: string
-    type: string
-}
-
-const getNEFTBody = (NEFTData: dataProps[]) => {
-    let types: type | undefined = { neftType: '', type: '' }
-    let NEFTDataBody: string = ''
-    NEFTData.forEach((data) => {
-        types = getType(data.type)
-        NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].accountHolder},${data.bankDetails[0].branchName},${types?.type},${data.payableAmount}\n`
-    })
-    return { body: NEFTDataBody, fileType: types.neftType }
-}
-
-const getNEFTData = (NEFTData: dataProps[]) => {
-    const NEFTDataHeaders =
-        'IFSC Code,Account type,Account number,Name of the beneficiary,Address of the beneficiary,Sender information,Amount\n'
-    const { body: NEFTDataBody, fileType } = getNEFTBody(NEFTData)
-    return { data: NEFTDataHeaders + NEFTDataBody, fileType }
-}
 export const donwloadNEFTFile = (req: Request, res: Response) => {
     const NEFTData: dataProps[] = req.body
-    const { data: NEFTDetails, fileType } = getNEFTData(NEFTData)
-    const date = dayjs().format('DDMMYYYY')
-    res.status(200).send({
-        fileName: `${fileType}${date}.txt`,
-        data: NEFTDetails
-    })
+    const finalData = getNEFTData(NEFTData)
+    res.status(200).send(finalData)
 }
