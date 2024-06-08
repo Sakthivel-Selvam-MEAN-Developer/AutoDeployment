@@ -17,6 +17,14 @@
     - should amount calculation logics are move to backend domain 
   completed:
     - amount calculation logics are moved to backend domain  
+- date: 06-06-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should update search funtionality to display invoiceNumber only for transporter invoices are not provided in transporter invoice
+    - should pair with Bharat for testing and fix issues
+  completed:
+    - paired with Bharat for testing and fix issues
 - date: 05-06-2024
   person: Barath,Ravi shankar
   project: subContract
@@ -33,6 +41,13 @@
     - should write test cases for create trip event 
   completed:
     -  written test for create trip event
+- date: 05-06-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should display total freightamount, freight amount and marign only to admin role in trip status dialogbox
+  completed:
+    - displayed total freightamount, freight amount and marign only to admin role in trip status dialogbox
 - date: 04-06-2024
   person: Barath,Ravi shankar
   project: subContract
@@ -51,6 +66,18 @@
     - should write testcase for fuel creation event in domain
   completed:
     -  written test for fuel creation event in domain
+- date: 04-06-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should check whether discrepancy report shows records only for completed payments
+    - should check whether upcoming paymentDues shows records only for incompleted payments
+    - should add unloadingpoint in trip status dialogbox
+  completed:
+    - checked whether discrepancy report shows records only for completed payments
+    - checked whether upcoming paymentDues shows records only for incompleted payments
+    - added unloadingpoint in trip status dialogbox
+    
 - date: 03-06-2024
   person: Barath, Ravi shankar
   project: subContract
@@ -66,6 +93,13 @@
   person: Ramya
   project: subContract
   leave: true
+- date: 03-06-2024
+  person: Sri Sneka
+  project: subContract
+  planning: 
+    - should show trip details in dialogbox in trip Status report
+  completed:
+    - displayed trip details in dialogbox in trip Status report
 - date: 30-05-2024
   person: Barath
   project: subContract
@@ -107,7 +141,15 @@
   planning:
     - should fix the lint
   completed:
-    - fixed the lint 
+    - fixed the lint
+- date: 28-05-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should display only upcoming payments record in upcoming paymentDues
+  completed:
+    - displayed only upcoming payments record in upcoming paymentDues
+    
 - date: 27-05-2024
   person: Barath
   project: subContract
@@ -123,6 +165,12 @@
     - should create Pagination for completed payment page
   completed:
     - written Pagination for completed payment page
+- date: 27-05-2024
+  person: Sri sneka
+  project: subContract
+  planning:
+    - should see how keycloak works in our application
+  
 - date: 25-05-2024
   person: Barath
   project: subContract
@@ -149,6 +197,8 @@
   planning:
     - should write test and fix the lint error
     - should see how keycloak works in our application
+  completed: 
+    - written test and fixed the lint error
 
 - date: 24-05-2024
   person: Barath
