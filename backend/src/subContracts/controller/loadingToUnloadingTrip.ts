@@ -16,15 +16,10 @@ import {
 
 export interface props {
     truck: {
-        transporter: {
-            name: string
-            transporterType: string
-        }
+        transporter: { name: string; transporterType: string }
         vehicleNumber: string
     }
-    loadingPoint: {
-        cementCompany: { advanceType: number }
-    }
+    loadingPoint: { cementCompany: { advanceType: number } }
 }
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))
@@ -40,9 +35,7 @@ export interface fuelProps {
     fuelType: string | null
     paymentStatus: boolean
     vehicleNumber: string
-    bunk: {
-        bunkName: string
-    }
+    bunk: { bunkName: string }
     bunkId: number
     overallTripId: number | null
     createdAt: Date

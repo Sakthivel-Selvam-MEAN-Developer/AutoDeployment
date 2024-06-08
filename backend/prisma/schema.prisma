@@ -616,6 +616,9 @@ model driverTrip {
   driverId              Int
   unloadingTripSalaryId Int?
   stockTripSalaryId     Int?
+  primaryTripBetta      Int?
+  secondaryTripBetta    Int?
+  dailyBetta            Int?
   driverAdvance         Int[]
 
   @@schema("driverSalary")

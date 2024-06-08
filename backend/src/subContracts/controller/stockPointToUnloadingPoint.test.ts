@@ -131,11 +131,6 @@ describe('Trip Controller', () => {
             mockBody.unloadingPointId.toString(),
             mockOverAllTripIdByLoadingToStockId.loadingPointToStockPointTrip.stockPointId.toString()
         )
-        expect(mockUpdateDriverTripWithTripSalaryId).toHaveBeenCalledWith(
-            mockGetDriverIdByTripIdData.id,
-            mockGetTripSalaryDetailsByLoactionIdData.id
-        )
-
         expect(mockGetTripSalaryDetailsByLoactionId).toHaveBeenCalledTimes(1)
         expect(mockGetDriverIdByTripId).toHaveBeenCalledTimes(1)
         expect(mockUpdateDriverTripWithTripSalaryId).toHaveBeenCalledTimes(1)

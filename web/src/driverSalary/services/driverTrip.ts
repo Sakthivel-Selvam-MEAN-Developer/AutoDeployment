@@ -4,6 +4,8 @@ interface driverTripProps {
     driverId: number
     tripId: number
     unloadingTripSalaryId: number
+    dailyBetta: number
+    primaryTripBetta: number
 }
 
 export const createDriverTrip = (data: driverTripProps) =>

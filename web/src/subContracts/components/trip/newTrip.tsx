@@ -89,16 +89,15 @@ const NewTrip: React.FC = () => {
                 if (!ownTruck)
                     return await createStockPointTrip({ ...details, stockPointId: stockPointId })
                 else if (ownTruck && tripSalaryDetails !== null)
-                    return await createStockPointTrip({
-                        ...details,
-                        stockPointId: stockPointId
-                    }).then((trip) => {
+                    return await createStockPointTrip({ ...details, stockPointId }).then((trip) => {
                         return (
                             ownTruck &&
                             createDriverTrip({
                                 ...driverDetails,
                                 tripId: trip.id,
-                                unloadingTripSalaryId: tripSalaryDetails.id
+                                unloadingTripSalaryId: tripSalaryDetails.id,
+                                primaryTripBetta: tripSalaryDetails.tripBetta,
+                                dailyBetta: tripSalaryDetails.dailyBetta
                             })
                         )
                     })
@@ -122,7 +121,9 @@ const NewTrip: React.FC = () => {
                             createDriverTrip({
                                 ...driverDetails,
                                 tripId: trip.id,
-                                unloadingTripSalaryId: tripSalaryDetails.id
+                                unloadingTripSalaryId: tripSalaryDetails.id,
+                                primaryTripBetta: tripSalaryDetails.tripBetta,
+                                dailyBetta: tripSalaryDetails.dailyBetta
                             })
                         )
                     })

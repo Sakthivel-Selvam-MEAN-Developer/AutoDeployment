@@ -51,14 +51,7 @@ const mockGetDriverTripData = [
         driverAdvance: [1200]
     }
 ]
-const mockGetTripSalaryDetailsByIdData = [
-    {
-        id: 37,
-        dailyBetta: 250,
-        appPayAdvance: 1200,
-        tripBetta: 4000
-    }
-]
+
 const mockGetAllExpenseCountByTripIdData = [{ amount: 123, tripId: 35 }]
 const mockGetOverAllTripByArrayOfIdData = [
     { id: 37, dailyBetta: 350, appPayAdvance: 2000, tripBetta: 4500 },
@@ -94,12 +87,10 @@ describe('driverTrip Controller', () => {
     })
     test('should able to get all driver Trip by Id', async () => {
         mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData)
-        mockGetTripSalaryDetailsById.mockResolvedValue(mockGetTripSalaryDetailsByIdData)
         mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
         mockGetOverAllTripByArrayOfId.mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
         await supertest(app).get('/api/drivertrip').query({ driverId: 1 }).expect(200)
         expect(mockGetAllDriverTripById).toBeCalledTimes(1)
-        expect(mockGetTripSalaryDetailsById).toBeCalledTimes(1)
         expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(1)
         expect(mockGetOverAllTripByArrayOfId).toBeCalledTimes(1)
     })

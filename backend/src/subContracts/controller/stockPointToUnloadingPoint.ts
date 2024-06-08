@@ -55,9 +55,11 @@ export const createStockPointToUnloadingPointTrip = async (
         if (tripSalary !== null) {
             const overallTrip = await createStockToUnloadTrip(req.body)
             const driverTrip = await getDriverIdByTripId(overallTrip?.id || 0)
-            await updateDriverTripWithTripSalaryId(driverTrip?.id || 0, tripSalary.id).then(
-                (data) => res.status(200).json(data)
-            )
+            await updateDriverTripWithTripSalaryId(
+                driverTrip?.id || 0,
+                tripSalary.tripBetta,
+                tripSalary.id
+            ).then((data) => res.status(200).json(data))
         } else res.status(400).send('There is no trip salary details for specified locations')
     }
 }

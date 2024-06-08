@@ -13,7 +13,10 @@ export const getAllDriverTripById = (id: number) =>
             tripId: true,
             unloadingTripSalaryId: true,
             stockTripSalaryId: true,
-            driverAdvance: true
+            driverAdvance: true,
+            primaryTripBetta: true,
+            secondaryTripBetta: true,
+            dailyBetta: true
         }
     })
 
@@ -23,10 +26,10 @@ export const getDriverIdByTripId = (id: number) =>
         select: { id: true, driverId: true }
     })
 
-export const updateDriverTripWithTripSalaryId = (id: number, tripSalaryId: number) =>
+export const updateDriverTripWithTripSalaryId = (id: number, tripBetta: number, stockId: number) =>
     prisma.driverTrip.update({
         where: { id },
-        data: { stockTripSalaryId: tripSalaryId }
+        data: { secondaryTripBetta: tripBetta, stockTripSalaryId: stockId }
     })
 
 export const updateDriverAdvanceByTripId = (id: number, driverAdvance: number) =>

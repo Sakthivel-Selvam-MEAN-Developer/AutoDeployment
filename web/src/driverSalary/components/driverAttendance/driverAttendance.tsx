@@ -27,7 +27,7 @@ const DriverDailyAttendance: React.FC = (): ReactElement => {
         <>
             <div style={style}>
                 <Typography sx={{ fontWeight: 700 }}>Driver Daily Attendance</Typography>
-                <AddBulkAttendanceButton handleClick={handleClick} />
+                <AddBulkAttendanceButton />
             </div>
             {driverList.length === 0 ? (
                 <p>
@@ -49,12 +49,10 @@ const DriverDailyAttendance: React.FC = (): ReactElement => {
     )
 }
 export default DriverDailyAttendance
-const AddBulkAttendanceButton = ({ handleClick }: { handleClick: () => void }) => {
+const AddBulkAttendanceButton = () => {
     return (
         <Link to={'/driverSalary/attendance/bulk-attendance'}>
-            <Button variant="contained" onClick={handleClick}>
-                Add Bulk Attendance
-            </Button>
+            <Button variant="contained">Add Bulk Attendance</Button>
         </Link>
     )
 }
