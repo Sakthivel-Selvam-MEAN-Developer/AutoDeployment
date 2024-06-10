@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import dayjs from 'dayjs'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
-import { loadingToStockTripLogic } from '../domain/loadingToStockTripLogic.ts'
+import { loadingToStockTripLogic } from '../domain/overallTrip/createLoadingToStockTripEvent.ts'
 
 const mockCreateTrip = vi.fn()
 const mockStockPointTrip = vi.fn()

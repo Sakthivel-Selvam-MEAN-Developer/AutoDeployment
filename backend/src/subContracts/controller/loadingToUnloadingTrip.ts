@@ -12,7 +12,7 @@ import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import {
     amountCalculation,
     loadingToUnloadingTripLogic
-} from '../domain/loadingToUnloadingTripLogic.ts'
+} from '../domain/overallTrip/createLoadingToUnloadingTripEvent.ts'
 
 export interface props {
     truck: {

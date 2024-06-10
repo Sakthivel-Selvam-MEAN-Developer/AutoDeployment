@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { Response } from 'express'
-import { loadingToUnloadingTripLogic } from '../loadingToUnloadingTripLogic.ts'
+import { loadingToUnloadingTripLogic } from './createLoadingToUnloadingTripEvent.ts'
 
 const mockTripDetails = {
     id: 1,

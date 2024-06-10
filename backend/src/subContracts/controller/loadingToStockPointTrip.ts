@@ -9,7 +9,10 @@ import {
 } from '../models/paymentDues.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
-import { amountCalculation, loadingToStockTripLogic } from '../domain/loadingToStockTripLogic.ts'
+import {
+    amountCalculation,
+    loadingToStockTripLogic
+} from '../domain/overallTrip/createLoadingToStockTripEvent.ts'
 import { props } from '../domain/types.ts'
 import { getNumberByTruckId } from '../models/truck.ts'
 import { fuelProps } from './loadingToUnloadingTrip.ts'

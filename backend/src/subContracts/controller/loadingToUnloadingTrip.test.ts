@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import dayjs from 'dayjs'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
-import { loadingToUnloadingTripLogic } from '../domain/loadingToUnloadingTripLogic.ts'
+import { loadingToUnloadingTripLogic } from '../domain/overallTrip/createLoadingToUnloadingTripEvent.ts'
 
 const mockgetTrip = vi.fn()
 const mockCreateTrip = vi.fn()

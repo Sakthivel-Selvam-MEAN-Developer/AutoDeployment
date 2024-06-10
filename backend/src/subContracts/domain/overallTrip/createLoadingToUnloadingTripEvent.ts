@@ -1,5 +1,5 @@
 import { Response, Request } from 'express'
-import tripLogic, { dataProps, fuelProps } from './tripLogics.ts'
+import tripLogic, { dataProps, fuelProps } from '../tripLogics.ts'
 
 export const loadingToUnloadingTripLogic = async (
     transporterType: string,
