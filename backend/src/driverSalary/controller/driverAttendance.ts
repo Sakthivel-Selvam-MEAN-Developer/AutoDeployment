@@ -16,19 +16,18 @@ export interface jsonProps {
     year: number
     attendance: monthProps[]
 }
-
-const updateCurrentYear = (attendance: jsonProps[]) => {
-    const attendanceObj = {
-        year: dayjs().year(),
-        attendance: [
-            {
-                month: dayjs().format('MMMM'),
-                datesPresent: [parseInt(dayjs().format('DD'))]
-            }
-        ]
-    }
-    return attendance.push(attendanceObj)
+export const attendanceObjYear = {
+    year: dayjs().year(),
+    attendance: [
+        {
+            month: dayjs().format('MMMM'),
+            datesPresent: [parseInt(dayjs().format('DD'))]
+        }
+    ]
 }
+
+const updateCurrentYear = (attendance: jsonProps[]) => attendance.push(attendanceObjYear)
+
 const updateCurrentMonth = (currentYearData: jsonProps | undefined) => {
     const attendanceObj = {
         month: dayjs().format('MMMM'),
@@ -40,16 +39,7 @@ const getDriverAttendance = async (driverId: number) =>
     getDriverAttendanceDetails(driverId).then(async (attendanceDetails: any) => {
         if (attendanceDetails === null) {
             const attendanceJson = []
-            const attendanceObj = {
-                year: dayjs().year(),
-                attendance: [
-                    {
-                        month: dayjs().format('MMMM'),
-                        datesPresent: [parseInt(dayjs().format('DD'))]
-                    }
-                ]
-            }
-            attendanceJson.push(attendanceObj)
+            attendanceJson.push(attendanceObjYear)
             return create({ attendance: attendanceJson, driverId }).then((data) => data)
         }
         const currentYearData = attendanceDetails.attendance.find(
