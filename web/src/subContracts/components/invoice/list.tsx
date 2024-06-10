@@ -74,14 +74,11 @@ const InvoiceList: React.FC = () => {
         setTripId([])
         setActivateInvoice(false)
     }, [filterData?.cementCompanyName])
-    const onSubmit = async () => {
-        getTripDetails()
-    }
+    const onSubmit = async () => await getTripDetails()
     const handleClick = () => setActivateFields(true)
-
-    const getTripDetails = () => {
+    const getTripDetails = async () => {
         if (filterData?.cementCompanyName === '') return
-        getTripDetailsByFilterData(filterData).then(setTripDetails)
+        await getTripDetailsByFilterData(filterData).then(setTripDetails)
     }
     const updateInvoice = async () => {
         const data = {
@@ -131,7 +128,7 @@ const InvoiceList: React.FC = () => {
                         setActivateFields={setActivateFields}
                         setActivateInvoice={setActivateInvoice}
                     />
-                    {activateInvoice && tripDetails.length !== 0 && (
+                    {activateInvoice && (
                         <InvoiceDialog
                             tripId={tripId}
                             setTripId={setTripId}

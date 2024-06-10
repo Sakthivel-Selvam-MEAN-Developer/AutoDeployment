@@ -23,6 +23,7 @@ export const InvoiceFieldDialog: FC<FieldDialogProps> = ({
     const handleReject = () => {
         setInvoiceValues({ billNo: '', date: 0 })
         setActivateFields(false)
+        setActivateInvoice(false)
     }
     return (
         <Dialog open={activateFields} onClose={handleClose} maxWidth={'lg'}>

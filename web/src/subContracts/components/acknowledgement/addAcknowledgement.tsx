@@ -42,7 +42,6 @@ const AddAcknowledgement: React.FC = () => {
                 .catch(() => setDisable(false))
         }
     }
-
     useEffect(() => {
         getAllTripByAcknowledgementStatus().then(setVehicleslist)
     }, [])
