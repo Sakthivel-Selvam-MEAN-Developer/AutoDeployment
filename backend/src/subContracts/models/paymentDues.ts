@@ -202,21 +202,55 @@ export const getUpcomingDuesByFilter = (
             },
             status: false
         },
-        include: {
+        select: {
+            id: true,
+            name: true,
+            vehicleNumber: true,
+            dueDate: true,
+            type: true,
+            payableAmount: true,
             overallTrip: {
                 select: {
                     loadingPointToStockPointTrip: {
-                        include: {
-                            loadingPoint: true,
-                            stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
-                            truck: { include: { transporter: { select: { csmName: true } } } }
+                        select: {
+                            startDate: true,
+                            invoiceNumber: true,
+                            loadingPoint: { select: { name: true } },
+                            stockPointToUnloadingPointTrip: {
+                                select: {
+                                    startDate: true,
+                                    invoiceNumber: true,
+                                    unloadingPoint: { select: { name: true } }
+                                }
+                            },
+                            truck: {
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: {
+                                        select: {
+                                            csmName: true
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
-                        include: {
-                            loadingPoint: true,
-                            unloadingPoint: true,
-                            truck: { include: { transporter: { select: { csmName: true } } } }
+                        select: {
+                            startDate: true,
+                            invoiceNumber: true,
+                            loadingPoint: { select: { name: true } },
+                            unloadingPoint: { select: { name: true } },
+                            truck: {
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: {
+                                        select: {
+                                            csmName: true
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
