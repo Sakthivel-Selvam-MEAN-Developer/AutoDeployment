@@ -15,6 +15,7 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
     const [transporterList, setTransporterList] = useState([])
     const [showDetails, setShowDetails] = useState(false)
     const [transporterName, setTransporterName] = useState('')
+    const [paymentType, setPaymentType] = useState('')
     useEffect(() => {
         const value = skipNumber * 15
         const Trip = transporterList ? transporterList.slice(value, value + 15) : []
@@ -24,7 +25,8 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
         const filterData = {
             transporterName: transporterName !== '' ? transporterName : undefined,
             from: data.from !== undefined ? dayjs.utc(data.from).unix() : undefined,
-            to: data.to !== undefined ? dayjs.utc(data.to).unix() : undefined
+            to: data.to !== undefined ? dayjs.utc(data.to).unix() : undefined,
+            paymentType: paymentType !== '' ? paymentType : undefined
         }
         getUpcomingDuesByFilter(filterData).then(setTransporterList)
         setShowDetails(true)
@@ -33,7 +35,11 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
         <>
             <h3>Upcoming Payment Dues</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <TransporterDuesFilter control={control} setTransporterName={setTransporterName} />
+                <TransporterDuesFilter
+                    control={control}
+                    setTransporterName={setTransporterName}
+                    setPaymentType={setPaymentType}
+                />
                 <SubmitButton name="Filter" type="submit" />
             </form>
             {showDetails && (

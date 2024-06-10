@@ -307,13 +307,14 @@ interface RequestQuery {
     transporterName: string
     from: string
     to: string
+    paymentType: string
 }
 export const listAllUpcomingTransporterDues = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
 ) => {
-    const { transporterName, from, to } = req.query
-    getUpcomingDuesByFilter(transporterName, from, to)
+    const { transporterName, from, to, paymentType } = req.query
+    getUpcomingDuesByFilter(transporterName, from, to, paymentType?.toLowerCase())
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

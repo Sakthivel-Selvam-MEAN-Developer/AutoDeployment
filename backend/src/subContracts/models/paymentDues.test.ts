@@ -227,9 +227,15 @@ describe('Payment-Due model', () => {
             payableAmount: 5000,
             overallTripId: id
         })
-        const actual = await getUpcomingDuesByFilter('Barath Logistics', undefined, undefined)
+        const actual = await getUpcomingDuesByFilter(
+            'Barath Logistics',
+            undefined,
+            undefined,
+            'final pay'
+        )
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(5000)
+        expect(actual[0].type).toBe('final pay')
     })
     test('should get only completed the payment dues', async () => {
         await create(seedPaymentDue)

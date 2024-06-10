@@ -189,11 +189,13 @@ export const getGstPaymentDues = (name: string[], status: boolean) =>
 export const getUpcomingDuesByFilter = (
     name: string | undefined,
     from: string | undefined,
-    to: string | undefined
+    to: string | undefined,
+    type: string | undefined
 ) =>
     prisma.paymentDues.findMany({
         where: {
             name,
+            type,
             dueDate: {
                 gte: from !== undefined ? parseInt(from) : undefined,
                 lte: to !== undefined ? parseInt(to) : undefined

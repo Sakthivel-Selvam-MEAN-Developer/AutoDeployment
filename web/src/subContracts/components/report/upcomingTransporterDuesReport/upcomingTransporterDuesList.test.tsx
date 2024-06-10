@@ -20,6 +20,7 @@ const mockStockTripData = [
         name: 'Barath Logistics Pvt Ltd',
         dueDate: 1708626600,
         payableAmount: 20000,
+        type: 'Final Pay',
         overallTrip: {
             loadingPointToStockPointTrip: {
                 id: 1,
@@ -93,6 +94,18 @@ describe('Report Test', () => {
             name: 'Barath Logistics Pvt Ltd'
         })
         await userEvent.click(options)
+        // Select Payment Type
+        const paymentType = screen.getByRole('combobox', {
+            name: 'Select Payment Type'
+        })
+        await userEvent.click(paymentType)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const paymentTypeOption = screen.getByRole('option', {
+            name: 'Final Pay'
+        })
+        await userEvent.click(paymentTypeOption)
         await userEvent.type(screen.getByLabelText('Due Start Date'), '08022024')
         await userEvent.type(screen.getByLabelText('Due End Date'), '23022024')
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
@@ -115,6 +128,18 @@ describe('Report Test', () => {
             name: 'Barath Logistics Pvt Ltd'
         })
         await userEvent.click(options)
+        // Select Payment Type
+        const paymentType = screen.getByRole('combobox', {
+            name: 'Select Payment Type'
+        })
+        await userEvent.click(paymentType)
+        await waitFor(() => {
+            screen.getByRole('listbox')
+        })
+        const paymentTypeOption = screen.getByRole('option', {
+            name: 'Final Pay'
+        })
+        await userEvent.click(paymentTypeOption)
         await userEvent.type(screen.getByLabelText('Due Start Date'), '08022024')
         await userEvent.type(screen.getByLabelText('Due End Date'), '23022024')
 

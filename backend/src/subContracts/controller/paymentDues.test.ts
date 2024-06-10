@@ -26,8 +26,8 @@ vi.mock('../models/paymentDues', () => ({
     findTripWithActiveDues: () => mockfindTripWithActiveDues(),
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
     updatePaymentDues: () => mockUpdatePayment(),
-    getUpcomingDuesByFilter: (name: string, from: number, to: number) =>
-        mockgetUpcomingDuesByFilter(name, from, to),
+    getUpcomingDuesByFilter: (name: string, from: number, to: number, type: string) =>
+        mockgetUpcomingDuesByFilter(name, from, to, type),
     getGstDuesGroupByName: () => mockgetGstDuesGroupByName(),
     getGstPaymentDues: () => mockgetGstPaymentDues(),
     updatePaymentNEFTStatus: (dueId: number[]) => mockUpdateNEFTStatus(dueId),
