@@ -198,6 +198,7 @@ export const getOverAllTripById = (id: number) =>
             acknowledgementStatus: true,
             stockPointToUnloadingPointTrip: {
                 select: {
+                    acknowledgeDueTime: true,
                     id: true,
                     tripStatus: true,
                     startDate: true,
