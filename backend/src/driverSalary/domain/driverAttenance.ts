@@ -33,7 +33,7 @@ export const findcurrentYear = async (attendanceData: any) =>
     )
 
 export const findcurrentMonth = (currentYear: any) =>
-    currentYear.attendance.find(
+    currentYear?.attendance.find(
         (attendanceMonth: { month: string }) => attendanceMonth.month === dayjs().format('MMMM')
     )
 const singleDriverData = {
@@ -41,18 +41,20 @@ const singleDriverData = {
     mobileNumber: '',
     name: ''
 }
-export const driverAttenanceList = (
+export const driverAttenanceList = async (
     currentYear: Attendance,
     currentMonth: Attendance,
     attendanceData: attendanceDetailsProps,
     driverList: driverProps[],
     data: dataProps[]
 ) => {
-    let singleDriver: driverProps = singleDriverData
-    if (!currentYear && !currentMonth) {
-        singleDriver =
+    if (
+        !currentYear ||
+        !currentMonth ||
+        !currentMonth.datesPresent.includes(parseInt(dayjs().format('DD')))
+    ) {
+        const singleDriver =
             data.find((driver) => driver.id === attendanceData.driverId) || singleDriverData
-    } else if (!currentMonth.datesPresent.includes(parseInt(dayjs().format('DD')))) {
         driverList.push(singleDriver)
     }
 }
@@ -64,28 +66,27 @@ export const driverAttenanceMonthValidation = async (
 ) => {
     const currentYear = await findcurrentYear(attendanceData)
     const currentMonth = await findcurrentMonth(currentYear)
-    driverAttenanceList(currentYear, currentMonth, attendanceData, driverList, data)
+    await driverAttenanceList(currentYear, currentMonth, attendanceData, driverList, data)
 }
 
 export const driverAttenanceId = (attendanceDetails: attendanceDetailsProps[]) =>
     attendanceDetails.map((attendandedDriver) => attendandedDriver.driverId)
 
-export const driverAttenanceexcludeDriver = (
+export const driverAttenanceexclude = async (
     data: dataProps[],
     attendandedDriverIds: driverIds,
     driverList: driverProps[]
 ) => data.filter((driver) => !attendandedDriverIds.includes(driver.id)).concat(driverList)
-
-export const driverAttenance = (
+export const driverAttenance = async (
     data: dataProps[],
     res: Response,
     attendanceDetails: attendanceDetailsProps[] = []
 ) => {
     const driverList: driverProps[] = []
-    attendanceDetails.forEach((attendanceData: attendanceDetailsProps) => {
+    await attendanceDetails.forEach((attendanceData: attendanceDetailsProps) => {
         driverAttenanceMonthValidation(attendanceData, data, driverList)
     })
-    const attendandedDriverIds = driverAttenanceId(attendanceDetails)
-    const excludeDriver = driverAttenanceexcludeDriver(data, attendandedDriverIds, driverList)
+    const attendandedDriverIds = await driverAttenanceId(attendanceDetails)
+    const excludeDriver = await driverAttenanceexclude(data, attendandedDriverIds, driverList)
     res.status(200).json(excludeDriver)
 }
