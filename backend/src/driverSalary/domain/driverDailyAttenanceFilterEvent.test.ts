@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import dayjs from 'dayjs'
-import { driverAttenance } from './driverAttenance.ts'
+import { driverAttenance } from './driverDailyAttenanceFilterEvent.ts'
 
 const mockRes = {
     sendStatus: vi.fn().mockReturnThis(),
