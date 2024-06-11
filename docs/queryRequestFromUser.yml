@@ -329,6 +329,14 @@ date: 11-04-2024
     - update "subContract"."paymentDues" set "dueDate"=1717093800 where id= 1018;
     - update "subContract"."paymentDues" set "dueDate"=1717266600 where id= 1897;
 
+  date: 10-06-2024
+  person: Santhosh
+  description:
+    - change vehicle from The Murugan Transport to Mullai Solutions
+  query:
+    - update "subContract"."truck" set "transporterId"=231 where id in (470, 467, 471, 473, 474, 475, 476, 477);
+    - update "subContract"."truck" set "transporterId" =231 where id in (465,466);
+
 
 
 

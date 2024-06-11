@@ -29,9 +29,7 @@ export const finalDueCreation = async (overallTrip: overallTripProps) => {
     }
     return finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsPercentage).then(
         (finalDue) => {
-            if (finalDue !== null && finalDue !== undefined) {
-                return finalDue
-            }
+            if (finalDue !== null && finalDue !== undefined) return finalDue
         }
     )
 }

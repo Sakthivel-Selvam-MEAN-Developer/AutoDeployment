@@ -23,7 +23,7 @@ const ListAllAcknowledgementDues: React.FC = (): ReactElement => {
     }, [skipNumber, acknowledgementList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const days = data.agingDate !== undefined ? data.agingDate : 0
-        getTripByUnloadDate(days).then(setAcknowledgementList)
+        await getTripByUnloadDate(days).then(setAcknowledgementList)
         setShowDetails(true)
     }
     return (

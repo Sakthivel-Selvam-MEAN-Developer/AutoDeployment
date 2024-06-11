@@ -254,7 +254,6 @@ describe('Payment-Due model', () => {
             1,
             'initial pay'
         )
-        console.log(actual)
         expect(actual.length).toBe(1)
         expect(actual[0].transactionId).toBe('abc')
     })

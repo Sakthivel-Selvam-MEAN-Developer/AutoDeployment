@@ -13,6 +13,7 @@ import DalmiaDalmiapuramInvoice from './invoiceFormat/Dalmia/dalmiaDalmiapuram'
 import DalmiaKadappaInvoice from './invoiceFormat/Dalmia/dalmiaKadapa'
 import { billNoContext } from './invoiceContext'
 import MahaInvoice from './invoiceFormat/Maha/mahaInvoice'
+import Grasim from './invoiceFormat/Grasim/grasim'
 
 const InvoiceDialog: React.FC<UltraTechProps> = ({
     tripId,
@@ -65,6 +66,9 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 companyTagID = 'maha-section'
                 annexureTagID = 'Maha_annexure_section'
                 break
+            case 'Grasim Industries Limited,':
+                companyTagID = 'ultratech_main'
+                break
         }
         if (companyTagID !== '' && company) {
             const invoiceData: HTMLElement | null = document.getElementById(companyTagID)
@@ -104,6 +108,8 @@ const InvoiceDialog: React.FC<UltraTechProps> = ({
                 )
             case 'Sree Jayajothi Cement Private Limited (Maha Cement)':
                 return <MahaInvoice tripId={tripId} setLoading={setLoading} loading={loading} />
+            case 'Grasim Industries Limited,':
+                return <Grasim tripId={tripId} setLoading={setLoading} loading={loading} />
         }
     }
     return (

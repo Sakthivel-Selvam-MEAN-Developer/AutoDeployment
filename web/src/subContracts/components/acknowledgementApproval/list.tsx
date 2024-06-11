@@ -8,7 +8,6 @@ const AcknowledgementApprovalList: React.FC = (): ReactElement => {
     const [sendStatus, setSendStatus] = useState(false)
     useEffect(() => {
         getTripForAcknowlegementApproval().then(setTripDetails)
-        console.log(sendStatus, tripDetails)
     }, [sendStatus])
     return (
         <tripContext.Provider value={{ tripDetails, setTripDetails }}>
