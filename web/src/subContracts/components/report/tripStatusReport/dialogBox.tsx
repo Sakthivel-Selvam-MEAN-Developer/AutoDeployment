@@ -1,12 +1,11 @@
 import React from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { finalDataProps } from './show'
-import { Column } from './dialogBoxUtils'
-import { closeButtonStyles, columnsContainerStyles } from './dialogboxStyle'
+import { DialogContentComponent } from './dialogBoxUtils'
+import { closeButtonStyles } from './dialogboxStyle'
 
 interface DialogBoxProps {
     open: boolean
@@ -25,8 +24,8 @@ const splitKeys = (keys: string[]): [string[], string[]] => {
 export const DialogBox: React.FC<DialogBoxProps> = ({ open, onClose, row, authoriser }) => {
     const keys = Object.keys(row)
     const [firstColumn, secondColumn] = splitKeys(keys)
-    const filteredFirstColumn = filterColumns(firstColumn, authoriser)
-    const filteredSecondColumn = filterColumns(secondColumn, authoriser)
+    const firstcol = filterColumns(firstColumn, authoriser)
+    const secCol = filterColumns(secondColumn, authoriser)
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
             <DialogTitle>
@@ -35,13 +34,7 @@ export const DialogBox: React.FC<DialogBoxProps> = ({ open, onClose, row, author
             <IconButton onClick={onClose} sx={closeButtonStyles}>
                 <CloseIcon />
             </IconButton>
-            <DialogContent dividers style={columnsContainerStyles}>
-                {[
-                    <Column key="firstColumn" keys={filteredFirstColumn} row={row} />,
-                    <Column key="secondColumn" keys={filteredSecondColumn} row={row} />
-                ]}
-            </DialogContent>
+            <DialogContentComponent row={row} firstcol={firstcol} secCol={secCol} />
         </Dialog>
     )
 }
-export default DialogBox

@@ -97,7 +97,10 @@ const getTripData = (data: OverallProps, trip: props | null, index: number) => {
         unloadingPoint:
             trip?.unloadingPoint !== undefined
                 ? trip?.unloadingPoint.name
-                : trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name,
+                : trip?.stockPointToUnloadingPointTrip &&
+                    trip?.stockPointToUnloadingPointTrip.length > 0
+                  ? trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name
+                  : 'Not yet unloaded',
         transporterName: data.name,
         csmName: trip?.truck.transporter.csmName,
         type: data.type,

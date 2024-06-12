@@ -22,6 +22,10 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
         setTripWithPagination(Trip)
     }, [skipNumber, transporterList])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        if (transporterName === '' && paymentType === '') {
+            alert('Please select Transporter Name or Payment Type')
+            return
+        }
         const filterData = {
             transporterName: transporterName !== '' ? transporterName : undefined,
             from: data.from !== undefined ? dayjs.utc(data.from).unix() : undefined,
@@ -42,7 +46,7 @@ const ListAllUpcomingDues: React.FC = (): ReactElement => {
                 />
                 <SubmitButton name="Filter" type="submit" />
             </form>
-            {showDetails && (
+            {(transporterName !== '' || paymentType !== '') && showDetails && (
                 <ListAllTransporterDetails
                     setskipNumber={setskipNumber}
                     transporterDueData={tripWithPagination}
