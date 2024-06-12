@@ -1257,3 +1257,54 @@ export const getOverallTripByVehicleNumber = (vehicleNumber: string) =>
             }
         }
     })
+export const getTollAmount = () =>
+    prisma.overallTrip.findMany({
+        where: {
+            tollPlaza: undefined
+        },
+        select: {
+            loadingPointToUnloadingPointTrip: {
+                select: {
+                    invoiceNumber: true,
+                    loadingPoint: true,
+                    unloadingPoint: true,
+                    startDate: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            },
+            loadingPointToStockPointTrip: {
+                select: {
+                    invoiceNumber: true,
+                    stockPoint: true,
+                    loadingPoint: true,
+                    startDate: true,
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            },
+            stockPointToUnloadingPointTrip: {
+                select: {
+                    invoiceNumber: true,
+                    unloadingPoint: true,
+                    startDate: true,
+                    loadingPointToStockPointTrip: {
+                        select: {
+                            stockPoint: true
+                        }
+                    },
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            }
+        }
+    })

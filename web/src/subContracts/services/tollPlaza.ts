@@ -14,11 +14,6 @@ export const createTollPlazaLocation = (data: dataProps[]) =>
         .post(`/toll`, data)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-export const getTollAmount = () =>
-    axiosInstance
-        .get(`/toll`)
-        .then(getData)
-        .catch(() => alert('Error Getting data'))
 
 export const updateBillStatus = (overallTripId: number[], data: props) =>
     axiosInstance
