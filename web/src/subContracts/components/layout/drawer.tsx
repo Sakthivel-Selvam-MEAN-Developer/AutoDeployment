@@ -15,6 +15,7 @@ import {
     FileDownload,
     Beenhere
 } from '@mui/icons-material'
+import TollIcon from '@mui/icons-material/Toll'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import { styled, useTheme, Theme } from '@mui/material/styles'
@@ -186,6 +187,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     text="Reports"
                     icon={<Summarize />}
                     subs={reportSubs}
+                />
+                <DrawerListItem
+                    text="Toll Plaza"
+                    navigate="/sub/toll"
+                    drawerState={drawerState}
+                    index={13}
+                    icon={<TollIcon />}
                 />
             </List>
         </Drawer>
