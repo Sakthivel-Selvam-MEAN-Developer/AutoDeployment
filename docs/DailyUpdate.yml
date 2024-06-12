@@ -1,4 +1,34 @@
 
+
+- date: 10-06-2024
+  person: Barath
+  project: subContract
+  leave: true
+
+- date: 08-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should move logics from controller to doamin in driverSalary
+    - should change direct call between driverSalary and SubContract
+  completed:
+    - changed direct call between driverSalary and SubContract
+
+- date: 07-06-2024
+  person: Barath
+  project: subContract
+  planning:
+    - should fix lint and test
+    - should pair with sneka to test features 
+  completed:
+    - fixed lint and tests
+    - clarified subContract doubts with users
+    - paired with sneka and tested features 
+- date: 07-06-2024
+  person: Sakthivel
+  project: subContract
+  leave: true
+
 - date: 06-06-2024
   person: Barath
   project: subContract
@@ -22,9 +52,10 @@
   project: subContract
   planning:
     - should update search funtionality to display invoiceNumber only for transporter invoices are not provided in transporter invoice
-    - should pair with Bharat for testing and fix issues
+    - should pair with Barath for testing and fix issues
   completed:
-    - paired with Bharat for testing and fix issues
+    - paired with Barath for testing and fix issues
+
 - date: 05-06-2024
   person: Barath,Ravi shankar
   project: subContract

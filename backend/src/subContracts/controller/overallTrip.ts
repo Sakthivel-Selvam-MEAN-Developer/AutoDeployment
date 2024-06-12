@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import {
     getAllDiscrepancyReport,
     getOverallTrip,
+    getOverAllTripByArrayOfId,
     getTripByUnloadDate,
     tripStatusFilter,
     tripStatusFilterCount
@@ -203,3 +204,13 @@ export const listAllInvoiceNumbers = async (_req: Request, res: Response) => {
         res.status(500).json({ error: 'Internal Server Error' })
     }
 }
+interface queryParams {
+    ids: string
+}
+export const listOverAllTripByArrayOfIds = async (
+    req: Request<object, object, object, queryParams>,
+    res: Response
+) =>
+    getOverAllTripByArrayOfId(JSON.parse(req.query.ids))
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))

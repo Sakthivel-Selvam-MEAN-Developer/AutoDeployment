@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
+import axios from 'axios'
 import { app } from '../../app.ts'
 import { createDriverTrip, updateDriverAdvance } from './driverTrip.ts'
 
@@ -53,10 +54,12 @@ const mockGetDriverTripData = [
 ]
 
 const mockGetAllExpenseCountByTripIdData = [{ amount: 123, tripId: 35 }]
-const mockGetOverAllTripByArrayOfIdData = [
-    { id: 37, dailyBetta: 350, appPayAdvance: 2000, tripBetta: 4500 },
-    { id: 37, dailyBetta: 350, appPayAdvance: 1200, tripBetta: 4500 }
-]
+const mockGetOverAllTripByArrayOfIdData = {
+    data: [
+        { id: 37, dailyBetta: 350, appPayAdvance: 2000, tripBetta: 4500 },
+        { id: 37, dailyBetta: 350, appPayAdvance: 1200, tripBetta: 4500 }
+    ]
+}
 const mockRes = {
     sendStatus: vi.fn().mockReturnThis(),
     status: vi.fn().mockReturnThis()
@@ -88,11 +91,10 @@ describe('driverTrip Controller', () => {
     test('should able to get all driver Trip by Id', async () => {
         mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData)
         mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
-        mockGetOverAllTripByArrayOfId.mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
+        vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
         await supertest(app).get('/api/drivertrip').query({ driverId: 1 }).expect(200)
         expect(mockGetAllDriverTripById).toBeCalledTimes(1)
         expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(1)
-        expect(mockGetOverAllTripByArrayOfId).toBeCalledTimes(1)
     })
     test('should able to update driver advance by trip id', async () => {
         mockGetDriverIdByTripId.mockResolvedValue(mockGetDriverIdByTripIdData)

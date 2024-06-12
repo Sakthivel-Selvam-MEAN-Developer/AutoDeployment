@@ -1,4 +1,6 @@
 import { Request, Response } from 'express'
+import axios from 'axios'
+import { IncomingHttpHeaders } from 'http'
 import {
     create,
     getAllDriverTripById,
@@ -6,7 +8,6 @@ import {
     getDriverTripByOverallId,
     updateDriverAdvanceByTripId
 } from '../models/driverTrip.ts'
-import { getOverAllTripByArrayOfId } from '../../subContracts/models/overallTrip.ts'
 import { getAllExpenseCountByTripId } from '../models/expenses.ts'
 import { getTripSalaryDetailsById } from '../models/tripSalary.ts'
 
@@ -46,12 +47,14 @@ const getTotalTripSalary: props = (tripAdvanceDetails, data) => {
         (data.secondaryTripBetta ? data.secondaryTripBetta : 0)
     return { totalTripBetta, totalAdvance }
 }
-const getOverallTrip = async (allTrips: allTripProps[]) => {
+const getOverallTrip = async (headers: IncomingHttpHeaders, allTrips: allTripProps[]) => {
     const overAllTripIds: number[] = []
     allTrips.forEach((tripId) => overAllTripIds.push(tripId.tripId))
-    const allTripsById = await getOverAllTripByArrayOfId(overAllTripIds)
+    const allTripsById = await axios.get(`${headers.hostname}/api/overalltrip/ids`, {
+        params: { ids: JSON.stringify(overAllTripIds) }
+    })
     const expensesDetails = await getAllExpenseCountByTripId(overAllTripIds)
-    const combinedData = allTripsById.map((trip) => {
+    const combinedData = allTripsById.data.map((trip: { id: number }) => {
         const tripSalary = allTrips.filter((salary) => salary.tripId === trip.id)
         const tripAdvanceDetails = allTrips.find((tripAdvance) => tripAdvance.tripId === trip.id)
         const totalTripSalary = tripSalary.map((data) =>
@@ -74,7 +77,7 @@ const getOverallTrip = async (allTrips: allTripProps[]) => {
 export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res) => {
     const { driverId } = req.query
     await getAllDriverTripById(parseInt(driverId))
-        .then(async (allTrips) => getOverallTrip(allTrips))
+        .then(async (allTrips) => getOverallTrip(req.headers, allTrips))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

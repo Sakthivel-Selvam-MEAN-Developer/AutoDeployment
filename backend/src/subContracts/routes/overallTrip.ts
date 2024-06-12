@@ -4,7 +4,8 @@ import {
     listTripDetailsByUnloadDate,
     listTripStatusReportDetails,
     listAllDiscrepancyReport,
-    listAllInvoiceNumbers
+    listAllInvoiceNumbers,
+    listOverAllTripByArrayOfIds
 } from '../controller/overallTrip.ts'
 
 const overallTrip = (router: Router) => {
@@ -12,6 +13,7 @@ const overallTrip = (router: Router) => {
     router.get('/overalltrip/tripstatusreport', listTripStatusReportDetails)
     router.get('/overalltrip/acknowledgement/:date', listTripDetailsByUnloadDate)
     router.get('/overalltrip/report/discrepancy/:from/:to', listAllDiscrepancyReport)
+    router.get('/overalltrip/ids', listOverAllTripByArrayOfIds)
     router.get('/invoiceNumber', listAllInvoiceNumbers)
 }
 

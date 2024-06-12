@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
 import { expensesType } from '@prisma/client'
+import { IncomingHttpHeaders } from 'http'
+import axios from 'axios'
 import {
     create,
     getAllExpenseByTripId,
@@ -7,7 +9,6 @@ import {
     updateExpenseApproval as updateExpense
 } from '../models/expenses.ts'
 import { getAllDriverTripById } from '../models/driverTrip.ts'
-import { getOverAllTripByArrayOfId } from '../../subContracts/models/overallTrip.ts'
 
 const checkType = (data: string) =>
     ({
@@ -51,11 +52,13 @@ export const createExpense = async (req: Request, res: Response) => {
 interface QueryParam {
     driverId: string
 }
-const expenseApproval = async (alltripIds: number[]) => {
+const expenseApproval = async (headers: IncomingHttpHeaders, alltripIds: number[]) => {
     const falseExpense = await getAllExpenseForApproval(alltripIds)
     const alltripId = [...new Set(falseExpense.map((id) => id.tripId))]
-    const overallTrip = await getOverAllTripByArrayOfId(alltripId)
-    return overallTrip.map((trip) => {
+    const overallTrip = await axios.get(`${headers.hostname}/api/overalltrip/ids`, {
+        params: { ids: JSON.stringify(alltripId) }
+    })
+    return overallTrip.data.map((trip: { id: number }) => {
         const falseExpenseByTripId = falseExpense.filter((expense) => expense.tripId === trip.id)
         return { trip, expense: falseExpenseByTripId }
     })
@@ -67,7 +70,7 @@ export const ListAllExpenseByTripIdForApproval = async (
     const { driverId } = req.query
     const allTripIdByDriverId = await getAllDriverTripById(parseInt(driverId))
     const alltripIds = [...new Set(allTripIdByDriverId.map((id) => id.tripId))]
-    const combinedTrip = await expenseApproval(alltripIds)
+    const combinedTrip = await expenseApproval(req.headers, alltripIds)
     res.status(200).json(combinedTrip)
 }
 type RequestQuery = {
