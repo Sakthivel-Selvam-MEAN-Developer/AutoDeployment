@@ -541,26 +541,158 @@ export const tripStatusFilter = (
                 }
             ]
         },
-        include: {
-            fuel: { include: { bunk: true } },
-            shortageQuantity: true,
-            paymentDues: true,
-            stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
+        select: {
+            id: true,
+            transporterInvoice: true,
+            acknowledgementDate: true,
+            acknowledgementStatus: true,
+            createdAt: true,
+            updatedAt: true,
+            fuel: {
+                select: {
+                    bunk: {
+                        select: {
+                            bunkName: true
+                        }
+                    },
+                    quantity: true,
+                    totalprice: true
+                }
+            },
+            shortageQuantity: {
+                select: {
+                    id: true,
+                    shortageQuantity: true,
+                    shortageAmount: true,
+                    unloadedQuantity: true,
+                    unloadedDate: true
+                }
+            },
+            paymentDues: {
+                select: {
+                    id: true,
+                    name: true,
+                    vehicleNumber: true,
+                    dueDate: true,
+                    type: true,
+                    status: true,
+                    payableAmount: true
+                }
+            },
+            stockPointToUnloadingPointTrip: {
+                select: {
+                    id: true,
+                    startDate: true,
+                    invoiceNumber: true,
+                    freightAmount: true,
+                    totalFreightAmount: true,
+                    transporterAmount: true,
+                    totalTransporterAmount: true,
+                    billNo: true,
+                    unloadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            },
             loadingPointToStockPointTrip: {
-                include: {
-                    truck: { include: { transporter: true } },
-                    loadingPoint: { include: { cementCompany: true } },
-                    stockPoint: true,
+                select: {
+                    id: true,
+                    startDate: true,
+                    filledLoad: true,
+                    margin: true,
+                    tripStatus: true,
+                    totalFreightAmount: true,
+                    freightAmount: true,
+                    transporterAmount: true,
+                    totalTransporterAmount: true,
+                    invoiceNumber: true,
+                    billNo: true,
+                    truck: {
+                        select: {
+                            id: true,
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    gstPercentage: true,
+                                    csmName: true
+                                }
+                            }
+                        }
+                    },
+                    loadingPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    },
+                    stockPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
                     stockPointToUnloadingPointTrip: {
-                        select: { unloadingPoint: true, billNo: true }
+                        select: {
+                            id: true,
+                            invoiceNumber: true,
+                            freightAmount: true,
+                            totalFreightAmount: true,
+                            transporterAmount: true,
+                            totalTransporterAmount: true,
+                            startDate: true,
+                            billNo: true
+                        }
                     }
                 }
             },
             loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: { include: { transporter: true } },
-                    loadingPoint: { include: { cementCompany: true } },
-                    unloadingPoint: true
+                select: {
+                    id: true,
+                    margin: true,
+                    filledLoad: true,
+                    tripStatus: true,
+                    startDate: true,
+                    invoiceNumber: true,
+                    freightAmount: true,
+                    totalFreightAmount: true,
+                    transporterAmount: true,
+                    totalTransporterAmount: true,
+                    billNo: true,
+                    truck: {
+                        select: {
+                            id: true,
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    gstPercentage: true,
+                                    csmName: true
+                                }
+                            }
+                        }
+                    },
+                    loadingPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    },
+                    unloadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    }
                 }
             }
         }

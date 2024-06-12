@@ -487,7 +487,7 @@ describe('Overall Trip model', () => {
         })
         await create({ loadingPointToUnloadingPointTripId: trip.id })
         const actual = await tripStatusFilter(undefined, undefined, undefined, undefined, undefined)
-        expect(actual[0].loadingPointToUnloadingPointTrip?.truckId).toBe(truck.id)
+        expect(actual[0].loadingPointToUnloadingPointTrip?.truck.id).toBe(truck.id)
     })
     test('should able to get overall trip by unload date', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
