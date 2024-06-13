@@ -3,13 +3,38 @@
   project: driverSalary
   planning:
     - should create keycloak for user while create in UI
-    
+- date: 13-06-2024
+  person: Ramya
+  project: driverSalary
+  planning:
+    - should create controller for tollPlaza
+  completed:
+    - created controller for tollPlaza   
+- date: 12-06-2024
+  person: Ramya
+  project: subContract
+  planning: 
+    - should start a tollPlaza 
+    - should create service for tollPlaza
+    - should create routes for tollPlaza
+    - should create domain for tollPlaza
+  completed:
+    -  created service for tollPlaza
+    -  created routes for tollPlaza 
+    -  created domain for tollPlaza
 - date: 12-06-2024
   person: Sakthivel
   project: driverSalary
   planning:
     - should create keycloak for user while create in Ui
 
+- date: 11-06-2024
+  person: Ramya
+  project: subContract
+  planning: 
+    - should create a tollPlaza for subContract
+  completed:
+    - Discussed client and  created a new plan
 - date: 11-06-2024
   person: Sri sneka
   project: subContract
@@ -25,6 +50,13 @@
   completed:
     - added invoice format for grasim
 
+- date: 10-06-2024
+  person: Ramya
+  project: subContract
+  planning: 
+    - should create a tollPlaza for subContract
+  completed:
+    - Discussed client and  created a new plan
 - date: 10-06-2024
   person: Barath
   project: subContract
@@ -73,7 +105,14 @@
     - should add trip betta and daily betta in driver trip
   completed:
     - added trip betta and daily betta in driver trip
-
+- date: 08-06-2024
+  person: Ramya,Ravi shankar
+  project: subContract
+  planning:
+    - should move driver salary controller logic to domain
+    - reslove Text based Search
+  completed:
+    - paired with Ravi shankar moved driver salary controller logic to domain
 - date: 07-06-2024
   person: Barath
   project: subContract
@@ -97,7 +136,14 @@
   completed:
     - fixed lint and test
     - paired with barath and tested features
-
+- date: 07-06-2024
+  person: Ramya
+  project: subContract
+  planning:
+    - should fix lint and test
+  completed:
+    - fixed lint and test
+   
 - date: 06-06-2024
   person: Barath
   project: subContract
