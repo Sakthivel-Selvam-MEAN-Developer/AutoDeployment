@@ -19,3 +19,5 @@ export const updateBillStatus = (overallTripId: number[], data: props) =>
             billedStatus: true
         }
     })
+
+export const getTollPlaza = () => prisma.tollPlaza.findMany({})
