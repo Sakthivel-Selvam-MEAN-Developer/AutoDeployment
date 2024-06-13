@@ -1,9 +1,24 @@
-
+- date: 11-06-2024
+  person: Sri sneka
+  project: subContract
+  planning:
+    - should update filter functionality in upcoming paymentDues report to filter based on transporter name or paymentType
+  completed:
+    - updated filter functionality in upcoming paymentDues report to filter based on transporter name or paymentType
 
 - date: 10-06-2024
   person: Barath
   project: subContract
   leave: true
+- date: 10-06-2024
+  person: Sri Sneka
+  project: subContract
+  planning: 
+    - should fix lint and test
+    - update the model for upcoming paymentDues to return required details
+  completed:
+    - fixed lint error and test
+    - updated the model for upcoming paymentDues to return required details
 
 - date: 08-06-2024
   person: Barath
@@ -13,6 +28,13 @@
     - should change direct call between driverSalary and SubContract
   completed:
     - changed direct call between driverSalary and SubContract
+- date: 08-06-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should add payment type search field in upcoming payment report
+  completed:
+    - added payment type search field in upcoming payment report
 
 - date: 07-06-2024
   person: Barath
@@ -28,6 +50,15 @@
   person: Sakthivel
   project: subContract
   leave: true
+- date: 07-06-2024
+  person: Sri Sneka
+  project: subContract
+  planning:
+    - should fix lint and test
+    - should pair with Barath to test features 
+  completed:
+    - fixed lint and test
+    - paired with barath and tested features
 
 - date: 06-06-2024
   person: Barath
