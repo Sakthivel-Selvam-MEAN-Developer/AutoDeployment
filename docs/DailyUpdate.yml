@@ -1,3 +1,12 @@
+date: 13-06-2024
+  person: Ramya
+  project: subContracts
+  planning:
+    - truck and transporter object moved loading point to overalltrip
+  completed:
+    - prisma changes and query changes completed
+  In developement: 
+  - backend and frontend code changes going on
 - date: 13-06-2024
   person: Sakthivel
   project: driverSalary
