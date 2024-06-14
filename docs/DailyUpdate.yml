@@ -1,4 +1,13 @@
 - date: 14-06-2024
+  person: Ravishankar
+  project: subContracts
+  planning:
+    - truck and transporter object moved from loading point to overall trip and add tripid field to use query for already created datas
+  completed:
+    - frontend and backend code changes completed 
+  In development: 
+  - backend lint issue changes going on
+- date: 14-06-2024
   person: Sakthivel
   project: driverSalary
   planning: 
@@ -8,10 +17,10 @@
   person: Ravishankar
   project: subContracts
   planning:
-    - truck and transporter object moved loading point to overalltrip
+    - truck and transporter object moved from loading point to overall trip
   completed:
     - prisma changes and query changes completed
-  In developement: 
+  In development: 
   - backend and frontend code changes going on
 - date: 13-06-2024
   person: Sakthivel
