@@ -9,6 +9,7 @@ import {
     getOverAllTripById,
     getOverAllTripIdByLoadingToStockId,
     getOverallTrip,
+    getOveralltripByToll,
     getTripByTransporterInvoice,
     getTripByUnloadDate,
     getTripForAcknowlegementApproval,
@@ -18,6 +19,7 @@ import {
     updateTransporterInvoice
 } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
+import { create as createTollPlaza } from './tollPlaza.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createStockpoint } from './stockPoint.ts'
@@ -27,6 +29,7 @@ import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedLoadingToStockTrip from '../seed/loadingToStockTrip.ts'
 import seedStockToUnloadingTrip from '../seed/stockPointToUnloadingPoint.ts'
 import seedCompany from '../seed/cementCompany.ts'
+import seedTollPlaza from '../seed/tollPlaza.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedStockPoint from '../seed/stockPointWithoutDep.ts'
@@ -690,5 +693,68 @@ describe('Overall Trip model', () => {
         const closedOverallTrip = await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
         const actual = await getAllDiscrepancyReport(1700764200, 1700764200)
         expect(actual[0]?.id).toBe(closedOverallTrip.id)
+    })
+    test.only('should able to get overall Trip for getTollAmount', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const unloadingTripTruck = await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const stockTripTruck = await createTruck({
+            ...seedTruck,
+            vehicleNumber: 'TN52S3555',
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const loadingToUnloadingTrip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: unloadingTripTruck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const loadingToStockTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: stockTripTruck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overallTrip = await create({
+            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
+        })
+        await create({ loadingPointToStockPointTripId: loadingToStockTrip.id })
+        await createTollPlaza([
+            { ...seedTollPlaza, overallTripId: overallTrip.id },
+            { overallTripId: overallTrip.id, tollPlazaLocation: 'salem', amount: 500 }
+        ])
+        const actual = await getOveralltripByToll()
+        expect(actual.length).toStrictEqual(1)
     })
 })

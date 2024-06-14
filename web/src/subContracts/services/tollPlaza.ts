@@ -20,3 +20,8 @@ export const updateBillStatus = (overallTripId: number[], data: props) =>
         .put(`/toll`, { data, overallTripId })
         .then(getData)
         .catch(() => alert('Error Getting data'))
+export const getTollDetails = () =>
+    axiosInstance
+        .get(`/toll`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

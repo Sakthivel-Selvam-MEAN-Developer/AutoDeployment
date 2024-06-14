@@ -4,10 +4,14 @@ import { app } from '../../app.ts'
 
 const mockTollPlazaLocation = vi.fn()
 const mockUpdateTollPlaza = vi.fn()
+const mockTollLocation = vi.fn()
 
 vi.mock('../models/tollPlaza', () => ({
     create: (inputs: any) => mockTollPlazaLocation(inputs),
     updateBillStatus: (inputs: any) => mockUpdateTollPlaza(inputs)
+}))
+vi.mock('../models/overallTrip', () => ({
+    getOveralltripByToll: () => mockTollLocation()
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -39,7 +43,30 @@ const mockTollData = {
         }
     }
 }
-
+const mockTollPlaza = {
+    tollPlaza: [],
+    loadingPointToUnloadingPointTrip: {
+        invoiceNumber: 'zx',
+        loadingPoint: {
+            id: 1,
+            name: 'Chennai-south',
+            cementCompanyId: 1,
+            pricePointMarkerId: 1
+        },
+        unloadingPoint: {
+            id: 1,
+            name: 'Salem',
+            cementCompanyId: 1,
+            pricePointMarkerId: 2
+        },
+        startDate: 1717612200,
+        truck: {
+            vehicleNumber: 'TN30S4325'
+        }
+    },
+    loadingPointToStockPointTrip: null,
+    stockPointToUnloadingPointTrip: null
+}
 describe('TollPlaza Controller', () => {
     test('should able to create tollPlazaLocation', async () => {
         mockTollPlazaLocation.mockResolvedValue(mockCreateData)
@@ -50,5 +77,10 @@ describe('TollPlaza Controller', () => {
         mockUpdateTollPlaza.mockResolvedValue(mockCreateData)
         await supertest(app).put('/api/toll').send(mockTollData.body).expect(200)
         expect(mockUpdateTollPlaza).toBeCalledTimes(1)
+    })
+    test('should able to getTollPlaza is empty', async () => {
+        mockTollLocation.mockResolvedValue(mockTollPlaza)
+        await supertest(app).get('/api/toll').expect(200)
+        expect(mockTollLocation).toHaveBeenCalledTimes(1)
     })
 })

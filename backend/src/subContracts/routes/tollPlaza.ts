@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { createTollLocation, updateTollDetails } from '../controller/tollPlaza.ts'
+import { createTollLocation, getTollAmount, updateTollDetails } from '../controller/tollPlaza.ts'
 
 const tollPlazaRoutes = (router: Router) => {
     router.post('/toll', createTollLocation)
     router.put('/toll', updateTollDetails)
+    router.get('/toll', getTollAmount)
 }
 export default tollPlazaRoutes
