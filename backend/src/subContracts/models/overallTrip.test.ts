@@ -694,7 +694,7 @@ describe('Overall Trip model', () => {
         const actual = await getAllDiscrepancyReport(1700764200, 1700764200)
         expect(actual[0]?.id).toBe(closedOverallTrip.id)
     })
-    test.only('should able to get overall Trip for getTollAmount', async () => {
+    test('should able to get overall Trip for getTollAmount', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const stockPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,
