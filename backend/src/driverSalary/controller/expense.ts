@@ -52,12 +52,14 @@ export const createExpense = async (req: Request, res: Response) => {
 interface QueryParam {
     driverId: string
 }
+const getOverallTrip = (hostname: string | undefined | string[], allTripIds: string) =>
+    axios.get(`${hostname}/api/overalltrip/ids`, {
+        params: { ids: allTripIds }
+    })
 const expenseApproval = async (headers: IncomingHttpHeaders, alltripIds: number[]) => {
     const falseExpense = await getAllExpenseForApproval(alltripIds)
     const alltripId = [...new Set(falseExpense.map((id) => id.tripId))]
-    const overallTrip = await axios.get(`${headers.hostname}/api/overalltrip/ids`, {
-        params: { ids: JSON.stringify(alltripId) }
-    })
+    const overallTrip = await getOverallTrip(headers.hostname, JSON.stringify(alltripId))
     return overallTrip.data.map((trip: { id: number }) => {
         const falseExpenseByTripId = falseExpense.filter((expense) => expense.tripId === trip.id)
         return { trip, expense: falseExpenseByTripId }

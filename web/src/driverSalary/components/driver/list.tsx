@@ -15,10 +15,12 @@ const CreateDriver: FC = (): ReactElement => {
             licenseExpriryDate: data.licenseExpriryDate.unix(),
             dateofBirth: data.dateofBirth.unix()
         }
-        await createDriver(details).then(() => {
-            ClearForm(setValue)
-            setOpenSuccessDialog(true)
-        })
+        await createDriver(details)
+            .then(() => {
+                ClearForm(setValue)
+                setOpenSuccessDialog(true)
+            })
+            .catch((err) => alert(err.response.data?.error))
     })
     return DriverFields(onSubmit, control, openSuccessDialog, setOpenSuccessDialog)
 }

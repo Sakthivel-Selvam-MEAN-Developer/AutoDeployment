@@ -166,7 +166,7 @@ const NewTrip: React.FC = () => {
                         setDisable(false)
                     })
                     .catch((error) => {
-                        alert(error.response.data.error)
+                        alert(error.response ? error.response.data.error : error)
                         setDisable(false)
                     })
             else setDisable(false)

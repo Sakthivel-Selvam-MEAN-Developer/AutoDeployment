@@ -1,8 +1,16 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
+import { DefaultArgs } from '@prisma/client/runtime/library'
 
-export const create = (data: Prisma.driverCreateInput | Prisma.driverUncheckedCreateInput) =>
-    prisma.driver.create({ data })
+export const create = (
+    data: Prisma.driverCreateInput | Prisma.driverUncheckedCreateInput,
+    prisma:
+        | Omit<
+              PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+              '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+          >
+        | undefined
+) => prisma?.driver.create({ data })
 
 export const getAllDriver = () =>
     prisma.driver.findMany({

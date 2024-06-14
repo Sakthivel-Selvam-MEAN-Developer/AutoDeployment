@@ -65,7 +65,7 @@ export const driverAttenanceMonthValidation = async (
     driverList: driverProps[]
 ) => {
     const currentYear = await findcurrentYear(attendanceData)
-    const currentMonth = await findcurrentMonth(currentYear)
+    const currentMonth = findcurrentMonth(currentYear)
     await driverAttenanceList(currentYear, currentMonth, attendanceData, driverList, data)
 }
 
@@ -77,16 +77,13 @@ export const driverAttenanceexclude = async (
     attendandedDriverIds: driverIds,
     driverList: driverProps[]
 ) => data.filter((driver) => !attendandedDriverIds.includes(driver.id)).concat(driverList)
-export const driverAttenance = async (
-    data: dataProps[],
-    res: Response,
-    attendanceDetails: attendanceDetailsProps[] = []
-) => {
+type type = (data: dataProps[], res: Response, attendanceDetails: attendanceDetailsProps[]) => void
+export const driverAttenance: type = async (data, res, attendanceDetails = []) => {
     const driverList: driverProps[] = []
-    await attendanceDetails.forEach((attendanceData: attendanceDetailsProps) => {
+    attendanceDetails.forEach((attendanceData: attendanceDetailsProps) => {
         driverAttenanceMonthValidation(attendanceData, data, driverList)
     })
-    const attendandedDriverIds = await driverAttenanceId(attendanceDetails)
+    const attendandedDriverIds = driverAttenanceId(attendanceDetails)
     const excludeDriver = await driverAttenanceexclude(data, attendandedDriverIds, driverList)
     res.status(200).json(excludeDriver)
 }

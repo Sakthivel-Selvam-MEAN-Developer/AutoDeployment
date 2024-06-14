@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { Response } from 'express'
-import { loadingToUnloadingTripLogic } from './createLoadingToUnloadingTripEvent.ts'
+import { loadingToStockTripLogic } from './createLoadingToStockTripEvent.ts'
 
 const mockTripDetails = {
     id: 1,
@@ -80,7 +80,7 @@ const mockFuelDetails = {
 }
 describe('For an overall trip when trip is created for market vehicle', async () => {
     test('when loading to unloading trip is created initial pay should be generated', async () => {
-        const actual = await loadingToUnloadingTripLogic(
+        const actual = await loadingToStockTripLogic(
             mockTripDetails.truck.transporter.transporterType,
             mockReq,
             null,
@@ -95,7 +95,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
     })
     test('when loading to unloading trip is created and want fuel is true initial pay should not be generate', async () => {
         const req = { ...mockReq, wantFuel: true }
-        const actual = await loadingToUnloadingTripLogic(
+        const actual = await loadingToStockTripLogic(
             mockTripDetails.truck.transporter.transporterType,
             req,
             null,
@@ -110,7 +110,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
     })
     test('when loading to unloading trip is created and before fueled initial pay should be generated after subtract the fuel amount', async () => {
         const req = { ...mockReq, body: { ...mockReq, wantFuel: true } }
-        const actual = await loadingToUnloadingTripLogic(
+        const actual = await loadingToStockTripLogic(
             mockTripDetails.truck.transporter.transporterType,
             req,
             mockFuelDetails,
@@ -125,7 +125,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
     })
     test('when loading to unloading trip is created and advance type is 100% initialpay should be generated with 70%', async () => {
         const advanceType = 100
-        const actual = await loadingToUnloadingTripLogic(
+        const actual = await loadingToStockTripLogic(
             mockTripDetails.truck.transporter.transporterType,
             mockReq,
             null,
@@ -145,7 +145,7 @@ describe('For an overall trip when trip is created for market vehicle', async ()
 describe('For an overall trip when trip is created for Own Vehicle', () => {
     test('when loading to unloading trip is created and transporter type is own initial pay should not be generated', async () => {
         const transporterType = 'Own'
-        const actual = await loadingToUnloadingTripLogic(
+        const actual = await loadingToStockTripLogic(
             transporterType,
             mockReq,
             null,

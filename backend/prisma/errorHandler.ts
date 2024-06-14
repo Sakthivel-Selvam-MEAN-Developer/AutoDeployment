@@ -17,7 +17,7 @@ export const handlePrismaError = (err: any, res: Response) => {
                 res.status(400).json({ error: `There is No Trip Salary Details for Specified Locations` })
                 break
             default:
-                res.status(500).json({ error: 'Something went Wrong' })
+                res.status(500).json({ error: err })
         }
     } else res.status(500).json({ error: 'Something went Wrong' })
 }

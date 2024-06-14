@@ -27,7 +27,7 @@ const calculateTotals = (trip: InvoiceProp) => {
             if (loadingToStock.overallTrip[0].shortageQuantity.length > 0) {
                 shortageQuantity +=
                     loadingToStock.overallTrip[0].shortageQuantity[0].shortageQuantity
-            }
+            } else shortageQuantity = 0
         })
     if (trip.loadingPointToUnloadingPointTrip)
         trip.loadingPointToUnloadingPointTrip.map((loadingToUnloading) => {
@@ -46,8 +46,10 @@ const calculateTotals = (trip: InvoiceProp) => {
             numberOfTrips += 1
             totalAmount += loadingToUnloading.freightAmount * loadingToUnloading.filledLoad
             totalFilledLoad += loadingToUnloading.filledLoad
-            shortageQuantity +=
-                loadingToUnloading.overallTrip[0].shortageQuantity[0].shortageQuantity
+            if (loadingToUnloading.overallTrip[0].shortageQuantity.length > 0) {
+                shortageQuantity +=
+                    loadingToUnloading.overallTrip[0].shortageQuantity[0].shortageQuantity
+            } else shortageQuantity = 0
         })
     if (trip.stockPointToUnloadingPointTrip)
         trip.stockPointToUnloadingPointTrip.map((stockToUnloading) => {
@@ -68,7 +70,10 @@ const calculateTotals = (trip: InvoiceProp) => {
                 stockToUnloading.freightAmount *
                 stockToUnloading.loadingPointToStockPointTrip.filledLoad
             totalFilledLoad += stockToUnloading.loadingPointToStockPointTrip.filledLoad
-            shortageQuantity += stockToUnloading.overallTrip[0].shortageQuantity[0].shortageQuantity
+            if (stockToUnloading.overallTrip[0].shortageQuantity.length > 0) {
+                shortageQuantity +=
+                    stockToUnloading.overallTrip[0].shortageQuantity[0].shortageQuantity
+            } else shortageQuantity = 0
         })
     return { totalAmount, totalFilledLoad, numberOfTrips, fromDate, endDate, shortageQuantity }
 }

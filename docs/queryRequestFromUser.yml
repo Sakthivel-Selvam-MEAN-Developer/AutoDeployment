@@ -337,6 +337,30 @@ date: 11-04-2024
     - update "subContract"."truck" set "transporterId"=231 where id in (470, 467, 471, 473, 474, 475, 476, 477);
     - update "subContract"."truck" set "transporterId" =231 where id in (465,466);
 
+  date: 13-06-2024
+  person: Santhosh
+  description:
+    - update payGeneratingDuration in price point
+  query:
+    - update "subContract"."pricePoint" set "payGeneratingDuration" = 10 where id=198;
+    - update "subContract"."pricePoint" set "payGeneratingDuration" = 15 where id=199;
+    - update "subContract"."pricePoint" set "payGeneratingDuration" = 10 where id=200;
+    - update "subContract"."pricePoint" set "payGeneratingDuration" = 10 where id=201;
+
+  date: 12-06-2024
+  person: Santhosh
+  description:
+    - update ifsc for transporter
+  query:
+    - update "subContract"."transporter" set "ifsc" = 'HDFC0001879' where id=231;
+
+  date: 14-06-2024
+  person: Santhosh
+  description:
+    - update acknowledgement approval status to false
+  query:
+    - update "subContract"."overallTrip" set "acknowledgementApproval" = false where id in (772, 758, 778);
+
 
 
 
