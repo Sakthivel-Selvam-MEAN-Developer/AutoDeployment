@@ -15,10 +15,12 @@ const mockGetFuelWithoutTrip = vi.fn()
 const mockUpdateFuelWithTripId = vi.fn()
 const mockGetCementCompanyByLocation = vi.fn()
 const mockGetPricePoint = vi.fn()
+const mockUnbilledTrip = vi.fn()
 
 vi.mock('../models/loadingToStockPointTrip', () => ({
     create: (inputs: any) => mockCreateTrip(inputs),
-    getAllStockPointTrip: () => mockStockPointTrip()
+    getAllStockPointTrip: () => mockStockPointTrip(),
+    getAllStockPointUnbilledTrips: () => mockUnbilledTrip()
 }))
 vi.mock('../models/overallTrip', () => ({
     create: (inputs: any) => mockCreateOverallTrip(inputs)
@@ -160,7 +162,26 @@ const mockcreatePaymentDuesData2 = [
         paidAt: 0
     }
 ]
-
+const mockUnbilledTripData = [
+    {
+        id: 1,
+        invoiceNumber: 'ABC123',
+        startDate: 1703679340,
+        acknowledgeDueTime: 1703679340,
+        truck: {
+            vehicleNumber: 'TN93D5512'
+        },
+        loadingPoint: {
+            name: 'chennai',
+            cementCompany: {
+                name: 'XYZ Cements'
+            }
+        },
+        stockPoint: {
+            name: 'Stock Point'
+        }
+    }
+]
 const mockRes = {
     sendStatus: vi.fn().mockReturnThis(),
     status: vi.fn().mockReturnThis(),
@@ -278,5 +299,11 @@ describe('Trip Controller', () => {
         expect(mockCreateTrip).toBeCalledTimes(2)
         expect(mockCreateOverallTrip).toBeCalledTimes(2)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(2)
+    })
+    test('should return all stock point unbilled trips', async () => {
+        mockUnbilledTrip.mockResolvedValue(mockUnbilledTripData)
+        await supertest(app).get('/api/stock-point-unbilled-trips').expect(mockUnbilledTripData)
+        expect(mockUnbilledTrip).toBeCalledTimes(1)
+        expect(mockUnbilledTrip).toBeCalledWith()
     })
 })

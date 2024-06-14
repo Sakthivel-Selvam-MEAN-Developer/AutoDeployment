@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { create, getAllTrip, getTripByVehicleNumber } from '../models/loadingToUnloadingTrip.ts'
+import {
+    create,
+    getAllTrip,
+    getAllUnloadingPointUnbilledTrips,
+    getTripByVehicleNumber
+} from '../models/loadingToUnloadingTrip.ts'
 import { create as createOverallTrip, getNumberByTruckId } from '../models/overallTrip.ts'
 import {
     create as createPaymentDues,
@@ -115,4 +120,7 @@ export const ListTripByVehicleNumber = (req: Request, res: Response) => {
     getTripByVehicleNumber(req.params.trucknumber)
         .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
+}
+export const listAllUnloadingPointUnbilledTrips = (_req: Request, res: Response) => {
+    getAllUnloadingPointUnbilledTrips().then((data) => res.status(200).json(data))
 }

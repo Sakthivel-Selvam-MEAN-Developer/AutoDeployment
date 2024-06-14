@@ -77,3 +77,44 @@ export const getAllStockToUnloadingPointInvoiceNumbers = () =>
             invoiceNumber: true
         }
     })
+export const getAllStockToUnloadingPointUnbilledTrips = () =>
+    prisma.stockPointToUnloadingPointTrip.findMany({
+        where: {
+            overallTrip: {
+                some: {
+                    acknowledgementStatus: true
+                }
+            },
+            billNo: { equals: null }
+        },
+        select: {
+            id: true,
+            invoiceNumber: true,
+            startDate: true,
+            acknowledgeDueTime: true,
+            truck: {
+                select: {
+                    vehicleNumber: true
+                }
+            },
+            loadingPointToStockPointTrip: {
+                select: {
+                    loadingPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            unloadingPoint: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    })

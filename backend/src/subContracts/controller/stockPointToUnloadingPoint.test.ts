@@ -10,9 +10,11 @@ const mockGetDriverIdByTripId = vi.fn()
 const mockGetTripSalaryDetailsByLoactionId = vi.fn()
 const mockCeateDriverTrip = vi.fn()
 const mockUpdateDriverTripWithTripSalaryId = vi.fn()
+const mockUnbilledTrip = vi.fn()
 
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
-    create: (inputs: any) => mockCreateUnloadingPointTrip(inputs)
+    create: (inputs: any) => mockCreateUnloadingPointTrip(inputs),
+    getAllStockToUnloadingPointUnbilledTrips: () => mockUnbilledTrip()
 }))
 vi.mock('../models/loadingToStockPointTrip', () => ({
     closeStockTrip: (inputs: any) => mockCloseStockTrip(inputs)
@@ -83,6 +85,28 @@ const mockUpdateDriverTripWithTripSalaryIdData = {
     stockTripSalaryId: 2,
     driverAdvance: []
 }
+const mockUnbilledTripData = [
+    {
+        id: 1,
+        invoiceNumber: 'ABC123',
+        startDate: 1703679340,
+        acknowledgeDueTime: 1703679340,
+        truck: {
+            vehicleNumber: 'TN93D5512'
+        },
+        loadingPointToStockPointTrip: {
+            loadingPoint: {
+                name: 'chennai',
+                cementCompany: {
+                    name: 'Xyz Cements'
+                }
+            }
+        },
+        unloadingPoint: {
+            name: 'salem'
+        }
+    }
+]
 describe('Trip Controller', () => {
     test('should able to create trip', async () => {
         mockCreateUnloadingPointTrip.mockResolvedValue(mockTripData)
@@ -134,5 +158,13 @@ describe('Trip Controller', () => {
         expect(mockGetTripSalaryDetailsByLoactionId).toHaveBeenCalledTimes(1)
         expect(mockGetDriverIdByTripId).toHaveBeenCalledTimes(1)
         expect(mockUpdateDriverTripWithTripSalaryId).toHaveBeenCalledTimes(1)
+    })
+    test('should return all stock to unloading point unbilled trips', async () => {
+        mockUnbilledTrip.mockResolvedValue(mockUnbilledTripData)
+        await supertest(app)
+            .get('/api/stock-to-unloading-unbilled-trips')
+            .expect(mockUnbilledTripData)
+        expect(mockUnbilledTrip).toBeCalledTimes(1)
+        expect(mockUnbilledTrip).toBeCalledWith()
     })
 })

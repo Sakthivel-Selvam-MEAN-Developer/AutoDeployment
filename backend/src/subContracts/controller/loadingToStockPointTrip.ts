@@ -1,5 +1,9 @@
 import { Request, Response } from 'express'
-import { create, getAllStockPointTrip } from '../models/loadingToStockPointTrip.ts'
+import {
+    create,
+    getAllStockPointTrip,
+    getAllStockPointUnbilledTrips
+} from '../models/loadingToStockPointTrip.ts'
 import { getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
 import { create as createOverallTrip } from '../models/overallTrip.ts'
 import {
@@ -89,4 +93,7 @@ export const listAllStockPointTrip = (_req: Request, res: Response) => {
             res.status(200).json(dataWithoutStock)
         })
         .catch(() => res.sendStatus(500))
+}
+export const listAllStockPointUnbilledTrips = (_req: Request, res: Response) => {
+    getAllStockPointUnbilledTrips().then((data) => res.status(200).json(data))
 }

@@ -11,7 +11,6 @@ interface FormValues {
 }
 const InvoiceNumberField: FC<InvoiceNumberSearchProps> = ({ onSearch }) => {
     const { handleSubmit, control, setValue } = useForm<FormValues>()
-
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         onSearch(data.invoiceNumber)
     }

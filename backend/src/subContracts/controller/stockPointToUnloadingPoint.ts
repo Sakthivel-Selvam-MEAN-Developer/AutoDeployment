@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
-import { create } from '../models/stockPointToUnloadingPoint.ts'
+import {
+    create,
+    getAllStockToUnloadingPointUnbilledTrips
+} from '../models/stockPointToUnloadingPoint.ts'
 import {
     getOverAllTripIdByLoadingToStockId,
     updateStockToUnloadingInOverall
@@ -62,4 +65,7 @@ export const createStockPointToUnloadingPointTrip = async (
             ).then((data) => res.status(200).json(data))
         } else res.status(400).send('There is no trip salary details for specified locations')
     }
+}
+export const listAllStocktoUnloadingPointUnbilledTrips = (_req: Request, res: Response) => {
+    getAllStockToUnloadingPointUnbilledTrips().then((data) => res.status(200).json(data))
 }

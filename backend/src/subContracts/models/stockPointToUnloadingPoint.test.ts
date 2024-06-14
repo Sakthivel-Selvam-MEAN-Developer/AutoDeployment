@@ -18,7 +18,8 @@ import {
     getUnloadingTripsByinvoiceFilter,
     updateBillNumber,
     updateUnloadWeightForStockTrip,
-    getAllStockToUnloadingPointInvoiceNumbers
+    getAllStockToUnloadingPointInvoiceNumbers,
+    getAllStockToUnloadingPointUnbilledTrips
 } from './stockPointToUnloadingPoint.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
@@ -290,5 +291,64 @@ describe('stock Point to unloading point', () => {
         const actual = await getAllStockToUnloadingPointInvoiceNumbers()
         expect(actual.length).toBe(1)
         expect(actual[0].invoiceNumber).toBe(unloadingPointTrip.invoiceNumber)
+    })
+    test('should able to get all stock Point to unloading point unbilled trips', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const unloadingPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const loadingPointToStockPoint = await createLoadingPointToStockPoint({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+
+        const unloadingPointTrip = await create({
+            ...seedStockPointToUnloadingPoint,
+            loadingPointToStockPointTripId: loadingPointToStockPoint.id,
+            unloadingPointId: unloadingPoint.id,
+            tripStatus: true,
+            truckId: truck.id,
+            overallTrip: {
+                create: {
+                    acknowledgementStatus: true
+                }
+            },
+            billNo: null
+        })
+        const unbilledTrips = await getAllStockToUnloadingPointUnbilledTrips()
+        expect(unbilledTrips.length).toBe(1)
+        expect(unbilledTrips[0].id).toBe(unloadingPointTrip.id)
+        expect(unbilledTrips[0].invoiceNumber).toBe(unloadingPointTrip.invoiceNumber)
+        expect(unbilledTrips[0].unloadingPoint.name).toBe(unloadingPoint.name)
+        expect(unbilledTrips[0].loadingPointToStockPointTrip.loadingPoint.cementCompany.name).toBe(
+            company.name
+        )
+        expect(unbilledTrips[0].truck?.vehicleNumber).toBe(truck.vehicleNumber)
     })
 })
