@@ -1,21 +1,16 @@
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-const style = {
-    marginBottom: '30px',
-    display: 'flex',
-    justifyContent: 'center',
-    textDecoration: 'none'
-}
-
-const SubContractDashboardList: React.FC = () => {
+const ListTrips: FC = () => {
     return (
-        <>
-            <Link to={'  '} style={style}>
-                <Button>Display all Trip</Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography>List of Trips</Typography>
+            <Link to={'/sub/tollPlaza/tollInvoice'}>
+                <Button variant="contained">Download Invoice</Button>
             </Link>
-        </>
+        </div>
     )
 }
 
-export default SubContractDashboardList
+export default ListTrips

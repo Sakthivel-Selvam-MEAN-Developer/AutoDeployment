@@ -181,19 +181,19 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     index={11}
                     icon={<Beenhere />}
                 /> */}
-                <DrawerCollapse
-                    index={12}
-                    drawerState={drawerState}
-                    text="Reports"
-                    icon={<Summarize />}
-                    subs={reportSubs}
-                />
                 <DrawerListItem
                     text="Toll Plaza"
                     navigate="/sub/tollPlaza"
                     drawerState={drawerState}
-                    index={13}
+                    index={12}
                     icon={<TollIcon />}
+                />
+                <DrawerCollapse
+                    index={13}
+                    drawerState={drawerState}
+                    text="Reports"
+                    icon={<Summarize />}
+                    subs={reportSubs}
                 />
             </List>
         </Drawer>

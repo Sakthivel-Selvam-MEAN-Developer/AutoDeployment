@@ -83,4 +83,17 @@ describe('TollPlaza Controller', () => {
         await supertest(app).get('/api/toll').expect(200)
         expect(mockTollLocation).toHaveBeenCalledTimes(1)
     })
+    test.skip('should able to getTollPlaza is not empty', async () => {
+        mockTollLocation.mockResolvedValue({
+            ...mockTollPlaza,
+            tollPlaza: [
+                {
+                    tollPlazaLocation: 'Dhone',
+                    amount: 1200
+                }
+            ]
+        })
+        await supertest(app).get('/api/toll/invoice').expect(200)
+        expect(mockTollLocation).toHaveBeenCalledTimes(1)
+    })
 })

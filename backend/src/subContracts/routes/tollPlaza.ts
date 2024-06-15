@@ -5,5 +5,6 @@ const tollPlazaRoutes = (router: Router) => {
     router.post('/toll', createTollLocation)
     router.put('/toll', updateTollDetails)
     router.get('/toll', getTollAmount)
+    router.get('/toll/invoice')
 }
 export default tollPlazaRoutes

@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 const TollPlaza: React.FC = (): ReactElement => {
     return (
         <>
-            <div style={{ marginBottom: '30px' }}>TollPlaza</div>
+            <div style={{ marginBottom: '30px' }}>Toll Plaza</div>
             <Outlet />
         </>
     )

@@ -20,3 +20,4 @@ export const getTollAmount = (_req: Request, res: Response) => {
         .then((details) => res.status(200).json(details))
         .catch((error) => handlePrismaError(error, res))
 }
+// export const getOverallTripByTollNotEmpty = (_req: Request, _res: Response) => {}

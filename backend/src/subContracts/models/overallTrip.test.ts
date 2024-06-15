@@ -10,6 +10,7 @@ import {
     getOverAllTripIdByLoadingToStockId,
     getOverallTrip,
     getOveralltripByToll,
+    getOveralltripByTollNotEmpty,
     getTripByTransporterInvoice,
     getTripByUnloadDate,
     getTripForAcknowlegementApproval,
@@ -42,6 +43,64 @@ import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
+
+const tollPlazaCreationPreRequirements = async () => {
+    const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+    const stockPricePointMarker = await createPricePointMarker({
+        ...seedPricePointMarker,
+        location: 'salem'
+    })
+    const unloadingPricePointMarker = await createPricePointMarker({
+        ...seedPricePointMarker,
+        location: 'Erode'
+    })
+    const company = await createCompany(seedCompany)
+    const transporter = await createTransporter(seedTransporter)
+    const unloadingTripTruck = await createTruck({
+        ...seedTruck,
+        transporterId: transporter.id
+    })
+    const stockTripTruck = await createTruck({
+        ...seedTruck,
+        vehicleNumber: 'TN52S3555',
+        transporterId: transporter.id
+    })
+    const factoryPoint = await createLoadingPoint({
+        ...seedLoadingPoint,
+        cementCompanyId: company.id,
+        pricePointMarkerId: loadingPricePointMarker.id
+    })
+    const deliveryPoint = await createUnloadingpoint({
+        ...seedUnloadingPoint,
+        cementCompanyId: company.id,
+        pricePointMarkerId: unloadingPricePointMarker.id
+    })
+    const stockPoint = await createStockpoint({
+        ...seedStockPoint,
+        cementCompanyId: company.id,
+        pricePointMarkerId: stockPricePointMarker.id
+    })
+    const loadingToUnloadingTrip = await createTrip({
+        ...seedFactoryToCustomerTrip,
+        loadingPointId: factoryPoint.id,
+        unloadingPointId: deliveryPoint.id,
+        truckId: unloadingTripTruck.id,
+        wantFuel: false,
+        loadingKilometer: 0
+    })
+    const loadingToStockTrip = await createLoadingToStockTrip({
+        ...seedLoadingToStockTrip,
+        loadingPointId: factoryPoint.id,
+        stockPointId: stockPoint.id,
+        truckId: stockTripTruck.id,
+        wantFuel: false,
+        loadingKilometer: 0
+    })
+    await create({ loadingPointToStockPointTripId: loadingToStockTrip.id })
+    return create({
+        loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
+    })
+}
 
 describe('Overall Trip model', () => {
     test('should able to create a overall trip', async () => {
@@ -695,66 +754,25 @@ describe('Overall Trip model', () => {
         expect(actual[0]?.id).toBe(closedOverallTrip.id)
     })
     test('should able to get overall Trip for getTollAmount', async () => {
-        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const stockPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'salem'
-        })
-        const unloadingPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'Erode'
-        })
-        const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
-        const unloadingTripTruck = await createTruck({
-            ...seedTruck,
-            transporterId: transporter.id
-        })
-        const stockTripTruck = await createTruck({
-            ...seedTruck,
-            vehicleNumber: 'TN52S3555',
-            transporterId: transporter.id
-        })
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: loadingPricePointMarker.id
-        })
-        const deliveryPoint = await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: unloadingPricePointMarker.id
-        })
-        const stockPoint = await createStockpoint({
-            ...seedStockPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: stockPricePointMarker.id
-        })
-        const loadingToUnloadingTrip = await createTrip({
-            ...seedFactoryToCustomerTrip,
-            loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            truckId: unloadingTripTruck.id,
-            wantFuel: false,
-            loadingKilometer: 0
-        })
-        const loadingToStockTrip = await createLoadingToStockTrip({
-            ...seedLoadingToStockTrip,
-            loadingPointId: factoryPoint.id,
-            stockPointId: stockPoint.id,
-            truckId: stockTripTruck.id,
-            wantFuel: false,
-            loadingKilometer: 0
-        })
-        const overallTrip = await create({
-            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
-        })
-        await create({ loadingPointToStockPointTripId: loadingToStockTrip.id })
+        const overallTrip = await tollPlazaCreationPreRequirements()
         await createTollPlaza([
             { ...seedTollPlaza, overallTripId: overallTrip.id },
             { overallTripId: overallTrip.id, tollPlazaLocation: 'salem', amount: 500 }
         ])
         const actual = await getOveralltripByToll()
         expect(actual.length).toStrictEqual(1)
+    })
+    test('should able to get overall Trip with tollplaza details to generate toll invoice', async () => {
+        const overallTrip = await tollPlazaCreationPreRequirements()
+        await createTollPlaza([
+            { ...seedTollPlaza, overallTripId: overallTrip.id },
+            { overallTripId: overallTrip.id, tollPlazaLocation: 'salem', amount: 500 }
+        ])
+        const actual = await getOveralltripByTollNotEmpty()
+        expect(actual.length).toStrictEqual(1)
+        expect(actual[0].tollPlaza[0].tollPlazaLocation).toStrictEqual('Dhone')
+        expect(actual[0].tollPlaza[0].amount).toStrictEqual(350)
+        expect(actual[0].tollPlaza[1].tollPlazaLocation).toStrictEqual('salem')
+        expect(actual[0].tollPlaza[1].amount).toStrictEqual(500)
     })
 })
