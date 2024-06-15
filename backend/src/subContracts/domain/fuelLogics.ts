@@ -1,89 +1,9 @@
-import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 
-const fuelLogics = async (
-    fuel: {
-        id: number
-        fueledDate: number
-        overallTripId: number | null
-        invoiceNumber: string
-        pricePerliter: number
-        quantity: number
-        totalprice: number
-        paymentStatus: boolean
-        vehicleNumber: string
-        bunkId: number
-    },
-    trip: any,
-    bunkname: string,
-    vehicleNumber: string
-) => {
-    let tripDetails
-    let transporterPercentage = 70
-    if (trip !== null) {
-        if (trip.loadingPointToStockPointTrip !== null) {
-            tripDetails = trip.loadingPointToStockPointTrip
-        } else if (trip.loadingPointToUnloadingPointTrip !== null) {
-            tripDetails = trip.loadingPointToUnloadingPointTrip
-        }
-        if (
-            trip.loadingPointToStockPointTripId &&
-            tripDetails.loadingPoint.cementCompany.advanceType === 100
-        ) {
-            transporterPercentage = 100
-        }
-        const payableAmount = parseFloat(
-            (
-                (tripDetails.totalTransporterAmount * transporterPercentage) / 100 -
-                fuel.totalprice
-            ).toFixed(2)
-        )
-        const paymentDues = [
-            {
-                name: tripDetails.truck.transporter.name,
-                type: 'initial pay',
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                payableAmount,
-                overallTripId: trip.id,
-                vehicleNumber,
-                NEFTStatus: payableAmount < 0,
-                transactionId: payableAmount < 0 ? '0' : '',
-                paidAt: payableAmount < 0 ? 0 : 0
-            },
-            {
-                name: bunkname,
-                type: 'fuel pay',
-                fuelId: fuel.id,
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                payableAmount: parseFloat(fuel.totalprice.toFixed(2)),
-                overallTripId: trip.id,
-                vehicleNumber
-            }
-        ]
-        if (tripDetails.truck.transporter.transporterType === 'Own') {
-            return {
-                name: bunkname,
-                type: 'fuel pay',
-                fuelId: fuel.id,
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                payableAmount: parseFloat(fuel.totalprice.toFixed(2)),
-                overallTripId: trip.id,
-                vehicleNumber
-            }
-        }
-        if (
-            fuel.overallTripId !== null &&
-            tripDetails.truck.transporter.transporterType !== 'Own'
-        ) {
-            return paymentDues
-        }
-    }
-}
-
-export default fuelLogics
 interface fuelProps {
     id: number
     fueledDate: number
+    overallTripId: number | null
     invoiceNumber: string
     pricePerliter: number
     quantity: number
@@ -92,18 +12,20 @@ interface fuelProps {
     vehicleNumber: string
     bunkId: number
 }
-type fuelDueType = (
+const fuelLogics = async (
+    fuel: fuelProps,
+    overallTripId: number | null | undefined,
     bunkname: string,
-    vehicleNumber: string,
-    fuel: fuelProps
-) => Prisma.paymentDuesCreateManyInput | Prisma.paymentDuesCreateManyInput[]
-export const fuelDues: fuelDueType = (bunkname, vehicleNumber, fuel) => [
+    vehicleNumber: string
+) => [
     {
         name: bunkname,
         type: 'fuel pay',
         fuelId: fuel.id,
-        vehicleNumber,
         dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-        payableAmount: fuel.totalprice
+        payableAmount: parseFloat(fuel.totalprice.toFixed(2)),
+        overallTripId: overallTripId || null,
+        vehicleNumber
     }
 ]
+export default fuelLogics

@@ -51,25 +51,6 @@ const mockCreatePaymentDuesData1 = [
         payableAmount: 6227.285
     }
 ]
-const mockCreatePaymentDuesData2 = [
-    {
-        name: 'Barath Logistics Pvt Ltd',
-        type: 'initial pay',
-        dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-        payableAmount: 22122.715,
-        tripId: 1,
-        vehicleNumber: 'TN93D5512'
-    },
-    {
-        name: 'Barath Petroleum',
-        type: 'fuel pay',
-        dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-        payableAmount: 6227.285,
-        tripId: 1,
-        vehicleNumber: 'TN93D5512'
-    }
-]
-
 const mockFuelWithoutTripData = {
     vehicleNumber: 'TN93D5512',
     pricePerliter: 102.5,
@@ -84,37 +65,6 @@ const mockUpdateFuelWithTripData = {
     totalprice: 6227.285,
     loadingPointToUnloadingPointTripId: 1
 }
-const mockTripData = {
-    id: 1,
-    acknowledgementStatus: false,
-    loadingPointToStockPointTripId: null,
-    stockPointToUnloadingPointTripId: null,
-    loadingPointToUnloadingPointTripId: 1,
-    loadingPointToStockPointTrip: null,
-    loadingPointToUnloadingPointTrip: {
-        id: 1,
-        startDate: 1706341407,
-        filledLoad: 45,
-        wantFuel: true,
-        tripStatus: false,
-        unloadedWeight: null,
-        freightAmount: 1000,
-        transporterAmount: 900,
-        totalFreightAmount: 45000,
-        totalTransporterAmount: 40500,
-        margin: 4500,
-        loadingPointId: 1,
-        invoiceNumber: '12345',
-        unloadingPointId: 1,
-        truckId: 1,
-        truck: {
-            transporter: {
-                name: 'Barath Logistics Pvt Ltd'
-            }
-        }
-    }
-}
-
 describe('Bunk Controller', () => {
     test('should able to create Bunk with dues', async () => {
         mockGetOnlyActiveTripByVehicle.mockResolvedValue(null)
@@ -123,14 +73,6 @@ describe('Bunk Controller', () => {
         mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
         await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
         expect(mockCreateFuel).toBeCalledTimes(1)
-    })
-    test('should able to create Bunk with dues', async () => {
-        mockGetOnlyActiveTripByVehicle.mockResolvedValue({ id: 1 })
-        mockCreateFuel.mockResolvedValue(mockFuel)
-        mockGetActiveTripByVehicle.mockResolvedValue(mockTripData)
-        mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData2)
-        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
-        expect(mockCreateFuel).toBeCalledTimes(2)
     })
     test('should able to access', async () => {
         mockFuelDetails.mockResolvedValue({ pricePerliter: 102 })

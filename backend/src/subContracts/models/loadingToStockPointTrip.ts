@@ -151,3 +151,34 @@ export const getAllStockPointUnbilledTrips = () =>
             }
         }
     })
+export const updateFreightInStockTrip = (id: number, details: any) =>
+    prisma.loadingPointToStockPointTrip.update({
+        where: {
+            id
+        },
+        data: {
+            freightAmount: details.freightAmount,
+            transporterAmount: details.transporterAmount,
+            totalFreightAmount: details.totalFreightAmount,
+            totalTransporterAmount: details.totalTransporterAmount
+        },
+        select: {
+            totalTransporterAmount: true,
+            wantFuel: true,
+            loadingPoint: {
+                select: {
+                    cementCompany: {
+                        select: { advanceType: true }
+                    }
+                }
+            },
+            truck: {
+                select: {
+                    vehicleNumber: true,
+                    transporter: {
+                        select: { name: true, transporterType: true }
+                    }
+                }
+            }
+        }
+    })

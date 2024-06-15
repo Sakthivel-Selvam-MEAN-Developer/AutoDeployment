@@ -1,42 +1,30 @@
 import dayjs from 'dayjs'
+import { tripLogicTripProps } from './types.ts'
 
-export interface dataProps {
-    wantFuel: boolean
-    totalTransporterAmount: number
-}
-export interface fuelProps {
-    totalprice: number
-}
-
-const tripLogic = async (
-    data: dataProps,
-    fuelDetails: fuelProps | null,
-    transporterName: string,
-    id: number,
-    vehicleNumber: string,
-    tripType: string,
-    advanceType: number | undefined
-) => {
+const tripLogic = async (trip: tripLogicTripProps, overallTrip: any, tripType: string) => {
+    if (trip.truck.transporter.transporterType === 'Own') return
+    const fuelDetails = overallTrip.fuel[0]
+    if (trip.wantFuel === true && fuelDetails === null) return
     let transporterPercentage = 70 / 100
-    if (tripType === 'LoadingToStock' && advanceType === 100) transporterPercentage = 1
+    if (tripType === 'LoadingToStock' && trip.loadingPoint.cementCompany.advanceType === 100) {
+        transporterPercentage = 1
+    }
     const fuelAmount = fuelDetails ? fuelDetails.totalprice : 0
-    if (data.wantFuel === true && fuelDetails === null) return
     const payableAmount = parseFloat(
-        (data.totalTransporterAmount * transporterPercentage - fuelAmount).toFixed(2)
+        (trip.totalTransporterAmount * transporterPercentage - fuelAmount).toFixed(2)
     )
     return [
         {
-            name: transporterName,
+            name: trip.truck.transporter.name,
             type: 'initial pay',
             dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-            overallTripId: id,
-            vehicleNumber,
+            overallTripId: overallTrip.id,
+            vehicleNumber: trip.truck.vehicleNumber,
             payableAmount,
             NEFTStatus: payableAmount < 0,
             transactionId: payableAmount < 0 ? '0' : '',
-            paidAt: payableAmount < 0 ? 0 : 0
+            paidAt: 0
         }
     ]
 }
-
 export default tripLogic

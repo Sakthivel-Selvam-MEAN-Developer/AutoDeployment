@@ -15,7 +15,8 @@ import {
     getStockTripsByinvoiceFilter,
     updateBillNumber,
     getAllStockPointInvoiceNumbers,
-    getAllStockPointUnbilledTrips
+    getAllStockPointUnbilledTrips,
+    updateFreightInStockTrip
 } from './loadingToStockPointTrip.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
@@ -201,6 +202,40 @@ describe('Loading To Stock Trip model', () => {
         const invoiceNumbers = await getAllStockPointInvoiceNumbers()
         expect(invoiceNumbers.length).toBe(1)
         expect(invoiceNumbers[0].invoiceNumber).toBe(trip.invoiceNumber)
+    })
+    test('should able to update trip in loading to stock point', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const trip = await create({
+            ...seedFactoryToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: true
+        })
+        const newAmount = {
+            freightAmount: 1001,
+            transporterAmount: 10001,
+            totalFreightAmount: 10001,
+            totalTransporterAmount: 10001
+        }
+        const newTripDetails = await updateFreightInStockTrip(trip.id, newAmount)
+        expect(newTripDetails.totalTransporterAmount).toBe(newAmount.totalTransporterAmount)
     })
     test('should able to get all unbilled stock point trips', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

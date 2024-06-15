@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { create, getAllFuel, getFuelWithoutTrip, updateFuelWithTripId } from '../models/fuel.ts'
-import fuelLogics, { fuelDues } from '../domain/fuelLogics.ts'
+import fuelLogics from '../domain/fuelLogics.ts'
 import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { getActiveTripByVehicle, getOnlyActiveTripByVehicle } from '../models/overallTrip.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
@@ -19,13 +19,15 @@ export interface dataProps {
     createdAt: Date
     updatedAt: Date
 }
-
-async function createDues(fuel: dataProps, trip: any, bunkname: string, vehicleNumber: string) {
-    return fuelLogics(fuel, trip, bunkname, vehicleNumber).then((dues) => {
-        if (trip !== null && dues !== undefined) return createPaymentDues(dues)
-        const fuelDue = fuelDues(bunkname, vehicleNumber, fuel)
-        return createPaymentDues(fuelDue)
-    })
+async function createDues(
+    fuel: dataProps,
+    overallTripId: number | null | undefined,
+    bunkname: string,
+    vehicleNumber: string
+) {
+    return fuelLogics(fuel, overallTripId, bunkname, vehicleNumber).then((dues) =>
+        createPaymentDues(dues)
+    )
 }
 
 export const createFuel = async (req: Request, res: Response) => {
@@ -34,8 +36,8 @@ export const createFuel = async (req: Request, res: Response) => {
         const { bunkname } = req.params
         const activeTrip = await getOnlyActiveTripByVehicle(vehicleNumber)
         const fuel = await create({ ...req.body, overallTripId: activeTrip?.id })
-        const trip = await getActiveTripByVehicle(vehicleNumber)
-        return createDues(fuel, trip, bunkname, vehicleNumber)
+        const overallTrip = await getActiveTripByVehicle(vehicleNumber)
+        return createDues(fuel, overallTrip?.id, bunkname, vehicleNumber)
             .then(() => res.sendStatus(200))
             .catch((error) => handlePrismaError(error, res))
     } catch (error) {

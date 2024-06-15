@@ -11,7 +11,8 @@ import {
     getTripByVehicleNumber,
     updateUnloadWeightforTrip,
     getAllUnloadingPointInvoiceNumbers,
-    getAllUnloadingPointUnbilledTrips
+    getAllUnloadingPointUnbilledTrips,
+    updateFreightInDirectTrip
 } from './loadingToUnloadingTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -176,6 +177,39 @@ describe('Trip model', () => {
         })
         const invoiceNumbers = await getAllUnloadingPointInvoiceNumbers()
         expect(invoiceNumbers.length).toBe(1)
+    })
+    test('should able to update freight in loading to unloading point', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const directTrip = await create({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id
+        })
+        const newAmount = {
+            freightAmount: 1001,
+            transporterAmount: 10001,
+            totalFreightAmount: 10001,
+            totalTransporterAmount: 10001
+        }
+        const newTrip = await updateFreightInDirectTrip(directTrip.id, newAmount)
+        expect(newTrip.totalTransporterAmount).toEqual(newAmount.totalTransporterAmount)
     })
     test('should be able to get all unloading point unbilled trips', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

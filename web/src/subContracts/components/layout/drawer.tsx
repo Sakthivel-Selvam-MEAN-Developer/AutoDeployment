@@ -174,16 +174,16 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                         icon={<FileDownload />}
                     />
                 )}
-                {/* <DrawerListItem
+                <DrawerListItem
                     text="PricePoint Approval"
                     navigate="/sub/pricepointapproval"
                     drawerState={drawerState}
                     index={11}
                     icon={<Beenhere />}
-                /> */}
+                />
                 <DrawerListItem
                     text="Toll Plaza"
-                    navigate="/sub/tollPlaza"
+                    navigate="/sub/toll"
                     drawerState={drawerState}
                     index={12}
                     icon={<TollIcon />}

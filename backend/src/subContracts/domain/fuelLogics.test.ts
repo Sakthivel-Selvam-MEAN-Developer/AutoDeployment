@@ -42,19 +42,8 @@ describe('Fuel Logics Test', async () => {
         const bunkname = 'Barath Petroleum'
         const vehicleNumber = 'TN29BA3211'
 
-        const actual = await fuelLogics(fuel, trip, bunkname, vehicleNumber)
+        const actual = await fuelLogics(fuel, trip.id, bunkname, vehicleNumber)
         expect(actual).toEqual([
-            {
-                name: 'Barath Logistics Pvt Ltd',
-                type: 'initial pay',
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                overallTripId: 3,
-                vehicleNumber: 'TN29BA3211',
-                payableAmount: -37000,
-                transactionId: '0',
-                NEFTStatus: true,
-                paidAt: 0
-            },
             {
                 name: 'Barath Petroleum',
                 type: 'fuel pay',

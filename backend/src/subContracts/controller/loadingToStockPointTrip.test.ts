@@ -2,7 +2,6 @@ import supertest from 'supertest'
 import dayjs from 'dayjs'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
-import { loadingToStockTripLogic } from '../domain/overallTrip/createLoadingToStockTripEvent.ts'
 
 const mockCreateTrip = vi.fn()
 const mockStockPointTrip = vi.fn()
@@ -33,7 +32,6 @@ vi.mock('../models/truck', () => ({
     getNumberByTruckId: (truckId: any) => mockGetNumberByTruckId(truckId)
 }))
 vi.mock('../models/paymentDues', () => ({
-    create: (inputs: any) => mockCreatePaymentDues(inputs),
     getPaymentDuesWithoutTripId: (vehicleNumber: any) =>
         mockGetPaymentDuesWithoutTripId(vehicleNumber),
     updatePaymentDuesWithTripId: (inputs: any) => mockUpdatePaymentDuesWithTripId(inputs)
@@ -182,11 +180,6 @@ const mockUnbilledTripData = [
         }
     }
 ]
-const mockRes = {
-    sendStatus: vi.fn().mockReturnThis(),
-    status: vi.fn().mockReturnThis(),
-    json: vi.fn().mockReturnThis()
-} as unknown as Response
 
 const mockReq = {
     truckId: 2,
@@ -222,21 +215,6 @@ const mockReq2 = {
     lrNumber: 'zxczxc',
     stockPointId: 1
 }
-const mockFuelDetails = {
-    id: 1,
-    fueledDate: 1718908200,
-    invoiceNumber: 'axsdcrtysdfcu',
-    pricePerliter: 100,
-    quantity: 120,
-    totalprice: 12000,
-    dieselkilometer: 0,
-    fuelType: '',
-    paymentStatus: false,
-    vehicleNumber: 'TN29B3246',
-    bunkId: 2,
-    overallTripId: null,
-    bunk: { bunkName: 'Sakthivel Barath Petroleum' }
-}
 describe('Trip Controller', () => {
     test('should able to access all trip', async () => {
         mockStockPointTrip.mockResolvedValue(mockGetTripData)
@@ -256,21 +234,8 @@ describe('Trip Controller', () => {
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData1)
         mockGetFuelWithoutTrip.mockResolvedValue(null)
         await supertest(app).post('/api/stock-trip').send(mockReq).expect(200)
-        const acutal = await loadingToStockTripLogic(
-            mockTripData1.truck.transporter.transporterType,
-            mockReq,
-            null,
-            mockTripData1.truck.transporter.name,
-            mockTripData1.id,
-            mockTripData1.truck.vehicleNumber,
-            'LoadingToStock',
-            mockTripData1.loadingPoint.cementCompany.advanceType,
-            mockRes
-        )
-        expect(acutal).toEqual(mockcreatePaymentDuesData1)
         expect(mockCreateTrip).toBeCalledTimes(1)
         expect(mockCreateOverallTrip).toBeCalledTimes(1)
-        expect(mockCreatePaymentDues).toBeCalledTimes(1)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(1)
     })
     test('should able to create trip with payment dues with fuel', async () => {
@@ -284,18 +249,6 @@ describe('Trip Controller', () => {
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData2)
         await supertest(app).post('/api/stock-trip').send(mockReq2).expect(200)
-        const acutal = await loadingToStockTripLogic(
-            mockTripData2.truck.transporter.transporterType,
-            mockReq,
-            mockFuelDetails,
-            mockTripData2.truck.transporter.name,
-            mockTripData2.id,
-            mockTripData2.truck.vehicleNumber,
-            'LoadingToStock',
-            mockTripData2.loadingPoint.cementCompany.advanceType,
-            mockRes
-        )
-        expect(acutal).toEqual(mockcreatePaymentDuesData2)
         expect(mockCreateTrip).toBeCalledTimes(2)
         expect(mockCreateOverallTrip).toBeCalledTimes(2)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(2)

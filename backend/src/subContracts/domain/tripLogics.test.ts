@@ -1,26 +1,38 @@
 import dayjs from 'dayjs'
 import tripLogic from './tripLogics.ts'
 
-describe('Trip Logics Test', async () => {
-    test('Should get only initial pay without fuel after trip', async () => {
-        const data = {
-            wantFuel: false,
-            totalTransporterAmount: 10000
+const tripData = {
+    totalTransporterAmount: 10000,
+    wantFuel: false,
+    loadingPoint: {
+        cementCompany: {
+            advanceType: 70
         }
-        const fuelDetails = null
-        const transporterName = 'Barath Logistics Pvt Ltd'
-        const vehicleNumber = 'TN93D5512'
-        const id = 1
-
-        const actual = await tripLogic(
-            data,
-            fuelDetails,
-            transporterName,
-            id,
-            vehicleNumber,
-            'LoadingToUnloading',
-            0
-        )
+    },
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Barath Logistics Pvt Ltd',
+            transporterType: 'Market'
+        }
+    }
+}
+const overallTrip = {
+    id: 1,
+    fuel: [
+        {
+            totalprice: 1000,
+            fuelStation: {
+                bunk: {
+                    bunkName: 'Barath Petroleum'
+                }
+            }
+        }
+    ]
+}
+describe('Trip Logics Test', async () => {
+    test('Should get only initial pay without fuel in trip', async () => {
+        const actual = await tripLogic(tripData, { ...overallTrip, fuel: [] }, 'LoadingToUnloading')
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
@@ -35,32 +47,8 @@ describe('Trip Logics Test', async () => {
             }
         ])
     })
-    test('Should get both initial & fuel pay with fuel before trip', async () => {
-        const data = {
-            wantFuel: false,
-            totalTransporterAmount: 10000
-        }
-        const fuelDetails = {
-            totalprice: 1000,
-            fuelStation: {
-                bunk: {
-                    bunkName: 'Barath Petroleum'
-                }
-            }
-        }
-        const transporterName = 'Barath Logistics Pvt Ltd'
-        const vehicleNumber = 'TN93D5512'
-        const id = 1
-
-        const actual = await tripLogic(
-            data,
-            fuelDetails,
-            transporterName,
-            id,
-            vehicleNumber,
-            'LoadingToUnloading',
-            0
-        )
+    test('Should get both initial with fuel in trip', async () => {
+        const actual = await tripLogic(tripData, overallTrip, 'LoadingToUnloading')
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',

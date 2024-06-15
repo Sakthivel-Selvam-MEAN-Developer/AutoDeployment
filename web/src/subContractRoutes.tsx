@@ -35,8 +35,8 @@ import AcknowledgementApproval from './subContracts/components/acknowledgementAp
 import TollPlaza from './subContracts/components/tollPlaza'
 import ListTrips from './subContracts/components/tollPlaza/list'
 import ListTripsForTollInvoice from './subContracts/components/tollPlaza/tollInvoice/listTripsForTollInvoice'
-// import PricePointApproval from './subContracts/components/pricePointApproval'
-// import PricePointApprovalList from './subContracts/components/pricePointApproval/list'
+import PricePointApproval from './subContracts/components/pricePointApproval'
+import PricePointApprovalList from './subContracts/components/pricePointApproval/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -210,17 +210,17 @@ const sunContractRoutes = {
                     element: <ListTripsForTollInvoice />
                 }
             ]
+        },
+        {
+            path: 'pricepointapproval',
+            element: <PricePointApproval />,
+            children: [
+                {
+                    path: '',
+                    element: <PricePointApprovalList />
+                }
+            ]
         }
-        // {
-        //     path: 'pricepointapproval',
-        //     element: <PricePointApproval />,
-        //     children: [
-        //         {
-        //             path: '',
-        //             element: <PricePointApprovalList />
-        //         }
-        //     ]
-        // },
     ]
 }
 export default sunContractRoutes

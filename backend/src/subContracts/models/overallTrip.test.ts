@@ -14,8 +14,10 @@ import {
     getTripByTransporterInvoice,
     getTripByUnloadDate,
     getTripForAcknowlegementApproval,
+    getTripForPricePointApproval,
     tripStatusFilter,
     updateAcknowledgementApproval,
+    updatePricePointApprovalStatus,
     updateStockToUnloadingInOverall,
     updateTransporterInvoice
 } from './overallTrip.ts'
@@ -774,5 +776,77 @@ describe('Overall Trip model', () => {
         expect(actual[0].tollPlaza[0].amount).toStrictEqual(350)
         expect(actual[0].tollPlaza[1].tollPlazaLocation).toStrictEqual('salem')
         expect(actual[0].tollPlaza[1].amount).toStrictEqual(500)
+    })
+    test('should able to get overall Trip for pricePointApproval', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const unloadingTripTruck = await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const loadingToUnloadingTrip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: unloadingTripTruck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overallTrip = await create({
+            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
+        })
+        const actual = await getTripForPricePointApproval()
+        expect(actual[0].id).toEqual(overallTrip.id)
+    })
+    test('should able to update overall Trip for pricePointApproval', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const unloadingTripTruck = await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const loadingToUnloadingTrip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: unloadingTripTruck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overallTrip = await create({
+            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
+        })
+        const actual = await updatePricePointApprovalStatus(overallTrip.id)
+        expect(actual.pricePointApprovalStatus).toEqual(!overallTrip.pricePointApprovalStatus)
     })
 })

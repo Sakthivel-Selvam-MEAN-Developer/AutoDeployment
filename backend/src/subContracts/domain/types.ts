@@ -128,6 +128,7 @@ export interface overallTrip {
     loadingPointToUnloadingPointTripId: number
     createdAt: Date
     updatedAt: Date
+    fuel: []
     loadingPointToStockPointTrip: number | null
     loadingPointToUnloadingPointTrip: {
         id: number
@@ -178,4 +179,49 @@ export interface props {
     invoiceNumber: string
     stockPointId: number
     truckId: number
+}
+export interface tripLogicTripProps {
+    totalTransporterAmount: number
+    wantFuel: boolean | null
+    loadingPoint: {
+        cementCompany: {
+            advanceType: number
+        }
+    }
+    truck: {
+        vehicleNumber: string
+        transporter: {
+            name: string
+            transporterType: string
+        }
+    }
+}
+export interface paymentDuesProps {
+    id: number
+    name: string
+    vehicleNumber: string
+    dueDate: number
+    fuelId: number | null
+    type: string
+    status: boolean
+    NEFTStatus: boolean
+    payableAmount: number
+    transactionId: string | null
+    paidAt: number | null
+    createdAt: Date
+    updatedAt: Date
+    overallTripId: number | null
+}
+export interface ppFuelProps {
+    id: number
+    fueledDate: number
+    invoiceNumber: string
+    pricePerliter: number
+    quantity: number
+    totalprice: number
+    dieselkilometer: number
+    fuelType: string | null
+    paymentStatus: boolean
+    overallTripId: number | null
+    updatedAt: Date
 }

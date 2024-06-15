@@ -574,6 +574,7 @@ model overallTrip {
   id                                 Int                               @id @default(autoincrement())
   acknowledgementStatus              Boolean                           @default(false)
   acknowledgementApproval            Boolean                           @default(false)
+  pricePointApprovalStatus           Boolean                           @default(false)
   finalPayDuration                   Int                               @default(0)
   transporterInvoice                 String                            @default("")
   acknowledgementDate                Int?

@@ -84,36 +84,7 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
                 }
             ]
         },
-        include: {
-            loadingPointToStockPointTrip: {
-                include: {
-                    truck: { select: { transporter: true } },
-                    loadingPoint: {
-                        select: {
-                            cementCompany: {
-                                select: {
-                                    advanceType: true
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: { select: { transporter: true } },
-                    loadingPoint: {
-                        select: {
-                            cementCompany: {
-                                select: {
-                                    advanceType: true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        select: { id: true }
     })
 export const getAllActivetripTripByTripStatus = () =>
     prisma.overallTrip.findMany({
@@ -825,15 +796,13 @@ export const getTripByTransporterInvoice = (invoiceNumber: string) =>
                 {
                     loadingPointToStockPointTrip: {
                         invoiceNumber,
-                        truck: { transporter: { transporterType: { not: 'Own' } } },
-                        tripStatus: true
+                        truck: { transporter: { transporterType: { not: 'Own' } } }
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
                         invoiceNumber,
-                        truck: { transporter: { transporterType: { not: 'Own' } } },
-                        tripStatus: true
+                        truck: { transporter: { transporterType: { not: 'Own' } } }
                     }
                 }
             ]
@@ -1092,48 +1061,113 @@ export const getTripForAcknowlegementApproval = () =>
 export const getTripForPricePointApproval = () =>
     prisma.overallTrip.findMany({
         where: {
-            // pricePointApprovalStatus: false
-            acknowledgementApproval: false
+            pricePointApprovalStatus: false,
+            paymentDues: { none: { type: 'initial pay' } },
+            OR: [
+                {
+                    loadingPointToStockPointTrip: {
+                        truck: {
+                            transporter: {
+                                transporterType: {
+                                    not: {
+                                        equals: 'Own'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        truck: {
+                            transporter: {
+                                transporterType: {
+                                    not: {
+                                        equals: 'Own'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
         },
-        include: {
+        select: {
+            id: true,
+            fuel: true,
+            paymentDues: true,
             loadingPointToStockPointTrip: {
                 select: {
+                    id: true,
                     startDate: true,
                     invoiceNumber: true,
                     filledLoad: true,
                     freightAmount: true,
                     transporterAmount: true,
-                    loadingPoint: { select: { name: true } },
+                    wantFuel: true,
+                    acknowledgeDueTime: true,
+                    totalTransporterAmount: true,
+                    tripStatus: true,
+                    loadingPointId: true,
+                    stockPointId: true,
+                    loadingPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: { advanceType: true }
+                            }
+                        }
+                    },
+                    stockPoint: { select: { name: true } },
                     truck: {
                         select: {
+                            vehicleNumber: true,
                             transporter: {
                                 select: {
                                     name: true,
-                                    csmName: true
+                                    csmName: true,
+                                    transporterType: true,
+                                    gstPercentage: true
                                 }
-                            },
-                            vehicleNumber: true
+                            }
                         }
                     }
                 }
             },
             loadingPointToUnloadingPointTrip: {
                 select: {
+                    id: true,
                     startDate: true,
                     invoiceNumber: true,
                     filledLoad: true,
                     freightAmount: true,
                     transporterAmount: true,
-                    loadingPoint: { select: { name: true } },
+                    wantFuel: true,
+                    acknowledgeDueTime: true,
+                    totalTransporterAmount: true,
+                    tripStatus: true,
+                    loadingPointId: true,
+                    unloadingPointId: true,
+                    loadingPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: { advanceType: true }
+                            }
+                        }
+                    },
+                    unloadingPoint: { select: { name: true } },
                     truck: {
                         select: {
+                            vehicleNumber: true,
                             transporter: {
                                 select: {
                                     name: true,
-                                    csmName: true
+                                    csmName: true,
+                                    transporterType: true,
+                                    gstPercentage: true
                                 }
-                            },
-                            vehicleNumber: true
+                            }
                         }
                     }
                 }
@@ -1251,6 +1285,105 @@ export const getOverallTripByVehicleNumber = (vehicleNumber: string) =>
                     unloadingPoint: {
                         select: {
                             name: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+export const updatePricePointApprovalStatus = (id: number) =>
+    prisma.overallTrip.update({
+        where: {
+            id
+        },
+        data: {
+            pricePointApprovalStatus: true
+        },
+        select: {
+            id: true,
+            fuel: true,
+            paymentDues: true,
+            pricePointApprovalStatus: true,
+            loadingPointToUnloadingPointTrip: {
+                select: {
+                    id: true,
+                    startDate: true,
+                    invoiceNumber: true,
+                    filledLoad: true,
+                    freightAmount: true,
+                    transporterAmount: true,
+                    wantFuel: true,
+                    acknowledgeDueTime: true,
+                    totalTransporterAmount: true,
+                    tripStatus: true,
+                    loadingPointId: true,
+                    unloadingPointId: true,
+                    loadingPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: { advanceType: true }
+                            }
+                        }
+                    },
+                    unloadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true,
+                                    transporterType: true,
+                                    gstPercentage: true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            loadingPointToStockPointTrip: {
+                select: {
+                    id: true,
+                    startDate: true,
+                    invoiceNumber: true,
+                    filledLoad: true,
+                    freightAmount: true,
+                    transporterAmount: true,
+                    wantFuel: true,
+                    acknowledgeDueTime: true,
+                    totalTransporterAmount: true,
+                    tripStatus: true,
+                    loadingPointId: true,
+                    stockPointId: true,
+                    loadingPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: { advanceType: true }
+                            }
+                        }
+                    },
+                    stockPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true,
+                                    transporterType: true,
+                                    gstPercentage: true
+                                }
+                            }
                         }
                     }
                 }
