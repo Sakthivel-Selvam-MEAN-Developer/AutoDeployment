@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { create, updateBillStatus } from '../models/tollPlaza.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
-import { getOveralltripByToll } from '../models/overallTrip.ts'
+import { getOveralltripByToll, getOveralltripByTollNotEmpty } from '../models/overallTrip.ts'
 
 export const createTollLocation = (req: Request, res: Response) =>
     create(req.body)
@@ -20,4 +20,8 @@ export const getTollAmount = (_req: Request, res: Response) => {
         .then((details) => res.status(200).json(details))
         .catch((error) => handlePrismaError(error, res))
 }
-// export const getOverallTripByTollNotEmpty = (_req: Request, _res: Response) => {}
+export const getOverallTripByTollNotEmpty = (_req: Request, res: Response) => {
+    getOveralltripByTollNotEmpty()
+        .then((overallTrip) => res.status(200).json(overallTrip))
+        .catch((error) => handlePrismaError(error, res))
+}

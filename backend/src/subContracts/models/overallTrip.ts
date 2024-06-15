@@ -1314,7 +1314,9 @@ export const getOveralltripByTollNotEmpty = () =>
     prisma.overallTrip.findMany({
         where: {
             tollPlaza: {
-                some: {}
+                some: {
+                    billedStatus: false
+                }
             }
         },
         select: {
@@ -1327,8 +1329,16 @@ export const getOveralltripByTollNotEmpty = () =>
             loadingPointToUnloadingPointTrip: {
                 select: {
                     invoiceNumber: true,
-                    loadingPoint: true,
-                    unloadingPoint: true,
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    unloadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
                     startDate: true,
                     truck: {
                         select: {
@@ -1340,29 +1350,29 @@ export const getOveralltripByTollNotEmpty = () =>
             loadingPointToStockPointTrip: {
                 select: {
                     invoiceNumber: true,
-                    stockPoint: true,
-                    loadingPoint: true,
-                    startDate: true,
-                    truck: {
+                    stockPoint: {
                         select: {
-                            vehicleNumber: true
-                        }
-                    }
-                }
-            },
-            stockPointToUnloadingPointTrip: {
-                select: {
-                    invoiceNumber: true,
-                    unloadingPoint: true,
-                    startDate: true,
-                    loadingPointToStockPointTrip: {
-                        select: {
-                            stockPoint: true
+                            name: true
                         }
                     },
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    startDate: true,
                     truck: {
                         select: {
                             vehicleNumber: true
+                        }
+                    },
+                    stockPointToUnloadingPointTrip: {
+                        select: {
+                            unloadingPoint: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }

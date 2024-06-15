@@ -371,3 +371,12 @@ date: 11-04-2024
     - update "subContract"."pricePoint" set "payGeneratingDuration" =10 where id=202;
     - update "subContract"."transporter" SET "ifsc" = 'UTIB0000716' where id=218;
     - update "subContract"."transporter" SET "accountHolder"='P DHANASEKARAN' where id=152;
+
+  date: 15-06-2024
+  person: Santhosh
+  description:
+    - update csm name for transporter
+  query:
+    - update "subContract"."transporter" SET "csmName" ='Karthik Raj' where id=230;
+    - update "subContract"."transporter" SET "csmName" ='Vigneshwaran' where id=147;
+    - update "subContract"."transporter" SET "csmName" ='Manimaran SD' where id=145;
