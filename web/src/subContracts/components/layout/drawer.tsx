@@ -190,7 +190,7 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                 />
                 <DrawerListItem
                     text="Toll Plaza"
-                    navigate="/sub/toll"
+                    navigate="/sub/tollPlaza"
                     drawerState={drawerState}
                     index={13}
                     icon={<TollIcon />}
