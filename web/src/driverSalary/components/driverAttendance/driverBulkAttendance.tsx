@@ -28,6 +28,7 @@ const DriverBulkAttendance = () => {
             setAttendanceDetails(data)
             revertJsonToDate(data)
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [driverId])
     const revertJsonToDate = (attendanceDetails: attendanceProps) => {
         driverId !== 0 && setOpen(true)

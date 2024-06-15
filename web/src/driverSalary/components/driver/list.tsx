@@ -25,15 +25,12 @@ const CreateDriver: FC = (): ReactElement => {
     return DriverFields(onSubmit, control, openSuccessDialog, setOpenSuccessDialog)
 }
 export default CreateDriver
-const DriverFields: DriverType = (onSubmit, control, openSuccessDialog, setOpenSuccessDialog) => {
+const DriverFields: DriverType = (onSubmit, control, openDialog, setOpenDialog) => {
     return (
         <form onSubmit={onSubmit}>
             <FormFields control={control} />
             <SubmitButton name="Submit" type="submit" />
-            <SuccessDialogBox
-                openSuccessDialog={openSuccessDialog}
-                setOpenSuccessDialog={setOpenSuccessDialog}
-            />
+            <SuccessDialogBox openSuccessDialog={openDialog} setOpenSuccessDialog={setOpenDialog} />
         </form>
     )
 }

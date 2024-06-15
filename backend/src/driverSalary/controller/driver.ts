@@ -20,12 +20,13 @@ const getResponse: type = (stdout, reject, resolve) => {
     } else resolve()
 }
 export const createDriver = async (req: Request, res: Response) => {
+    const command = "docker-compose exec keycloak sh '/config/createDriver.sh'"
     try {
         await prisma.$transaction(async (prismas) => {
             const data = await create(req.body, prismas)
             await new Promise<void>((resolve, reject) => {
                 exec(
-                    `docker-compose exec keycloak sh '/config/createDriver.sh' ${data?.name} ${data?.mobileNumber}`,
+                    `${command} ${data?.name.replace(/\s/g, '')} ${data?.mobileNumber}`,
                     (_error, _stderr, stdout) => getResponse(stdout, reject, resolve)
                 )
             })
@@ -45,5 +46,5 @@ export const fillterDriverByAttendance = async (_req: Request, res: Response) =>
     const data = await getAllDriver()
     const driverIds = data.map((driver) => driver.id)
     const attendanceDetails = await getAllDriverAttendanceDetails(driverIds)
-    await driverAttenance(data, res, attendanceDetails)
+    driverAttenance(data, res, attendanceDetails)
 }
