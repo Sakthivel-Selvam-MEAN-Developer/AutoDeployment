@@ -160,7 +160,8 @@ export const updateFreightInStockTrip = (id: number, details: any) =>
             freightAmount: details.freightAmount,
             transporterAmount: details.transporterAmount,
             totalFreightAmount: details.totalFreightAmount,
-            totalTransporterAmount: details.totalTransporterAmount
+            totalTransporterAmount: details.totalTransporterAmount,
+            margin: details.margin
         },
         select: {
             totalTransporterAmount: true,
