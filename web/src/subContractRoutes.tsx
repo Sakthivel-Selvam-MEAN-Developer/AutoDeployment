@@ -198,7 +198,7 @@ const sunContractRoutes = {
             ]
         },
         {
-            path: 'tollPlaza',
+            path: 'toll',
             element: <TollPlaza />,
             children: [
                 {

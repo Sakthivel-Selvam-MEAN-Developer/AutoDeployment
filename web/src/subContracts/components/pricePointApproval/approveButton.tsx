@@ -11,7 +11,7 @@ export const ApproveButton: FC<buttonPros> = ({ trip, setEditStatus }) => {
     const { setSubmitStatus } = useContext(submitStatusContext)
     const onClick = () =>
         updateFreightinTrip(trip).then(() => {
-            setEditStatus((prev) => !prev)
+            setEditStatus(false)
             setSubmitStatus((prev) => !prev)
         })
     return (

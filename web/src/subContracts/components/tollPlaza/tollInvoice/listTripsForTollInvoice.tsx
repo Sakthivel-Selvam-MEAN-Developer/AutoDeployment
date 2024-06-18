@@ -1,8 +1,8 @@
 import { Typography, Button } from '@mui/material'
-import TripsDataGrid from '../dataGrid'
 import { useState, useEffect } from 'react'
 import { getOverallTripWithTollDetailsNotEmpty } from '../../../services/tollPlaza'
-import { overallTrip } from '../type'
+import { overallTrip, trip } from '../type'
+import AlignTripDetails from './alignTripDetails'
 
 const style = {
     display: 'flex',
@@ -10,11 +10,23 @@ const style = {
     alignItems: 'center',
     marginBottom: '30px'
 }
+interface props {
+    trip: trip
+    toll: overallTrip['tollPlaza']
+}
+const getTrip = (overallTrip: overallTrip[]) => {
+    return overallTrip.map((trip) => {
+        if (trip.loadingPointToUnloadingPointTrip)
+            return { trip: trip.loadingPointToUnloadingPointTrip, toll: trip.tollPlaza }
+        else return { trip: trip.loadingPointToStockPointTrip, toll: trip.tollPlaza }
+    })
+}
 const ListTripsForTollInvoice: React.FC = () => {
-    const [trips, setTrips] = useState<overallTrip>({} as overallTrip)
-    console.log(trips)
+    const [trips, setTrips] = useState<props[]>([])
     useEffect(() => {
-        getOverallTripWithTollDetailsNotEmpty().then(setTrips)
+        getOverallTripWithTollDetailsNotEmpty().then((overAlltripDetails) => {
+            setTrips(getTrip(overAlltripDetails))
+        })
     }, [])
     return (
         <>
@@ -22,7 +34,7 @@ const ListTripsForTollInvoice: React.FC = () => {
                 <Typography>List of Trips for Invoice</Typography>
                 <Button variant="contained">Download Invoice</Button>
             </div>
-            <TripsDataGrid row={[]} column={[]} />
+            <AlignTripDetails trip={trips} />
         </>
     )
 }

@@ -1450,6 +1450,9 @@ export const getOveralltripByTollNotEmpty = () =>
                 some: {
                     billedStatus: false
                 }
+            },
+            shortageQuantity: {
+                some: {}
             }
         },
         select: {

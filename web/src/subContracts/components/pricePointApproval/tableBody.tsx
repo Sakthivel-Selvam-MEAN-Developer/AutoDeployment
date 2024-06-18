@@ -3,6 +3,7 @@ import { overallTrip } from './types'
 import { TableCell, TableRow } from '@mui/material'
 import { TableFields } from './tableFields'
 import { cellProps, FreightAndUnloadingProps, unloadingProps } from './tableBodyTypes'
+import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 const findTrip = (overallTrip: overallTrip) => {
     if (overallTrip.loadingPointToStockPointTrip !== null) {
         return { trip: overallTrip.loadingPointToStockPointTrip, type: 'stock' }
@@ -16,7 +17,7 @@ export const TableCellsConatiner: FC<cellProps> = ({ overallTrip }) => {
     return (
         <TableRow>
             <TableCell>{trip.truck.vehicleNumber}</TableCell>
-            <TableCell>{trip.startDate}</TableCell>
+            <TableCell>{epochToMinimalDate(trip.startDate)}</TableCell>
             <TableCell>{trip.invoiceNumber}</TableCell>
             <TableCell>{trip.truck.transporter.name}</TableCell>
             <TableCell>{trip.truck.transporter.csmName}</TableCell>

@@ -1,0 +1,25 @@
+.toll-invoice-format * {
+    margin: 0;
+    padding: 0;
+    font-family: math;
+}
+
+.toll-invoice-format table {
+    width: 100%;
+}
+
+.toll-invoice-format .table-head td,
+.toll-invoice-format .table-body td,
+.toll-invoice-format .total td {
+    padding: 8px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.toll-invoice-format .table-head td {
+    background-color: #99ccff;
+}
+
+.toll-invoice-format table {
+    border-collapse: collapse;
+}

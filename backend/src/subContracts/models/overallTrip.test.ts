@@ -21,6 +21,7 @@ import {
     updateStockToUnloadingInOverall,
     updateTransporterInvoice
 } from './overallTrip.ts'
+import { create as createShortage } from './shortageQuantity.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createTollPlaza } from './tollPlaza.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -770,6 +771,7 @@ describe('Overall Trip model', () => {
             { ...seedTollPlaza, overallTripId: overallTrip.id },
             { overallTripId: overallTrip.id, tollPlazaLocation: 'salem', amount: 500 }
         ])
+        await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         const actual = await getOveralltripByTollNotEmpty()
         expect(actual.length).toStrictEqual(1)
         expect(actual[0].tollPlaza[0].tollPlazaLocation).toStrictEqual('Dhone')
