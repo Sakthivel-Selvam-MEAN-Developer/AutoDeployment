@@ -1,7 +1,7 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { alignedtrip } from './type'
 import * as XLSX from 'xlsx'
-import TollInvoiceForUntraTech from './tollInvoice/tollInvoiceFormatForuntratech'
+// import TollInvoiceForUntraTech from './tollInvoice/tollInvoiceFormatForuntratech'
 import saveAs from 'file-saver'
 
 interface gridProps {
@@ -29,7 +29,7 @@ const TripsDataGrid: React.FC<gridProps> = ({ row, column }) => {
                 disableRowSelectionOnClick
                 hideFooterPagination
             />
-            <TollInvoiceForUntraTech />
+            {/* <TollInvoiceForUntraTech /> */}
         </div>
     )
 }
