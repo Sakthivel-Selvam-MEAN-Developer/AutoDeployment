@@ -95,7 +95,7 @@ describe('driverTrip Controller', () => {
         await supertest(app).post('/api/drivertrip').expect(200)
         expect(mockCreateDriverTrip).toBeCalledTimes(2)
     })
-    test.only('should able to get all driver Trip by Id', async () => {
+    test('should able to get all driver Trip by Id', async () => {
         mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData)
         mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
         vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
