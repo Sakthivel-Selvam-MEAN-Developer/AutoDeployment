@@ -1,6 +1,6 @@
 const TollInvoiceForUntraTech = () => {
     return (
-        <div id="toll-invoice-format" className="toll-invoice-format">
+        <div id="toll-invoice-format" className="toll-invoice-format" style={{ padding: '40px ' }}>
             <table>
                 <tbody>
                     <tr>
@@ -153,10 +153,10 @@ const TollInvoiceForUntraTech = () => {
                             <small>Bagepalli Toll KA</small>
                         </td>
                         <td>
-                            <small>Nalluru Devanahalli Toll Plaza KA</small>
+                            <small>Nalluru Devanahalli Toll KA</small>
                         </td>
                         <td>
-                            <small>Hoskote &amp Electronic City KAToll Plaza</small>
+                            <small>Hoskote & Electronic City KAToll Plaza</small>
                         </td>
                         <td>
                             <small>Bandapalli plaza AP</small>

@@ -49,7 +49,7 @@ type Type = (
     company: string
 ) => void
 
-const downloadPdfForUltraTech: Type = async (invoice, orientation, unit, format, company) =>
+export const downloadPdfForUltraTech: Type = async (invoice, orientation, unit, format, company) =>
     await html2canvas(invoice).then((canvas) => {
         const imgData = canvas.toDataURL('image/png')
         const pdf = new jsPDF(orientation, unit, format)
