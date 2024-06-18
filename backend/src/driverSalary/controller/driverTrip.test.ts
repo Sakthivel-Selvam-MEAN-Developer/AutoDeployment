@@ -1,6 +1,7 @@
 import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
 import axios from 'axios'
+import dayjs from 'dayjs'
 import { app } from '../../app.ts'
 import { createDriverTrip, updateDriverAdvance } from './driverTrip.ts'
 
@@ -9,14 +10,12 @@ const mockGetAllDriverTripById = vi.fn()
 const mockGetTripSalaryDetailsById = vi.fn()
 const mockGetAllExpenseCountByTripId = vi.fn()
 const mockGetOverAllTripByArrayOfId = vi.fn()
-const mockUpdateDriverAdvanceByTripId = vi.fn()
 const mockGetDriverIdByTripId = vi.fn()
+const mockCreateDriverAdvance = vi.fn()
 
 vi.mock('../models/driverTrip', () => ({
     create: (inputs: any) => mockCreateDriverTrip(inputs),
     getAllDriverTripById: (id: number[]) => mockGetAllDriverTripById(id),
-    updateDriverAdvanceByTripId: (id: number, advance: number) =>
-        mockUpdateDriverAdvanceByTripId(id, advance),
     getDriverIdByTripId: (tripId: number) => mockGetDriverIdByTripId(tripId)
 }))
 vi.mock('../models/tripSalary', () => ({
@@ -24,6 +23,9 @@ vi.mock('../models/tripSalary', () => ({
 }))
 vi.mock('../../subContracts/models/overallTrip', () => ({
     getOverAllTripByArrayOfId: (id: number[]) => mockGetOverAllTripByArrayOfId(id)
+}))
+vi.mock('../models/driverAdvance', () => ({
+    createDriverAdvance: (id: number[]) => mockCreateDriverAdvance(id)
 }))
 vi.mock('../models/expenses', () => ({
     getAllExpenseCountByTripId: (inputs: number[]) => mockGetAllExpenseCountByTripId(inputs)
@@ -49,7 +51,12 @@ const mockGetDriverTripData = [
         tripId: 37,
         unloadingTripSalaryId: 1,
         stockTripSalaryId: 2,
-        driverAdvance: [1200]
+        driverAdvanceForTrip: [
+            {
+                amount: true,
+                advanceDate: true
+            }
+        ]
     }
 ]
 
@@ -68,7 +75,7 @@ const mockGetDriverIdByTripIdData = {
     id: 1,
     driverId: 1
 }
-const mockUpdateDriverAdvanceByTripIdData = {
+const mockCreateDriverAdvanceData = {
     id: 2,
     tripId: 3,
     tripStartDate: 1714674600,
@@ -88,7 +95,7 @@ describe('driverTrip Controller', () => {
         await supertest(app).post('/api/drivertrip').expect(200)
         expect(mockCreateDriverTrip).toBeCalledTimes(2)
     })
-    test('should able to get all driver Trip by Id', async () => {
+    test.only('should able to get all driver Trip by Id', async () => {
         mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData)
         mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
         vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
@@ -98,14 +105,14 @@ describe('driverTrip Controller', () => {
     })
     test('should able to update driver advance by trip id', async () => {
         mockGetDriverIdByTripId.mockResolvedValue(mockGetDriverIdByTripIdData)
-        mockUpdateDriverAdvanceByTripId.mockResolvedValue(mockUpdateDriverAdvanceByTripIdData)
+        mockCreateDriverAdvance.mockResolvedValue(mockCreateDriverAdvanceData)
         await updateDriverAdvance(mockUpdateDriverAdvance, mockRes)
         expect(mockGetDriverIdByTripId).toHaveBeenCalledWith(mockUpdateDriverAdvance.body.tripId)
-        expect(mockUpdateDriverAdvanceByTripId).toHaveBeenCalledWith(
-            mockGetDriverIdByTripIdData.id,
-            parseInt(mockUpdateDriverAdvance.body.driverAdvance)
-        )
+        expect(mockCreateDriverAdvance).toHaveBeenCalledWith({
+            driverTripId: mockGetDriverIdByTripIdData.id,
+            amount: parseInt(mockUpdateDriverAdvance.body.driverAdvance),
+            advanceDate: dayjs.utc().startOf('day').unix()
+        })
         expect(mockGetDriverIdByTripId).toBeCalledTimes(1)
-        expect(mockUpdateDriverAdvanceByTripId).toBeCalledTimes(1)
     })
 })

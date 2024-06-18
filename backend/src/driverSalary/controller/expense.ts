@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import { expensesType } from '@prisma/client'
 import { IncomingHttpHeaders } from 'http'
 import axios from 'axios'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import {
     create,
     getAllExpenseByTripId,
@@ -9,6 +11,8 @@ import {
     updateExpenseApproval as updateExpense
 } from '../models/expenses.ts'
 import { getAllDriverTripById } from '../models/driverTrip.ts'
+
+dayjs.extend(utc)
 
 const checkType = (data: string) =>
     ({
@@ -43,7 +47,7 @@ export const createExpense = async (req: Request, res: Response) => {
     const data = await req.body.map((expense: expensesTypeProps) => {
         const name = checkType(expense.expenseType)
         if (name === '') return res.status(500)
-        return { ...expense, expenseType: name }
+        return { ...expense, expenseType: name, expenseDate: dayjs.utc().startOf('day').unix() }
     })
     await create(data)
         .then(() => res.sendStatus(200))

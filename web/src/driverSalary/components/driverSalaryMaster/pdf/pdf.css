@@ -1,0 +1,10 @@
+.advanceTable table,
+.advanceTable td,
+.advanceTable th {
+    border: 1px solid;
+}
+
+.advanceTable table {
+    width: 100%;
+    border-collapse: collapse;
+}

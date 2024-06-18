@@ -1,15 +1,19 @@
 import { Request, Response } from 'express'
 import axios from 'axios'
 import { IncomingHttpHeaders } from 'http'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import {
     create,
     getAllDriverTripById,
     getDriverIdByTripId,
-    getDriverTripByOverallId,
-    updateDriverAdvanceByTripId
+    getDriverTripByOverallId
 } from '../models/driverTrip.ts'
 import { getAllExpenseCountByTripId } from '../models/expenses.ts'
 import { getTripSalaryDetailsById } from '../models/tripSalary.ts'
+import { createDriverAdvance } from '../models/driverAdvance.ts'
+
+dayjs.extend(utc)
 
 export const createDriverTrip = async (req: Request, res: Response) => {
     create(req.body)
@@ -28,7 +32,7 @@ interface allTripProps {
     tripId: number
     unloadingTripSalaryId: number | null
     stockTripSalaryId: number | null
-    driverAdvance: number[]
+    driverAdvanceForTrip: { amount: number }[]
     primaryTripBetta: number | null
     secondaryTripBetta: number | null
     dailyBetta: number | null
@@ -37,14 +41,16 @@ type props = (
     tripAdvanceDetails: allTripProps | undefined,
     data: allTripProps
 ) => { totalTripBetta: number; totalAdvance: number | undefined }
+const calculatetripBetta = (data: allTripProps) =>
+    (data.primaryTripBetta ? data.primaryTripBetta : 0) +
+    (data.secondaryTripBetta ? data.secondaryTripBetta : 0)
 const getTotalTripSalary: props = (tripAdvanceDetails, data) => {
-    const totalAdvance = tripAdvanceDetails?.driverAdvance.reduce(
-        (acc, current) => acc + current,
-        0
-    )
-    const totalTripBetta =
-        (data.primaryTripBetta ? data.primaryTripBetta : 0) +
-        (data.secondaryTripBetta ? data.secondaryTripBetta : 0)
+    let totalAdvance = 0
+    tripAdvanceDetails?.driverAdvanceForTrip.map(({ amount }) => {
+        totalAdvance += amount
+        return 0
+    })
+    const totalTripBetta = calculatetripBetta(data)
     return { totalTripBetta, totalAdvance }
 }
 const getOverallTrip = async (headers: IncomingHttpHeaders, allTrips: allTripProps[]) => {
@@ -54,7 +60,13 @@ const getOverallTrip = async (headers: IncomingHttpHeaders, allTrips: allTripPro
         params: { ids: JSON.stringify(overAllTripIds) }
     })
     const expensesDetails = await getAllExpenseCountByTripId(overAllTripIds)
+    const advanceDetails = allTripsById.data.map((trip: { id: number }) => {
+        const advanceforTrip = allTrips.filter((tripAdvance) => tripAdvance.tripId === trip.id)
+        return { advanceforTrip: advanceforTrip[0].driverAdvanceForTrip }
+    })
     const combinedData = allTripsById.data.map((trip: { id: number }) => {
+        const expenses = expensesDetails.filter((expense) => expense.tripId === trip.id)
+        const advance = allTrips.filter((tripAdvance) => tripAdvance.tripId === trip.id)
         const tripSalary = allTrips.filter((salary) => salary.tripId === trip.id)
         const tripAdvanceDetails = allTrips.find((tripAdvance) => tripAdvance.tripId === trip.id)
         const totalTripSalary = tripSalary.map((data) =>
@@ -69,10 +81,12 @@ const getOverallTrip = async (headers: IncomingHttpHeaders, allTrips: allTripPro
                 totalTripSalary:
                     totalTripSalary &&
                     totalTripSalary[0].totalTripBetta - (totalTripSalary[0].totalAdvance || 0)
-            }
+            },
+            expenses,
+            advanceforTrip: advance[0].driverAdvanceForTrip
         }
     })
-    return { trips: combinedData, expensesDetails }
+    return { trips: combinedData, expensesDetails, advanceDetails }
 }
 export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res) => {
     const { driverId } = req.query
@@ -81,10 +95,16 @@ export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res)
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
+const creatData = (advance: string, id: number) => ({
+    amount: parseFloat(advance),
+    driverTripId: id,
+    advanceDate: dayjs.utc().startOf('day').unix()
+})
 export const updateDriverAdvance = async (req: Request, res: Response) => {
     const dataBody = req.body
     const driverTrip = await getDriverIdByTripId(dataBody.tripId)
-    updateDriverAdvanceByTripId(driverTrip?.id || 0, parseInt(dataBody.driverAdvance))
+    if (driverTrip === null) return res.sendStatus(500)
+    await createDriverAdvance(creatData(dataBody.driverAdvance, driverTrip.id))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

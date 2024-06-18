@@ -1,6 +1,9 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 import { updateExpenseType } from '../controller/expense.ts'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 
 export const create = (data: Prisma.expensesCreateManyInput | Prisma.expensesCreateManyInput[]) =>
     prisma.expenses.createMany({ data })
@@ -37,6 +40,7 @@ export const getAllExpenseCountByTripId = (id: number[]) =>
             expenseApproval: true
         },
         select: {
+            expenseType: true,
             acceptedAmount: true,
             tripId: true
         }
@@ -48,6 +52,7 @@ export const updateExpenseApproval = (id: number, data: updateExpenseType) =>
         data: {
             acceptedAmount: data.acceptedAmount,
             rejectableReason: data.rejectableReason,
-            expenseApproval: true
+            expenseApproval: true,
+            expenseDate: dayjs.utc().startOf('day').unix()
         }
     })

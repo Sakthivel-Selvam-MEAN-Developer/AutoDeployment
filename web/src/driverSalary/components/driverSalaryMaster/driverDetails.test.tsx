@@ -21,8 +21,12 @@ const mockTripDetailsData = {
             id: 2,
             loadingPointToUnloadingPointTrip: {
                 id: 2,
+                filledLoad: 50,
                 loadingPoint: {
-                    name: 'Chennai-south'
+                    name: 'Chennai-south',
+                    cementCompany: {
+                        name: 'Ultratech'
+                    }
                 },
                 invoiceNumber: 'asdxasasd',
                 startDate: 1714588200,
@@ -39,13 +43,34 @@ const mockTripDetailsData = {
                 totalAdvance: 2000,
                 dailyBetta: 350,
                 totalTripSalary: 2500
-            }
+            },
+            expenses: [
+                {
+                    expenseType: 'LOADING_CHARGES',
+                    acceptedAmount: 344343,
+                    tripId: 39
+                }
+            ]
         }
     ],
     expensesDetails: [
         {
             acceptedAmount: 1200,
             tripId: 2
+        }
+    ],
+    advanceDetails: [
+        {
+            advanceforTrip: [
+                {
+                    amount: 3234,
+                    advanceDate: 1718582400
+                },
+                {
+                    amount: 4343,
+                    advanceDate: 1718582400
+                }
+            ]
         }
     ]
 }
@@ -74,14 +99,14 @@ describe('Driver Test', () => {
 
         // Select Driver Name
         const driverList = screen.getByRole('combobox', { name: 'Select Driver Name' })
-        userEvent.click(driverList)
+        await userEvent.click(driverList)
         await waitFor(() => screen.getByRole('listbox'))
         const cementCompanyOption = screen.getByRole('option', { name: 'sakthi - 09876543' })
         userEvent.click(cementCompanyOption)
         expect(await screen.findByDisplayValue('sakthi - 09876543')).toBeInTheDocument()
 
         //Check Driver trip List
-        expect(screen.getByText('Date')).toBeInTheDocument()
+        expect(screen.getAllByText('Date'))
         expect(screen.getByText('Invoice Number')).toBeInTheDocument()
         expect(screen.getByText('asdxasasd')).toBeInTheDocument()
         expect(screen.getByText('Expenses Amount')).toBeInTheDocument()

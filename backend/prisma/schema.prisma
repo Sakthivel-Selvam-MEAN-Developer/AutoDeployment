@@ -624,12 +624,12 @@ model driver {
 }
 
 model driverTrip {
-  id                    Int      @id @default(autoincrement())
+  id                    Int             @id @default(autoincrement())
   tripId                Int
   tripStartDate         Int
-  createdAt             DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt             DateTime @updatedAt @db.Timestamptz(6)
-  driver                driver   @relation(fields: [driverId], references: [id])
+  createdAt             DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime        @updatedAt @db.Timestamptz(6)
+  driver                driver          @relation(fields: [driverId], references: [id])
   driverId              Int
   unloadingTripSalaryId Int?
   stockTripSalaryId     Int?
@@ -637,6 +637,19 @@ model driverTrip {
   secondaryTripBetta    Int?
   dailyBetta            Int?
   driverAdvance         Int[]
+  driverAdvanceForTrip  driverAdvance[]
+
+  @@schema("driverSalary")
+}
+
+model driverAdvance {
+  id           Int        @id @default(autoincrement())
+  amount       Int
+  advanceDate  Int
+  createdAt    DateTime   @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime   @updatedAt @db.Timestamptz(6)
+  driverTrip   driverTrip @relation(fields: [driverTripId], references: [id])
+  driverTripId Int
 
   @@schema("driverSalary")
 }
@@ -654,6 +667,7 @@ model driverAttendance {
 model expenses {
   id               Int          @id @default(autoincrement())
   expenseType      expensesType
+  expenseDate      Int?
   placedAmount     Int
   acceptedAmount   Int?
   rejectableReason String?

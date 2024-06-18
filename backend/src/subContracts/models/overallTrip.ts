@@ -430,7 +430,10 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
             loadingPointToUnloadingPointTrip: {
                 select: {
                     id: true,
-                    loadingPoint: { select: { name: true } },
+                    filledLoad: true,
+                    loadingPoint: {
+                        select: { name: true, cementCompany: { select: { name: true } } }
+                    },
                     invoiceNumber: true,
                     startDate: true,
                     unloadingPoint: { select: { name: true } },
@@ -440,7 +443,10 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
             loadingPointToStockPointTrip: {
                 select: {
                     id: true,
-                    loadingPoint: { select: { name: true } },
+                    filledLoad: true,
+                    loadingPoint: {
+                        select: { name: true, cementCompany: { select: { name: true } } }
+                    },
                     invoiceNumber: true,
                     startDate: true,
                     stockPointToUnloadingPointTrip: {
