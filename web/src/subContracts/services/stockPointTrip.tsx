@@ -23,3 +23,9 @@ export const getAllStockPointTrip = () =>
         .get(`/stock-trip`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+export const getAllStockPointUnbilledTrips = () =>
+    axiosInstance
+        .get('/stock-point-unbilled-trips')
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
