@@ -4,7 +4,7 @@ import { submitStatusContext } from './approvalContext'
 import { Button } from '@mui/material'
 
 interface buttonPros {
-    trip: { freight: number; id: number }
+    trip: { freight: number; id: number; transporterPercentage: number }
     setEditStatus: React.Dispatch<React.SetStateAction<boolean>>
 }
 export const ApproveButton: FC<buttonPros> = ({ trip, setEditStatus }) => {

@@ -1,13 +1,14 @@
 import { overallTrip, tripDetails } from './types'
-export interface FreightAndUnloadingProps {
+export interface cellProps {
     trip: tripDetails
     type: string
     editStatus: boolean
+    transporterPercentage: number
 }
 export interface unloadingProps {
     trip: tripDetails
     type: string
 }
-export interface cellProps {
+export interface TableConatinerProps {
     overallTrip: overallTrip
 }

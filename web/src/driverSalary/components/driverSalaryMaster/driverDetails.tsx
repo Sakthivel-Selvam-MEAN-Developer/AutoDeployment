@@ -8,8 +8,6 @@ import { Autocomplete, TextField } from '@mui/material'
 import { getAllDriver } from '../../services/driver'
 import { getDriverTripByDriverId } from '../../services/driverTrip'
 import { tripProps } from './driverTable'
-import { PdfConatiner } from './pdf/pdfConatainer'
-import { driverDetailProps } from './pdf/types'
 
 interface props {
     driverList: driverProps[]
@@ -58,7 +56,7 @@ const DriverSalaryConatiner: FC = () => {
     const [expenses, setExpenses] = useState<expensesProps[]>([{ acceptedAmount: 0, tripId: 0 }])
     const [driverTrips, setDriverTrips] = useState<tripProps[]>([])
     const [dailyBetta, setDailyBetta] = useState<number>(0)
-    const [tripDetails, setTripDetails] = useState<driverDetailProps>({} as driverDetailProps)
+    // const [tripDetails, setTripDetails] = useState<driverDetailProps>({} as driverDetailProps)
     useEffect(() => {
         getAllDriver().then(setDriverList)
     }, [])
@@ -69,7 +67,7 @@ const DriverSalaryConatiner: FC = () => {
             setNumberOfExpenses(allTrips.expensesDetails.length)
             setExpenses(allTrips.expensesDetails)
             setDailyBetta(allTrips.trips[0].tripSalaryDeatails?.dailyBetta)
-            setTripDetails(allTrips)
+            // setTripDetails(allTrips)
         })
     }, [driverId])
     return (
@@ -83,7 +81,7 @@ const DriverSalaryConatiner: FC = () => {
             />
             <ListTripDetails driverTrips={driverTrips} expenses={expenses} />
             <br />
-            {tripDetails.trips !== undefined && <PdfConatiner tripDetails={tripDetails} />}
+            {/* {tripDetails.trips !== undefined && <PdfConatiner tripDetails={tripDetails} />} */}
         </>
     )
 }

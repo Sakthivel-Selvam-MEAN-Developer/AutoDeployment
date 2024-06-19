@@ -1035,7 +1035,8 @@ export const getTripForAcknowlegementApproval = () =>
     prisma.overallTrip.findMany({
         where: {
             acknowledgementApproval: false,
-            acknowledgementStatus: true
+            acknowledgementStatus: true,
+            pricePointApprovalStatus: true
         },
         include: {
             paymentDues: true,

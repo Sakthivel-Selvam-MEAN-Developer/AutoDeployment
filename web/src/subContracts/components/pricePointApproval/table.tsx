@@ -10,8 +10,8 @@ const PricePointApprovalTable: FC<tabelProps> = ({ tripDetails }) => {
     return (
         <Table sx={{ minWidth: 650 }} component={Paper}>
             <GetTableHead />
-            {tripDetails.map((overallTrip, index) => (
-                <TableCellsConatiner key={index} overallTrip={overallTrip} />
+            {tripDetails.map((overallTrip) => (
+                <TableCellsConatiner key={overallTrip.id} overallTrip={overallTrip} />
             ))}
         </Table>
     )

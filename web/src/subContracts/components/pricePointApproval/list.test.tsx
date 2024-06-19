@@ -5,9 +5,13 @@ import PricePointApprovalList from './list'
 import userEvent from '@testing-library/user-event'
 
 const mockGetTripsForPricePointApproval = vi.fn()
+const mockGetPricePoint = vi.fn()
 
 vi.mock('../../services/pricePointApproval', () => ({
     getTripsForPricePointApproval: () => mockGetTripsForPricePointApproval()
+}))
+vi.mock('../../services/pricePoint', () => ({
+    getPricePoint: () => mockGetPricePoint()
 }))
 const mockData = [
     {
@@ -49,10 +53,12 @@ const mockData = [
         }
     }
 ]
+const mockTransporterPercentage = { transporterPercentage: 10 }
 
 describe('PricePoint Approval Test', () => {
     beforeEach(() => {
         mockGetTripsForPricePointApproval.mockResolvedValue(mockData)
+        mockGetPricePoint.mockResolvedValue(mockTransporterPercentage)
     })
     test('checking the component called list', async () => {
         render(
@@ -67,14 +73,16 @@ describe('PricePoint Approval Test', () => {
             expect(screen.getByText('retgh')).toBeInTheDocument()
             expect(screen.getAllByText('1000'))
             expect(screen.getByText('Barath Logistics Pvt Ltd')).toBeInTheDocument()
+            expect(screen.getByRole('button', { name: 'Edit' }))
+            expect(screen.getByRole('button', { name: 'Approved' }))
         })
-        expect(screen.getByRole('button', { name: 'Edit' }))
-        expect(screen.getByRole('button', { name: 'Approved' }))
         const option = screen.getByRole('button', { name: 'Edit' })
         await userEvent.click(option)
         expect(screen.getByRole('button', { name: 'Cancel' }))
         await userEvent.type(screen.getByLabelText('Edit FreightAmount'), '1')
         await expect(screen.getByDisplayValue('10001')).toBeInTheDocument()
+        await expect(screen.getByDisplayValue('10')).toBeInTheDocument()
         expect(mockGetTripsForPricePointApproval).toHaveBeenCalledTimes(1)
+        expect(mockGetPricePoint).toHaveBeenCalledTimes(1)
     })
 })

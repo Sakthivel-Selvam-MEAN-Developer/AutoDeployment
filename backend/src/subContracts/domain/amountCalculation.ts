@@ -1,9 +1,3 @@
-interface pricePointProps {
-    freightAmount: number
-    transporterAmount: number
-    transporterPercentage: number
-    payGeneratingDuration: number
-}
 interface tripProps {
     id: number
     invoiceNumber: string
@@ -23,12 +17,11 @@ interface tripProps {
     }
 }
 export const amountCalculation = (
-    pricePoint: pricePointProps,
+    transporterPercentage: number,
     freightAmount: number,
     trip: tripProps
 ) => {
-    const transporterAmount =
-        freightAmount - (freightAmount * pricePoint.transporterPercentage) / 100
+    const transporterAmount = freightAmount - (freightAmount * transporterPercentage) / 100
     const totalTransporterAmount = transporterAmount * trip.filledLoad
     const totalFreightAmount = freightAmount * trip.filledLoad
     const margin = parseFloat(((totalFreightAmount - totalTransporterAmount) * 0.7).toFixed(2))

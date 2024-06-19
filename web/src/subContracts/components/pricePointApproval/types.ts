@@ -4,15 +4,12 @@ export interface tripDetails {
     filledLoad: number
     freightAmount: number
     transporterAmount: number
-    loadingPoint: {
-        name: string
-    }
-    unloadingPoint: {
-        name: string
-    }
-    stockPoint: {
-        name: string
-    }
+    loadingPointId: number
+    unloadingPointId: number
+    stockPointId: number
+    loadingPoint: { name: string }
+    unloadingPoint: { name: string }
+    stockPoint: { name: string }
     truck: {
         transporter: {
             name: string
@@ -23,7 +20,6 @@ export interface tripDetails {
 }
 export interface overallTrip {
     id: number
-    pricePointApprovalStatus: boolean
     loadingPointToStockPointTrip: tripDetails
     loadingPointToUnloadingPointTrip: tripDetails
 }

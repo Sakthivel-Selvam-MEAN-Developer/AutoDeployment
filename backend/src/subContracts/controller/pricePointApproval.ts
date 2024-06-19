@@ -6,7 +6,6 @@ import {
 } from '../models/overallTrip.ts'
 import { updateFreightInDirectTrip } from '../models/loadingToUnloadingTrip.ts'
 import { updateFreightInStockTrip } from '../models/loadingToStockPointTrip.ts'
-import { getPricePoint } from '../models/pricePoint.ts'
 import { amountCalculation } from '../domain/amountCalculation.ts'
 import tripLogic from '../domain/tripLogics.ts'
 import { create as createPaymentDues } from '../models/paymentDues.ts'
@@ -38,15 +37,12 @@ export const approvePricePoint = (req: Request, res: Response) =>
             if (overallTrip === null) return res.sendStatus(500)
             const initialPay = isInitialPayAvailable(overallTrip.paymentDues)
             if (initialPay === true) return res.sendStatus(200)
-
             const { trip, type } = findTrip(overallTrip)
-            const pricePoint = await getPricePoint(
-                trip.loadingPointId,
-                trip.unloadingPointId,
-                trip.stockPointId
+            const freightDetails = amountCalculation(
+                req.body.transporterPercentage,
+                req.body.freight,
+                trip
             )
-            if (pricePoint === null) return res.sendStatus(500)
-            const freightDetails = amountCalculation(pricePoint, req.body.freight, trip)
             const updatedTripDetails =
                 type === 'LoadingToUnloading'
                     ? await updateFreightInDirectTrip(trip.id, freightDetails)

@@ -9,6 +9,8 @@ const headerName = [
     'LoadingPoint',
     'UnloadingPoint',
     'Freight Amount',
+    'transporter Percentage',
+    'transporter Amount',
     'Actions'
 ]
 export const GetTableHead = () => {

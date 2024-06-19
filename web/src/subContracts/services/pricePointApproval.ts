@@ -8,6 +8,7 @@ export const getTripsForPricePointApproval = () =>
 interface dataProps {
     id: number
     freight: number
+    transporterPercentage: number
 }
 export const updateFreightinTrip = (data: dataProps) =>
     axiosInstance

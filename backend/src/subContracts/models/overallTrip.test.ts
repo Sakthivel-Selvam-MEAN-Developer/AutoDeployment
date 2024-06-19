@@ -680,6 +680,7 @@ describe('Overall Trip model', () => {
             loadingPointToUnloadingPointTripId: trip.id,
             acknowledgementApproval: false,
             acknowledgementStatus: true,
+            pricePointApprovalStatus: true,
             transporterInvoice: 'asdfghjk'
         })
         const actual = await getTripForAcknowlegementApproval()

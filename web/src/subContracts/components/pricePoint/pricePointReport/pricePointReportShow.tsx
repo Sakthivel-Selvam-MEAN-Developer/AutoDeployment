@@ -55,7 +55,7 @@ const tableRow = (
 const getTableHead = () => {
     return <TableHead>{tableRow}</TableHead>
 }
-function cell(pricePoint: picePointProps) {
+const cell = (pricePoint: picePointProps) => {
     return (
         <>
             <TableCell align="left">

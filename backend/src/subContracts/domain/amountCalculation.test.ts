@@ -1,11 +1,6 @@
 import { amountCalculation } from './amountCalculation.ts'
 
-const percentage = {
-    transporterPercentage: 10,
-    freightAmount: 1200,
-    transporterAmount: 700,
-    payGeneratingDuration: 1
-}
+const transporterPercentage = 10
 const freightAmount = 1000
 const tripData = {
     id: 1,
@@ -27,7 +22,7 @@ const tripData = {
 }
 describe('Amount Calculation Test', async () => {
     test('Should able to calculate totalTransporterAmount from freight Amount ', async () => {
-        const actual = await amountCalculation(percentage, freightAmount, tripData)
+        const actual = await amountCalculation(transporterPercentage, freightAmount, tripData)
         expect(actual).toEqual({
             totalFreightAmount: 10000,
             totalTransporterAmount: 9000,
