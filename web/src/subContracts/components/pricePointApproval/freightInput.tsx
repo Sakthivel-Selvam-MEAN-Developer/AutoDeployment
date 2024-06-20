@@ -6,6 +6,14 @@ interface NumberInputProps {
     freight: number
     setFright: React.Dispatch<React.SetStateAction<number>>
 }
+const inputProps = {
+    inputProps: {
+        step: 0.01,
+        min: 0,
+        max: 10000
+    },
+    endAdornment: null
+}
 export const FreightInput: FC<NumberInputProps> = ({ editStatus, freight, setFright }) => (
     <>
         {editStatus && (
@@ -18,14 +26,7 @@ export const FreightInput: FC<NumberInputProps> = ({ editStatus, freight, setFri
                         const value = parseFloat(e.target.value).toFixed(2)
                         setFright(parseFloat(value) > 0 ? parseFloat(value) : 0)
                     }}
-                    InputProps={{
-                        inputProps: {
-                            step: 0.01,
-                            min: 0,
-                            max: 10000
-                        },
-                        endAdornment: null
-                    }}
+                    InputProps={inputProps}
                 />
             </TableCell>
         )}

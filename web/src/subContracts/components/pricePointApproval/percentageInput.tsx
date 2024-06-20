@@ -1,18 +1,20 @@
 import { TableCell, TextField } from '@mui/material'
 import { FC } from 'react'
-
-interface percentageInputProps {
+interface props {
     editStatus: boolean
     percentage: number
     freight: number
     setPercentage: React.Dispatch<React.SetStateAction<number>>
 }
-export const PercentageInput: FC<percentageInputProps> = ({
-    editStatus,
-    percentage,
-    setPercentage,
-    freight
-}) => (
+const inputProps = {
+    inputProps: {
+        step: 0.01,
+        min: 0,
+        max: 20
+    },
+    endAdornment: null
+}
+export const PercentageInput: FC<props> = ({ editStatus, percentage, setPercentage, freight }) => (
     <>
         {editStatus && (
             <TableCell>
@@ -24,14 +26,7 @@ export const PercentageInput: FC<percentageInputProps> = ({
                         const value = parseFloat(e.target.value).toFixed(2)
                         setPercentage(parseFloat(value) > 0 ? parseFloat(value) : 0)
                     }}
-                    InputProps={{
-                        inputProps: {
-                            step: 0.01,
-                            min: 0,
-                            max: 20
-                        },
-                        endAdornment: null
-                    }}
+                    InputProps={inputProps}
                 />
             </TableCell>
         )}

@@ -2,9 +2,10 @@ import { FC, useEffect, useState } from 'react'
 import { overallTrip } from './types'
 import { TableCell, TableRow } from '@mui/material'
 import { TableFields } from './tableFields'
-import { TableConatinerProps, unloadingProps, cellProps } from './tableBodyTypes'
+import { TableConatinerProps } from './tableBodyTypes'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { getPricePoint } from '../../services/pricePoint'
+import { FreightUnloadingCells } from './FreightUnloadingCells'
 const findTrip = (overallTrip: overallTrip) => {
     if (overallTrip.loadingPointToStockPointTrip !== null) {
         return { trip: overallTrip.loadingPointToStockPointTrip, type: 'stock' }
@@ -46,20 +47,3 @@ export const TableCellsConatiner: FC<TableConatinerProps> = ({ overallTrip }) =>
         </TableRow>
     )
 }
-const FreightUnloadingCells: FC<cellProps> = ({
-    trip,
-    type,
-    editStatus,
-    transporterPercentage
-}) => {
-    return (
-        <>
-            <UnloadingPoint trip={trip} type={type} />
-            {!editStatus && <TableCell>{trip.freightAmount}</TableCell>}
-            {!editStatus && <TableCell>{transporterPercentage}</TableCell>}
-        </>
-    )
-}
-const UnloadingPoint: FC<unloadingProps> = ({ trip, type }) => (
-    <TableCell>{type === 'stock' ? trip.stockPoint.name : trip.unloadingPoint.name}</TableCell>
-)
