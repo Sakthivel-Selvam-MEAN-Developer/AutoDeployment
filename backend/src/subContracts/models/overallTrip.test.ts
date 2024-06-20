@@ -786,7 +786,7 @@ describe('Overall Trip model', () => {
         const actual = await getOveralltripByTollNotEmpty()
 
         expect(actual.length).toStrictEqual(1)
-        expect(actual[0].tollPlaza[0].tollPlazaLocationId).toStrictEqual(1)
+        expect(actual[0].tollPlaza[0].tollPlazaLocation?.id).toStrictEqual(1)
         expect(actual[0].tollPlaza[0].amount).toStrictEqual(350)
         expect(actual[0].tollPlaza[1].tollPlazaLocation?.location).toStrictEqual('Dhone')
         expect(actual[0].tollPlaza[1].amount).toStrictEqual(500)

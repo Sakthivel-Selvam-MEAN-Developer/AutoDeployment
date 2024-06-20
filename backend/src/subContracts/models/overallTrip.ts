@@ -1458,19 +1458,24 @@ export const getOveralltripByTollNotEmpty = () =>
             }
         },
         select: {
+            id: true,
             tollPlaza: {
                 select: {
-                    tollPlazaLocationId: true,
-                    amount: true,
                     tollPlazaLocation: {
                         select: {
-                            location: true
+                            id: true,
+                            location: true,
+                            state: true
                         }
-                    }
+                    },
+                    amount: true
                 }
             },
             loadingPointToUnloadingPointTrip: {
                 select: {
+                    partyName: true,
+                    lrNumber: true,
+                    filledLoad: true,
                     invoiceNumber: true,
                     loadingPoint: {
                         select: {
@@ -1492,6 +1497,9 @@ export const getOveralltripByTollNotEmpty = () =>
             },
             loadingPointToStockPointTrip: {
                 select: {
+                    partyName: true,
+                    lrNumber: true,
+                    filledLoad: true,
                     invoiceNumber: true,
                     stockPoint: {
                         select: {

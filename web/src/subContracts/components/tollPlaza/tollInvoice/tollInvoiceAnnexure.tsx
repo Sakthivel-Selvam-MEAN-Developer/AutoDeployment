@@ -1,6 +1,9 @@
-const TollInvoiceForUntraTech = () => {
+import { props } from './alignTripDetails'
+
+const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
+    console.log(trips)
     return (
-        <div id="toll-invoice-format" className="toll-invoice-format" style={{ padding: '40px ' }}>
+        <div id="toll-invoice-format" className="toll-invoice-format">
             <table>
                 <tbody>
                     <tr>
@@ -159,10 +162,10 @@ const TollInvoiceForUntraTech = () => {
                             <small>Hoskote & Electronic City KAToll Plaza</small>
                         </td>
                         <td>
-                            <small>Bandapalli plaza AP</small>
+                            <small>Bandapalli Plaza AP</small>
                         </td>
                         <td>
-                            <small>Yerradoddi toll placa AP</small>
+                            <small>Yerradoddi Toll plaza AP</small>
                         </td>
                         <td>
                             <small>Bandlapalli Toll Plaza AP</small>
@@ -171,16 +174,16 @@ const TollInvoiceForUntraTech = () => {
                             <small>Danamaiahgaaripalli Toll Plaza AP</small>
                         </td>
                         <td>
-                            <small>Durgamvripalli toll AP</small>
+                            <small>Durgamvripalli Toll AP</small>
                         </td>
                         <td>
                             <small>Attibele Toll Plaza KA</small>
                         </td>
                         <td>
-                            <small>Attibele Toll Plaza KA</small>
+                            <small>Thennepalli Toll AP</small>
                         </td>
                         <td>
-                            <small>VALLAM Toll plaza</small>
+                            <small>Vallam Toll plaza</small>
                         </td>
                         <td>
                             <small>Enamkariyandal toll</small>

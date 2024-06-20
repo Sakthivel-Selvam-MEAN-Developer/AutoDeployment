@@ -1,4 +1,9 @@
-const TollInvoiceBillFormat = () => {
+import { FC } from 'react'
+import './tollFormat.css'
+import { tripProp } from './type'
+
+const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
+    console.log(trips, bill)
     return (
         <div className="toll-invoice-bill-format" id="toll-invoice-bill-format">
             <table>

@@ -11,6 +11,21 @@ datasource db {
   schemas    = ["wonderMove", "peopleOrg", "identity", "subContract", "driverSalary", "accounting", "keycloak"]
 }
 
+// model ownExpenses {
+//   id                Int      @id @default(autoincrement())
+//   expenseType       String
+//   expenseName       String
+//   vendorName        String?
+//   quantity          Int      @default(0)
+//   amountPerQuantity Int      @default(0)
+//   totalAmount       Int
+//   vehicleNumber     String?
+//   createdAt         DateTime @default(now()) @db.Timestamptz(6)
+//   updatedAt         DateTime @updatedAt @db.Timestamptz(6)
+
+//   @@schema("subContract")
+// }
+
 model customers {
   id              Int      @id @default(autoincrement())
   name            String?  @unique

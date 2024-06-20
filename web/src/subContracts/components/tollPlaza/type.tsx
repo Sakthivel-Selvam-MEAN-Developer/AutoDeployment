@@ -1,3 +1,5 @@
+import { props } from './tollInvoice/alignTripDetails'
+
 export interface trip {
     invoiceNumber: string
     loadingPoint: { name: string }
@@ -5,17 +7,14 @@ export interface trip {
     stockPoint?: { name: string }
     startDate: number
     truck: { vehicleNumber: string }
-    stockPointToUnloadingPointTrip?: {
-        unloadingPoint: {
-            name: string
-        }
-    }[]
+    stockPointToUnloadingPointTrip?: { unloadingPoint: { name: string } }[]
 }
 export interface overallTrip {
+    id: number
     loadingPointToStockPointTrip: trip
     loadingPointToUnloadingPointTrip: trip
     tollPlaza: {
-        tollPlazaLocation: string
+        tollPlazaLocation: { id: number; location: string; state: string }
         amount: number
     }[]
 }
@@ -41,4 +40,10 @@ export interface Props {
     setReload: React.Dispatch<React.SetStateAction<boolean>>
     display: overallTripp[]
     setDisplay: React.Dispatch<React.SetStateAction<overallTripp[]>>
+}
+export interface dialogPreview {
+    setPreDialog: React.Dispatch<React.SetStateAction<boolean>>
+    preDialog: boolean
+    trips: props['trip']
+    bill: { number: string; date: number }
 }
