@@ -65,27 +65,26 @@ exports[`CustomInvoice component > renders correctly 1`] = `
       >
         <div>
           <h4>
-             ASHTECH(INDIA) PRIVATE LIMITED
+            M/s ASHTECH(INDIA) PRIVATE LIMITED
           </h4>
+          
+                              
           <h4>
-             SURVEY NO 437 and 438,
+            SURVEY NO 437 and 438,C/O UPCL
           </h4>
+          
+                              
           <h4>
-             C/O UPCL,
+            YELLUR VILLAGE, PILAR POST,
           </h4>
+          
+                              
           <h4>
-              YELLUR VILLAGE,
+            Karnataka, 574113
           </h4>
-          <h4>
-             PILAR POST,
-          </h4>
-          <h4>
-             Karnataka, 574113
-          </h4>
-        </div>
-        <div
-          class="state-details"
-        >
+          <br />
+          
+                              
           <h4>
             GSTN:- 29AAECA4133B2Z5
           </h4>

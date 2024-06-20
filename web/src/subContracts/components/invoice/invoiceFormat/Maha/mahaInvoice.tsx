@@ -1,6 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import './style.css'
-import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import { InvoiceProp, totalProps } from '../../interface'
 import { Box, CircularProgress } from '@mui/material'
@@ -10,6 +9,13 @@ import MahaAnnexure from './mahaAnnexure'
 import { billNoContext } from '../../invoiceContext'
 import { financialYear } from '../financialYear'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
+import { tripDetailsProps } from '../../list'
+
+export interface InvoiceProps {
+    tripId: tripDetailsProps[]
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    loading: boolean
+}
 
 const MahaInvoice: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [total, setTotal] = useState({

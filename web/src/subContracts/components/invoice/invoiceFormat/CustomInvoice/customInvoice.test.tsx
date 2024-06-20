@@ -24,38 +24,11 @@ describe('CustomInvoice component', () => {
             setLoading: vi.fn(),
             loading: false,
             address: {
-                companyDetails: [
-                    {
-                        label: '',
-                        value: 'ASHTECH(INDIA) PRIVATE LIMITED'
-                    },
-                    {
-                        label: '',
-                        value: 'SURVEY NO 437 and 438,'
-                    },
-                    {
-                        label: '',
-                        value: 'C/O UPCL,'
-                    },
-                    {
-                        label: '',
-                        value: ' YELLUR VILLAGE,'
-                    },
-                    {
-                        label: '',
-                        value: 'PILAR POST,'
-                    },
-                    {
-                        label: '',
-                        value: 'Karnataka, 574113'
-                    }
-                ],
-                stateDetails: [
-                    {
-                        label: 'GSTN:-',
-                        value: '29AAECA4133B2Z5'
-                    }
-                ]
+                address: `<h4>M/s ASHTECH(INDIA) PRIVATE LIMITED</h4>
+                              <h4>SURVEY NO 437 and 438,C/O UPCL</h4>
+                              <h4>YELLUR VILLAGE, PILAR POST,</h4>
+                              <h4>Karnataka, 574113</h4><br>
+                              <h4>GSTN:- 29AAECA4133B2Z5</h4>`
             }
         })
 

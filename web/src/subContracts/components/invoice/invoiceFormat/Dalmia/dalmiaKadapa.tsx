@@ -1,6 +1,6 @@
 import './style.css'
 import { FC, useContext, useEffect, useState } from 'react'
-import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
+import { InvoiceProps } from '../Maha/mahaInvoice'
 import { InvoiceProp } from '../../interface'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import calculateTotals from '../calculateTotal'

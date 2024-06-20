@@ -1,6 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import './style.css'
-import { InvoiceProps } from '../UltraTech/ultraTech-APCW'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import { InvoiceProp } from '../../interface'
 import { financialYear } from '../financialYear'
@@ -10,6 +9,7 @@ import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../numberToWords'
 import { billNoContext } from '../../invoiceContext'
 import ChettinadAriyalurAnnexure from './chettinadAriyalurAnnexure'
+import { InvoiceProps } from '../Maha/mahaInvoice'
 
 const ChettinadAriyalur: FC<InvoiceProps> = ({ tripId, setLoading, loading }) => {
     const [total, setTotal] = useState({

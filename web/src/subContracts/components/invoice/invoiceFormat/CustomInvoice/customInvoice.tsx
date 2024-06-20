@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { tripDetailsProps } from '../../list'
-import '../UltraTech/style.css'
+import './style.css'
 import { getInvoiceDetails } from '../../../../services/invoice'
 import { LoadingToStockPointProps, StockToUnloadingPointProps } from '../../interface'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
@@ -11,18 +11,19 @@ import { financialYear } from '../financialYear'
 import { Box, CircularProgress } from '@mui/material'
 import { Nullable } from '../../../../../types'
 import { billNoContext, partyNamesContext, partyNamesProps } from '../../invoiceContext'
-import { AddressProps } from './address'
+import { AddressDetails } from './CompanyAddress'
+import { Company } from '../../companyConfig'
 
 export interface InvoiceProps {
     tripId: tripDetailsProps[]
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
     loading: boolean
-    address: AddressProps
+    address: AddressDetails
 }
 export interface UltraTechProps {
     tripId: tripDetailsProps[]
     setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps[]>>
-    company: Nullable<string>
+    company: Nullable<Company>
     setActivate: React.Dispatch<React.SetStateAction<boolean>>
     updateInvoice: () => void
 }
@@ -71,20 +72,7 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ tripId, setLoading, loading, ad
                     <div className="place-of-supply"></div>
                     <div className="address">
                         <div className="customer">
-                            <div>
-                                {address.companyDetails.map((detail: any, index: number) => (
-                                    <h4 key={index}>
-                                        {detail.label} {detail.value}
-                                    </h4>
-                                ))}
-                            </div>
-                            <div className="state-details">
-                                {address.stateDetails.map((detail: any, index: number) => (
-                                    <h4 key={index}>
-                                        {detail.label} {detail.value}
-                                    </h4>
-                                ))}
-                            </div>
+                            <div dangerouslySetInnerHTML={{ __html: address.address }} />
                         </div>
                         <div className="vendor">
                             <div>
