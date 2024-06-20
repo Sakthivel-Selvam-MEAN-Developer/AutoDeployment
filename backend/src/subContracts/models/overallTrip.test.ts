@@ -759,9 +759,14 @@ describe('Overall Trip model', () => {
     })
     test('should able to get overall Trip for getTollAmount', async () => {
         const overallTrip = await tollPlazaCreationPreRequirements()
+        const tollPlazaLocation = await createTollPlazaLocations({ location: 'Dhone', state: 'AP' })
         await createTollPlaza([
             { ...seedTollPlaza, overallTripId: overallTrip.id },
-            { overallTripId: overallTrip.id, tollPlazaLocationId: 1, amount: 500 }
+            {
+                overallTripId: overallTrip.id,
+                tollPlazaLocationId: tollPlazaLocation.id,
+                amount: 500
+            }
         ])
         const actual = await getOveralltripByToll()
         expect(actual.length).toStrictEqual(1)
