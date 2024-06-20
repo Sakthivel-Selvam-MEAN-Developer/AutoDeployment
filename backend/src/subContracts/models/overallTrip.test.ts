@@ -23,7 +23,7 @@ import {
 } from './overallTrip.ts'
 import { create as createShortage } from './shortageQuantity.ts'
 import { create as createCompany } from './cementCompany.ts'
-import { create as createTollPlaza } from './tollPlaza.ts'
+import { create as createTollPlaza, createTollPlazaLocations } from './tollPlaza.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createStockpoint } from './stockPoint.ts'
@@ -761,23 +761,29 @@ describe('Overall Trip model', () => {
         const overallTrip = await tollPlazaCreationPreRequirements()
         await createTollPlaza([
             { ...seedTollPlaza, overallTripId: overallTrip.id },
-            { overallTripId: overallTrip.id, tollPlazaLocation: 'salem', amount: 500 }
+            { overallTripId: overallTrip.id, tollPlazaLocationId: 1, amount: 500 }
         ])
         const actual = await getOveralltripByToll()
         expect(actual.length).toStrictEqual(1)
     })
     test('should able to get overall Trip with tollplaza details to generate toll invoice', async () => {
         const overallTrip = await tollPlazaCreationPreRequirements()
+        const tollPlazaLocation = await createTollPlazaLocations({ location: 'Dhone', state: 'AP' })
         await createTollPlaza([
             { ...seedTollPlaza, overallTripId: overallTrip.id },
-            { overallTripId: overallTrip.id, tollPlazaLocation: 'salem', amount: 500 }
+            {
+                overallTripId: overallTrip.id,
+                tollPlazaLocationId: tollPlazaLocation.id,
+                amount: 500
+            }
         ])
         await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         const actual = await getOveralltripByTollNotEmpty()
+
         expect(actual.length).toStrictEqual(1)
-        expect(actual[0].tollPlaza[0].tollPlazaLocation).toStrictEqual('Dhone')
+        expect(actual[0].tollPlaza[0].tollPlazaLocationId).toStrictEqual(1)
         expect(actual[0].tollPlaza[0].amount).toStrictEqual(350)
-        expect(actual[0].tollPlaza[1].tollPlazaLocation).toStrictEqual('salem')
+        expect(actual[0].tollPlaza[1].tollPlazaLocation?.location).toStrictEqual('Dhone')
         expect(actual[0].tollPlaza[1].amount).toStrictEqual(500)
     })
     test('should able to get overall Trip for pricePointApproval', async () => {

@@ -21,7 +21,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
 
 export const tripStatusFilter = (tripFilters: TripFilters) =>
     axiosGet('/overallTrip/tripstatusreport', { ...tripFilters })
-export const getTollAmount = () =>
+export const getOveralltripByToll = () =>
     axiosInstance
         .get(`/overallTrip/toll`)
         .then(getData)

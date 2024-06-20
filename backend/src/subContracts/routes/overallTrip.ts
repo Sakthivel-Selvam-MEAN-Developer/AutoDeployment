@@ -7,6 +7,7 @@ import {
     listAllInvoiceNumbers,
     listOverAllTripByArrayOfIds
 } from '../controller/overallTrip.ts'
+import { getOverallTripByToll } from '../controller/tollPlaza.ts'
 
 const overallTrip = (router: Router) => {
     router.get('/overalltrip', listOverallTripWithPaymentStatus)
@@ -15,7 +16,7 @@ const overallTrip = (router: Router) => {
     router.get('/overalltrip/report/discrepancy/:from/:to', listAllDiscrepancyReport)
     router.get('/overalltrip/ids', listOverAllTripByArrayOfIds)
     router.get('/invoiceNumber', listAllInvoiceNumbers)
-    router.get('/overalltrip/toll')
+    router.get('/overalltrip/toll', getOverallTripByToll)
 }
 
 export default overallTrip

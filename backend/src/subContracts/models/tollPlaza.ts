@@ -21,3 +21,14 @@ export const updateBillStatus = (overallTripId: number[], data: props) =>
     })
 
 export const getTollPlaza = () => prisma.tollPlaza.findMany({})
+
+export const getTollLocations = () =>
+    prisma.tollPlazaLocation.findMany({
+        select: {
+            id: true,
+            location: true
+        }
+    })
+export const createTollPlazaLocations = (
+    data: Prisma.tollPlazaLocationCreateInput | Prisma.tollPlazaLocationUncheckedCreateInput
+) => prisma.tollPlazaLocation.create({ data })

@@ -47,9 +47,10 @@ describe('TollPlaza model', () => {
         const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
         const tollPlazaLocationMaker = await create([
             { ...seedtollPlazaLocation, overallTripId: overallTrip.id },
-            { overallTripId: overallTrip.id, tollPlazaLocation: 'salam', amount: 500 }
+            { overallTripId: overallTrip.id, tollPlazaLocationId: 1, amount: 500 }
         ])
         const actual = await getTollPlaza()
+        console.log(actual, tollPlazaLocationMaker)
         expect(tollPlazaLocationMaker).toStrictEqual({ count: actual.length })
     })
     test('should able to update tollPlaza', async () => {
@@ -80,9 +81,9 @@ describe('TollPlaza model', () => {
             loadingKilometer: 0
         })
         const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
-        await create([
+        create([
             { ...seedtollPlazaLocation, overallTripId: overallTrip.id },
-            { overallTripId: overallTrip.id, tollPlazaLocation: 'salam', amount: 500 }
+            { overallTripId: overallTrip.id, tollPlazaLocationId: 1, amount: 500 }
         ])
         const tollDetails = await getTollPlaza()
         const overallTripId = tollDetails.map((toll) => toll.overallTripId)

@@ -1405,6 +1405,8 @@ export const getOveralltripByToll = () =>
             }
         },
         select: {
+            id: true,
+            tollPlaza: true,
             loadingPointToUnloadingPointTrip: {
                 select: {
                     invoiceNumber: true,
@@ -1420,6 +1422,15 @@ export const getOveralltripByToll = () =>
             },
             loadingPointToStockPointTrip: {
                 select: {
+                    stockPointToUnloadingPointTrip: {
+                        select: {
+                            unloadingPoint: {
+                                select: {
+                                    name: true
+                                }
+                            }
+                        }
+                    },
                     invoiceNumber: true,
                     stockPoint: true,
                     loadingPoint: true,
@@ -1430,26 +1441,10 @@ export const getOveralltripByToll = () =>
                         }
                     }
                 }
-            },
-            stockPointToUnloadingPointTrip: {
-                select: {
-                    invoiceNumber: true,
-                    unloadingPoint: true,
-                    startDate: true,
-                    loadingPointToStockPointTrip: {
-                        select: {
-                            stockPoint: true
-                        }
-                    },
-                    truck: {
-                        select: {
-                            vehicleNumber: true
-                        }
-                    }
-                }
             }
         }
     })
+
 export const getOveralltripByTollNotEmpty = () =>
     prisma.overallTrip.findMany({
         where: {
@@ -1465,8 +1460,13 @@ export const getOveralltripByTollNotEmpty = () =>
         select: {
             tollPlaza: {
                 select: {
-                    tollPlazaLocation: true,
-                    amount: true
+                    tollPlazaLocationId: true,
+                    amount: true,
+                    tollPlazaLocation: {
+                        select: {
+                            location: true
+                        }
+                    }
                 }
             },
             loadingPointToUnloadingPointTrip: {

@@ -1,4 +1,4 @@
 export default {
-    tollPlazaLocation: 'Dhone',
+    tollPlazaLocationId: 1,
     amount: 350
 }

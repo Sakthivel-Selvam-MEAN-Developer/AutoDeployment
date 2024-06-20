@@ -9,7 +9,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/material'
 import { useState } from 'react'
-
 import StockToUnloadingTrip from './stockToUnloadingTrip.tsx'
 import { getAllUnloadingPoint } from '../../services/unloadingPoint.ts'
 import { CheckUser } from '../../../auth/checkUser.tsx'

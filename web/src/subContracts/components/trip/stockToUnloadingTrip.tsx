@@ -105,13 +105,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                 }}
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        label="Stock Point Date"
-                        name="stockDate"
-                        format="DD/MM/YYYY"
-                        sx={{ marginRight: '20px' }}
-                        onChange={coverDateToEpoc}
-                    />
+                    {NewTime(coverDateToEpoc)}
                 </LocalizationProvider>
                 <TextField
                     id="outlined-basic"
@@ -243,3 +237,15 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
 }
 
 export default StockToUnloadingFormFields
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+const NewTime = (coverDateToEpoc: (date: any) => void) => {
+    return (
+        <DatePicker
+            label="Stock Point Date"
+            name="stockDate"
+            format="DD/MM/YYYY"
+            sx={{ marginRight: '20px' }}
+            onChange={coverDateToEpoc}
+        />
+    )
+}

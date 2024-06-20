@@ -2,14 +2,16 @@ import { Router } from 'express'
 import {
     createTollLocation,
     getOverallTripByTollNotEmpty,
-    getTollAmount,
-    updateTollDetails
+    getOverallTripByToll,
+    updateTollDetails,
+    getTollLocation
 } from '../controller/tollPlaza.ts'
 
 const tollPlazaRoutes = (router: Router) => {
     router.post('/toll', createTollLocation)
     router.put('/toll', updateTollDetails)
-    router.get('/toll', getTollAmount)
+    router.get('/toll', getOverallTripByToll)
     router.get('/toll/invoice', getOverallTripByTollNotEmpty)
+    router.get('/toll/locations/state', getTollLocation)
 }
 export default tollPlazaRoutes

@@ -5,10 +5,12 @@ import { app } from '../../app.ts'
 const mockTollPlazaLocation = vi.fn()
 const mockUpdateTollPlaza = vi.fn()
 const mockTollLocation = vi.fn()
+const mockTollPlazaLocations = vi.fn()
 
 vi.mock('../models/tollPlaza', () => ({
     create: (inputs: any) => mockTollPlazaLocation(inputs),
-    updateBillStatus: (inputs: any) => mockUpdateTollPlaza(inputs)
+    updateBillStatus: (inputs: any) => mockUpdateTollPlaza(inputs),
+    getTollLocations: () => mockTollPlazaLocations()
 }))
 vi.mock('../models/overallTrip', () => ({
     getOveralltripByToll: () => mockTollLocation()
@@ -67,6 +69,14 @@ const mockTollPlaza = {
     loadingPointToStockPointTrip: null,
     stockPointToUnloadingPointTrip: null
 }
+const mockTollPlazaLocationsData = [
+    {
+        id: 1,
+        location: 'Dhone',
+        state: 'AP'
+    }
+]
+
 describe('TollPlaza Controller', () => {
     test('should able to create tollPlazaLocation', async () => {
         mockTollPlazaLocation.mockResolvedValue(mockCreateData)
@@ -95,5 +105,10 @@ describe('TollPlaza Controller', () => {
         })
         await supertest(app).get('/api/toll/invoice').expect(200)
         expect(mockTollLocation).toHaveBeenCalledTimes(1)
+    })
+    test('should able to getTollPlaza location', async () => {
+        mockTollPlazaLocations.mockResolvedValue(mockTollPlazaLocationsData)
+        await supertest(app).get('/api/toll/locations/state').expect(200)
+        expect(mockTollPlazaLocations).toBeCalledTimes(1)
     })
 })

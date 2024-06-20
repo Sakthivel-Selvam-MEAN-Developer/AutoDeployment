@@ -1,6 +1,6 @@
 import { axiosInstance, getData } from '../../apiCalls'
 interface dataProps {
-    tollPlazaLocation: string
+    tollPlazaLocationId: number
     amount: number
     overallTripId: number
 }
