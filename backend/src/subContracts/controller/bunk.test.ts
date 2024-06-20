@@ -55,4 +55,9 @@ describe('Bunk Controller', () => {
         await supertest(app).get('/api/bunk').expect({ bunkName: 'Bharath Petroleum' })
         expect(mockBunkDetails).toBeCalledWith()
     })
+    test.skip('should return all bunk names', async () => {})
+
+    test.skip('should generate fuel report', async () => {})
+
+    test('should return fuel list', async () => {})
 })

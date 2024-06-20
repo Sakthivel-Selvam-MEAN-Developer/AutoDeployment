@@ -31,7 +31,7 @@ const checkUnloadingPointTrip = (overallTrip: allTrips) => {
         return overallTrip.loadingPointToUnloadingPointTrip
     }
 }
-export const getTrip = (overallTrip: allTrips) => {
+export const getTrip = (overallTrip: any) => {
     if (overallTrip.stockPointToUnloadingPointTrip !== null) {
         return overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
             ? overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip
