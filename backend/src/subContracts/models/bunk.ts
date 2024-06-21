@@ -24,7 +24,7 @@ export const getBunkAccountByName = (bunkName: string[]) =>
         where: { bunkName: { in: bunkName } },
         select: bunkData
     })
-export const getBunkAccountById = (id: number) =>
+export const getBunkNameById = (id: number) =>
     prisma.bunk.findMany({
         where: { id: id },
         select: {

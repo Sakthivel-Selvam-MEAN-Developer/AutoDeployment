@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { Request, Response } from 'express'
-import { create, getAllBunk, getAllBunkName, getBunkAccountById } from '../models/bunk.ts'
+import { create, getAllBunk, getAllBunkName, getBunkNameById } from '../models/bunk.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { getAllFuel } from '../models/fuel.ts'
 import { getOverAllTripById } from '../models/overallTrip.ts'
@@ -99,7 +99,7 @@ export const listAllBunkName = (_req: Request, res: Response) => {
         .catch(() => res.status(500))
 }
 
-export const generateSample = async (
+export const generateFuel = async (
     fuelDataFormat: FuelDataProps,
     bunkName: string,
     tripCheck: TripProps | null,
@@ -135,29 +135,28 @@ export const fetchTripData = async (id: number) => {
         throw error
     }
 }
-const generateSampleData = async (
+
+const generateFuelData = async (
     fuelDataFormat: FuelDataProps,
     bunkName: string,
     tripCheck: TripProps | null,
     paymentDueForFuel: paymentDueForFuelProps | null
-) => {
-    try {
-        return await generateSample(fuelDataFormat, bunkName, tripCheck, paymentDueForFuel)
-    } catch (error) {
+) =>
+    generateFuel(fuelDataFormat, bunkName, tripCheck, paymentDueForFuel).catch((error) => {
         console.error(`Error generating sample data for fuel ID ${fuelDataFormat.id}:`, error)
         throw error
-    }
-}
+    })
+
 const tripNull = null
 const processfuelDataFormat = async (fuelDataFormat: FuelDataProps) => {
     const id = fuelDataFormat.overallTripId
-    const [bunkName] = await getBunkAccountById(fuelDataFormat.bunkId)
+    const [bunkName] = await getBunkNameById(fuelDataFormat.bunkId)
     const paymentDueForFuel = await getFuelPaymentDuesTripId(fuelDataFormat.id)
     if (id !== null) {
         const tripCheck = await fetchTripData(id)
-        return generateSampleData(fuelDataFormat, bunkName.bunkName, tripCheck, paymentDueForFuel)
+        return generateFuelData(fuelDataFormat, bunkName.bunkName, tripCheck, paymentDueForFuel)
     }
-    return generateSampleData(fuelDataFormat, bunkName.bunkName, tripNull, paymentDueForFuel)
+    return generateFuelData(fuelDataFormat, bunkName.bunkName, tripNull, paymentDueForFuel)
 }
 const fuelReport: FuelReport[] = []
 export const generateFuelReport = async (fuel: FuelDataProps[]) => {
@@ -174,6 +173,7 @@ export const listAllFuelList = async (_req: Request, res: Response) => {
     try {
         const fuel = await getAllFuel()
         const finalFuelReport = await generateFuelReport(fuel)
+        console.log('finalFuelReport', finalFuelReport)
         res.status(200).json(finalFuelReport)
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' })

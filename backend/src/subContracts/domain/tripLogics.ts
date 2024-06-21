@@ -78,7 +78,7 @@ export interface Props {
     number: number
     transporterInvoice: string
 }
-const tripLogic = async (trip: tripLogicTripProps, overallTrip: Props, tripType: string) => {
+const tripLogic = async (trip: tripLogicTripProps, overallTrip: any, tripType: string) => {
     if (trip.truck.transporter.transporterType === 'Own') return
     const fuelDetails = overallTrip.fuel[0]
     if (trip.wantFuel === true && fuelDetails === null) return
