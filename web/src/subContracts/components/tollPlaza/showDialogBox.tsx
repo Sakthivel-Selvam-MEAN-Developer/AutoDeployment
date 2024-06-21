@@ -1,4 +1,6 @@
 import { Table, TableHead, TableRow, TableCell, TableBody, DialogContent } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 export function showDialogBox(
     selectedToll:
         | { tollPlazaLocation: { id: number; location: string }; amount: number }[]
@@ -19,7 +21,8 @@ const header = () => {
             <TableRow>
                 <TableCell>Location</TableCell>
                 <TableCell>Amount</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>Edit</TableCell>
+                <TableCell>Delete</TableCell>
             </TableRow>
         </TableHead>
     )
@@ -35,6 +38,12 @@ const dialogBody = (
                 <TableRow key={toll.tollPlazaLocation.id}>
                     <TableCell>{toll.tollPlazaLocation.location}</TableCell>
                     <TableCell>{toll.amount}</TableCell>
+                    <TableCell>
+                        <EditIcon />
+                    </TableCell>
+                    <TableCell>
+                        <DeleteIcon />
+                    </TableCell>
                 </TableRow>
             ))}
         </TableBody>

@@ -27,3 +27,12 @@ export interface tripProps {
     trip: trip
     toll: overallTrip['tollPlaza']
 }
+export interface dataProps {
+    tollPlazaLocationId: number
+    amount: number
+    overallTripId: number
+}
+export interface property {
+    billNo: string
+    billDate: number
+}

@@ -93,4 +93,6 @@ describe('TollPlaza model', () => {
         })
         expect(actual).toStrictEqual({ count: tollDetails.length })
     })
+    test('should update tollPlaza location', async () => {})
+    test('should delete tollPlaza location', async () => {})
 })
