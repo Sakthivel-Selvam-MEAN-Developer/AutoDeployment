@@ -21,7 +21,7 @@ export interface tripProps {
     id: number
     loadingPointToUnloadingPointTrip: tripDetailProps | null
     loadingPointToStockPointTrip: loadingPointToStockPointTripProps | null
-    tripSalaryDeatails: tripSalaryProps
+    tripSalaryDetails: tripSalaryProps
 }
 interface tripDetailProps {
     startDate: number
@@ -85,7 +85,7 @@ const getTrip = (trip: tripProps) => {
     if (isLoadingToStock(trip)) {
         return {
             tripDetails: trip.loadingPointToStockPointTrip,
-            tripSalaryDetails: trip.tripSalaryDeatails,
+            tripSalaryDetails: trip.tripSalaryDetails,
             unloadingPoint: trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip.length
                 ? trip.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip[0]
                       .unloadingPoint.name
@@ -94,7 +94,7 @@ const getTrip = (trip: tripProps) => {
     } else {
         return {
             tripDetails: trip.loadingPointToUnloadingPointTrip,
-            tripSalaryDetails: trip.tripSalaryDeatails,
+            tripSalaryDetails: trip.tripSalaryDetails,
             unloadingPoint: trip.loadingPointToUnloadingPointTrip?.unloadingPoint?.name
         }
     }
@@ -121,21 +121,21 @@ const tripDetailsCell = (trip: getTripProps, index: number) => {
         </>
     )
 }
-const driverAmountCells = (totalExpenseAmount: number, tripSalaryDeatails: tripSalaryProps) => {
+const driverAmountCells = (totalExpenseAmount: number, tripSalaryDetails: tripSalaryProps) => {
     return (
         <>
             <TableCell align="center">
                 {'\u20B9'} {totalExpenseAmount}
             </TableCell>
             <TableCell align="center">
-                {'\u20B9'} {tripSalaryDeatails.totalTripBetta}
+                {'\u20B9'} {tripSalaryDetails.totalTripBetta}
             </TableCell>
             <TableCell align="center">
-                {'\u20B9'} {tripSalaryDeatails.totalAdvance}
+                {'\u20B9'} {tripSalaryDetails.totalAdvance}
             </TableCell>
             <TableCell align="center">
                 {'\u20B9'}
-                {tripSalaryDeatails.totalTripSalary + totalExpenseAmount}
+                {tripSalaryDetails.totalTripSalary + totalExpenseAmount}
             </TableCell>
         </>
     )

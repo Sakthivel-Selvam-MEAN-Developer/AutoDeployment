@@ -7,12 +7,21 @@ export interface driverDetailProps {
 export interface AdvanceDetail {
     advanceforTrip: AdvanceforTrip[]
 }
+interface fuelProps {
+    totalprice: number
+    fueledDate: number
+    invoiceNumber: string
+    bunk: {
+        bunkName: string
+    }
+}
 
 export interface Trip {
     id: number
+    fuel: fuelProps[]
     loadingPointToUnloadingPointTrip: LoadingPointToUnloadingPointTrip
-    loadingPointToStockPointTrip?: any
-    tripSalaryDeatails: TripSalaryDeatails
+    loadingPointToStockPointTrip: LoadingPointToUnloadingPointTrip
+    tripSalaryDetails: TripSalaryDetails
     expenses: Expense[]
     advanceforTrip: AdvanceforTrip[]
 }
@@ -28,7 +37,7 @@ interface Expense {
     tripId: number
 }
 
-interface TripSalaryDeatails {
+export interface TripSalaryDetails {
     totalTripBetta: number
     totalAdvance: number
     dailyBetta: number
@@ -41,7 +50,9 @@ interface LoadingPointToUnloadingPointTrip {
     invoiceNumber: string
     startDate: number
     unloadingPoint: LoadingPoint
+    stockPoint: LoadingPoint
     truck: Truck
+    filledLoad: number
 }
 
 interface Truck {
@@ -50,4 +61,7 @@ interface Truck {
 
 interface LoadingPoint {
     name: string
+    cementCompany: {
+        name: string
+    }
 }

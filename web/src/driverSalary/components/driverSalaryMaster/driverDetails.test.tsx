@@ -19,6 +19,7 @@ const mockTripDetailsData = {
     trips: [
         {
             id: 2,
+            fuel: [],
             loadingPointToUnloadingPointTrip: {
                 id: 2,
                 filledLoad: 50,
@@ -38,7 +39,7 @@ const mockTripDetailsData = {
                 }
             },
             loadingPointToStockPointTrip: null,
-            tripSalaryDeatails: {
+            tripSalaryDetails: {
                 totalTripBetta: 4500,
                 totalAdvance: 2000,
                 dailyBetta: 350,
@@ -49,6 +50,12 @@ const mockTripDetailsData = {
                     expenseType: 'LOADING_CHARGES',
                     acceptedAmount: 344343,
                     tripId: 39
+                }
+            ],
+            advanceforTrip: [
+                {
+                    amount: 1212,
+                    advanceDate: 1718841600
                 }
             ]
         }

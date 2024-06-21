@@ -1,13 +1,21 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { Trip } from './types'
+import { driverDetailProps, Trip } from './types'
+import {
+    totalAdvanceCalculation,
+    totalBettaCalculation,
+    totalExpenseCalculation,
+    totalFilledLoadCalculation,
+    totalFuelCalculation,
+    totalTripExpenseCalculation
+} from './totalCalulation'
 export const totalCalculation = (trip: Trip) => {
     let total = 0
     trip.expenses.map((expense) => (total += expense.acceptedAmount))
     return total
 }
 interface TablePorps {
-    tripDetails: Trip[]
+    tripDetails: driverDetailProps
 }
 const TableHead = [
     'SI No',
@@ -30,46 +38,56 @@ const TableHead = [
     'Batta'
 ]
 export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
-    // const TotalExpense = totalCalculation(trip)
+    const totalAdvance = totalAdvanceCalculation(tripDetails.trips)
+    const totalExpense = totalExpenseCalculation(tripDetails)
+    const totalBetta = totalBettaCalculation(tripDetails.trips)
+    const totalFuel = totalFuelCalculation(tripDetails.trips)
+    const { totalFilledLoad, averageFilledLoad } = totalFilledLoadCalculation(tripDetails.trips)
     return (
-        <>
-            <table className="advanceTable" style={{ width: '100%' }}>
-                <tr>
-                    {TableHead.map((head, index) => (
-                        <th key={index} style={{ textAlign: 'left' }}>
-                            {head}
-                        </th>
-                    ))}
-                </tr>
-                <TableCells tripDetails={tripDetails} />
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td style={{ textAlign: 'right' }}>
-                        <h4>17,000.00</h4>
-                    </td>
-                    <td></td>
-                    <td style={{ textAlign: 'right' }}>
-                        <h4>13,668.00</h4>
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                        <h4>12,180.00</h4>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>T 250.74 A 41.79</td>
-                    <td></td>
-                    <td>1,784.13</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>31,000.00</td>
-                </tr>
-            </table>
-        </>
+        <table className="advanceTable" style={{ width: '100%' }}>
+            <tr>
+                {TableHead.map((head, index) => (
+                    <th key={index} className="alignLeft">
+                        {head}
+                    </th>
+                ))}
+            </tr>
+            <TableCells tripDetails={tripDetails.trips} />
+            <tr>
+                <td></td>
+                <td></td>
+                <td className="alignRight">
+                    <h4>{totalAdvance.toFixed(2)}</h4>
+                </td>
+                <td></td>
+                <td className="alignRight">
+                    <h4>13,668.00</h4>
+                </td>
+                <td className="alignRight">
+                    <h4>{totalExpense.toFixed(2)}</h4>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <b>
+                        T {totalFilledLoad.toFixed(2)} <br />A {averageFilledLoad.toFixed(2)}
+                    </b>
+                </td>
+                <td></td>
+                <td>
+                    <b>{totalFuel.toFixed(2)}</b>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <b>{totalBetta.toFixed(2)}</b>
+                </td>
+            </tr>
+        </table>
     )
 }
 const findTrip = (overallTrip: Trip) => {
@@ -84,27 +102,36 @@ interface TableCells {
 }
 const TableCells: FC<TableCells> = ({ tripDetails }) =>
     tripDetails.map((trip, index) => {
-        const { tripData } = findTrip(trip)
+        const { tripData, type } = findTrip(trip)
+        let tripAdvance = 0
+        trip.advanceforTrip.map(({ amount }) => {
+            tripAdvance += amount
+        })
+        const tripExpense = totalTripExpenseCalculation(trip)
         return (
             <tr key={index}>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>{epochToMinimalDate(tripData.startDate)}</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>{tripData.loadingPoint.cementCompany.name}</td>
-                <td style={{ textAlign: 'left' }}>{tripData.loadingPoint.name}</td>
-                <td style={{ textAlign: 'left' }}>{tripData.unloadingPoint.name}</td>
-                <td style={{ textAlign: 'left' }}>Cement</td>
-                <td style={{ textAlign: 'left' }}>{tripData.filledLoad.toFixed(2)}</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>0.00</td>
-                <td style={{ textAlign: 'left' }}>0.00</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>{trip.tripSalaryDeatails.totalTripBetta}</td>
+                <td className="alignLeft">{index + 1}</td>
+                <td className="alignLeft">{epochToMinimalDate(tripData.startDate)}</td>
+                <td className="alignRight">{tripAdvance.toFixed(2)}</td>
+                <td className="alignLeft"></td>
+                <td className="alignLeft"></td>
+                <td className="alignRight">{tripExpense.toFixed(2)}</td>
+                <td className="alignLeft">{tripData.loadingPoint.cementCompany.name}</td>
+                <td className="alignLeft">{tripData.loadingPoint.name}</td>
+                <td className="alignLeft">
+                    {type === 'direct' ? tripData.unloadingPoint.name : tripData.stockPoint.name}
+                </td>
+                <td className="alignLeft">Cement</td>
+                <td className="alignRight">{tripData.filledLoad.toFixed(2)}</td>
+                <td className="alignLeft"></td>
+                <td className="alignRight">
+                    {trip.fuel.length > 0 ? trip.fuel[0].totalprice.toFixed(2) : 0}
+                </td>
+                <td className="alignRight">0.00</td>
+                <td className="alignRight">0.00</td>
+                <td className="alignLeft"></td>
+                <td className="alignLeft"></td>
+                <td className="alignRight">{trip.tripSalaryDetails.totalTripBetta.toFixed(2)}</td>
             </tr>
         )
     })

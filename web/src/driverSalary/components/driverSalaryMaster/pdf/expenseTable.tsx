@@ -1,45 +1,47 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { Trip } from './types'
+import { totalTripExpenseCalculation } from './totalCalulation'
 interface ExpenseTable {
     tripDetails: Trip[]
 }
 export const ExpenseTable: FC<ExpenseTable> = ({ tripDetails }) => {
     return (
         <>
-            {tripDetails.map((trip, index) => (
-                <TableContainer key={index} trip={trip} />
-            ))}
+            {tripDetails.map(
+                (trip) =>
+                    trip.expenses.length > 0 && (
+                        <>
+                            <TableContainer key={trip.id} trip={trip} />
+                            <br />
+                        </>
+                    )
+            )}
         </>
     )
-}
-export const totalCalculation = (trip: Trip) => {
-    let total = 0
-    trip.expenses.map((expense) => (total += expense.acceptedAmount))
-    return total
 }
 interface TablePorps {
     trip: Trip
 }
 const TableContainer: FC<TablePorps> = ({ trip }) => {
-    const TotalExpense = totalCalculation(trip)
+    const TotalExpense = totalTripExpenseCalculation(trip)
     return (
         <>
             <table className="advanceTable" style={{ width: '100%' }}>
                 <tr>
-                    <th style={{ textAlign: 'left' }}>SI No</th>
-                    <th style={{ textAlign: 'left' }}>Date</th>
-                    <th style={{ textAlign: 'left' }}>Description</th>
-                    <th style={{ textAlign: 'right' }}>Amount</th>
+                    <th className="alignLeft">SI No</th>
+                    <th className="alignLeft">Date</th>
+                    <th className="alignLeft">Description</th>
+                    <th className="alignRight">Amount</th>
                 </tr>
                 <TableCells trip={trip} />
                 <tr>
                     <td></td>
                     <td></td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td className="alignRight">
                         <h4>Total Amount</h4>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td className="alignRight">
                         <h4>{TotalExpense.toFixed(2)}</h4>
                     </td>
                 </tr>
@@ -62,10 +64,10 @@ const TableCells: FC<TableCells> = ({ trip }) =>
         const { tripDetails } = findTrip(trip)
         return (
             <tr key={index}>
-                <td style={{ textAlign: 'left' }}>1</td>
-                <td style={{ textAlign: 'left' }}>{epochToMinimalDate(tripDetails.startDate)}</td>
-                <td style={{ textAlign: 'left' }}>{expense.expenseType}</td>
-                <td style={{ textAlign: 'right' }}>{expense.acceptedAmount.toFixed(2)}</td>
+                <td className="alignLeft">{index + 1}</td>
+                <td className="alignLeft">{epochToMinimalDate(tripDetails.startDate)}</td>
+                <td className="alignLeft">{expense.expenseType}</td>
+                <td className="alignRight">{expense.acceptedAmount.toFixed(2)}</td>
             </tr>
         )
     })

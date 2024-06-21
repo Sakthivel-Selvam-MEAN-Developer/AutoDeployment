@@ -74,7 +74,7 @@ const getOverallTrip = async (headers: IncomingHttpHeaders, allTrips: allTripPro
         )
         return {
             ...trip,
-            tripSalaryDeatails: {
+            tripSalaryDetails: {
                 totalTripBetta: totalTripSalary && totalTripSalary[0].totalTripBetta,
                 totalAdvance: totalTripSalary && totalTripSalary[0].totalAdvance,
                 dailyBetta: tripSalary[0].dailyBetta,

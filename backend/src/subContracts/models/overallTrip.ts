@@ -427,6 +427,14 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
         where: { id: { in: arrayOfId } },
         select: {
             id: true,
+            fuel: {
+                select: {
+                    totalprice: true,
+                    fueledDate: true,
+                    invoiceNumber: true,
+                    bunk: { select: { bunkName: true } }
+                }
+            },
             loadingPointToUnloadingPointTrip: {
                 select: {
                     id: true,
@@ -447,6 +455,7 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
                     loadingPoint: {
                         select: { name: true, cementCompany: { select: { name: true } } }
                     },
+                    stockPoint: { select: { name: true } },
                     invoiceNumber: true,
                     startDate: true,
                     stockPointToUnloadingPointTrip: {
