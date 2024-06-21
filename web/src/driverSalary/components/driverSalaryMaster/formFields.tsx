@@ -1,8 +1,9 @@
 import { Button, Typography } from '@mui/material'
 import { FC } from 'react'
-import { driverDialogProps } from './downloadAllDetailsDialog'
 import { Link } from 'react-router-dom'
-
+export interface driverDialogProps {
+    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
+}
 const style = { marginRight: '20px' }
 const downloadButton = (setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>) => {
     return (

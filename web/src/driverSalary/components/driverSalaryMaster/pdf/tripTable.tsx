@@ -1,19 +1,7 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { driverDetailProps, Trip } from './types'
-import {
-    totalAdvanceCalculation,
-    totalBettaCalculation,
-    totalExpenseCalculation,
-    totalFilledLoadCalculation,
-    totalFuelCalculation,
-    totalTripExpenseCalculation
-} from './totalCalulation'
-export const totalCalculation = (trip: Trip) => {
-    let total = 0
-    trip.expenses.map((expense) => (total += expense.acceptedAmount))
-    return total
-}
+import { driverDetailProps, Trip } from '../types'
+import { totalCalculation, totalTripExpenseCalculation } from './totalCalulation'
 interface TablePorps {
     tripDetails: driverDetailProps
 }
@@ -38,13 +26,16 @@ const TableHead = [
     'Batta'
 ]
 export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
-    const totalAdvance = totalAdvanceCalculation(tripDetails.trips)
-    const totalExpense = totalExpenseCalculation(tripDetails)
-    const totalBetta = totalBettaCalculation(tripDetails.trips)
-    const totalFuel = totalFuelCalculation(tripDetails.trips)
-    const { totalFilledLoad, averageFilledLoad } = totalFilledLoadCalculation(tripDetails.trips)
+    const {
+        totalAdvance,
+        totalExpense,
+        totalFilledLoad,
+        averageFilledLoad,
+        totalFuel,
+        totalBetta
+    } = totalCalculation(tripDetails)
     return (
-        <table className="advanceTable" style={{ width: '100%' }}>
+        <table className="tripTable" style={{ width: '100%' }}>
             <tr>
                 {TableHead.map((head, index) => (
                     <th key={index} className="alignLeft">

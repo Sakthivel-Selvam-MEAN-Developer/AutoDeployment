@@ -10,6 +10,7 @@ export const getAllDriverTripById = (id: number) =>
         where: { driverId: id },
         select: {
             id: true,
+            driver: { select: { name: true } },
             tripId: true,
             unloadingTripSalaryId: true,
             stockTripSalaryId: true,

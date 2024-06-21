@@ -1,14 +1,14 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { Trip } from './types'
+import { driverDetailProps, Trip } from '../types'
 import { totalTripExpenseCalculation } from './totalCalulation'
 interface ExpenseTable {
-    tripDetails: Trip[]
+    tripDetails: driverDetailProps
 }
 export const ExpenseTable: FC<ExpenseTable> = ({ tripDetails }) => {
     return (
         <>
-            {tripDetails.map(
+            {tripDetails.trips.map(
                 (trip) =>
                     trip.expenses.length > 0 && (
                         <>
@@ -27,12 +27,20 @@ const TableContainer: FC<TablePorps> = ({ trip }) => {
     const TotalExpense = totalTripExpenseCalculation(trip)
     return (
         <>
-            <table className="advanceTable" style={{ width: '100%' }}>
+            <table className="expenseTable" style={{ width: '100%' }}>
                 <tr>
-                    <th className="alignLeft">SI No</th>
-                    <th className="alignLeft">Date</th>
-                    <th className="alignLeft">Description</th>
-                    <th className="alignRight">Amount</th>
+                    <th className="alignLeft" style={{ width: '10%' }}>
+                        SI No
+                    </th>
+                    <th className="alignLeft" style={{ width: '15%' }}>
+                        Date
+                    </th>
+                    <th className="alignLeft" style={{ width: '50%' }}>
+                        Description
+                    </th>
+                    <th className="alignRight" style={{ width: '25%' }}>
+                        Amount
+                    </th>
                 </tr>
                 <TableCells trip={trip} />
                 <tr>

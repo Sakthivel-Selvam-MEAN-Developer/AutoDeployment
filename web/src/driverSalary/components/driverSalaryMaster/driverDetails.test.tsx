@@ -16,6 +16,7 @@ vi.mock('../../services/driver', () => ({
 
 const mockDriverDetailsData = [{ id: 1, name: 'sakthi', mobileNumber: '09876543' }]
 const mockTripDetailsData = {
+    driverName: 'sakthi',
     trips: [
         {
             id: 2,

@@ -1,6 +1,17 @@
 import { FC } from 'react'
-
-export const Header: FC = () => {
+import { driverDetailProps, Trip } from '../types'
+interface HeaderProps {
+    tripDetails: driverDetailProps
+}
+const findTrip = (overallTrip: Trip) => {
+    if (overallTrip.loadingPointToStockPointTrip !== null) {
+        return { tripData: overallTrip.loadingPointToStockPointTrip, type: 'stock' }
+    } else {
+        return { tripData: overallTrip.loadingPointToUnloadingPointTrip, type: 'direct' }
+    }
+}
+export const Header: FC<HeaderProps> = ({ tripDetails }) => {
+    const { tripData } = findTrip(tripDetails.trips[0])
     return (
         <div className="magnumHeader">
             <div className="magnum">
@@ -17,10 +28,10 @@ export const Header: FC = () => {
             <div className="driverConatiner">
                 <div className="driverName">
                     <div className="driverDetail">
-                        <b>P : Prakash M/D684</b>
+                        <b>{tripDetails.driverName}</b>
                     </div>
                     <div className="driverDetail">
-                        <b>Vehicle No : NL01AA9957</b>
+                        <b>Vehicle No : {tripData.truck.vehicleNumber}</b>
                     </div>
                     <div className="driverDetail">
                         <b>S/T :</b>

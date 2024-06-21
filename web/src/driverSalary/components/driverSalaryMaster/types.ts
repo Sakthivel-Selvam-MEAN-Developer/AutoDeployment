@@ -1,5 +1,6 @@
 export interface driverDetailProps {
     trips: Trip[]
+    driverName: string
     expensesDetails: Expense[]
     advanceDetails: AdvanceDetail[]
 }

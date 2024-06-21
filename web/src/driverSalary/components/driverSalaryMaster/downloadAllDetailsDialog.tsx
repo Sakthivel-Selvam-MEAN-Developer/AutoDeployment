@@ -7,12 +7,15 @@ import {
     Button
 } from '@mui/material'
 import React, { FC } from 'react'
+import { PdfConatiner } from './pdf/pdfConatainer'
+import { driverDetailProps } from './types'
 
 export interface driverDialogProps {
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
+    tripDetails: driverDetailProps
 }
 
-const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog }) => {
+const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog, tripDetails }) => {
     const [open, setOpen] = React.useState(true)
     const handleClose = () => {
         setActivateDialog(false)
@@ -34,7 +37,9 @@ const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog })
                     id="scroll-dialog-description"
                     ref={descriptionElementRef}
                     tabIndex={-1}
-                ></DialogContentText>
+                >
+                    {tripDetails.trips !== undefined && <PdfConatiner tripDetails={tripDetails} />}
+                </DialogContentText>
             </DialogContent>
             <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Button onClick={handleClose} variant="outlined" disabled={loading}>

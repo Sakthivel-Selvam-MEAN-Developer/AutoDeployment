@@ -2,7 +2,7 @@ import './pdf.css'
 import { AdvanceTable } from './advanceTable'
 import { ExpenseTable } from './expenseTable'
 import { FC } from 'react'
-import { driverDetailProps } from './types'
+import { driverDetailProps } from '../types'
 import { TripTable } from './tripTable'
 import { FuelTable } from './fuelTable'
 import { Header } from './header'
@@ -13,16 +13,16 @@ interface PdfConatinerProps {
 export const PdfConatiner: FC<PdfConatinerProps> = ({ tripDetails }) => {
     return (
         <div className="pdf">
-            <Header />
+            <Header tripDetails={tripDetails} />
             <br />
             <h3> Details</h3>
             <TripTable tripDetails={tripDetails} />
             <br />
             <h3>Advance Details</h3>
-            <AdvanceTable advanceDetails={tripDetails.advanceDetails} />
+            <AdvanceTable tripDetails={tripDetails} />
             <br />
             <h3 style={{ textAlign: 'center' }}>Expense Details</h3>
-            <ExpenseTable tripDetails={tripDetails.trips} />
+            <ExpenseTable tripDetails={tripDetails} />
             <br />
             <h3>Fuel Consumption Details</h3>
             <FuelTable tripDetails={tripDetails} />

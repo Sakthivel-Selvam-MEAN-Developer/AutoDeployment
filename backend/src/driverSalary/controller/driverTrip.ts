@@ -29,6 +29,7 @@ type listAllDriverTripByIdType = (
 ) => void
 interface allTripProps {
     id: number
+    driver: { name: string }
     tripId: number
     unloadingTripSalaryId: number | null
     stockTripSalaryId: number | null
@@ -55,6 +56,7 @@ const getTotalTripSalary: props = (tripAdvanceDetails, data) => {
 }
 const getOverallTrip = async (headers: IncomingHttpHeaders, allTrips: allTripProps[]) => {
     const overAllTripIds: number[] = []
+    const driverName = allTrips[0].driver.name
     allTrips.forEach((tripId) => overAllTripIds.push(tripId.tripId))
     const allTripsById = await axios.get(`${headers.hostname}/api/overalltrip/ids`, {
         params: { ids: JSON.stringify(overAllTripIds) }
@@ -86,7 +88,7 @@ const getOverallTrip = async (headers: IncomingHttpHeaders, allTrips: allTripPro
             advanceforTrip: advance[0].driverAdvanceForTrip
         }
     })
-    return { trips: combinedData, expensesDetails, advanceDetails }
+    return { driverName, trips: combinedData, expensesDetails, advanceDetails }
 }
 export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res) => {
     const { driverId } = req.query

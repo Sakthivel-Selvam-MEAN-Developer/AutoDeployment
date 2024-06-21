@@ -49,6 +49,7 @@ const mockGetDriverTripData = [
     {
         id: 1,
         tripId: 37,
+        driver: { name: 'sakthi' },
         unloadingTripSalaryId: 1,
         stockTripSalaryId: 2,
         driverAdvanceForTrip: [

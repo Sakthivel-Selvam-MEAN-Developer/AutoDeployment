@@ -1,12 +1,12 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { driverDetailProps, Trip } from './types'
+import { driverDetailProps, Trip } from '../types'
 interface FuelTable {
     tripDetails: driverDetailProps
 }
 export const FuelTable: FC<FuelTable> = ({ tripDetails }) => {
     return (
-        <table className="advanceTable" style={{ width: '100%' }}>
+        <table className="fuelTable" style={{ width: '100%' }}>
             <tr>
                 <th className="alignLeft">SI No</th>
                 <th className="alignLeft">Date</th>

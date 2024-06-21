@@ -1,23 +1,33 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { AdvanceDetail } from './types'
-import { totalAdvanceCalculation } from './totalCalulation'
+import { AdvanceDetail, driverDetailProps } from '../types'
+import { totalCalculation } from './totalCalulation'
 interface AdvanceTableProps {
-    advanceDetails: AdvanceDetail[]
+    tripDetails: driverDetailProps
 }
-export const AdvanceTable: FC<AdvanceTableProps> = ({ advanceDetails }) => {
-    const TotalAdvance = totalAdvanceCalculation(advanceDetails)
+export const AdvanceTable: FC<AdvanceTableProps> = ({ tripDetails }) => {
+    const { totalAdvance } = totalCalculation(tripDetails)
     return (
         <table className="advanceTable" style={{ width: '100%' }}>
             <tr>
-                <th className="alignLeft">SI No</th>
-                <th className="alignLeft">Date</th>
-                <th className="alignLeft">Particulars</th>
-                <th className="alignRight">Recd. Amt.</th>
-                <th className="alignRight">Distributed Amt.</th>
+                <th className="alignLeft" style={{ width: '10%' }}>
+                    SI No
+                </th>
+                <th className="alignLeft" style={{ width: '20%' }}>
+                    Date
+                </th>
+                <th className="alignLeft" style={{ width: '40%' }}>
+                    Particulars
+                </th>
+                <th className="alignRight" style={{ width: '15%' }}>
+                    Recd. Amt.
+                </th>
+                <th className="alignRight" style={{ width: '15%' }}>
+                    Distributed Amt.
+                </th>
             </tr>
-            {advanceDetails.length > 0 &&
-                advanceDetails.map((tripDetails, index) => (
+            {tripDetails.advanceDetails.length > 0 &&
+                tripDetails.advanceDetails.map((tripDetails, index) => (
                     <TableCells key={index} tripDetails={tripDetails} number={index} />
                 ))}
             <tr>
@@ -27,7 +37,7 @@ export const AdvanceTable: FC<AdvanceTableProps> = ({ advanceDetails }) => {
                     <h4>Total</h4>
                 </td>
                 <td className="alignRight">
-                    <h4>{TotalAdvance.toFixed(2)}</h4>
+                    <h4>{totalAdvance.toFixed(2)}</h4>
                 </td>
                 <td className="alignRight">
                     <h4>0.00</h4>

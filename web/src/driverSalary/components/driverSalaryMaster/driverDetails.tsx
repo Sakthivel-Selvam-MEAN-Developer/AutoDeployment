@@ -8,8 +8,7 @@ import { Autocomplete, TextField } from '@mui/material'
 import { getAllDriver } from '../../services/driver'
 import { getDriverTripByDriverId } from '../../services/driverTrip'
 import { tripProps } from './driverTable'
-import { driverDetailProps } from './pdf/types'
-import { PdfConatiner } from './pdf/pdfConatainer'
+import { driverDetailProps } from './types'
 
 interface props {
     driverList: driverProps[]
@@ -81,9 +80,13 @@ const DriverSalaryConatiner: FC = () => {
                 numberOfExpenses={numberOfExpenses}
                 dailyBetta={dailyBetta}
             />
-            <ListTripDetails driverTrips={driverTrips} expenses={expenses} />
+            <ListTripDetails
+                tripDetails={tripDetails}
+                driverTrips={driverTrips}
+                expenses={expenses}
+            />
             <br />
-            {tripDetails.trips !== undefined && <PdfConatiner tripDetails={tripDetails} />}
+            {/* {tripDetails.trips !== undefined && <PdfConatiner tripDetails={tripDetails} />} */}
         </>
     )
 }
