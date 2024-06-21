@@ -5,7 +5,7 @@ const bunkRoutes = (router: Router) => {
     router.post('/bunk', createBunk)
     router.get('/bunk', listAllBunk)
     router.get('/bunk_name', listAllBunkName)
-    router.get('/bunk_name/getAllFuelReport', listAllFuelList)
+    router.get('/getAllFuelReport', listAllFuelList)
 }
 
 export default bunkRoutes

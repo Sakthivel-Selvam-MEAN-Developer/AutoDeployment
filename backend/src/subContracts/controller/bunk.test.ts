@@ -6,10 +6,16 @@ import { createBunk } from './bunk.ts'
 
 const mockCreateBunk = vi.fn()
 const mockBunkDetails = vi.fn()
+const mockGetAllBunkName = vi.fn()
+const mockGetAllFuel = vi.fn()
 
 vi.mock('../models/bunk', () => ({
     create: (inputs: Prisma.bunkCreateInput) => mockCreateBunk(inputs),
-    getAllBunk: () => mockBunkDetails()
+    getAllBunk: () => mockBunkDetails(),
+    getAllBunkName: () => mockGetAllBunkName()
+}))
+vi.mock('../models/fuel', () => ({
+    getAllFuel: () => mockGetAllFuel()
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -18,12 +24,12 @@ vi.mock('../../auditRoute.ts', () => ({
 }))
 const mockBunk = {
     body: {
-        bunkName: 'Bharath Petroleum',
-        location: 'London',
         accountHolder: 'Barath',
         accountNumber: '123ABC',
+        accountTypeNumber: 121212,
+        bunkName: 'Bharath Petroleum',
         ifsc: '1234XYZA',
-        accountTypeNumber: 121212
+        location: 'London'
     }
 }
 const mockReq = {
@@ -55,9 +61,17 @@ describe('Bunk Controller', () => {
         await supertest(app).get('/api/bunk').expect({ bunkName: 'Bharath Petroleum' })
         expect(mockBunkDetails).toBeCalledWith()
     })
-    test.skip('should return all bunk names', async () => {})
-
-    test.skip('should generate fuel report', async () => {})
-
-    test('should return fuel list', async () => {})
+    test('should return all bunk names', async () => {
+        mockGetAllBunkName.mockResolvedValue(mockBunk.body)
+        await supertest(app).get('/api/bunk_name').expect({
+            accountHolder: 'Barath',
+            accountNumber: '123ABC',
+            accountTypeNumber: 121212,
+            bunkName: 'Bharath Petroleum',
+            ifsc: '1234XYZA',
+            location: 'London'
+        })
+        expect(mockGetAllBunkName).toBeCalledWith()
+    })
+    test('should generate fuel report', async () => {})
 })

@@ -143,7 +143,7 @@ const generateFuelData = async (
     paymentDueForFuel: paymentDueForFuelProps | null
 ) =>
     generateFuel(fuelDataFormat, bunkName, tripCheck, paymentDueForFuel).catch((error) => {
-        console.error(`Error generating sample data for fuel ID ${fuelDataFormat.id}:`, error)
+        console.error('Error generating fuelReportFinalData', error)
         throw error
     })
 
@@ -162,8 +162,8 @@ const fuelReport: FuelReport[] = []
 export const generateFuelReport = async (fuel: FuelDataProps[]) => {
     await Promise.all(
         fuel.map(async (fuelDataFormat) => {
-            const sample = await processfuelDataFormat(fuelDataFormat)
-            if (sample) fuelReport.push(sample)
+            const fuelReportFinalData = await processfuelDataFormat(fuelDataFormat)
+            if (fuelReportFinalData) fuelReport.push(fuelReportFinalData)
         })
     )
     return fuelReport
@@ -173,7 +173,6 @@ export const listAllFuelList = async (_req: Request, res: Response) => {
     try {
         const fuel = await getAllFuel()
         const finalFuelReport = await generateFuelReport(fuel)
-        console.log('finalFuelReport', finalFuelReport)
         res.status(200).json(finalFuelReport)
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' })
