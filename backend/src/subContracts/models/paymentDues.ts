@@ -324,7 +324,7 @@ export const getCompletedDues = (
     })
 }
 
-export const getFuelPaymentDuesTripId = (id: number) =>
+export const getFuelTransactionId = (id: number) =>
     prisma.paymentDues.findFirst({
         where: {
             fuelId: id

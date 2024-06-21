@@ -55,6 +55,7 @@ export const getFuelReport = () =>
         take: 5,
         skip: 0,
         select: {
+            id: true,
             fueledDate: true,
             vehicleNumber: true,
             quantity: true,
@@ -68,6 +69,7 @@ export const getFuelReport = () =>
             },
             overallTrip: {
                 select: {
+                    id: true,
                     loadingPointToStockPointTrip: {
                         select: {
                             invoiceNumber: true,

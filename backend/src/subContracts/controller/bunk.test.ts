@@ -8,6 +8,8 @@ const mockCreateBunk = vi.fn()
 const mockBunkDetails = vi.fn()
 const mockGetAllBunkName = vi.fn()
 const mockGetAllFuel = vi.fn()
+const mockGetFuelReport = vi.fn()
+const mockGetFuelTransactionId = vi.fn()
 
 vi.mock('../models/bunk', () => ({
     create: (inputs: Prisma.bunkCreateInput) => mockCreateBunk(inputs),
@@ -15,7 +17,11 @@ vi.mock('../models/bunk', () => ({
     getAllBunkName: () => mockGetAllBunkName()
 }))
 vi.mock('../models/fuel', () => ({
-    getAllFuel: () => mockGetAllFuel()
+    getAllFuel: () => mockGetAllFuel(),
+    getFuelReport: () => mockGetFuelReport()
+}))
+vi.mock('../models/paymentDues', () => ({
+    getFuelTransactionId: (inputs: any) => mockGetFuelTransactionId(inputs)
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -73,5 +79,46 @@ describe('Bunk Controller', () => {
         })
         expect(mockGetAllBunkName).toBeCalledWith()
     })
-    test('should generate fuel report', async () => {})
+})
+describe('Fuel report List', () => {
+    test.skip('should generate fuel report', async () => {
+        mockGetFuelTransactionId.mockResolvedValue({ transactionId: 'ABC123' })
+        mockGetFuelReport.mockResolvedValue([
+            {
+                id: 5,
+                fueledDate: 1718735400,
+                bunkName: 'Sakthivel Barath Petroleum',
+                vehicleNumber: 'TN22E3456',
+                loadingPoint: 'Erode',
+                unLodaingPoint: 'chennai',
+                stockPointName: 'salem',
+                quantity: 230,
+                pricePerliter: 56,
+                totalprice: 12880,
+                fuelInvoiceNumber: 'ABC123',
+                transactionId: 'sdfds5434gf',
+                tripInvoiceNumber: 'ABC987'
+            }
+        ])
+        await supertest(app)
+            .get('/api/getAllFuelReport')
+            .expect([
+                {
+                    id: 5,
+                    fueledDate: 1718735400,
+                    bunkName: 'Sakthivel Barath Petroleum',
+                    vehicleNumber: 'TN22E3456',
+                    loadingPoint: 'Erode',
+                    unLodaingPoint: 'chennai',
+                    stockPointName: 'salem',
+                    quantity: 230,
+                    pricePerliter: 56,
+                    totalprice: 12880,
+                    fuelInvoiceNumber: 'ABC123',
+                    transactionId: 'sdfds5434gf',
+                    tripInvoiceNumber: 'ABC987'
+                }
+            ])
+        expect(mockGetFuelReport).toBeCalledWith()
+    })
 })

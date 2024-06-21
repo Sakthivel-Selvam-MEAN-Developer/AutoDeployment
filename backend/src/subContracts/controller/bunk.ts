@@ -1,85 +1,73 @@
 /* eslint-disable no-console */
 import { Request, Response } from 'express'
-import { create, getAllBunk, getAllBunkName, getBunkNameById } from '../models/bunk.ts'
+import { create, getAllBunk, getAllBunkName } from '../models/bunk.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
-import { getAllFuel } from '../models/fuel.ts'
-import { getOverAllTripById } from '../models/overallTrip.ts'
-import { getFuelPaymentDuesTripId } from '../models/paymentDues.ts'
-import { getTrip } from './acknowledgement.ts'
+import { getFuelReport } from '../models/fuel.ts'
+import { getFuelTransactionId } from '../models/paymentDues.ts'
 
 export interface FuelReport {
+    id: number
     fueledDate: Date | number
     bunkName: string
     vehicleNumber: string
     loadingPoint: string | null
+    stockPointName: string | null
     unLodaingPoint: string | null
     quantity: number
-    pricePerliter: number
-    totalprice: number
+    pricePerliter: number | null
+    totalprice: number | null
     fuelInvoiceNumber: string
     transactionId: string | null
     tripInvoiceNumber: string | null
-}
-export interface FuelDataProps {
-    id: number
-    fueledDate: number
-    invoiceNumber: string
-    pricePerliter: number
-    quantity: number
-    totalprice: number
-    dieselkilometer: number
-    fuelType: string | null
-    paymentStatus: boolean
-    vehicleNumber: string
-    bunkId: number
-    overallTripId: number | null
-    createdAt: Date
-    updatedAt: Date
-}
-
-export interface paymentDueForFuelProps {
-    transactionId: string | null
 }
 
 interface LoadingPoint {
     name: string
 }
+
 interface UnloadingPoint {
     name: string
 }
-interface Transporter {
+
+interface StockPoint {
     name: string
-    transporterType: string
-    gstPercentage: number | null
 }
-interface Truck {
-    vehicleNumber: string
-    transporter: Transporter
-}
-export interface stockTrip {
-    id: number
+
+interface LoadingPointToUnloadingPointTrip {
     invoiceNumber: string
-    filledLoad: number
-    startDate: number
-    acknowledgeDueTime: number | null
-    totalTransporterAmount: number
-    tripStatus: boolean
-    loadingPoint: LoadingPoint | undefined
-    unloadingPoint: UnloadingPoint
-    truck: Truck
-}
-export interface TripProps {
-    id: number
-    invoiceNumber: string
-    filledLoad: number
-    startDate: number
-    acknowledgeDueTime: number | null
-    totalTransporterAmount: number
-    tripStatus: boolean
     loadingPoint: LoadingPoint
     unloadingPoint: UnloadingPoint
-    loadingPointToStockPointTrip: stockTrip
-    truck: Truck
+}
+interface stockPointToUnloadingPointTrip {
+    unloadingPoint: UnloadingPoint
+}
+interface LoadingPointToStockPointTrip {
+    invoiceNumber: string
+    loadingPoint: LoadingPoint
+    stockPoint: StockPoint
+    stockPointToUnloadingPointTrip: stockPointToUnloadingPointTrip[]
+}
+
+export interface OverallTrip {
+    id: number
+    loadingPointToStockPointTrip: LoadingPointToStockPointTrip | null
+    loadingPointToUnloadingPointTrip: LoadingPointToUnloadingPointTrip | null
+}
+
+interface Bunk {
+    bunkName: string
+}
+
+export interface FuelingEvent {
+    id: number
+    fueledDate: number
+    vehicleNumber: string
+    quantity: number
+    pricePerliter: number
+    totalprice: number
+    invoiceNumber: string
+    bunk: Bunk
+    overallTrip: OverallTrip | null
 }
 export const createBunk = (req: Request, res: Response) => {
     create(req.body)
@@ -100,66 +88,53 @@ export const listAllBunkName = (_req: Request, res: Response) => {
 }
 
 export const generateFuel = async (
-    fuelDataFormat: FuelDataProps,
-    bunkName: string,
-    tripCheck: TripProps | null,
-    paymentDueForFuel: paymentDueForFuelProps | null
-) => ({
+    fuelDataFormat: FuelingEvent,
+    transactionId: string | null | undefined
+): Promise<FuelReport> => ({
+    id: fuelDataFormat.id,
     fueledDate: fuelDataFormat.fueledDate,
-    bunkName,
+    bunkName: fuelDataFormat.bunk.bunkName,
     vehicleNumber: fuelDataFormat.vehicleNumber,
     loadingPoint:
-        tripCheck?.loadingPoint?.name ||
-        tripCheck?.loadingPointToStockPointTrip?.loadingPoint?.name ||
+        fuelDataFormat?.overallTrip?.loadingPointToUnloadingPointTrip?.loadingPoint?.name ||
+        fuelDataFormat?.overallTrip?.loadingPointToStockPointTrip?.loadingPoint?.name ||
         null,
     unLodaingPoint:
-        tripCheck?.unloadingPoint?.name ||
-        tripCheck?.loadingPointToStockPointTrip?.unloadingPoint?.name ||
+        fuelDataFormat?.overallTrip?.loadingPointToUnloadingPointTrip?.unloadingPoint?.name ||
+        fuelDataFormat?.overallTrip?.loadingPointToStockPointTrip?.stockPointToUnloadingPointTrip[0]
+            ?.unloadingPoint?.name ||
         null,
+    stockPointName:
+        fuelDataFormat?.overallTrip?.loadingPointToStockPointTrip?.stockPoint?.name || null,
     quantity: fuelDataFormat.quantity,
     pricePerliter: fuelDataFormat.pricePerliter,
-    totalprice: fuelDataFormat.totalprice,
+    totalprice: fuelDataFormat?.totalprice,
     fuelInvoiceNumber: fuelDataFormat.invoiceNumber,
-    transactionId: paymentDueForFuel?.transactionId || null,
+    transactionId: transactionId || null,
     tripInvoiceNumber:
-        tripCheck?.invoiceNumber || tripCheck?.loadingPointToStockPointTrip?.invoiceNumber || null
+        fuelDataFormat?.overallTrip?.loadingPointToUnloadingPointTrip?.invoiceNumber ||
+        fuelDataFormat?.overallTrip?.loadingPointToStockPointTrip?.invoiceNumber ||
+        null
 })
 
-export const fetchTripData = async (id: number) => {
-    try {
-        const tripData = await getOverAllTripById(id)
-        const tripCheck = getTrip(tripData)
-        return tripCheck
-    } catch (error) {
-        console.error(`Error fetching trip data for ID ${id}:`, error)
-        throw error
-    }
-}
-
 const generateFuelData = async (
-    fuelDataFormat: FuelDataProps,
-    bunkName: string,
-    tripCheck: TripProps | null,
-    paymentDueForFuel: paymentDueForFuelProps | null
+    fuelDataFormat: FuelingEvent,
+    transactionId: string | null | undefined
 ) =>
-    generateFuel(fuelDataFormat, bunkName, tripCheck, paymentDueForFuel).catch((error) => {
+    generateFuel(fuelDataFormat, transactionId).catch((error) => {
         console.error('Error generating fuelReportFinalData', error)
         throw error
     })
 
-const tripNull = null
-const processfuelDataFormat = async (fuelDataFormat: FuelDataProps) => {
-    const id = fuelDataFormat.overallTripId
-    const [bunkName] = await getBunkNameById(fuelDataFormat.bunkId)
-    const paymentDueForFuel = await getFuelPaymentDuesTripId(fuelDataFormat.id)
-    if (id !== null) {
-        const tripCheck = await fetchTripData(id)
-        return generateFuelData(fuelDataFormat, bunkName.bunkName, tripCheck, paymentDueForFuel)
+const processfuelDataFormat = async (fuelDataFormat: FuelingEvent) => {
+    const transactionId = await getFuelTransactionId(fuelDataFormat.id)
+    if (fuelDataFormat.overallTrip !== null) {
+        return generateFuelData(fuelDataFormat, transactionId?.transactionId)
     }
-    return generateFuelData(fuelDataFormat, bunkName.bunkName, tripNull, paymentDueForFuel)
+    return generateFuelData(fuelDataFormat, transactionId?.transactionId)
 }
 const fuelReport: FuelReport[] = []
-export const generateFuelReport = async (fuel: FuelDataProps[]) => {
+export const generateFuelReport = async (fuel: FuelingEvent[]) => {
     await Promise.all(
         fuel.map(async (fuelDataFormat) => {
             const fuelReportFinalData = await processfuelDataFormat(fuelDataFormat)
@@ -171,7 +146,7 @@ export const generateFuelReport = async (fuel: FuelDataProps[]) => {
 
 export const listAllFuelList = async (_req: Request, res: Response) => {
     try {
-        const fuel = await getAllFuel()
+        const fuel = await getFuelReport()
         const finalFuelReport = await generateFuelReport(fuel)
         res.status(200).json(finalFuelReport)
     } catch (error) {

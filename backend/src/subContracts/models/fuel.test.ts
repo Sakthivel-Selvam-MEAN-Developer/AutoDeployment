@@ -145,6 +145,7 @@ describe('Fuel Report', () => {
         const actual = await getFuelReport()
         expect(actual).toStrictEqual([
             {
+                id: fuel.id,
                 bunk: {
                     bunkName: 'Bharath Petroleum'
                 },
