@@ -1,19 +1,15 @@
 import { Dialog, DialogTitle, DialogContent, Box } from '@mui/material'
 import { InputFields } from './displayAllTable'
 import { AutoButton, TollButton } from './show'
-import { SetStateAction } from 'react'
 import { BoxModelType } from './tableBody'
 export function displayDataGrid(
     open: boolean,
     handleClose: () => void,
     selectedLocation: string,
     location: { location: string; id: number }[],
-    setSelectedLocation: {
-        (value: SetStateAction<string>): void
-        (value: SetStateAction<string>): void
-    },
+    setSelectedLocation: React.Dispatch<React.SetStateAction<string>>,
     tollFare: string,
-    setTollFare: { (value: SetStateAction<string>): void; (value: SetStateAction<string>): void },
+    setTollFare: React.Dispatch<React.SetStateAction<string>>,
     tollEntries: {
         location: string
         amount: number

@@ -19,6 +19,15 @@ export const TollButton = (
         </DialogActions>
     )
 }
+export const CloseButton = (handleClose: () => void) => {
+    return (
+        <DialogActions>
+            <Button onClick={handleClose} color="primary">
+                Close
+            </Button>
+        </DialogActions>
+    )
+}
 export const AutoButton = (
     selectedLocation: string,
     location: { location: string; id: number }[],

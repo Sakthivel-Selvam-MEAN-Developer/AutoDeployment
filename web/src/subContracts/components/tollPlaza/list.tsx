@@ -11,7 +11,7 @@ function newFunction() {
 }
 const ShowButton = (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography>List of Trips</Typography>
+        <Typography>Toll Plaza Entries for all UnloadingTrip</Typography>
         {button}
     </div>
 )

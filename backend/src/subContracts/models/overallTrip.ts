@@ -1411,6 +1411,9 @@ export const getOveralltripByToll = () =>
         where: {
             tollPlaza: {
                 none: {}
+            },
+            shortageQuantity: {
+                some: {}
             }
         },
         select: {

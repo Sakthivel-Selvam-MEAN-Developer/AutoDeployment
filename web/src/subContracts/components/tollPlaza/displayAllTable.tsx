@@ -2,6 +2,7 @@ import { TextField } from '@mui/material'
 import { overallTripp } from './type'
 import { DataGrid } from '@mui/x-data-grid'
 import { rows } from './firstTable'
+import { dataGrid } from './listForAllTrip'
 const submittedColumns = [
     { field: 'id', headerName: '#', width: 70 },
     { field: 'vehicleNumber', headerName: 'Vehicle Number', minWidth: 100, flex: 1 },
@@ -26,25 +27,13 @@ export const InputFields = (
         />
     )
 }
-export const ShowTable = (display: overallTripp[]) => {
-    return <DataGrid rows={rows(display) || []} columns={submittedColumns} hideFooterPagination />
-} // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-export const Data = (trip: overallTripp[], handleRowClick: (params: any) => void) => {
+export const ShowTable = (display: overallTripp[], handleCloseToll: (params: dataGrid) => void) => {
     return (
         <DataGrid
-            rows={rows(trip)}
-            columns={columns}
+            rows={rows(display) || []}
+            columns={submittedColumns}
             hideFooterPagination
-            onRowClick={handleRowClick}
+            onRowClick={handleCloseToll}
         />
     )
 }
-const columns = [
-    { field: 'id', headerName: '#', width: 70 },
-    { field: 'vehicleNumber', headerName: 'Vehicle Number', minWidth: 100, flex: 1 },
-    { field: 'startDate', headerName: 'Start Date', minWidth: 100, flex: 1 },
-    { field: 'invoiceNumber', headerName: 'Invoice Number', minWidth: 100, flex: 1 },
-    { field: 'loadingPoint', headerName: 'Loading Point', minWidth: 100, flex: 1 },
-    { field: 'stockPoint', headerName: 'Stock Point', minWidth: 100, flex: 1 },
-    { field: 'unloadingPoint', headerName: 'Unloading Point', minWidth: 100, flex: 1 }
-]

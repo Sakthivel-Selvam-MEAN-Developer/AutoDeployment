@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import Submitbutton from './tableBody'
 import { getTollLocation } from '../../services/tollPlazaLocation'
-import { Props } from './type'
-import { ShowTable, Data } from './displayAllTable'
+import { Props, overallTripp } from './type'
+import { ShowTable } from './displayAllTable'
+import { Data } from './stateTable'
 import { displayDataGrid } from './secondTable'
+import { secondDataGrid } from './displaySecondTable'
 export interface dataGrid {
     row: {
         id: number
@@ -22,9 +24,11 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
     const [location, setLocation] = useState<{ location: string; id: number }[]>([])
     const [selectedLocation, setSelectedLocation] = useState('')
     const [tollFare, setTollFare] = useState<string>('')
+    const [selectedToll, setSelectedToll] = useState<overallTripp['tollPlaza'] | undefined>([])
     const [tollEntries, setTollEntries] = useState<
         { location: string; amount: number; overallTripId: number; tollPlazaLocationId: number }[]
     >([])
+    const [openTollDialog, setOpenTollDialog] = useState(false)
     useEffect(() => {
         getTollLocation().then(setLocation)
     }, [reload])
@@ -39,9 +43,24 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
         setTollFare('')
         setTollEntries([])
     }
+    const handleToll = (params: dataGrid) => {
+        setOpenTollDialog(true)
+        const tollPlazaPlace = display.find((chk) => chk.id === params.row.overallTripId)
+        console.log(tollPlazaPlace)
+        setSelectedToll(tollPlazaPlace?.tollPlaza)
+        //    console.log(selectedLocation,tollFare,selectedRow)
+        //    if (selectedLocation && tollFare && selectedRow) {
+        //     const details = location.map((loc) => loc.location === selectedLocation)
+        //     console.log(details)
+        // }
+    }
+    const handleCloseButton = () => {
+        setOpenTollDialog(false)
+    }
     const handleAddTollEntry = () => {
         if (selectedLocation && tollFare && selectedRow) {
             const details = location.find((loc) => loc.location === selectedLocation)
+            console.log(details)
             setTollEntries([
                 ...tollEntries,
                 {
@@ -59,7 +78,7 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
     return (
         <div>
             <div style={{ width: '100%', marginBottom: '20px' }}>{Data(trip, handleRowClick)}</div>
-            <div style={{ width: '100%', marginTop: '20px' }}>{ShowTable(display)}</div>
+            <div style={{ width: '100%', marginTop: '20px' }}>{ShowTable(display, handleToll)}</div>
             {displayDataGrid(
                 open,
                 handleClose,
@@ -72,6 +91,7 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
                 handleAddTollEntry,
                 handleSubmit
             )}
+            {secondDataGrid(openTollDialog, handleToll, handleCloseButton, selectedToll)}
         </div>
     )
 }

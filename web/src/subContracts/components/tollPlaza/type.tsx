@@ -33,6 +33,10 @@ export interface overallTripp {
     loadingPointToStockPointTrip: trip
     loadingPointToUnloadingPointTrip: trip
     stockPointToUnloadingPointTrip: trip
+    tollPlaza: {
+        tollPlazaLocation: { id: number; location: string }
+        amount: number
+    }[]
 }
 export interface Props {
     trip: overallTripp[]

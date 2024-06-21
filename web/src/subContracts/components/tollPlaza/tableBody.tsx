@@ -1,5 +1,4 @@
 import { createTollPlazaLocation } from '../../services/tollPlaza'
-import { SetStateAction } from 'react'
 import { List, ListItem, ListItemText } from '@mui/material'
 function Submitbutton(
     tollEntries: {
@@ -8,8 +7,7 @@ function Submitbutton(
         overallTripId: number
         tollPlazaLocationId: number
     }[],
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    setReload: { (value: SetStateAction<boolean>): void; (arg0: boolean): any },
+    setReload: React.Dispatch<React.SetStateAction<boolean>>,
     reload: boolean,
     handleClose: () => void
 ) {
