@@ -2,6 +2,7 @@ import {
     create as createFuel,
     getAllFuel,
     getFuelDetailsWithoutTrip,
+    getFuelReport,
     getFuelWithoutTrip,
     updateFuelStatus,
     updateFuelWithTripId
@@ -130,5 +131,31 @@ describe('Fuel model', () => {
         const actual = await updateFuelStatus(fuel.id)
         await getAllFuel()
         expect(actual.paymentStatus).toBe(true)
+    })
+})
+describe('Fuel Report', () => {
+    test('should able to display before fuel report', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReport()
+        expect(actual).toStrictEqual([
+            {
+                bunk: {
+                    bunkName: 'Bharath Petroleum'
+                },
+                fueledDate: 1706553000,
+                invoiceNumber: 'abcdefg',
+                overallTrip: null,
+                pricePerliter: 102.5,
+                quantity: 60.754,
+                totalprice: 6227.285,
+                vehicleNumber: 'TN93D5512'
+            }
+        ])
     })
 })

@@ -50,3 +50,48 @@ export const updateFuelStatus = (fuelId: number) =>
             paymentStatus: true
         }
     })
+export const getFuelReport = () =>
+    prisma.fuel.findMany({
+        take: 5,
+        skip: 0,
+        select: {
+            fueledDate: true,
+            vehicleNumber: true,
+            quantity: true,
+            pricePerliter: true,
+            totalprice: true,
+            invoiceNumber: true,
+            bunk: {
+                select: {
+                    bunkName: true
+                }
+            },
+            overallTrip: {
+                select: {
+                    loadingPointToStockPointTrip: {
+                        select: {
+                            invoiceNumber: true,
+                            loadingPoint: { select: { name: true } },
+                            stockPoint: { select: { name: true } },
+                            stockPointToUnloadingPointTrip: {
+                                select: {
+                                    unloadingPoint: {
+                                        select: {
+                                            name: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    loadingPointToUnloadingPointTrip: {
+                        select: {
+                            invoiceNumber: true,
+                            loadingPoint: { select: { name: true } },
+                            unloadingPoint: { select: { name: true } }
+                        }
+                    }
+                }
+            }
+        }
+    })
