@@ -24,7 +24,7 @@ vi.mock('../../auditRoute.ts', () => ({
 }))
 const mockReq = {
     body: {
-        loaction: 'UltraTech Cements'
+        loaction: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
     }
 } as Request
 

@@ -50,7 +50,6 @@ describe('TollPlaza model', () => {
             { overallTripId: overallTrip.id, tollPlazaLocationId: 1, amount: 500 }
         ])
         const actual = await getTollPlaza()
-        console.log(actual, tollPlazaLocationMaker)
         expect(tollPlazaLocationMaker).toStrictEqual({ count: actual.length })
     })
     test('should able to update tollPlaza', async () => {
@@ -88,7 +87,7 @@ describe('TollPlaza model', () => {
         const tollDetails = await getTollPlaza()
         const overallTripId = tollDetails.map((toll) => toll.overallTripId)
         const actual = await updateBillDetails(overallTripId, {
-            billNo: 'Aaa123',
+            billNo: 'MGL-01',
             billDate: 1718262220
         })
         expect(actual).toStrictEqual({ count: tollDetails.length })

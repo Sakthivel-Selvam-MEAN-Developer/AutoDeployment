@@ -87,7 +87,7 @@ const mockStockTripData = {
                     id: 1,
                     name: 'Chennai-south',
                     cementCompany: {
-                        name: 'UltraTech Cements'
+                        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
                     }
                 },
                 unloadingPoint: {
@@ -106,7 +106,7 @@ const mockStockTripData = {
 }
 const mockCompanyData = [
     {
-        name: 'UltraTech Cements',
+        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
         emailId: 'sample@gmail.com',
         contactPersonNumber: 9856453123
     }
@@ -163,7 +163,7 @@ describe('Report Test', () => {
             screen.getByRole('listbox')
         })
         const choice = screen.getByRole('option', {
-            name: 'UltraTech Cements'
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         })
         await userEvent.click(choice)
 
@@ -233,7 +233,7 @@ describe('Report Test', () => {
         const start = screen.getByRole('button', { name: 'Filter' })
         await userEvent.click(start)
         expect(screen.getByText('Transporter')).toBeInTheDocument()
-        expect(screen.getByText('UltraTech Cements')).toBeInTheDocument()
+        expect(screen.getByText('ULTRATECH CEMENT LIMITED,TADIPATRI')).toBeInTheDocument()
         expect(screen.getByText('TN93D5512')).toBeInTheDocument()
         expect(mockAllTransporter).toHaveBeenCalledTimes(2)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(2)
@@ -253,7 +253,7 @@ describe('Report Test', () => {
             screen.getByRole('listbox')
         })
         const choice = screen.getByRole('option', {
-            name: 'UltraTech Cements'
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         })
         await userEvent.click(choice)
 

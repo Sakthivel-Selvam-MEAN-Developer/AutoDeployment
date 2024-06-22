@@ -62,7 +62,7 @@ const mockGetTripSalaryDetailsByIdData = {
 }
 const mockCompanyData = [
     {
-        name: 'UltraTech Cements',
+        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
         emailId: 'sample@gmail.com',
         contactPersonNumber: 9856453123
     }
@@ -179,7 +179,7 @@ async function newFunction() {
         screen.getByRole('listbox')
     })
     const choice = screen.getByRole('option', {
-        name: 'UltraTech Cements'
+        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
     })
     await userEvent.click(choice)
     const transporter = screen.getByRole('combobox', {
@@ -270,9 +270,11 @@ describe('New trip test', () => {
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const opt = screen.getByRole('option', { name: 'UltraTech Cements' })
+        const opt = screen.getByRole('option', { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
         await userEvent.click(opt)
-        expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
+        expect(
+            await screen.findByDisplayValue('ULTRATECH CEMENT LIMITED,TADIPATRI')
+        ).toBeInTheDocument()
         expect(mockAllTransporter).toHaveBeenCalledTimes(1)
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
         expect(mockTruckByTransporter).toHaveBeenCalledTimes(0)
@@ -331,7 +333,7 @@ describe('New trip test', () => {
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const choice = screen.getByRole('option', { name: 'UltraTech Cements' })
+        const choice = screen.getByRole('option', { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
         await userEvent.click(choice)
         const category = screen.getByRole('combobox', { name: 'Select Category' })
         await userEvent.click(category)
@@ -424,7 +426,7 @@ describe('New trip test', () => {
         await waitFor(() => {
             screen.getByRole('listbox')
         })
-        const choice = screen.getByRole('option', { name: 'UltraTech Cements' })
+        const choice = screen.getByRole('option', { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
         await userEvent.click(choice)
         const transporter = screen.getByRole('combobox', { name: 'Transporter' })
         await userEvent.click(transporter)
@@ -489,7 +491,7 @@ describe('New trip test', () => {
             screen.getByRole('listbox')
         })
         const choice = screen.getByRole('option', {
-            name: 'UltraTech Cements'
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         })
         await userEvent.click(choice)
         const transporter = screen.getByRole('combobox', {

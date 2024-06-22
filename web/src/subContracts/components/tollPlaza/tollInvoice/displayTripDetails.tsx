@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react'
+import React, { useEffect, FC, useState } from 'react'
 import { getOverallTripWithTollDetailsNotEmpty } from '../../../services/tollPlaza'
 import { overallTrip, trip } from '../type'
 import { alignTrips, columns, getTrip } from './tripFunctions'
@@ -18,23 +18,40 @@ export interface tripProp {
     toll: overallTrip['tollPlaza']
     id: number
 }
+type selProps = (
+    params: GridRowSelectionModel,
+    setSelTrips: React.Dispatch<React.SetStateAction<tripProp[]>>,
+    trip: tripProp[]
+) => void
+const handleSelection: selProps = (params, setSelTrips, trip) =>
+    setSelTrips(trip.filter((tripDetail) => params.includes(tripDetail.id)))
+
 const DisplayTrips: FC<props> = ({ setTrips, trip, setDialog, dialog, setSelTrips, selTrips }) => {
+    const [reload, setLoad] = useState<boolean>(false)
     useEffect(() => {
         getOverallTripWithTollDetailsNotEmpty().then((overAlltripDetails) => {
             setTrips(getTrip(overAlltripDetails))
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-    const handleSelection = (params: GridRowSelectionModel) =>
-        setSelTrips(trip.filter((tripDetail) => params.includes(tripDetail.id)))
+    }, [reload])
     return (
         <>
-            <TripsDataGrid
-                row={alignTrips(trip)}
-                column={columns}
-                handleSelection={handleSelection}
+            {trip.length ? (
+                <TripsDataGrid
+                    row={alignTrips(trip)}
+                    column={columns}
+                    handleSelection={(params) => handleSelection(params, setSelTrips, trip)}
+                />
+            ) : (
+                <p>No Trips to Generate Invoice ..!</p>
+            )}
+            <ListTrips
+                trip={selTrips}
+                setDialog={setDialog}
+                dialog={dialog}
+                setLoad={setLoad}
+                reload={reload}
             />
-            <ListTrips trip={selTrips} setDialog={setDialog} dialog={dialog} />
         </>
     )
 }

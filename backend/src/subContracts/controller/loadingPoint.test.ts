@@ -30,30 +30,30 @@ vi.mock('../../auditRoute.ts', () => ({
 describe('Factory Controller', () => {
     test('should able to get all factory', async () => {
         mockLoadingPoint.mockResolvedValue({
-            name: 'UltraTech Cements',
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
             location: 'Erode'
         })
         await supertest(app).get('/api/loading-point').expect({
-            name: 'UltraTech Cements',
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
             location: 'Erode'
         })
         expect(mockLoadingPoint).toBeCalledWith()
     })
     test('should get only the factory by cement company name', async () => {
         mockLoadingPointByCompany.mockResolvedValue({
-            name: 'UltraTech Cements'
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         })
         await supertest(app).get('/api/loading-point/Barath').expect({
-            name: 'UltraTech Cements'
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         })
         expect(mockLoadingPointByCompany).toBeCalledWith()
     })
     test('should be able to create a loadingPoint', async () => {
         mockCreatePricePointMarker.mockResolvedValue({
-            loaction: 'UltraTech Cements'
+            loaction: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         })
         mockCreateLoadingPoint.mockResolvedValue({
-            name: 'UltraTech Cements',
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
             cementCompanyId: 1,
             pricePointMarkerId: 1
         })

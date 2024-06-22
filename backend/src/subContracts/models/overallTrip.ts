@@ -1414,7 +1414,27 @@ export const getOveralltripByToll = () =>
             },
             shortageQuantity: {
                 some: {}
-            }
+            },
+            OR: [
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        loadingPoint: {
+                            cementCompany: {
+                                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+                            }
+                        }
+                    }
+                },
+                {
+                    loadingPointToStockPointTrip: {
+                        loadingPoint: {
+                            cementCompany: {
+                                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+                            }
+                        }
+                    }
+                }
+            ]
         },
         select: {
             id: true,
@@ -1461,7 +1481,27 @@ export const getOveralltripByTollNotEmpty = () =>
     prisma.overallTrip.findMany({
         where: {
             tollPlaza: { some: { billedStatus: false } },
-            shortageQuantity: { some: {} }
+            shortageQuantity: { some: {} },
+            OR: [
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        loadingPoint: {
+                            cementCompany: {
+                                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+                            }
+                        }
+                    }
+                },
+                {
+                    loadingPointToStockPointTrip: {
+                        loadingPoint: {
+                            cementCompany: {
+                                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+                            }
+                        }
+                    }
+                }
+            ]
         },
         select: {
             id: true,

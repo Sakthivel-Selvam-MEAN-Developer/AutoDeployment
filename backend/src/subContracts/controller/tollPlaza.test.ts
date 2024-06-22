@@ -44,6 +44,7 @@ const mockToll = {
     ]
 }
 const mockTollPlaza = {
+    id: 1,
     tollPlaza: [],
     loadingPointToUnloadingPointTrip: {
         invoiceNumber: 'zx',
@@ -75,7 +76,7 @@ const mockTollPlazaLocationsData = [
     }
 ]
 const mockReqForUpdateBillDetails = {
-    tollIds: [1],
+    overallTripIds: [1],
     data: { billNo: 'MGL-01', billDate: 1719014400 }
 }
 const mockTollAmount = {
@@ -108,7 +109,12 @@ describe('TollPlaza Controller', () => {
             ...mockTollPlaza,
             tollPlaza: [
                 {
-                    tollPlazaLocation: 'Dhone',
+                    id: 2,
+                    tollPlazaLocation: {
+                        id: '3',
+                        location: 'Dhone',
+                        state: 'KA'
+                    },
                     amount: 1200
                 }
             ]
@@ -121,7 +127,7 @@ describe('TollPlaza Controller', () => {
         await supertest(app).get('/api/toll/locations/state').expect(200)
         expect(mockTollPlazaLocations).toBeCalledTimes(1)
     })
-    test('should able to update bill details for toll', async () => {
+    test('should able to update bill details for toll by overalltrip ids', async () => {
         mockUpdateBillDetails.mockResolvedValue({ count: 1 })
         await supertest(app)
             .put('/api/toll/update/billDetails')
@@ -129,7 +135,7 @@ describe('TollPlaza Controller', () => {
             .expect(200)
         expect(mockUpdateBillDetails).toBeCalledTimes(1)
         expect(mockUpdateBillDetails).toHaveBeenCalledWith(
-            mockReqForUpdateBillDetails.tollIds,
+            mockReqForUpdateBillDetails.overallTripIds,
             mockReqForUpdateBillDetails.data
         )
     })

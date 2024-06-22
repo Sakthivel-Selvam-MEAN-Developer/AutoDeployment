@@ -24,7 +24,7 @@ vi.mock('../../services/unloadingPoint', () => ({
 const mockCementCompanyData = [
     {
         id: 1,
-        name: 'UltraTech Cements'
+        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
     }
 ]
 const mockLoadingPointData = { name: 'goa west', cementCompanyId: 1, location: 'goa' }
@@ -53,9 +53,11 @@ describe('New trip test', () => {
         const options = screen.getByRole('combobox', { name: 'Select Company' })
         userEvent.click(options)
         await waitFor(() => screen.getByRole('listbox'))
-        const opt = screen.getByRole('option', { name: 'UltraTech Cements' })
+        const opt = screen.getByRole('option', { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
         await userEvent.click(opt)
-        expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
+        expect(
+            await screen.findByDisplayValue('ULTRATECH CEMENT LIMITED,TADIPATRI')
+        ).toBeInTheDocument()
         expect(mockGetAllCementCompany).toHaveBeenCalledTimes(1)
 
         // Select Category
@@ -86,9 +88,11 @@ describe('New trip test', () => {
         const options = screen.getByRole('combobox', { name: 'Select Company' })
         userEvent.click(options)
         await waitFor(() => screen.getByRole('listbox'))
-        const opt = screen.getByRole('option', { name: 'UltraTech Cements' })
+        const opt = screen.getByRole('option', { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
         await userEvent.click(opt)
-        expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
+        expect(
+            await screen.findByDisplayValue('ULTRATECH CEMENT LIMITED,TADIPATRI')
+        ).toBeInTheDocument()
 
         // Select Category
         const category = screen.getByRole('combobox', { name: 'Select Category' })

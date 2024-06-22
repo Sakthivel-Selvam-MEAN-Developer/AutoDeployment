@@ -15,10 +15,10 @@ interface data {
 export interface tollPlaza {
     id: number
 }
-export const updateBillDetails = (tollIds: number[], data: props) =>
+export const updateBillDetails = (overallTripIds: number[], data: props) =>
     prisma.tollPlaza.updateMany({
         where: {
-            id: { in: tollIds }
+            overallTripId: { in: overallTripIds }
         },
         data: {
             billNo: data.billNo,

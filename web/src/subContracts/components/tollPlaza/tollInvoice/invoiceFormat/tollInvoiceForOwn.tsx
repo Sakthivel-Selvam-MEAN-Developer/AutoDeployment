@@ -14,7 +14,7 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
         return acc
     }, {})
     return (
-        <div className="toll-invoice-format-for-own">
+        <div className="toll-invoice-format-for-own" id="toll-invoice-format-for-own">
             <table>
                 <tbody>
                     <tr className="table-head">
@@ -99,12 +99,24 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
                                     trip.tollDetails[`${'Devanahalli'.toLowerCase()}`]) ||
                                     '-'}
                             </td>
-                            <td>{tollSumsByState[index]['AP'] || '-'}</td>
-                            <td>{tollSumsByState[index]['TG'] || '-'}</td>
-                            <td>{tollSumsByState[index]['KA'] || '-'}</td>
-                            <td>{tollSumsByState[index]['TN'] || '-'}</td>
-                            <td>{tollSumsByState[index]['KL'] || '-'}</td>
-                            <td>{tollSumsByState[index]['RM'] || '-'}</td>
+                            <td>
+                                {(tollSumsByState.length && tollSumsByState[index]['AP']) || '-'}
+                            </td>
+                            <td>
+                                {(tollSumsByState.length && tollSumsByState[index]['TG']) || '-'}
+                            </td>
+                            <td>
+                                {(tollSumsByState.length && tollSumsByState[index]['KA']) || '-'}
+                            </td>
+                            <td>
+                                {(tollSumsByState.length && tollSumsByState[index]['TN']) || '-'}
+                            </td>
+                            <td>
+                                {(tollSumsByState.length && tollSumsByState[index]['KL']) || '-'}
+                            </td>
+                            <td>
+                                {(tollSumsByState.length && tollSumsByState[index]['RM']) || '-'}
+                            </td>
                             <td>
                                 {trip.tollDetails &&
                                     Object.values(trip.tollDetails).reduce(

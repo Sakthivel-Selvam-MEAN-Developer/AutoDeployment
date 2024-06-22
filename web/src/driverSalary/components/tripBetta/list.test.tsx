@@ -23,7 +23,7 @@ vi.mock('../../../subContracts/services/unloadingPoint', () => ({
 const mockCementCompanyData = [
     {
         id: 1,
-        name: 'UltraTech Cements'
+        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
     }
 ]
 const mockLoadingPointData = [
@@ -59,9 +59,13 @@ describe('Trip Details Test', () => {
         const cementCompany = screen.getByRole('combobox', { name: 'Select Company' })
         userEvent.click(cementCompany)
         await waitFor(() => screen.getByRole('listbox'))
-        const cementCompanyOption = screen.getByRole('option', { name: 'UltraTech Cements' })
+        const cementCompanyOption = screen.getByRole('option', {
+            name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+        })
         userEvent.click(cementCompanyOption)
-        expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
+        expect(
+            await screen.findByDisplayValue('ULTRATECH CEMENT LIMITED,TADIPATRI')
+        ).toBeInTheDocument()
         expect(mockGetAllCementCompany).toHaveBeenCalledTimes(1)
 
         //  Select Category Name

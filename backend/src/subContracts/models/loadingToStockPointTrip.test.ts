@@ -169,7 +169,7 @@ describe('Loading To Stock Trip model', () => {
         const mockFilterData = {
             startDate: 0,
             endDate: 0,
-            company: 'UltraTech Cements'
+            company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         }
         const tripData = await getStockTripsByinvoiceFilter(mockFilterData)
         expect(tripData[0].invoiceNumber).toBe(trip.invoiceNumber)

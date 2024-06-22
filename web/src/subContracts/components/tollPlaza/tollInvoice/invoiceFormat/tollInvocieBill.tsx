@@ -9,7 +9,11 @@ import { tripProp } from '../type'
 const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
     const { filledLoad, totalAmount } = TripAmountCalculation(trips)
     return (
-        <div className="toll-invoice-bill-format" id="toll-invoice-bill-format">
+        <div
+            className="toll-invoice-bill-format"
+            id="toll-invoice-bill-format"
+            style={{ padding: '20px' }}
+        >
             <table>
                 <tbody>
                     <tr>

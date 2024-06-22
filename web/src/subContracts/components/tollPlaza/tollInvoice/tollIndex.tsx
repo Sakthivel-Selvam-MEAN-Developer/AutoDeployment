@@ -12,7 +12,6 @@ const handlePreview = (
     trips: tripProp[],
     setDialog: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-    console.log(trips)
     if (trips.length !== 0) setDialog(true)
 }
 

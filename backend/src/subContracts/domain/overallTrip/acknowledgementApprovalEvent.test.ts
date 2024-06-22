@@ -16,7 +16,7 @@ const loadingPoint = {
     name: 'Chennai-south',
     cementCompanyId: 1,
     cementCompany: {
-        name: 'UltraTech Cements'
+        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
     }
 }
 
@@ -91,7 +91,7 @@ const overallTrip = {
             name: 'Salem',
             cementCompanyId: 1,
             cementCompany: {
-                name: 'UltraTech Cements'
+                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
             }
         },
         truck

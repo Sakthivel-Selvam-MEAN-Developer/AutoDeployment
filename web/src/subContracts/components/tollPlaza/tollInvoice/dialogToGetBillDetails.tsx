@@ -15,7 +15,7 @@ const FieldContent: FC<fieldProps> = ({ setBillDetail }) => {
 }
 const BillDetailsDialog: FC<prop> = ({ fieldDialog, setDialog, setPreDialog, setBill, bill }) => {
     const handleNext = () => {
-        if (bill.number === '') return
+        if (bill.number === '' || bill.date === 0) return
         setDialog(false)
         setPreDialog(true)
     }

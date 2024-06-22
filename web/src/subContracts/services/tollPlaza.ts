@@ -6,9 +6,9 @@ export const createTollPlazaLocation = (data: dataProps[]) =>
         .post(`/toll`, data)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-export const updateBillDetails = (tollIds: number[], data: billDetails) =>
+export const updateBillDetails = (overallTripIds: number[], data: billDetails) =>
     axiosInstance
-        .put(`/toll/update/billDetails`, { data, tollIds })
+        .put(`/toll/update/billDetails`, { data, overallTripIds })
         .then(getData)
         .catch(() => alert('Error Getting data'))
 export const getTollDetails = () =>

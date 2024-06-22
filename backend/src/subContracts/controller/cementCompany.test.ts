@@ -53,8 +53,10 @@ describe('Cement Company Controller', () => {
         expect(mockAuth).toBeCalledWith(['Admin'])
     })
     test('should able to access', async () => {
-        mockCementCompany.mockResolvedValue({ name: 'UltraTech Cements' })
-        await supertest(app).get('/api/cementCompany').expect({ name: 'UltraTech Cements' })
+        mockCementCompany.mockResolvedValue({ name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
+        await supertest(app)
+            .get('/api/cementCompany')
+            .expect({ name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
         expect(mockCementCompany).toBeCalledWith()
     })
 })

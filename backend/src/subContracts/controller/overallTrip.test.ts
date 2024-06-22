@@ -84,7 +84,7 @@ const mockOverallTripData = [
                 name: 'Chennai-south',
                 cementCompanyId: 1,
                 cementCompany: {
-                    name: 'UltraTech Cements'
+                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
                 }
             },
             unloadingPoint: {
@@ -92,7 +92,7 @@ const mockOverallTripData = [
                 name: 'Salem',
                 cementCompanyId: 1,
                 cementCompany: {
-                    name: 'UltraTech Cements'
+                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
                 }
             },
             truck: {

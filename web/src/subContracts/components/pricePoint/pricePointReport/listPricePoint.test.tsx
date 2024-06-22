@@ -25,7 +25,7 @@ const mockPricePointData = [
             pricePointMarkerId: 1,
             cementCompany: {
                 id: 1,
-                name: 'UltraTech Cements',
+                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
                 advanceType: 100,
                 gstNo: 'acdd',
                 address: 'chennai',
@@ -42,7 +42,7 @@ const mockPricePointData = [
             pricePointMarkerId: 2,
             cementCompany: {
                 id: 1,
-                name: 'UltraTech Cements',
+                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
                 advanceType: 100,
                 gstNo: 'acdd',
                 address: 'chennai',

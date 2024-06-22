@@ -146,7 +146,7 @@ describe('Trip model', () => {
         const mockFilterData = {
             startDate: 0,
             endDate: 0,
-            company: 'UltraTech Cements'
+            company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         }
         const actual = await getDirectTripsByinvoiceFilter(mockFilterData)
         expect(actual[0].unloadingPointId).toBe(trip.unloadingPointId)

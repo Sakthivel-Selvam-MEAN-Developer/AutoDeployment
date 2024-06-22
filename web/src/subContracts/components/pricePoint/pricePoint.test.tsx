@@ -19,7 +19,7 @@ vi.mock('../../services/unloadingPoint', () => ({
 }))
 const mockCementData = [
     {
-        name: 'UltraTech Cements'
+        name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
     }
 ]
 const mockLoadingPointData = [
@@ -59,9 +59,11 @@ describe('Trip Test', () => {
         const options = screen.getByRole('combobox', { name: 'Select Company' })
         userEvent.click(options)
         await waitFor(() => screen.getByRole('listbox'))
-        const opt = screen.getByRole('option', { name: 'UltraTech Cements' })
+        const opt = screen.getByRole('option', { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI' })
         userEvent.click(opt)
-        expect(await screen.findByDisplayValue('UltraTech Cements')).toBeInTheDocument()
+        expect(
+            await screen.findByDisplayValue('ULTRATECH CEMENT LIMITED,TADIPATRI')
+        ).toBeInTheDocument()
         expect(mockAllCementCompany).toHaveBeenCalledTimes(1)
 
         const loadingPoint = screen.getByRole('combobox', { name: 'Loading Point' })

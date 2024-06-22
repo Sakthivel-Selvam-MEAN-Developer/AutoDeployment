@@ -14,8 +14,8 @@ export const createTollLocation = (req: Request, res: Response) =>
         .catch((error) => handlePrismaError(error, res))
 
 export const updateTollDetails = (req: Request, res: Response) => {
-    const { tollIds, data } = req.body
-    updateBillDetails(tollIds, data)
+    const { overallTripIds, data } = req.body
+    updateBillDetails(overallTripIds, data)
         .then((details) => res.status(200).json(details))
         .catch((error) => handlePrismaError(error, res))
 }

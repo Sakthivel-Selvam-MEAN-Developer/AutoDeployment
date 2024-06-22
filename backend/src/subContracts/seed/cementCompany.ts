@@ -1,5 +1,5 @@
 export default {
-    name: 'UltraTech Cements',
+    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
     gstNo: 'acdd',
     address: 'chennai',
     emailId: 'sample45@gmail.com',

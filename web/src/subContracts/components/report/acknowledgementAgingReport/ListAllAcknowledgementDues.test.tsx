@@ -41,7 +41,7 @@ const mockOverallTripData = [
                 id: 1,
                 name: 'Chennai-south',
                 cementCompany: {
-                    name: 'UltraTech Cements'
+                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
                 }
             },
             truck: {

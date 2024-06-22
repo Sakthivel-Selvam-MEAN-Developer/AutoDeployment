@@ -1,9 +1,10 @@
+import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import { toWords } from '../../../invoice/invoiceFormat/numberToWords'
-import { props } from '../alignTripDetails'
 import TripAmountCalculation from '../tollAmountCalculations'
+import { tripProp } from '../type'
 
-const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
+const TollInvoiceForUntraTech: FC<tripProp> = ({ trips, bill }) => {
     const { filledLoad, tollTotal, tripDetails, totalAmount } = TripAmountCalculation(trips)
     return (
         <div id="toll-invoice-format" className="toll-invoice-format">
@@ -59,7 +60,7 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <h4>Whether Tax Payable under Revesre Charge : &quot;NO&quot;</h4>
                         </td>
                         <td colSpan={10}>
-                            <h4>Bill No :- MGL24A-15 </h4>
+                            <h4>Bill No :- {bill.number} </h4>
                         </td>
                     </tr>
                     <tr>
@@ -67,7 +68,7 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <h4>Person Laible to Pay GST</h4>
                         </td>
                         <td colSpan={10}>
-                            <h4>Date :- 4/16/24</h4>
+                            <h4>Date :- {epochToMinimalDate(bill.date)}</h4>
                         </td>
                     </tr>
                     <tr>

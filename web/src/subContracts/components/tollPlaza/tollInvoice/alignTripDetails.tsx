@@ -1,17 +1,19 @@
 import './invoiceFormat/tollFormat.css'
 import { overallTrip, trip } from '../type'
 import BillDetailsDialog from './dialogToGetBillDetails'
-import PreviewSelectedTrips from './dialogPreviewForSelectedTrips'
+import PreviewSelTrips from './dialogPreviewForSelectedTrips'
 import { useState } from 'react'
 export interface props {
     trip: { trip: trip; toll: overallTrip['tollPlaza']; id: number; tollDetails?: tollDetails }[]
     setDialog: React.Dispatch<React.SetStateAction<boolean>>
     dialog: boolean
+    setLoad: React.Dispatch<React.SetStateAction<boolean>>
+    reload: boolean
 }
 export interface tollDetails {
     [key: string]: number
 }
-const ListTrips: React.FC<props> = ({ trip, setDialog, dialog }) => {
+const ListTrips: React.FC<props> = ({ trip, setDialog, dialog, setLoad, reload }) => {
     const [previewDialog, setPreviewDialog] = useState(false)
     const [billDetail, setBillDetail] = useState({ number: '', date: 0 })
     return (
@@ -25,11 +27,13 @@ const ListTrips: React.FC<props> = ({ trip, setDialog, dialog }) => {
                 bill={billDetail}
             />
             {previewDialog && (
-                <PreviewSelectedTrips
+                <PreviewSelTrips
                     trips={trip}
                     setPreDialog={setPreviewDialog}
                     preDialog={previewDialog}
                     bill={billDetail}
+                    setLoad={setLoad}
+                    reload={reload}
                 />
             )}
         </>

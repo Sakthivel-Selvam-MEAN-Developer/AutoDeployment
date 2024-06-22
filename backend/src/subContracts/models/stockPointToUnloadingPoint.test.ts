@@ -244,7 +244,7 @@ describe('stock Point to unloading point', () => {
         const mockFilterData = {
             startDate: 0,
             endDate: 0,
-            company: 'UltraTech Cements'
+            company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         }
         const actual = await getUnloadingTripsByinvoiceFilter(mockFilterData)
         expect(actual[0].invoiceNumber).toBe(unloadingPointTrip.invoiceNumber)
