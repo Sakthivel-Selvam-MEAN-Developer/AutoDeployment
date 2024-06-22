@@ -19,6 +19,6 @@ export const getTollDetails = () =>
 export const getOverallTripWithTollDetailsNotEmpty = () => axiosGet('/toll/invoice', {})
 export const updateTollAmount = (ids: number[], data: data) =>
     axiosInstance
-        .put(`/toll/updatelocations`, { data, ids })
+        .put(`/toll/update/amount`, { data, ids })
         .then(getData)
         .catch(() => alert('Error Getting data'))

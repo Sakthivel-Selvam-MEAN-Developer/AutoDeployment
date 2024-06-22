@@ -1,5 +1,10 @@
 import { Request, Response } from 'express'
-import { create, updateBillDetails, getTollLocations } from '../models/tollPlaza.ts'
+import {
+    create,
+    updateBillDetails,
+    getTollLocations,
+    updateTollAmount
+} from '../models/tollPlaza.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { getOveralltripByToll, getOveralltripByTollNotEmpty } from '../models/overallTrip.ts'
 
@@ -14,7 +19,12 @@ export const updateTollDetails = (req: Request, res: Response) => {
         .then((details) => res.status(200).json(details))
         .catch((error) => handlePrismaError(error, res))
 }
-
+export const updateTollAmountDetails = (req: Request, res: Response) => {
+    const { ids, data } = req.body
+    updateTollAmount(ids, data)
+        .then((details) => res.status(200).json(details))
+        .catch((error) => handlePrismaError(error, res))
+}
 export const getOverallTripByToll = (_req: Request, res: Response) => {
     getOveralltripByToll()
         .then((details) => res.status(200).json(details))

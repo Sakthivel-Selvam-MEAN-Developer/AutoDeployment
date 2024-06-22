@@ -13,6 +13,7 @@ const mockUpdateBillDetails = vi.fn()
 vi.mock('../models/tollPlaza', () => ({
     create: (inputs: any) => mockTollPlazaLocation(inputs),
     updateBillStatus: (inputs: any) => mockUpdateTollPlaza(inputs),
+    updateTollAmount: (inputs: any) => mockUpdateTollPlazaAmount(inputs),
     getTollLocations: () => mockTollPlazaLocations(),
     updateBillDetails: (tollIds: number[], billDetails: any) =>
         mockUpdateBillDetails(tollIds, billDetails)
@@ -77,13 +78,10 @@ const mockReqForUpdateBillDetails = {
     tollIds: [1],
     data: { billNo: 'MGL-01', billDate: 1719014400 }
 }
-const mockTollData = {
-    body: {
-        overallTripId: 1,
-        data: {
-            billNo: 'Aaa123',
-            billDate: 1718262220
-        }
+const mockTollAmount = {
+    tollPlaza: {
+        id: 1,
+        amount: 900
     }
 }
 describe('TollPlaza Controller', () => {
@@ -92,9 +90,12 @@ describe('TollPlaza Controller', () => {
         await supertest(app).post('/api/toll').send(mockToll.body).expect(200)
         expect(mockTollPlazaLocation).toBeCalledTimes(1)
     })
-    test.skip('should update the tollPlazaAmount', async () => {
-        mockUpdateTollPlazaAmount.mockResolvedValue(mockCreateData)
-        await supertest(app).put('/api/tollAmount').send(mockTollData.body).expect(200)
+    test('should update the tollPlazaAmount', async () => {
+        mockUpdateTollPlazaAmount.mockResolvedValue(mockTollAmount)
+        await supertest(app)
+            .put('/api/toll/update/amount')
+            .send(mockTollAmount.tollPlaza)
+            .expect(200)
         expect(mockUpdateTollPlazaAmount).toBeCalledTimes(1)
     })
     test('should able to getTollPlaza is empty', async () => {

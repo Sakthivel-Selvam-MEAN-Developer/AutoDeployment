@@ -132,9 +132,4 @@ describe('TollPlaza model', () => {
         })
         expect(actual).toStrictEqual({ count: tollPlaza.length })
     })
-    // test.skip('should able to delete tollPlaza location', async () => {
-    //     const row = {
-    //         tollPlaza:
-    //     }
-    // })
 })
