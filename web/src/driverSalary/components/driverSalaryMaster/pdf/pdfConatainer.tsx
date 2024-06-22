@@ -12,7 +12,7 @@ interface PdfConatinerProps {
 }
 export const PdfConatiner: FC<PdfConatinerProps> = ({ tripDetails }) => {
     return (
-        <div className="pdf">
+        <div className="pdf" id="pdf">
             <Header tripDetails={tripDetails} />
             <br />
             <h3> Details</h3>

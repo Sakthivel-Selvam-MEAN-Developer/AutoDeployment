@@ -125,6 +125,6 @@ describe('Driver Test', () => {
 
         await userEvent.type(screen.getByLabelText('Select Month & Year'), 'May2024')
 
-        expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(2)
+        expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(3)
     })
 })

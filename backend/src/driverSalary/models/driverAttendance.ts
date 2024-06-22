@@ -2,8 +2,9 @@ import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 import { JsonArray } from '@prisma/client/runtime/library'
 
-export const create = (data: Prisma.driverAttendanceCreateInput) =>
-    prisma.driverAttendance.create({ data })
+export const create = (
+    data: Prisma.driverAttendanceCreateInput | Prisma.driverAttendanceUncheckedCreateInput
+) => prisma.driverAttendance.create({ data })
 
 export const getDriverAttendanceDetails = (id: number) =>
     prisma.driverAttendance.findFirst({

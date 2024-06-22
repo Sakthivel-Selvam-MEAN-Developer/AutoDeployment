@@ -37,7 +37,7 @@ const TableCells: FC<tableCellProps> = ({ tripDetails }) => {
                 <td className="alignLeft">{epochToMinimalDate(fuel.fueledDate)}</td>
                 <td className="alignLeft">{fuel.bunk.bunkName}</td>
                 <td className="alignLeft">{fuel.invoiceNumber}</td>
-                <td className="alignLeft"></td>
+                <td className="alignLeft">{fuel.quantity}</td>
                 <td className="alignRight">{fuel.totalprice.toFixed(2)}</td>
                 <td className="alignLeft"></td>
                 <td className="alignRight">0.00</td>

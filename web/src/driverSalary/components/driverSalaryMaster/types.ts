@@ -10,6 +10,7 @@ export interface AdvanceDetail {
 }
 interface fuelProps {
     totalprice: number
+    quantity: number
     fueledDate: number
     invoiceNumber: string
     bunk: {

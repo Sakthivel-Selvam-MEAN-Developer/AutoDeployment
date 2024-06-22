@@ -206,11 +206,12 @@ export const listAllInvoiceNumbers = async (_req: Request, res: Response) => {
 }
 interface queryParams {
     ids: string
+    month: string
 }
 export const listOverAllTripByArrayOfIds = async (
     req: Request<object, object, object, queryParams>,
     res: Response
 ) =>
-    getOverAllTripByArrayOfId(JSON.parse(req.query.ids))
+    getOverAllTripByArrayOfId(JSON.parse(req.query.ids), req.query.month)
         .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))

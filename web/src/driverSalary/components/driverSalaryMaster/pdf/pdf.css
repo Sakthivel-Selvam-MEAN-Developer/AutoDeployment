@@ -2,6 +2,7 @@
     border: 1px solid black;
     margin: 2px;
     padding: 15px;
+    color: black;
 }
 
 .magnumHeader {
@@ -63,4 +64,21 @@
 
 .alignRight {
     text-align: right;
+}
+
+.expensetablesConatiner {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.expenseTable {
+    margin-right: 8px;
+    min-width: 500px;
+}
+
+@media screen and (max-width: 1300px) {
+    .expenseTable {
+        width: 100%;
+    }
 }

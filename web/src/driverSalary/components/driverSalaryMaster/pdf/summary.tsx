@@ -40,9 +40,9 @@ export const SummaryTable: FC<SummaryTableProps> = ({ tripDetails }) => {
             <tr>
                 <td className="alignLeft">5</td>
                 <td className="alignLeft">
-                    <b>Diesel Incentives</b>
+                    <b>Trip Batta</b>
                 </td>
-                <td className="alignRight">0.00</td>
+                <td className="alignRight"></td>
             </tr>
             <tr>
                 <td className="alignLeft">6</td>

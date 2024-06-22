@@ -22,9 +22,6 @@ export const AdvanceTable: FC<AdvanceTableProps> = ({ tripDetails }) => {
                 <th className="alignRight" style={{ width: '15%' }}>
                     Recd. Amt.
                 </th>
-                <th className="alignRight" style={{ width: '15%' }}>
-                    Distributed Amt.
-                </th>
             </tr>
             {tripDetails.advanceDetails.length > 0 &&
                 tripDetails.advanceDetails.map((tripDetails, index) => (
@@ -38,9 +35,6 @@ export const AdvanceTable: FC<AdvanceTableProps> = ({ tripDetails }) => {
                 </td>
                 <td className="alignRight">
                     <h4>{totalAdvance.toFixed(2)}</h4>
-                </td>
-                <td className="alignRight">
-                    <h4>0.00</h4>
                 </td>
             </tr>
         </table>
@@ -58,7 +52,6 @@ const TableCells: FC<tableCellProps> = ({ tripDetails, number }) => {
                 <td className="alignLeft">{epochToMinimalDate(tripAdvance.advanceDate)}</td>
                 <td className="alignLeft">Recd From Vigneshwaran R at HO</td>
                 <td className="alignRight">{tripAdvance.amount.toFixed(2)}</td>
-                <td className="alignRight">0.00</td>
             </tr>
         )
     })

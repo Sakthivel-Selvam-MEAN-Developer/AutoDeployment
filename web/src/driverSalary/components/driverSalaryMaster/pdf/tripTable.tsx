@@ -22,7 +22,6 @@ const TableHead = [
     'Fixed Lts',
     'Diff.Lts',
     'Kmpl',
-    'CRH',
     'Batta'
 ]
 export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
@@ -73,7 +72,6 @@ export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
                 <td>
                     <b>{totalBetta.toFixed(2)}</b>
                 </td>
@@ -104,7 +102,7 @@ const TableCells: FC<TableCells> = ({ tripDetails }) =>
                 <td className="alignLeft">{index + 1}</td>
                 <td className="alignLeft">{epochToMinimalDate(tripData.startDate)}</td>
                 <td className="alignRight">{tripAdvance.toFixed(2)}</td>
-                <td className="alignLeft"></td>
+                <td className="alignLeft">{tripData.invoiceNumber}</td>
                 <td className="alignLeft"></td>
                 <td className="alignRight">{tripExpense.toFixed(2)}</td>
                 <td className="alignLeft">{tripData.loadingPoint.cementCompany.name}</td>
@@ -120,7 +118,6 @@ const TableCells: FC<TableCells> = ({ tripDetails }) =>
                 </td>
                 <td className="alignRight">0.00</td>
                 <td className="alignRight">0.00</td>
-                <td className="alignLeft"></td>
                 <td className="alignLeft"></td>
                 <td className="alignRight">{trip.tripSalaryDetails.totalTripBetta.toFixed(2)}</td>
             </tr>

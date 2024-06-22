@@ -31,7 +31,9 @@ const ListExpenses: React.FC = () => {
         getAllDriver().then(setDriverList)
     }, [])
     useEffect(() => {
-        getDriverTripByDriverId(driverId).then((trips) => setDriverTripDetails(trips.trips))
+        getDriverTripByDriverId(driverId, undefined).then((trips) =>
+            setDriverTripDetails(trips.trips)
+        )
     }, [driverId])
     useEffect(() => {
         if (tripId !== 0) getExpenseByTripId(tripId).then(setAddedExpense)

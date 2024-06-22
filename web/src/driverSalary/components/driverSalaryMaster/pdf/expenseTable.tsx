@@ -7,17 +7,17 @@ interface ExpenseTable {
 }
 export const ExpenseTable: FC<ExpenseTable> = ({ tripDetails }) => {
     return (
-        <>
+        <div className="expensetablesConatiner">
             {tripDetails.trips.map(
                 (trip) =>
                     trip.expenses.length > 0 && (
-                        <>
-                            <TableContainer key={trip.id} trip={trip} />
+                        <div key={trip.id} className="expenseTable">
+                            <TableContainer trip={trip} />
                             <br />
-                        </>
+                        </div>
                     )
             )}
-        </>
+        </div>
     )
 }
 interface TablePorps {
@@ -26,35 +26,33 @@ interface TablePorps {
 const TableContainer: FC<TablePorps> = ({ trip }) => {
     const TotalExpense = totalTripExpenseCalculation(trip)
     return (
-        <>
-            <table className="expenseTable" style={{ width: '100%' }}>
-                <tr>
-                    <th className="alignLeft" style={{ width: '10%' }}>
-                        SI No
-                    </th>
-                    <th className="alignLeft" style={{ width: '15%' }}>
-                        Date
-                    </th>
-                    <th className="alignLeft" style={{ width: '50%' }}>
-                        Description
-                    </th>
-                    <th className="alignRight" style={{ width: '25%' }}>
-                        Amount
-                    </th>
-                </tr>
-                <TableCells trip={trip} />
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td className="alignRight">
-                        <h4>Total Amount</h4>
-                    </td>
-                    <td className="alignRight">
-                        <h4>{TotalExpense.toFixed(2)}</h4>
-                    </td>
-                </tr>
-            </table>
-        </>
+        <table>
+            <tr>
+                <th className="alignLeft" style={{ minWidth: '30px' }}>
+                    SI No
+                </th>
+                <th className="alignLeft" style={{ minWidth: '50px' }}>
+                    Date
+                </th>
+                <th className="alignLeft" style={{ minWidth: '70px' }}>
+                    Description
+                </th>
+                <th className="alignRight" style={{ minWidth: '50px' }}>
+                    Amount
+                </th>
+            </tr>
+            <TableCells trip={trip} />
+            <tr>
+                <td></td>
+                <td></td>
+                <td className="alignRight">
+                    <h4>Total Amount</h4>
+                </td>
+                <td className="alignRight">
+                    <h4>{TotalExpense.toFixed(2)}</h4>
+                </td>
+            </tr>
+        </table>
     )
 }
 const findTrip = (overallTrip: Trip) => {

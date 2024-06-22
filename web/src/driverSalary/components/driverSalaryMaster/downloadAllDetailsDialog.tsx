@@ -9,6 +9,9 @@ import {
 import React, { FC } from 'react'
 import { PdfConatiner } from './pdf/pdfConatainer'
 import { driverDetailProps } from './types'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
+import dayjs from 'dayjs'
 
 export interface driverDialogProps {
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
@@ -45,7 +48,14 @@ const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog, t
                 <Button onClick={handleClose} variant="outlined" disabled={loading}>
                     Cancel
                 </Button>
-                <Button variant="contained" disabled={loading}>
+                <Button
+                    variant="contained"
+                    disabled={loading}
+                    onClick={async () => {
+                        const pdfhtml: HTMLElement | null = document.getElementById('pdf')
+                        await downloadPdf(pdfhtml)
+                    }}
+                >
                     Download PDF
                 </Button>
             </DialogActions>
@@ -53,3 +63,13 @@ const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog, t
     )
 }
 export default DriverDialogForAllDetails
+export const downloadPdf = async (pdfHTML: HTMLElement | null) =>
+    pdfHTML &&
+    (await html2canvas(pdfHTML).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png')
+        const pdf = new jsPDF('landscape', 'mm', [2000, 1700])
+        const pdfWidth = pdf.internal.pageSize.getWidth()
+        const pdfHeight = pdf.internal.pageSize.getHeight()
+        pdf.addImage(imgData, 'png', 0, 0, pdfWidth, pdfHeight)
+        pdf.save(`DriverSalary_${dayjs().format('MMMM')}.pdf`)
+    }))

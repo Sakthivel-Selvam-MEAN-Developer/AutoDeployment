@@ -267,81 +267,6 @@ export const getOverAllTripById = (id: number) =>
         }
     })
 
-export const overallTripByFilter = (
-    cementCompanyId: number,
-    transporterId: number,
-    loadingPointId: number,
-    vehicleNumber: string,
-    invoiceNumber: string,
-    from: number,
-    to: number
-) =>
-    prisma.overallTrip.findMany({
-        where: {
-            OR: [
-                {
-                    OR: [
-                        {
-                            loadingPointToUnloadingPointTrip: { startDate: { gte: from, lte: to } }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: { loadingPointId }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: { loadingPoint: { cementCompanyId } }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: {
-                                truck: { transporterId, vehicleNumber }
-                            }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: { invoiceNumber }
-                        }
-                    ]
-                },
-                {
-                    OR: [
-                        {
-                            loadingPointToStockPointTrip: { startDate: { gte: from, lte: to } }
-                        },
-                        {
-                            loadingPointToStockPointTrip: { loadingPointId }
-                        },
-                        {
-                            loadingPointToStockPointTrip: { loadingPoint: { cementCompanyId } }
-                        },
-                        {
-                            loadingPointToStockPointTrip: {
-                                truck: { transporterId, vehicleNumber }
-                            }
-                        },
-                        {
-                            loadingPointToUnloadingPointTrip: { invoiceNumber }
-                        }
-                    ]
-                }
-            ]
-        },
-        include: {
-            fuel: { include: { bunk: true } },
-            paymentDues: true,
-            loadingPointToStockPointTrip: {
-                include: {
-                    truck: { include: { transporter: true } },
-                    loadingPoint: { include: { cementCompany: true } },
-                    stockPoint: true
-                }
-            },
-            stockPointToUnloadingPointTrip: { select: { billNo: true, unloadingPoint: true } },
-            loadingPointToUnloadingPointTrip: {
-                include: {
-                    truck: { include: { transporter: true } },
-                    loadingPoint: { include: { cementCompany: true } }
-                }
-            }
-        }
-    })
 export const getTripByUnloadDate = (date: number) =>
     prisma.overallTrip.findMany({
         where: {
@@ -422,13 +347,34 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
         }
     })
 
-export const getOverAllTripByArrayOfId = (arrayOfId: number[]) =>
+export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string) =>
     prisma.overallTrip.findMany({
-        where: { id: { in: arrayOfId } },
+        where: {
+            id: { in: arrayOfId },
+            OR: [
+                {
+                    loadingPointToStockPointTrip: {
+                        startDate: {
+                            gte: dayjs.unix(parseInt(month)).startOf('month').unix(),
+                            lte: dayjs.unix(parseInt(month)).endOf('month').unix()
+                        }
+                    }
+                },
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        startDate: {
+                            gte: dayjs.unix(parseInt(month)).startOf('month').unix(),
+                            lte: dayjs.unix(parseInt(month)).endOf('month').unix()
+                        }
+                    }
+                }
+            ]
+        },
         select: {
             id: true,
             fuel: {
                 select: {
+                    quantity: true,
                     totalprice: true,
                     fueledDate: true,
                     invoiceNumber: true,

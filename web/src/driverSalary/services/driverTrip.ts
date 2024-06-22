@@ -11,8 +11,8 @@ interface driverTripProps {
 export const createDriverTrip = (data: driverTripProps) =>
     axiosInstance.post(`/drivertrip`, data).then(getData)
 
-export const getDriverTripByDriverId = (id: number) =>
-    axiosInstance.get(`/drivertrip`, { params: { driverId: id } }).then(getData)
+export const getDriverTripByDriverId = (id: number, month: number | undefined) =>
+    axiosInstance.get(`/drivertrip`, { params: { driverId: id, month } }).then(getData)
 
 interface updateProps {
     tripId: number | undefined
