@@ -178,7 +178,7 @@ const processfuelDataFormat = async (fuelDataFormat: FuelingEvent) => {
     }
     return generateFuelData(fuelDataFormat, transactionId?.transactionId)
 }
-const fuelReport: FuelReport[] = []
+let fuelReport: FuelReport[] = []
 export const generateFuelReport = async (fuel: FuelingEvent[]) => {
     await Promise.all(
         fuel.map(async (fuelDataFormat) => {
@@ -193,6 +193,7 @@ export const listAllFuelList = async (_req: Request, res: Response) => {
     try {
         const fuel = await getFuelReport()
         const finalFuelReport = await generateFuelReport(fuel)
+        fuelReport = []
         res.status(200).json(finalFuelReport)
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' })

@@ -52,7 +52,7 @@ export const updateFuelStatus = (fuelId: number) =>
     })
 export const getFuelReport = () =>
     prisma.fuel.findMany({
-        take: 5,
+        take: 200,
         skip: 0,
         select: {
             id: true,
