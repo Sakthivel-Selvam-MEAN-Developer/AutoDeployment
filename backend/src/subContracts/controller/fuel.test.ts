@@ -12,16 +12,20 @@ const mockGetOnlyActiveTripByVehicle = vi.fn()
 const mockCreateOverallTrip = vi.fn()
 const mockCreatePaymentDues = vi.fn()
 const mockGetActiveTripByVehicle = vi.fn()
+const mockGetFuelReport = vi.fn()
+const mockGetFuelTransactionId = vi.fn()
 
 vi.mock('../models/fuel', () => ({
     create: (inputs: Prisma.fuelCreateInput) => mockCreateFuel(inputs),
     getAllFuel: () => mockFuelDetails(),
     updateFuelWithTripId: ({ id, tripId }: { id: number; tripId: number }) =>
         mockUpdateFuelWithTrip({ id, tripId }),
-    getFuelWithoutTrip: (vehiclenumber: string) => mockFuelWithoutTrip(vehiclenumber)
+    getFuelWithoutTrip: (vehiclenumber: string) => mockFuelWithoutTrip(vehiclenumber),
+    getFuelReport: () => mockGetFuelReport()
 }))
 vi.mock('../models/paymentDues', () => ({
-    create: (inputs: any) => mockCreatePaymentDues(inputs)
+    create: (inputs: any) => mockCreatePaymentDues(inputs),
+    getFuelTransactionId: (inputs: any) => mockGetFuelTransactionId(inputs)
 }))
 vi.mock('../models/overallTrip', () => ({
     create: (inputs: any) => mockCreateOverallTrip(inputs),
@@ -88,5 +92,47 @@ describe('Bunk Controller', () => {
         mockUpdateFuelWithTrip.mockResolvedValue(mockUpdateFuelWithTripData)
         await supertest(app).put('/api/fuel-update').expect(mockUpdateFuelWithTripData)
         expect(mockUpdateFuelWithTrip).toBeCalledTimes(1)
+    })
+})
+describe('Fuel report List', () => {
+    test.skip('should generate fuel report', async () => {
+        mockGetFuelTransactionId.mockResolvedValue({ transactionId: 'ABC123' })
+        mockGetFuelReport.mockResolvedValue([
+            {
+                id: 5,
+                fueledDate: 1718735400,
+                bunkName: 'Sakthivel Barath Petroleum',
+                vehicleNumber: 'TN22E3456',
+                loadingPoint: 'Erode',
+                unLodaingPoint: 'chennai',
+                stockPointName: 'salem',
+                quantity: 230,
+                pricePerliter: 56,
+                totalprice: 12880,
+                fuelInvoiceNumber: 'ABC123',
+                transactionId: 'sdfds5434gf',
+                tripInvoiceNumber: 'ABC987'
+            }
+        ])
+        await supertest(app)
+            .get('/api/getAllFuelReport')
+            .expect([
+                {
+                    id: 5,
+                    fueledDate: 1718735400,
+                    bunkName: 'Sakthivel Barath Petroleum',
+                    vehicleNumber: 'TN22E3456',
+                    loadingPoint: 'Erode',
+                    unLodaingPoint: 'chennai',
+                    stockPointName: 'salem',
+                    quantity: 230,
+                    pricePerliter: 56,
+                    totalprice: 12880,
+                    fuelInvoiceNumber: 'ABC123',
+                    transactionId: 'sdfds5434gf',
+                    tripInvoiceNumber: 'ABC987'
+                }
+            ])
+        expect(mockGetFuelReport).toBeCalledWith()
     })
 })
