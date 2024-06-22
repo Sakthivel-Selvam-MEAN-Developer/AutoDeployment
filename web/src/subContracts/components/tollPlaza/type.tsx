@@ -2,6 +2,9 @@ import { props } from './tollInvoice/alignTripDetails'
 
 export interface trip {
     invoiceNumber: string
+    partyName: string
+    lrNumber: string
+    filledLoad: number
     loadingPoint: { name: string }
     unloadingPoint?: { name: string }
     stockPoint?: { name: string }

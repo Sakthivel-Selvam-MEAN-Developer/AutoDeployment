@@ -1,7 +1,10 @@
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { props } from './alignTripDetails'
+import { toWords } from '../../invoice/invoiceFormat/numberToWords'
+import TripAmountCalculation from './tollAmountCalculations'
 
 const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
-    console.log(trips)
+    const { filledLoad, tollTotal, tripDetails, totalAmount } = TripAmountCalculation(trips)
     return (
         <div id="toll-invoice-format" className="toll-invoice-format">
             <table>
@@ -115,9 +118,8 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                     <tr>
                         <td colSpan={26}>
                             <h4>
-                                {' '}
-                                Place of Supply &amp state ( In case of inter state Service
-                                otherwise N/A) :-- KA/TS/TN/AP
+                                Place of Supply &amp state (In case of inter state Service otherwise
+                                N/A) :-- KA/TS/TN/AP
                             </h4>
                         </td>
                     </tr>
@@ -192,25 +194,25 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <small>Pallikonda / Mahasamudram Toll Plaza TN</small>
                         </td>
                         <td>
-                            <small>Vaniyambadi Toll Plaza TN </small>
+                            <small>Vaniyambadi Toll Plaza TN</small>
                         </td>
                         <td>
                             <small>Krishnagiri Toll Plaza (TN)</small>
                         </td>
                         <td>
-                            <small>L&ampT Krishnagiri Thopur Toll (TN)</small>
+                            <small>L&T Krishnagiri Thopur Toll (TN)</small>
                         </td>
                         <td>
                             <small>Omalur Toll Plaza (TN)</small>
                         </td>
                         <td>
-                            <small>Omalur Toll Plaza (TN)</small>
+                            <small>Vaiguntham Toll Plaza (TN)</small>
                         </td>
                         <td>
                             <small>Vijayamangalam Toll Plaza (TN)</small>
                         </td>
                         <td>
-                            <small>ChengapalyToll Plaza (TN)</small>
+                            <small>Chengapaly Toll Plaza (TN)</small>
                         </td>
                         <td>
                             <small>Neelambur Toll Plaza (TN)</small>
@@ -234,149 +236,485 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <small>Total Toll Amount</small>
                         </td>
                     </tr>
-                    <tr className="table-body">
-                        <td>
-                            <small>1</small>
-                        </td>
-                        <td>
-                            <small>56454545</small>
-                        </td>
-                        <td>
-                            <small>13/06/2024</small>
-                        </td>
-                        <td>
-                            <small>COIMBATORE RMC</small>
-                        </td>
-                        <td>
-                            <small>COIMBATORE-RMC_6464-6409</small>
-                        </td>
-                        <td>
-                            <small>KA01AJ4926</small>
-                        </td>
-                        <td>
-                            <small>976</small>
-                        </td>
-                        <td>
-                            <small>23.34</small>
-                        </td>
-                        <td>
-                            <small>423</small>
-                        </td>
-                        <td>
-                            <small>233</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>345</small>
-                        </td>
-                        <td>
-                            <small>345</small>
-                        </td>
-                        <td>
-                            <small>435</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>786</small>
-                        </td>
-                        <td>
-                            <small>898</small>
-                        </td>
-                        <td>
-                            <small>789</small>
-                        </td>
-                        <td>
-                            <small>898</small>
-                        </td>
-                        <td>
-                            <small>879</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>-</small>
-                        </td>
-                        <td>
-                            <small>8686</small>
-                        </td>
-                    </tr>
+                    {tripDetails.map((trip, index) => (
+                        <tr className="table-body" key={trip.id}>
+                            <td>
+                                <small>{index + 1}</small>
+                            </td>
+                            <td>
+                                <small>{trip.trip.invoiceNumber}</small>
+                            </td>
+                            <td>
+                                <small>{epochToMinimalDate(trip.trip.startDate)}</small>
+                            </td>
+                            <td>
+                                <small>{trip.trip.partyName}</small>
+                            </td>
+                            <td>
+                                <small>COIMBATORE-RMC_6464-6409</small>
+                            </td>
+                            <td>
+                                <small>{trip.trip.truck.vehicleNumber}</small>
+                            </td>
+                            <td>
+                                <small>{trip.trip.lrNumber}</small>
+                            </td>
+                            <td>
+                                <small>{trip.trip.filledLoad}</small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Marur Toll AP'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Bagepalli Toll KA'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Nalluru Devanahalli Toll KA'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Hoskote & Electronic City KAToll Plaza'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Bandapalli Plaza AP'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Yerradoddi Toll plaza AP'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Bandlapalli Toll Plaza AP'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Danamaiahgaaripalli Toll Plaza AP'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Durgamvripalli Toll AP'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Attibele Toll Plaza KA'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Thennepalli Toll AP'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Vallam Toll Plaza'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Enamkariyandal Toll'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Pallikonda / Mahasamudram Toll Plaza TN'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Vaniyambadi Toll Plaza TN'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Krishnagiri Toll Plaza TN'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'L&T Krishnagiri Thopur Toll (TN)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Omalur Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Vaiguntham Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Vijayamangalam Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Chengapaly Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Neelambur Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Trichy Cochin Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Pampam Pallam Toll Plaza (KL TOLL)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Paniyankara (KL TOLL)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Paliyekkarera Toll Plaza (KL TOLL)'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {(trip.tollDetails &&
+                                        trip.tollDetails[
+                                            `${'Kumbalam Toll Plaza KL'.toLocaleLowerCase()}`
+                                        ]) ||
+                                        '-'}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {trip.tollDetails &&
+                                        Object.values(trip.tollDetails).reduce(
+                                            (acc, current) => acc + current,
+                                            0
+                                        )}
+                                </small>
+                            </td>
+                        </tr>
+                    ))}
                     <tr className="total">
                         <td colSpan={7} style={{ textAlign: 'center' }}>
                             <h4>Total</h4>
                         </td>
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
-                        <td />
+                        {tollTotal && (
+                            <>
+                                <td>
+                                    <small>{filledLoad}</small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[`${'Marur Toll AP'.toLocaleLowerCase()}`] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[`${'Bagepalli Toll KA'.toLocaleLowerCase()}`] ||
+                                            '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Nalluru Devanahalli Toll KA'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Hoskote & Electronic City KAToll Plaza'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Bandapalli Plaza AP'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Yerradoddi Toll plaza AP'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Bandlapalli Toll Plaza AP'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Danamaiahgaaripalli Toll Plaza AP'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Durgamvripalli Toll AP'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Attibele Toll Plaza KA'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Thennepalli Toll AP'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[`${'Vallam Toll Plaza'.toLocaleLowerCase()}`] ||
+                                            '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Enamkariyandal Toll'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Pallikonda / Mahasamudram Toll Plaza TN'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Vaniyambadi Toll Plaza TN'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Krishnagiri Toll Plaza TN'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'L&T Krishnagiri Thopur Toll (TN)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Omalur Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Vaiguntham Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Vijayamangalam Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Chengapaly Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Neelambur Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Trichy Cochin Toll Plaza (TN)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Pampam Pallam Toll Plaza (KL TOLL)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Paniyankara (KL TOLL)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Paliyekkarera Toll Plaza (KL TOLL)'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        {tollTotal[
+                                            `${'Kumbalam Toll Plaza KL'.toLocaleLowerCase()}`
+                                        ] || '-'}
+                                    </small>
+                                </td>
+                            </>
+                        )}
+                        <td>
+                            <small>{totalAmount.toFixed(2)}</small>
+                        </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -396,7 +734,7 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <h4>Gross Total Amount</h4>
                         </td>
                         <td style={{ padding: '5px', textAlign: 'right', border: '1px solid' }}>
-                            <h4>573779.00</h4>
+                            <h4>{totalAmount.toFixed(2)}</h4>
                         </td>
                     </tr>
                     <tr>
@@ -405,7 +743,7 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <h4>IGST @ 12%</h4>
                         </td>
                         <td style={{ padding: '5px', textAlign: 'right', border: '1px solid' }}>
-                            <h4>1234.89</h4>
+                            <h4>{(totalAmount * (12 / 100)).toFixed(2)}</h4>
                         </td>
                     </tr>
                     <tr>
@@ -414,7 +752,7 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <h4>Round Off</h4>
                         </td>
                         <td style={{ padding: '5px', textAlign: 'right', border: '1px solid' }}>
-                            <h4>0.11</h4>
+                            <h4>0.00</h4>
                         </td>
                     </tr>
                     <tr>
@@ -423,17 +761,19 @@ const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
                             <h4>Total Amount</h4>
                         </td>
                         <td style={{ padding: '5px', textAlign: 'right', border: '1px solid' }}>
-                            <h4>573780.00</h4>
+                            <h4>{(totalAmount + totalAmount * (12 / 100)).toFixed(2)}</h4>
                         </td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colSpan={12} style={{ textAlign: 'center' }}>
+                        <td colSpan={14} style={{ textAlign: 'center' }}>
                             <h4>
-                                Toll Amount In Words (Including GST) :- Rupee Two Lakhs Eighty
-                                Thousand Five Hundred And Fifty Eight Only
+                                Toll Amount In Words (Including GST) :- Rupee{' '}
+                                {toWords.convert(totalAmount + totalAmount * (12 / 100), {
+                                    currency: true
+                                })}
                             </h4>
                         </td>
                     </tr>

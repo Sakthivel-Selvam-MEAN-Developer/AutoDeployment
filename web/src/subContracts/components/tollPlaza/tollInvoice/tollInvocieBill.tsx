@@ -1,9 +1,13 @@
 import { FC } from 'react'
 import './tollFormat.css'
 import { tripProp } from './type'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
+import { toWords } from '../../invoice/invoiceFormat/numberToWords'
+import { financialYear } from '../../invoice/invoiceFormat/financialYear'
+import TripAmountCalculation from './tollAmountCalculations'
 
 const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
-    console.log(trips, bill)
+    const { filledLoad, totalAmount } = TripAmountCalculation(trips)
     return (
         <div className="toll-invoice-bill-format" id="toll-invoice-bill-format">
             <table>
@@ -29,7 +33,7 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             Whether Tax Payable under Revesre Charge : &quot;NO&quot;
                         </td>
                         <td colSpan={4} style={{ padding: '2px 0' }}>
-                            Bill No :- MGL24A-15
+                            Bill No :- {bill.number}
                         </td>
                     </tr>
                     <tr>
@@ -37,7 +41,7 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             Person Laible to Pay GST
                         </td>
                         <td colSpan={4} style={{ padding: '2px 0' }}>
-                            Date :- 4/16/24
+                            Date :- {epochToMinimalDate(bill.date)}
                         </td>
                     </tr>
                     <tr>
@@ -69,7 +73,7 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             PAN :- AAACL6442L
                         </td>
                         <td colSpan={4} style={{ padding: '2px 0' }}>
-                            FY :- 2024-25
+                            FY :- {financialYear}
                         </td>
                     </tr>
                     <tr>
@@ -106,12 +110,12 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                     </tr>
                     <tr className="table-body">
                         <td>1</td>
-                        <td colSpan={2}>23/12/2024</td>
-                        <td colSpan={2}>MGL-A0198</td>
+                        <td colSpan={2}>{epochToMinimalDate(bill.date)}</td>
+                        <td colSpan={2}>{bill.number}</td>
                         <td>TN</td>
-                        <td>23</td>
-                        <td>1232.32</td>
-                        <td colSpan={2}>573779.00</td>
+                        <td>{trips.length}</td>
+                        <td>{filledLoad}</td>
+                        <td colSpan={2}>{totalAmount.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <td colSpan={10}>&nbsp;</td>
@@ -125,7 +129,7 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             colSpan={2}
                             style={{ padding: '5px', border: '1px solid', textAlign: 'right' }}
                         >
-                            573779.00
+                            {totalAmount.toFixed(2)}
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +141,7 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             colSpan={2}
                             style={{ padding: '5px', border: '1px solid', textAlign: 'right' }}
                         >
-                            68853.48
+                            {(totalAmount * (12 / 100)).toFixed(2)}
                         </td>
                     </tr>
                     <tr>
@@ -149,7 +153,7 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             colSpan={2}
                             style={{ padding: '5px', border: '1px solid', textAlign: 'right' }}
                         >
-                            0.48
+                            0.00
                         </td>
                     </tr>
                     <tr>
@@ -161,7 +165,7 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             colSpan={2}
                             style={{ padding: '5px', border: '1px solid', textAlign: 'right' }}
                         >
-                            642632.00
+                            {(totalAmount + totalAmount * (12 / 100)).toFixed(2)}
                         </td>
                     </tr>
                     <tr>
@@ -172,8 +176,10 @@ const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
                             style={{ border: '1px solid', padding: '3px', textAlign: 'center' }}
                             colSpan={10}
                         >
-                            Toll Amount In Words (Including GST) :- Rupee Two Lakhs Eighty Thousand
-                            Five Hundred And Fifty Eight Only
+                            Toll Amount In Words (Including GST) :- Rupee{' '}
+                            {toWords.convert(totalAmount + totalAmount * (12 / 100), {
+                                currency: true
+                            })}
                         </td>
                     </tr>
                     <tr>

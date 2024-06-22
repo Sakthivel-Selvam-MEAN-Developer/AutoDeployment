@@ -4,9 +4,12 @@ import BillDetailsDialog from './dialogToGetBillDetails'
 import PreviewSelectedTrips from './dialogPreviewForSelectedTrips'
 import { useState } from 'react'
 export interface props {
-    trip: { trip: trip; toll: overallTrip['tollPlaza']; id: number }[]
+    trip: { trip: trip; toll: overallTrip['tollPlaza']; id: number; tollDetails?: tollDetails }[]
     setDialog: React.Dispatch<React.SetStateAction<boolean>>
     dialog: boolean
+}
+export interface tollDetails {
+    [key: string]: number
 }
 const ListTrips: React.FC<props> = ({ trip, setDialog, dialog }) => {
     const [previewDialog, setPreviewDialog] = useState(false)

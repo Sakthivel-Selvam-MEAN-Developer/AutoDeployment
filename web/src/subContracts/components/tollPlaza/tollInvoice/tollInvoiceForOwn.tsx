@@ -1,8 +1,10 @@
 import { FC } from 'react'
 import { tripProp } from './type'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
+import TripAmountCalculation from './tollAmountCalculations'
 
 const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
-    console.log(bill)
+    const { tripDetails, totalAmount } = TripAmountCalculation(trips)
     return (
         <div className="toll-invoice-format-for-own">
             <table>
@@ -33,32 +35,61 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
                         <th>Rajampet (Muncipal)</th>
                         <th>Total Toll</th>
                     </tr>
-                    {trips.map((trip, index) => (
+                    {tripDetails.map((trip, index) => (
                         <tr className="table-body" key={trip.id}>
                             <td>{index + 1}</td>
-                            <td>MGL-129A1</td>
-                            <td>12/12/2012</td>
-                            <td>12212</td>
-                            <td>345w334232</td>
-                            <td>23/12/2011</td>
-                            <td>CBT-12-CBT</td>
-                            <td>TN67YU7890</td>
-                            <td>1232.76</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>897</td>
-                            <td>787</td>
-                            <td>678</td>
-                            <td>2377</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>12324.00</td>
+                            <td>{bill.number}</td>
+                            <td>{epochToMinimalDate(bill.date)}</td>
+                            <td>2406621</td>
+                            <td>{trip.trip.invoiceNumber}</td>
+                            <td>{epochToMinimalDate(trip.trip.startDate)}</td>
+                            <td>
+                                {trip.trip.stockPointToUnloadingPointTrip
+                                    ? trip.trip.stockPointToUnloadingPointTrip[0].unloadingPoint
+                                          .name
+                                    : trip.trip.unloadingPoint?.name}
+                            </td>
+                            <td>{trip.trip.truck.vehicleNumber}</td>
+                            <td>{trip.trip.filledLoad}</td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'Dhone'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'Pullur'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'SV Puram'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'PAMIDI'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'Davangere'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'Maruru'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'Bagepalli'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td>
+                                {trip.tollDetails &&
+                                    trip.tollDetails[`${'Devanahalli'.toLocaleLowerCase()}`]}
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     ))}
                     <tr>
@@ -80,33 +111,17 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
                             2406621
                         </th>
                         <th style={{ border: '1px solid', padding: '2px' }} colSpan={2}>
-                            MGL23A-347
+                            {bill.number}
                         </th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>250498</th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>30059.76</th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>280557.76</th>
-                    </tr>
-                    <tr>
-                        <th style={{ border: '1px solid', padding: '2px' }} colSpan={2}>
-                            2406621
+                        <th style={{ border: '1px solid', padding: '2px' }}>
+                            {totalAmount.toFixed(2)}
                         </th>
-                        <th style={{ border: '1px solid', padding: '2px' }} colSpan={2}>
-                            MGL23A-347
+                        <th style={{ border: '1px solid', padding: '2px' }}>
+                            {(totalAmount * (12 / 100)).toFixed(2)}
                         </th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>250498</th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>30059.76</th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>280557.76</th>
-                    </tr>
-                    <tr>
-                        <th style={{ border: '1px solid', padding: '2px' }} colSpan={2}>
-                            2406621
+                        <th style={{ border: '1px solid', padding: '2px' }}>
+                            {(totalAmount + totalAmount * (12 / 100)).toFixed(2)}
                         </th>
-                        <th style={{ border: '1px solid', padding: '2px' }} colSpan={2}>
-                            MGL23A-347
-                        </th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>250498</th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>30059.76</th>
-                        <th style={{ border: '1px solid', padding: '2px' }}>280557.76</th>
                     </tr>
                     <tr>
                         <td
@@ -116,7 +131,7 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
                             2406621 - Total Amount
                         </td>
                         <td style={{ border: '1px solid', padding: '2px', textAlign: 'center' }}>
-                            841673.96
+                            {(totalAmount + totalAmount * (12 / 100)).toFixed(2)}
                         </td>
                     </tr>
                 </tbody>

@@ -1460,14 +1460,8 @@ export const getOveralltripByToll = () =>
 export const getOveralltripByTollNotEmpty = () =>
     prisma.overallTrip.findMany({
         where: {
-            tollPlaza: {
-                some: {
-                    billedStatus: false
-                }
-            },
-            shortageQuantity: {
-                some: {}
-            }
+            tollPlaza: { some: { billedStatus: false } },
+            shortageQuantity: { some: {} }
         },
         select: {
             id: true,

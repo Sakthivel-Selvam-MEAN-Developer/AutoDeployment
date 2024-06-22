@@ -7,19 +7,13 @@ import { dialogPreview } from '../type'
 import DialogActionFields from './dialogActions'
 import { tripProp } from './type'
 
-const LineBreak = () => (
-    <>
-        <br /> <hr /> <br />
-    </>
-)
-
 const SelectedTripsContent: FC<tripProp> = ({ trips, bill }) => (
     <DialogContent>
         <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
             <TollInvoiceBillFormat trips={trips} bill={bill} />
-            <LineBreak />
+            <hr style={{ margin: '20px 0' }} />
             <TollInvoiceForUntraTech trips={trips} />
-            <LineBreak />
+            <hr style={{ margin: '20px 0' }} />
             <TollInvoice trips={trips} bill={bill} />
         </DialogContentText>
     </DialogContent>

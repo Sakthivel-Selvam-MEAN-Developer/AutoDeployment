@@ -5,7 +5,7 @@ import TollPlazaTable from './listForAllTrip'
 import { getOveralltripByToll } from '../../services/overallTrips'
 import { getOverallTripWithTollDetailsNotEmpty } from '../../services/tollPlaza'
 import { overallTripp } from './type'
-const button = <Link to={'/sub/tollPlaza/tollInvoice'}>{newFunction()}</Link>
+const button = <Link to={'/sub/toll/tollInvoice'}>{newFunction()}</Link>
 function newFunction() {
     return <Button variant="contained">Download Invoice</Button>
 }

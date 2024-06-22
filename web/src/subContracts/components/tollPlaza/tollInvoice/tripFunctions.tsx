@@ -2,10 +2,9 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { overallTrip } from '../type'
 import { tripProp } from './displayTripDetails'
 export const alignTrips = (trips: tripProp[]) => {
-    return trips.map((trip, index) => {
+    return trips.map((trip) => {
         return {
-            id: index + 1,
-            overallTripId: trip.id,
+            id: trip.id,
             vehicleNumber: trip.trip.truck.vehicleNumber,
             invoiceNumber: trip.trip.invoiceNumber,
             loadingPoint: trip.trip.loadingPoint.name,
