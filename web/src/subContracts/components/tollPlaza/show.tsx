@@ -1,5 +1,4 @@
 import { DialogActions, Button, Autocomplete, TextField } from '@mui/material'
-
 export const TollButton = (
     handleAddTollEntry: () => void,
     handleClose: () => void,
@@ -13,9 +12,11 @@ export const TollButton = (
             <Button onClick={handleClose} color="primary">
                 Close
             </Button>
+            {/* {showSubmit &&( */}
             <Button onClick={handleSubmit} color="primary">
                 Submit
             </Button>
+            {/* )} */}
         </DialogActions>
     )
 }

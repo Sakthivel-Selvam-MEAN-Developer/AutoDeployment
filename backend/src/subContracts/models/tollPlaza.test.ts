@@ -1,4 +1,4 @@
-import { create, getTollPlaza, updateBillStatus } from './tollPlaza.ts'
+import { create, getTollPlaza, updateBillStatus, updateTollAmount } from './tollPlaza.ts'
 import seedtollPlazaLocation from '../seed/tollPlaza.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -93,6 +93,48 @@ describe('TollPlaza model', () => {
         })
         expect(actual).toStrictEqual({ count: tollDetails.length })
     })
-    test('should update tollPlaza location', async () => {})
-    test('should delete tollPlaza location', async () => {})
+    test('should able to update tollPlaza location', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
+        create([
+            { ...seedtollPlazaLocation, overallTripId: overallTrip.id },
+            { overallTripId: overallTrip.id, tollPlazaLocationId: 1, amount: 500 }
+        ])
+        const tollPlaza = await getTollPlaza()
+        const tollId = tollPlaza.map((toll) => toll.id)
+        const actual = await updateTollAmount(tollId, {
+            amount: 500
+        })
+        expect(actual).toStrictEqual({ count: tollPlaza.length })
+    })
+    // test.skip('should able to delete tollPlaza location', async () => {
+    //     const row = {
+    //         tollPlaza:
+    //     }
+    // })
 })

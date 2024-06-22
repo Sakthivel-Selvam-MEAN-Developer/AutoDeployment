@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
+import tollPlaza from '../seed/tollPlaza.ts'
 
 export const create = (
     data: Prisma.tollPlazaCreateManyInput | Prisma.tollPlazaUncheckedCreateInput[]
@@ -7,6 +8,12 @@ export const create = (
 interface props {
     billNo: string
     billDate: number
+}
+interface data {
+    amount: number
+}
+export interface tollPlaza {
+    id: number
 }
 export const updateBillStatus = (overallTripId: number[], data: props) =>
     prisma.tollPlaza.updateMany({
@@ -19,9 +26,17 @@ export const updateBillStatus = (overallTripId: number[], data: props) =>
             billedStatus: true
         }
     })
-
+export const updateTollAmount = (ids: number[], data: data) =>
+    prisma.tollPlaza.updateMany({
+        where: {
+            id: { in: ids }
+        },
+        data: {
+            amount: data.amount
+        }
+    })
 export const getTollPlaza = () => prisma.tollPlaza.findMany({})
-
+// export const deleteRow = () =>
 export const getTollLocations = () =>
     prisma.tollPlazaLocation.findMany({
         select: {

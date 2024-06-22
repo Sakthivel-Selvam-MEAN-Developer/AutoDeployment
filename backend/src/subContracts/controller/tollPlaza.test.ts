@@ -88,6 +88,7 @@ describe('TollPlaza Controller', () => {
         await supertest(app).put('/api/toll').send(mockTollData.body).expect(200)
         expect(mockUpdateTollPlaza).toBeCalledTimes(1)
     })
+    test('should update the tollPlazaAmount', async () => {})
     test('should able to getTollPlaza is empty', async () => {
         mockTollLocation.mockResolvedValue(mockTollPlaza)
         await supertest(app).get('/api/toll').expect(200)
