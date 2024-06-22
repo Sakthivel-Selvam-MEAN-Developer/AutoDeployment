@@ -32,7 +32,7 @@ export interface dataProps {
     amount: number
     overallTripId: number
 }
-export interface property {
+export interface billDetails {
     billNo: string
     billDate: number
 }

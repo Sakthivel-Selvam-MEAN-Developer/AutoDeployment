@@ -1,4 +1,4 @@
-import './tollFormat.css'
+import './invoiceFormat/tollFormat.css'
 import { overallTrip, trip } from '../type'
 import BillDetailsDialog from './dialogToGetBillDetails'
 import PreviewSelectedTrips from './dialogPreviewForSelectedTrips'

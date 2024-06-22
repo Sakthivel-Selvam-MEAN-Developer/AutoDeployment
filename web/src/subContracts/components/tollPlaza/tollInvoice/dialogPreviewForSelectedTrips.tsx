@@ -1,11 +1,11 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText } from '@mui/material'
-import TollInvoiceBillFormat from './tollInvocieBill'
-import TollInvoiceForUntraTech from './tollInvoiceAnnexure'
-import TollInvoice from './tollInvoiceForOwn'
 import { FC } from 'react'
 import { dialogPreview } from '../type'
 import DialogActionFields from './dialogActions'
 import { tripProp } from './type'
+import TollInvoiceBillFormat from './invoiceFormat/tollInvocieBill'
+import TollInvoiceForUntraTech from './invoiceFormat/tollInvoiceAnnexure'
+import TollInvoice from './invoiceFormat/tollInvoiceForOwn'
 
 const SelectedTripsContent: FC<tripProp> = ({ trips, bill }) => (
     <DialogContent>

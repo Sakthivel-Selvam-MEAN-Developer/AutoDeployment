@@ -1,10 +1,18 @@
 import { FC } from 'react'
-import { tripProp } from './type'
-import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import TripAmountCalculation from './tollAmountCalculations'
+import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
+import TripAmountCalculation from '../tollAmountCalculations'
+import { tripProp } from '../type'
 
 const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
     const { tripDetails, totalAmount } = TripAmountCalculation(trips)
+    const tollSumsByState = trips.map((trip) => {
+        const acc: { [key: string]: number } = {}
+        trip.toll.forEach((toll) => {
+            const state = toll.tollPlazaLocation.state
+            acc[state] = (acc[state] || 0) + toll.amount
+        })
+        return acc
+    }, {})
     return (
         <div className="toll-invoice-format-for-own">
             <table>
@@ -52,44 +60,58 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
                             <td>{trip.trip.truck.vehicleNumber}</td>
                             <td>{trip.trip.filledLoad}</td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'Dhone'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'Dhone'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'Pullur'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'Pullur'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'SV Puram'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'SV Puram'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'PAMIDI'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'PAMIDI'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'Davangere'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'Davangere'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'Maruru'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'Maruru'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'Bagepalli'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'Bagepalli'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
                             <td>
-                                {trip.tollDetails &&
-                                    trip.tollDetails[`${'Devanahalli'.toLocaleLowerCase()}`]}
+                                {(trip.tollDetails &&
+                                    trip.tollDetails[`${'Devanahalli'.toLowerCase()}`]) ||
+                                    '-'}
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{tollSumsByState[index]['AP'] || '-'}</td>
+                            <td>{tollSumsByState[index]['TG'] || '-'}</td>
+                            <td>{tollSumsByState[index]['KA'] || '-'}</td>
+                            <td>{tollSumsByState[index]['TN'] || '-'}</td>
+                            <td>{tollSumsByState[index]['KL'] || '-'}</td>
+                            <td>{tollSumsByState[index]['RM'] || '-'}</td>
+                            <td>
+                                {trip.tollDetails &&
+                                    Object.values(trip.tollDetails).reduce(
+                                        (acc, current) => acc + current,
+                                        0
+                                    )}
+                            </td>
                         </tr>
                     ))}
                     <tr>

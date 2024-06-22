@@ -1,4 +1,4 @@
-import { create, getTollPlaza, updateBillStatus, updateTollAmount } from './tollPlaza.ts'
+import { create, getTollPlaza, updateBillDetails, updateTollAmount } from './tollPlaza.ts'
 import seedtollPlazaLocation from '../seed/tollPlaza.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -87,7 +87,7 @@ describe('TollPlaza model', () => {
         ])
         const tollDetails = await getTollPlaza()
         const overallTripId = tollDetails.map((toll) => toll.overallTripId)
-        const actual = await updateBillStatus(overallTripId, {
+        const actual = await updateBillDetails(overallTripId, {
             billNo: 'Aaa123',
             billDate: 1718262220
         })

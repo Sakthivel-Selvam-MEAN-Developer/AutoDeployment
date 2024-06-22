@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import './tollFormat.css'
-import { tripProp } from './type'
-import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { toWords } from '../../invoice/invoiceFormat/numberToWords'
-import { financialYear } from '../../invoice/invoiceFormat/financialYear'
-import TripAmountCalculation from './tollAmountCalculations'
+import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
+import { financialYear } from '../../../invoice/invoiceFormat/financialYear'
+import { toWords } from '../../../invoice/invoiceFormat/numberToWords'
+import TripAmountCalculation from '../tollAmountCalculations'
+import { tripProp } from '../type'
 
 const TollInvoiceBillFormat: FC<tripProp> = ({ trips, bill }) => {
     const { filledLoad, totalAmount } = TripAmountCalculation(trips)

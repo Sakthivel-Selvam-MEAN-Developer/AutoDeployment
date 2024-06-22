@@ -1,14 +1,14 @@
 import { axiosGet, axiosInstance, getData } from '../../apiCalls'
-import { dataProps, property, data } from '../components/tollPlaza/tollInvoice/type'
+import { dataProps, billDetails, data } from '../components/tollPlaza/tollInvoice/type'
 
 export const createTollPlazaLocation = (data: dataProps[]) =>
     axiosInstance
         .post(`/toll`, data)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-export const updateBillStatus = (overallTripId: number[], data: property) =>
+export const updateBillDetails = (tollIds: number[], data: billDetails) =>
     axiosInstance
-        .put(`/toll`, { data, overallTripId })
+        .put(`/toll/update/billDetails`, { data, tollIds })
         .then(getData)
         .catch(() => alert('Error Getting data'))
 export const getTollDetails = () =>

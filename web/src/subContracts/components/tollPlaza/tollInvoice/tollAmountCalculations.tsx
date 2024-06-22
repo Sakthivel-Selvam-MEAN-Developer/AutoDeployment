@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { overallTrip } from '../type'
 import { props } from './alignTripDetails'
-
 const getTollDetails = (toll: overallTrip['tollPlaza']) => {
     const locations: { [key: string]: number } = {}
     toll.forEach(
@@ -12,8 +11,8 @@ const getTollDetails = (toll: overallTrip['tollPlaza']) => {
 }
 const getTollSums = (computedTripDetails: props['trip']) => {
     const tollAmountsArray = computedTripDetails.map((trip) => trip.tollDetails)
-    return tollAmountsArray.reduce((acc, toll) => {
-        if (!toll || !acc) return acc
+    return tollAmountsArray.reduce((acc: { [key: string]: number }, toll) => {
+        if (!toll) return acc
         Object.keys(toll).forEach((tollPlaza) => {
             acc[tollPlaza] = (acc[tollPlaza] || 0) + toll[tollPlaza]
         })
@@ -23,7 +22,7 @@ const getTollSums = (computedTripDetails: props['trip']) => {
 const TripAmountCalculation = (trips: props['trip']) => {
     const [filledLoad, setFilledLoad] = useState<number>(0)
     const [tollTotal, setTollTotal] = useState<{ [key: string]: number } | undefined>(
-        {} as { '': 0 }
+        {} as { [key: string]: number }
     )
     const [tripDetails, setTripDetails] = useState<props['trip']>([])
     const [totalAmount, setTotalAmount] = useState(0)
@@ -36,6 +35,7 @@ const TripAmountCalculation = (trips: props['trip']) => {
         const tollPlazaSums = getTollSums(computedTripDetails)
         setTollTotal(tollPlazaSums)
         setTotalAmount(Object.values(tollPlazaSums || {}).reduce((sum, amount) => sum + amount, 0))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return { filledLoad, tollTotal, tripDetails, totalAmount }
 }

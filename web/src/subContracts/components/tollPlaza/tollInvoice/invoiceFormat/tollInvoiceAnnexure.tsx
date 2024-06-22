@@ -1,7 +1,7 @@
-import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { props } from './alignTripDetails'
-import { toWords } from '../../invoice/invoiceFormat/numberToWords'
-import TripAmountCalculation from './tollAmountCalculations'
+import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
+import { toWords } from '../../../invoice/invoiceFormat/numberToWords'
+import { props } from '../alignTripDetails'
+import TripAmountCalculation from '../tollAmountCalculations'
 
 const TollInvoiceForUntraTech = ({ trips }: { trips: props['trip'] }) => {
     const { filledLoad, tollTotal, tripDetails, totalAmount } = TripAmountCalculation(trips)

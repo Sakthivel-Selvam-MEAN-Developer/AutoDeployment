@@ -1467,6 +1467,7 @@ export const getOveralltripByTollNotEmpty = () =>
             id: true,
             tollPlaza: {
                 select: {
+                    id: true,
                     tollPlazaLocation: {
                         select: {
                             id: true,
