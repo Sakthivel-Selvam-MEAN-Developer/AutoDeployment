@@ -1,5 +1,6 @@
 import { axiosGet, axiosInstance, getData } from '../../apiCalls'
-import { dataProps, property } from '../components/tollPlaza/tollInvoice/type'
+import { dataProps, property, data } from '../components/tollPlaza/tollInvoice/type'
+
 export const createTollPlazaLocation = (data: dataProps[]) =>
     axiosInstance
         .post(`/toll`, data)
@@ -16,13 +17,8 @@ export const getTollDetails = () =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 export const getOverallTripWithTollDetailsNotEmpty = () => axiosGet('/toll/invoice', {})
-export const updateTollLocation = () =>
+export const updateTollAmount = (ids: number[], data: data) =>
     axiosInstance
-        .put(`/toll/updatelocations`)
-        .then(getData)
-        .catch(() => alert('Error Getting data'))
-export const deleteTollLocation = () =>
-    axiosInstance
-        .delete(`/toll/delete`)
+        .put(`/toll/updatelocations`, { data, ids })
         .then(getData)
         .catch(() => alert('Error Getting data'))

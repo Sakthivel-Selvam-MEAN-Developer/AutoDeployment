@@ -36,3 +36,6 @@ export interface property {
     billNo: string
     billDate: number
 }
+export interface data {
+    amount: number
+}

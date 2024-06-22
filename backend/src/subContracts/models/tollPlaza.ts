@@ -36,7 +36,6 @@ export const updateTollAmount = (ids: number[], data: data) =>
         }
     })
 export const getTollPlaza = () => prisma.tollPlaza.findMany({})
-// export const deleteRow = () =>
 export const getTollLocations = () =>
     prisma.tollPlazaLocation.findMany({
         select: {
