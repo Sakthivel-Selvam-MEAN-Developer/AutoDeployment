@@ -21,3 +21,8 @@ export const listFuelWithoutTripId = (vehiclenumber: string) =>
         .get(`/fuel/${vehiclenumber}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+export const getAllFuelReport = () =>
+    axiosInstance
+        .get(`/getAllFuelReport`)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))
