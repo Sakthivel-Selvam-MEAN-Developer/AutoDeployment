@@ -66,11 +66,11 @@ type FuelReportListProps = {
 const PaginationField = (
     dispatch: Dispatch<ActionType>,
     oldFilterData: fuelFilters | null,
-    setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>,
+    // setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>,
     count: number
     // setCount: React.Dispatch<React.SetStateAction<number>>
 ) => {
-    setfuelReportData([])
+    // setfuelReportData([])
     return (
         <Pagination
             count={parseInt((count / 200).toString()) + (count % 200 === 0 || count < 200 ? 0 : 1)}
@@ -90,13 +90,11 @@ const PaginationField = (
         />
     )
 }
-const StackPage: FC<stackProps> = ({ setfuelReportData, dispatch, count }) => {
+const StackPage: FC<stackProps> = ({ dispatch, count }) => {
     const oldFilterData = useContext(filterData)
     return (
         <div style={{ ...style, position: 'sticky' }}>
-            <Stack spacing={10}>
-                {PaginationField(dispatch, oldFilterData, setfuelReportData, count)}
-            </Stack>
+            <Stack spacing={10}>{PaginationField(dispatch, oldFilterData, count)}</Stack>
         </div>
     )
 }
