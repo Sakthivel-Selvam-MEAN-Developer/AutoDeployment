@@ -2,7 +2,32 @@ import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import TripAmountCalculation from '../tollAmountCalculations'
 import { tripProp } from '../type'
-
+const headers = [
+    'S.No',
+    'Bill No',
+    'Bill Date',
+    'Vendor Code',
+    'Delivery No',
+    'Date',
+    'City Code Description',
+    'Truck No',
+    'INV QTY',
+    'Dhone',
+    'Pullur',
+    'SV Puram',
+    'PAMIDI',
+    'Davangere',
+    'Maruru',
+    'Bagepalli',
+    'Devanahalli',
+    'AP Misc Toll',
+    'HYD Misc Toll',
+    'BGL Misc Toll',
+    'TN Misc Toll',
+    'KER Misc Toll',
+    'Rajampet (Muncipal)',
+    'Total Toll'
+]
 const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
     const { tripDetails, totalAmount } = TripAmountCalculation(trips)
     const tollSumsByState = trips.map((trip) => {
@@ -17,32 +42,9 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
         <div className="toll-invoice-format-for-own" id="toll-invoice-format-for-own">
             <table>
                 <tbody>
-                    <tr className="table-head">
-                        <th>S.No</th>
-                        <th>Bill No</th>
-                        <th>Bill Date</th>
-                        <th>Vendor Code</th>
-                        <th>Delivery No</th>
-                        <th>Date</th>
-                        <th>City Code Description</th>
-                        <th>Truck No</th>
-                        <th>INV QTY</th>
-                        <th>Dhone</th>
-                        <th>Pullur</th>
-                        <th>SV Puram</th>
-                        <th>PAMIDI</th>
-                        <th>Davangere</th>
-                        <th>Maruru</th>
-                        <th>Bagepalli</th>
-                        <th>Devanahalli</th>
-                        <th>AP Misc Toll</th>
-                        <th>HYD Misc Toll</th>
-                        <th>BGL Misc Toll</th>
-                        <th>TN Misc Toll</th>
-                        <th>KER Misc Toll</th>
-                        <th>Rajampet (Muncipal)</th>
-                        <th>Total Toll</th>
-                    </tr>
+                    {headers.map((header) => (
+                        <th key={header}>{header}</th>
+                    ))}
                     {tripDetails.map((trip, index) => (
                         <tr className="table-body" key={trip.id}>
                             <td>{index + 1}</td>

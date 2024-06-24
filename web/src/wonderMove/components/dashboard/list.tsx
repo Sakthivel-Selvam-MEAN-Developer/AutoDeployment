@@ -60,15 +60,22 @@ const DashboardList: React.FC = () => {
     const handleCellClick = (entry: DurationData) => {
         setSelectedCell(entry)
     }
+    const menuItemData = [
+        { value: 'pastDay', label: 'Last 24 Hours' },
+        { value: 'lastWeek', label: 'Last Week' },
+        { value: 'lastMonth', label: 'Last Month' }
+    ]
     return (
         <>
             {/* Date Filter */}
             <FormControl style={{ width: '200px' }}>
                 <InputLabel></InputLabel>
                 <Select value={period} onChange={handleChange}>
-                    <MenuItem value="pastDay">{'Last 24 Hours'}</MenuItem>
-                    <MenuItem value="lastWeek">{'Last Week'}</MenuItem>
-                    <MenuItem value="lastMonth">{'Last Month'}</MenuItem>
+                    {menuItemData.map((item) => (
+                        <MenuItem key={item.value} value={item.value}>
+                            {item.label}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
             {/* Pie Chart */}

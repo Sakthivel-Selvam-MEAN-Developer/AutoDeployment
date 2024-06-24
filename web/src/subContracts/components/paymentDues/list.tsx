@@ -93,6 +93,7 @@ const PaymentDuesList: React.FC = () => {
                 .then(() => updateNEFTStatus(paymentDueId))
                 .then(reset)
     }
+    const tabs = ['initial pay', 'Fuel Pay', 'Final pay', 'GST Pay']
     const reset = () => {
         setActivate(false)
         setRefresh(!refresh)
@@ -123,10 +124,13 @@ const PaymentDuesList: React.FC = () => {
                         textColor="inherit"
                         variant="fullWidth"
                     >
-                        <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="initial pay" />
-                        <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Fuel Pay" />
-                        <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="Final pay" />
-                        <Tab sx={{ borderBottom: '1px solid #e8e8e8' }} label="GST Pay" />
+                        {tabs.map((label) => (
+                            <Tab
+                                key={label}
+                                sx={{ borderBottom: '1px solid #e8e8e8' }}
+                                label={label}
+                            />
+                        ))}
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>

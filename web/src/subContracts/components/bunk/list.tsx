@@ -1,8 +1,11 @@
 import { Button } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useReducer, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getAllFuelReport } from '../../services/fuel'
-import FuelReportList from './fuelReport/fuelReportTable'
+import FuelReportList from './FuelReport/FuelReportTable'
+import { updateFilterProps } from './FuelReport/FuelContext/UpdateFuelFilter'
+import { filterData, dispatchData } from './FuelReport/FuelContext/FuelReportContext'
+import { FuelListForm } from './FuelReport/form/FuelListForm'
+import { initialFuelFilterData } from './FuelReport/FuelContext/FuelAction'
 const style = {
     marginBottom: '30px',
     display: 'flex',
@@ -20,17 +23,22 @@ const Header: React.FC = () => (
 )
 const BunkList: React.FC = () => {
     const [fuelReportData, setfuelReportData] = useState([])
-    useEffect(() => {
-        getAllFuelReport().then((data) => {
-            setfuelReportData(data)
-        })
-    }, [])
+    const [count, setCount] = useState<number>(0)
+    const [filterIds, dispatch] = useReducer(updateFilterProps, initialFuelFilterData)
 
     return (
-        <>
-            <Header />
-            <FuelReportList fuelReportData={fuelReportData} />
-        </>
+        <filterData.Provider value={filterIds}>
+            <dispatchData.Provider value={{ dispatch }}>
+                <FuelListForm setfuelReportData={setfuelReportData} setCount={setCount} />
+                <Header />
+                <FuelReportList
+                    setfuelReportData={setfuelReportData}
+                    fuelReportData={fuelReportData}
+                    count={count}
+                    setCount={setCount}
+                />
+            </dispatchData.Provider>
+        </filterData.Provider>
     )
 }
 

@@ -1,5 +1,10 @@
-import { FC } from 'react'
+/* eslint-disable max-lines */
+import { Dispatch, FC, useContext } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
+import { Pagination, Stack } from '@mui/material'
+// import { getAllFuelReport } from '../../../services/fuel'
+import { fuelFilters } from '../../../types/fuelFilters'
+import { filterData, dispatchData } from './FuelContext/FuelReportContext'
 
 const columns = [
     { field: 'id', headerName: '#', width: 50 },
@@ -15,6 +20,18 @@ const columns = [
     { field: 'transactionId', headerName: 'Transaction Id', width: 130 },
     { field: 'tripInvoiceNumber', headerName: 'Trip InvoiceNumber', width: 130 }
 ]
+const style = {
+    display: 'flex',
+    bottom: '0',
+    width: '100%',
+    justifyContent: 'center',
+    padding: '10px 0',
+    background: 'white'
+}
+export interface fuelFilter {
+    filterData: fuelDataObject[]
+    count: number
+}
 interface fuelDataObject {
     bunkName: string
     fuelInvoiceNumber: string
@@ -33,8 +50,55 @@ interface fuelDataObject {
 type DataGridTableProps = {
     fuelReportData: fuelDataObject[]
 }
+export type ActionType = { type: string; pageNumber: number }
+interface stackProps {
+    setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>
+    setCount: React.Dispatch<React.SetStateAction<number>>
+    dispatch: Dispatch<ActionType>
+    count: number
+}
 type FuelReportListProps = {
+    setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>
     fuelReportData: fuelDataObject[]
+    setCount: React.Dispatch<React.SetStateAction<number>>
+    count: number
+}
+const PaginationField = (
+    dispatch: Dispatch<ActionType>,
+    oldFilterData: fuelFilters | null,
+    setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>,
+    count: number
+    // setCount: React.Dispatch<React.SetStateAction<number>>
+) => {
+    setfuelReportData([])
+    return (
+        <Pagination
+            count={parseInt((count / 200).toString()) + (count % 200 === 0 || count < 200 ? 0 : 1)}
+            size="large"
+            color="primary"
+            onChange={(_e, value) => {
+                if (value !== oldFilterData?.pageNumber) {
+                    dispatch({ pageNumber: value, type: 'updatePageNumber' })
+                    // getAllFuelReport({ ...oldFilterData, pageNumber: value }).then(
+                    //     (data: fuelFilter) => {
+                    //         // setfuelReportData(data.filterData)
+                    //         setCount(data.count)
+                    //     }
+                    // )
+                }
+            }}
+        />
+    )
+}
+const StackPage: FC<stackProps> = ({ setfuelReportData, dispatch, count }) => {
+    const oldFilterData = useContext(filterData)
+    return (
+        <div style={{ ...style, position: 'sticky' }}>
+            <Stack spacing={10}>
+                {PaginationField(dispatch, oldFilterData, setfuelReportData, count)}
+            </Stack>
+        </div>
+    )
 }
 const DataGridTable: React.FC<DataGridTableProps> = ({ fuelReportData }) => {
     return (
@@ -46,7 +110,23 @@ const DataGridTable: React.FC<DataGridTableProps> = ({ fuelReportData }) => {
         />
     )
 }
-const FuelReportList: FC<FuelReportListProps> = ({ fuelReportData }) => {
-    return <DataGridTable fuelReportData={fuelReportData} />
+const FuelReportList: FC<FuelReportListProps> = ({
+    setfuelReportData,
+    fuelReportData,
+    count,
+    setCount
+}) => {
+    const { dispatch } = useContext(dispatchData)
+    return (
+        <>
+            <DataGridTable fuelReportData={fuelReportData} />
+            <StackPage
+                dispatch={dispatch}
+                setfuelReportData={setfuelReportData}
+                count={count}
+                setCount={setCount}
+            />
+        </>
+    )
 }
 export default FuelReportList
