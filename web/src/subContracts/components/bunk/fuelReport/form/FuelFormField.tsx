@@ -27,7 +27,7 @@ const FuelFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
             <AutoComplete
                 control={control}
                 fieldName="bunkName"
-                label="Select Bunk Name"
+                label="Select bunk Name"
                 data-testid={'select'}
                 options={bunk ? bunk.map(({ bunkName }) => bunkName) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
