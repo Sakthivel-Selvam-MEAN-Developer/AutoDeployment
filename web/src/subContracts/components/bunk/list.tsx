@@ -1,11 +1,12 @@
 import { Button } from '@mui/material'
 import { useReducer, useState } from 'react'
 import { Link } from 'react-router-dom'
-import FuelReportList from './FuelReport/FuelReportTable'
-import { updateFilterProps } from './FuelReport/FuelContext/UpdateFuelFilter'
-import { filterData, dispatchData } from './FuelReport/FuelContext/FuelReportContext'
-import { FuelListForm } from './FuelReport/form/FuelListForm'
-import { initialFuelFilterData } from './FuelReport/FuelContext/FuelAction'
+import { filterData, dispatchData } from './fuelReport/fuelContext/fuelReportContext'
+import { FuelListForm } from './fuelReport/form/fuelListForm'
+import FuelReportList from './fuelReport/fuelReportTable'
+import { updateFilterProps } from './fuelReport/fuelContext/updateFuelFilter'
+import { initialFuelFilterData } from './fuelReport/fuelContext/fuelAction'
+
 const style = {
     marginBottom: '30px',
     display: 'flex',

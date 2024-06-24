@@ -1,5 +1,5 @@
 import { fuelFilters } from '../../../../types/fuelFilters'
-import { initialFuelFilterData } from './FuelAction'
+import { initialFuelFilterData } from './fuelAction'
 type ActionType = {
     type: string
     bunkId?: number

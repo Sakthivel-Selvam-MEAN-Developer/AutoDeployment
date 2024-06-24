@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import AutoComplete from '../../../../../form/AutoComplete.tsx'
 import { getAllTruck } from '../../../../services/truck.ts'
-import { FuelReoprtActionProps } from '../FuelContext/fuelReportTypes.ts'
+import { fuelReoprtActionProps } from '../fuelContext/fuelReportTypes.ts'
 
-export const VehicleNameField: FC<FuelReoprtActionProps> = ({ control, dispatch }) => {
+export const VehicleNameField: FC<fuelReoprtActionProps> = ({ control, dispatch }) => {
     const [truckList, setTruckList] = useState([])
     useEffect(() => {
         getAllTruck().then(setTruckList)

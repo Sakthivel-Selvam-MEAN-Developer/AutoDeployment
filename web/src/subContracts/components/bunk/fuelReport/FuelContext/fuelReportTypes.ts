@@ -10,11 +10,11 @@ export type dispatchType =
     | { type: string; transactionId: number }
     | { type: string; from: number; to: number }
     | { type: string; pageNumber: number }
-export interface TripFilterFormProps {
+export interface FuelFilterFormProps {
     setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>
     setCount: React.Dispatch<React.SetStateAction<number>>
 }
-export interface FuelReoprtActionProps {
+export interface fuelReoprtActionProps {
     control: Control
     dispatch: Dispatch<dispatchType>
 }

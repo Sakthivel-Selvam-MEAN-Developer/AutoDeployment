@@ -3,9 +3,8 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../../form/button'
 import { tripStatusFilter } from '../../../services/overallTrips'
 import TripFilterFields from '../../report/tripStatusReport/formField'
-import { filterData, dispatchData } from './FuelContext/FuelReportContext'
-import { TripFilterFormProps } from './FuelContext/fuelReportTypes'
-
+import { filterData, dispatchData } from './fuelContext/fuelReportContext'
+import { TripFilterFormProps } from '../../../types/fuelFilters'
 export interface overallTripsProps {
     filterData: never[]
     count: number

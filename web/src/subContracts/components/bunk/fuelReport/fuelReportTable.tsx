@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import { Pagination, Stack } from '@mui/material'
 // import { getAllFuelReport } from '../../../services/fuel'
 import { fuelFilters } from '../../../types/fuelFilters'
-import { filterData, dispatchData } from './FuelContext/FuelReportContext'
+import { filterData, dispatchData } from './fuelContext/fuelReportContext'
 
 const columns = [
     { field: 'id', headerName: '#', width: 50 },

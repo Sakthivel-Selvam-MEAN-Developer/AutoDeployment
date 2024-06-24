@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { Control } from 'react-hook-form'
 import { Dispatch } from 'react'
-import { DateField } from './DateField.tsx'
-import { dispatchType } from '../FuelContext/fuelReportTypes.ts'
-import { VehicleNameField } from './VehicleNameField.tsx'
+import { DateField } from './dateField.tsx'
+import { dispatchType } from '../fuelContext/fuelReportTypes.ts'
+import { VehicleNameField } from './vehicleNameField.tsx'
 interface FilterFieldProps {
     control: Control
     dispatch: Dispatch<dispatchType>

@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../../../form/button'
-import FuelFilterFields from './FuelFormField'
-import { TripFilterFormProps } from '../FuelContext/fuelReportTypes'
+import FuelFilterFields from './fuelFormField'
+import { TripFilterFormProps } from '../../../../types/fuelFilters'
 // import { filterData, dispatchData } from '../FuelContext/FuelReportContext'
 // import { getAllFuelReport } from '../../../../services/fuel'
 
