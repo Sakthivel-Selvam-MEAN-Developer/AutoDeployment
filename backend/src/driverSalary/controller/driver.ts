@@ -12,7 +12,7 @@ type type = (
     resolve: (value: void | PromiseLike<void>) => void
 ) => void
 const getResponse: type = (stdout, reject, resolve) => {
-    const keycloakResponse = stdout.split('\n').splice(4, 1)[0]
+    const keycloakResponse = stdout.split('\n')
     if (keycloakResponse.includes('User exists with same username')) {
         const err = new Error()
         err.name = 'User already exists with the same username'

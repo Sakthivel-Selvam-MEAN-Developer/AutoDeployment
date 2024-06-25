@@ -63,7 +63,7 @@ const DriverSalaryConatiner: FC = () => {
     const [driverTrips, setDriverTrips] = useState<tripProps[]>([])
     const [dailyBetta, setDailyBetta] = useState<number>(0)
     const [tripDetails, setTripDetails] = useState<driverDetailProps>({} as driverDetailProps)
-    const [date, setDate] = useState(0)
+    const [date, setDate] = useState(dayjs().startOf('month').unix())
     useEffect(() => {
         getAllDriver().then(setDriverList)
     }, [])

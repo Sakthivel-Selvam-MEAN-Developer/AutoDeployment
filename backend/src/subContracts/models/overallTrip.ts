@@ -347,7 +347,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
         }
     })
 
-export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string) =>
+export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string | undefined) =>
     prisma.overallTrip.findMany({
         where: {
             id: { in: arrayOfId },
@@ -355,16 +355,28 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string) =>
                 {
                     loadingPointToStockPointTrip: {
                         startDate: {
-                            gte: dayjs.unix(parseInt(month)).startOf('month').unix(),
-                            lte: dayjs.unix(parseInt(month)).endOf('month').unix()
+                            gte:
+                                month !== undefined
+                                    ? dayjs.unix(parseInt(month)).startOf('month').unix()
+                                    : undefined,
+                            lte:
+                                month !== undefined
+                                    ? dayjs.unix(parseInt(month)).endOf('month').unix()
+                                    : undefined
                         }
                     }
                 },
                 {
                     loadingPointToUnloadingPointTrip: {
                         startDate: {
-                            gte: dayjs.unix(parseInt(month)).startOf('month').unix(),
-                            lte: dayjs.unix(parseInt(month)).endOf('month').unix()
+                            gte:
+                                month !== undefined
+                                    ? dayjs.unix(parseInt(month)).startOf('month').unix()
+                                    : undefined,
+                            lte:
+                                month !== undefined
+                                    ? dayjs.unix(parseInt(month)).endOf('month').unix()
+                                    : undefined
                         }
                     }
                 }

@@ -15,7 +15,7 @@ describe('Driver model', () => {
             driverId: driver.id,
             unloadingTripSalaryId: 1
         })
-        const actual = await getAllDriverTripById(driverTrip.id)
+        const actual = await getAllDriverTripById(driverTrip.id, undefined)
         expect(actual[0].tripId).toBe(driverTrip.id)
     })
     test('should able to get driver id by trip id', async () => {

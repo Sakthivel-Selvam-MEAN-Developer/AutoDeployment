@@ -49,9 +49,27 @@ const mockGetDriverTripData = [
     {
         id: 1,
         tripId: 37,
-        driver: { name: 'sakthi' },
+        driver: {
+            name: 'sakthi',
+            driverAttendance: [
+                {
+                    attendance: [
+                        {
+                            year: 2024,
+                            attendance: [
+                                {
+                                    month: 'June',
+                                    datesPresent: [1, 2, 3, 4, 5]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         unloadingTripSalaryId: 1,
         stockTripSalaryId: 2,
+        dailyBetta: 100,
         driverAdvanceForTrip: [
             {
                 amount: true,
@@ -98,8 +116,8 @@ describe('driverTrip Controller', () => {
     })
     test('should able to get all driver Trip by Id', async () => {
         mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData)
-        mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
         vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
+        mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
         await supertest(app).get('/api/drivertrip').query({ driverId: 1 }).expect(200)
         expect(mockGetAllDriverTripById).toBeCalledTimes(1)
         expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(1)

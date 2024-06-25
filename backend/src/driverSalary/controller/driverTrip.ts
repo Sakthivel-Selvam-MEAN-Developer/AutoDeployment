@@ -3,6 +3,7 @@ import axios from 'axios'
 import { IncomingHttpHeaders } from 'http'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import { JsonValue } from '@prisma/client/runtime/library'
 import {
     create,
     getAllDriverTripById,
@@ -12,6 +13,7 @@ import {
 import { getAllExpenseCountByTripId } from '../models/expenses.ts'
 import { getTripSalaryDetailsById } from '../models/tripSalary.ts'
 import { createDriverAdvance } from '../models/driverAdvance.ts'
+import { tripBettaCalculation } from '../domain/tripBettaCalculation.ts'
 
 dayjs.extend(utc)
 
@@ -28,9 +30,14 @@ type listAllDriverTripByIdType = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
 ) => void
-interface allTripProps {
+export interface allTripProps {
     id: number
-    driver: { name: string }
+    driver: {
+        name: string
+        driverAttendance: {
+            attendance: JsonValue[]
+        }[]
+    }
     tripId: number
     unloadingTripSalaryId: number | null
     stockTripSalaryId: number | null
@@ -58,13 +65,14 @@ const getTotalTripSalary: props = (tripAdvanceDetails, data) => {
 const getOverallTrip = async (
     headers: IncomingHttpHeaders,
     allTrips: allTripProps[],
-    month: string
+    date: string
 ) => {
     const overAllTripIds: number[] = []
+    const totalTripBetta = await tripBettaCalculation(allTrips[0], parseInt(date))
     const driverName = allTrips[0].driver.name
     allTrips.forEach((tripId) => overAllTripIds.push(tripId.tripId))
     const allTripsById = await axios.get(`${headers.hostname}/api/overalltrip/ids`, {
-        params: { ids: JSON.stringify(overAllTripIds), month }
+        params: { ids: JSON.stringify(overAllTripIds), month: date }
     })
     const expensesDetails = await getAllExpenseCountByTripId(overAllTripIds)
     const advanceDetails = allTripsById.data.map((trip: { id: number }) => {
@@ -93,11 +101,11 @@ const getOverallTrip = async (
             advanceforTrip: advance[0].driverAdvanceForTrip
         }
     })
-    return { driverName, trips: combinedData, expensesDetails, advanceDetails }
+    return { driverName, trips: combinedData, expensesDetails, advanceDetails, totalTripBetta }
 }
 export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res) => {
     const { driverId, month } = req.query
-    await getAllDriverTripById(parseInt(driverId))
+    await getAllDriverTripById(parseInt(driverId), month)
         .then(async (allTrips) => getOverallTrip(req.headers, allTrips, month))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))

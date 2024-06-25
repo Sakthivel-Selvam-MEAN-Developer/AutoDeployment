@@ -32,9 +32,9 @@ const getNEFTBody = (NEFTData: dataProps[]) => {
     })
     return { body: NEFTDataBody, fileType: types.neftType }
 }
+const NEFTDataHeaders =
+    'IFSC Code,Account type,Account number,Name of the beneficiary,Address of the beneficiary,Sender information,Amount\n'
 export const getNEFTData = (NEFTData: dataProps[]) => {
-    const NEFTDataHeaders =
-        'IFSC Code,Account type,Account number,Name of the beneficiary,Address of the beneficiary,Sender information,Amount\n'
     const { body: NEFTDataBody, fileType } = getNEFTBody(NEFTData)
     const date = dayjs().format('DDMMYYYY')
     const finalData = {

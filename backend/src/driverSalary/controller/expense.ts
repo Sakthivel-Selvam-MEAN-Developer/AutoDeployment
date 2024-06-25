@@ -74,7 +74,7 @@ export const ListAllExpenseByTripIdForApproval = async (
     res: Response
 ) => {
     const { driverId } = req.query
-    const allTripIdByDriverId = await getAllDriverTripById(parseInt(driverId))
+    const allTripIdByDriverId = await getAllDriverTripById(parseInt(driverId), undefined)
     const alltripIds = [...new Set(allTripIdByDriverId.map((id) => id.tripId))]
     const combinedTrip = await expenseApproval(req.headers, alltripIds)
     res.status(200).json(combinedTrip)

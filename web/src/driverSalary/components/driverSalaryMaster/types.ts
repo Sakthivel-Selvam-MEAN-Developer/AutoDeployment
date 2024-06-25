@@ -3,6 +3,7 @@ export interface driverDetailProps {
     driverName: string
     expensesDetails: Expense[]
     advanceDetails: AdvanceDetail[]
+    totalTripBetta: number
 }
 
 export interface AdvanceDetail {

@@ -1,9 +1,9 @@
 import { Button } from '@mui/material'
 import { useReducer, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { filterData, dispatchData } from './fuelReport/fuelContext/fuelReportContext'
-import { FuelListForm } from './fuelReport/form/fuelListForm'
 import FuelReportList from './fuelReport/fuelReportTable'
+import { dispatchData, filterData } from './fuelReport/fuelContext/fuelReportContext'
+import { FuelListForm } from './fuelReport/form/fuelListForm'
 import { updateFilterProps } from './fuelReport/fuelContext/updateFuelFilter'
 import { initialFuelFilterData } from './fuelReport/fuelContext/fuelAction'
 
@@ -26,7 +26,6 @@ const BunkList: React.FC = () => {
     const [fuelReportData, setfuelReportData] = useState([])
     const [count, setCount] = useState<number>(0)
     const [filterIds, dispatch] = useReducer(updateFilterProps, initialFuelFilterData)
-
     return (
         <filterData.Provider value={filterIds}>
             <dispatchData.Provider value={{ dispatch }}>

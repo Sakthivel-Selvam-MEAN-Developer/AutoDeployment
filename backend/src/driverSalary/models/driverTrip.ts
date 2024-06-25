@@ -1,16 +1,35 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
+import dayjs from 'dayjs'
 
 export const create = async (
     data: Prisma.driverTripCreateInput | Prisma.driverTripUncheckedCreateInput
 ) => prisma.driverTrip.create({ data })
 
-export const getAllDriverTripById = (id: number) =>
+export const getAllDriverTripById = (id: number, date: string | undefined) =>
     prisma.driverTrip.findMany({
-        where: { driverId: id },
+        where: {
+            driverId: id,
+            tripStartDate: {
+                gte:
+                    date !== undefined
+                        ? dayjs.unix(parseInt(date)).startOf('month').unix()
+                        : undefined,
+                lte:
+                    date !== undefined
+                        ? dayjs.unix(parseInt(date)).endOf('month').unix()
+                        : undefined
+            }
+        },
         select: {
             id: true,
-            driver: { select: { name: true } },
+            tripStartDate: true,
+            driver: {
+                select: {
+                    name: true,
+                    driverAttendance: { select: { attendance: true } }
+                }
+            },
             tripId: true,
             unloadingTripSalaryId: true,
             stockTripSalaryId: true,

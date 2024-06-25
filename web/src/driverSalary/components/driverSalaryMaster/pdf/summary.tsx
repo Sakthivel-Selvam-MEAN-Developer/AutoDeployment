@@ -6,7 +6,9 @@ interface SummaryTableProps {
 }
 export const SummaryTable: FC<SummaryTableProps> = ({ tripDetails }) => {
     const { totalAdvance, totalExpense, totalBetta } = totalCalculation(tripDetails)
-    const salary = (totalBetta + totalExpense - totalAdvance).toFixed(2)
+    const salary = (totalBetta + tripDetails.totalTripBetta + totalExpense - totalAdvance).toFixed(
+        2
+    )
     return (
         <table className="summary" style={{ width: '100%' }}>
             <tr>
@@ -42,7 +44,7 @@ export const SummaryTable: FC<SummaryTableProps> = ({ tripDetails }) => {
                 <td className="alignLeft">
                     <b>Trip Batta</b>
                 </td>
-                <td className="alignRight"></td>
+                <td className="alignRight">{tripDetails.totalTripBetta}</td>
             </tr>
             <tr>
                 <td className="alignLeft">6</td>
@@ -76,7 +78,7 @@ export const SummaryTable: FC<SummaryTableProps> = ({ tripDetails }) => {
             </tr>
             <tr>
                 <td colSpan={3}>
-                    <b>Comments :</b> okay|Attendance - Rs 7750(+)
+                    <b>Comments :</b> okay|Attendance - Rs {tripDetails.totalTripBetta}(+)
                 </td>
             </tr>
         </table>
