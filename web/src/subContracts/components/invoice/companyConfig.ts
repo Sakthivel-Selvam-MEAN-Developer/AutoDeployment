@@ -48,7 +48,7 @@ export const companyConfig: Record<string, CompanyConfig> = {
         address: companyAddresses.grasim,
         companyTagID: 'ultratech_main'
     },
-    'ASHTECH(INDIA) PRIVATE LIMITED': {
+    ' ASHTECH(INDIA) PRIVATE LIMITED': {
         component: CustomInvoice,
         address: companyAddresses.ashTech,
         companyTagID: 'ultratech_main'
