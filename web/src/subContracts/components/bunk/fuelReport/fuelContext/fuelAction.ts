@@ -1,8 +1,8 @@
 export type ActionType = {
     type: string
     bunkId: number
-    vehicleNumberId: number
-    transactionId: number
+    vehicleNumber: string
+    paymentStatus: boolean
     from: number
     to: number
     pageNumber: number
@@ -11,8 +11,8 @@ export type ActionType = {
 export const initialFuelFilterData = {
     pageNumber: 1,
     bunkId: undefined,
-    vehicleNumberId: undefined,
-    transactionId: undefined,
+    vehicleNumber: undefined,
+    paymentStatus: undefined,
     from: undefined,
     to: undefined
 }

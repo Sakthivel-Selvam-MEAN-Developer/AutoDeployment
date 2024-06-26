@@ -3,8 +3,8 @@ import { initialFuelFilterData } from './fuelAction'
 type ActionType = {
     type: string
     bunkId?: number
-    vehicleNumberId?: number
-    transactionId?: number
+    vehicleNumber?: string
+    paymentStatus?: boolean
     from?: number
     to?: number
     pageNumber?: number
@@ -23,11 +23,11 @@ export const updateFilterProps = (
         updateBunkId: () => {
             return { ...currentFilterData, bunkId: action.bunkId }
         },
-        updatevehicleNumberId: () => {
-            return { ...currentFilterData, vehicleNumberId: action.vehicleNumberId }
+        updatevehicleNumber: () => {
+            return { ...currentFilterData, vehicleNumber: action.vehicleNumber }
         },
-        updatetransactionId: () => {
-            return { ...currentFilterData, transactionId: action.transactionId }
+        updatepaymentStatus: () => {
+            return { ...currentFilterData, paymentStatus: action.paymentStatus }
         },
 
         updateFromAndTo: () => {

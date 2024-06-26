@@ -5,9 +5,11 @@ import { Pagination, Stack } from '@mui/material'
 // import { getAllFuelReport } from '../../../services/fuel'
 import { fuelFilters } from '../../../types/fuelFilters'
 import { filterData, dispatchData } from './fuelContext/fuelReportContext'
+import { getAllFuelReport } from '../../../services/fuel'
 
 const columns = [
     { field: 'id', headerName: '#', width: 50 },
+    { field: 'bunkName', headerName: 'Bunk Name', width: 240 },
     { field: 'fueledDate', headerName: 'fueledDate', width: 240 },
     { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
     { field: 'loadingPoint', headerName: 'LoadingPoint Name', width: 120 },
@@ -29,7 +31,7 @@ const style = {
     background: 'white'
 }
 export interface fuelFilter {
-    filterData: fuelDataObject[]
+    data: fuelDataObject[]
     count: number
 }
 interface fuelDataObject {
@@ -66,11 +68,10 @@ type FuelReportListProps = {
 const PaginationField = (
     dispatch: Dispatch<ActionType>,
     oldFilterData: fuelFilters | null,
-    // setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>,
-    count: number
-    // setCount: React.Dispatch<React.SetStateAction<number>>
+    setfuelReportData: React.Dispatch<React.SetStateAction<never[]>>,
+    count: number,
+    setCount: React.Dispatch<React.SetStateAction<number>>
 ) => {
-    // setfuelReportData([])
     return (
         <Pagination
             count={parseInt((count / 200).toString()) + (count % 200 === 0 || count < 200 ? 0 : 1)}
@@ -79,22 +80,22 @@ const PaginationField = (
             onChange={(_e, value) => {
                 if (value !== oldFilterData?.pageNumber) {
                     dispatch({ pageNumber: value, type: 'updatePageNumber' })
-                    // getAllFuelReport({ ...oldFilterData, pageNumber: value }).then(
-                    //     (data: fuelFilter) => {
-                    //         // setfuelReportData(data.filterData)
-                    //         setCount(data.count)
-                    //     }
-                    // )
+                    getAllFuelReport({ ...oldFilterData, pageNumber: value }).then((data) => {
+                        setfuelReportData(data.data)
+                        setCount(data.count)
+                    })
                 }
             }}
         />
     )
 }
-const StackPage: FC<stackProps> = ({ dispatch, count }) => {
+const StackPage: FC<stackProps> = ({ setfuelReportData, dispatch, count, setCount }) => {
     const oldFilterData = useContext(filterData)
     return (
         <div style={{ ...style, position: 'sticky' }}>
-            <Stack spacing={10}>{PaginationField(dispatch, oldFilterData, count)}</Stack>
+            <Stack spacing={10}>
+                {PaginationField(dispatch, oldFilterData, setfuelReportData, count, setCount)}
+            </Stack>
         </div>
     )
 }
@@ -115,6 +116,7 @@ const FuelReportList: FC<FuelReportListProps> = ({
     setCount
 }) => {
     const { dispatch } = useContext(dispatchData)
+    if (fuelReportData && fuelReportData.length === 0) return
     return (
         <>
             <DataGridTable fuelReportData={fuelReportData} />

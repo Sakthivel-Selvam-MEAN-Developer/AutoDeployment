@@ -4,7 +4,8 @@ import {
     getAllFuel,
     getFuelWithoutTrip,
     updateFuelWithTripId,
-    getFuelReport
+    getFuelReport,
+    getFuelReportCount
 } from '../models/fuel.ts'
 import fuelLogics from '../domain/fuelLogics.ts'
 import { create as createPaymentDues, getFuelTransactionId } from '../models/paymentDues.ts'
@@ -131,6 +132,7 @@ export const updateFuelWithTrip = (req: Request, res: Response) => {
         .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }
+// eslint-disable-next-line max-lines-per-function
 export const generateFuel = async (
     fuelDataFormat: FuelingEvent,
     transactionId: string | null | undefined
@@ -166,8 +168,6 @@ const generateFuelData = async (
     transactionId: string | null | undefined
 ) =>
     generateFuel(fuelDataFormat, transactionId).catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error('Error generating fuelReportFinalData', error)
         throw error
     })
 
@@ -188,14 +188,27 @@ export const generateFuelReport = async (fuel: FuelingEvent[]) => {
     )
     return fuelReport
 }
-
-export const listAllFuelList = async (_req: Request, res: Response) => {
-    try {
-        const fuel = await getFuelReport()
-        const finalFuelReport = await generateFuelReport(fuel)
-        fuelReport = []
-        res.status(200).json(finalFuelReport)
-    } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' })
-    }
+type RequestQuery = {
+    bunkId: string
+    paymentStatus?: string
+    vehicleNumber: string
+    from: string
+    to: string
+    pageNumber: string
+}
+type fuelReportDetail = (req: Request<object, object, object, RequestQuery>, res: Response) => void
+export const listAllFuelList: fuelReportDetail = async (_req, res) => {
+    const { bunkId, paymentStatus, vehicleNumber, from, to, pageNumber } = _req.query
+    const skipNumber = (parseInt(pageNumber) - 1) * 200
+    await getFuelReport(bunkId, paymentStatus, vehicleNumber, from, to, skipNumber)
+        .then((filterList) => {
+            generateFuelReport(filterList).then((data) => {
+                data.sort((a, b) => a.id - b.id)
+                fuelReport = []
+                getFuelReportCount(bunkId, paymentStatus, vehicleNumber, from, to).then((count) =>
+                    res.status(200).json({ data, count })
+                )
+            })
+        })
+        .catch(() => res.status(500).json({ error: 'Internal Server Error' }))
 }

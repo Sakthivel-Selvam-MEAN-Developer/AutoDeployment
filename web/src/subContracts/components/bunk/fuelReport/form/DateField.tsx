@@ -12,9 +12,14 @@ export const DateField: FC<DateFieldProps> = ({ control }) => {
                 control={control}
                 format="DD/MM/YYYY"
                 fieldName="from"
-                label="Trip Start Date"
+                label="Fueled Start Date"
             />
-            <DateInput control={control} format="DD/MM/YYYY" fieldName="to" label="Trip End Date" />
+            <DateInput
+                control={control}
+                format="DD/MM/YYYY"
+                fieldName="to"
+                label="Fueled End Date"
+            />
         </>
     )
 }

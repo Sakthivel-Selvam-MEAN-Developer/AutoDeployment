@@ -1,4 +1,5 @@
 import { axiosInstance, getData } from '../../apiCalls'
+import { fuelFilters } from '../types/fuelFilters'
 
 interface fuelProps {
     vehicleNumber: string
@@ -21,8 +22,8 @@ export const listFuelWithoutTripId = (vehiclenumber: string) =>
         .get(`/fuel/${vehiclenumber}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-export const getAllFuelReport = () =>
+export const getAllFuelReport = (fuelFilters: fuelFilters) =>
     axiosInstance
-        .get(`/getAllFuelReport`)
+        .get('/getAllFuelReport', { params: fuelFilters })
         .then(getData)
         .catch(() => alert('Error Getting data'))

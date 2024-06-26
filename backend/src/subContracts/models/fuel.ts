@@ -50,10 +50,37 @@ export const updateFuelStatus = (fuelId: number) =>
             paymentStatus: true
         }
     })
-export const getFuelReport = () =>
+export const getFuelReport = (
+    bunkId?: string,
+    paymentStatus?: string,
+    vehicleNumber?: string,
+    from?: string,
+    to?: string,
+    skipNumber?: number
+) =>
     prisma.fuel.findMany({
+        skip: skipNumber,
         take: 200,
-        skip: 0,
+        orderBy: {
+            id: 'asc'
+        },
+        where: {
+            vehicleNumber:
+                vehicleNumber === undefined || vehicleNumber === null ? undefined : vehicleNumber,
+            fueledDate: {
+                gte:
+                    from === undefined || Number.isNaN(parseInt(from)) ? undefined : parseInt(from),
+                lte: to === undefined || Number.isNaN(parseInt(to)) ? undefined : parseInt(to)
+            },
+            bunkId:
+                bunkId === undefined || Number.isNaN(parseInt(bunkId))
+                    ? undefined
+                    : parseInt(bunkId),
+            paymentStatus:
+                paymentStatus === undefined || paymentStatus === null
+                    ? undefined
+                    : JSON.parse(paymentStatus)
+        },
         select: {
             id: true,
             fueledDate: true,
@@ -95,5 +122,27 @@ export const getFuelReport = () =>
                     }
                 }
             }
+        }
+    })
+export const getFuelReportCount = (
+    bunkId?: string,
+    paymentStatus?: string,
+    vehicleNumber?: string,
+    from?: string,
+    to?: string
+) =>
+    prisma.fuel.count({
+        where: {
+            vehicleNumber:
+                vehicleNumber === undefined || vehicleNumber === null ? undefined : vehicleNumber,
+            fueledDate: {
+                gte: from === undefined || from === null ? undefined : parseInt(from),
+                lte: to === undefined || to === null ? undefined : parseInt(to)
+            },
+            bunkId: bunkId === undefined || bunkId === null ? undefined : parseInt(bunkId),
+            paymentStatus:
+                paymentStatus === undefined || paymentStatus === null
+                    ? undefined
+                    : JSON.parse(paymentStatus)
         }
     })

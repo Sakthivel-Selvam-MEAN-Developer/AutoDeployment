@@ -10,10 +10,12 @@ export interface FormFieldsProps {
 }
 const statusData = [
     {
-        name: 'Paid'
+        name: 'Paid',
+        value: true
     },
     {
-        name: 'Un Paid'
+        name: 'UnPaid',
+        value: false
     }
 ]
 const FuelFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
@@ -27,11 +29,13 @@ const FuelFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
             <AutoComplete
                 control={control}
                 fieldName="bunkName"
-                label="Select bunk Name"
+                label="Select Bunk Name"
                 data-testid={'select'}
                 options={bunk ? bunk.map(({ bunkName }) => bunkName) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id } = bunk.find(({ bunkName }) => bunkName === newValue) || { id: 0 }
+                    const { id } = bunk.find(({ bunkName }) => bunkName === newValue) || {
+                        id: null
+                    }
                     dispatch(
                         { bunkId: id, type: 'updateBunkId' },
                         { pageNumber: 1, type: 'updatePageNumber' }
@@ -46,9 +50,11 @@ const FuelFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
                 data-testid={'select'}
                 options={statusData ? statusData.map(({ name }) => name) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { name } = statusData.find(({ name }) => name === newValue) || { id: 0 }
+                    const { value } = statusData.find(({ name }) => name === newValue) || {
+                        value: null
+                    }
                     dispatch(
-                        { transactionId: name, type: 'updatetransactionId' },
+                        { paymentStatus: value, type: 'updatepaymentStatus' },
                         { pageNumber: 1, type: 'updatePageNumber' }
                     )
                 }}

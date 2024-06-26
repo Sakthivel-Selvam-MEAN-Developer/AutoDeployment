@@ -15,10 +15,10 @@ export const VehicleNameField: FC<fuelReoprtActionProps> = ({ control, dispatch 
             label="Select vehicle Number"
             options={truckList ? truckList.map(({ vehicleNumber }) => vehicleNumber) : []}
             onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                const { id } = truckList.find(
+                const { vehicleNumber } = truckList.find(
                     ({ vehicleNumber }) => vehicleNumber === newValue
-                ) || { id: 0 }
-                dispatch({ vehicleNumberId: id, type: 'updatevehicleNumberId' })
+                ) || { vehicleNumber: null }
+                dispatch({ vehicleNumber: vehicleNumber, type: 'updatevehicleNumber' })
                 dispatch({ pageNumber: 1, type: 'updatePageNumber' })
             }}
         />

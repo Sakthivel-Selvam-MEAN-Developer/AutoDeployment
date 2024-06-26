@@ -3,6 +3,7 @@ import {
     getAllFuel,
     getFuelDetailsWithoutTrip,
     getFuelReport,
+    getFuelReportCount,
     getFuelWithoutTrip,
     updateFuelStatus,
     updateFuelWithTripId
@@ -134,7 +135,7 @@ describe('Fuel model', () => {
     })
 })
 describe('Fuel Report', () => {
-    test('should able to display before fuel report', async () => {
+    test('should able to display fuel report', async () => {
         const bunk = await create(seedBunkWithoutDep)
         const fuel = await createFuel({
             ...seedFuel,
@@ -142,7 +143,7 @@ describe('Fuel Report', () => {
             dieselkilometer: 0
         })
         expect(fuel.overallTripId).toBe(null)
-        const actual = await getFuelReport()
+        const actual = await getFuelReport(undefined, undefined, undefined, undefined, undefined, 0)
         expect(actual).toStrictEqual([
             {
                 id: fuel.id,
@@ -158,5 +159,202 @@ describe('Fuel Report', () => {
                 vehicleNumber: 'TN93D5512'
             }
         ])
+    })
+    test('should able to display fuel report with bunk name', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReport(
+            bunk.id.toString(),
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            0
+        )
+        expect(actual).toStrictEqual([
+            {
+                id: fuel.id,
+                bunk: {
+                    bunkName: 'Bharath Petroleum'
+                },
+                fueledDate: 1706553000,
+                invoiceNumber: 'abcdefg',
+                overallTrip: null,
+                pricePerliter: 102.5,
+                quantity: 60.754,
+                totalprice: 6227.285,
+                vehicleNumber: 'TN93D5512'
+            }
+        ])
+    })
+    test('should able to display fuel report with fueled date', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReport(
+            undefined,
+            undefined,
+            undefined,
+            '1706553000',
+            '1706553000',
+            0
+        )
+        expect(actual).toStrictEqual([
+            {
+                id: fuel.id,
+                bunk: {
+                    bunkName: 'Bharath Petroleum'
+                },
+                fueledDate: 1706553000,
+                invoiceNumber: 'abcdefg',
+                overallTrip: null,
+                pricePerliter: 102.5,
+                quantity: 60.754,
+                totalprice: 6227.285,
+                vehicleNumber: 'TN93D5512'
+            }
+        ])
+    })
+    test('should able to display fuel report with paymentStatus', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReport(undefined, 'false', undefined, undefined, undefined, 0)
+        expect(actual).toStrictEqual([
+            {
+                id: fuel.id,
+                bunk: {
+                    bunkName: 'Bharath Petroleum'
+                },
+                fueledDate: 1706553000,
+                invoiceNumber: 'abcdefg',
+                overallTrip: null,
+                pricePerliter: 102.5,
+                quantity: 60.754,
+                totalprice: 6227.285,
+                vehicleNumber: 'TN93D5512'
+            }
+        ])
+    })
+    test('should able to display fuel report with vehicleNumber', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReport(
+            undefined,
+            undefined,
+            'TN93D5512',
+            undefined,
+            undefined,
+            0
+        )
+        expect(actual).toStrictEqual([
+            {
+                id: fuel.id,
+                bunk: {
+                    bunkName: 'Bharath Petroleum'
+                },
+                fueledDate: 1706553000,
+                invoiceNumber: 'abcdefg',
+                overallTrip: null,
+                pricePerliter: 102.5,
+                quantity: 60.754,
+                totalprice: 6227.285,
+                vehicleNumber: 'TN93D5512'
+            }
+        ])
+    })
+})
+
+describe('Fuel Count', () => {
+    test('should able to get fuel report count', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReportCount()
+        expect(actual).toStrictEqual(1)
+    })
+    test('should able to get fuel count with bunk name', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReportCount(
+            bunk.id.toString(),
+            undefined,
+            undefined,
+            undefined,
+            undefined
+        )
+        expect(actual).toStrictEqual(1)
+    })
+    test('should able to get count fuel report with fueled date', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReportCount(
+            undefined,
+            undefined,
+            undefined,
+            '1706553000',
+            '1706553000'
+        )
+        expect(actual).toStrictEqual(1)
+    })
+    test('should able to get count fuel report with paymentStatus', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReportCount(undefined, 'false', undefined, undefined, undefined)
+        expect(actual).toStrictEqual(1)
+    })
+    test('should able to get count fuel report with vehicleNumber', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        expect(fuel.overallTripId).toBe(null)
+        const actual = await getFuelReportCount(
+            undefined,
+            undefined,
+            'TN93D5512',
+            undefined,
+            undefined
+        )
+        expect(actual).toStrictEqual(1)
     })
 })

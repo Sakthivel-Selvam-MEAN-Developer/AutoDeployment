@@ -6,8 +6,8 @@ export interface TransporterFieldProps {
 }
 export type dispatchType =
     | { type: string; bunkId: number }
-    | { type: string; vehicleNumberId: number }
-    | { type: string; transactionId: number }
+    | { type: string; vehicleNumber: string | null }
+    | { type: string; paymentStatus: string }
     | { type: string; from: number; to: number }
     | { type: string; pageNumber: number }
 export interface FuelFilterFormProps {
