@@ -10,7 +10,8 @@ import {
     create as createTruck,
     getAllTruck,
     getNumberByTruckId,
-    getTruckByTransporter
+    getTruckByTransporter,
+    getTransporterTypeByVehicleNumber
 } from './truck.ts'
 import { create } from './transporter.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
@@ -89,5 +90,14 @@ describe('Truck model', () => {
         const actual = await getNumberByTruckId(truck.id)
         expect(actual?.vehicleNumber).toBe(truck.vehicleNumber)
     })
-    test('should get only Truck by vehicleNumber', async () => {})
+    test('should get only Truck by vehicleNumber', async () => {
+        const transporter = await create(seedTransporter)
+        const truck = await createTruck({
+            ...seedTruckWithoutDep,
+            vehicleNumber: 'TN33ba1234',
+            transporterId: transporter.id
+        })
+        const actual = await getTransporterTypeByVehicleNumber('TN33ba1234')
+        expect(actual?.vehicleNumber).toBe(truck.vehicleNumber)
+    })
 })
