@@ -89,4 +89,5 @@ describe('Truck model', () => {
         const actual = await getNumberByTruckId(truck.id)
         expect(actual?.vehicleNumber).toBe(truck.vehicleNumber)
     })
+    test('should get only Truck by vehicleNumber', async () => {})
 })
