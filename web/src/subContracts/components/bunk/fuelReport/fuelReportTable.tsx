@@ -2,10 +2,10 @@
 import { Dispatch, FC, useContext } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { Pagination, Stack } from '@mui/material'
-// import { getAllFuelReport } from '../../../services/fuel'
 import { fuelFilters } from '../../../types/fuelFilters'
 import { filterData, dispatchData } from './fuelContext/fuelReportContext'
 import { getAllFuelReport } from '../../../services/fuel'
+import dayjs from 'dayjs'
 
 const columns = [
     { field: 'id', headerName: '#', width: 50 },
@@ -37,7 +37,7 @@ export interface fuelFilter {
 interface fuelDataObject {
     bunkName: string
     fuelInvoiceNumber: string
-    fueledDate: number
+    fueledDate: string
     id: number
     loadingPoint: string
     pricePerliter: number
@@ -100,10 +100,14 @@ const StackPage: FC<stackProps> = ({ setfuelReportData, dispatch, count, setCoun
     )
 }
 const DataGridTable: React.FC<DataGridTableProps> = ({ fuelReportData }) => {
+    const formattedFuelReportData = fuelReportData.map((item) => ({
+        ...item,
+        fueledDate: dayjs(item.fueledDate).format('YYYY/MM/DD')
+    }))
     return (
         <DataGrid
             sx={{ width: '88vw', height: '27vw', marginLeft: 4 }}
-            rows={fuelReportData}
+            rows={formattedFuelReportData}
             columns={columns}
             getRowId={(row) => row.id}
         />

@@ -8,18 +8,8 @@ interface DateFieldProps {
 export const DateField: FC<DateFieldProps> = ({ control }) => {
     return (
         <>
-            <DateInput
-                control={control}
-                format="DD/MM/YYYY"
-                fieldName="from"
-                label="Fueled Start Date"
-            />
-            <DateInput
-                control={control}
-                format="DD/MM/YYYY"
-                fieldName="to"
-                label="Fueled End Date"
-            />
+            <DateInput control={control} format="DD/MM/YYYY" fieldName="from" label="From" />
+            <DateInput control={control} format="DD/MM/YYYY" fieldName="to" label="To" />
         </>
     )
 }
