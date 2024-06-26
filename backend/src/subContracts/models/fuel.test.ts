@@ -357,4 +357,5 @@ describe('Fuel Count', () => {
         )
         expect(actual).toStrictEqual(1)
     })
+    test('should able to get current trip id by vehicleNumber', async () => {})
 })
