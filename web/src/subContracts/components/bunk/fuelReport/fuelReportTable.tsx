@@ -5,7 +5,7 @@ import { Pagination, Stack } from '@mui/material'
 import { fuelFilters } from '../../../types/fuelFilters'
 import { filterData, dispatchData } from './fuelContext/fuelReportContext'
 import { getAllFuelReport } from '../../../services/fuel'
-import dayjs from 'dayjs'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 
 const columns = [
     { field: 'id', headerName: '#', width: 50 },
@@ -37,7 +37,7 @@ export interface fuelFilter {
 interface fuelDataObject {
     bunkName: string
     fuelInvoiceNumber: string
-    fueledDate: string
+    fueledDate: number
     id: number
     loadingPoint: string
     pricePerliter: number
@@ -102,7 +102,7 @@ const StackPage: FC<stackProps> = ({ setfuelReportData, dispatch, count, setCoun
 const DataGridTable: React.FC<DataGridTableProps> = ({ fuelReportData }) => {
     const formattedFuelReportData = fuelReportData.map((item) => ({
         ...item,
-        fueledDate: dayjs(item.fueledDate).format('YYYY/MM/DD')
+        fueledDate: epochToMinimalDate(item.fueledDate)
     }))
     return (
         <DataGrid
