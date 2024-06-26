@@ -1,22 +1,25 @@
+import React, { useState } from 'react'
 import { DialogActions, Button, Autocomplete, TextField } from '@mui/material'
-export const TollButton = (
+import { submitEnable } from './secondTable'
+type TollButtonProps = (
     handleAddTollEntry: () => void,
     handleClose: () => void,
     handleSubmit: () => Promise<void>
-) => {
+) => JSX.Element
+export const TollButton: TollButtonProps = (handleAddTollEntry, handleClose, handleSubmit) => {
+    const [isSubmitEnabled, setIsSubmitEnabled] = useState(false)
+    const handleAddClick = submitEnable(handleAddTollEntry, setIsSubmitEnabled)
     return (
         <DialogActions>
-            <Button onClick={handleAddTollEntry} color="primary">
+            <Button onClick={handleAddClick} color="primary">
                 Add
             </Button>
             <Button onClick={handleClose} color="primary">
                 Close
             </Button>
-            {/* {showSubmit &&( */}
-            <Button onClick={handleSubmit} color="primary">
+            <Button onClick={handleSubmit} color="primary" disabled={!isSubmitEnabled}>
                 Submit
             </Button>
-            {/* )} */}
         </DialogActions>
     )
 }

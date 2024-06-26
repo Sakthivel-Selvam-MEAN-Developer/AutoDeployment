@@ -31,3 +31,12 @@ export function displayDataGrid(
         </Dialog>
     )
 }
+export function submitEnable(
+    handleAddTollEntry: () => void,
+    setIsSubmitEnabled: React.Dispatch<React.SetStateAction<boolean>>
+) {
+    return () => {
+        handleAddTollEntry()
+        setIsSubmitEnabled(true)
+    }
+}

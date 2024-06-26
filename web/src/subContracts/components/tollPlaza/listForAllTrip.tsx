@@ -24,7 +24,7 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
     const [location, setLocation] = useState<{ location: string; id: number }[]>([])
     const [selectedLocation, setSelectedLocation] = useState('')
     const [tollFare, setTollFare] = useState<string>('')
-    const [selectedToll, setSelectedToll] = useState<overallTripp['tollPlaza'] | undefined>([])
+    const [selectedToll, setSelectedToll] = useState<overallTripp['tollPayment'] | undefined>([])
     const [tollEntries, setTollEntries] = useState<
         { location: string; amount: number; overallTripId: number; tollPlazaLocationId: number }[]
     >([])
@@ -45,14 +45,9 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
     }
     const handleToll = (params: dataGrid) => {
         setOpenTollDialog(true)
-        const tollPlazaPlace = display.find((chk) => chk.id === params.row.overallTripId)
-        console.log(tollPlazaPlace)
-        setSelectedToll(tollPlazaPlace?.tollPlaza)
-        //    console.log(selectedLocation,tollFare,selectedRow)
-        //    if (selectedLocation && tollFare && selectedRow) {
-        //     const details = location.map((loc) => loc.location === selectedLocation)
-        //     console.log(details)
-        // }
+        const tollPlazaPlace = display.find((check) => check.id === params.row.overallTripId)
+        console.log(tollPlazaPlace, display)
+        setSelectedToll(tollPlazaPlace?.tollPayment)
     }
     const handleCloseButton = () => {
         setOpenTollDialog(false)

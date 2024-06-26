@@ -5,10 +5,17 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             thresholds: {
+<<<<<<< Updated upstream
                 branches: 80.00,
                 functions: 70.00,
                 lines: 80.00,
                 statements: 80.00,
+=======
+                branches: 85.24,
+                functions: 74.05,
+                lines: 84.51,
+                statements: 84.51,
+>>>>>>> Stashed changes
                 'src/subContracts/models/**': {
                     branches: 81.88,
                     functions: 86.77,

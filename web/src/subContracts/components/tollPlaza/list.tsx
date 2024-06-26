@@ -10,8 +10,17 @@ function newFunction() {
     return <Button variant="contained">Download Invoice</Button>
 }
 const ShowButton = (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography>Toll Plaza Entries for all UnloadingTrip</Typography>
+    <div
+        style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px'
+        }}
+    >
+        <Typography sx={{ fontWeight: 'bold' }}>
+            Toll Plaza Entries for all UnloadingTrip
+        </Typography>
         {button}
     </div>
 )

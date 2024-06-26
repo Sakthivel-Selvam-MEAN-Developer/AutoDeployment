@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material'
+import { TextField, Typography } from '@mui/material'
 import { overallTripp } from './type'
 import { DataGrid } from '@mui/x-data-grid'
 import { rows } from './firstTable'
@@ -29,11 +29,14 @@ export const InputFields = (
 }
 export const ShowTable = (display: overallTripp[], handleCloseToll: (params: dataGrid) => void) => {
     return (
-        <DataGrid
-            rows={rows(display) || []}
-            columns={submittedColumns}
-            hideFooterPagination
-            onRowClick={handleCloseToll}
-        />
+        <>
+            <Typography sx={{ fontWeight: 'bold' }}>Toll Entered Trips</Typography>
+            <DataGrid
+                rows={rows(display) || []}
+                columns={submittedColumns}
+                hideFooterPagination
+                onRowClick={handleCloseToll}
+            />
+        </>
     )
 }

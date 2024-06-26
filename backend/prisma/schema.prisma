@@ -570,7 +570,7 @@ model shortageQuantity {
   @@schema("subContract")
 }
 
-model tollPlaza {
+model tollPayment {
   id                  Int                @id @default(autoincrement())
   overallTrip         overallTrip        @relation(fields: [overallTripId], references: [id])
   overallTripId       Int
@@ -587,12 +587,12 @@ model tollPlaza {
 }
 
 model tollPlazaLocation {
-  id        Int         @id @default(autoincrement())
-  location  String
-  state     String
-  createdAt DateTime    @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime    @updatedAt @db.Timestamptz(6)
-  tollPlaza tollPlaza[]
+  id          Int           @id @default(autoincrement())
+  location    String
+  state       String
+  createdAt   DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime      @updatedAt @db.Timestamptz(6)
+  tollPayment tollPayment[]
 
   @@schema("subContract")
 }
@@ -616,7 +616,7 @@ model overallTrip {
   createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
   updatedAt                          DateTime                          @updatedAt @db.Timestamptz(6)
   shortageQuantity                   shortageQuantity[]
-  tollPlaza                          tollPlaza[]
+  tollPayment                        tollPayment[]
 
   @@schema("subContract")
 }

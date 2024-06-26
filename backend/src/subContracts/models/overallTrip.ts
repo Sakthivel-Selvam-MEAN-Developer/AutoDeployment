@@ -1367,7 +1367,7 @@ export const updatePricePointApprovalStatus = (id: number) =>
 export const getOveralltripByToll = () =>
     prisma.overallTrip.findMany({
         where: {
-            tollPlaza: {
+            tollPayment: {
                 none: {}
             },
             shortageQuantity: {
@@ -1396,7 +1396,7 @@ export const getOveralltripByToll = () =>
         },
         select: {
             id: true,
-            tollPlaza: true,
+            tollPayment: true,
             loadingPointToUnloadingPointTrip: {
                 select: {
                     invoiceNumber: true,
@@ -1438,7 +1438,7 @@ export const getOveralltripByToll = () =>
 export const getOveralltripByTollNotEmpty = () =>
     prisma.overallTrip.findMany({
         where: {
-            tollPlaza: { some: { billedStatus: false } },
+            tollPayment: { some: { billedStatus: false } },
             shortageQuantity: { some: {} },
             OR: [
                 {
@@ -1463,7 +1463,7 @@ export const getOveralltripByTollNotEmpty = () =>
         },
         select: {
             id: true,
-            tollPlaza: {
+            tollPayment: {
                 select: {
                     id: true,
                     tollPlazaLocation: {
