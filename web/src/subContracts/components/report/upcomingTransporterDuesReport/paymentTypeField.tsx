@@ -14,7 +14,7 @@ export const PaymentTypeField: React.FC<PaymentTypeFieldProps> = ({ control, set
             fieldName="paymentType"
             label="Select Payment Type"
             data-testid={'select-payment-type'}
-            options={['Final Pay', 'Initial Pay', 'Fuel Pay', 'GST Pay']}
+            options={['Final Pay', 'Initial Pay', 'GST Pay']}
             onChange={(_e: ChangeEvent<HTMLInputElement>, newValue: string) => {
                 setPaymentType(newValue)
             }}

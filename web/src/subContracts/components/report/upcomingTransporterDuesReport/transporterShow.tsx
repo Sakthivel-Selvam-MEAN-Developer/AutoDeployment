@@ -55,6 +55,7 @@ interface TransporterGrid {
         unloadingPoint: string | undefined
         transporterName: string
         csmName: string | undefined
+        type: string
         dueDate: string | 0
         amount: number
     }[]

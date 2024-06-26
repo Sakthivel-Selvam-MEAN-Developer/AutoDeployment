@@ -68,3 +68,30 @@ export const getDriverTripByOverallId = (id: number) =>
             tripId: true
         }
     })
+
+export const getDriverAdvance = async (id: number) =>
+    prisma.driverTrip.findMany({
+        where: {
+            tripId: id
+        },
+        select: {
+            driver: {
+                select: {
+                    name: true
+                }
+            },
+            driverAdvanceForTrip: {
+                select: {
+                    amount: true
+                }
+            }
+        }
+    })
+export const getExpensesByTripIds = async (id: number) =>
+    prisma.expenses.findMany({
+        where: { tripId: id },
+        select: {
+            tripId: true,
+            acceptedAmount: true
+        }
+    })

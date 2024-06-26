@@ -3,8 +3,7 @@ import { getFilteredDriverDetails } from '../../services/driver'
 import DailyAttendaneTable from './table'
 import { Button, Typography } from '@mui/material'
 import { markDriverDailyAttendance } from '../../services/driverAttendance'
-import { Link } from 'react-router-dom'
-
+import { AddBulkAttendanceButton } from './driverAttendanceUtils'
 const style = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -49,10 +48,3 @@ const DriverDailyAttendance: React.FC = (): ReactElement => {
     )
 }
 export default DriverDailyAttendance
-const AddBulkAttendanceButton = () => {
-    return (
-        <Link to={'/driverSalary/attendance/bulk-attendance'}>
-            <Button variant="contained">Add Bulk Attendance</Button>
-        </Link>
-    )
-}

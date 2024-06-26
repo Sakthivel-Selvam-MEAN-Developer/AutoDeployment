@@ -12,11 +12,15 @@ const mockGetAllExpenseCountByTripId = vi.fn()
 const mockGetOverAllTripByArrayOfId = vi.fn()
 const mockGetDriverIdByTripId = vi.fn()
 const mockCreateDriverAdvance = vi.fn()
+const mockGetDriverAdvance = vi.fn()
+const mockGetExpensesByTripId = vi.fn()
 
 vi.mock('../models/driverTrip', () => ({
     create: (inputs: any) => mockCreateDriverTrip(inputs),
     getAllDriverTripById: (id: number[]) => mockGetAllDriverTripById(id),
-    getDriverIdByTripId: (tripId: number) => mockGetDriverIdByTripId(tripId)
+    getDriverIdByTripId: (tripId: number) => mockGetDriverIdByTripId(tripId),
+    getDriverAdvance: (id: number) => mockGetDriverAdvance(id),
+    getExpensesByTripIds: (tripId: number) => mockGetExpensesByTripId(tripId)
 }))
 vi.mock('../models/tripSalary', () => ({
     getTripSalaryDetailsById: (id: number[]) => mockGetTripSalaryDetailsById(id)
@@ -106,7 +110,19 @@ const mockCreateDriverAdvanceData = {
 const mockUpdateDriverAdvance = {
     body: { driverAdvance: '1234', tripId: 3 }
 } as Request
-
+const mockDriverAdvanceData = [
+    {
+        tripId: 1,
+        driver: { name: 'sakthi' },
+        driverAdvanceForTrip: [{ amount: 1000 }]
+    }
+]
+const mockTripExpensesData = [
+    {
+        tripId: 1,
+        acceptedAmount: 200
+    }
+]
 describe('driverTrip Controller', () => {
     test('should able to create driver Trip', async () => {
         mockCreateDriverTrip.mockResolvedValue(mockDriverTripData.body)
@@ -133,5 +149,25 @@ describe('driverTrip Controller', () => {
             advanceDate: dayjs.utc().startOf('day').unix()
         })
         expect(mockGetDriverIdByTripId).toBeCalledTimes(1)
+    })
+    test('should return driver advances and expenses with total amount', async () => {
+        const tripId = 1
+        mockGetDriverAdvance.mockResolvedValue(mockDriverAdvanceData)
+        mockGetExpensesByTripId.mockResolvedValue(mockTripExpensesData)
+
+        await supertest(app)
+            .get('/api/driverDetails')
+            .query({ id: tripId })
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toEqual({
+                    driverAdvances: mockDriverAdvanceData,
+                    amount: 200
+                })
+            })
+        expect(mockGetDriverAdvance).toHaveBeenCalledWith(tripId)
+        expect(mockGetExpensesByTripId).toHaveBeenCalledWith(tripId)
+        expect(mockGetDriverAdvance).toBeCalledTimes(1)
+        expect(mockGetExpensesByTripId).toBeCalledTimes(1)
     })
 })

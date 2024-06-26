@@ -1,19 +1,9 @@
-import { FC, ReactElement, useState } from 'react'
+import { FC, useState } from 'react'
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { ExpandMore, ExpandLess } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-interface DrawerListItemProps {
-    text: string
-    drawerState: boolean
-    index: number
-    icon: ReactElement
-    subs: subsProps[]
-}
-interface subsProps {
-    navigate: string
-    name: string
-    icon: string
-}
+import { DrawerListItemProps, subsProps } from './interface'
+
 const DrawerCollapse: FC<DrawerListItemProps> = ({ subs, text, drawerState, index, icon }) => {
     const [open, setOpen] = useState(false)
     const handleClick = () => {

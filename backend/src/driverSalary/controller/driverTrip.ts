@@ -7,8 +7,10 @@ import { JsonValue } from '@prisma/client/runtime/library'
 import {
     create,
     getAllDriverTripById,
+    getDriverAdvance,
     getDriverIdByTripId,
-    getDriverTripByOverallId
+    getDriverTripByOverallId,
+    getExpensesByTripIds
 } from '../models/driverTrip.ts'
 import { getAllExpenseCountByTripId } from '../models/expenses.ts'
 import { getTripSalaryDetailsById } from '../models/tripSalary.ts'
@@ -141,4 +143,34 @@ export const listAllDriverTripByOverallId = async (
     })
     const tripSalaryDetails = await getTripSalaryDetailsById(tripSalaryId)
     res.status(200).json({ expenses, tripSalaryDetails, driverTrip })
+}
+interface Driver {
+    name: string
+}
+interface DriverAdvance {
+    driver: Driver
+    driverAdvanceForTrip: { amount: number }[]
+}
+function calculateTotalAdvance(driverAdvance: DriverAdvance) {
+    return driverAdvance.driverAdvanceForTrip.reduce((sum, advance) => sum + advance.amount, 0)
+}
+async function amounts(tripId: number): Promise<number> {
+    const tripExpenses = await getExpensesByTripIds(tripId)
+    return tripExpenses.reduce((total, expense) => total + (expense.acceptedAmount || 0), 0)
+}
+async function advances(tripId: number): Promise<DriverAdvance[]> {
+    const driverAdvances = await getDriverAdvance(tripId)
+    return driverAdvances.map((driverAdvance) => ({
+        tripId,
+        driver: driverAdvance.driver,
+        driverAdvanceForTrip: [{ amount: calculateTotalAdvance(driverAdvance) }]
+    }))
+}
+export const getDriverAdvanceAndExpenses = async (
+    req: Request<object, object, object, Query>,
+    res: Response
+) => {
+    const tripId = parseInt(req.query.id)
+    const [totalAmount, updatedAdvances] = await Promise.all([amounts(tripId), advances(tripId)])
+    return res.status(200).json({ driverAdvances: updatedAdvances, amount: totalAmount })
 }

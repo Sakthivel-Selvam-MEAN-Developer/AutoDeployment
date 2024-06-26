@@ -63,7 +63,7 @@ const DriverDialogForAllDetails: FC<driverDialogProps> = ({ setActivateDialog, t
     )
 }
 export default DriverDialogForAllDetails
-export const downloadPdf = async (pdfHTML: HTMLElement | null) =>
+const downloadPdf = async (pdfHTML: HTMLElement | null) =>
     pdfHTML &&
     (await html2canvas(pdfHTML).then((canvas) => {
         const imgData = canvas.toDataURL('image/png')

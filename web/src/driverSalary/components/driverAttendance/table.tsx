@@ -1,43 +1,9 @@
-import {
-    TableContainer,
-    Paper,
-    Table,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableBody,
-    Checkbox
-} from '@mui/material'
+import { TableContainer, Paper, Table, TableRow, TableCell, Checkbox } from '@mui/material'
 import { FC } from 'react'
 import { tableProp, tableProps } from './type'
+import { DailyAttendaneTableBody, DailyAttendaneTableHead } from './tableUtils'
 
-const DailyAttendaneTableHead = () => {
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell align="center">#</TableCell>
-                <TableCell align="center">Driver Name</TableCell>
-                <TableCell align="center">Phone Number</TableCell>
-            </TableRow>
-        </TableHead>
-    )
-}
-
-const DailyAttendaneTableBody: FC<tableProps> = ({ driverList, setDriverId, driverId }) => {
-    return (
-        <TableBody>
-            {driverList.map((driver) => (
-                <DriverListRow
-                    key={driver.id}
-                    driver={driver}
-                    setDriverId={setDriverId}
-                    driverId={driverId}
-                />
-            ))}
-        </TableBody>
-    )
-}
-const DriverListRow: FC<tableProp> = ({ driver, setDriverId, driverId }) => {
+export const DriverListRow: FC<tableProp> = ({ driver, setDriverId, driverId }) => {
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell align="center">

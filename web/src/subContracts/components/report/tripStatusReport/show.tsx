@@ -74,6 +74,7 @@ interface bunk {
     bunkName: string
 }
 interface Props {
+    id: number
     acknowledgementStatus: boolean
     acknowledgementApproval: boolean
     acknowledgementDate: number
@@ -108,6 +109,7 @@ interface dataGridTableProps {
     authoriser: boolean
 }
 export interface finalDataProps {
+    id: number
     number: number
     cementCompany: string
     vehicleNumber: string
@@ -139,6 +141,9 @@ export interface finalDataProps {
     unloadedDate: string
     ranKm: number
     paymentStatus: string
+    driverName?: string | null
+    totalExpense?: number | string
+    advanceAmount?: number | string
 }
 
 export type ActionType = { type: string; pageNumber: number }
@@ -253,6 +258,7 @@ const generateRow = (row: Props, index: number) => {
             ? row.shortageQuantity[0].unloadedQuantity
             : 'Not Yet Unloaded'
     finalData.push({
+        id: row.id,
         number: ++index,
         cementCompany: data.loadingPoint.cementCompany.name,
         vehicleNumber: data.truck.vehicleNumber,
@@ -306,8 +312,10 @@ const generateRow = (row: Props, index: number) => {
 const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser }) => {
     const [openDialog, setOpenDialog] = useState(false)
     const [selectedRow, setSelectedRow] = useState<finalDataProps | null>(null)
+    const [selectedId, setSelectedId] = useState<number | undefined>(undefined)
     const handleShowMore = (row: finalDataProps) => {
         setSelectedRow(row)
+        setSelectedId(row.id)
         setOpenDialog(true)
     }
     finalData = []
@@ -346,6 +354,8 @@ const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser 
                     onClose={() => setOpenDialog(false)}
                     row={selectedRow}
                     authoriser={authoriser}
+                    id={selectedId}
+                    setSelectedRow={setSelectedRow}
                 />
             )}
         </div>

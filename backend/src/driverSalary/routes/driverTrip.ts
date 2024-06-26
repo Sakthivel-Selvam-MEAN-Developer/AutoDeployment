@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
     createDriverTrip,
+    getDriverAdvanceAndExpenses,
     listAllDriverTripById,
     listAllDriverTripByOverallId,
     updateDriverAdvance
@@ -11,6 +12,7 @@ const driverTripRoutes = (router: Router) => {
     router.get('/drivertrip', listAllDriverTripById)
     router.put('/drivertrip/updateDriverAdvance', updateDriverAdvance)
     router.get('/drivertrip/getDriverTrip', listAllDriverTripByOverallId)
+    router.get('/driverDetails', getDriverAdvanceAndExpenses)
 }
 
 export default driverTripRoutes
