@@ -1,4 +1,5 @@
 import { props } from './tollInvoice/alignTripDetails'
+import { overallTripp } from './tollTypes'
 export interface trip {
     invoiceNumber: string
     partyName: string
@@ -29,17 +30,6 @@ export interface alignedtrip {
     stockPoint: string
     startDate: number
     totalTollAmount: number
-}
-export interface overallTripp {
-    id: number
-    loadingPointToStockPointTrip: trip
-    loadingPointToUnloadingPointTrip: trip
-    stockPointToUnloadingPointTrip: trip
-    tollPayment: {
-        id: number
-        tollPlazaLocation: { id: number; location: string }
-        amount: number
-    }[]
 }
 export interface Props {
     trip: overallTripp[]

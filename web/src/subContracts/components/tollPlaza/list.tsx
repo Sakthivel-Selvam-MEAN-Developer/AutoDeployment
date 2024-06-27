@@ -1,10 +1,10 @@
 import { Button, Typography } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import TollPlazaTable from './listForAllTrip'
 import { getOveralltripByToll } from '../../services/overallTrips'
 import { getOverallTripWithTollDetailsNotEmpty } from '../../services/tollPlaza'
-import { overallTripp } from './type'
+import { overallTripp } from './tollTypes'
+import { tollPlazaDisplay } from './editIcon'
 const button = <Link to={'/sub/toll/tollInvoice'}>{newFunction()}</Link>
 function newFunction() {
     return <Button variant="contained">Download Invoice</Button>
@@ -35,25 +35,8 @@ const ListTrips: FC = () => {
     return (
         <>
             {ShowButton}
-            {TollPlazaDisplay(trips, setReload, reload, setDisplay, display)}
+            {tollPlazaDisplay(trips, setReload, reload, setDisplay, display)}
         </>
     )
 }
 export default ListTrips
-const TollPlazaDisplay = (
-    trips: never[],
-    setReload: React.Dispatch<React.SetStateAction<boolean>>,
-    reload: boolean,
-    setDisplay: React.Dispatch<React.SetStateAction<overallTripp[]>>,
-    display: overallTripp[]
-) => {
-    return (
-        <TollPlazaTable
-            trip={trips}
-            setReload={setReload}
-            reload={reload}
-            setDisplay={setDisplay}
-            display={display}
-        />
-    )
-}

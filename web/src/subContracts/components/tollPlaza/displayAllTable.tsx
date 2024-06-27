@@ -1,5 +1,5 @@
 import { TextField, Typography, TableContainer, Paper } from '@mui/material'
-import { overallTripp } from './type'
+import { overallTripp } from './tollTypes'
 import { DataGrid } from '@mui/x-data-grid'
 import { rows } from './firstTable'
 import { dataGrid } from './listForAllTrip'
@@ -22,6 +22,7 @@ export const InputFields = (
             fullWidth
             margin="normal"
             label="Toll Fare"
+            type="number"
             value={tollFare}
             onChange={(e) => setTollFare(e.target.value)}
         />

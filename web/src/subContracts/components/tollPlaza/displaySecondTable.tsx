@@ -1,6 +1,6 @@
 import { Dialog, DialogTitle } from '@mui/material'
 import { dataGrid } from './listForAllTrip'
-import { overallTripp } from './type'
+import { overallTripp } from './tollTypes'
 import { CloseButton } from './show'
 import { ShowDialogBox } from './showDialogBox'
 export function secondDataGrid(

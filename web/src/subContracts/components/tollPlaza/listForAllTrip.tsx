@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import Submitbutton from './tableBody'
 import { getTollLocation } from '../../services/tollPlazaLocation'
-import { Props, overallTripp } from './type'
+import { Props } from './type'
+import { overallTripp } from './tollTypes'
 import { ShowTable } from './displayAllTable'
 import { Data } from './stateTable'
-import { displayDataGrid } from './secondTable'
+import { DisplayDataGrid } from './secondTable'
 import { secondDataGrid } from './displaySecondTable'
 export interface dataGrid {
     row: {
@@ -29,6 +30,8 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
         { location: string; amount: number; overallTripId: number; tollPlazaLocationId: number }[]
     >([])
     const [openTollDialog, setOpenTollDialog] = useState(false)
+    const [previouslySelectedLocations, setPreviouslySelectedLocations] = useState<string[]>([])
+
     useEffect(() => {
         getTollLocation().then(setLocation)
     }, [reload])
@@ -42,6 +45,7 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
         setSelectedLocation('')
         setTollFare('')
         setTollEntries([])
+        setPreviouslySelectedLocations([])
     }
     const handleToll = (params: dataGrid) => {
         setOpenTollDialog(true)
@@ -74,7 +78,7 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
         <div>
             <div style={{ width: '100%', marginBottom: '20px' }}>{Data(trip, handleRowClick)}</div>
             <div style={{ width: '100%', marginTop: '20px' }}>{ShowTable(display, handleToll)}</div>
-            {displayDataGrid(
+            {DisplayDataGrid(
                 open,
                 handleClose,
                 selectedLocation,
@@ -84,7 +88,9 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
                 setTollFare,
                 tollEntries,
                 handleAddTollEntry,
-                handleSubmit
+                handleSubmit,
+                setPreviouslySelectedLocations,
+                previouslySelectedLocations
             )}
             {secondDataGrid(openTollDialog, handleToll, handleCloseButton, selectedToll)}
         </div>

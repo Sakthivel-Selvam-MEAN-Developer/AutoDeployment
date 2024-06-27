@@ -1,8 +1,9 @@
 import { Dialog, DialogTitle, DialogContent, Box } from '@mui/material'
 import { InputFields } from './displayAllTable'
-import { AutoButton, TollButton } from './show'
+import { AutoButton } from './show'
 import { BoxModelType } from './tableBody'
-export function displayDataGrid(
+import { TollButton } from './autoButton'
+export const DisplayDataGrid = (
     open: boolean,
     handleClose: () => void,
     selectedLocation: string,
@@ -17,26 +18,36 @@ export function displayDataGrid(
         tollPlazaLocationId: number
     }[],
     handleAddTollEntry: () => void,
-    handleSubmit: () => Promise<void>
-) {
+    handleSubmit: () => Promise<void>,
+    setPreviouslySelectedLocations: React.Dispatch<React.SetStateAction<string[]>>,
+    previouslySelectedLocations: string[]
+) => {
+    const handleAddTollEntryWithUpdate = () => {
+        if (selectedLocation) {
+            setPreviouslySelectedLocations([...previouslySelectedLocations, selectedLocation])
+            handleAddTollEntry()
+            setSelectedLocation('')
+        }
+    }
+    const handleSubmitWithUpdate = async () => {
+        await handleSubmit()
+        setPreviouslySelectedLocations([])
+    }
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={open}>
             <DialogTitle>TollPlaza Details</DialogTitle>
             <DialogContent>
-                {AutoButton(selectedLocation, location, setSelectedLocation)}
+                {AutoButton(
+                    selectedLocation,
+                    location,
+                    setSelectedLocation,
+                    previouslySelectedLocations,
+                    setPreviouslySelectedLocations
+                )}
                 {InputFields(tollFare, setTollFare)}
                 <Box mt={2}>{BoxModelType(tollEntries)}</Box>
             </DialogContent>
-            {TollButton(handleAddTollEntry, handleClose, handleSubmit)}
+            {TollButton(handleAddTollEntryWithUpdate, handleClose, handleSubmitWithUpdate)}
         </Dialog>
     )
-}
-export function submitEnable(
-    handleAddTollEntry: () => void,
-    setIsSubmitEnabled: React.Dispatch<React.SetStateAction<boolean>>
-) {
-    return () => {
-        handleAddTollEntry()
-        setIsSubmitEnabled(true)
-    }
 }

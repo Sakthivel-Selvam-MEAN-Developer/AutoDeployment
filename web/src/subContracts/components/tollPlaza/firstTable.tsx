@@ -1,5 +1,5 @@
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import { overallTripp } from './type'
+import { overallTripp } from './tollTypes'
 export const rows = (tollPlaza: overallTripp[]) => {
     return (
         tollPlaza &&

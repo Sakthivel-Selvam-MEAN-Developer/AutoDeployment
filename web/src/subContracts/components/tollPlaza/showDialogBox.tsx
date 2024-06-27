@@ -1,9 +1,9 @@
-import { Table, TableHead, TableRow, TableCell, TableBody, DialogContent } from '@mui/material'
-import { tableColumns } from './editIcon'
+import { Table, TableHead, TableBody, DialogContent } from '@mui/material'
+import { tableRows } from './diaplayTableRow'
 import { useEffect, useState } from 'react'
 import { updateTollAmount } from '../../services/tollPlaza'
-import { overallTripp } from './type'
-import { listofColumns, tableColumn } from './editButton'
+import { overallTripp } from './tollTypes'
+import { listofColumns } from './editButton'
 const tableStructure = <TableHead>{listofColumns()}</TableHead>
 export const ShowDialogBox = (selectedToll: overallTripp['tollPayment'] | undefined) => {
     const [editMode, setEditMode] = useState<{ [key: number]: boolean }>({})
@@ -20,11 +20,9 @@ export const ShowDialogBox = (selectedToll: overallTripp['tollPayment'] | undefi
             setTollAmounts(initialAmounts)
         }
     }, [selectedToll])
-
     const handleEditClick = (id: number) => {
         setEditMode((prevState) => ({ ...prevState, [id]: true }))
     }
-
     const handleSaveClick = (id: number, tollPaymentId: number) => {
         console.log(id, tollPaymentId)
         setEditMode((prevState) => ({ ...prevState, [id]: false }))
@@ -37,18 +35,16 @@ export const ShowDialogBox = (selectedToll: overallTripp['tollPayment'] | undefi
                 console.error('error', error)
             })
     }
-
     const handleAmountChange = (id: number, newAmount: number) => {
         setTollAmounts((prevState) => ({ ...prevState, [id]: newAmount }))
     }
-
     return (
         <DialogContent>
             <Table>
                 {tableStructure}
                 <TableBody>
                     {selectedToll?.map((toll) =>
-                        tableRow(
+                        tableRows(
                             toll,
                             editMode,
                             tollAmounts,
@@ -60,21 +56,5 @@ export const ShowDialogBox = (selectedToll: overallTripp['tollPayment'] | undefi
                 </TableBody>
             </Table>
         </DialogContent>
-    )
-}
-function tableRow(
-    toll: { id: number; tollPlazaLocation: { id: number; location: string }; amount: number },
-    editMode: { [key: number]: boolean },
-    tollAmounts: { [key: number]: number },
-    handleAmountChange: (id: number, newAmount: number) => void,
-    handleSaveClick: (id: number, tollPaymentId: number) => void,
-    handleEditClick: (id: number) => void
-) {
-    return (
-        <TableRow key={toll.id}>
-            <TableCell>{toll.tollPlazaLocation.location}</TableCell>
-            {tableColumn(editMode, toll, tollAmounts, handleAmountChange)}
-            {tableColumns(editMode, toll, handleSaveClick, handleEditClick)}
-        </TableRow>
     )
 }

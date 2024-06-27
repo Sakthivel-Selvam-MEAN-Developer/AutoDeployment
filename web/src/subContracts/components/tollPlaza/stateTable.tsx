@@ -1,5 +1,5 @@
 import { dataGrid } from './listForAllTrip'
-import { overallTripp } from './type'
+import { overallTripp } from './tollTypes'
 import { DataGrid } from '@mui/x-data-grid'
 import { rows } from './firstTable'
 import { TableContainer, Paper } from '@mui/material'
