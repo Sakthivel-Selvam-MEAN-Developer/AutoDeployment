@@ -4,7 +4,8 @@ import {
     listAllFuel,
     listFuelWithoutTripId,
     updateFuelWithTrip,
-    listAllFuelList
+    listAllFuelList,
+    listPreviousFullFuel
 } from '../controller/fuel.ts'
 
 const fuelRoutes = (router: Router) => {
@@ -13,6 +14,7 @@ const fuelRoutes = (router: Router) => {
     router.get('/fuel/:vehiclenumber', listFuelWithoutTripId)
     router.put('/fuel-update', updateFuelWithTrip)
     router.get('/getAllFuelReport', listAllFuelList)
+    router.get('/previousfuel', listPreviousFullFuel)
 }
 
 export default fuelRoutes

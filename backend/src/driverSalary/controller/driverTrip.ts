@@ -16,6 +16,7 @@ import { getAllExpenseCountByTripId } from '../models/expenses.ts'
 import { getTripSalaryDetailsById } from '../models/tripSalary.ts'
 import { createDriverAdvance } from '../models/driverAdvance.ts'
 import { tripBettaCalculation } from '../domain/tripBettaCalculation.ts'
+import { getPerviousAndCurrentFuel } from '../domain/mileageCalculation.ts'
 
 dayjs.extend(utc)
 
@@ -64,6 +65,20 @@ const getTotalTripSalary: props = (tripAdvanceDetails, data) => {
     const totalTripBetta = calculatetripBetta(data)
     return { totalTripBetta, totalAdvance }
 }
+export interface fuelTypes {
+    fuelType: string
+    dieselkilometer: number
+    vehicleNumber: string
+    quantity: number
+    totalprice: number
+    fueledDate: number
+    invoiceNumber: string
+    bunk: { bunkName: string }
+}
+interface milages {
+    id: number
+    mileage: number
+}
 const getOverallTrip = async (
     headers: IncomingHttpHeaders,
     allTrips: allTripProps[],
@@ -77,11 +92,19 @@ const getOverallTrip = async (
         params: { ids: JSON.stringify(overAllTripIds), month: date }
     })
     const expensesDetails = await getAllExpenseCountByTripId(overAllTripIds)
-    const advanceDetails = allTripsById.data.map((trip: { id: number }) => {
+    const advanceDetails = await allTripsById.data.map((trip: { id: number }) => {
         const advanceforTrip = allTrips.filter((tripAdvance) => tripAdvance.tripId === trip.id)
         return { advanceforTrip: advanceforTrip[0].driverAdvanceForTrip }
     })
-    const combinedData = allTripsById.data.map((trip: { id: number }) => {
+    const mileages: milages[] = []
+    await Promise.all(
+        allTripsById.data.map(async (trip: { id: number; fuel: fuelTypes[] }) => {
+            const res = await getPerviousAndCurrentFuel(headers, trip)
+            mileages.push(res)
+        })
+    )
+    const combinedData = await allTripsById.data.map((trip: { id: number; fuel: fuelTypes[] }) => {
+        const mileage = mileages.filter(({ id }) => id === trip.id)
         const expenses = expensesDetails.filter((expense) => expense.tripId === trip.id)
         const advance = allTrips.filter((tripAdvance) => tripAdvance.tripId === trip.id)
         const tripSalary = allTrips.filter((salary) => salary.tripId === trip.id)
@@ -91,6 +114,7 @@ const getOverallTrip = async (
         )
         return {
             ...trip,
+            mileage: mileage[0].mileage,
             tripSalaryDetails: {
                 totalTripBetta: totalTripSalary && totalTripSalary[0].totalTripBetta,
                 totalAdvance: totalTripSalary && totalTripSalary[0].totalAdvance,

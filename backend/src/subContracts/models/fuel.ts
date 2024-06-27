@@ -146,3 +146,13 @@ export const getFuelReportCount = (
                     : JSON.parse(paymentStatus)
         }
     })
+export const getPreviousFullFuel = (vehicleNumber: string, date: string) =>
+    prisma.fuel.findFirst({
+        where: {
+            vehicleNumber,
+            fuelType: 'Full tank',
+            fueledDate: {
+                lte: parseInt(date)
+            }
+        }
+    })

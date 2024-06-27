@@ -117,7 +117,7 @@ const TableCells: FC<TableCells> = ({ tripDetails }) =>
                     {trip.fuel.length > 0 ? trip.fuel[0].totalprice.toFixed(2) : 0}
                 </td>
                 <td className="alignRight">0.00</td>
-                <td className="alignRight">0.00</td>
+                <td className="alignRight">{trip.mileage}</td>
                 <td className="alignLeft"></td>
                 <td className="alignRight">{trip.tripSalaryDetails.totalTripBetta.toFixed(2)}</td>
             </tr>

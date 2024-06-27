@@ -25,6 +25,7 @@ export interface Trip {
     loadingPointToUnloadingPointTrip: LoadingPointToUnloadingPointTrip
     loadingPointToStockPointTrip: LoadingPointToUnloadingPointTrip
     tripSalaryDetails: TripSalaryDetails
+    mileage: number | null
     expenses: Expense[]
     advanceforTrip: AdvanceforTrip[]
 }

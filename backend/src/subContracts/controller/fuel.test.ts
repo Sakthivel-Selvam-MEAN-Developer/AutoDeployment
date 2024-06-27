@@ -15,8 +15,11 @@ const mockGetActiveTripByVehicle = vi.fn()
 const mockGetFuelReport = vi.fn()
 const mockGetFuelTransactionId = vi.fn()
 const mockGetFuelReportCount = vi.fn()
+const mockGetPreviousFullFuel = vi.fn()
 
 vi.mock('../models/fuel', () => ({
+    getPreviousFullFuel: (vehicleNumber: string, date: string) =>
+        mockGetPreviousFullFuel(vehicleNumber, date),
     create: (inputs: Prisma.fuelCreateInput) => mockCreateFuel(inputs),
     getAllFuel: () => mockFuelDetails(),
     updateFuelWithTripId: ({ id, tripId }: { id: number; tripId: number }) =>
@@ -54,6 +57,15 @@ vi.mock('../../auditRoute.ts', () => ({
     }
 }))
 const mockFuel = {
+    id: 1,
+    vehicleNumber: 'TN93D5512',
+    pricePerliter: 102.5,
+    quantity: 60.754,
+    fuelStationId: 1,
+    totalprice: 6227.285,
+    overallTripId: 1
+}
+const mockPreviousFuel = {
     id: 1,
     vehicleNumber: 'TN93D5512',
     pricePerliter: 102.5,
@@ -239,5 +251,13 @@ describe('Fuel report List', () => {
         expect(mockGetFuelReport).toBeCalledTimes(3)
         expect(mockGetFuelTransactionId).toBeCalledTimes(3)
         expect(mockGetFuelReportCount).toBeCalledTimes(3)
+    })
+    test('should get previous fuel for same vehicleNumber', async () => {
+        mockGetPreviousFullFuel.mockResolvedValue(mockPreviousFuel)
+        await supertest(app)
+            .get('/api/previousfuel')
+            .query({ vehicleNumber: 'TN93D5512', id: 1 })
+            .expect(200)
+        expect(mockGetPreviousFullFuel).toBeCalledTimes(1)
     })
 })

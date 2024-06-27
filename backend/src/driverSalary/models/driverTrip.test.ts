@@ -13,7 +13,7 @@ import { seedExpenses } from '../seed/expenses.ts'
 import { seedDriverAdvance } from '../seed/driverAdvance.ts'
 
 describe('Driver model', () => {
-    test('should able to create and get All Driver Trip By Id', async () => {
+    test('should able to create and get All Driver Trip By Id without startDate', async () => {
         let driver: { id: number } | undefined = { id: 1 }
         await prisma.$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
@@ -24,6 +24,22 @@ describe('Driver model', () => {
             unloadingTripSalaryId: 1
         })
         const actual = await getAllDriverTripById(driverTrip.id, undefined)
+        expect(actual[0].tripId).toBe(driverTrip.id)
+    })
+    test('should able to create and get All Driver Trip By Idn with startDate', async () => {
+        let driver: { id: number } | undefined = { id: 1 }
+        await prisma.$transaction(async (prismas) => {
+            driver = await createDriver(seedDriver, prismas)
+        })
+        const driverTrip = await create({
+            ...seedDriverTrip,
+            driverId: driver.id,
+            unloadingTripSalaryId: 1
+        })
+        const actual = await getAllDriverTripById(
+            driverTrip.id,
+            JSON.stringify(seedDriverTrip.tripStartDate)
+        )
         expect(actual[0].tripId).toBe(driverTrip.id)
     })
     test('should able to get driver id by trip id', async () => {

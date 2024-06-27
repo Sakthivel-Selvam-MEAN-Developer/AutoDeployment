@@ -5,11 +5,12 @@ import {
     getFuelWithoutTrip,
     updateFuelWithTripId,
     getFuelReport,
-    getFuelReportCount
+    getFuelReportCount,
+    getPreviousFullFuel
 } from '../models/fuel.ts'
 import fuelLogics from '../domain/fuelLogics.ts'
 import { create as createPaymentDues, getFuelTransactionId } from '../models/paymentDues.ts'
-import { getActiveTripByVehicle, getOnlyActiveTripByVehicle } from '../models/overallTrip.ts'
+import { getActiveTripByVehicle } from '../models/overallTrip.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export interface dataProps {
@@ -104,14 +105,10 @@ async function createDues(
 
 export const createFuel = async (req: Request, res: Response) => {
     try {
-        const { vehicleNumber } = req.body
-        const { bunkname } = req.params
-        const activeTrip = await getOnlyActiveTripByVehicle(vehicleNumber)
+        const activeTrip = await getActiveTripByVehicle(req.body.vehicleNumber)
         const fuel = await create({ ...req.body, overallTripId: activeTrip?.id })
-        const overallTrip = await getActiveTripByVehicle(vehicleNumber)
-        return createDues(fuel, overallTrip?.id, bunkname, vehicleNumber)
-            .then(() => res.sendStatus(200))
-            .catch((error) => handlePrismaError(error, res))
+        createDues(fuel, activeTrip?.id, req.params.bunkname, req.body.vehicleNumber)
+        res.sendStatus(200)
     } catch (error) {
         handlePrismaError(error, res)
     }
@@ -211,4 +208,18 @@ export const listAllFuelList: fuelReportDetail = async (_req, res) => {
             })
         })
         .catch(() => res.status(500).json({ error: 'Internal Server Error' }))
+}
+
+interface Query {
+    vehicleNumber: string
+    date: string
+}
+export const listPreviousFullFuel = (
+    req: Request<object, object, object, Query>,
+    res: Response
+) => {
+    const { vehicleNumber, date } = req.query
+    getPreviousFullFuel(vehicleNumber, date)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
 }

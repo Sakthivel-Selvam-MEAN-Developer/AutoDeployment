@@ -5,6 +5,7 @@ import {
     getFuelReport,
     getFuelReportCount,
     getFuelWithoutTrip,
+    getPreviousFullFuel,
     updateFuelStatus,
     updateFuelWithTripId
 } from './fuel.ts'
@@ -356,6 +357,16 @@ describe('Fuel Count', () => {
             undefined
         )
         expect(actual).toStrictEqual(1)
+    })
+    test('should able to get previous fuel for same vehicleNumber', async () => {
+        const bunk = await create(seedBunkWithoutDep)
+        const fuel = await createFuel({
+            ...seedFuel,
+            bunkId: bunk.id,
+            dieselkilometer: 0
+        })
+        const actual = await getPreviousFullFuel('TN93D5512', JSON.stringify(fuel.fueledDate))
+        expect(actual?.id).toStrictEqual(fuel.id)
     })
     test('should able to get current trip id by vehicleNumber', async () => {})
 })

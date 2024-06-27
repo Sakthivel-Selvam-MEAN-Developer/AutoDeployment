@@ -12,6 +12,7 @@ const mockGetAllExpenseCountByTripId = vi.fn()
 const mockGetOverAllTripByArrayOfId = vi.fn()
 const mockGetDriverIdByTripId = vi.fn()
 const mockCreateDriverAdvance = vi.fn()
+const mockGetPreviousFuel = vi.fn()
 const mockGetDriverAdvance = vi.fn()
 const mockGetExpensesByTripId = vi.fn()
 
@@ -34,6 +35,9 @@ vi.mock('../models/driverAdvance', () => ({
 vi.mock('../models/expenses', () => ({
     getAllExpenseCountByTripId: (inputs: number[]) => mockGetAllExpenseCountByTripId(inputs)
 }))
+vi.mock('./getPreviosFuel', () => ({
+    getPreviousFuel: (inputs: number) => mockGetPreviousFuel(inputs)
+}))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
         next()
@@ -52,7 +56,7 @@ const mockDriverTripData = {
 const mockGetDriverTripData = [
     {
         id: 1,
-        tripId: 37,
+        tripId: 1,
         driver: {
             name: 'sakthi',
             driverAttendance: [
@@ -83,13 +87,39 @@ const mockGetDriverTripData = [
     }
 ]
 
-const mockGetAllExpenseCountByTripIdData = [{ amount: 123, tripId: 35 }]
+const mockGetAllExpenseCountByTripIdData = [{ amount: 123, tripId: 1 }]
 const mockGetOverAllTripByArrayOfIdData = {
     data: [
-        { id: 37, dailyBetta: 350, appPayAdvance: 2000, tripBetta: 4500 },
-        { id: 37, dailyBetta: 350, appPayAdvance: 1200, tripBetta: 4500 }
+        {
+            id: 1,
+            fuel: [
+                {
+                    fuelType: 'Full tank',
+                    dieselkilometer: 5100,
+                    vehicleNumber: 'TN12G9456',
+                    quantity: 12,
+                    totalprice: 1200,
+                    fueledDate: 1719400371,
+                    invoiceNumber: 'asdfghjkl',
+                    bunk: { bunkName: 'SRK Barath Petroleum' }
+                }
+            ]
+        }
     ]
 }
+const mockDriverAdvanceData = [
+    {
+        tripId: 1,
+        driver: { name: 'sakthi' },
+        driverAdvanceForTrip: [{ amount: 1000 }]
+    }
+]
+const mockTripExpensesData = [
+    {
+        tripId: 1,
+        acceptedAmount: 200
+    }
+]
 const mockRes = {
     sendStatus: vi.fn().mockReturnThis(),
     status: vi.fn().mockReturnThis()
@@ -110,19 +140,17 @@ const mockCreateDriverAdvanceData = {
 const mockUpdateDriverAdvance = {
     body: { driverAdvance: '1234', tripId: 3 }
 } as Request
-const mockDriverAdvanceData = [
-    {
-        tripId: 1,
-        driver: { name: 'sakthi' },
-        driverAdvanceForTrip: [{ amount: 1000 }]
-    }
-]
-const mockTripExpensesData = [
-    {
-        tripId: 1,
-        acceptedAmount: 200
-    }
-]
+const previousFuelDetails = {
+    fuelType: 'Full tank',
+    dieselkilometer: 5000,
+    vehicleNumber: 'TN12G9456',
+    quantity: 13,
+    totalprice: 1200,
+    fueledDate: 1719400371,
+    invoiceNumber: 'asdfghjkl',
+    bunk: { bunkName: 'SRK Barath Petroleum' }
+}
+
 describe('driverTrip Controller', () => {
     test('should able to create driver Trip', async () => {
         mockCreateDriverTrip.mockResolvedValue(mockDriverTripData.body)
@@ -132,8 +160,9 @@ describe('driverTrip Controller', () => {
     })
     test('should able to get all driver Trip by Id', async () => {
         mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData)
-        vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
+        mockGetPreviousFuel.mockResolvedValue(previousFuelDetails)
         mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
+        vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
         await supertest(app).get('/api/drivertrip').query({ driverId: 1 }).expect(200)
         expect(mockGetAllDriverTripById).toBeCalledTimes(1)
         expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(1)

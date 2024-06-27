@@ -4,5 +4,6 @@ export default {
     quantity: 60.754,
     totalprice: 6227.285,
     fueledDate: 1706553000,
-    invoiceNumber: 'abcdefg'
+    invoiceNumber: 'abcdefg',
+    fuelType: 'Full tank'
 }

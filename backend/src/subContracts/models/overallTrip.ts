@@ -49,21 +49,6 @@ export const getOverallTrip = () =>
             }
         }
     })
-export const getOnlyActiveTripByVehicle = (vehicleNumber: string) =>
-    prisma.overallTrip.findFirst({
-        where: {
-            OR: [
-                { loadingPointToStockPointTrip: { tripStatus: false, truck: { vehicleNumber } } },
-                {
-                    loadingPointToUnloadingPointTrip: {
-                        tripStatus: false,
-                        truck: { vehicleNumber }
-                    }
-                }
-            ]
-        },
-        select: { id: true }
-    })
 export const getActiveTripByVehicle = (vehicleNumber: string) =>
     prisma.overallTrip.findFirst({
         where: {
@@ -386,6 +371,9 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string | u
             id: true,
             fuel: {
                 select: {
+                    fuelType: true,
+                    dieselkilometer: true,
+                    vehicleNumber: true,
                     quantity: true,
                     totalprice: true,
                     fueledDate: true,
