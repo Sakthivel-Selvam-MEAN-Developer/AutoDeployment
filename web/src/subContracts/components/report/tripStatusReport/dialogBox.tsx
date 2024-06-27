@@ -4,7 +4,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { finalDataProps } from './show'
-import { DialogContentComponent, formatKey } from './dialogBoxUtils'
+import { DialogContentComponent } from './dialogBoxUtils'
 import { closeButtonStyles } from './dialogboxStyle'
 import { getDriver } from '../../../services/driver'
 
@@ -26,6 +26,9 @@ const filterColumns = (keys: string[], authoriser: boolean): string[] => {
 const splitKeys = (keys: string[]): [string[], string[]] => {
     const half = Math.ceil(keys.length / 2)
     return [keys.slice(0, half), keys.slice(half)]
+}
+const formatKey = (key: string): string => {
+    return key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()
 }
 export const DialogBox: React.FC<DialogBoxProps> = ({
     open,
