@@ -1,7 +1,16 @@
 import Table from '@mui/material/Table'
 import Paper from '@mui/material/Paper'
 import { getTableHead } from './table'
-import { Box, Button, Tab, TableBody, TableCell, TableContainer, TableRow, Tabs} from '@mui/material'
+import {
+    Box,
+    Button,
+    Tab,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Tabs
+} from '@mui/material'
 import { tripDetails, tripDetailsProps } from './list'
 import { FC, useContext, useState } from 'react'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
