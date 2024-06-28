@@ -40,7 +40,7 @@ const cellNames = [
 ]
 const cells = (cell: string, index: number) => {
     return (
-        <TableCell key={index} align="center" style={{ fontWeight: 'bold' }}>
+        <TableCell key={index} style={{ fontWeight: 'bold' }}>
             {cell}
         </TableCell>
     )
@@ -53,7 +53,11 @@ const tableRow = (
 )
 
 const getTableHead = () => {
-    return <TableHead>{tableRow}</TableHead>
+    return (
+        <TableHead sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
+            {tableRow}
+        </TableHead>
+    )
 }
 const cell = (pricePoint: picePointProps) => {
     return (
@@ -100,8 +104,8 @@ const getTableBody = (allPricePoint: picePointProps[]) => {
 
 const tableContainer = (allPricePoint: picePointProps[]) => {
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 600 }} aria-label="simple table">
+        <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+            <Table stickyHeader aria-label="sticky table" sx={{ minWidth: 600 }}>
                 {getTableHead()}
                 {getTableBody(allPricePoint)}
             </Table>
