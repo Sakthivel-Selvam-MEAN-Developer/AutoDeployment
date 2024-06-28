@@ -1,4 +1,4 @@
-import { Paper, Table } from '@mui/material'
+import { Paper, Table, TableContainer } from '@mui/material'
 import { FC } from 'react'
 import { overallTripProps } from '../../types/tripTypes'
 import { TableHeadContainer } from './tableHead'
@@ -10,20 +10,22 @@ export interface ApprovalTableProps {
 
 const ApprovalTable: FC<ApprovalTableProps> = ({ tripDetails, setSendStatus }) => {
     return (
-        <Table sx={{ minWidth: 650 }} component={Paper}>
-            <br />
-            <TableHeadContainer />
-            {tripDetails.length > 0 &&
-                tripDetails.map((overallTrip, index) => {
-                    return (
-                        <TableBodyContainer
-                            overallTrip={overallTrip}
-                            key={index}
-                            setSendStatus={setSendStatus}
-                        />
-                    )
-                })}
-        </Table>
+        <TableContainer component={Paper} sx={{ maxHeight: 750 }}>
+            <Table stickyHeader sx={{ minWidth: 650 }}>
+                <br />
+                <TableHeadContainer />
+                {tripDetails.length > 0 &&
+                    tripDetails.map((overallTrip, index) => {
+                        return (
+                            <TableBodyContainer
+                                overallTrip={overallTrip}
+                                key={index}
+                                setSendStatus={setSendStatus}
+                            />
+                        )
+                    })}
+            </Table>
+        </TableContainer>
     )
 }
 export default ApprovalTable
