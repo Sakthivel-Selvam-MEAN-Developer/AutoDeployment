@@ -1523,3 +1523,46 @@ export const getOveralltripByTollNotEmpty = () =>
             }
         }
     })
+export const getOverallTripIdByVehicleNumber = (vehicleNumber: string) =>
+    prisma.overallTrip.findFirst({
+        orderBy: {
+            id: 'desc'
+        },
+        where: {
+            OR: [
+                {
+                    loadingPointToUnloadingPointTrip: {
+                        truck: {
+                            vehicleNumber,
+                            transporter: {
+                                transporterType: 'Own'
+                            }
+                        }
+                    }
+                },
+                {
+                    loadingPointToStockPointTrip: {
+                        truck: {
+                            vehicleNumber,
+                            transporter: {
+                                transporterType: 'Own'
+                            }
+                        }
+                    }
+                },
+                {
+                    stockPointToUnloadingPointTrip: {
+                        truck: {
+                            vehicleNumber,
+                            transporter: {
+                                transporterType: 'Own'
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        select: {
+            id: true
+        }
+    })

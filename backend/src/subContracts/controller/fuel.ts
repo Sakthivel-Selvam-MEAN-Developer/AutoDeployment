@@ -10,8 +10,9 @@ import {
 } from '../models/fuel.ts'
 import fuelLogics from '../domain/fuelLogics.ts'
 import { create as createPaymentDues, getFuelTransactionId } from '../models/paymentDues.ts'
-import { getActiveTripByVehicle } from '../models/overallTrip.ts'
+import { getActiveTripByVehicle, getOverallTripIdByVehicleNumber } from '../models/overallTrip.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
+import { getTransporterTypeByVehicleNumber } from '../models/truck.ts'
 
 export interface dataProps {
     id: number
@@ -102,13 +103,25 @@ async function createDues(
         createPaymentDues(dues)
     )
 }
-
+export interface latestTripIdForOwnProp {
+    id: number | undefined | null
+}
+// eslint-disable-next-line max-lines-per-function
 export const createFuel = async (req: Request, res: Response) => {
     try {
-        const activeTrip = await getActiveTripByVehicle(req.body.vehicleNumber)
-        const fuel = await create({ ...req.body, overallTripId: activeTrip?.id })
-        createDues(fuel, activeTrip?.id, req.params.bunkname, req.body.vehicleNumber)
-        res.sendStatus(200)
+        const { vehicleNumber } = req.body
+        const { bunkname } = req.params
+        const activeTrip = await getActiveTripByVehicle(vehicleNumber)
+        let latestTripIdForOwn: latestTripIdForOwnProp | null | undefined | number = activeTrip?.id
+        const vehicleType = await getTransporterTypeByVehicleNumber(vehicleNumber)
+        if (vehicleType?.transporter.transporterType === 'Own' && activeTrip === null) {
+            latestTripIdForOwn = await getOverallTripIdByVehicleNumber(vehicleNumber)
+            latestTripIdForOwn = latestTripIdForOwn?.id
+        }
+        const fuel = await create({ ...req.body, overallTripId: latestTripIdForOwn })
+        return createDues(fuel, latestTripIdForOwn, bunkname, vehicleNumber)
+            .then(() => res.sendStatus(200))
+            .catch((error) => handlePrismaError(error, res))
     } catch (error) {
         handlePrismaError(error, res)
     }
@@ -194,6 +207,7 @@ type RequestQuery = {
     pageNumber: string
 }
 type fuelReportDetail = (req: Request<object, object, object, RequestQuery>, res: Response) => void
+// eslint-disable-next-line max-lines-per-function
 export const listAllFuelList: fuelReportDetail = async (_req, res) => {
     const { bunkId, paymentStatus, vehicleNumber, from, to, pageNumber } = _req.query
     const skipNumber = (parseInt(pageNumber) - 1) * 200

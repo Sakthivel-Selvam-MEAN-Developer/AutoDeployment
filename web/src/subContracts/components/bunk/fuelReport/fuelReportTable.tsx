@@ -10,7 +10,7 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 const columns = [
     { field: 'id', headerName: '#', width: 50 },
     { field: 'bunkName', headerName: 'Bunk Name', width: 240 },
-    { field: 'fueledDate', headerName: 'fueledDate', width: 240 },
+    { field: 'fueledDate', headerName: 'Fueled Date', width: 240 },
     { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
     { field: 'loadingPoint', headerName: 'LoadingPoint Name', width: 120 },
     { field: 'stockPointName', headerName: 'StockPoint Name', width: 150 },

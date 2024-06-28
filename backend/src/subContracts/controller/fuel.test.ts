@@ -16,6 +16,8 @@ const mockGetFuelReport = vi.fn()
 const mockGetFuelTransactionId = vi.fn()
 const mockGetFuelReportCount = vi.fn()
 const mockGetPreviousFullFuel = vi.fn()
+const mockGetTransporterTypeByVehicleNumber = vi.fn()
+const mockGetOverallTripIdByVehicleNumber = vi.fn()
 
 vi.mock('../models/fuel', () => ({
     getPreviousFullFuel: (vehicleNumber: string, date: string) =>
@@ -49,7 +51,11 @@ vi.mock('../models/paymentDues', () => ({
 vi.mock('../models/overallTrip', () => ({
     create: (inputs: any) => mockCreateOverallTrip(inputs),
     getOnlyActiveTripByVehicle: (inputs: any) => mockGetOnlyActiveTripByVehicle(inputs),
-    getActiveTripByVehicle: (inputs: any) => mockGetActiveTripByVehicle(inputs)
+    getActiveTripByVehicle: (inputs: any) => mockGetActiveTripByVehicle(inputs),
+    getOverallTripIdByVehicleNumber: (id: string) => mockGetOverallTripIdByVehicleNumber(id)
+}))
+vi.mock('../models/truck', () => ({
+    getTransporterTypeByVehicleNumber: (id: string) => mockGetTransporterTypeByVehicleNumber(id)
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -97,14 +103,65 @@ const mockUpdateFuelWithTripData = {
     totalprice: 6227.285,
     loadingPointToUnloadingPointTripId: 1
 }
-describe('Bunk Controller', () => {
-    test('should able to create Bunk with dues', async () => {
+describe('Fuel Controller', () => {
+    test('should able to create Fuel with dues', async () => {
         mockGetOnlyActiveTripByVehicle.mockResolvedValue(null)
         mockCreateFuel.mockResolvedValue(mockFuel)
-        mockGetActiveTripByVehicle.mockResolvedValue(null)
+        mockGetTransporterTypeByVehicleNumber.mockResolvedValue({
+            transporter: { transporterType: 'Own' }
+        })
+        mockGetOverallTripIdByVehicleNumber.mockResolvedValue(1)
+        mockGetActiveTripByVehicle.mockResolvedValue(1)
         mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
         await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
         expect(mockCreateFuel).toBeCalledTimes(1)
+    })
+    test('should able to create fuel for market vehicle', async () => {
+        mockGetOnlyActiveTripByVehicle.mockResolvedValue(null)
+        mockCreateFuel.mockResolvedValue(mockFuel)
+        mockGetTransporterTypeByVehicleNumber.mockResolvedValue({
+            transporter: { transporterType: 'Market' }
+        })
+        mockGetActiveTripByVehicle.mockResolvedValue(1)
+        mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        expect(mockCreateFuel).toBeCalledTimes(2)
+    })
+    test('should able to create Fuel for active trip', async () => {
+        mockGetOnlyActiveTripByVehicle.mockResolvedValue(1)
+        mockCreateFuel.mockResolvedValue(mockFuel)
+        mockGetTransporterTypeByVehicleNumber.mockResolvedValue({
+            transporter: { transporterType: 'Own' }
+        })
+        mockGetOverallTripIdByVehicleNumber.mockResolvedValue(1)
+        mockGetActiveTripByVehicle.mockResolvedValue(1)
+        mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        expect(mockCreateFuel).toBeCalledTimes(3)
+    })
+    test('should not able to create dues for fuel', async () => {
+        mockGetOnlyActiveTripByVehicle.mockResolvedValue(null)
+        mockCreateFuel.mockResolvedValue(mockFuel)
+        mockGetTransporterTypeByVehicleNumber.mockResolvedValue({
+            transporter: { transporterType: 'Market' }
+        })
+        mockGetOverallTripIdByVehicleNumber.mockResolvedValue(null)
+        mockGetActiveTripByVehicle.mockResolvedValue(null)
+        mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        expect(mockCreateFuel).toBeCalledTimes(4)
+    })
+    test('should able to create dues for fuel when transporter type is Own', async () => {
+        mockGetOnlyActiveTripByVehicle.mockResolvedValue(null)
+        mockCreateFuel.mockResolvedValue(mockFuel)
+        mockGetTransporterTypeByVehicleNumber.mockResolvedValue({
+            transporter: { transporterType: 'Own' }
+        })
+        mockGetOverallTripIdByVehicleNumber.mockResolvedValue(null)
+        mockGetActiveTripByVehicle.mockResolvedValue(null)
+        mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        expect(mockCreateFuel).toBeCalledTimes(5)
     })
     test('should able to access', async () => {
         mockFuelDetails.mockResolvedValue({ pricePerliter: 102 })
