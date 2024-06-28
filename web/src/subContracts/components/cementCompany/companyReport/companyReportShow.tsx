@@ -67,8 +67,8 @@ const getTableBody = (allCompany: Row[]) => {
 
 const tableContainer = (allCompany: Row[]) => {
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 600 }} aria-label="simple table">
+        <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+            <Table stickyHeader sx={{ minWidth: 600 }} aria-label="sticky table">
                 {getTableHead()}
                 {getTableBody(allCompany)}
             </Table>
