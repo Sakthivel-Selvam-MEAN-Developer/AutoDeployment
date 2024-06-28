@@ -31,8 +31,11 @@ const TableRowContainer: FC<TableRowContainerProps> = ({ data }) => (
 
 export const SelectedTableContainer: FC<SelectedProps> = ({ selectedTrip, setSelectedTrip }) => {
     return (
-        <TableContainer component={Paper} sx={{ marginTop: '30px' }}>
-            <Table sx={{ minWidth: 600 }} aria-label="simple table">
+        <TableContainer
+            component={Paper}
+            sx={{ marginTop: '30px', maxHeight: '300px', overflow: 'auto' }}
+        >
+            <Table stickyHeader sx={{ minWidth: 600 }}>
                 {getSelectedTableHead()}
                 <SelectedTableBody selectedTrip={selectedTrip} setSelectedTrip={setSelectedTrip} />
             </Table>

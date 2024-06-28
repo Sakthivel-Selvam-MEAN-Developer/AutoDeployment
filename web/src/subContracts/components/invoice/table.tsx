@@ -20,7 +20,11 @@ const cells = (cell: string, index: number) => {
 const newLocal = <TableRow>{cellNames.map((cellName, index) => cells(cellName, index))}</TableRow>
 
 export const getTableHead = () => {
-    return <TableHead>{newLocal}</TableHead>
+    return (
+        <TableHead sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 4 }}>
+            {newLocal}
+        </TableHead>
+    )
 }
 const selectedCellNames = [
     'Start Date',
@@ -29,10 +33,9 @@ const selectedCellNames = [
     'Freight Amount',
     'Total Freight Amount'
 ]
-
 export const getSelectedTableHead = () => {
     return (
-        <TableHead>
+        <TableHead sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 4 }}>
             <TableRow>
                 {selectedCellNames.map((cellName, index) => (
                     <TableCell key={index} align="left">

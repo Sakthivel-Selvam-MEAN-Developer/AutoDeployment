@@ -1,7 +1,16 @@
 import Table from '@mui/material/Table'
 import Paper from '@mui/material/Paper'
 import { getTableHead } from './table'
-import { Box, Button, Tab, TableBody, TableCell, TableRow, Tabs } from '@mui/material'
+import {
+    Box,
+    Button,
+    Tab,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Tabs
+} from '@mui/material'
 import { tripDetails, tripDetailsProps } from './list'
 import { FC, useContext, useState } from 'react'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
@@ -124,19 +133,21 @@ const InvoiceContainer: FC<tableProps> = ({ tripDetails, setTripId, setTripDetai
     return (
         <>
             <SelectedTableContainer selectedTrip={selectedTrip} setSelectedTrip={setSelectedTrip} />
-            <Table component={Paper} sx={{ marginTop: '30px', minWidth: 600 }}>
-                {getTableHead()}
-                <TableContainer
-                    setSelectedTrip={setSelectedTrip}
-                    tripDetails={tripDetails}
-                    setTripId={setTripId}
-                    setTripDetails={setTripDetails}
-                />
-            </Table>
+            <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+                <Table component={Paper} sx={{ marginTop: '30px', minWidth: 500 }}>
+                    {getTableHead()}
+                    <TableContainers
+                        setSelectedTrip={setSelectedTrip}
+                        tripDetails={tripDetails}
+                        setTripId={setTripId}
+                        setTripDetails={setTripDetails}
+                    />
+                </Table>
+            </TableContainer>
         </>
     )
 }
-const TableContainer: FC<TableBodyProps> = ({
+const TableContainers: FC<TableBodyProps> = ({
     tripDetails,
     setTripId,
     setTripDetails,

@@ -1,29 +1,7 @@
 import { saveAs } from 'file-saver'
 import dayjs from 'dayjs'
-interface dataProps {
-    type: string
-    bankDetails: bankDetailsProps[]
-    payableAmount: number
-}
-interface bankDetailsProps {
-    ifsc: string
-    accountTypeNumber: number
-    accountNumber: number | string
-    accountHolder: string
-    bunkName: string
-    name: string
-    branchName: string
-}
+import { dataProps, getNeftType } from './exportFileUtils'
 
-const getNeftType = (type: string) => {
-    return type === 'initial pay'
-        ? 'INITIALPAY'
-        : type === 'fuel pay'
-          ? 'FUELPAY'
-          : type === 'final pay'
-            ? 'FINALPAY'
-            : 'GSTPAY'
-}
 const getType = (type: string) => {
     return type === 'initial pay'
         ? 'MagnumAdvance'
