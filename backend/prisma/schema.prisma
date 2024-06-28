@@ -286,6 +286,23 @@ model transporter {
   @@schema("subContract")
 }
 
+model companyInvoice {
+  id                               Int                                @id @default(autoincrement())
+  billNo                           String
+  pdfLink                          String
+  billDate                         Int
+  amount                           Int
+  createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
+  updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
+  cementCompany                    cementCompany                   @relation(fields: [cementCompanyId], references: [id])
+  cementCompanyId                  Int
+  loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
+  stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
+  loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
+
+  @@schema("subContract")
+}
+
 model accountType {
   id                Int      @id @default(autoincrement())
   accountTypeName   String   @unique
@@ -308,6 +325,7 @@ model cementCompany {
   loadingPoints       loadingPoint[]
   stockPoints         stockPoint[]
   unloadingPoints     unloadingPoint[]
+  companyInvoice      companyInvoice[]
   createdAt           DateTime         @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime         @updatedAt @db.Timestamptz(6)
 
@@ -401,6 +419,8 @@ model loadingPointToStockPointTrip {
   stockPointToUnloadingPointTrip stockPointToUnloadingPointTrip[]
   overallTrip                    overallTrip[]
   billNo                         String?
+  companyInvoice                 companyInvoice?                  @relation(fields: [companyInvoiceId], references: [id])
+  companyInvoiceId               Int?
 
   @@schema("subContract")
 }
@@ -427,37 +447,41 @@ model stockPointToUnloadingPointTrip {
   truck                          truck?                       @relation(fields: [truckId], references: [id])
   truckId                        Int?
   billNo                         String?
+  companyInvoice                 companyInvoice?              @relation(fields: [companyInvoiceId], references: [id])
+  companyInvoiceId               Int?
 
   @@schema("subContract")
 }
 
 model loadingPointToUnloadingPointTrip {
-  id                     Int            @id @default(autoincrement())
+  id                     Int             @id @default(autoincrement())
   startDate              Int
-  filledLoad             Float          @db.DoublePrecision
+  filledLoad             Float           @db.DoublePrecision
   wantFuel               Boolean?
-  tripStatus             Boolean        @default(false)
+  tripStatus             Boolean         @default(false)
   acknowledgeDueTime     Int?
-  partyName              String         @default("")
-  lrNumber               String         @default("")
-  freightAmount          Float          @db.DoublePrecision
-  transporterAmount      Float          @db.DoublePrecision
-  totalFreightAmount     Float          @db.DoublePrecision
-  totalTransporterAmount Float          @db.DoublePrecision
-  margin                 Float          @db.DoublePrecision
-  loadingKilometer       Float          @default(0) @db.DoublePrecision
-  unloadingKilometer     Float          @default(0) @db.DoublePrecision
-  invoiceNumber          String         @unique
+  partyName              String          @default("")
+  lrNumber               String          @default("")
+  freightAmount          Float           @db.DoublePrecision
+  transporterAmount      Float           @db.DoublePrecision
+  totalFreightAmount     Float           @db.DoublePrecision
+  totalTransporterAmount Float           @db.DoublePrecision
+  margin                 Float           @db.DoublePrecision
+  loadingKilometer       Float           @default(0) @db.DoublePrecision
+  unloadingKilometer     Float           @default(0) @db.DoublePrecision
+  invoiceNumber          String          @unique
   loadingPointId         Int
-  loadingPoint           loadingPoint   @relation(fields: [loadingPointId], references: [id])
-  createdAt              DateTime       @default(now()) @db.Timestamptz(6)
-  updatedAt              DateTime       @updatedAt @db.Timestamptz(6)
-  unloadingPoint         unloadingPoint @relation(fields: [unloadingPointId], references: [id])
+  loadingPoint           loadingPoint    @relation(fields: [loadingPointId], references: [id])
+  createdAt              DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt              DateTime        @updatedAt @db.Timestamptz(6)
+  unloadingPoint         unloadingPoint  @relation(fields: [unloadingPointId], references: [id])
   unloadingPointId       Int
-  truck                  truck          @relation(fields: [truckId], references: [id])
+  truck                  truck           @relation(fields: [truckId], references: [id])
   truckId                Int
   overallTrip            overallTrip[]
   billNo                 String?
+  companyInvoice         companyInvoice? @relation(fields: [companyInvoiceId], references: [id])
+  companyInvoiceId       Int?
 
   @@schema("subContract")
 }
