@@ -15,7 +15,7 @@ export interface props {
 }
 export interface tripProp {
     trip: trip
-    toll: overallTrip['tollPlaza']
+    toll: overallTrip['tollPayment']
     id: number
 }
 type selProps = (

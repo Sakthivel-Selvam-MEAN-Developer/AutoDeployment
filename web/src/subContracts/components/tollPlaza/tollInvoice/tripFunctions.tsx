@@ -11,7 +11,7 @@ export const alignTrips = (trips: tripProp[]) => {
             unloadingPoint: getName(trip),
             stockPoint: trip.trip.stockPoint ? trip.trip.stockPoint.name : 'Null',
             startDate: trip.trip.startDate,
-            totalTollAmount: trip.toll.reduce((acc, toll) => acc + toll.amount, 0)
+            totalTollAmount: trip.toll && trip.toll.reduce((acc, toll) => acc + toll.amount, 0)
         }
     })
 }
@@ -20,10 +20,10 @@ export const getTrip = (overallTrip: overallTrip[]) => {
         if (trip.loadingPointToUnloadingPointTrip)
             return {
                 trip: trip.loadingPointToUnloadingPointTrip,
-                toll: trip.tollPlaza,
+                toll: trip.tollPayment,
                 id: trip.id
             }
-        else return { trip: trip.loadingPointToStockPointTrip, toll: trip.tollPlaza, id: trip.id }
+        else return { trip: trip.loadingPointToStockPointTrip, toll: trip.tollPayment, id: trip.id }
     })
 }
 export const columns = [

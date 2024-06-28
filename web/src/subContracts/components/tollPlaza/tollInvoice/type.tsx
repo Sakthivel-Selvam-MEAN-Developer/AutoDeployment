@@ -25,7 +25,7 @@ export const style = {
 export interface tripProps {
     id: number
     trip: trip
-    toll: overallTrip['tollPlaza']
+    toll: overallTrip['tollPayment']
 }
 export interface dataProps {
     tollPlazaLocationId: number

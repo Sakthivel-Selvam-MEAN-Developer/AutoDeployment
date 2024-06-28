@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { overallTrip } from '../type'
 import { props } from './alignTripDetails'
-const getTollDetails = (toll: overallTrip['tollPlaza']) => {
+const getTollDetails = (toll: overallTrip['tollPayment']) => {
     const locations: { [key: string]: number } = {}
     toll.forEach(
         (detail) =>

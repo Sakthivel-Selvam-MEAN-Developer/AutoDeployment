@@ -4,7 +4,7 @@ import BillDetailsDialog from './dialogToGetBillDetails'
 import PreviewSelTrips from './dialogPreviewForSelectedTrips'
 import { useState } from 'react'
 export interface props {
-    trip: { trip: trip; toll: overallTrip['tollPlaza']; id: number; tollDetails?: tollDetails }[]
+    trip: { trip: trip; toll: overallTrip['tollPayment']; id: number; tollDetails?: tollDetails }[]
     setDialog: React.Dispatch<React.SetStateAction<boolean>>
     dialog: boolean
     setLoad: React.Dispatch<React.SetStateAction<boolean>>

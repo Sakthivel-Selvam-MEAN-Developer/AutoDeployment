@@ -16,7 +16,7 @@ export interface overallTrip {
     id: number
     loadingPointToStockPointTrip: trip
     loadingPointToUnloadingPointTrip: trip
-    tollPlaza: {
+    tollPayment: {
         tollPlazaLocation: { id: number; location: string; state: string }
         amount: number
     }[]
