@@ -68,14 +68,20 @@ const DriverSalaryConatiner: FC = () => {
         getAllDriver().then(setDriverList)
     }, [])
     useEffect(() => {
-        getDriverTripByDriverId(driverId, date).then((allTrips) => {
-            setNumberOfTrips(allTrips.trips.length)
-            setDriverTrips(allTrips.trips)
-            setNumberOfExpenses(allTrips.expensesDetails.length)
-            setExpenses(allTrips.expensesDetails)
-            setDailyBetta(allTrips.trips[0].tripSalaryDetails?.dailyBetta)
-            setTripDetails(allTrips)
-        })
+        setDriverTrips([])
+        setNumberOfTrips(0)
+        setNumberOfExpenses(0)
+        setTripDetails({} as driverDetailProps)
+        if (driverId !== 0) {
+            getDriverTripByDriverId(driverId, date).then((allTrips) => {
+                setNumberOfTrips(allTrips.trips.length)
+                setDriverTrips(allTrips.trips)
+                setNumberOfExpenses(allTrips.expensesDetails.length)
+                setExpenses(allTrips.expensesDetails)
+                setDailyBetta(allTrips.trips[0].tripSalaryDetails?.dailyBetta)
+                setTripDetails(allTrips)
+            })
+        }
     }, [driverId, date])
     return (
         <>

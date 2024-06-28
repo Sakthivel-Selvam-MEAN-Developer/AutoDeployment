@@ -1,10 +1,7 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-import { driverDetailProps, Trip } from '../types'
-interface FuelTable {
-    tripDetails: driverDetailProps
-}
-export const FuelTable: FC<FuelTable> = ({ tripDetails }) => {
+import { FuelTableProps, mileageProps, tableCellProps } from '../types'
+export const FuelTable: FC<FuelTableProps> = ({ tripDetails }) => {
     return (
         <table className="fuelTable" style={{ width: '100%' }}>
             <tr>
@@ -22,8 +19,13 @@ export const FuelTable: FC<FuelTable> = ({ tripDetails }) => {
         </table>
     )
 }
-interface tableCellProps {
-    tripDetails: Trip[]
+const Mileage: FC<mileageProps> = ({ mileage }) => {
+    return (
+        <>
+            <td className="alignLeft"></td>
+            <td className="alignRight">{mileage}</td>
+        </>
+    )
 }
 const TableCells: FC<tableCellProps> = ({ tripDetails }) => {
     let number = 0
@@ -39,8 +41,8 @@ const TableCells: FC<tableCellProps> = ({ tripDetails }) => {
                 <td className="alignLeft">{fuel.invoiceNumber}</td>
                 <td className="alignLeft">{fuel.quantity}</td>
                 <td className="alignRight">{fuel.totalprice.toFixed(2)}</td>
-                <td className="alignLeft"></td>
-                <td className="alignRight">0.00</td>
+                <td className="alignLeft">{fuel.dieselkilometer}</td>
+                <Mileage mileage={trip.mileage} />
             </tr>
         )
     })

@@ -103,14 +103,12 @@ describe('Driver Test', () => {
         expect(screen.getByText('List of Trips')).toBeInTheDocument()
         expect(screen.getByText('Select Driver to Display Trips ..!')).toBeInTheDocument()
 
-        expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(1)
-
         // Select Driver Name
         const driverList = screen.getByRole('combobox', { name: 'Select Driver Name' })
         await userEvent.click(driverList)
         await waitFor(() => screen.getByRole('listbox'))
         const cementCompanyOption = screen.getByRole('option', { name: 'sakthi - 09876543' })
-        userEvent.click(cementCompanyOption)
+        await userEvent.click(cementCompanyOption)
         expect(await screen.findByDisplayValue('sakthi - 09876543')).toBeInTheDocument()
 
         //Check Driver trip List
@@ -125,6 +123,6 @@ describe('Driver Test', () => {
 
         await userEvent.type(screen.getByLabelText('Select Month & Year'), 'May2024')
 
-        expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(3)
+        expect(mockGetDriverTripByDriverId).toHaveBeenCalledTimes(2)
     })
 })

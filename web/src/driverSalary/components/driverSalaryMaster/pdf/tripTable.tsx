@@ -25,6 +25,7 @@ const TableHead = [
     'Batta'
 ]
 export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
+    if (tripDetails.trips.length === 0) return
     const {
         totalAdvance,
         totalExpense,

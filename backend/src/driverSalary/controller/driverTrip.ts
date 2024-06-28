@@ -84,6 +84,7 @@ const getOverallTrip = async (
     allTrips: allTripProps[],
     date: string
 ) => {
+    if (allTrips.length === 0) return false
     const overAllTripIds: number[] = []
     const totalTripBetta = await tripBettaCalculation(allTrips[0], parseInt(date))
     const driverName = allTrips[0].driver.name
@@ -133,8 +134,11 @@ export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res)
     const { driverId, month } = req.query
     await getAllDriverTripById(parseInt(driverId), month)
         .then(async (allTrips) => getOverallTrip(req.headers, allTrips, month))
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+        .then((data) => {
+            if (data === false) return res.status(200).json([])
+            res.status(200).json(data)
+        })
+        .catch(() => res.sendStatus(500))
 }
 const creatData = (advance: string, id: number) => ({
     amount: parseFloat(advance),

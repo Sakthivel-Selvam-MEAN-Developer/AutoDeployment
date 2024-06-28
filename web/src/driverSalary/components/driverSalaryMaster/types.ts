@@ -17,6 +17,7 @@ interface fuelProps {
     bunk: {
         bunkName: string
     }
+    dieselkilometer: number
 }
 
 export interface Trip {
@@ -25,7 +26,7 @@ export interface Trip {
     loadingPointToUnloadingPointTrip: LoadingPointToUnloadingPointTrip
     loadingPointToStockPointTrip: LoadingPointToUnloadingPointTrip
     tripSalaryDetails: TripSalaryDetails
-    mileage: number | null
+    mileage: number
     expenses: Expense[]
     advanceforTrip: AdvanceforTrip[]
 }
@@ -68,4 +69,13 @@ interface LoadingPoint {
     cementCompany: {
         name: string
     }
+}
+export interface FuelTableProps {
+    tripDetails: driverDetailProps
+}
+export interface tableCellProps {
+    tripDetails: Trip[]
+}
+export interface mileageProps {
+    mileage: number
 }

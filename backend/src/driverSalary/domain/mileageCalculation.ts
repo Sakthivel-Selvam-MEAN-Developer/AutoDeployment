@@ -4,12 +4,12 @@ import { getPreviousFuel } from '../controller/getPreviousFuel.ts'
 
 const getFullTankFuel = (fullTankFuels: fuelTypes[]) => {
     let currentFuelKm = 0
-    let currentQuantity = 0
+    const currentQuantity: number[] = []
     fullTankFuels.forEach((fuel: fuelTypes) => {
         currentFuelKm += fuel.dieselkilometer
-        currentQuantity += fuel.quantity
+        currentQuantity.push(fuel.quantity)
     })
-    return { currentFuelKm, currentQuantity }
+    return { currentFuelKm, currentQuantity: Math.max(...currentQuantity) }
 }
 const getPartialFuels = (partialFuels: fuelTypes[]) => {
     let partialQuantity = 0

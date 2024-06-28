@@ -32,9 +32,12 @@ export const findcurrentYear = async (attendanceData: any) =>
         (attendanceYear: { year: number }) => attendanceYear.year === dayjs().year()
     )
 
-export const findcurrentMonth = (currentYear: any) =>
+interface findcurrentMonthProps {
+    attendance: Attendance[]
+}
+export const findcurrentMonth = (currentYear: findcurrentMonthProps) =>
     currentYear?.attendance.find(
-        (attendanceMonth: { month: string }) => attendanceMonth.month === dayjs().format('MMMM')
+        (attendanceMonth) => attendanceMonth.month === dayjs().format('MMMM')
     )
 const singleDriverData = {
     id: 0,
@@ -43,7 +46,7 @@ const singleDriverData = {
 }
 export const driverAttenanceList = async (
     currentYear: Attendance,
-    currentMonth: Attendance,
+    currentMonth: Attendance | undefined,
     attendanceData: attendanceDetailsProps,
     driverList: driverProps[],
     data: dataProps[]

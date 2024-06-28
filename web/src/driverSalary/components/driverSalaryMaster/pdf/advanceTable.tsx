@@ -6,6 +6,7 @@ interface AdvanceTableProps {
     tripDetails: driverDetailProps
 }
 export const AdvanceTable: FC<AdvanceTableProps> = ({ tripDetails }) => {
+    if (tripDetails.advanceDetails.length === 0) return
     const { totalAdvance } = totalCalculation(tripDetails)
     return (
         <table className="advanceTable" style={{ width: '100%' }}>
@@ -23,10 +24,9 @@ export const AdvanceTable: FC<AdvanceTableProps> = ({ tripDetails }) => {
                     Recd. Amt.
                 </th>
             </tr>
-            {tripDetails.advanceDetails.length > 0 &&
-                tripDetails.advanceDetails.map((tripDetails, index) => (
-                    <TableCells key={index} tripDetails={tripDetails} number={index} />
-                ))}
+            {tripDetails.advanceDetails.map((tripDetails, index) => (
+                <TableCells key={index} tripDetails={tripDetails} number={index} />
+            ))}
             <tr>
                 <td></td>
                 <td></td>

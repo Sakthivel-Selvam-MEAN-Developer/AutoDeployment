@@ -28,6 +28,14 @@ const headers = [
     'Rajampet (Muncipal)',
     'Total Toll'
 ]
+const TableHeader: FC = () => (
+    <tr className="table-head">
+        {headers.map((header) => (
+            <th key={header}>{header}</th>
+        ))}
+    </tr>
+)
+
 const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
     const { tripDetails, totalAmount } = TripAmountCalculation(trips)
     const tollSumsByState = trips.map((trip) => {
@@ -41,10 +49,8 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
     return (
         <div className="toll-invoice-format-for-own" id="toll-invoice-format-for-own">
             <table>
+                <TableHeader />
                 <tbody>
-                    {headers.map((header) => (
-                        <th key={header}>{header}</th>
-                    ))}
                     {tripDetails.map((trip, index) => (
                         <tr className="table-body" key={trip.id}>
                             <td>{index + 1}</td>

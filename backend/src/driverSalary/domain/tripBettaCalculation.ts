@@ -44,6 +44,7 @@ const totalBetta = (dailyBetta: number | null, totalDays: number) => {
 export const tripBettaCalculation = async (tripDetails: any, date: number | undefined) => {
     if (date === undefined) return 0
     const { selectedYear, selectedMonth } = getSelectedYearAndMonth(date)
+    if (tripDetails.driver.driverAttendance.length === 0) return 0
     const driverAttendance = tripDetails.driver.driverAttendance[0]
     const Year = driverAttendance.attendance.filter(({ year }: yearData) => year === selectedYear)
     const Month = findSelectedMonth(Year, selectedMonth)
