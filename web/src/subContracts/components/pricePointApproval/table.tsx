@@ -1,4 +1,4 @@
-import { Paper, Table } from '@mui/material'
+import { Paper, Table, TableContainer } from '@mui/material'
 import { FC } from 'react'
 import { overallTrip } from './types'
 import { GetTableHead } from './tableHead'
@@ -8,12 +8,14 @@ interface tabelProps {
 }
 const PricePointApprovalTable: FC<tabelProps> = ({ tripDetails }) => {
     return (
-        <Table sx={{ minWidth: 650 }} component={Paper}>
-            <GetTableHead />
-            {tripDetails.map((overallTrip) => (
-                <TableCellsConatiner key={overallTrip.id} overallTrip={overallTrip} />
-            ))}
-        </Table>
+        <TableContainer component={Paper} sx={{ maxHeight: 750 }}>
+            <Table stickyHeader sx={{ minWidth: 650 }}>
+                <GetTableHead />
+                {tripDetails.map((overallTrip) => (
+                    <TableCellsConatiner key={overallTrip.id} overallTrip={overallTrip} />
+                ))}
+            </Table>
+        </TableContainer>
     )
 }
 export default PricePointApprovalTable
