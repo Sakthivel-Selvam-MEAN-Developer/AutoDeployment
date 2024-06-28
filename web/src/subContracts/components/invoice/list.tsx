@@ -4,15 +4,11 @@ import { useEffect, useState } from 'react'
 import ListAllTripForInvoice from './show'
 import { Button } from '@mui/material'
 import { getTripDetailsByFilterData, updateInvoiceDetails } from '../../services/invoice'
-import {
-    billNoContext,
-    filterDataProps,
-    invoiceFilterData,
-    partyNamesContext,
-    partyNamesProps
-} from './invoiceContext'
+import { billNoContext, filterDataProps, invoiceFilterData } from './invoiceContext'
 import { InvoiceFieldDialog } from './fieldDialog'
-import InvoiceDialog from './invoiceDialog'
+
+import html2pdf from 'html2pdf.js'
+import dayjs from 'dayjs'
 export interface dateProps {
     $d: number
 }
@@ -64,15 +60,12 @@ const InvoiceList: React.FC = () => {
     const [tripDetails, setTripDetails] = useState<tripDetails[]>([])
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
     const [tripId, setTripId] = useState<tripDetailsProps[]>([])
-    const [activateInvoice, setActivateInvoice] = useState<boolean>(false)
     const [activateFields, setActivateFields] = useState<boolean>(false)
     const [invoiceValues, setInvoiceValues] = useState<invoiceValuesProps>({} as invoiceValuesProps)
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
-    const [partyNames, setPartyNames] = useState<partyNamesProps[]>([])
     useEffect(() => {
         setTripDetails([])
         setTripId([])
-        setActivateInvoice(false)
     }, [filterData?.cementCompanyName])
     const onSubmit = async () => await getTripDetails()
     const handleClick = () => setActivateFields(true)
@@ -83,9 +76,36 @@ const InvoiceList: React.FC = () => {
     const updateInvoice = async () => {
         const data = {
             trip: tripId,
-            billNo: invoiceValues.billNo
+            bill: invoiceValues,
+            company: filterData?.cementCompanyName
         }
-        await updateInvoiceDetails(data).then(getTripDetails)
+        await updateInvoiceDetails(data).then(async (data: string) => await downloadPDF(data))
+    }
+    const downloadPDF = async (data: string) => {
+        const tempContainer = document.createElement('div')
+        tempContainer.innerHTML = data
+        const invoiceElement = tempContainer.querySelector('#invoice')
+        const annexureElement = tempContainer.querySelector('#annexure')
+        const pdfContainer = document.createElement('div')
+        if (invoiceElement) {
+            const invoicePage = document.createElement('div')
+            invoicePage.appendChild(invoiceElement.cloneNode(true))
+            pdfContainer.appendChild(invoicePage)
+        }
+        if (annexureElement) {
+            const annexurePage = document.createElement('div')
+            annexurePage.style.pageBreakBefore = 'always'
+            annexurePage.appendChild(annexureElement.cloneNode(true))
+            pdfContainer.appendChild(annexurePage)
+        }
+        const options = {
+            filename: `Invoice_${filterData.cementCompanyName}_${dayjs().format('DD_MM_YYYY')}.pdf`,
+            margin: 0.2,
+            image: { type: 'png', quality: 1 },
+            html2canvas: { scale: 1 },
+            jsPDF: { unit: 'px', format: [1500, 1200], orientation: 'portrait' }
+        }
+        html2pdf().set(options).from(pdfContainer).save()
     }
     return (
         <invoiceFilterData.Provider value={{ filterData, setFilterData }}>
@@ -115,30 +135,19 @@ const InvoiceList: React.FC = () => {
                     </Button>
                 </div>
             </form>
-            <partyNamesContext.Provider value={{ partyNames, setPartyNames }}>
-                <ListAllTripForInvoice
-                    tripDetails={tripDetails}
-                    setTripId={setTripId}
-                    setTripDetails={setTripDetails}
+            <ListAllTripForInvoice
+                tripDetails={tripDetails}
+                setTripId={setTripId}
+                setTripDetails={setTripDetails}
+            />
+            <br />
+            <billNoContext.Provider value={{ setInvoiceValues, invoiceValues }}>
+                <InvoiceFieldDialog
+                    activateFields={activateFields}
+                    setActivateFields={setActivateFields}
+                    updateInvoice={updateInvoice}
                 />
-                <br />
-                <billNoContext.Provider value={{ setInvoiceValues, invoiceValues }}>
-                    <InvoiceFieldDialog
-                        activateFields={activateFields}
-                        setActivateFields={setActivateFields}
-                        setActivateInvoice={setActivateInvoice}
-                    />
-                    {activateInvoice && (
-                        <InvoiceDialog
-                            tripId={tripId}
-                            setTripId={setTripId}
-                            company={filterData?.cementCompanyName}
-                            setActivate={setActivateInvoice}
-                            updateInvoice={updateInvoice}
-                        />
-                    )}
-                </billNoContext.Provider>
-            </partyNamesContext.Provider>
+            </billNoContext.Provider>
         </invoiceFilterData.Provider>
     )
 }

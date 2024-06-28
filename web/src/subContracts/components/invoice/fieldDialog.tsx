@@ -8,22 +8,21 @@ dayjs.extend(utc)
 interface FieldDialogProps {
     activateFields: boolean
     setActivateFields: React.Dispatch<React.SetStateAction<boolean>>
-    setActivateInvoice: React.Dispatch<React.SetStateAction<boolean>>
+    updateInvoice: () => void
 }
 export const InvoiceFieldDialog: FC<FieldDialogProps> = ({
     activateFields,
     setActivateFields,
-    setActivateInvoice
+    updateInvoice
 }) => {
     const { invoiceValues, setInvoiceValues } = useContext(billNoContext)
     const handleClose = () => {
         setActivateFields(false)
-        setActivateInvoice(true)
+        updateInvoice()
     }
     const handleReject = () => {
         setInvoiceValues({ billNo: '', date: 0 })
         setActivateFields(false)
-        setActivateInvoice(false)
     }
     return (
         <Dialog open={activateFields} onClose={handleClose} maxWidth={'lg'}>
@@ -35,7 +34,7 @@ export const InvoiceFieldDialog: FC<FieldDialogProps> = ({
             <DialogActions>
                 <Button onClick={handleReject}>Reject</Button>
                 <Button onClick={handleClose} autoFocus>
-                    Agree
+                    Download
                 </Button>
             </DialogActions>
         </Dialog>

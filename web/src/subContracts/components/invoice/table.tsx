@@ -8,7 +8,6 @@ const cellNames = [
     'Unloading Point',
     'Freight Amount',
     'Total Freight Amount',
-    'Party Name',
     'Action'
 ]
 const cells = (cell: string, index: number) => {
@@ -28,8 +27,7 @@ const selectedCellNames = [
     'Invoice Number',
     'Vehicle Number',
     'Freight Amount',
-    'Total Freight Amount',
-    'Party Name'
+    'Total Freight Amount'
 ]
 
 export const getSelectedTableHead = () => {

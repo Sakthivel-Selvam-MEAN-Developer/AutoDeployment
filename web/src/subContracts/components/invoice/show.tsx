@@ -1,11 +1,11 @@
 import Table from '@mui/material/Table'
 import Paper from '@mui/material/Paper'
 import { getTableHead } from './table'
-import { Box, Button, Tab, TableBody, TableCell, TableRow, Tabs, TextField } from '@mui/material'
+import { Box, Button, Tab, TableBody, TableCell, TableRow, Tabs } from '@mui/material'
 import { tripDetails, tripDetailsProps } from './list'
 import { FC, useContext, useState } from 'react'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
-import { filterDataProps, invoiceFilterData, partyNamesContext } from './invoiceContext'
+import { filterDataProps, invoiceFilterData } from './invoiceContext'
 import { getTripDetailsByFilterData } from '../../services/invoice'
 import { SelectedTableContainer } from './selectedTripsTable'
 import {
@@ -21,12 +21,10 @@ export interface tripProps {
 }
 const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripDetails }) => {
     const { filterData, setFilterData } = useContext(invoiceFilterData)
-    const { setPartyNames } = useContext(partyNamesContext)
     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
         if (filterData.cementCompanyName === '') return
         setTripDetails([])
         setTripId([])
-        setPartyNames([])
         await getTripDetailsByFilterData({ ...filterData, pageName: newValue }).then(setTripDetails)
         setFilterData((prevData: filterDataProps) => {
             return { ...prevData, pageName: newValue }
@@ -108,32 +106,17 @@ const TableRowContainer: FC<TableRowContainerProps> = ({
     )
 }
 const InvoicePartyNameField: FC<InvoicePartyNameFieldProps> = ({ row, handleClick, pageName }) => {
-    const [partyName, setPartyName] = useState('')
-    const { setPartyNames } = useContext(partyNamesContext)
     const buttonClick = () => {
         const obj = {
             tripId: row.id,
             tripName: pageName
         }
-        setPartyNames((preData) => {
-            return [...preData, { invoiceNumber: row.invoiceNumber, partyName }]
-        })
         handleClick(obj)
-        setPartyName('')
     }
     return (
-        <>
-            <TableCell>
-                <TextField
-                    label="Enter Party Name"
-                    value={partyName}
-                    onChange={(e) => setPartyName(e.target.value)}
-                />
-            </TableCell>
-            <TableCell sx={{ textAlign: 'left' }}>
-                <Button onClick={buttonClick}> Add </Button>
-            </TableCell>
-        </>
+        <TableCell sx={{ textAlign: 'left' }}>
+            <Button onClick={buttonClick}> Add </Button>
+        </TableCell>
     )
 }
 const InvoiceContainer: FC<tableProps> = ({ tripDetails, setTripId, setTripDetails }) => {

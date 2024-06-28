@@ -20,8 +20,3 @@ export interface partyNamesProps {
     invoiceNumber: string
     partyName: string
 }
-interface partyNamesContextProps {
-    setPartyNames: React.Dispatch<React.SetStateAction<partyNamesProps[]>>
-    partyNames: partyNamesProps[]
-}
-export const partyNamesContext = createContext<partyNamesContextProps>({} as partyNamesContextProps)

@@ -27,7 +27,8 @@
   },
   "include": [
     "src",
-    "src/ambient.d.ts"
+    "src/ambient.d.ts",
+    "src/html2pdf.d.ts"
   ],
   "references": [
     {

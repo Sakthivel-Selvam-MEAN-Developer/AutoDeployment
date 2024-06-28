@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import ReactDOMServer from 'react-dom/server'
 import {
     updateBillNumber as updateLoadingToUnloading,
     getInvoiceDetails as loadingToUnlaodingInvoice,
@@ -14,17 +15,14 @@ import {
     getInvoiceDetails as stockToUnlaodingInvoice,
     getUnloadingTripsByinvoiceFilter
 } from '../models/stockPointToUnloadingPoint.ts'
-import { updateBillNumber } from '../models/billNumber.ts'
+import { getContentBasedOnCompany } from '../InvoiceFormat/calculateTotal.tsx'
+import { InvoiceProp } from '../InvoiceFormat/type.tsx'
 
 interface tripDetailsProps {
     tripId: number
     tripName: string
 }
-interface invoiceProps {
-    loadingToUnloading: number[]
-    loadingToStock: number[]
-    stockToUnloading: number[]
-}
+
 const groupTripId = (tripDetails: tripDetailsProps[]) => {
     const loadingToUnloading: number[] = []
     const loadingToStock: number[] = []
@@ -55,7 +53,6 @@ const getTripByType = async (type: string, filterData: filterDataProps) => {
     if (type === 'LoadingToUnloading') return getDirectTripsByinvoiceFilter(filterData)
     if (type === 'LoadingToStock') return getStockTripsByinvoiceFilter(filterData)
     if (type === 'StockToUnloading') return getUnloadingTripsByinvoiceFilter(filterData)
-    return null
 }
 interface RequestQuery {
     pageName: string
@@ -78,38 +75,41 @@ export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = a
         .catch(() => res.status(500))
 }
 
-export const getInvoiceDetails = (req: Request, res: Response) => {
-    const { loadingToUnloading, loadingToStock, stockToUnloading }: invoiceProps = groupTripId(
-        req.body
+export const updateInvoiceDetails = async (req: Request, res: Response) => {
+    const { loadingToStock, loadingToUnloading, stockToUnloading } = groupTripId(req.body.trip)
+    let loadingPointToUnloadingPointTrip: InvoiceProp['trips']['loadingPointToUnloadingPointTrip'] =
+        []
+    let loadingPointToStockPointTrip: InvoiceProp['trips']['loadingPointToStockPointTrip'] = []
+    let stockPointToUnloadingPointTrip: InvoiceProp['trips']['stockPointToUnloadingPointTrip'] = []
+
+    if (req.body.trip[0].tripName === 'LoadingToUnloading') {
+        loadingPointToUnloadingPointTrip = await loadingToUnlaodingInvoice(loadingToUnloading)
+    }
+    if (req.body.trip[0].tripName === 'StockToUnloading') {
+        stockPointToUnloadingPointTrip = await stockToUnlaodingInvoice(stockToUnloading)
+    }
+    if (req.body.trip[0].tripName === 'LoadingToStock') {
+        loadingPointToStockPointTrip = await loadingToStockInvoice(loadingToStock)
+    }
+    const componentHtml = ReactDOMServer.renderToString(
+        getContentBasedOnCompany(
+            req.body.company,
+            {
+                trips: {
+                    loadingPointToUnloadingPointTrip,
+                    loadingPointToStockPointTrip,
+                    stockPointToUnloadingPointTrip
+                }
+            },
+            req.body.bill
+        )
     )
     Promise.all([
-        loadingToUnlaodingInvoice(loadingToUnloading),
-        loadingToStockInvoice(loadingToStock),
-        stockToUnlaodingInvoice(stockToUnloading)
+        updateLoadingToStock(loadingToStock, req.body.bill.billNo),
+        updateLoadingToUnloading(loadingToUnloading, req.body.bill.billNo),
+        updateStockToUnloading(stockToUnloading, req.body.bill.billNo)
+        // updateBillNumber(req.body.billNo)
     ])
-        .then((data) => {
-            const loadingPointToUnloadingPointTrip = data[0]
-            const loadingPointToStockPointTrip = data[1]
-            const stockPointToUnloadingPointTrip = data[2]
-            return {
-                loadingPointToUnloadingPointTrip,
-                loadingPointToStockPointTrip,
-                stockPointToUnloadingPointTrip
-            }
-        })
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.sendStatus(500))
-}
-export const updateInvoiceDetails = (req: Request, res: Response) => {
-    const { loadingToUnloading, loadingToStock, stockToUnloading }: invoiceProps = groupTripId(
-        req.body.trip
-    )
-    Promise.all([
-        updateLoadingToStock(loadingToStock, req.body.billNo),
-        updateLoadingToUnloading(loadingToUnloading, req.body.billNo),
-        updateStockToUnloading(stockToUnloading, req.body.billNo),
-        updateBillNumber(req.body.billNo)
-    ])
-        .then(() => res.sendStatus(200))
+        .then(() => res.status(200).json(componentHtml))
         .catch(() => res.sendStatus(500))
 }

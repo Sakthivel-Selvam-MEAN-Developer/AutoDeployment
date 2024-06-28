@@ -1,16 +1,14 @@
 import { Paper, Table, TableContainer, TableRow } from '@mui/material'
 import { tripDetails } from './list'
 import { FC, useContext, useEffect } from 'react'
-import { invoiceFilterData, partyNamesContext } from './invoiceContext'
+import { invoiceFilterData } from './invoiceContext'
 import { getSelectedTableHead } from './table'
 import { SelectedProps } from './interface'
 import { SelectedTableCells } from './selectedTableCells'
 const SelectedTableBody: FC<SelectedProps> = ({ selectedTrip, setSelectedTrip }) => {
-    const { setPartyNames } = useContext(partyNamesContext)
     const { filterData } = useContext(invoiceFilterData)
     useEffect(() => {
         setSelectedTrip([])
-        setPartyNames([])
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterData.pageName, filterData.cementCompanyName])
     return (

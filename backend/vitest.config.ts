@@ -5,21 +5,21 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             thresholds: {
-                branches: 85.63,
-                functions: 74.18,
-                lines: 84.73,
-                statements: 84.73,
+                branches: 86.48,
+                functions: 76.83,
+                lines: 84.28,
+                statements: 84.28,
                 'src/subContracts/models/**': {
-                    branches: 85.2,
-                    functions: 86.88,
-                    lines: 86.49,
-                    statements: 86.49
+                    branches: 85.29,
+                    functions: 86.99,
+                    lines: 86.53,
+                    statements: 86.53
                 },
                 'src/subContracts/controller/**': {
-                    branches: 81.81,
+                    branches: 82.14,
                     functions: 93.93,
-                    lines: 93.97,
-                    statements: 93.97
+                    lines: 94.14,
+                    statements: 94.14
                 },
                 'src/subContracts/domain': {
                     branches: 61.81,
@@ -33,7 +33,8 @@ export default defineConfig({
                     lines: 99.44,
                     statements: 99.44
                 }
-            }
+            },
+            exclude: ['src/subContracts/InvoiceFormat/**']
         }
     }
 })

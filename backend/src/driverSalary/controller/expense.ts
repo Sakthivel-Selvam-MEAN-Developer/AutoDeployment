@@ -56,7 +56,7 @@ export const createExpense = async (req: Request, res: Response) => {
 interface QueryParam {
     driverId: string
 }
-const getOverallTrip = (hostname: string | undefined | string[], allTripIds: string) =>
+export const getOverallTrip = (hostname: string | undefined | string[], allTripIds: string) =>
     axios.get(`${hostname}/api/overalltrip/ids`, {
         params: { ids: allTripIds }
     })

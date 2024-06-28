@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
-import { toWords } from '../../../invoice/invoiceFormat/numberToWords'
 import TripAmountCalculation from '../tollAmountCalculations'
 import { tripProp } from '../type'
+import { toWords } from './numberToWords'
 
 const TollInvoiceForUntraTech: FC<tripProp> = ({ trips, bill }) => {
     const { filledLoad, tollTotal, tripDetails, totalAmount } = TripAmountCalculation(trips)

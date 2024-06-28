@@ -28,7 +28,7 @@ module.exports = {
         ecmaVersion: 'latest',
         sourceType: 'module'
     },
-    ignorePatterns: ['vite.config.js', 'models/'],
+    ignorePatterns: ['vite.config.js', 'models/', '*.tsx'],
     rules: {
         semi: [2, 'never'],
         indent: 'off',

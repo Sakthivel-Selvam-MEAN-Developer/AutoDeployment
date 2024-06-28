@@ -1,9 +1,9 @@
-import { downloadPdfForUltraTech } from '../../../invoice/invoiceFormat/downloadPdf'
 import * as XLSX from 'xlsx'
 import saveAs from 'file-saver'
 import dayjs from 'dayjs'
 import { updateBillDetails } from '../../../../services/tollPlaza'
 import { props } from '../alignTripDetails'
+import { downloadPdfForUltraTech } from './downloadPdf'
 type downloadProps = (
     trips: props['trip'],
     bill: { number: string; date: number },

@@ -15,13 +15,15 @@ const mockCreateDriverAdvance = vi.fn()
 const mockGetPreviousFuel = vi.fn()
 const mockGetDriverAdvance = vi.fn()
 const mockGetExpensesByTripId = vi.fn()
+const mockGtDriverTripByOverallId = vi.fn()
 
 vi.mock('../models/driverTrip', () => ({
     create: (inputs: any) => mockCreateDriverTrip(inputs),
     getAllDriverTripById: (id: number[]) => mockGetAllDriverTripById(id),
     getDriverIdByTripId: (tripId: number) => mockGetDriverIdByTripId(tripId),
     getDriverAdvance: (id: number) => mockGetDriverAdvance(id),
-    getExpensesByTripIds: (tripId: number) => mockGetExpensesByTripId(tripId)
+    getExpensesByTripIds: (tripId: number) => mockGetExpensesByTripId(tripId),
+    getDriverTripByOverallId: (id: number) => mockGtDriverTripByOverallId(id)
 }))
 vi.mock('../models/tripSalary', () => ({
     getTripSalaryDetailsById: (id: number[]) => mockGetTripSalaryDetailsById(id)
@@ -87,7 +89,9 @@ const mockGetDriverTripData = [
     }
 ]
 
-const mockGetAllExpenseCountByTripIdData = [{ amount: 123, tripId: 1 }]
+const mockGetAllExpenseCountByTripIdData = [
+    { expenseType: 'Loading_Charges', acceptedAmount: 123, tripId: 1 }
+]
 const mockGetOverAllTripByArrayOfIdData = {
     data: [
         {
@@ -150,7 +154,23 @@ const previousFuelDetails = {
     invoiceNumber: 'asdfghjkl',
     bunk: { bunkName: 'SRK Barath Petroleum' }
 }
-
+const mockGetTripSalaryDetailsByIdData = [
+    {
+        id: 1,
+        dailyBetta: 350,
+        appPayAdvance: 2300,
+        tripBetta: 1200
+    }
+]
+const mockGtDriverTripByOverallIdData = [
+    {
+        id: 1,
+        driverId: 2,
+        stockTripSalaryId: 2,
+        unloadingTripSalaryId: 2,
+        tripId: 1
+    }
+]
 describe('driverTrip Controller', () => {
     test('should able to create driver Trip', async () => {
         mockCreateDriverTrip.mockResolvedValue(mockDriverTripData.body)
@@ -198,5 +218,28 @@ describe('driverTrip Controller', () => {
         expect(mockGetExpensesByTripId).toHaveBeenCalledWith(tripId)
         expect(mockGetDriverAdvance).toBeCalledTimes(1)
         expect(mockGetExpensesByTripId).toBeCalledTimes(1)
+    })
+    test('should list all driver trip by overallTrip id', async () => {
+        const id = '1'
+        mockGtDriverTripByOverallId.mockResolvedValue(mockGtDriverTripByOverallIdData)
+        mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
+        mockGetTripSalaryDetailsById.mockResolvedValue(mockGetTripSalaryDetailsByIdData)
+        await supertest(app)
+            .get('/api//drivertrip/getDriverTrip')
+            .query({ id })
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toEqual({
+                    expenses: mockGetAllExpenseCountByTripIdData,
+                    tripSalaryDetails: mockGetTripSalaryDetailsByIdData,
+                    driverTrip: mockGtDriverTripByOverallIdData
+                })
+            })
+        expect(mockGtDriverTripByOverallId).toHaveBeenCalledTimes(1)
+        expect(mockGetAllExpenseCountByTripId).toHaveBeenCalledTimes(2)
+        expect(mockGetTripSalaryDetailsById).toHaveBeenCalledTimes(1)
+        expect(mockGtDriverTripByOverallId).toHaveBeenCalledWith(1)
+        expect(mockGetAllExpenseCountByTripId).toHaveBeenCalledWith([1])
+        expect(mockGetTripSalaryDetailsById).toHaveBeenCalledWith([2, 2])
     })
 })

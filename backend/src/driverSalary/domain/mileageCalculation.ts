@@ -1,6 +1,6 @@
 import { IncomingHttpHeaders } from 'http'
 import { fuelTypes } from '../controller/driverTrip.ts'
-import { getPreviousFuel } from '../controller/getPreviosFuel.ts'
+import { getPreviousFuel } from '../controller/getPreviousFuel.ts'
 
 const getFullTankFuel = (fullTankFuels: fuelTypes[]) => {
     let currentFuelKm = 0

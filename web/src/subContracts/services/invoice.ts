@@ -2,15 +2,9 @@ import { axiosInstance, getData } from '../../apiCalls'
 import { Nullable } from '../../types'
 import { tripDetailsProps } from '../components/invoice/list'
 
-export const getInvoiceDetails = (id: tripDetailsProps[]) =>
-    axiosInstance
-        .put('/invoice/', id)
-        .then(getData)
-        .catch(() => alert('Error Getting data'))
-
 interface updateInvoiceProps {
     trip: tripDetailsProps[]
-    billNo: string
+    bill: { billNo: string; date: number }
 }
 export const updateInvoiceDetails = (invoiceDetails: updateInvoiceProps) =>
     axiosInstance

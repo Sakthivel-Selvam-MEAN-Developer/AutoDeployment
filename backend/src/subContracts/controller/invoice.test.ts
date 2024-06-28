@@ -122,20 +122,79 @@ const mockGetInvoiceDetailsUData = [
                 ]
             }
         ]
+    },
+    {
+        startDate: 1709317800,
+        unloadingPoint: {
+            name: 'Salem'
+        },
+        invoiceNumber: 'wqsqwsdsd',
+        freightAmount: 800,
+        loadingPointToStockPointTrip: {
+            filledLoad: 23,
+            truck: {
+                vehicleNumber: 'TN29B3246'
+            },
+            stockPoint: {
+                name: 'StockPoint'
+            }
+        },
+        overallTrip: [
+            {
+                shortageQuantity: [
+                    {
+                        shortageQuantity: 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        startDate: 1709317800,
+        unloadingPoint: {
+            name: 'Salem'
+        },
+        invoiceNumber: 'wqsqwsdsd',
+        freightAmount: 800,
+        loadingPointToStockPointTrip: {
+            filledLoad: 23,
+            truck: {
+                vehicleNumber: 'TN29B3246'
+            },
+            stockPoint: {
+                name: 'StockPoint'
+            }
+        },
+        overallTrip: [
+            {
+                shortageQuantity: [
+                    {
+                        shortageQuantity: 0
+                    }
+                ]
+            }
+        ]
     }
 ]
-const mockBody = [
-    { tripId: 1, tripName: 'LoadingToStock' },
-    { tripId: 1, tripName: 'StockToUnloading' },
-    { tripId: 2, tripName: 'LoadingToUnloading' }
-]
-const mockBody2 = {
+
+const mockBodyForLoadingToUnloading = {
     trip: [
         { tripId: 2, tripName: 'LoadingToUnloading' },
-        { tripId: 1, tripName: 'LoadingToStock' },
-        { tripId: 1, tripName: 'StockToUnloading' }
+        { tripId: 1, tripName: 'LoadingToUnloading' },
+        { tripId: 3, tripName: 'LoadingToUnloading' }
     ],
-    billNo: 'MGL23A-1'
+    bill: { billNo: 'MGL-01', date: 1717180200 },
+    company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+}
+const mockBodyForLoadingToStock = {
+    trip: [{ tripId: 2, tripName: 'LoadingToStock' }],
+    bill: { billNo: 'MGL-01', date: 1717180200 },
+    company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+}
+const mockBodyForStockToUnloading = {
+    trip: [{ tripId: 5, tripName: 'StockToUnloading' }],
+    bill: { billNo: 'MGL-01', date: 1717180200 },
+    company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
 }
 const mockFilterData = {
     startDate: 1709317800,
@@ -144,25 +203,65 @@ const mockFilterData = {
     pageName: 'LoadingToUnloading'
 }
 describe('Invoice Controller', async () => {
-    test('should able to update invoice details', async () => {
+    test('should able to update billDetails details for loading to unloading', async () => {
         mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
         mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
-        await supertest(app).put('/api/invoice').send(mockBody).expect(200)
+        mockUpdateBillNumberD.mockResolvedValue({ count: 3 })
+        mockUpdateBillNumberS.mockResolvedValue({ count: 0 })
+        mockUpdateBillNumberU.mockResolvedValue({ count: 0 })
+        await supertest(app)
+            .put('/api/invoice/update')
+            .send(mockBodyForLoadingToUnloading)
+            .expect(200)
         expect(mockGetInvoiceDetailsD).toBeCalledTimes(1)
-        expect(mockGetInvoiceDetailsS).toBeCalledTimes(1)
-        expect(mockGetInvoiceDetailsU).toBeCalledTimes(1)
-    })
-    test('should able to update billDetails details', async () => {
-        await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
         expect(mockUpdateBillNumberD).toBeCalledTimes(1)
         expect(mockUpdateBillNumberS).toBeCalledTimes(1)
         expect(mockUpdateBillNumberU).toBeCalledTimes(1)
-        expect(mockUpdateBillNumberB).toBeCalledTimes(1)
+        expect(mockUpdateBillNumberD).toHaveBeenCalledWith([2, 1, 3], 'MGL-01')
+        expect(mockUpdateBillNumberS).toHaveBeenCalledWith([], 'MGL-01')
+        expect(mockUpdateBillNumberU).toHaveBeenCalledWith([], 'MGL-01')
+    })
+    test('should able to update billDetails details for loading to stock', async () => {
+        mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
+        mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
+        mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
+        mockUpdateBillNumberD.mockResolvedValue({ count: 0 })
+        mockUpdateBillNumberS.mockResolvedValue({ count: 1 })
+        mockUpdateBillNumberU.mockResolvedValue({ count: 0 })
+        await supertest(app).put('/api/invoice/update').send(mockBodyForLoadingToStock).expect(200)
+        expect(mockGetInvoiceDetailsS).toBeCalledTimes(1)
+        expect(mockUpdateBillNumberD).toBeCalledTimes(2)
+        expect(mockUpdateBillNumberS).toBeCalledTimes(2)
+        expect(mockUpdateBillNumberU).toBeCalledTimes(2)
+        expect(mockUpdateBillNumberD).toHaveBeenCalledWith([], 'MGL-01')
+        expect(mockUpdateBillNumberS).toHaveBeenCalledWith([2], 'MGL-01')
+        expect(mockUpdateBillNumberU).toHaveBeenCalledWith([], 'MGL-01')
+    })
+    test('should able to update billDetails details for stock to unloading', async () => {
+        mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
+        mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
+        mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
+        mockUpdateBillNumberD.mockResolvedValue({ count: 0 })
+        mockUpdateBillNumberS.mockResolvedValue({ count: 0 })
+        mockUpdateBillNumberU.mockResolvedValue({ count: 1 })
+        await supertest(app)
+            .put('/api/invoice/update')
+            .send(mockBodyForStockToUnloading)
+            .expect(200)
+        expect(mockGetInvoiceDetailsU).toBeCalledTimes(1)
+        expect(mockUpdateBillNumberD).toBeCalledTimes(3)
+        expect(mockUpdateBillNumberS).toBeCalledTimes(3)
+        expect(mockUpdateBillNumberU).toBeCalledTimes(3)
+        expect(mockUpdateBillNumberD).toHaveBeenCalledWith([], 'MGL-01')
+        expect(mockUpdateBillNumberS).toHaveBeenCalledWith([], 'MGL-01')
+        expect(mockUpdateBillNumberU).toHaveBeenCalledWith([5], 'MGL-01')
     })
     test('should have super admin role for invoice details', async () => {
-        await supertest(app).put('/api/invoice').send(mockBody).expect(200)
-        await supertest(app).put('/api/invoice/update').send(mockBody2).expect(200)
+        await supertest(app)
+            .put('/api/invoice/update')
+            .send(mockBodyForLoadingToUnloading)
+            .expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
     })
     test('should able to get invoice details from direct trip', async () => {
