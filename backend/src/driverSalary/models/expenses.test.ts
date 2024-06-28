@@ -12,7 +12,7 @@ describe('Driver model', () => {
         const actual = await getAllExpenses()
         expect(actual.length).toBe(expense.count)
     })
-    test.only('should able to getAllExpenseByTripId', async () => {
+    test('should able to getAllExpenseByTripId', async () => {
         await create([seedExpenses])
         const actual = await getAllExpenseByTripId(seedExpenses.tripId)
         expect(actual[0].placedAmount).toBe(seedExpenses.placedAmount)
