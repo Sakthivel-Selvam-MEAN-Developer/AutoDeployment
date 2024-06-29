@@ -8,7 +8,7 @@ export const DailyAttendaneTableHead = () => {
             <TableRow>
                 <TableCell align="center">#</TableCell>
                 <TableCell align="center">Driver Name</TableCell>
-                <TableCell align="center">Phone Number</TableCell>
+                <TableCell align="center">Phone number</TableCell>
             </TableRow>
         </TableHead>
     )
