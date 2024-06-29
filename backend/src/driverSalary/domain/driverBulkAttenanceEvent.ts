@@ -1,7 +1,9 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines-per-function */
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
+dayjs.extend(utc)
 interface dateFormatArray {
     dateStr: Date
     day: number
@@ -27,7 +29,7 @@ export const dateFormatDetailsFinalData = async (dateFormat: dateFormatArray[]) 
 }
 export const getDateFormatDetails = async (isoDates: Date[]) =>
     isoDates.map((dateStr) => {
-        const date = dayjs(dateStr)
+        const date = dayjs.utc(dateStr)
         return {
             dateStr,
             day: date.date(),

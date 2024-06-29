@@ -1,4 +1,8 @@
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import { dateFormatDetailsFinalData, getDateFormatDetails } from './driverBulkAttenanceEvent.ts'
+
+dayjs.extend(utc)
 
 describe('Date Utilities', () => {
     describe('getDateFormatDetails function', () => {
@@ -11,14 +15,14 @@ describe('Date Utilities', () => {
             const expected = [
                 {
                     dateStr: new Date('2024-06-27T18:30:00.000Z'),
-                    day: 28,
+                    day: dayjs.utc(new Date('2024-06-27T18:30:00.000Z')).date(),
                     month: 6,
                     year: 2024,
                     monthName: 'June'
                 },
                 {
                     dateStr: new Date('2024-06-28T18:30:00.000Z'),
-                    day: 29,
+                    day: dayjs.utc(new Date('2024-06-28T18:30:00.000Z')).date(),
                     month: 6,
                     year: 2024,
                     monthName: 'June'

@@ -48,7 +48,6 @@ export const driverAttenanceList = async (
     currentYear: Attendance,
     currentMonth: Attendance | undefined,
     attendanceData: attendanceDetailsProps,
-    driverList: driverProps[],
     data: dataProps[]
 ) => {
     if (
@@ -56,20 +55,17 @@ export const driverAttenanceList = async (
         !currentMonth ||
         !currentMonth.datesPresent.includes(parseInt(dayjs().format('DD')))
     ) {
-        const singleDriver =
-            data.find((driver) => driver.id === attendanceData.driverId) || singleDriverData
-        driverList.push(singleDriver)
+        return data.find((driver) => driver.id === attendanceData.driverId) || singleDriverData
     }
 }
 
 export const driverAttenanceMonthValidation = async (
     attendanceData: attendanceDetailsProps,
-    data: dataProps[],
-    driverList: driverProps[]
+    data: dataProps[]
 ) => {
     const currentYear = await findcurrentYear(attendanceData)
     const currentMonth = findcurrentMonth(currentYear)
-    await driverAttenanceList(currentYear, currentMonth, attendanceData, driverList, data)
+    return driverAttenanceList(currentYear, currentMonth, attendanceData, data)
 }
 
 export const driverAttenanceId = (attendanceDetails: attendanceDetailsProps[]) =>
@@ -83,10 +79,15 @@ export const driverAttenanceexclude = async (
 type type = (data: dataProps[], res: Response, attendanceDetails: attendanceDetailsProps[]) => void
 export const driverAttenance: type = async (data, res, attendanceDetails = []) => {
     const driverList: driverProps[] = []
-    attendanceDetails.forEach((attendanceData: attendanceDetailsProps) => {
-        driverAttenanceMonthValidation(attendanceData, data, driverList)
+    await Promise.all(
+        attendanceDetails.map(async (attendanceData: attendanceDetailsProps) => {
+            const details = await driverAttenanceMonthValidation(attendanceData, data)
+            if (details !== undefined) driverList.push(details)
+        })
+    ).then(async () => {
+        const driversIdData = driverAttenanceId(attendanceDetails)
+        const finalDriverList: driverProps[] = driverList.filter((driver) => driver !== undefined)
+        const excludeDriver = await driverAttenanceexclude(data, driversIdData, finalDriverList)
+        res.status(200).json(excludeDriver)
     })
-    const attendandedDriverIds = driverAttenanceId(attendanceDetails)
-    const excludeDriver = await driverAttenanceexclude(data, attendandedDriverIds, driverList)
-    res.status(200).json(excludeDriver)
 }

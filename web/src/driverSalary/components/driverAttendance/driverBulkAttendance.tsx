@@ -67,7 +67,7 @@ const DriverBulkAttendance = () => {
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={() => setOpenSuccessDialog(false)}
-                message="Trip creation is successful"
+                message="Attenance Added is successful"
             />
         </>
     )
