@@ -1,12 +1,16 @@
+/* eslint-disable max-lines-per-function */
 import { Request, Response } from 'express'
 import dayjs from 'dayjs'
-import { JsonArray } from '@prisma/client/runtime/library'
 import {
     create,
     getDriverAttendanceDetails,
     updateDriverAttendanceDetails,
     upsertDriverAttendanceDetails
 } from '../models/driverAttendance.ts'
+import {
+    dateFormatDetailsFinalData,
+    getDateFormatDetails
+} from '../domain/driverBulkAttenanceEvent.ts'
 
 interface monthProps {
     month: string
@@ -16,6 +20,15 @@ export interface jsonProps {
     year: number
     attendance: monthProps[]
 }
+export interface Attendance {
+    month: string
+    datesPresent: number[]
+}
+export interface filterData {
+    year: number
+    attendance: Attendance[]
+}
+
 export const attendanceObjYear = {
     year: dayjs().year(),
     attendance: [
@@ -25,7 +38,6 @@ export const attendanceObjYear = {
         }
     ]
 }
-
 const updateCurrentYear = (attendance: jsonProps[]) => attendance.push(attendanceObjYear)
 
 const updateCurrentMonth = (currentYearData: jsonProps | undefined) => {
@@ -60,7 +72,7 @@ export const createDriverAttendance = async (req: Request, res: Response) => {
 interface attendanceQuery {
     driverId: string
 }
-interface upsertQuery {
+interface QProp {
     id: string
     driverId: string
 }
@@ -73,12 +85,15 @@ export const getDriverAttendanceDetailsById = async (
     res.status(200).json(attendanceDetails)
 }
 export const upsertDriverAttendanceDetailsById = async (
-    req: Request<object, object, JsonArray[], upsertQuery>,
+    req: Request<object, object, Date[], QProp>,
     res: Response
 ) => {
     const { id, driverId } = req.query
-    const data = req.body
-    await upsertDriverAttendanceDetails(parseInt(id), parseInt(driverId), data).then((response) =>
-        res.status(200).json(response)
+    const dateFormat = await getDateFormatDetails(req.body)
+    const filteredDates = await dateFormatDetailsFinalData(dateFormat)
+    await upsertDriverAttendanceDetails(parseInt(id), parseInt(driverId), filteredDates).then(
+        (response) => {
+            res.status(200).json(response)
+        }
     )
 }

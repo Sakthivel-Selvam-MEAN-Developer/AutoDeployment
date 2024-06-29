@@ -30,7 +30,6 @@ export const FuelListForm: FC<TripFilterFormProps> = ({ setfuelReportData, setCo
             })
         } else
             return getAllFuelReport({ ...oldFilterData }).then((data: fuelReportProps) => {
-                console.log(data)
                 setfuelReportData(data.data)
                 setCount(data.count)
             })

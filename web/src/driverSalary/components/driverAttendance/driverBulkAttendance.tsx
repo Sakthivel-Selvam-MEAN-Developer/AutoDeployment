@@ -1,5 +1,4 @@
 import MultipleDatesPicker from '@ambiot/material-ui-multiple-dates-picker'
-import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import {
     getDriverDailyAttendanceById,
@@ -18,7 +17,6 @@ const DriverBulkAttendance = () => {
     const [driverName, setDriverName] = useState<string | null>('')
     const [revertedDates, setRevertedDates] = useState<string[]>([])
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
-    const filteredDates: any[] = []
     useEffect(() => {
         getAllDriver().then(setDriverList)
     }, [])
@@ -45,48 +43,11 @@ const DriverBulkAttendance = () => {
     }
 
     const handleDateSubmit = async (dates: Date[]) => {
-        const formattedDate = dates.map((date) => {
-            const day = date.getDate()
-            const month = date.getMonth() + 1
-            const year = date.getFullYear()
-            return `${day}/${month}/${year}`
+        await upsertDriverAttendanceById(attendanceDetails?.id || 0, driverId, dates).then(() => {
+            setOpen(false)
+            setOpenSuccessDialog(true)
+            setDriverId(0)
         })
-        formattedDate.forEach((dateStr) => {
-            const [day, month, year] = dateStr.split('/')
-            const formattedDate = dayjs(`${day}/${month}/${year}`, 'D/M/YYYY')
-
-            const monthName = formattedDate.format('MMMM')
-            const yearValue = formattedDate.year()
-
-            const existingYearIndex = filteredDates.findIndex((entry) => entry.year === yearValue)
-            if (existingYearIndex === -1) {
-                filteredDates.push({
-                    year: yearValue,
-                    attendance: [{ month: monthName, datesPresent: [parseInt(day)] }]
-                })
-            } else {
-                const existingMonthIndex = filteredDates[existingYearIndex].attendance.findIndex(
-                    (entry: { month: string }) => entry.month === monthName
-                )
-                if (existingMonthIndex === -1) {
-                    filteredDates[existingYearIndex].attendance.push({
-                        month: monthName,
-                        datesPresent: [parseInt(day)]
-                    })
-                } else {
-                    filteredDates[existingYearIndex].attendance[
-                        existingMonthIndex
-                    ].datesPresent.push(parseInt(day))
-                }
-            }
-        })
-        await upsertDriverAttendanceById(attendanceDetails?.id || 0, driverId, filteredDates).then(
-            () => {
-                setOpen(false)
-                setOpenSuccessDialog(true)
-                setDriverId(0)
-            }
-        )
     }
     return (
         <>
