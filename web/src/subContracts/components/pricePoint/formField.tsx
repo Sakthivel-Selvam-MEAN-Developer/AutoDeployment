@@ -1,13 +1,16 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import { Control, Controller } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
-import { TextField } from '@mui/material'
+import { Autocomplete, TextField } from '@mui/material'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
-
+interface location {
+    id: number
+    name: string
+}
 export interface FormFieldsProps {
     control: Control
     cementCompany: string[]
@@ -49,10 +52,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
     const [stockPointList, setStockPointList] = useState([])
-    const [loadingPointName, setLoadingPointName] = useState('')
-    const [unloadingPointName, setUnloadingPointName] = useState('')
-    const [stockPointName, setStockPointName] = useState('')
-
+    const [loadingPointName, setLoadingPointName] = useState({ id: 0, name: '' })
+    const [unloadingPointName, setUnloadingPointName] = useState({ id: 0, name: '' })
+    const [stockPointName, setStockPointName] = useState({ id: 0, name: '' })
     useEffect(() => {
         if (cementCompanyName !== '') {
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
@@ -61,9 +63,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
         }
     }, [cementCompanyName])
     const clearForm = () => {
-        setLoadingPointName('')
-        setUnloadingPointName('')
-        setStockPointName('')
+        setLoadingPointName({ id: 0, name: '' })
+        setUnloadingPointName({ id: 0, name: '' })
+        setStockPointName({ id: 0, name: '' })
         setFreightAmount(0)
         setTransporterPercentage(0)
         clearSubForm()
@@ -126,34 +128,50 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 category === 'Loading - Stock' ||
                 category === '' ||
                 category === null) && (
-                <AutoCompleteWithValue
+                <Autocomplete
                     value={loadingPointName}
-                    control={control}
-                    fieldName="loadingPointId"
-                    label="Loading Point"
-                    options={loadingPointList.map(({ name }) => name)}
-                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id } = loadingPointList.find(
-                            (data: { name: string }) => data.name === newValue
-                        ) || { id: 0 }
-                        setLoadingPointId(id)
-                        setLoadingPointName(newValue)
+                    options={loadingPointList.map((loadingPoint: location) => {
+                        return { id: loadingPoint.id, name: loadingPoint.name }
+                    })}
+                    sx={{ width: 300 }}
+                    getOptionLabel={(option) => option.name}
+                    renderOption={(props, option) => (
+                        <li {...props} key={option.id}>
+                            {option.name}
+                        </li>
+                    )}
+                    renderInput={(params) => <TextField {...params} label="Loading Point" />}
+                    onChange={(
+                        _event: SyntheticEvent<Element, Event>,
+                        newValue: location | null
+                    ) => {
+                        if (!newValue) return
+                        setLoadingPointId(newValue.id)
+                        setLoadingPointName({ id: newValue.id, name: newValue.name })
                     }}
                 />
             )}
             {(category === 'Stock - Unloading' || category === 'Loading - Stock') && (
-                <AutoCompleteWithValue
+                <Autocomplete
                     value={stockPointName}
-                    control={control}
-                    fieldName="stockPointId"
-                    label="Stock Point"
-                    options={stockPointList.map(({ name }) => name)}
-                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id } = stockPointList.find(
-                            (data: { name: string }) => data.name === newValue
-                        ) || { id: 0 }
-                        setStockPointId(id)
-                        setStockPointName(newValue)
+                    options={stockPointList.map((stockPoint: location) => {
+                        return { id: stockPoint.id, name: stockPoint.name }
+                    })}
+                    sx={{ width: 300 }}
+                    getOptionLabel={(option) => option.name}
+                    renderOption={(props, option) => (
+                        <li {...props} key={option.id}>
+                            {option.name}
+                        </li>
+                    )}
+                    renderInput={(params) => <TextField {...params} label="Stock Point" />}
+                    onChange={(
+                        _event: SyntheticEvent<Element, Event>,
+                        newValue: location | null
+                    ) => {
+                        if (!newValue) return
+                        setStockPointId(newValue.id)
+                        setStockPointName({ id: newValue.id, name: newValue.name })
                     }}
                 />
             )}
@@ -161,18 +179,26 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 category === 'Stock - Unloading' ||
                 category === '' ||
                 category === null) && (
-                <AutoCompleteWithValue
+                <Autocomplete
                     value={unloadingPointName}
-                    control={control}
-                    fieldName="unloadingPointId"
-                    label="Unloading Point"
-                    options={unloadingPointList.map(({ name }) => name)}
-                    onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                        const { id } = unloadingPointList.find(
-                            (data: { name: string }) => data.name === newValue
-                        ) || { id: 0 }
-                        setUnloadingPointId(id)
-                        setUnloadingPointName(newValue)
+                    options={unloadingPointList.map((unloadingPoint: location) => {
+                        return { id: unloadingPoint.id, name: unloadingPoint.name }
+                    })}
+                    sx={{ width: 300 }}
+                    getOptionLabel={(option) => option.name}
+                    renderOption={(props, option) => (
+                        <li {...props} key={option.id}>
+                            {option.name}
+                        </li>
+                    )}
+                    renderInput={(params) => <TextField {...params} label="Unloading Point" />}
+                    onChange={(
+                        _event: SyntheticEvent<Element, Event>,
+                        newValue: location | null
+                    ) => {
+                        if (!newValue) return
+                        setUnloadingPointId(newValue.id)
+                        setUnloadingPointName({ id: newValue.id, name: newValue.name })
                     }}
                 />
             )}
