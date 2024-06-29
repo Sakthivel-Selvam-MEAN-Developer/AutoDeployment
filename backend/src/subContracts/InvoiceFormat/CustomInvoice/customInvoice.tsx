@@ -13,13 +13,12 @@ export interface InvoiceProps {
     bill: { billNo: string; date: number }
 }
 const tableRow = (row: LoadingTripProps, index: number) => (
-    // const name = partyNames.filter((trips) => trips.invoiceNumber === row.invoiceNumber)
     <tr>
         <td>{index + 1}</td>
         <td>{row.invoiceNumber}</td>
         <td>{row.lrNumber}</td>
         <td>{row.startDate}</td>
-        <td>{'partyName'}</td>
+        <td>{row.partyName}</td>
         <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
         <td>{row.truck.vehicleNumber}</td>
         <td>5116</td>
@@ -41,7 +40,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
         <td>{row.invoiceNumber}</td>
         <td>{row.lrNumber}</td>
         <td>{row.startDate}</td>
-        <td>{'partyName'}</td>
+        <td>{row.partyName}</td>
         <td>{row.unloadingPoint.name}</td>
         <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
         <td>5116</td>

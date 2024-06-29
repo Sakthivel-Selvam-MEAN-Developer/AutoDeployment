@@ -15,7 +15,7 @@ const tableRow = (row: LoadingTripProps, index: number) => (
         <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
         <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
         <td style={{ textAlign: 'center' }}>{row.truck.vehicleNumber}</td>
-        <td style={{ textAlign: 'center' }}>{'partyName'}</td>
+        <td style={{ textAlign: 'center' }}>{row.partyName}</td>
         <td style={{ textAlign: 'center' }}>
             {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}
         </td>
@@ -41,7 +41,7 @@ const tableRowForStockToUnloading: StockToUnloadingProps = (row, index) => (
         <td style={{ textAlign: 'center' }}>
             {row.loadingPointToStockPointTrip.truck.vehicleNumber}
         </td>
-        <td style={{ textAlign: 'center' }}>{'partyName'}</td>
+        <td style={{ textAlign: 'center' }}>{row.partyName}</td>
         <td style={{ textAlign: 'center' }}>{row.unloadingPoint.name}</td>
         <td style={{ textAlign: 'right' }}>
             {row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}

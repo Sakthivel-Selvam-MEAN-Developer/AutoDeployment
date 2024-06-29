@@ -13,7 +13,7 @@ const tableRow = (row: LoadingTripProps, index: number) => (
         <td>{index + 1}</td>
         <td>{row.startDate}</td>
         <td>{row.invoiceNumber}</td>
-        <td>{'partyName'}</td>
+        <td>{row.partyName}</td>
         <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
         <td>{row.truck.vehicleNumber}</td>
         <td>{row.filledLoad.toFixed(2)}</td>
@@ -31,7 +31,7 @@ const tableRowForStockToUnloading: tableRowForStockToUnloadingProps = (row, inde
         <td>{index + 1}</td>
         <td>{row.startDate}</td>
         <td>{row.invoiceNumber}</td>
-        <td>{'partyName'}</td>
+        <td>{row.partyName}</td>
         <td>{row.unloadingPoint.name}</td>
         <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
         <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>

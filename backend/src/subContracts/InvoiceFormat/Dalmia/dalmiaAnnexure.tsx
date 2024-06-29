@@ -34,7 +34,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
         <td className="tc">{index + 1}</td>
         <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
         <td></td>
-        <td></td>
+        <td>{row.lrNumber}</td>
         <td className="tc">
             {row.loadingPointToStockPointTrip.stockPoint.name} - {row.unloadingPoint.name}
         </td>
