@@ -32,7 +32,7 @@ export const getDateFormatDetails = async (isoDates: Date[]) =>
         const date = dayjs.utc(dateStr)
         return {
             dateStr,
-            day: date.date(),
+            day: date.date() + 1,
             month: date.month() + 1,
             year: date.year(),
             monthName: date.format('MMMM')
