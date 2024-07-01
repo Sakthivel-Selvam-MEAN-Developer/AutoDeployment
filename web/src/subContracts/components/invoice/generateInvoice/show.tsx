@@ -104,6 +104,7 @@ const TableRowContainer: FC<TableRowContainerProps> = ({
                     ? row.stockPoint.name
                     : row.unloadingPoint.name}
             </TableCell>
+            <TableCell sx={{ textAlign: 'left' }}>{row.filledLoad}</TableCell>
             <TableCell sx={{ textAlign: 'left' }}>{row.freightAmount}</TableCell>
             <TableCell sx={{ textAlign: 'left' }}>{row.totalFreightAmount}</TableCell>
             <InvoicePartyNameField

@@ -6,6 +6,7 @@ const cellNames = [
     'Vehicle Number',
     'Loading Point',
     'Unloading Point',
+    'quantity',
     'Freight Amount',
     'Total Freight Amount',
     'Action'

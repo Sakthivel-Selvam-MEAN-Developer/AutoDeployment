@@ -40,7 +40,9 @@ export const getInvoiceDetails = (id: number[]) =>
             startDate: true,
             partyName: true,
             lrNumber: true,
-            unloadingPoint: { select: { name: true } },
+            unloadingPoint: {
+                select: { name: true, cementCompany: { select: { secondaryBillNumber: true } } }
+            },
             invoiceNumber: true,
             freightAmount: true,
             loadingPointToStockPointTrip: {

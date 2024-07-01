@@ -129,7 +129,8 @@ export const getInvoiceDetails = (id: number[]) =>
             },
             loadingPoint: {
                 select: {
-                    name: true
+                    name: true,
+                    cementCompany: { select: { primaryBillNumber: true } }
                 }
             },
             overallTrip: {

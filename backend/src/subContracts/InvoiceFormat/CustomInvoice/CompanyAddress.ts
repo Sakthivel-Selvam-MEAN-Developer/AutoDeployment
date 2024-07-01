@@ -1,7 +1,3 @@
-export interface AddressDetails {
-    address: string
-}
-
 export const companyAddresses = {
     ultraTech: {
         address: `<h4>M/s ULTRATECH CEMENT LIMITED</h4>
@@ -12,6 +8,30 @@ export const companyAddresses = {
                   <h4>State code:- 37</h4>
                   <h4>GSTN:- 37AAACL6442L1Z9</h4>
                   <h4>PAN NO:- AAACL6442L</h4>`
+    },
+    ultraTechSecondary: {
+        address: `<h4>M/s ULTRATECH CEMENT LIMITED</h4>
+                  <h4>Lakshmi Arcade, 3rd Floor, 11th Cross, Thillai Nagar</h4>
+                  <h4>Trichy-620018</h4><br>
+                  <h4>GSTN:- 33AAACL6442L1ZH</h4>
+                  <h4>PAN NO:- AAACL6442L</h4>`
+    },
+    dalmiaJammalmaduguSecondary: {
+        address: `<tr className="border">
+                            <td className="border" colSpan={6}>
+                                Name : Dalmia Cement Bharat Ltd
+                            </td>
+                        </tr>
+                        <tr className="border">
+                            <td className="border" colSpan={6}>
+                                Address :Dalmia Cement Factory, Yadwad Road, Yadwad, Belgaum District, Karnataka - 591136,
+                            </td>
+                        </tr>
+                        <tr className="border">
+                            <td colSpan={6} className="border">
+                                GSTIN : 29AADCA9414C1ZV
+                            </td>
+                        </tr>`
     },
     grasim: {
         address: `<h4>M/s Grasim Industries Limited</h4>

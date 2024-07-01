@@ -294,7 +294,7 @@ model companyInvoice {
   amount                           Int
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
-  cementCompany                    cementCompany                   @relation(fields: [cementCompanyId], references: [id])
+  cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])
   cementCompanyId                  Int
   loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
   stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
@@ -322,6 +322,8 @@ model cementCompany {
   emailId             String           @unique
   contactPersonName   String
   contactPersonNumber String
+  primaryBillNumber   String?
+  secondaryBillNumber String?
   loadingPoints       loadingPoint[]
   stockPoints         stockPoint[]
   unloadingPoints     unloadingPoint[]

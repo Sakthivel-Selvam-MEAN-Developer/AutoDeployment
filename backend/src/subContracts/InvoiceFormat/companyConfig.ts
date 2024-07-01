@@ -1,7 +1,7 @@
 import ChettinadAriyalur from './Chettinad/chettinadAriyalur.tsx'
 import ChettinadKarikkali from './Chettinad/chettinadKarikali.tsx'
-import { AddressDetails, companyAddresses } from './CustomInvoice/CompanyAddress.ts'
-import CustomInvoice, { InvoiceProps } from './CustomInvoice/customInvoice.tsx'
+import { companyAddresses } from './CustomInvoice/CompanyAddress.ts'
+import CustomInvoice, { AddressDetails, InvoiceProps } from './CustomInvoice/customInvoice.tsx'
 import DalmiaDalmiapuramInvoice from './Dalmia/dalmiaDalmiapuram.tsx'
 import DalmiaKadappaInvoice from './Dalmia/dalmiaKadapa.tsx'
 import MahaInvoice from './Maha/mahaInvoice.tsx'
@@ -31,6 +31,7 @@ export const companyConfig: Record<string, CompanyConfig> = {
     },
     'Dalmia Cement (Bharat) Limited,Jammalmadugu': {
         Component: DalmiaKadappaInvoice,
+        address: companyAddresses.dalmiaJammalmaduguSecondary,
         companyTagID: 'dalmia_kadappa_section',
         annexureTagID: 'dalmia_annexure_section'
     },

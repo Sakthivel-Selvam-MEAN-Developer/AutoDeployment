@@ -3,9 +3,13 @@ import React, { FC } from 'react'
 import { financialYear } from '../financialYear.ts'
 import DalmiaAnnexure from './dalmiaAnnexure.tsx'
 import { toWords } from '../numberToWords.ts'
-import { dalmiaProps } from './dalmiaKadapa.tsx'
 import { epochToMinimalDate } from '../epochToNormal.ts'
-
+import { InvoiceProp, totalProps } from '../type.tsx'
+export interface dalmiaProps {
+    trip: InvoiceProp['trips']
+    bill: { billNo: string; date: number }
+    total: totalProps
+}
 const DalmiaDalmiapuramInvoice: FC<dalmiaProps> = ({ trip, bill, total }) => (
     <>
         <section id="invoice">

@@ -28,6 +28,7 @@ export interface tripDetailsProps {
 export interface tripDetails {
     id: number
     startDate: number
+    filledLoad: number
     truck: {
         vehicleNumber: string
     }

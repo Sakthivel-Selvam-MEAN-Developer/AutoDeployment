@@ -5,8 +5,7 @@ import { toWords } from '../numberToWords.ts'
 import { financialYear } from '../financialYear.ts'
 import { epochToMinimalDate } from '../epochToNormal.ts'
 import { InvoiceProp, totalProps } from '../type.tsx'
-
-export interface dalmiaProps {
+interface dalmiaProps {
     trip: InvoiceProp['trips']
     bill: { billNo: string; date: number }
     total: totalProps
@@ -46,22 +45,33 @@ const DalmiaKadappaInvoice: FC<dalmiaProps> = ({ trip, bill, total }) => (
                                 Details of Receiver/ Billed to:
                             </td>
                         </tr>
-                        <tr className="border">
-                            <td className="border" colSpan={6}>
-                                Name : M/s. Dalmia Cement(Bharat) Limited
-                            </td>
-                        </tr>
-                        <tr className="border">
-                            <td className="border" colSpan={6}>
-                                Address : Chinnakomerla Village Jammalmadugu, Kadappa District,
-                                Andra Pradesh - 516434
-                            </td>
-                        </tr>
-                        <tr className="border">
-                            <td colSpan={6} className="border">
-                                GSTIN : 37AADCA9414C1ZY
-                            </td>
-                        </tr>
+                        {trip.stockPointToUnloadingPointTrip &&
+                            trip.stockPointToUnloadingPointTrip.length === 0 && (
+                                <>
+                                    <tr className="border">
+                                        <td className="border" colSpan={6}>
+                                            Name : M/s. Dalmia Cement(Bharat) Limited
+                                        </td>
+                                    </tr>
+                                    <tr className="border">
+                                        <td className="border" colSpan={6}>
+                                            Address : Chinnakomerla Village Jammalmadugu, Kadappa
+                                            District, Andra Pradesh - 516434
+                                        </td>
+                                    </tr>
+                                    <tr className="border">
+                                        <td colSpan={6} className="border">
+                                            GSTIN : 37AADCA9414C1ZY
+                                        </td>
+                                    </tr>
+                                </>
+                            )}
+                        {/* {trip.stockPointToUnloadingPointTrip &&
+                            trip.stockPointToUnloadingPointTrip.length > 0 && (
+                                <div className="customer">
+                                    {companyAddresses.dalmiaJammalmaduguSecondary.address}
+                                </div>
+                            )} */}
                     </tbody>
                 </table>
                 <table className="table2" style={{ width: '100%' }}>

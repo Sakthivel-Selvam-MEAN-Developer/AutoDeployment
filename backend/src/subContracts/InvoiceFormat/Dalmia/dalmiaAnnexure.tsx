@@ -2,10 +2,13 @@ import React, { FC } from 'react'
 import './style.css'
 import dayjs from 'dayjs'
 import { toWords } from '../numberToWords.ts'
-import { LoadingTripProps, StockToUnloadingPointProps } from '../type.tsx'
+import { InvoiceProp, LoadingTripProps, StockToUnloadingPointProps, totalProps } from '../type.tsx'
 import { epochToMinimalDate } from '../epochToNormal.ts'
-import { dalmiaProps } from './dalmiaKadapa.tsx'
-
+export interface dalmiaProps {
+    trip: InvoiceProp['trips']
+    bill: { billNo: string; date: number }
+    total: totalProps
+}
 const tableRow = (row: LoadingTripProps, index: number) => (
     <tr>
         <td className="tc">{index + 1}</td>

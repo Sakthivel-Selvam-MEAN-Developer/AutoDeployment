@@ -1,12 +1,13 @@
 import './style.css'
 import dayjs from 'dayjs'
 import React from 'react'
-import { AddressDetails } from './CompanyAddress.ts'
 import { InvoiceProp, LoadingTripProps, StockToUnloadingPointProps } from '../type.tsx'
 import { financialYear } from '../financialYear.ts'
 import { epochToMinimalDate } from '../epochToNormal.ts'
 import { toWords } from '../numberToWords.ts'
-
+export interface AddressDetails {
+    address: string
+}
 export interface InvoiceProps {
     address: AddressDetails | undefined
     trip: InvoiceProp['trips']
@@ -86,9 +87,17 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ trip, address, bill }) => {
             </div>
             <div className="place-of-supply"></div>
             <div className="address">
-                <div className="customer">
-                    <div dangerouslySetInnerHTML={{ __html: address ? address.address : '' }} />
-                </div>
+                {trip.stockPointToUnloadingPointTrip?.length === 0 && (
+                    <div className="customer">
+                        <div dangerouslySetInnerHTML={{ __html: address ? address.address : '' }} />
+                    </div>
+                )}
+                {/* {trip.stockPointToUnloadingPointTrip &&
+                    trip.stockPointToUnloadingPointTrip.length > 0 && (
+                        <div className="customer">
+                            {companyAddresses.ultraTechSecondary.address}
+                        </div>
+                    )} */}
                 <div className="vendor">
                     <div>
                         <h4>Generation Date:- {dayjs().format('DD-MM-YYYY')}</h4>
@@ -220,8 +229,6 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ trip, address, bill }) => {
                 <h5>Authorized Signatory</h5>
             </div>
         </main>
-        //     )}
-        // </>
     )
 }
 
