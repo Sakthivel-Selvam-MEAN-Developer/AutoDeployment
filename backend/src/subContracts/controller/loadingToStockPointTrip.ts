@@ -39,7 +39,8 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
             vehicleNumber = data.truck.vehicleNumber
             return createOverallTrip({
                 loadingPointToStockPointTripId: data.id,
-                finalPayDuration: pricePoint?.payGeneratingDuration
+                finalPayDuration: pricePoint?.payGeneratingDuration,
+                truckId: data.truckId
             })
         })
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
