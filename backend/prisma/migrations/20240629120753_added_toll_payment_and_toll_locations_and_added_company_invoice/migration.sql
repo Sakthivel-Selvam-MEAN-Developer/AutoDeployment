@@ -1,4 +1,4 @@
--- AlterTable
+ -- AlterTable
 ALTER TABLE "subContract"."loadingPointToStockPointTrip" ADD COLUMN     "companyInvoiceId" INTEGER;
 
 -- AlterTable

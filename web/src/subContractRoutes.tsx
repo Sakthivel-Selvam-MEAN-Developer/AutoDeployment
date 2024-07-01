@@ -148,7 +148,11 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <InvoiceList />
-                }
+                },
+                // {
+                //     path:'viewinvoice',
+                //     element:<ViewInvoice />
+                // }
             ]
         },
         {

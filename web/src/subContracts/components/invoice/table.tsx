@@ -18,7 +18,6 @@ const cells = (cell: string, index: number) => {
     )
 }
 const newLocal = <TableRow>{cellNames.map((cellName, index) => cells(cellName, index))}</TableRow>
-
 export const getTableHead = () => {
     return (
         <TableHead sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 4 }}>

@@ -24,13 +24,11 @@ import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
 import DrawerCollapse from './drawerCollapse.tsx'
 import { CheckUser } from '../../../auth/checkUser.tsx'
-
 interface MiniDrawerProps {
     handleDrawerClose: () => void
     drawerState: boolean
 }
 const drawerWidth = 240
-
 const openedMixin = (theme: Theme) => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
@@ -39,7 +37,6 @@ const openedMixin = (theme: Theme) => ({
     }),
     overflowX: 'hidden'
 })
-
 const closedMixin = (theme: Theme) => ({
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -49,7 +46,6 @@ const closedMixin = (theme: Theme) => ({
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up('sm')]: { width: `calc(${theme.spacing(8)} + 1px)` }
 })
-
 const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== 'open'
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,6 +73,11 @@ const reportSubs = [
     },
     { navigate: '/sub/reports/discrepancydues', name: 'DiscrepancyPayment Report', icon: 'DR' },
     { navigate: '/sub/reports/completedpayment', name: 'Completed Payments', icon: 'CP' }
+]
+const invoiceSubs = [
+    { navigate:'/sub/invoice',name: 'Generate Invoice', icon: 'GI'},
+    { navigate:'/sub/viewInvoice',name: 'View Invoice', icon: 'VI'}
+
 ]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
@@ -167,12 +168,12 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     icon={<NoteAlt />}
                 />
                 {authoriser.adminAccess && (
-                    <DrawerListItem
+                    <DrawerCollapse
                         text="Invoice"
-                        navigate="/sub/invoice"
                         drawerState={drawerState}
                         index={10}
                         icon={<FileDownload />}
+                        subs={invoiceSubs}
                     />
                 )}
                 <DrawerListItem
