@@ -193,7 +193,7 @@ export const groupDataByName = async (
             bankDetails: transporterAccount.length !== 0 ? transporterAccount : bunkBankAccount,
             tripDetails: matchingTrips.map((matchingTrip) => {
                 const tripData = tripDetails.filter(
-                    (trip) =>
+                    (trip: { id: number | null }) =>
                         trip.id === matchingTrip.overallTripId ||
                         (matchingTrip.overallTripId === null &&
                             matchingTrip.status === false &&

@@ -6,7 +6,6 @@ import { Button } from '@mui/material'
 import { getTripDetailsByFilterData, updateInvoiceDetails } from '../../../services/invoice'
 import { billNoContext, filterDataProps, invoiceFilterData } from './invoiceContext'
 import { InvoiceFieldDialog } from './fieldDialog'
-
 import html2pdf from 'html2pdf.js'
 import dayjs from 'dayjs'
 export interface dateProps {
@@ -64,6 +63,8 @@ const InvoiceList: React.FC = () => {
     const [activateFields, setActivateFields] = useState<boolean>(false)
     const [invoiceValues, setInvoiceValues] = useState<invoiceValuesProps>({} as invoiceValuesProps)
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
+    // const [pdfBytes, setPdfBytes] = useState()
+    // const [load, setLoad] = useState(false)
     useEffect(() => {
         setTripDetails([])
         setTripId([])
@@ -83,22 +84,34 @@ const InvoiceList: React.FC = () => {
         await updateInvoiceDetails(data).then(async (data: string) => await downloadPDF(data))
     }
     const downloadPDF = async (data: string) => {
+        // const doc = new jsPDF();
+        // doc.save(data); // Load the PDF data
+
+        // // Get the processed PDF data as a base64 string
+        // const base64Data = doc.output('datauristring');
+        // setPdfBytes(base64Data);
+        // setPdfBytes(data)
+        // setLoad(true)
+
         const tempContainer = document.createElement('div')
         tempContainer.innerHTML = data
         const invoiceElement = tempContainer.querySelector('#invoice')
         const annexureElement = tempContainer.querySelector('#annexure')
         const pdfContainer = document.createElement('div')
+
         if (invoiceElement) {
             const invoicePage = document.createElement('div')
             invoicePage.appendChild(invoiceElement.cloneNode(true))
             pdfContainer.appendChild(invoicePage)
         }
+
         if (annexureElement) {
             const annexurePage = document.createElement('div')
             annexurePage.style.pageBreakBefore = 'always'
             annexurePage.appendChild(annexureElement.cloneNode(true))
             pdfContainer.appendChild(annexurePage)
         }
+
         const options = {
             filename: `Invoice_${filterData.cementCompanyName}_${dayjs().format('DD_MM_YYYY')}.pdf`,
             margin: 0.2,
@@ -106,6 +119,7 @@ const InvoiceList: React.FC = () => {
             html2canvas: { scale: 1 },
             jsPDF: { unit: 'px', format: [1500, 1200], orientation: 'portrait' }
         }
+
         html2pdf().set(options).from(pdfContainer).save()
     }
     return (
@@ -142,6 +156,16 @@ const InvoiceList: React.FC = () => {
                 setTripDetails={setTripDetails}
             />
             <br />
+            {/* {pdfBytes && (
+                <object
+                    data={pdfBytes}
+                    type="application/pdf"
+                    width="100%"
+                    height="400px"
+                >
+                    <p>This browser does not support inline PDFs. Please download the file.</p>
+                </object>
+            )} */}
             <billNoContext.Provider value={{ setInvoiceValues, invoiceValues }}>
                 <InvoiceFieldDialog
                     activateFields={activateFields}

@@ -8,7 +8,11 @@ const configs = {
     ORY_SDK_URL: process.env.ORY_SDK_URL || '',
     keycloakPublicKey: process.env.PUBLIC_KEY || '',
     keycloakUrl: process.env.KEYCLOAK_URL || '',
-    publicKey: process.env.PUBLIC_KEY || ''
+    publicKey: process.env.PUBLIC_KEY || '',
+    AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY || '',
+    AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || '',
+    S3_BUCKET: process.env.S3_BUCKET || '',
+    REGION: process.env.REGION || ''
 }
 
 export default configs

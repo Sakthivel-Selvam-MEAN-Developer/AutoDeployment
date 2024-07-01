@@ -51,6 +51,11 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
             <table>
                 <TableHeader />
                 <tbody>
+                    <tr className="table-head">
+                        {headers.map((header) => (
+                            <th key={header}>{header}</th>
+                        ))}
+                    </tr>
                     {tripDetails.map((trip, index) => (
                         <tr className="table-body" key={trip.id}>
                             <td>{index + 1}</td>

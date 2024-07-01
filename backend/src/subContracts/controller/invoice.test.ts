@@ -13,7 +13,55 @@ const mockUpdateBillNumberB = vi.fn()
 const mockGetDirectTripsByinvoiceFilter = vi.fn()
 const mockGetStockTripsByinvoiceFilter = vi.fn()
 const mockGetUnloadingTripsByinvoiceFilter = vi.fn()
+const mockUploadToS3 = vi.fn()
 
+vi.mock('aws-sdk', () => ({
+    S3: vi.fn(() => ({
+        upload: vi.fn().mockImplementation((params: any, callback: any) => {
+            if (params.Body instanceof ArrayBuffer) {
+                callback(null, { Location: 'sample-url' })
+            } else {
+                callback(new Error('Invalid Body type'), null)
+            }
+        })
+    })),
+    config: {
+        update: vi.fn()
+    }
+}))
+vi.mock('react-dom/server', async (importOriginal) => {
+    const actual = await importOriginal()
+
+    return {
+        ...(typeof actual === 'object' && actual !== null ? actual : {}),
+        renderToString: vi
+            .fn()
+            .mockImplementation(
+                () =>
+                    "<div id='invoice'><p>Invoice</p></div><div id='annexure'><p>Annexure</p></div>"
+            )
+    }
+})
+vi.mock('jsdom', () => ({
+    JSDOM: vi.fn(() => ({
+        window: {
+            document: {
+                querySelector: vi.fn((selector: string) => {
+                    if (selector === '#invoice') {
+                        return {
+                            outerHTML: '<div id="invoice"><p>Invoice</p></div>'
+                        } as unknown as HTMLElement
+                    }
+                    if (selector === '#annexure') {
+                        return {
+                            outerHTML: '<div id="annexure"><p>Annexure</p></div>'
+                        } as unknown as HTMLElement
+                    }
+                })
+            }
+        }
+    }))
+}))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberD(inputs, billNo),
     getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsD(inputs),
@@ -32,6 +80,10 @@ vi.mock('../models/stockPointToUnloadingPoint', () => ({
 vi.mock('../models/billNumber', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberB(inputs, billNo)
 }))
+vi.mock('./uploadToS3', () => ({
+    uploadToS3: (buffer: any, company: string, billNo: any) =>
+        mockUploadToS3(buffer, company, billNo)
+}))
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
     authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
@@ -44,6 +96,7 @@ vi.mock('../../auditRoute.ts', () => ({
         next()
     }
 }))
+
 const mockGetInvoiceDetailsDData = [
     {
         startDate: 1709231400,
@@ -202,18 +255,22 @@ const mockFilterData = {
     cementCompanyName: 'ultraTech',
     pageName: 'LoadingToUnloading'
 }
+
 describe('Invoice Controller', async () => {
     test('should able to update billDetails details for loading to unloading', async () => {
+        mockUploadToS3.mockResolvedValue('sample-file-path')
         mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
         mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
         mockUpdateBillNumberD.mockResolvedValue({ count: 3 })
         mockUpdateBillNumberS.mockResolvedValue({ count: 0 })
         mockUpdateBillNumberU.mockResolvedValue({ count: 0 })
+
         await supertest(app)
             .put('/api/invoice/update')
             .send(mockBodyForLoadingToUnloading)
             .expect(200)
+
         expect(mockGetInvoiceDetailsD).toBeCalledTimes(1)
         expect(mockUpdateBillNumberD).toBeCalledTimes(1)
         expect(mockUpdateBillNumberS).toBeCalledTimes(1)
@@ -223,6 +280,7 @@ describe('Invoice Controller', async () => {
         expect(mockUpdateBillNumberU).toHaveBeenCalledWith([], 'MGL-01')
     })
     test('should able to update billDetails details for loading to stock', async () => {
+        mockUploadToS3.mockResolvedValue('sample-file-path')
         mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
         mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
@@ -239,6 +297,7 @@ describe('Invoice Controller', async () => {
         expect(mockUpdateBillNumberU).toHaveBeenCalledWith([], 'MGL-01')
     })
     test('should able to update billDetails details for stock to unloading', async () => {
+        mockUploadToS3.mockResolvedValue('sample-file-path')
         mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
         mockGetInvoiceDetailsS.mockResolvedValue(mockGetInvoiceDetailsSData)
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)

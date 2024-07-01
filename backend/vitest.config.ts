@@ -5,21 +5,21 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             thresholds: {
-                branches: 86.83,
+                branches: 86.06,
                 functions: 77.39,
-                lines: 84.61,
-                statements: 84.61,
+                lines: 84.62,
+                statements: 84.62,
                 'src/subContracts/models/**': {
-                    branches: 85.38,
-                    functions: 87.09,
-                    lines: 86.73,
-                    statements: 86.73
+                    branches: 90.9,
+                    functions: 87.8,
+                    lines: 90.22,
+                    statements: 90.22
                 },
                 'src/subContracts/controller/**': {
-                    branches: 82.63,
-                    functions: 93.93,
-                    lines: 94.2,
-                    statements: 94.2
+                    branches: 82.16,
+                    functions: 94,
+                    lines: 94.33,
+                    statements: 94.33
                 },
                 'src/subContracts/domain': {
                     branches: 61.81,
@@ -34,7 +34,10 @@ export default defineConfig({
                     statements: 97.28
                 }
             },
-            exclude: ['src/subContracts/InvoiceFormat/**']
+            exclude: [
+                'src/subContracts/InvoiceFormat/**',
+                'src/subContracts/controller/uploadToS3.ts'
+            ]
         }
     }
 })

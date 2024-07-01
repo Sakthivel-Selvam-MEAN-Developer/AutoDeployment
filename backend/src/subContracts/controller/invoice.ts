@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
 import ReactDOMServer from 'react-dom/server'
+import { JSDOM } from 'jsdom'
+import puppeteer, { Browser } from 'puppeteer'
+import { PDFDocument } from 'pdf-lib'
 import {
     updateBillNumber as updateLoadingToUnloading,
     getInvoiceDetails as loadingToUnlaodingInvoice,
@@ -17,17 +20,34 @@ import {
 } from '../models/stockPointToUnloadingPoint.ts'
 import { getContentBasedOnCompany } from '../InvoiceFormat/calculateTotal.tsx'
 import { InvoiceProp } from '../InvoiceFormat/type.tsx'
+import { uploadToS3 } from './uploadToS3.ts'
+import logger from '../../logger.ts'
 
 interface tripDetailsProps {
     tripId: number
     tripName: string
 }
-
+type pdfBuffers = (
+    browser: Browser,
+    htmlContent: string | undefined,
+    width: number,
+    height: number
+) => Promise<Buffer>
+const generateBufferFromHtml: pdfBuffers = async (browser, htmlContent, width, height) => {
+    const page = await browser.newPage()
+    await page.setContent(htmlContent || '', { waitUntil: 'networkidle0' })
+    const pdfBuffer = await page.pdf({
+        width: `${width}px`,
+        height: `${height}px`,
+        printBackground: true
+    })
+    return pdfBuffer
+}
 const groupTripId = (tripDetails: tripDetailsProps[]) => {
     const loadingToUnloading: number[] = []
     const loadingToStock: number[] = []
     const stockToUnloading: number[] = []
-    tripDetails.map((data: tripDetailsProps) => {
+    tripDetails.forEach((data: tripDetailsProps) => {
         switch (data.tripName) {
             case 'LoadingToUnloading':
                 loadingToUnloading.push(data.tripId)
@@ -40,7 +60,6 @@ const groupTripId = (tripDetails: tripDetailsProps[]) => {
                 break
             default:
         }
-        return 0
     })
     return { loadingToUnloading, loadingToStock, stockToUnloading }
 }
@@ -75,20 +94,21 @@ export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = a
         .catch(() => res.status(500))
 }
 
+// eslint-disable-next-line complexity
 export const updateInvoiceDetails = async (req: Request, res: Response) => {
+    const { tripName } = req.body.trip[0]
     const { loadingToStock, loadingToUnloading, stockToUnloading } = groupTripId(req.body.trip)
     let loadingPointToUnloadingPointTrip: InvoiceProp['trips']['loadingPointToUnloadingPointTrip'] =
         []
     let loadingPointToStockPointTrip: InvoiceProp['trips']['loadingPointToStockPointTrip'] = []
     let stockPointToUnloadingPointTrip: InvoiceProp['trips']['stockPointToUnloadingPointTrip'] = []
-
-    if (req.body.trip[0].tripName === 'LoadingToUnloading') {
+    if (tripName === 'LoadingToUnloading') {
         loadingPointToUnloadingPointTrip = await loadingToUnlaodingInvoice(loadingToUnloading)
     }
-    if (req.body.trip[0].tripName === 'StockToUnloading') {
+    if (tripName === 'StockToUnloading') {
         stockPointToUnloadingPointTrip = await stockToUnlaodingInvoice(stockToUnloading)
     }
-    if (req.body.trip[0].tripName === 'LoadingToStock') {
+    if (tripName === 'LoadingToStock') {
         loadingPointToStockPointTrip = await loadingToStockInvoice(loadingToStock)
     }
     const componentHtml = ReactDOMServer.renderToString(
@@ -104,12 +124,31 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
             req.body.bill
         )
     )
-    Promise.all([
+    const dom = new JSDOM(`<!DOCTYPE html><html><body>${componentHtml}</body></html>`)
+    const invoiceHtml = dom.window.document.querySelector('#invoice')?.outerHTML
+    const annexureHtml = dom.window.document.querySelector('#annexure')?.outerHTML
+    if (!invoiceHtml) logger.error('Required HTML sections not found')
+    const browser = await puppeteer.launch()
+    const invoicePdfBuffer = await generateBufferFromHtml(browser, invoiceHtml, 1200, 1300)
+    const annexurePdfBuffer = await generateBufferFromHtml(browser, annexureHtml, 1200, 1300)
+    await browser.close()
+    const pdfDoc = await PDFDocument.create()
+    const [invoicePdf, annexurePdf] = await Promise.all([
+        PDFDocument.load(invoicePdfBuffer),
+        PDFDocument.load(annexurePdfBuffer)
+    ])
+    const [invoicePage] = await pdfDoc.copyPages(invoicePdf, [0])
+    const [annexurePage] = await pdfDoc.copyPages(annexurePdf, [0])
+    pdfDoc.addPage(invoicePage)
+    pdfDoc.addPage(annexurePage)
+    const combinedPdfBuffer = await pdfDoc.save()
+    await uploadToS3(combinedPdfBuffer, req.body.company, req.body.bill.billNo)
+
+    await Promise.all([
         updateLoadingToStock(loadingToStock, req.body.bill.billNo),
         updateLoadingToUnloading(loadingToUnloading, req.body.bill.billNo),
         updateStockToUnloading(stockToUnloading, req.body.bill.billNo)
-        // updateBillNumber(req.body.billNo)
     ])
         .then(() => res.status(200).json(componentHtml))
-        .catch(() => res.sendStatus(500))
+        .catch((err) => res.status(500).json(`Error generating or uploading PDF: ${err}`))
 }

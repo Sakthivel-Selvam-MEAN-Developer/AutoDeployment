@@ -420,3 +420,22 @@ date: 11-04-2024
   query:
     - update "subContract"."pricePoint" SET "payGeneratingDuration" =10 where id=213;
     - update "subContract"."paymentDues" SET "name" = 'SNT Transport(navaladi)' where "type"='gst pay' and "name"='Navaladi Transport';
+
+  date: 28-06-2024
+  person: Santhosh
+  description:
+    - update transporter for vehicle KA01AD9892, KA01AL1242, KA01AH3497
+  query:
+    - update "subContract"."truck" SET "transporterId" =245 where id in (467, 471);
+    - update "subContract"."truck" SET "transporterId" =246 where id=629;
+
+  date: 01-07-2024
+  person: Santhosh
+  description:
+    - update payGeneratingDuration in price point
+    - update transporter name
+  query:
+    - update "subContract"."pricePoint" SET "payGeneratingDuration" =3 where id in (223, 222);
+    - update "subContract"."pricePoint" SET "payGeneratingDuration" =10 where id=221;
+    - update "subContract"."pricePoint" SET "payGeneratingDuration" =7 where id=224;
+    - update "subContract"."transporter" SET "name" = 'Sri Thirumalaiamman Transports' where id=249;
