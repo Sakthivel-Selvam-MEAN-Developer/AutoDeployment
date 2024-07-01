@@ -19,6 +19,7 @@ import SelectTrip from './subContracts/components/acknowledgement/list'
 import Invoice from './subContracts/components/invoice/generateInvoice'
 import InvoiceList from './subContracts/components/invoice/generateInvoice/list'
 import Report from './subContracts/components/report'
+import ViewList from './subContracts/components/invoice/viewInvoice/list'
 import ListAllTrip from './subContracts/components/report/tripStatusReport/list'
 import ListAllUpcomingDues from './subContracts/components/report/upcomingTransporterDuesReport/upcomingTransporterDuesList'
 import ListAllAcknowledgementDues from './subContracts/components/report/acknowledgementAgingReport/listAllAcknowledgementDues'
@@ -148,11 +149,11 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <InvoiceList />
+                },
+                {
+                    path: 'viewinvoice',
+                    element: <ViewList />
                 }
-                // {
-                //     path:'viewinvoice',
-                //     element:<ViewInvoice />
-                // }
             ]
         },
         {
