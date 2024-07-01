@@ -534,6 +534,7 @@ model truck {
   loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
   loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
   stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
+  overallTrip                      overallTrip[]
 
   @@schema("subContract")
 }
@@ -637,6 +638,8 @@ model overallTrip {
   loadingPointToUnloadingPointTripId Int?
   loadingPointToUnloadingPointTrip   loadingPointToUnloadingPointTrip? @relation(fields: [loadingPointToUnloadingPointTripId], references: [id])
   fuel                               fuel[]
+  truckId                            Int?
+  truck                              truck?                            @relation(fields: [truckId], references: [id])
   createdAt                          DateTime                          @default(now()) @db.Timestamptz(6)
   updatedAt                          DateTime                          @updatedAt @db.Timestamptz(6)
   shortageQuantity                   shortageQuantity[]
