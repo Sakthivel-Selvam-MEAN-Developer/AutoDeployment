@@ -16,8 +16,8 @@ import BunkList from './subContracts/components/bunk/list'
 import Bunk from './subContracts/components/bunk'
 import Acknowledgement from './subContracts/components/acknowledgement'
 import SelectTrip from './subContracts/components/acknowledgement/list'
-import Invoice from './subContracts/components/invoice'
-import InvoiceList from './subContracts/components/invoice/list'
+import Invoice from './subContracts/components/invoice/generateInvoice'
+import InvoiceList from './subContracts/components/invoice/generateInvoice/list'
 import Report from './subContracts/components/report'
 import ListAllTrip from './subContracts/components/report/tripStatusReport/list'
 import ListAllUpcomingDues from './subContracts/components/report/upcomingTransporterDuesReport/upcomingTransporterDuesList'
@@ -148,7 +148,7 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <InvoiceList />
-                },
+                }
                 // {
                 //     path:'viewinvoice',
                 //     element:<ViewInvoice />

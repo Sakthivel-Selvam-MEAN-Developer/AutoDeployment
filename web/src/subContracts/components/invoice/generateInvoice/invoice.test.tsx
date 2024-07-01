@@ -9,13 +9,13 @@ const mockAllCementCompany = vi.fn()
 const mockGetTripDetailsByFilterData = vi.fn()
 const mockGetLastBillNumber = vi.fn()
 
-vi.mock('../../services/cementCompany', () => ({
+vi.mock('../../../services/cementCompany', () => ({
     getAllCementCompany: () => mockAllCementCompany()
 }))
-vi.mock('../../services/invoice', () => ({
+vi.mock('../../../services/invoice', () => ({
     getTripDetailsByFilterData: (inputs: any) => mockGetTripDetailsByFilterData(inputs)
 }))
-vi.mock('../../services/billNumber', () => ({
+vi.mock('../../../services/billNumber', () => ({
     getLastBillNumber: () => mockGetLastBillNumber()
 }))
 

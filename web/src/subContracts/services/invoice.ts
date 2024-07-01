@@ -1,6 +1,6 @@
 import { axiosInstance, getData } from '../../apiCalls'
 import { Nullable } from '../../types'
-import { tripDetailsProps } from '../components/invoice/list'
+import { tripDetailsProps } from '../components/invoice/generateInvoice/list'
 
 interface updateInvoiceProps {
     trip: tripDetailsProps[]

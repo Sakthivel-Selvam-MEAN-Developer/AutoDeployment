@@ -13,9 +13,9 @@ import {
 } from '@mui/material'
 import { tripDetails, tripDetailsProps } from './list'
 import { FC, useContext, useState } from 'react'
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { filterDataProps, invoiceFilterData } from './invoiceContext'
-import { getTripDetailsByFilterData } from '../../services/invoice'
+import { getTripDetailsByFilterData } from '../../../services/invoice'
 import { SelectedTableContainer } from './selectedTripsTable'
 import {
     InvoicePartyNameFieldProps,

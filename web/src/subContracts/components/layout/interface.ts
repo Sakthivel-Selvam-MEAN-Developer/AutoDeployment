@@ -6,10 +6,9 @@ export interface DrawerListItemProps {
     index: number
     icon: ReactElement
     subs: subsProps[]
-   
 }
 export interface subsProps {
-    navigate: string 
+    navigate: string
     name: string
     icon: string
 }

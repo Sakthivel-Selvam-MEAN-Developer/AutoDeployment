@@ -1,5 +1,5 @@
 import { TableCell } from '@mui/material'
-import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
+import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { tripDetails } from './list'
 import { FC } from 'react'
 import { cellProps } from './interface'

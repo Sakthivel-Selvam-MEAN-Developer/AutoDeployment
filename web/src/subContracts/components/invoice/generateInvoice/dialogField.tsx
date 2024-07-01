@@ -4,7 +4,7 @@ import { DialogContent, DialogContentText, TextField } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { containerProps, DateFieldProps, TextContainerProps } from './dialogFieldTypes.'
+import { containerProps, DateFieldProps, TextContainerProps } from './dialogFieldTypes'
 
 export const DialogContentConatiner: FC<containerProps> = ({ invoiceValues, setInvoiceValues }) => {
     return <DialogContent>{TextContainer(invoiceValues, setInvoiceValues)}</DialogContent>

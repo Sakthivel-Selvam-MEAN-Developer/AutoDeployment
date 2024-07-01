@@ -75,9 +75,8 @@ const reportSubs = [
     { navigate: '/sub/reports/completedpayment', name: 'Completed Payments', icon: 'CP' }
 ]
 const invoiceSubs = [
-    { navigate:'/sub/invoice',name: 'Generate Invoice', icon: 'GI'},
-    { navigate:'/sub/viewInvoice',name: 'View Invoice', icon: 'VI'}
-
+    { navigate: '/sub/invoice', name: 'Generate Invoice', icon: 'GI' },
+    { navigate: '/sub/viewInvoice', name: 'View Invoice', icon: 'VI' }
 ]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
