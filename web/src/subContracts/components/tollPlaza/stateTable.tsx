@@ -16,12 +16,7 @@ export const Data = (trip: overallTripp[], handleRowClick: (params: dataGrid) =>
     return (
         <>
             <TableContainer sx={{ maxHeight: 380 }} component={Paper}>
-                <DataGrid
-                    rows={rows(trip)}
-                    columns={columns}
-                    hideFooterPagination
-                    onRowClick={handleRowClick}
-                />
+                <DataGrid rows={rows(trip)} columns={columns} onRowClick={handleRowClick} />
             </TableContainer>
         </>
     )

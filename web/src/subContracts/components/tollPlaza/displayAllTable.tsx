@@ -36,7 +36,6 @@ export const ShowTable = (display: overallTripp[], handleCloseToll: (params: dat
                 <DataGrid
                     rows={rows(display) || []}
                     columns={submittedColumns}
-                    hideFooterPagination
                     onRowClick={handleCloseToll}
                 />
             </TableContainer>
