@@ -576,7 +576,7 @@ model paymentDues {
   overallTrip   overallTrip? @relation(fields: [overallTripId], references: [id])
   overallTripId Int?
 
-  // @@unique([overallTripId, type])
+  @@unique([overallTripId, type])
   @@schema("subContract")
 }
 
