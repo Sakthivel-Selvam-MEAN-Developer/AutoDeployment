@@ -14,7 +14,8 @@ export const getCompanyInvoice = () =>
             pdfLink: true,
             cementCompany: {
                 select: {
-                    name: true
+                    name: true,
+                    id: true
                 }
             }
         }

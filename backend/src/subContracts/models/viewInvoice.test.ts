@@ -9,18 +9,16 @@ import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedTruck from '../seed/truckWithoutDeb.ts'
+import seedViewInvoice from '../seed/viewInvoice.ts'
 import seedTransporter from '../seed/transporter.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
-import {
-    closeAcknowledgementStatusforOverAllTrip,
-    create,
-    updateAcknowledgementApproval
-} from './overallTrip.ts'
+import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
 import { updateBillNumber as updateLoadingToUnloading } from '../models/loadingToUnloadingTrip.ts'
 import { create as createCompanyinvoice, getCompanyInvoice } from '../models/viewInvoice.ts'
+
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -98,15 +96,25 @@ describe('ViewInvoice model', () => {
             wantFuel: false,
             loadingKilometer: 0
         })
-        const overalltrip = await create({
+        await create({
             loadingPointToUnloadingPointTripId: trip.id,
             acknowledgementApproval: false,
             acknowledgementStatus: true,
             transporterInvoice: 'asdfghjk'
         })
+
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
-        const actual = await updateAcknowledgementApproval(overalltrip.id)
-        expect(actual.acknowledgementApproval).toBe(!overalltrip.acknowledgementApproval)
+        await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
+        await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
+
+        const companyInvoice = await createCompanyinvoice({
+            ...seedViewInvoice,
+            cementCompanyId: company.id
+        })
+        const actual = await getCompanyInvoice()
+        expect(actual[0].billNo).toBe(companyInvoice.billNo)
+        expect(actual[0].billDate).toBe(companyInvoice.billDate)
+        expect(actual[0].amount).toBe(companyInvoice.amount)
     })
 })
