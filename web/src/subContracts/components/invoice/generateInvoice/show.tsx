@@ -31,7 +31,7 @@ export interface tripProps {
 const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripDetails }) => {
     const { filterData, setFilterData } = useContext(invoiceFilterData)
     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
-        if (filterData.cementCompanyName === '') return
+        if (filterData.cementCompany.name === '') return
         setTripDetails([])
         setTripId([])
         await getTripDetailsByFilterData({ ...filterData, pageName: newValue }).then(setTripDetails)

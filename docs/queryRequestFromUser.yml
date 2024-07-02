@@ -439,3 +439,15 @@ date: 11-04-2024
     - update "subContract"."pricePoint" SET "payGeneratingDuration" =10 where id=221;
     - update "subContract"."pricePoint" SET "payGeneratingDuration" =7 where id=224;
     - update "subContract"."transporter" SET "name" = 'Sri Thirumalaiamman Transports' where id=249;
+
+  date: 02-07-2024
+  person: Santhosh
+  description:
+    - delete magnum trip afte testing
+  query:
+    - delete from "subContract"."overallTrip" where "loadingPointToStockPointTripId" in (607, 608);
+    - delete from "subContract"."paymentDues" where "vehicleNumber"='KA 01 AJ 2856';
+    - delete from "subContract"."paymentDues" where "vehicleNumber"='NL 01 AA 9957';
+    - delete from "subContract"."fuel" where "vehicleNumber"='KA 01 AJ 2856';
+    - delete from "subContract"."fuel" where "vehicleNumber"='NL 01 AA 9957';
+    - delete from "subContract"."loadingPointToStockPointTrip" where id in (607, 608);

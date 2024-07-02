@@ -18,7 +18,6 @@ import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
 import { updateBillNumber as updateLoadingToUnloading } from '../models/loadingToUnloadingTrip.ts'
 import { create as createCompanyinvoice, getCompanyInvoice } from '../models/viewInvoice.ts'
-
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

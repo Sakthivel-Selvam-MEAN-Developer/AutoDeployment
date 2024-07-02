@@ -113,7 +113,7 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
     }
     const componentHtml = ReactDOMServer.renderToString(
         getContentBasedOnCompany(
-            req.body.company,
+            req.body.cementCompany.name,
             {
                 trips: {
                     loadingPointToUnloadingPointTrip,
@@ -142,7 +142,7 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
     pdfDoc.addPage(invoicePage)
     pdfDoc.addPage(annexurePage)
     const combinedPdfBuffer = await pdfDoc.save()
-    await uploadToS3(combinedPdfBuffer, req.body.company, req.body.bill.billNo)
+    await uploadToS3(combinedPdfBuffer, req.body.cementCompany.name, req.body.bill.billNo)
 
     await Promise.all([
         updateLoadingToStock(loadingToStock, req.body.bill.billNo),
@@ -152,3 +152,5 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
         .then(() => res.status(200).json(componentHtml))
         .catch((err) => res.status(500).json(`Error generating or uploading PDF: ${err}`))
 }
+
+// export const previewPDFController = async (_req: Request, _res: Response) => {}

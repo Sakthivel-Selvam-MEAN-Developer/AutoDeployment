@@ -237,17 +237,17 @@ const mockBodyForLoadingToUnloading = {
         { tripId: 3, tripName: 'LoadingToUnloading' }
     ],
     bill: { billNo: 'MGL-01', date: 1717180200 },
-    company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+    cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
 }
 const mockBodyForLoadingToStock = {
     trip: [{ tripId: 2, tripName: 'LoadingToStock' }],
     bill: { billNo: 'MGL-01', date: 1717180200 },
-    company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+    cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
 }
 const mockBodyForStockToUnloading = {
     trip: [{ tripId: 5, tripName: 'StockToUnloading' }],
     bill: { billNo: 'MGL-01', date: 1717180200 },
-    company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+    cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
 }
 const mockFilterData = {
     startDate: 1709317800,
@@ -347,4 +347,5 @@ describe('Invoice Controller', async () => {
             .expect(200)
         expect(mockGetUnloadingTripsByinvoiceFilter).toBeCalledTimes(1)
     })
+    test('should able to retrun html content to preview pdf', async () => {})
 })

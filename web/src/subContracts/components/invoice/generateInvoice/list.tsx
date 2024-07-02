@@ -49,7 +49,7 @@ const defaultFilterData = {
     pageName: 'LoadingToUnloading',
     startDate: 0,
     endDate: 0,
-    cementCompanyName: ''
+    cementCompany: { name: '', id: 0 }
 }
 export interface invoiceValuesProps {
     billNo: string
@@ -68,18 +68,18 @@ const InvoiceList: React.FC = () => {
     useEffect(() => {
         setTripDetails([])
         setTripId([])
-    }, [filterData?.cementCompanyName])
+    }, [filterData?.cementCompany])
     const onSubmit = async () => await getTripDetails()
     const handleClick = () => setActivateFields(true)
     const getTripDetails = async () => {
-        if (filterData?.cementCompanyName === '') return
+        if (filterData?.cementCompany.name === '') return
         await getTripDetailsByFilterData(filterData).then(setTripDetails)
     }
     const updateInvoice = async () => {
         const data = {
             trip: tripId,
             bill: invoiceValues,
-            company: filterData?.cementCompanyName
+            cementCompany: filterData?.cementCompany
         }
         await updateInvoiceDetails(data).then(async (data: string) => await downloadPDF(data))
     }
@@ -113,7 +113,9 @@ const InvoiceList: React.FC = () => {
         }
 
         const options = {
-            filename: `Invoice_${filterData.cementCompanyName}_${dayjs().format('DD_MM_YYYY')}.pdf`,
+            filename: `Invoice_${filterData.cementCompany.name}_${dayjs().format(
+                'DD_MM_YYYY'
+            )}.pdf`,
             margin: 0.2,
             image: { type: 'png', quality: 1 },
             html2canvas: { scale: 1 },

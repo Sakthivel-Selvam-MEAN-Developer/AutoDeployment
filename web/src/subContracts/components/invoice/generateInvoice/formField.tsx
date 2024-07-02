@@ -68,11 +68,15 @@ const FormField: React.FC<FormFieldsProps> = ({ control, cementCompany, setCemen
                 fieldName="companyName"
                 label="Select Company"
                 options={cementCompany.map(({ name }) => name)}
-                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) =>
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    const company = cementCompany.find((company) => company.name === newValue)
                     setFilterData((preData: filterDataProps) => {
-                        return { ...preData, cementCompanyName: newValue }
+                        return {
+                            ...preData,
+                            cementCompany: { id: company?.id, name: company?.name }
+                        }
                     })
-                }
+                }}
             />
             <Button
                 color="secondary"

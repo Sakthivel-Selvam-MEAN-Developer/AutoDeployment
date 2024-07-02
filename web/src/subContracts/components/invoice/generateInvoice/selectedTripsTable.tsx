@@ -10,7 +10,7 @@ const SelectedTableBody: FC<SelectedProps> = ({ selectedTrip, setSelectedTrip })
     useEffect(() => {
         setSelectedTrip([])
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterData.pageName, filterData.cementCompanyName])
+    }, [filterData.pageName, filterData.cementCompany])
     return (
         <>
             {selectedTrip.length > 0 &&
