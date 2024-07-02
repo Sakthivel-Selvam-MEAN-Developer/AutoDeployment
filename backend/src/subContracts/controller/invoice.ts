@@ -153,4 +153,37 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
         .catch((err) => res.status(500).json(`Error generating or uploading PDF: ${err}`))
 }
 
-// export const previewPDFController = async (_req: Request, _res: Response) => {}
+// export const previewPDFController = async (req: Request, res: Response) => {
+//     const { tripName } = req.body.trip[0]
+//     const { loadingToStock, loadingToUnloading, stockToUnloading } = groupTripId(req.body.trip)
+//     let loadingPointToUnloadingPointTrip:
+//      InvoiceProp['trips']['loadingPointToUnloadingPointTrip'] =
+//         []
+//     let loadingPointToStockPointTrip:
+//      InvoiceProp['trips']['loadingPointToStockPointTrip'] = []
+//     let stockPointToUnloadingPointTrip:
+// InvoiceProp['trips']['stockPointToUnloadingPointTrip'] = []
+//     if (tripName === 'LoadingToUnloading') {
+//         loadingPointToUnloadingPointTrip = await loadingToUnlaodingInvoice(loadingToUnloading)
+//     }
+//     if (tripName === 'StockToUnloading') {
+//         stockPointToUnloadingPointTrip = await stockToUnlaodingInvoice(stockToUnloading)
+//     }
+//     if (tripName === 'LoadingToStock') {
+//         loadingPointToStockPointTrip = await loadingToStockInvoice(loadingToStock)
+//     }
+//     const componentHtml = ReactDOMServer.renderToString(
+//         getContentBasedOnCompany(
+//             req.body.cementCompany.name,
+//             {
+//                 trips: {
+//                     loadingPointToUnloadingPointTrip,
+//                     loadingPointToStockPointTrip,
+//                     stockPointToUnloadingPointTrip
+//                 }
+//             },
+//             req.body.bill
+//         )
+//     )
+//     res.status(200).json(componentHtml)
+// }
