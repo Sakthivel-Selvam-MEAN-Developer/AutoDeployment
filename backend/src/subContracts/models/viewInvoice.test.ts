@@ -106,7 +106,7 @@ describe('ViewInvoice model', () => {
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
-        await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
+        await updateLoadingToUnloading([overallTrip.id], 'MGL-2002')
 
         const companyInvoice = await createCompanyinvoice({
             ...seedViewInvoice,
@@ -116,5 +116,6 @@ describe('ViewInvoice model', () => {
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
         expect(actual[0].billDate).toBe(companyInvoice.billDate)
         expect(actual[0].amount).toBe(companyInvoice.amount)
+        expect(actual[0].pdfLink).toBe(companyInvoice.pdfLink)
     })
 })
