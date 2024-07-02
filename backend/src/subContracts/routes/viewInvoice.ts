@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { listTripDetailsByCompanyName } from '../controller/invoice.ts'
+import { getInvoicedTrip } from '../controller/viewInvoice.ts'
 
 const viewInvoiceRoutes = (router: Router) => {
-    router.get('/invoice', listTripDetailsByCompanyName)
+    router.get('/viewInvoice', getInvoicedTrip)
 }
 
 export default viewInvoiceRoutes
