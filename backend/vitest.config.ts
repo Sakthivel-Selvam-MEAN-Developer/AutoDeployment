@@ -18,8 +18,8 @@ export default defineConfig({
                 'src/subContracts/controller/**': {
                     branches: 82.16,
                     functions: 94,
-                    lines: 94.33,
-                    statements: 94.33
+                    lines: 94.34,
+                    statements: 94.34
                 },
                 'src/subContracts/domain': {
                     branches: 61.81,
@@ -30,8 +30,8 @@ export default defineConfig({
                 'src/subContracts/routes/**': {
                     branches:96.15,
                     functions: 96.15,
-                    lines: 97.28,
-                    statements: 97.28
+                    lines: 97.31,
+                    statements: 97.31
                 }
             },
             exclude: [

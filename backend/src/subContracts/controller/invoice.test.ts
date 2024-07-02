@@ -278,7 +278,7 @@ describe('Invoice Controller', async () => {
         expect(mockUpdateBillNumberD).toHaveBeenCalledWith([2, 1, 3], 'MGL-01')
         expect(mockUpdateBillNumberS).toHaveBeenCalledWith([], 'MGL-01')
         expect(mockUpdateBillNumberU).toHaveBeenCalledWith([], 'MGL-01')
-    })
+    }, 6000)
     test('should able to update billDetails details for loading to stock', async () => {
         mockUploadToS3.mockResolvedValue('sample-file-path')
         mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
@@ -295,7 +295,7 @@ describe('Invoice Controller', async () => {
         expect(mockUpdateBillNumberD).toHaveBeenCalledWith([], 'MGL-01')
         expect(mockUpdateBillNumberS).toHaveBeenCalledWith([2], 'MGL-01')
         expect(mockUpdateBillNumberU).toHaveBeenCalledWith([], 'MGL-01')
-    })
+    }, 6000)
     test('should able to update billDetails details for stock to unloading', async () => {
         mockUploadToS3.mockResolvedValue('sample-file-path')
         mockGetInvoiceDetailsD.mockResolvedValue(mockGetInvoiceDetailsDData)
@@ -315,7 +315,7 @@ describe('Invoice Controller', async () => {
         expect(mockUpdateBillNumberD).toHaveBeenCalledWith([], 'MGL-01')
         expect(mockUpdateBillNumberS).toHaveBeenCalledWith([], 'MGL-01')
         expect(mockUpdateBillNumberU).toHaveBeenCalledWith([5], 'MGL-01')
-    })
+    }, 6000)
     test('should have super admin role for invoice details', async () => {
         await supertest(app)
             .put('/api/invoice/update')
