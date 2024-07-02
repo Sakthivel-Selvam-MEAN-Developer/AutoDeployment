@@ -31,7 +31,6 @@ export const companyConfig: Record<string, CompanyConfig> = {
     },
     'Dalmia Cement (Bharat) Limited,Jammalmadugu': {
         Component: DalmiaKadappaInvoice,
-        address: companyAddresses.dalmiaJammalmaduguSecondary,
         companyTagID: 'dalmia_kadappa_section',
         annexureTagID: 'dalmia_annexure_section'
     },

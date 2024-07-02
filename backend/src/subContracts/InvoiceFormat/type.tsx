@@ -278,6 +278,7 @@ export interface StockToUnloadingPointProps {
     lrNumber: string
     unloadingPoint: {
         name: string
+        cementCompany: { name: string; secondaryBill: { address: string; gstNumber: string } }
     }
     freightAmount: number
     loadingPointToStockPointTrip: {

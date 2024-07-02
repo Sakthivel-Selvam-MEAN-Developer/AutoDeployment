@@ -83,7 +83,7 @@ export const getInvoiceDetails = (id: number[]) =>
             lrNumber: true,
             stockPoint: { select: { name: true } },
             loadingPoint: {
-                select: { name: true, cementCompany: { select: { primaryBillNumber: true } } }
+                select: { name: true, cementCompany: { select: { primaryBill: true } } }
             },
             overallTrip: {
                 select: { shortageQuantity: { select: { shortageQuantity: true } } }

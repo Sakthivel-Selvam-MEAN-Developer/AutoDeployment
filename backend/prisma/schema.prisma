@@ -314,22 +314,36 @@ model accountType {
 }
 
 model cementCompany {
-  id                  Int              @id @default(autoincrement())
-  name                String           @unique
-  advanceType         Int              @default(70)
+  id                  Int                    @id @default(autoincrement())
+  name                String                 @unique
+  advanceType         Int                    @default(70)
   gstNo               String
   address             String
-  emailId             String           @unique
+  emailId             String                 @unique
   contactPersonName   String
   contactPersonNumber String
-  primaryBillNumber   String?
-  secondaryBillNumber String?
   loadingPoints       loadingPoint[]
   stockPoints         stockPoint[]
   unloadingPoints     unloadingPoint[]
   companyInvoice      companyInvoice[]
-  createdAt           DateTime         @default(now()) @db.Timestamptz(6)
-  updatedAt           DateTime         @updatedAt @db.Timestamptz(6)
+  createdAt           DateTime               @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime               @updatedAt @db.Timestamptz(6)
+  primaryBill         companyBillingDetails? @relation("primaryBill", fields: [primaryBillId], references: [id])
+  primaryBillId       Int?
+  secondaryBill       companyBillingDetails? @relation("secondaryBill", fields: [secondaryBillId], references: [id])
+  secondaryBillId     Int?
+
+  @@schema("subContract")
+}
+
+model companyBillingDetails {
+  id            Int             @id @default(autoincrement())
+  address       String
+  gstNumber     String
+  createdAt     DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime        @updatedAt @db.Timestamptz(6)
+  primaryBill   cementCompany[] @relation("primaryBill")
+  secondaryBill cementCompany[] @relation("secondaryBill")
 
   @@schema("subContract")
 }

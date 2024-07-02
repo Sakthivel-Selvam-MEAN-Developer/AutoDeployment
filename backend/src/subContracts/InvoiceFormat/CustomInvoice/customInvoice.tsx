@@ -5,6 +5,7 @@ import { InvoiceProp, LoadingTripProps, StockToUnloadingPointProps } from '../ty
 import { financialYear } from '../financialYear.ts'
 import { epochToMinimalDate } from '../epochToNormal.ts'
 import { toWords } from '../numberToWords.ts'
+import { companyAddresses } from './CompanyAddress.ts'
 export interface AddressDetails {
     address: string
 }
@@ -92,11 +93,30 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ trip, address, bill }) => {
                         <div dangerouslySetInnerHTML={{ __html: address ? address.address : '' }} />
                     </div>
                 )}
-                {/* {trip.stockPointToUnloadingPointTrip &&
+                {trip.stockPointToUnloadingPointTrip &&
                     trip.stockPointToUnloadingPointTrip.length > 0 && (
-                        <div className="customer">
-                            {companyAddresses.ultraTechSecondary.address}
-                        </div>
+                        <>
+                            {/* {trip.stockPointToUnloadingPointTrip[0].unloadingPoint.cementCompany
+                                .name === 'ULTRATECH CEMENT LIMITED,TADIPATRI' && (
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: companyAddresses.ultraTechSecondary.address
+                                    }}
+                                />
+                            )} */}
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: companyAddresses.ultraTechSecondary.address
+                                }}
+                            />
+                        </>
+                    )}
+                {/* {trip.stockPointToUnloadingPointTrip?.length === 0 && (
+                    <div dangerouslySetInnerHTML={{ __html: BillAddress }} />
+                )}
+                {trip.stockPointToUnloadingPointTrip &&
+                    trip.stockPointToUnloadingPointTrip.length > 0 && (
+                        <div dangerouslySetInnerHTML={{ __html: BillAddress }} />
                     )} */}
                 <div className="vendor">
                     <div>

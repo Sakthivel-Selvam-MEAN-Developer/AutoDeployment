@@ -153,7 +153,10 @@ const mockGetInvoiceDetailsUData = [
     {
         startDate: 1709317800,
         unloadingPoint: {
-            name: 'Salem'
+            name: 'Salem',
+            cementCompany: {
+                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+            }
         },
         invoiceNumber: 'wqsqwsdsd',
         freightAmount: 800,

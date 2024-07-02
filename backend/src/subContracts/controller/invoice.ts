@@ -106,6 +106,7 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
         loadingPointToUnloadingPointTrip = await loadingToUnlaodingInvoice(loadingToUnloading)
     }
     if (tripName === 'StockToUnloading') {
+        // @ts-expect-error type
         stockPointToUnloadingPointTrip = await stockToUnlaodingInvoice(stockToUnloading)
     }
     if (tripName === 'LoadingToStock') {
