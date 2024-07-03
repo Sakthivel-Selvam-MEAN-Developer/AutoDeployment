@@ -13,7 +13,9 @@ June2024:
   what_went_wrong_for_project:
     - pricePoint Approval went wrong
   How_I_Enabled_Others:
-    - helped sakthi with transactions and keycloak driver creation  
+    - helped sakthi with transactions and keycloak driver creation
+    - helped ravi with the setup and to make his first deployment
+    - hepled sneka with the understanding of features to be created
   lessons_learnt:
     - should give proper indexing for states while looping
   what_i_learnt:
