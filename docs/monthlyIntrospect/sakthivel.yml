@@ -24,6 +24,8 @@ June_2024:
     - We only Delete or Modify datas on Production DB only if the R
     - We proceed with Modifing or Deleting the data from the Production DB once We receive the necessary Authorization from the Responsible Person
   How_I_Enabled_Others:
+    - Barath and I gave a deployment demo to Ramya and Ravishankar
+    - I gave a some Tips to Improve Code and Write code under ESLint Limit to Ramya
   What_Did_I_Learnt:
     - JSDOM (How to use JSDOM to render HTML on Backend)
     - AWS S3 (How to Store Data on S3 using AWS SDK)
@@ -31,12 +33,10 @@ June_2024:
     - Learn Deep about Prisma Transaction
   Appreciation:
     Ravishankar:
-    - Great job on creating Generate and Download Company Invocie Format PDF from Backend
-    Barath:
-    - learned s3,JSDOM and uploaded pdf in s3 felt impressive 
-    Appreciation_By_Ramya: 
-    - I'm impressed with your problem-solving skills, which involve researching until bugs are resolved  
-    
+      - Great job on creating Generate and Download Company Invocie Format PDF from Backend
+    Ramya:
+      - I'm impressed with your problem-solving skills, which involve researching until bugs are resolved  
+
 July_2024:
   Features_Developed_By_Me_Went_Live:
   Features_Developed_By_Me_Did_Not_Went_Live:

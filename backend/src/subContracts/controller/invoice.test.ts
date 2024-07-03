@@ -255,7 +255,7 @@ const mockBodyForStockToUnloading = {
 const mockFilterData = {
     startDate: 1709317800,
     endDate: 1709317800,
-    cementCompanyName: 'ultraTech',
+    cementCompany: { name: 'ultraTech', id: 1 },
     pageName: 'LoadingToUnloading'
 }
 

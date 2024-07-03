@@ -77,7 +77,7 @@ interface RequestQuery {
     pageName: string
     startDate: string
     endDate: string
-    cementCompanyName: string
+    cementCompany: { name: string; id: number }
 }
 type listTripDetailsByCompanyNameProps = (
     req: Request<object, object, object, RequestQuery>,
@@ -87,7 +87,7 @@ export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = a
     const filterData = {
         startDate: parseInt(req.query.startDate),
         endDate: parseInt(req.query.endDate),
-        company: req.query.cementCompanyName
+        company: req.query.cementCompany.name
     }
     await getTripByType(req.query.pageName, filterData)
         .then((data) => res.status(200).json(data))
