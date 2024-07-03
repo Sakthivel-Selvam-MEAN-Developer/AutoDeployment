@@ -12,6 +12,8 @@ June2024:
     - allowed user to edit transporter percenatge
   what_went_wrong_for_project:
     - pricePoint Approval went wrong
+  How_I_Enabled_Others:
+    - helped sakthi with transactions and keycloak driver creation  
   lessons_learnt:
     - should give proper indexing for states while looping
   what_i_learnt:
