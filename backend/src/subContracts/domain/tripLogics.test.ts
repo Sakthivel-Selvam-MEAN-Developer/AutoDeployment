@@ -19,6 +19,13 @@ const tripData = {
 }
 const overallTrip = {
     id: 1,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Barath Logistics Pvt Ltd',
+            transporterType: 'Market'
+        }
+    },
     fuel: [
         {
             totalprice: 1000,

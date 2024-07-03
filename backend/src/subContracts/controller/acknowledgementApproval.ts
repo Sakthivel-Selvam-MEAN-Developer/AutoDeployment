@@ -23,6 +23,14 @@ export const listTripForAcknowlegementApproval = (_req: Request, res: Response) 
         .catch(() => res.status(500))
 }
 interface finalDuePropsfalse {
+    name?: string
+    type: string
+    dueDate: number
+    overallTripId: number
+    vehicleNumber?: string
+    payableAmount: number
+}
+interface paymentDuesCreateManyInput {
     name: string
     type: string
     dueDate: number
@@ -30,6 +38,16 @@ interface finalDuePropsfalse {
     vehicleNumber: string
     payableAmount: number
 }
+export const convertData = (finalDue: finalDuePropsfalse[]): paymentDuesCreateManyInput[] =>
+    // eslint-disable-next-line complexity
+    finalDue.map((item) => ({
+        name: item.name ?? '',
+        type: item.type,
+        dueDate: item.dueDate,
+        overallTripId: item.overallTripId,
+        vehicleNumber: item.vehicleNumber ?? '',
+        payableAmount: item.payableAmount
+    }))
 export const approveAcknowledgement = async (req: Request, res: Response) => {
     const shortage = await getShortageQuantityByOverallTripId(req.body.id)
     if (shortage === null) return res.sendStatus(500)
@@ -38,10 +56,9 @@ export const approveAcknowledgement = async (req: Request, res: Response) => {
     await updateAcknowledgementApproval(req.body.id)
         .then(async (overallTrip) => {
             await finalDueCreation(overallTrip).then(
-                async (finalDue: boolean | undefined | finalDuePropsfalse[]) => {
-                    if (finalDue === undefined) return res.sendStatus(200)
-                    if (typeof finalDue === 'boolean') return res.sendStatus(200)
-                    await createPaymentDues(finalDue).then(() => res.sendStatus(200))
+                async (due: boolean | undefined | finalDuePropsfalse[]) => {
+                    if (due === undefined || typeof due === 'boolean') return res.sendStatus(200)
+                    await createPaymentDues(convertData(due)).then(() => res.sendStatus(200))
                 }
             )
         })

@@ -1,4 +1,4 @@
-import { finalDueCreation } from './acknowledgementApprovalEvent.ts'
+import { finalDueCreation, getTransporterName } from './acknowledgementApprovalEvent.ts'
 
 const truck = {
     vehicleNumber: 'TN93D5512',
@@ -68,6 +68,8 @@ const overallTrip = {
             updatedAt: new Date()
         }
     ],
+    truckId: 1,
+    truck,
     loadingPointToStockPointTrip: null,
     loadingPointToUnloadingPointTrip: {
         id: 1,
@@ -116,6 +118,7 @@ describe('For an overall trip when ack approved event is called', () => {
     test('when transporter type is equal to own final pay should not be created', async () => {
         const overalltrip = {
             ...overallTrip,
+            truck: { ...truck, transporter: { ...truck.transporter, transporterType: 'Own' } },
             loadingPointToUnloadingPointTrip: {
                 totalTransporterAmount: 100000,
                 truck: { ...truck, transporter: { ...truck.transporter, transporterType: 'Own' } }
@@ -129,6 +132,7 @@ describe('For an overall trip when ack approved event is called', () => {
     test('should be able to generate final pay for loading to stock trip', async () => {
         const overAllTrip = {
             ...overallTrip,
+            truck,
             loadingPointToStockPointTrip: {
                 totalTransporterAmount: 100000,
                 id: 1,
@@ -166,5 +170,67 @@ describe('For an overall trip when ack approved event is called', () => {
         ]
         const actual = await finalDueCreation(overAllTrip)
         expect(actual).toEqual(finalPay)
+    })
+})
+describe('getTransporterName', () => {
+    test('should return the transporter from loadingPointToStockPointTrip if it exists', () => {
+        const actual = {
+            ...overallTrip,
+            truck: {
+                ...truck,
+                transporter: { ...truck.transporter, id: 1, name: 'Transporter 1' }
+            },
+            loadingPointToUnloadingPointTrip: {
+                totalTransporterAmount: 100000,
+                truck: {
+                    ...truck,
+                    transporter: { ...truck.transporter, id: 1, name: 'Transporter 1' }
+                }
+            }
+        }
+        const result = getTransporterName(actual)
+        expect(result).toEqual({
+            id: 1,
+            name: 'Transporter 1',
+            csmName: 'newName',
+            tdsPercentage: null,
+            transporterType: 'Market'
+        })
+    })
+
+    test('should return the transporter from loadingPointToUnloadingPointTrip if loadingPointToStockPointTrip does not exist', () => {
+        const actual = {
+            ...overallTrip,
+            truck: {
+                ...truck,
+                transporter: { ...truck.transporter, id: 1, name: 'Transporter 2' }
+            },
+            loadingPointToStockPointTrip: null,
+            loadingPointToUnloadingPointTrip: {
+                totalTransporterAmount: 100000,
+                truck: {
+                    ...truck,
+                    transporter: { ...truck.transporter, id: 1, name: 'Transporter 2' }
+                }
+            }
+        }
+        const result = getTransporterName(actual)
+        expect(result).toEqual({
+            id: 1,
+            name: 'Transporter 2',
+            csmName: 'newName',
+            tdsPercentage: null,
+            transporterType: 'Market'
+        })
+    })
+
+    test('should return undefined if neither loadingPointToStockPointTrip nor loadingPointToUnloadingPointTrip exist', () => {
+        const actual = {
+            ...overallTrip,
+            loadingPointToStockPointTrip: null,
+            loadingPointToUnloadingPointTrip: null
+        }
+        const result = getTransporterName(actual)
+        expect(result).toBeUndefined()
     })
 })

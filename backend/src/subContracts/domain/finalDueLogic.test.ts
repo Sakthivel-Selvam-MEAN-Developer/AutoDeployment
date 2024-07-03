@@ -13,6 +13,14 @@ describe('Final Due Logics Test', async () => {
             acknowledgementDate: 1716595200,
             loadingPointToStockPointTrip: null,
             stockPointToUnloadingPointTrip: null,
+            truck: {
+                vehicleNumber: 'TN30S7777',
+                transporter: {
+                    name: 'Muthu Logistics',
+                    tdsPercentage: null,
+                    transporterType: 'Market'
+                }
+            },
             loadingPointToUnloadingPointTrip: {
                 startDate: new Date(2023, 10, 24).getTime() / 1000,
                 filledLoad: 40,
@@ -74,6 +82,14 @@ describe('Final Due Logics Test', async () => {
             loadingPointToStockPointTrip: null,
             loadingPointToUnloadingPointTripId: null,
             loadingPointToUnloadingPointTrip: null,
+            truck: {
+                vehicleNumber: 'TN30S7777',
+                transporter: {
+                    name: 'Muthu Logistics',
+                    tdsPercentage: null,
+                    transporterType: 'Market'
+                }
+            },
             stockPointToUnloadingPointTrip: {
                 freightAmount: 50,
                 transporterAmount: 45,

@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 import { Prisma } from '@prisma/client'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
+import { convertData } from './acknowledgementApproval.ts'
 
 const mockGetTripForAcknowlegementApproval = vi.fn()
 const mockGetShortageQuantityByOverallTripId = vi.fn()
@@ -58,6 +59,14 @@ const mockOverAllTrip = [
         loadingPointToStockPointTrip: null,
         loadingPointToUnloadingPointTripId: null,
         stockPointToUnloadingPointTrip: null,
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Muthu Logistics',
+                transporterType: 'Market',
+                tdsPercentage: 5
+            }
+        },
         loadingPointToUnloadingPointTrip: {
             id: 1,
             truck: {
@@ -116,5 +125,115 @@ describe('Acknowledgement Approval Controller', () => {
         expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(1)
         expect(mockUpdateShortageInOverallTrip).toBeCalledTimes(1)
         expect(mockcreatePaymentDues).toBeCalledTimes(1)
+    })
+})
+describe('convertData Function', () => {
+    // Define the types for the test cases
+    interface finalDuePropsfalse {
+        name?: string
+        type: string
+        dueDate: number
+        overallTripId: number
+        vehicleNumber?: string
+        payableAmount: number
+    }
+
+    interface paymentDuesCreateManyInput {
+        name: string
+        type: string
+        dueDate: number
+        overallTripId: number
+        vehicleNumber: string
+        payableAmount: number
+    }
+
+    test('should convert finalDue props to paymentDuesCreateManyInput', () => {
+        const finalDue: finalDuePropsfalse[] = [
+            {
+                name: 'Transporter A',
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 1,
+                vehicleNumber: 'TN30S1234',
+                payableAmount: 5000
+            },
+            {
+                name: 'Transporter B',
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 2,
+                vehicleNumber: 'TN30S5678',
+                payableAmount: 3000
+            }
+        ]
+
+        const expected: paymentDuesCreateManyInput[] = [
+            {
+                name: 'Transporter A',
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 1,
+                vehicleNumber: 'TN30S1234',
+                payableAmount: 5000
+            },
+            {
+                name: 'Transporter B',
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 2,
+                vehicleNumber: 'TN30S5678',
+                payableAmount: 3000
+            }
+        ]
+
+        expect(convertData(finalDue)).toEqual(expected)
+    })
+
+    test('should handle missing optional fields correctly', () => {
+        const finalDue: finalDuePropsfalse[] = [
+            {
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 1,
+                payableAmount: 5000
+            },
+            {
+                name: 'Transporter B',
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 2,
+                vehicleNumber: 'TN30S5678',
+                payableAmount: 3000
+            }
+        ]
+
+        const expected: paymentDuesCreateManyInput[] = [
+            {
+                name: '',
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 1,
+                vehicleNumber: '',
+                payableAmount: 5000
+            },
+            {
+                name: 'Transporter B',
+                type: 'final pay',
+                dueDate: 1716681600,
+                overallTripId: 2,
+                vehicleNumber: 'TN30S5678',
+                payableAmount: 3000
+            }
+        ]
+
+        expect(convertData(finalDue)).toEqual(expected)
+    })
+
+    test('should handle empty input array', () => {
+        const finalDue: finalDuePropsfalse[] = []
+
+        const expected: paymentDuesCreateManyInput[] = []
+
+        expect(convertData(finalDue)).toEqual(expected)
     })
 })

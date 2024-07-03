@@ -28,6 +28,14 @@ interface shortageQuantity {
     updatedAt: Date
 }
 interface overallTripProps {
+    truck: {
+        vehicleNumber: string
+        transporter: {
+            name: string
+            tdsPercentage: number | null
+            transporterType: string
+        }
+    } | null
     id: number
     acknowledgementApproval: boolean
     acknowledgementDate: number | null

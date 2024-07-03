@@ -49,6 +49,14 @@ const transporterInvoiceData = [
         loadingPointToStockPointTripId: null,
         stockPointToUnloadingPointTripId: null,
         paymentDues: [],
+        truck: {
+            vehicleNumber: 'TN22E3456',
+            transporter: {
+                id: 2,
+                name: 'Deepak Logistics Pvt Ltd',
+                csmName: 'Barath'
+            }
+        },
         shortageQuantity: [
             {
                 id: 1,

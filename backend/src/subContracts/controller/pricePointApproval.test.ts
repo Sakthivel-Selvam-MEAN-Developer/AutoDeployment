@@ -44,6 +44,15 @@ const overallTrip = [
         id: 1,
         fuel: [],
         paymentDues: [],
+        truck: {
+            vehicleNumber: 'TN20C1234',
+            transporter: {
+                name: 'Barath Logistics Pvt Ltd',
+                csmName: 'Sakthi',
+                transporterType: 'Market',
+                gstPercentage: 2
+            }
+        },
         loadingPointToStockPointTrip: {
             id: 1,
             startDate: 123213231,

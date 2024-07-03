@@ -319,6 +319,11 @@ const mockTransporterDuesDues = {
     type: 'final pay',
     dueDate: 1706725800,
     vehicleNumber: 'TN93D5512',
+    truck: {
+        transporter: {
+            csmName: 'Bharath'
+        }
+    },
     overallTrip: {
         loadingPointToStockPointTrip: {
             truck: {
@@ -390,6 +395,11 @@ const mockGstPaymentDues = [
         fuelId: null,
         dueDate: 1706339785,
         overallTrip: {
+            truck: {
+                transporter: {
+                    csmName: 'Bharath'
+                }
+            },
             loadingPointToStockPointTrip: {
                 startDate: 1706339785,
                 invoiceNumber: 'dfghjkl',
@@ -448,6 +458,11 @@ const mockCompletedPaymentDuesData = [
         payableAmount: 12000,
         dueDate: 1700764200,
         overallTrip: {
+            truck: {
+                transporter: {
+                    csmName: 'Bharath'
+                }
+            },
             loadingPointToStockPointTrip: {
                 truck: {
                     transporter: {

@@ -65,8 +65,8 @@ export const closeTripById = async (req: Request, res: Response) => {
             let gstPercentage = null
             if (overAllTripData === null) return res.sendStatus(500)
             const getTripDetails = getTrip(overAllTripData)
-            if (getTripDetails?.truck.transporter.gstPercentage !== undefined) {
-                gstPercentage = getTripDetails?.truck.transporter.gstPercentage
+            if (overAllTripData?.truck?.transporter.gstPercentage !== undefined) {
+                gstPercentage = overAllTripData.truck.transporter.gstPercentage
             }
             let shortageAmount: number | boolean = false
             if (req.body.approvalStatus !== true) {

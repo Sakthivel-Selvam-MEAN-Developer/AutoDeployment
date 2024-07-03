@@ -71,6 +71,15 @@ const mockOverAllTrip = [
         stockPointToUnloadingPointTripId: null,
         loadingPointToUnloadingPointTripId: 1,
         loadingPointToStockPointTrip: null,
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Muthu Logistics',
+                transporterType: 'Market',
+                hasGst: true,
+                gstPercentage: 10
+            }
+        },
         loadingPointToUnloadingPointTrip: {
             id: 1,
             truck: {
@@ -102,6 +111,14 @@ const mockOverAllTripByStockIdData = {
     stockPointToUnloadingPointTrip: null,
     loadingPointToUnloadingPointTripId: 1,
     loadingPointToStockPointTrip: null,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Muthu Logistics',
+            hasGst: true,
+            gstPercentage: 10
+        }
+    },
     loadingPointToUnloadingPointTrip: {
         id: 1,
         truck: {
@@ -131,6 +148,13 @@ const mockOverAllTripByTripIdData = {
     acknowledgementStatus: false,
     stockPointToUnloadingPointTripId: 1,
     loadingPointToUnloadingPointTripId: null,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Muthu Logistics',
+            gstPercentage: 5
+        }
+    },
     loadingPointToStockPointTrip: {
         id: 1,
         truck: {
@@ -203,6 +227,13 @@ const mockAcknowledgeStatusforAllTrip = {
     acknowledgementStatus: false,
     loadingPointToStockPointTrip: null,
     stockPointToUnloadingPointTrip: null,
+    truck: {
+        vehicleNumber: 'TN30S7777',
+        transporter: {
+            name: 'Muthu Logistics',
+            transporterType: 'Market'
+        }
+    },
     loadingPointToUnloadingPointTrip: {
         startDate: new Date(2023, 10, 24).getTime() / 1000,
         filledLoad: 40,

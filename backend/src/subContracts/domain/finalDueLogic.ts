@@ -49,14 +49,14 @@ const finalDueLogic = async (
     )
     const paymentDues = [
         {
-            name: dueDetails.truck.transporter.name,
+            name: overallTrip?.truck?.transporter.name,
             type: 'final pay',
             dueDate: acknowledgementDate
                 .add(overallTrip.finalPayDuration ? overallTrip.finalPayDuration : 0, 'day')
                 // .startOf('day')
                 .unix(),
             overallTripId: overallTrip.id,
-            vehicleNumber: dueDetails.truck.vehicleNumber,
+            vehicleNumber: overallTrip?.truck?.vehicleNumber,
             payableAmount: parseFloat(amount.toFixed(2))
         }
     ]

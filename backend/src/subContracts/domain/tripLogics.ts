@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { tripLogicTripProps } from './types.ts'
 
 const tripLogic = async (trip: tripLogicTripProps, overallTrip: any, tripType: string) => {
-    if (trip.truck.transporter.transporterType === 'Own') return
+    if (overallTrip.truck.transporter.transporterType === 'Own') return
     const fuelDetails = overallTrip.fuel[0]
     if (trip.wantFuel === true && fuelDetails === null) return
     let transporterPercentage = 70 / 100
@@ -15,11 +15,11 @@ const tripLogic = async (trip: tripLogicTripProps, overallTrip: any, tripType: s
     )
     return [
         {
-            name: trip.truck.transporter.name,
+            name: overallTrip.truck.transporter.name,
             type: 'initial pay',
             dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
             overallTripId: overallTrip.id,
-            vehicleNumber: trip.truck.vehicleNumber,
+            vehicleNumber: overallTrip.truck.vehicleNumber,
             payableAmount,
             NEFTStatus: payableAmount < 0,
             transactionId: payableAmount < 0 ? '0' : '',

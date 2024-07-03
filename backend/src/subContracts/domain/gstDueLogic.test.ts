@@ -3,6 +3,14 @@ import { gstCalculation } from './gstDueLogic.ts'
 
 const alltrip = {
     id: 1,
+    truck: {
+        vehicleNumber: 'TN34MA3483',
+        transporter: {
+            name: 'kms Transport',
+            transporterType: 'Market',
+            gstPercentage: 3
+        }
+    },
     loadingPointToStockPointTrip: {
         totalTransporterAmount: 30000,
         filledLoad: 50,
@@ -95,6 +103,14 @@ describe('gst calculation for loading to unloading', async () => {
     test('when transporter tytpe is Own gst not created', async () => {
         const input = {
             ...alltrip,
+            truck: {
+                ...alltrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck,
+                transporter: {
+                    ...alltrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
+                        .transporter,
+                    transporterType: 'Own'
+                }
+            },
             stockPointToUnloadingPointTrip: {
                 ...alltrip.stockPointToUnloadingPointTrip,
                 loadingPointToStockPointTrip: {

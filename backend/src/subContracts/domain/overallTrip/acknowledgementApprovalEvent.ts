@@ -17,13 +17,13 @@ export const finalDueCreation = async (overallTrip: overallTripProps) => {
     ) {
         return false
     }
-    const transporter = getTransporterName(overallTrip)
-    const tdsPercentage = transporter?.tdsPercentage || null
+    // const transporter = getTransporterName(overallTrip)
+    const tdsPercentage = overallTrip?.truck?.transporter.tdsPercentage || null
     const paymentDueDetails = overallTrip.paymentDues.filter((pay) => pay.type !== 'gst pay')
     const { shortageAmount } = overallTrip.shortageQuantity[0]
     if (
-        overallTrip.loadingPointToUnloadingPointTrip?.truck.transporter.transporterType === 'Own' ||
-        overallTrip.loadingPointToStockPointTrip?.truck.transporter.transporterType === 'Own'
+        overallTrip?.truck?.transporter.transporterType === 'Own' ||
+        overallTrip?.truck?.transporter.transporterType === 'Own'
     ) {
         return false
     }

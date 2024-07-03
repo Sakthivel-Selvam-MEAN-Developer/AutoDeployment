@@ -27,6 +27,7 @@ interface stockPointToUnloadingPointTrip {
 }
 export interface allTrips {
     id: number
+    truck: Truck | null
     loadingPointToStockPointTrip: LoadingPointToStockPointTrip | null
     stockPointToUnloadingPointTrip: stockPointToUnloadingPointTrip | null
     loadingPointToUnloadingPointTrip: TripDetails | null
@@ -73,7 +74,7 @@ export const gstCalculation = async (
     if (
         trip === undefined ||
         gstPercentage === null ||
-        trip.truck.transporter.transporterType === 'Own'
+        overAllTripData?.truck?.transporter.transporterType === 'Own'
     ) {
         return
     }
@@ -90,11 +91,11 @@ export const gstCalculation = async (
             (trip.totalTransporterAmount + stockToUnloadingTransporterAmount || 0) -
             shortage.shortageAmount
     }
-    const vehicleNumber = trip?.truck?.vehicleNumber || ''
+    const vehicleNumber = overAllTripData?.truck?.vehicleNumber || ''
     return gstDueLogic(
         gstPercentage,
         transporterAmount,
-        trip.truck.transporter.name,
+        overAllTripData.truck ? overAllTripData.truck.transporter.name : '',
         vehicleNumber,
         overAllTripData.id
     )
