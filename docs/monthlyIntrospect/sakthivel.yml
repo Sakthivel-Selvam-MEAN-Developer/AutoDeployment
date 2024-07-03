@@ -1,0 +1,43 @@
+June_2024:
+  Features_Developed_By_Me_Went_Live:
+    - User can Generate Invocie Format For GRSIM Industries
+    - User can Create Keycloak User while Create Driver in UI (with Prisma Transaction)
+    - User can Generate and Download Toll Plaza Invoice for UnltraTech and Magnum
+    - User can Generate and Download Company Invocie Format PDF from Backend
+    - Upload Company invoice Format PDF to AWS S3
+  Features_Developed_By_Me_Did_Not_Went_Live:
+    - Profit and Loss Report
+  What_Went_Well_For_Project:
+    - Added Toll Plaza
+    - Multiple Fuel for Magnum
+    - Uploaded Company Invoice Format PDF to AWS S3
+    - Driver Details PDF
+  What_Went_Well_For_Me:
+    - Uploaded Company Invoice Format PDF to AWS S3
+  What_Did_Go_Wrong_For_Project:
+    - Initial Pay Amount Changed due to Key Prop in Input Field
+  What_Did_Go_Wrong_For_Me:
+    - Removed Unique Constraint from Payment Dues for OverallTripId and Payment Type
+  Lessons_Learnt:
+    - Did not Delete any Migrations on Code and also on RDS
+    - If we need any Change in Schema or DB, We Need to Make Migrations and Then we Apply that on DB
+    - We only Delete or Modify datas on Production DB only if the R
+    - We proceed with Modifing or Deleting the data from the Production DB once We receive the necessary Authorization from the Responsible Person
+  How_I_Enabled_Others:
+  What_Did_I_Learnt:
+    - JSDOM (How to use JSDOM to render HTML on Backend)
+    - AWS S3 (How to Store Data on S3 using AWS SDK)
+  What_I_Plant_To_Learn_Next_Month:
+    - Learn Deep about Prisma Transaction
+    
+July_2024:
+  Features_Developed_By_Me_Went_Live:
+  Features_Developed_By_Me_Did_Not_Went_Live:
+  What_Went_Well_For_Project:
+  What_Went_Well_For_Me:
+  What_Did_Go_Wrong_For_Project:
+  What_Did_Go_Wrong_For_Me:
+  Lessons_Learnt:
+  How_I_Enabled_Others:
+  What_Did_I_Learnt:
+  What_I_Plant_To_Learn_Next_Month:
