@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { getCompanyInvoice } from '../../../services/viewInvoice'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
-
 const columns = [
     { field: 'id', headerName: '#', width: 70 },
     { field: 'billNo', headerName: 'Bill Number', width: 150, flex: 1 },
@@ -32,7 +31,7 @@ const InvoiceDataGrid = () => {
                     billNo: row.billNo,
                     billDate: epochToMinimalDate(row.billDate),
                     company: row.cementCompany.name,
-                    amount:`₹ ${row.amount}`,
+                    amount: `₹ ${row.amount}`,
                     pdfLink: row.pdfLink
                 }))
                 setRows(formattedData)
