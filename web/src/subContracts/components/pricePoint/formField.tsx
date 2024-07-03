@@ -1,10 +1,11 @@
+/* eslint-disable max-lines-per-function */
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
 import { getUnloadingPointByCompanyName } from '../../services/unloadingPoint.ts'
 import { Control, Controller } from 'react-hook-form'
 import { getPricePoint } from '../../services/pricePoint.ts'
-import { Autocomplete, TextField } from '@mui/material'
+import { Autocomplete, InputAdornment, TextField } from '@mui/material'
 import { getStockPointByCompanyName } from '../../services/stockPoint.ts'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 interface location {
@@ -29,6 +30,8 @@ export interface FormFieldsProps {
     category: string
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>
     cementCompanyName: string
+    setDueDate: React.Dispatch<React.SetStateAction<number>>
+    dueDate: number
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -47,7 +50,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
     transporterPercentage,
     category,
     setCementCompanyName,
-    cementCompanyName
+    cementCompanyName,
+    setDueDate,
+    dueDate
 }) => {
     const [loadingPointList, setLoadingPointList] = useState([])
     const [unloadingPointList, setUnloadingPointList] = useState([])
@@ -55,6 +60,11 @@ const FormFields: React.FC<FormFieldsProps> = ({
     const [loadingPointName, setLoadingPointName] = useState({ id: 0, name: '' })
     const [unloadingPointName, setUnloadingPointName] = useState({ id: 0, name: '' })
     const [stockPointName, setStockPointName] = useState({ id: 0, name: '' })
+    const checkPaygenerationLimit = (value: string) => {
+        if (parseInt(value) <= 45 && parseInt(value) > 0) return parseInt(value)
+        else if (value === '') return 0
+        return 0
+    }
     useEffect(() => {
         if (cementCompanyName !== '') {
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
@@ -68,6 +78,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
         setStockPointName({ id: 0, name: '' })
         setFreightAmount(0)
         setTransporterPercentage(0)
+        setDueDate(0)
         clearSubForm()
     }
     const clearSubForm = () => {
@@ -89,6 +100,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 if (amount) {
                     setFreightAmount(amount.freightAmount)
                     setTransporterPercentage(amount.transporterPercentage)
+                    setDueDate(amount.payGeneratingDuration)
                 }
             })
         }
@@ -253,6 +265,29 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 InputProps={{ readOnly: true }}
                 InputLabelProps={{ shrink: true }}
             />
+            {category !== 'Stock - Unloading' && (
+                <Controller
+                    render={() => (
+                        <TextField
+                            sx={{ width: '200px' }}
+                            value={dueDate}
+                            label="Pay Generating Duration"
+                            inputProps={{ step: 1, min: 1, max: 45 }}
+                            type="number"
+                            onChange={(e) => setDueDate(checkPaygenerationLimit(e.target.value))}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <b>Days</b>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    )}
+                    name="payGeneratingDuration"
+                    control={control}
+                />
+            )}
         </div>
     )
 }

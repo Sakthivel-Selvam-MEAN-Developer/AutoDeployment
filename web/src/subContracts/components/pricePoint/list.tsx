@@ -20,6 +20,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterPercentage, setTransporterPercentage] = useState(0)
     const [disable, setDisable] = useState(false)
+    const [dueDate, setDueDate] = useState<number>(0)
 
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
@@ -43,13 +44,15 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 stockPointId: stockPointId,
                 freightAmount: freightAmount,
                 transporterPercentage: transporterPercentage,
-                transporterAmount: parseFloat(transporterAmountFloat)
+                transporterAmount: parseFloat(transporterAmountFloat),
+                payGeneratingDuration: dueDate
             }
             if (category === 'Loading - Unloading')
                 createpricePoint({ ...details, stockPointId: null })
                     .then(() => {
                         setDisable(false)
                         clearForm(
+                            setDueDate,
                             setCategory,
                             setCementCompanyName,
                             setTransporterPercentage,
@@ -62,6 +65,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     .then(() => {
                         setDisable(false)
                         clearForm(
+                            setDueDate,
                             setCategory,
                             setCementCompanyName,
                             setTransporterPercentage,
@@ -74,6 +78,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     .then(() => {
                         setDisable(false)
                         clearForm(
+                            setDueDate,
                             setCategory,
                             setCementCompanyName,
                             setTransporterPercentage,
@@ -105,6 +110,8 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     setCategory={setCategory}
                     setCementCompanyName={setCementCompanyName}
                     cementCompanyName={cementCompanyName}
+                    setDueDate={setDueDate}
+                    dueDate={dueDate}
                 />
                 <SubmitButton name="Create / Update" type="submit" disabled={disable} />
                 <SuccessDialog
@@ -122,11 +129,13 @@ const CreatePricepoint: React.FC = (): ReactElement => {
 export default CreatePricepoint
 
 const clearForm = (
+    setDueDate: React.Dispatch<React.SetStateAction<number>>,
     setCategory: React.Dispatch<React.SetStateAction<string>>,
     setCementCompanyName: React.Dispatch<React.SetStateAction<string>>,
     setTransporterPercentage: React.Dispatch<React.SetStateAction<number>>,
     setOpenSuccessDialog: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+    setDueDate(0)
     setCategory('')
     setCementCompanyName('')
     setTransporterPercentage(0)
