@@ -70,4 +70,21 @@ describe('Trip Logics Test', async () => {
             }
         ])
     })
+    test('Should get get full transporterAmount as initial pay for advanceType is 100%', async () => {
+        const tripDetails = { ...tripData, loadingPoint: { cementCompany: { advanceType: 100 } } }
+        const actual = await tripLogic(tripDetails, overallTrip, 'LoadingToStock')
+        expect(actual).toEqual([
+            {
+                name: 'Barath Logistics Pvt Ltd',
+                type: 'initial pay',
+                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                overallTripId: 1,
+                vehicleNumber: 'TN93D5512',
+                payableAmount: 9000,
+                transactionId: '',
+                NEFTStatus: false,
+                paidAt: 0
+            }
+        ])
+    })
 })

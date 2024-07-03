@@ -104,7 +104,10 @@ const mockGetInvoiceDetailsDData = [
             name: 'Salem'
         },
         loadingPoint: {
-            name: 'Chennai-south'
+            name: 'Chennai-south',
+            cementCompany: {
+                primaryBill: { address: 'ULTRA TECH\n ,new street\n erode', gstNumber: 'asdfgh ' }
+            }
         },
         overallTrip: [
             {
@@ -130,7 +133,10 @@ const mockGetInvoiceDetailsSData = [
             name: 'StockPoint'
         },
         loadingPoint: {
-            name: 'Chennai-south'
+            name: 'Chennai-south',
+            cementCompany: {
+                primaryBill: { address: 'ULTRA TECH\n ,new street\n erode', gstNumber: 'asdfgh ' }
+            }
         },
         overallTrip: [
             {
@@ -155,7 +161,13 @@ const mockGetInvoiceDetailsUData = [
         unloadingPoint: {
             name: 'Salem',
             cementCompany: {
-                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+                name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
+                cementCompany: {
+                    secondaryBill: {
+                        address: 'ULTRA TECH\n ,new street\n erode',
+                        gstNumber: 'asdfgh '
+                    }
+                }
             }
         },
         invoiceNumber: 'wqsqwsdsd',

@@ -236,6 +236,7 @@ export interface LoadingTripProps {
     }
     loadingPoint: {
         name: string
+        cementCompany: { primaryBill: { address: string; gstNumber: string } | null }
     }
     overallTrip: {
         shortageQuantity: {
@@ -299,9 +300,9 @@ export interface StockToUnloadingPointProps {
 }
 export interface InvoiceProp {
     trips: {
-        loadingPointToUnloadingPointTrip?: LoadingTripProps[]
-        stockPointToUnloadingPointTrip?: StockToUnloadingPointProps[]
-        loadingPointToStockPointTrip?: LoadingTripProps[]
+        loadingPointToUnloadingPointTrip: LoadingTripProps[]
+        stockPointToUnloadingPointTrip: StockToUnloadingPointProps[]
+        loadingPointToStockPointTrip: LoadingTripProps[]
     }
 }
 export interface AnnexureProps {
@@ -342,3 +343,14 @@ export interface rowProps {
 //     selectedTrip: tripDetails[]
 //     setSelectedTrip: React.Dispatch<React.SetStateAction<tripDetails[]>>
 // }
+export interface tripType {
+    loadingPointToUnloadingPointTrip: {
+        loadingPoint: { cementCompany: { primaryBill: { address: string; gstNumber: string } } }
+    }[]
+    stockPointToUnloadingPointTrip: {
+        unloadingPoint: { cementCompany: { secondaryBill: { address: string; gstNumber: string } } }
+    }[]
+    loadingPointToStockPointTrip: {
+        loadingPoint: { cementCompany: { primaryBill: { address: string; gstNumber: string } } }
+    }[]
+}

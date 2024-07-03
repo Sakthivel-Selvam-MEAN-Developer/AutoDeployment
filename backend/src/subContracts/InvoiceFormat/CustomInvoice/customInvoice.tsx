@@ -5,7 +5,7 @@ import { InvoiceProp, LoadingTripProps, StockToUnloadingPointProps } from '../ty
 import { financialYear } from '../financialYear.ts'
 import { epochToMinimalDate } from '../epochToNormal.ts'
 import { toWords } from '../numberToWords.ts'
-import { companyAddresses } from './CompanyAddress.ts'
+import { cutomInvoiceDetails } from '../customInvoiceAddress.ts'
 export interface AddressDetails {
     address: string
 }
@@ -58,9 +58,10 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
     </tr>
 )
 
-const CustomInvoice: React.FC<InvoiceProps> = ({ trip, address, bill }) => {
+const CustomInvoice: React.FC<InvoiceProps> = ({ trip, bill }) => {
     let totalFilledLoad = 0
     let totalAmount = 0
+    const billAddress = cutomInvoiceDetails(trip)
     return (
         <main className="main" id="invoice">
             <style
@@ -88,36 +89,7 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ trip, address, bill }) => {
             </div>
             <div className="place-of-supply"></div>
             <div className="address">
-                {trip.stockPointToUnloadingPointTrip?.length === 0 && (
-                    <div className="customer">
-                        <div dangerouslySetInnerHTML={{ __html: address ? address.address : '' }} />
-                    </div>
-                )}
-                {trip.stockPointToUnloadingPointTrip &&
-                    trip.stockPointToUnloadingPointTrip.length > 0 && (
-                        <>
-                            {/* {trip.stockPointToUnloadingPointTrip[0].unloadingPoint.cementCompany
-                                .name === 'ULTRATECH CEMENT LIMITED,TADIPATRI' && (
-                                <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: companyAddresses.ultraTechSecondary.address
-                                    }}
-                                />
-                            )} */}
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: companyAddresses.ultraTechSecondary.address
-                                }}
-                            />
-                        </>
-                    )}
-                {/* {trip.stockPointToUnloadingPointTrip?.length === 0 && (
-                    <div dangerouslySetInnerHTML={{ __html: BillAddress }} />
-                )}
-                {trip.stockPointToUnloadingPointTrip &&
-                    trip.stockPointToUnloadingPointTrip.length > 0 && (
-                        <div dangerouslySetInnerHTML={{ __html: BillAddress }} />
-                    )} */}
+                <div dangerouslySetInnerHTML={{ __html: billAddress }} />
                 <div className="vendor">
                     <div>
                         <h4>Generation Date:- {dayjs().format('DD-MM-YYYY')}</h4>

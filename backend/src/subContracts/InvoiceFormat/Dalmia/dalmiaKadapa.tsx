@@ -5,33 +5,40 @@ import { toWords } from '../numberToWords.ts'
 import { financialYear } from '../financialYear.ts'
 import { epochToMinimalDate } from '../epochToNormal.ts'
 import { InvoiceProp, totalProps } from '../type.tsx'
+import { findBillingDetails } from '../customInvoiceAddress.ts'
 interface dalmiaProps {
     trip: InvoiceProp['trips']
     bill: { billNo: string; date: number }
     total: totalProps
 }
-// const billing = (BillingDetails) => {
-//     return (
-//         <>
-//             <tr className="border">
-//                 <td className="border" colSpan={6}>
-//                     Name : M/s. Dalmia Cement(Bharat) Limited
-//                 </td>
-//             </tr>
-//             <tr className="border">
-//                 <td className="border" colSpan={6}>
-//                     Address : {BillingDetails.address}
-//                 </td>
-//             </tr>
-//             <tr className="border">
-//                 <td colSpan={6} className="border">
-//                     GSTIN : {BillingDetails.gstNumber}
-//                 </td>
-//             </tr>
-//         </>)
-// }
+interface billingType {
+    address: string
+    gstNumber: string
+}
+const billing = (BillingDetails: billingType | null) => {
+    if (BillingDetails === null) return
+    return (
+        <>
+            <tr className="border">
+                <td className="border" colSpan={6}>
+                    Name : M/s. Dalmia Cement(Bharat) Limited
+                </td>
+            </tr>
+            <tr className="border">
+                <td className="border" colSpan={6}>
+                    Address : {BillingDetails.address}
+                </td>
+            </tr>
+            <tr className="border">
+                <td colSpan={6} className="border">
+                    GSTIN : {BillingDetails.gstNumber}
+                </td>
+            </tr>
+        </>
+    )
+}
 const DalmiaKadappaInvoice: FC<dalmiaProps> = ({ trip, bill, total }) => {
-    // const BillingDetails = findBillingDetails(trip)
+    const BillingDetails = findBillingDetails(trip)
     return (
         <>
             <section id="invoice">
@@ -67,55 +74,11 @@ const DalmiaKadappaInvoice: FC<dalmiaProps> = ({ trip, bill, total }) => {
                                     Details of Receiver/ Billed to:
                                 </td>
                             </tr>
-                            {/* {trip.stockPointToUnloadingPointTrip?.length === 0 && (
-                                billing(trip)
-                        )}
-                        {trip.stockPointToUnloadingPointTrip &&
-                            trip.stockPointToUnloadingPointTrip.length > 0 && (
-                                  billing(trip)
-                            )} */}
+                            {trip.stockPointToUnloadingPointTrip?.length === 0 &&
+                                billing(BillingDetails)}
                             {trip.stockPointToUnloadingPointTrip &&
-                                trip.stockPointToUnloadingPointTrip.length === 0 && (
-                                    <>
-                                        <tr className="border">
-                                            <td className="border" colSpan={6}>
-                                                Name : M/s. Dalmia Cement(Bharat) Limited
-                                            </td>
-                                        </tr>
-                                        <tr className="border">
-                                            <td className="border" colSpan={6}>
-                                                Address : Chinnakomerla Village Jammalmadugu,
-                                                Kadappa District, Andra Pradesh - 516434
-                                            </td>
-                                        </tr>
-                                        <tr className="border">
-                                            <td colSpan={6} className="border">
-                                                GSTIN : 37AADCA9414C1ZY
-                                            </td>
-                                        </tr>
-                                    </>
-                                )}
-                            {trip.stockPointToUnloadingPointTrip &&
-                                trip.stockPointToUnloadingPointTrip.length > 0 && (
-                                    <>
-                                        <tr className="border">
-                                            <td className="border" colSpan={6}>
-                                                Name : Dalmia Cement Bharat Ltd
-                                            </td>
-                                        </tr>
-                                        <tr className="border">
-                                            <td className="border" colSpan={6}>
-                                                Address :Dalmia Cement Factory, Yadwad Road, Yadwad,
-                                                Belgaum District, Karnataka - 591136,
-                                            </td>
-                                        </tr>
-                                        <tr className="border">
-                                            <td colSpan={6} className="border">
-                                                GSTIN : 29AADCA9414C1ZV
-                                            </td>
-                                        </tr>
-                                    </>
-                                )}
+                                trip.stockPointToUnloadingPointTrip.length > 0 &&
+                                billing(BillingDetails)}
                         </tbody>
                     </table>
                     <table className="table2" style={{ width: '100%' }}>
