@@ -1,0 +1,22 @@
+June2024:
+  FeaturesDone: 
+    - made tranporter invoice independant of acknowledgement approval
+    - created pricePoint Approval
+    - created date range for trips t be displayed and downloaded
+    - created driver pdf format in driverSalary
+    - added transporter percentage in pricePoint Approval
+    - created download option for driver pdf
+  what_went_well_for_project:
+    - final pay would be generated after transporter invoice and Acknowledgement approval
+    - created pdf feature so users can see trip's advance,expense, fuel for the actual month and also previous and download them
+    - allowed user to edit transporter percenatge
+  what_went_wrong_for_project:
+    - pricePoint Approval went wrong
+  lessons_learnt:
+    - should give proper indexing for states while looping
+  what_i_learnt:
+    - prisma transactions
+    - jsDom
+    - studied renderToString in react-dom/server
+  what_i_planned_to_learn_next_month:
+    - system design and gang of four
