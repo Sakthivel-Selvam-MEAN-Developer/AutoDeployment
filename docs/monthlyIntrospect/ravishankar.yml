@@ -1,0 +1,30 @@
+-June 2024
+Features_Done:
+ - added fuel report table with filters
+ - added multi fuel for magnum vehicle
+ - added if magnum vehicle unloaded then fueled it's associated with previous trip
+What_Will_Went_For_The_Project:
+ - we can see all fuel reports in fuel page
+ - we can do multi times fueled for magnum vehicle
+ - we can calculate mileage with previous trip association
+What_Went_Well_For_Me:
+ - added new feature for all fuel report
+ - added multi fuel for magnum vehicle
+ - added previous trip association for magnum vehicle
+What_Did_Go_Wrong_For_Project:
+ -  could not see my changes changed on deploy by others
+ - so migration file created wrongly
+What_Did_Go_Worry_For_Me:
+ -  should changed migration files carefully
+Lessons_Learnt:
+ - should read git commits if any changes for my code
+ - should changed migration file carefully
+How_I_Enabled_Others:
+ -  help to change the tests file and folder paths
+What_Did_I_Learnt:
+ -  learn how to deploy and how to handle new object adding in migration with carefully or previous data not affected
+What_I_Plant_To_Learn_Next_Month:
+ -  plan to learn how to breakdown simplify and complicity of the function
+
+
+
