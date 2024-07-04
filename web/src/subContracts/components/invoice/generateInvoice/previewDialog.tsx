@@ -12,16 +12,18 @@ interface dialog {
     load: boolean
     setLoad: React.Dispatch<React.SetStateAction<boolean>>
     pdfStr: string
+    update: () => void
 }
 interface dialogAction {
     setLoad: React.Dispatch<React.SetStateAction<boolean>>
+    update: () => void
 }
-const PreviewDialog: FC<dialog> = ({ load, setLoad, pdfStr }) => {
+const PreviewDialog: FC<dialog> = ({ load, setLoad, pdfStr, update }) => {
     return (
         <Dialog maxWidth={'xl'} open={load}>
             <DialogTitle id="scroll-dialog-title">User Trip Details</DialogTitle>
             <DialogContentContainer pdfStr={pdfStr} />
-            <DialogAction setLoad={setLoad} />
+            <DialogAction setLoad={setLoad} update={update} />
         </Dialog>
     )
 }
@@ -38,13 +40,16 @@ const DialogContentContainer: FC<DialogContentType> = ({ pdfStr }) => {
         </DialogContent>
     )
 }
-const DialogAction: FC<dialogAction> = ({ setLoad }) => {
+
+const DialogAction: FC<dialogAction> = ({ setLoad, update }) => {
     return (
         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button onClick={() => setLoad(false)} variant="outlined">
                 Cancel
             </Button>
-            <Button variant="contained"> Download PDF </Button>
+            <Button variant="contained" onClick={() => update()}>
+                Download PDF
+            </Button>
         </DialogActions>
     )
 }

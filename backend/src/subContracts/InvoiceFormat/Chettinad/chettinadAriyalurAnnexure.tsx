@@ -11,7 +11,7 @@ interface AnnexureProps {
 const tableRow = (row: LoadingTripProps, index: number) => (
     <tr>
         <td>{index + 1}</td>
-        <td>{row.startDate}</td>
+        <td>{epochToMinimalDate(row.startDate)}</td>
         <td>{row.invoiceNumber}</td>
         <td>{row.partyName}</td>
         <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
@@ -29,7 +29,7 @@ type tableRowForStockToUnloadingProps = (
 const tableRowForStockToUnloading: tableRowForStockToUnloadingProps = (row, index) => (
     <tr>
         <td>{index + 1}</td>
-        <td>{row.startDate}</td>
+        <td>{epochToMinimalDate(row.startDate)}</td>
         <td>{row.invoiceNumber}</td>
         <td>{row.partyName}</td>
         <td>{row.unloadingPoint.name}</td>

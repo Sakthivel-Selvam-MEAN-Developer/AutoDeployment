@@ -9,7 +9,6 @@ interface MahaAnnexure {
     bill: { billNo: string; date: number }
 }
 const tableRow = (row: LoadingTripProps, index: number) => (
-    // const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     <tr>
         <td style={{ textAlign: 'center' }}>{index + 1}</td>
         <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
@@ -33,7 +32,6 @@ const tableRow = (row: LoadingTripProps, index: number) => (
 
 type StockToUnloadingProps = (row: StockToUnloadingPointProps, index: number) => JSX.Element
 const tableRowForStockToUnloading: StockToUnloadingProps = (row, index) => (
-    // const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     <tr>
         <td style={{ textAlign: 'center' }}>{index + 1}</td>
         <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
@@ -128,7 +126,7 @@ const MahaAnnexure: FC<MahaAnnexure> = ({ tripDetails, total, bill }) => (
                 <div className="invoice_details_2">
                     <p>
                         <b>
-                            Period From {epochToMinimalDate(total.fromDate)} To{' '}
+                            Period From {epochToMinimalDate(total.fromDate)} To
                             {epochToMinimalDate(total.endDate)}
                         </b>
                     </p>

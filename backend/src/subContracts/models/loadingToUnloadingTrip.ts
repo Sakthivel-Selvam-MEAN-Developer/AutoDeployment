@@ -104,18 +104,38 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
             tripStatus: true,
             overallTrip: { some: { acknowledgementStatus: true } }
         },
-        include: {
-            loadingPoint: { include: { cementCompany: true } },
-            unloadingPoint: { include: { cementCompany: true } },
-            truck: true
+        select: {
+            id: true,
+            startDate: true,
+            invoiceNumber: true,
+            filledLoad: true,
+            freightAmount: true,
+            totalFreightAmount: true,
+            overallTrip: {
+                select: {
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            },
+            loadingPoint: {
+                select: {
+                    name: true
+                }
+            },
+            unloadingPoint: {
+                select: {
+                    name: true
+                }
+            }
         }
     })
 export const getInvoiceDetails = (id: number[]) =>
     prisma.loadingPointToUnloadingPointTrip.findMany({
         where: {
-            id: {
-                in: id
-            },
+            id: { in: id },
             tripStatus: true
         },
         select: {

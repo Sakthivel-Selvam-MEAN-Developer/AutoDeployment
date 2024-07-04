@@ -250,6 +250,7 @@ const ChettinadKarikkali: FC<AnnexureProps> = ({ trip, total, bill }) => {
                     </div>
                 </main>
             </section>
+            <hr style={{ margin: '0 20px' }} />
             <ChettinadAnnexure trip={trip} bill={bill} total={total} />
         </>
     )

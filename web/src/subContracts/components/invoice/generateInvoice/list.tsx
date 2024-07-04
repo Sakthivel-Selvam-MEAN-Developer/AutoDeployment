@@ -5,14 +5,16 @@ import ListAllTripForInvoice from './show'
 import { Button } from '@mui/material'
 import {
     getTripDetailsByFilterData,
-    // previewInvoicePDF,
+    previewInvoicePDF,
     updateInvoiceDetails
 } from '../../../services/invoice'
 import { billNoContext, filterDataProps, invoiceFilterData } from './invoiceContext'
 import { InvoiceFieldDialog } from './fieldDialog'
 import html2pdf from 'html2pdf.js'
 import dayjs from 'dayjs'
-// import PreviewDialog from './previewDialog'
+import PreviewDialog from './previewDialog'
+import { tripProp } from './dataGridColumnsAndRows'
+import { GridRowSelectionModel } from '@mui/x-data-grid'
 export interface dateProps {
     $d: number
 }
@@ -26,7 +28,7 @@ export interface cementCompanyProps {
     name: string
 }
 export interface tripDetailsProps {
-    tripId: number
+    tripId: GridRowSelectionModel
     tripName: string
 }
 export interface tripDetails {
@@ -62,17 +64,20 @@ export interface invoiceValuesProps {
 }
 const InvoiceList: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
-    const [tripDetails, setTripDetails] = useState<tripDetails[]>([])
+    const [tripDetails, setTripDetails] = useState<tripProp[]>([])
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
-    const [tripId, setTripId] = useState<tripDetailsProps[]>([])
+    const [tripId, setTripId] = useState<tripDetailsProps>({
+        tripId: [],
+        tripName: ''
+    })
     const [activateFields, setActivateFields] = useState<boolean>(false)
     const [invoiceValues, setInvoiceValues] = useState<invoiceValuesProps>({} as invoiceValuesProps)
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
-    // const [pdfStr, setPdfStr] = useState<string>('')
-    // const [load, setLoad] = useState(false)
+    const [pdfStr, setPdfStr] = useState<string>('')
+    const [load, setLoad] = useState(false)
     useEffect(() => {
         setTripDetails([])
-        setTripId([])
+        setTripId({ tripId: [], tripName: '' })
     }, [filterData?.cementCompany])
     const onSubmit = async () => await getTripDetails()
     const handleClick = () => setActivateFields(true)
@@ -80,17 +85,24 @@ const InvoiceList: React.FC = () => {
         if (filterData?.cementCompany.name === '') return
         await getTripDetailsByFilterData(filterData).then(setTripDetails)
     }
-    const updateInvoice = async () => {
+    const previewPdf = async () => {
         const data = {
-            trip: tripId,
+            trip: { ...tripId, tripName: filterData.pageName },
             bill: invoiceValues,
             cementCompany: filterData?.cementCompany
         }
-        await updateInvoiceDetails(data).then(async (data: string) => await downloadPDF(data))
-        // await previewInvoicePDF(data).then((details) => {
-        //     setPdfStr(details)
-        //     setLoad(true)
-        // })
+        await previewInvoicePDF(data).then((details) => {
+            setPdfStr(details)
+            setLoad(true)
+        })
+    }
+    const updateInvocie = async () => {
+        const data = {
+            trip: { ...tripId, tripName: filterData.pageName },
+            bill: invoiceValues,
+            cementCompany: filterData?.cementCompany
+        }
+        await updateInvoiceDetails(data).then(async () => await downloadPDF(pdfStr))
     }
     const downloadPDF = async (data: string) => {
         const tempContainer = document.createElement('div')
@@ -123,6 +135,9 @@ const InvoiceList: React.FC = () => {
         }
 
         html2pdf().set(options).from(pdfContainer).save()
+        console.log(filterData)
+        await getTripDetailsByFilterData(filterData).then(setTripDetails)
+        setLoad(false)
     }
     return (
         <invoiceFilterData.Provider value={{ filterData, setFilterData }}>
@@ -146,7 +161,7 @@ const InvoiceList: React.FC = () => {
                         type="button"
                         style={{ margin: '10px' }}
                         onClick={handleClick}
-                        disabled={tripId.length === 0}
+                        disabled={tripId?.tripId.length === 0}
                     >
                         Preview Invoice PDF
                     </Button>
@@ -162,10 +177,10 @@ const InvoiceList: React.FC = () => {
                 <InvoiceFieldDialog
                     activateFields={activateFields}
                     setActivateFields={setActivateFields}
-                    updateInvoice={updateInvoice}
+                    previewPdf={previewPdf}
                 />
             </billNoContext.Provider>
-            {/* <PreviewDialog load={load} setLoad={setLoad} pdfStr={pdfStr} /> */}
+            <PreviewDialog load={load} setLoad={setLoad} pdfStr={pdfStr} update={updateInvocie} />
         </invoiceFilterData.Provider>
     )
 }

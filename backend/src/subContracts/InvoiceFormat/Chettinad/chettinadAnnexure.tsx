@@ -4,13 +4,12 @@ import { epochToMinimalDate } from '../epochToNormal'
 import { AnnexureProps, LoadingTripProps, StockToUnloadingPointProps } from '../type'
 
 const tableRow = (row: LoadingTripProps, index: number) => {
-    // const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
-            <td>{'partyName'}</td>
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
             <td>{row.truck.vehicleNumber}</td>
             <td>{row.filledLoad.toFixed(2)}</td>
@@ -21,13 +20,12 @@ const tableRow = (row: LoadingTripProps, index: number) => {
 }
 
 const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
-    // const name = partyNames.filter((trip) => trip.invoiceNumber === row.invoiceNumber)
     return (
         <tr>
             <td>{index + 1}</td>
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.invoiceNumber}</td>
-            <td>{'partyName'}</td>
+            <td>{row.partyName}</td>
             <td>{row.unloadingPoint.name}</td>
             <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
             <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>

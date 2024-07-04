@@ -19,7 +19,7 @@ const tableRow = (row: LoadingTripProps, index: number) => (
         <td>{index + 1}</td>
         <td>{row.invoiceNumber}</td>
         <td>{row.lrNumber}</td>
-        <td>{row.startDate}</td>
+        <td>{epochToMinimalDate(row.startDate)}</td>
         <td>{row.partyName}</td>
         <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
         <td>{row.truck.vehicleNumber}</td>
@@ -41,7 +41,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
         <td>{index + 1}</td>
         <td>{row.invoiceNumber}</td>
         <td>{row.lrNumber}</td>
-        <td>{row.startDate}</td>
+        <td>{epochToMinimalDate(row.startDate)}</td>
         <td>{row.partyName}</td>
         <td>{row.unloadingPoint.name}</td>
         <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>

@@ -2,7 +2,7 @@ import { axiosInstance, getData } from '../../apiCalls'
 import { Nullable } from '../../types'
 import { tripDetailsProps } from '../components/invoice/generateInvoice/list'
 interface updateInvoiceProps {
-    trip: tripDetailsProps[]
+    trip: tripDetailsProps
     bill: { billNo: string; date: number }
     cementCompany: { name: string | undefined; id: number | undefined }
 }

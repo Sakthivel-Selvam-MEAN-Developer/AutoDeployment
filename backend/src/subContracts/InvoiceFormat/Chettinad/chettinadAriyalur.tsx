@@ -107,9 +107,13 @@ const ChettinadAriyalur: FC<invoiceProps> = ({ trip, bill, total }) => (
                                 <p className="pl pt pb">TRANSPORTATION CHARGES</p>
                                 <small className="p-2">Period:</small>
                                 <br />
-                                <small className="p-2">From : {total.fromDate}</small>
+                                <small className="p-2">
+                                    From : {epochToMinimalDate(total.fromDate)}
+                                </small>
                                 <br />
-                                <small className="p-2">To : {total.endDate}</small>
+                                <small className="p-2">
+                                    To : {epochToMinimalDate(total.endDate)}
+                                </small>
                             </div>
                         </div>
                         <p style={{ height: '24px' }} className="df jc ai bt bg bb" />
@@ -308,6 +312,7 @@ const ChettinadAriyalur: FC<invoiceProps> = ({ trip, bill, total }) => (
                 </div>
             </main>
         </section>
+        <hr style={{ margin: '0 20px' }} />
         <ChettinadAriyalurAnnexure trip={trip} total={total} bill={bill} />
     </>
 )

@@ -77,10 +77,19 @@ export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
             },
             billNo: null
         },
-        include: {
-            loadingPointToStockPointTrip: { include: { stockPoint: true } },
-            unloadingPoint: { include: { cementCompany: true } },
-            truck: true
+        select: {
+            id: true,
+            startDate: true,
+            invoiceNumber: true,
+            freightAmount: true,
+            totalFreightAmount: true,
+            loadingPointToStockPointTrip: {
+                select: { filledLoad: true, stockPoint: { select: { name: true } } }
+            },
+            overallTrip: {
+                select: { truck: { select: { vehicleNumber: true } } }
+            },
+            unloadingPoint: { select: { name: true } }
         }
     })
 export const getAllStockToUnloadingPointInvoiceNumbers = () =>

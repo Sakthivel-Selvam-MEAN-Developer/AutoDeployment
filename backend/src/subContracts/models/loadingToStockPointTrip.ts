@@ -113,10 +113,32 @@ export const getStockTripsByinvoiceFilter = (filterData: filterDataProps) =>
             },
             billNo: null
         },
-        include: {
-            loadingPoint: { include: { cementCompany: true } },
-            stockPoint: { include: { cementCompany: true } },
-            truck: true
+        select: {
+            id: true,
+            startDate: true,
+            invoiceNumber: true,
+            filledLoad: true,
+            freightAmount: true,
+            totalFreightAmount: true,
+            overallTrip: {
+                select: {
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
+                }
+            },
+            loadingPoint: {
+                select: {
+                    name: true
+                }
+            },
+            stockPoint: {
+                select: {
+                    name: true
+                }
+            }
         }
     })
 export const getAllStockPointInvoiceNumbers = () =>

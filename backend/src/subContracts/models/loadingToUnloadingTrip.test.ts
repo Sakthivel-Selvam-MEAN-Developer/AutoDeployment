@@ -151,7 +151,7 @@ describe('Trip model', () => {
             company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         }
         const actual = await getDirectTripsByinvoiceFilter(mockFilterData)
-        expect(actual[0].unloadingPointId).toBe(trip.unloadingPointId)
+        expect(actual[0].unloadingPoint).toStrictEqual({ name: 'Salem' })
     })
     test('should able to get all unloading point invoice numbers', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

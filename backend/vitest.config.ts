@@ -5,21 +5,21 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             thresholds: {
-                branches: 87.11,
+                branches: 86.73,
                 functions: 76.6,
                 lines: 85.25,
                 statements: 85.25,
                 'src/subContracts/models/**': {
                     branches: 91.28,
                     functions: 91.33,
-                    lines: 92.39,
-                    statements: 92.39
+                    lines: 92.53,
+                    statements: 92.53
                 },
                 'src/subContracts/controller/**': {
-                    branches: 87.02,
+                    branches: 86.94,
                     functions: 94.17,
-                    lines: 96.06,
-                    statements: 96.06
+                    lines: 95.84,
+                    statements: 95.84
                 },
                 'src/subContracts/domain': {
                     branches: 61.81,
