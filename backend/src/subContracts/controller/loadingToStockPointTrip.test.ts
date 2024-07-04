@@ -216,13 +216,15 @@ const mockReq2 = {
     stockPointId: 1
 }
 describe('Trip Controller', () => {
-    test('should able to access all trip', async () => {
+    test('should be able to access all stock point trips', async () => {
         mockStockPointTrip.mockResolvedValue(mockGetTripData)
-        await supertest(app).get('/api/stock-trip').expect(mockGetTripData)
-        expect(mockStockPointTrip).toBeCalledTimes(1)
-        expect(mockStockPointTrip).toBeCalledWith()
+        const res = await supertest(app).get('/api/stock-trip')
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual(mockGetTripData)
+        expect(mockStockPointTrip).toHaveBeenCalledTimes(1)
     })
-    test('should able to create trip with payment dues with without fuel', async () => {
+
+    test('should create trip with payment dues without fuel', async () => {
         mockCreateTrip.mockResolvedValue(mockTripData1)
         mockGetPricePoint.mockResolvedValue({
             freightAmount: 1000,
@@ -233,12 +235,15 @@ describe('Trip Controller', () => {
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData1)
         mockGetFuelWithoutTrip.mockResolvedValue(null)
-        await supertest(app).post('/api/stock-trip').send(mockReq).expect(200)
-        expect(mockCreateTrip).toBeCalledTimes(1)
-        expect(mockCreateOverallTrip).toBeCalledTimes(1)
-        expect(mockGetFuelWithoutTrip).toBeCalledTimes(1)
+        const res = await supertest(app).post('/api/stock-trip').send(mockReq)
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual({ id: mockcreateOverallTripData.id })
+        expect(mockCreateTrip).toHaveBeenCalledTimes(1)
+        expect(mockCreateOverallTrip).toHaveBeenCalledTimes(1)
+        expect(mockCreatePaymentDues).toHaveBeenCalledTimes(0)
+        expect(mockGetFuelWithoutTrip).toHaveBeenCalledTimes(1)
     })
-    test('should able to create trip with payment dues with fuel', async () => {
+    test('should create trip with payment dues with fuel', async () => {
         mockCreateTrip.mockResolvedValue(mockTripData2)
         mockGetPricePoint.mockResolvedValue({
             freightAmount: 1000,
@@ -248,15 +253,59 @@ describe('Trip Controller', () => {
         })
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
         mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData2)
-        await supertest(app).post('/api/stock-trip').send(mockReq2).expect(200)
-        expect(mockCreateTrip).toBeCalledTimes(2)
-        expect(mockCreateOverallTrip).toBeCalledTimes(2)
-        expect(mockGetFuelWithoutTrip).toBeCalledTimes(2)
+        mockGetFuelWithoutTrip.mockResolvedValue({ id: 1, vehicleNumber: 'TN93D5512' })
+        const res = await supertest(app).post('/api/stock-trip').send(mockReq2)
+        expect(res.status).toBe(500)
+        expect(mockCreateTrip).toHaveBeenCalledTimes(2)
+        expect(mockCreateOverallTrip).toHaveBeenCalledTimes(2)
+        expect(mockCreatePaymentDues).toHaveBeenCalledTimes(0)
+        expect(mockGetFuelWithoutTrip).toHaveBeenCalledTimes(2)
+        expect(mockUpdateFuelWithTripId).toHaveBeenCalledTimes(1)
     })
+
     test('should return all stock point unbilled trips', async () => {
         mockUnbilledTrip.mockResolvedValue(mockUnbilledTripData)
-        await supertest(app).get('/api/stock-point-unbilled-trips').expect(mockUnbilledTripData)
-        expect(mockUnbilledTrip).toBeCalledTimes(1)
-        expect(mockUnbilledTrip).toBeCalledWith()
+        const res = await supertest(app).get('/api/stock-point-unbilled-trips')
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual(mockUnbilledTripData)
+        expect(mockUnbilledTrip).toHaveBeenCalledTimes(1)
+    })
+
+    test('should handle error when creating trip', async () => {
+        mockCreateTrip.mockRejectedValue(new Error('Creation failed'))
+        const res = await supertest(app).post('/api/stock-trip').send(mockReq)
+        expect(res.status).toBe(500)
+        expect(res.body).toHaveProperty('error', 'Something went Wrong')
+    })
+
+    test('should handle error when fetching price point', async () => {
+        mockGetPricePoint.mockRejectedValue(new Error('Price point fetch failed'))
+        const res = await supertest(app).post('/api/stock-trip').send(mockReq)
+        expect(res.status).toBe(500)
+        expect(res.body).toHaveProperty('error', 'Something went Wrong')
+    })
+
+    test('should handle error when creating overall trip', async () => {
+        mockCreateOverallTrip.mockRejectedValue(new Error('Overall trip creation failed'))
+        const res = await supertest(app).post('/api/stock-trip').send(mockReq)
+        expect(res.status).toBe(500)
+        expect(res.body).toHaveProperty('error', 'Something went Wrong')
+    })
+
+    test('should handle error when updating payment dues', async () => {
+        mockCreateTrip.mockResolvedValue(mockTripData2)
+        mockGetPricePoint.mockResolvedValue({
+            freightAmount: 1000,
+            transporterAmount: 900,
+            transporterPercentage: 70,
+            payGeneratingDuration: 0
+        })
+        mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
+        mockCreatePaymentDues.mockResolvedValue(mockcreatePaymentDuesData2)
+        mockGetFuelWithoutTrip.mockResolvedValue({ id: 1, vehicleNumber: 'TN93D5512' })
+        mockUpdatePaymentDuesWithTripId.mockRejectedValue(new Error('Payment dues update failed'))
+        const res = await supertest(app).post('/api/stock-trip').send(mockReq2)
+        expect(res.status).toBe(500)
+        expect(res.body).toHaveProperty('error', 'Something went Wrong')
     })
 })

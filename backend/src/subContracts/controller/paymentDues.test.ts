@@ -319,12 +319,12 @@ const mockTransporterDuesDues = {
     type: 'final pay',
     dueDate: 1706725800,
     vehicleNumber: 'TN93D5512',
-    truck: {
-        transporter: {
-            csmName: 'Bharath'
-        }
-    },
     overallTrip: {
+        truck: {
+            transporter: {
+                csmName: 'Bharath'
+            }
+        },
         loadingPointToStockPointTrip: {
             truck: {
                 transporter: {
@@ -552,5 +552,26 @@ describe('Payment Due Controller', () => {
     test('should have super admin role for stock point', async () => {
         await supertest(app).put('/api/payment-dues/NEFT').expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
+    })
+    test('should update the paymentDue with transactionId', async () => {
+        mockUpdatePayment.mockResolvedValue(mockUpdateData)
+
+        const response = await supertest(app)
+            .put('/api/payment-dues')
+            .send({ transactionId: 'hgf43', paidAt: dayjs().unix() })
+            .expect(200)
+        expect(response.body).toEqual('')
+    })
+
+    test('should create the paymentDue with transactionId', async () => {
+        mockcreatePaymentDues.mockResolvedValue(mockCreateDues)
+
+        const response = await supertest(app)
+            .post('/api/payment-dues')
+            .send(mockCreateDues)
+            .expect(200)
+
+        expect(mockcreatePaymentDues).toHaveBeenCalledWith(mockCreateDues)
+        expect(response.body).toEqual({})
     })
 })

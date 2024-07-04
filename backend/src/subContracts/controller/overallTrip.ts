@@ -81,13 +81,13 @@ export const listTripDetailsByUnloadDate = (req: Request, res: Response) => {
         .catch(() => res.status(500))
 }
 
-const differenceCalculation = (
+export const differenceCalculation = (
     tripData: any,
     totalPaidAmount: number,
     totalShortageAmount: number
 ) => {
     if (tripData.loadingPointToStockPointTrip !== null) {
-        const { tdsPercentage } = tripData.loadingPointToStockPointTrip.truck.transporter
+        const { tdsPercentage } = tripData.truck.transporter
         const totalTransporterAmount =
             tripData.loadingPointToStockPointTrip.totalTransporterAmount +
             tripData.stockPointToUnloadingPointTrip.totalTransporterAmount
@@ -98,7 +98,7 @@ const differenceCalculation = (
         )
     }
     if (tripData.loadingPointToUnloadingPointTrip !== null) {
-        const { tdsPercentage } = tripData.loadingPointToUnloadingPointTrip.truck.transporter
+        const { tdsPercentage } = tripData.truck.transporter
         return (
             tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount -
             (totalPaidAmount + totalShortageAmount) -
@@ -113,7 +113,7 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
             data.map((overallTrip) => {
                 let tripType
                 let dueAmount = 0
-                let tdsPercentage: number | null = 0
+                let tdsPercentage: number | null | undefined = 0
                 let totalTransporterAmount = 0
                 let totalShortageAmount = 0
                 if (
@@ -124,14 +124,12 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                     totalTransporterAmount =
                         overallTrip.loadingPointToStockPointTrip.totalTransporterAmount +
                         overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
-                    tdsPercentage =
-                        overallTrip.loadingPointToStockPointTrip.truck.transporter.tdsPercentage
+                    tdsPercentage = overallTrip.truck?.transporter.tdsPercentage
                 } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
                     tripType = overallTrip.loadingPointToUnloadingPointTrip
                     totalTransporterAmount =
                         overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount
-                    tdsPercentage =
-                        overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.tdsPercentage
+                    tdsPercentage = overallTrip.truck?.transporter.tdsPercentage
                 }
                 overallTrip.paymentDues.forEach((dues) => {
                     if (dues.type !== 'gst pay' && dues.payableAmount > 0) {
@@ -174,10 +172,10 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                             ? overallTrip.stockPointToUnloadingPointTrip.unloadingPoint.name
                             : // @ts-expect-error unloading missing
                               tripType?.unloadingPoint.name,
-                    vehicleNumber: tripType?.truck.vehicleNumber,
+                    vehicleNumber: overallTrip?.truck?.vehicleNumber,
                     invoiceNumber: tripType?.invoiceNumber,
-                    transporterName: tripType?.truck.transporter.name,
-                    csmName: tripType?.truck.transporter.csmName,
+                    transporterName: overallTrip?.truck?.transporter.name,
+                    csmName: overallTrip?.truck?.transporter.csmName,
                     transporterAmount,
                     totalPaidAmount: dueAmount.toFixed(2),
                     differenceAmount

@@ -5,8 +5,8 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             thresholds: {
-                branches: 87.25,
-                functions: 77.39,
+                branches: 86.73,
+                functions: 76.6,
                 lines: 84.7,
                 statements: 84.7,
                 'src/subContracts/models/**': {

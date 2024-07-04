@@ -189,4 +189,17 @@ describe('Trip Controller', () => {
         expect(mockUnbilledTrip).toBeCalledTimes(1)
         expect(mockUnbilledTrip).toBeCalledWith()
     })
+    test('should return trips by vehicle number', async () => {
+        mockGetTripByVehicleNumber.mockResolvedValue([mockTripData1])
+        const res = await supertest(app).get('/api/trip/TN93D5512')
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual([mockTripData1])
+        expect(mockGetTripByVehicleNumber).toHaveBeenCalledTimes(1)
+    })
+    test('should handle errors in creating trip', async () => {
+        mockCreateTrip.mockRejectedValue(new Error('Creation failed'))
+        const res = await supertest(app).post('/api/trip').send(mockReq)
+        expect(res.status).toBe(500)
+        expect(mockCreateTrip).toHaveBeenCalledTimes(3)
+    })
 })

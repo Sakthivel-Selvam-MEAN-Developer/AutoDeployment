@@ -134,20 +134,97 @@ const updatedData = {
         }
     }
 }
+// describe('PricePointApproval Controller', () => {
+//     test('should able to get trips for PricePointApproval', async () => {
+//         mockGetTripForPricePointApproval.mockResolvedValue(overallTrip)
+//         await supertest(app).get('/api/pricepointapproval').expect(200)
+//         expect(mockGetTripForPricePointApproval).toHaveBeenCalledTimes(1)
+//     })
+//     test('should able to update trips for PricePointApproval', async () => {
+//         mockUpdatePricePointApprovalStatus.mockResolvedValue({
+//             ...overallTrip[0],
+//             loadingPointToUnloadingPointTrip: null
+//         })
+//         mockGetPricePoint.mockResolvedValue(pricePointData)
+//         mockUpdateFreightInStockTrip.mockResolvedValue(updatedData)
+//         await supertest(app).put('/api/pricepointapproval').expect(200)
+//         expect(mockUpdatePricePointApprovalStatus).toHaveBeenCalledTimes(1)
+//     })
+// })
 describe('PricePointApproval Controller', () => {
-    test('should able to get trips for PricePointApproval', async () => {
-        mockGetTripForPricePointApproval.mockResolvedValue(overallTrip)
-        await supertest(app).get('/api/pricepointapproval').expect(200)
-        expect(mockGetTripForPricePointApproval).toHaveBeenCalledTimes(1)
+    afterEach(() => {
+        vi.clearAllMocks()
     })
-    test('should able to update trips for PricePointApproval', async () => {
+
+    test('should get trips for PricePointApproval', async () => {
+        mockGetTripForPricePointApproval.mockResolvedValue(overallTrip)
+        const response = await supertest(app).get('/api/pricepointapproval')
+        expect(response.status).toBe(200)
+        expect(mockGetTripForPricePointApproval).toHaveBeenCalledTimes(1)
+        expect(response.body).toHaveLength(1)
+    })
+
+    test('should update trips for PricePointApproval with LoadingToStock trip', async () => {
+        mockUpdatePricePointApprovalStatus.mockResolvedValue(overallTrip[0])
+        mockGetPricePoint.mockResolvedValue(pricePointData)
+        mockUpdateFreightInStockTrip.mockResolvedValue(updatedData)
+        await supertest(app)
+            .put('/api/pricepointapproval')
+            .send({ id: 1, transporterPercentage: 10, freight: 1000 })
+            .expect(200)
+        expect(mockUpdatePricePointApprovalStatus).toHaveBeenCalledTimes(1)
+        expect(mockUpdateFreightInStockTrip).toHaveBeenCalledTimes(1)
+        expect(mockCreatePaymentDues).toHaveBeenCalledTimes(1)
+    })
+
+    test('should update trips for PricePointApproval with LoadingToUnloading trip', async () => {
+        const overallTripWithUnloading = {
+            ...overallTrip[0],
+            loadingPointToStockPointTrip: null,
+            loadingPointToUnloadingPointTrip: overallTrip[0].loadingPointToStockPointTrip
+        }
+        mockUpdatePricePointApprovalStatus.mockResolvedValue(overallTripWithUnloading)
+        mockGetPricePoint.mockResolvedValue(pricePointData)
+        mockUpdateFreightInDirectTrip.mockResolvedValue(updatedData)
+        await supertest(app)
+            .put('/api/pricepointapproval')
+            .send({ id: 1, transporterPercentage: 10, freight: 1000 })
+            .expect(200)
+        expect(mockUpdatePricePointApprovalStatus).toHaveBeenCalledTimes(1)
+        expect(mockUpdateFreightInDirectTrip).toHaveBeenCalledTimes(1)
+        expect(mockCreatePaymentDues).toHaveBeenCalledTimes(1)
+    })
+
+    test('should handle initialPayAvailable being true', async () => {
         mockUpdatePricePointApprovalStatus.mockResolvedValue({
             ...overallTrip[0],
             loadingPointToUnloadingPointTrip: null
         })
         mockGetPricePoint.mockResolvedValue(pricePointData)
-        mockUpdateFreightInStockTrip.mockResolvedValue(updatedData)
-        await supertest(app).put('/api/pricepointapproval').expect(200)
+        await supertest(app)
+            .put('/api/pricepointapproval')
+            .send({ id: 1, transporterPercentage: 10, freight: 1000 })
+            .expect(200)
+        expect(mockUpdatePricePointApprovalStatus).toHaveBeenCalledTimes(1)
+        expect(mockUpdateFreightInStockTrip).toHaveBeenCalledTimes(1)
+        expect(mockCreatePaymentDues).toHaveBeenCalledTimes(1)
+    })
+
+    test('should handle overallTrip being null', async () => {
+        mockUpdatePricePointApprovalStatus.mockResolvedValue(null)
+        await supertest(app)
+            .put('/api/pricepointapproval')
+            .send({ id: 1, transporterPercentage: 10, freight: 1000 })
+            .expect(500)
+        expect(mockUpdatePricePointApprovalStatus).toHaveBeenCalledTimes(1)
+    })
+
+    test('should handle errors gracefully', async () => {
+        mockUpdatePricePointApprovalStatus.mockRejectedValue(new Error('Something went wrong'))
+        await supertest(app)
+            .put('/api/pricepointapproval')
+            .send({ id: 1, transporterPercentage: 10, freight: 1000 })
+            .expect(500)
         expect(mockUpdatePricePointApprovalStatus).toHaveBeenCalledTimes(1)
     })
 })
