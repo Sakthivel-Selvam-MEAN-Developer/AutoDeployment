@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import ReactDOMServer from 'react-dom/server'
-import { JSDOM } from 'jsdom'
-import puppeteer, { Browser } from 'puppeteer'
-import { PDFDocument } from 'pdf-lib'
+// import { JSDOM } from 'jsdom'
+// import { Browser } from 'puppeteer'
+// import { PDFDocument } from 'pdf-lib'
 import {
     updateBillNumber as updateLoadingToUnloading,
     getInvoiceDetails as loadingToUnlaodingInvoice,
@@ -20,29 +20,29 @@ import {
 } from '../models/stockPointToUnloadingPoint.ts'
 import { getContentBasedOnCompany } from '../InvoiceFormat/calculateTotal.tsx'
 import { InvoiceProp } from '../InvoiceFormat/type.tsx'
-import { uploadToS3 } from './uploadToS3.ts'
-import logger from '../../logger.ts'
+// import { uploadToS3 } from './uploadToS3.ts'
+// import logger from '../../logger.ts'
 
 interface tripDetailsProps {
     tripId: number
     tripName: string
 }
-type pdfBuffers = (
-    browser: Browser,
-    htmlContent: string | undefined,
-    width: number,
-    height: number
-) => Promise<Buffer>
-const generateBufferFromHtml: pdfBuffers = async (browser, htmlContent, width, height) => {
-    const page = await browser.newPage()
-    await page.setContent(htmlContent || '', { waitUntil: 'networkidle0' })
-    const pdfBuffer = await page.pdf({
-        width: `${width}px`,
-        height: `${height}px`,
-        printBackground: true
-    })
-    return pdfBuffer
-}
+// type pdfBuffers = (
+//     browser: Browser,
+//     htmlContent: string | undefined,
+//     width: number,
+//     height: number
+// ) => Promise<Buffer>
+// const generateBufferFromHtml: pdfBuffers = async (browser, htmlContent, width, height) => {
+//     const page = await browser.newPage()
+//     await page.setContent(htmlContent || '', { waitUntil: 'networkidle0' })
+//     const pdfBuffer = await page.pdf({
+//         width: `${width}px`,
+//         height: `${height}px`,
+//         printBackground: true
+//     })
+//     return pdfBuffer
+// }
 const groupTripId = (tripDetails: tripDetailsProps[]) => {
     const loadingToUnloading: number[] = []
     const loadingToStock: number[] = []
@@ -125,25 +125,25 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
             req.body.bill
         )
     )
-    const dom = new JSDOM(`<!DOCTYPE html><html><body>${componentHtml}</body></html>`)
-    const invoiceHtml = dom.window.document.querySelector('#invoice')?.outerHTML
-    const annexureHtml = dom.window.document.querySelector('#annexure')?.outerHTML
-    if (!invoiceHtml) logger.error('Required HTML sections not found')
-    const browser = await puppeteer.launch()
-    const invoicePdfBuffer = await generateBufferFromHtml(browser, invoiceHtml, 1200, 1300)
-    const annexurePdfBuffer = await generateBufferFromHtml(browser, annexureHtml, 1200, 1300)
-    await browser.close()
-    const pdfDoc = await PDFDocument.create()
-    const [invoicePdf, annexurePdf] = await Promise.all([
-        PDFDocument.load(invoicePdfBuffer),
-        PDFDocument.load(annexurePdfBuffer)
-    ])
-    const [invoicePage] = await pdfDoc.copyPages(invoicePdf, [0])
-    const [annexurePage] = await pdfDoc.copyPages(annexurePdf, [0])
-    pdfDoc.addPage(invoicePage)
-    pdfDoc.addPage(annexurePage)
-    const combinedPdfBuffer = await pdfDoc.save()
-    await uploadToS3(combinedPdfBuffer, req.body.cementCompany.name, req.body.bill.billNo)
+    // const dom = new JSDOM(`<!DOCTYPE html><html><body>${componentHtml}</body></html>`)
+    // const invoiceHtml = dom.window.document.querySelector('#invoice')?.outerHTML
+    // const annexureHtml = dom.window.document.querySelector('#annexure')?.outerHTML
+    // if (!invoiceHtml) logger.error('Required HTML sections not found')
+    // const browser = await puppeteer.launch()
+    // const invoicePdfBuffer = await generateBufferFromHtml(browser, invoiceHtml, 1200, 1300)
+    // const annexurePdfBuffer = await generateBufferFromHtml(browser, annexureHtml, 1200, 1300)
+    // await browser.close()
+    // const pdfDoc = await PDFDocument.create()
+    // const [invoicePdf, annexurePdf] = await Promise.all([
+    //     PDFDocument.load(invoicePdfBuffer),
+    //     PDFDocument.load(annexurePdfBuffer)
+    // ])
+    // const [invoicePage] = await pdfDoc.copyPages(invoicePdf, [0])
+    // const [annexurePage] = await pdfDoc.copyPages(annexurePdf, [0])
+    // pdfDoc.addPage(invoicePage)
+    // pdfDoc.addPage(annexurePage)
+    // const combinedPdfBuffer = await pdfDoc.save()
+    // await uploadToS3(combinedPdfBuffer, req.body.cementCompany.name, req.body.bill.billNo)
 
     await Promise.all([
         updateLoadingToStock(loadingToStock, req.body.bill.billNo),
