@@ -28,7 +28,7 @@ export default defineConfig({
                     statements: 95.95
                 },
                 'src/subContracts/routes/**': {
-                    branches:100,
+                    branches: 100,
                     functions: 100,
                     lines: 99.46,
                     statements: 99.46

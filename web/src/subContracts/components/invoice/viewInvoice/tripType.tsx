@@ -1,49 +1,44 @@
-// import { FC } from 'react'
-// import { Box, Tabs, Tab } from '@mui/material'
-//
-// import { tripDetails, tripDetailsProps } from './types'
-// export interface tripProps {
-//     tripDetails: tripDetails[]
-//     setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps[]>>
-//     setTripDetails: React.Dispatch<React.SetStateAction<tripDetails[]>>
-// }
-// const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripDetails }) => {
-//     const { filterData, setFilterData } = useContext(invoiceFilterData)
-//     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
-//         if (filterData.cementCompany.name === '') return
-//         setTripDetails([])
-//         setTripId([])
-//         await getTripDetailsByFilterData({ ...filterData, pageName: newValue }).then(setTripDetails)
-//         setFilterData((prevData: filterDataProps) => {
-//             return { ...prevData, pageName: newValue }
-//         })
-//     }
-//     return (
-//         <>
-//             <Box sx={{ width: '100%' }}>
-//                 <InvoiceTabs handleChange={handleChange} />
-//             </Box>
-//             <InvoiceContainer
-//                 tripDetails={tripDetails}
-//                 setTripId={setTripId}
-//                 setTripDetails={setTripDetails}
-//             />
-//         </>
-//     )
-// }
+import { Control } from 'react-hook-form'
+import FormField from './formField'
+import { cementCompanyProps } from './tableList'
 
-// interface InvoiceTabs {
-//     handleChange: (_event: React.SyntheticEvent, newValue: string) => Promise<void>
-// }
-// const InvoiceTabs: FC<InvoiceTabs> = ({ handleChange }) => {
-//     return (
-//         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-//             <Tabs onChange={handleChange} aria-label="basic tabs example">
-//                 <Tab label="Direct Trip" value="LoadingToUnloading" />
-//                 <Tab label="LoadingToStock Trip" value="LoadingToStock" />
-//                 <Tab label="StockToUnloading Trip" value="StockToUnloading" />
-//             </Tabs>
-//         </Box>
-//     )
-// }
-// export default ListAllTripForInvoice
+export function fileColumns() {
+    return [
+        { field: 'billNo', headerName: 'Bill Number', width: 150, flex: 1 },
+        { field: 'billDate', headerName: 'Date Created', width: 150, flex: 1 },
+        { field: 'company', headerName: 'Company Name', width: 200, flex: 1 },
+        { field: 'amount', headerName: 'Amount', width: 150, flex: 1 },
+        {
+            field: 'pdfLink',
+            headerName: 'PDF File Link',
+            width: 200,
+            flex: 1,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            renderCell: (params: any) => (
+                <a href={params.value} target="_blank" rel="noopener noreferrer">
+                    View PDF
+                </a>
+            )
+        }
+    ]
+}
+export function formFieldDisplay(
+    control: Control,
+    cementCompany: cementCompanyProps[],
+    setCementCompany: React.Dispatch<React.SetStateAction<cementCompanyProps[]>>
+) {
+    return (
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center'
+            }}
+        >
+            <FormField
+                control={control}
+                cementCompany={cementCompany}
+                setCementCompany={setCementCompany}
+            />
+        </div>
+    )
+}
