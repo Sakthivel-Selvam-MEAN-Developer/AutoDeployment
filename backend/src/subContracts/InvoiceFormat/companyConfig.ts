@@ -46,7 +46,7 @@ export const companyConfig: Record<string, CompanyConfig> = {
         Component: CustomInvoice,
         companyTagID: 'ultratech_main'
     },
-    'ASHTECH(INDIA) PRIVATE LIMITED': {
+    ' ASHTECH(INDIA) PRIVATE LIMITED': {
         Component: CustomInvoice,
         companyTagID: 'ultratech_main'
     },
