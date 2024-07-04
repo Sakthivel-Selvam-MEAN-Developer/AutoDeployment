@@ -4,7 +4,7 @@ const checkLoadingToStock = (trip: InvoiceProps['trip']) => {
     if (trip.loadingPointToStockPointTrip.length > 0) {
         return trip.loadingPointToStockPointTrip[0].loadingPoint.cementCompany.primaryBill
     }
-    return { address: '', gstNumber: '' }
+    return { address: '', gstNumber: '', panNumber: null }
 }
 const checkStockToUnloading = (trip: InvoiceProps['trip']) => {
     if (trip.stockPointToUnloadingPointTrip.length > 0) {
@@ -22,8 +22,8 @@ export const cutomInvoiceDetails = (trip: InvoiceProps['trip']) => {
     const billDetails = findBillingDetails(trip)
     // @ts-expect-error replace
     const address = billDetails?.address.replaceAll(/(\n)/g, '<br />')
-    const elements = `<div className="customer" id="address">
-     <h4>${address}</h4>
-    <h4>${billDetails?.gstNumber}no </h4></div>`
-    return elements
+    return `<div className="customer" id="address">
+     <h4>${address}</h4>    
+    <h4>GSTNO: ${billDetails?.gstNumber}</h4>
+     ${billDetails?.panNumber ? `<h4>PANNO:${billDetails?.panNumber}</h4>` : ''}</div>`
 }

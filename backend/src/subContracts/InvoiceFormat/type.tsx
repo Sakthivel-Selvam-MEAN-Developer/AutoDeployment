@@ -236,7 +236,9 @@ export interface LoadingTripProps {
     }
     loadingPoint: {
         name: string
-        cementCompany: { primaryBill: { address: string; gstNumber: string } | null }
+        cementCompany: {
+            primaryBill: { address: string; gstNumber: string; panNumber: string | null } | null
+        }
     }
     overallTrip: {
         shortageQuantity: {
@@ -279,7 +281,10 @@ export interface StockToUnloadingPointProps {
     lrNumber: string
     unloadingPoint: {
         name: string
-        cementCompany: { name: string; secondaryBill: { address: string; gstNumber: string } }
+        cementCompany: {
+            name: string
+            secondaryBill: { address: string; gstNumber: string; panNumber: number | null }
+        }
     }
     freightAmount: number
     loadingPointToStockPointTrip: {
@@ -345,12 +350,24 @@ export interface rowProps {
 // }
 export interface tripType {
     loadingPointToUnloadingPointTrip: {
-        loadingPoint: { cementCompany: { primaryBill: { address: string; gstNumber: string } } }
+        loadingPoint: {
+            cementCompany: {
+                primaryBill: { address: string; gstNumber: string; panNumber: string }
+            }
+        }
     }[]
     stockPointToUnloadingPointTrip: {
-        unloadingPoint: { cementCompany: { secondaryBill: { address: string; gstNumber: string } } }
+        unloadingPoint: {
+            cementCompany: {
+                secondaryBill: { address: string; gstNumber: string; panNumber: string }
+            }
+        }
     }[]
     loadingPointToStockPointTrip: {
-        loadingPoint: { cementCompany: { primaryBill: { address: string; gstNumber: string } } }
+        loadingPoint: {
+            cementCompany: {
+                primaryBill: { address: string; gstNumber: string; panNumber: string }
+            }
+        }
     }[]
 }

@@ -46,7 +46,9 @@ export const getInvoiceDetails = (id: number[]) =>
                     cementCompany: {
                         select: {
                             name: true,
-                            secondaryBill: { select: { address: true, gstNumber: true } }
+                            secondaryBill: {
+                                select: { address: true, gstNumber: true, panNumber: true }
+                            }
                         }
                     }
                 }
