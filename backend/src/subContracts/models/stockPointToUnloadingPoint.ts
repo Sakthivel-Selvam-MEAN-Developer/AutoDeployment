@@ -128,3 +128,12 @@ export const getAllStockToUnloadingPointUnbilledTrips = () =>
             }
         }
     })
+export const updateUnloadingTripBillingRate = (id: string, billingRate: string) =>
+    prisma.stockPointToUnloadingPointTrip.update({
+        where: {
+            id: parseInt(id)
+        },
+        data: {
+            billingRate: parseFloat(billingRate)
+        }
+    })

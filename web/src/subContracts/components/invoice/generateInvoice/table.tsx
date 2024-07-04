@@ -9,6 +9,7 @@ const cellNames = [
     'quantity',
     'Freight Amount',
     'Total Freight Amount',
+    'BillingRate',
     'Action'
 ]
 const cells = (cell: string, index: number) => {

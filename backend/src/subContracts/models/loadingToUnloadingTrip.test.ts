@@ -13,7 +13,8 @@ import {
     getAllUnloadingPointInvoiceNumbers,
     getAllUnloadingPointUnbilledTrips,
     updateFreightInDirectTrip,
-    getInvoiceDetails
+    getInvoiceDetails,
+    updateDirectTripBillingRate
 } from './loadingToUnloadingTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
@@ -281,5 +282,35 @@ describe('Trip model', () => {
         })
         const actual = await getInvoiceDetails([trip.id])
         expect(actual[0].startDate).toBe(trip.startDate)
+    })
+    test('should able to update billingRate in loading to unloading trip', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await create({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: truck.id,
+            tripStatus: true,
+            loadingKilometer: 0
+        })
+        const actual = await updateDirectTripBillingRate(`${trip.id}`, '1200')
+        expect(actual.id).toBe(trip.id)
+        expect(actual.billingRate).toBe(1200)
     })
 })

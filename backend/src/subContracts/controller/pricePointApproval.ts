@@ -40,7 +40,7 @@ export const approvePricePoint = (req: Request, res: Response) =>
             const { trip, type } = findTrip(overallTrip)
             const freightDetails = amountCalculation(
                 req.body.transporterPercentage,
-                req.body.freight,
+                req.body.approvedFreightAmount,
                 trip
             )
             const updatedTripDetails =

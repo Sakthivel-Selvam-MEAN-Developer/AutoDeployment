@@ -20,7 +20,6 @@ export interface InvoicePartyNameFieldProps {
 }
 export interface TableRowContainerProps {
     setSelectedTrip: React.Dispatch<React.SetStateAction<tripDetails[]>>
-    index: number
     setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps[]>>
     row: tripDetails
     setTripDetails: React.Dispatch<React.SetStateAction<tripDetails[]>>

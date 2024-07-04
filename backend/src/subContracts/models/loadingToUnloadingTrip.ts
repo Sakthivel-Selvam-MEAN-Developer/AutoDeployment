@@ -204,7 +204,7 @@ export const updateFreightInDirectTrip = (id: number, details: any) =>
             id
         },
         data: {
-            freightAmount: details.freightAmount,
+            approvedFreightAmount: details.approvedFreightAmount,
             transporterAmount: details.transporterAmount,
             totalFreightAmount: details.totalFreightAmount,
             totalTransporterAmount: details.totalTransporterAmount,
@@ -228,5 +228,14 @@ export const updateFreightInDirectTrip = (id: number, details: any) =>
                     }
                 }
             }
+        }
+    })
+export const updateDirectTripBillingRate = (id: string, billingRate: string) =>
+    prisma.loadingPointToUnloadingPointTrip.update({
+        where: {
+            id: parseInt(id)
+        },
+        data: {
+            billingRate: parseFloat(billingRate)
         }
     })

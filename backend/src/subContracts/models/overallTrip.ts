@@ -1272,17 +1272,6 @@ export const getTripForPricePointApproval = () =>
             }
         }
     })
-export const getNumberByTruckId = (id: number) =>
-    prisma.truck.findFirst({
-        where: { id },
-        select: {
-            vehicleNumber: true,
-            transporter: {
-                select: { name: true, transporterType: true }
-            }
-        }
-    })
-
 // export const getOverallTripByVehicleNumber = (vehicleNumber: string) =>
 //     prisma.overallTrip.findMany({
 //         where: {

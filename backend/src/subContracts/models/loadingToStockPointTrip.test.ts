@@ -16,7 +16,8 @@ import {
     updateBillNumber,
     getAllStockPointInvoiceNumbers,
     getAllStockPointUnbilledTrips,
-    updateFreightInStockTrip
+    updateFreightInStockTrip,
+    updateStockTripBillingRate
 } from './loadingToStockPointTrip.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
@@ -277,5 +278,41 @@ describe('Loading To Stock Trip model', () => {
         expect(unbilledTrips[0].stockPoint.name).toBe(stockPoint.name)
         expect(unbilledTrips[0].truck.vehicleNumber).toBe(truck.vehicleNumber)
         expect(unbilledTrips[0].loadingPoint.cementCompany.name).toBe(company.name)
+    })
+    test('should able to update billingRate in loading to stock trip', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const truck = await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const trip = await create({
+            ...seedFactoryToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: truck.id,
+            wantFuel: true,
+            loadingKilometer: 0,
+            overallTrip: {
+                create: {
+                    acknowledgementStatus: true
+                }
+            },
+            billNo: null
+        })
+        const actual = await updateStockTripBillingRate(`${trip.id}`, '1200')
+        expect(actual.id).toBe(trip.id)
+        expect(actual.billingRate).toBe(1200)
     })
 })

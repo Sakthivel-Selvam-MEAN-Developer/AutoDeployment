@@ -33,7 +33,11 @@ export const TableFields: FC<TableFields> = ({
                 setEditStatus={setEditStatus}
             />
             <ApproveButton
-                trip={{ freight, id: freightRate.id, transporterPercentage: transPercentage }}
+                trip={{
+                    approvedFreightAmount: freight,
+                    id: freightRate.id,
+                    transporterPercentage: transPercentage
+                }}
                 setEditStatus={setEditStatus}
             />
         </>

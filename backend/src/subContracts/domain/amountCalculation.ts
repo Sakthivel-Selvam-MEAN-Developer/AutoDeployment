@@ -18,18 +18,19 @@ interface tripProps {
 }
 export const amountCalculation = (
     transporterPercentage: number,
-    freightAmount: number,
+    approvedFreightAmount: number,
     trip: tripProps
 ) => {
-    const transporterAmount = freightAmount - (freightAmount * transporterPercentage) / 100
+    const transporterAmount =
+        approvedFreightAmount - (approvedFreightAmount * transporterPercentage) / 100
     const totalTransporterAmount = transporterAmount * trip.filledLoad
-    const totalFreightAmount = freightAmount * trip.filledLoad
+    const totalFreightAmount = approvedFreightAmount * trip.filledLoad
     const margin = parseFloat(((totalFreightAmount - totalTransporterAmount) * 0.7).toFixed(2))
     return {
         totalFreightAmount: parseFloat(totalFreightAmount.toFixed(2)),
         totalTransporterAmount: parseFloat(totalTransporterAmount.toFixed(2)),
         margin,
         transporterAmount: parseFloat(transporterAmount.toFixed(2)),
-        freightAmount
+        approvedFreightAmount
     }
 }

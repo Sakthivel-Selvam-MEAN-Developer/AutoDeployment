@@ -9,13 +9,14 @@ import {
     TableCell,
     TableContainer,
     TableRow,
-    Tabs
+    Tabs,
+    TextField
 } from '@mui/material'
 import { tripDetails, tripDetailsProps } from './list'
 import { FC, useContext, useState } from 'react'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { filterDataProps, invoiceFilterData } from './invoiceContext'
-import { getTripDetailsByFilterData } from '../../../services/invoice'
+import { getTripDetailsByFilterData, updateBillingRate } from '../../../services/invoice'
 import { SelectedTableContainer } from './selectedTripsTable'
 import {
     InvoicePartyNameFieldProps,
@@ -68,7 +69,6 @@ const InvoiceTabs: FC<InvoiceTabs> = ({ handleChange }) => {
 }
 export default ListAllTripForInvoice
 const TableRowContainer: FC<TableRowContainerProps> = ({
-    index,
     row,
     setTripId,
     tripDetails,
@@ -90,7 +90,7 @@ const TableRowContainer: FC<TableRowContainerProps> = ({
         })
     }
     return (
-        <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell sx={{ textAlign: 'left' }}>{epochToMinimalDate(row.startDate)}</TableCell>
             <TableCell sx={{ textAlign: 'left' }}>{row.invoiceNumber}</TableCell>
             <TableCell sx={{ textAlign: 'left' }}>{row.truck.vehicleNumber}</TableCell>
@@ -107,20 +107,43 @@ const TableRowContainer: FC<TableRowContainerProps> = ({
             <TableCell sx={{ textAlign: 'left' }}>{row.filledLoad}</TableCell>
             <TableCell sx={{ textAlign: 'left' }}>{row.freightAmount}</TableCell>
             <TableCell sx={{ textAlign: 'left' }}>{row.totalFreightAmount}</TableCell>
-            <InvoicePartyNameField
-                handleClick={handleClick}
-                row={row}
-                pageName={filterData.pageName}
-            />
+            <BillingInput handleClick={handleClick} row={row} pageName={filterData.pageName} />
         </TableRow>
     )
 }
-const InvoicePartyNameField: FC<InvoicePartyNameFieldProps> = ({ row, handleClick, pageName }) => {
-    const buttonClick = () => {
+const BillingInput: FC<InvoicePartyNameFieldProps> = ({ row, handleClick, pageName }) => {
+    const [billingRate, setBillingRate] = useState(0)
+    return (
+        <>
+            <TableCell sx={{ textAlign: 'left' }}>
+                <TextField
+                    label="Enter BillingRate"
+                    value={billingRate}
+                    type="number"
+                    onChange={(e) => setBillingRate(parseFloat(e.target.value))}
+                />
+            </TableCell>
+            <AddButton handleClick={handleClick} row={row} page={pageName} billRate={billingRate} />
+        </>
+    )
+}
+interface AddButtonProps {
+    billRate: number
+    handleClick: (obj: tripDetailsProps) => void
+    page: string
+    row: {
+        id: number
+        invoiceNumber: string
+    }
+}
+const AddButton: FC<AddButtonProps> = ({ billRate, row, handleClick, page }) => {
+    const buttonClick = async () => {
+        if (billRate === 0) return
         const obj = {
             tripId: row.id,
-            tripName: pageName
+            tripName: page
         }
+        await updateBillingRate({ id: row.id, billingRate: billRate, pageName: page })
         handleClick(obj)
     }
     return (
@@ -154,14 +177,12 @@ const TableContainers: FC<TableBodyProps> = ({
     setTripDetails,
     setSelectedTrip
 }) => {
-    let count = 0
     return (
         <TableBody>
             {tripDetails.length !== 0 &&
                 tripDetails.map((row: tripDetails) => (
                     <TableRowContainer
-                        key={++count}
-                        index={++count}
+                        key={row.id}
                         row={row}
                         tripDetails={tripDetails}
                         setSelectedTrip={setSelectedTrip}

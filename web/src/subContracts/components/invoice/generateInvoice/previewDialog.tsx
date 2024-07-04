@@ -20,26 +20,31 @@ const PreviewDialog: FC<dialog> = ({ load, setLoad, pdfStr }) => {
     return (
         <Dialog maxWidth={'xl'} open={load}>
             <DialogTitle id="scroll-dialog-title">User Trip Details</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
-                    <div dangerouslySetInnerHTML={{ __html: `${pdfStr}` }}></div>
-                </DialogContentText>
-            </DialogContent>
+            <DialogContentContainer pdfStr={pdfStr} />
             <DialogAction setLoad={setLoad} />
         </Dialog>
     )
 }
 export default PreviewDialog
-
+interface DialogContentType {
+    pdfStr: string
+}
+const DialogContentContainer: FC<DialogContentType> = ({ pdfStr }) => {
+    return (
+        <DialogContent>
+            <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
+                <div dangerouslySetInnerHTML={{ __html: `${pdfStr}` }}></div>
+            </DialogContentText>
+        </DialogContent>
+    )
+}
 const DialogAction: FC<dialogAction> = ({ setLoad }) => {
     return (
         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button onClick={() => setLoad(false)} variant="outlined">
                 Cancel
             </Button>
-            <Button variant="contained" onClick={() => {}}>
-                Download PDF
-            </Button>
+            <Button variant="contained"> Download PDF </Button>
         </DialogActions>
     )
 }

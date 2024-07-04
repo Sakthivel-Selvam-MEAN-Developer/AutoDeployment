@@ -6,17 +6,20 @@ import ReactDOMServer from 'react-dom/server'
 import {
     updateBillNumber as updateLoadingToUnloading,
     getInvoiceDetails as loadingToUnlaodingInvoice,
-    getDirectTripsByinvoiceFilter
+    getDirectTripsByinvoiceFilter,
+    updateDirectTripBillingRate
 } from '../models/loadingToUnloadingTrip.ts'
 import {
     updateBillNumber as updateLoadingToStock,
     getInvoiceDetails as loadingToStockInvoice,
-    getStockTripsByinvoiceFilter
+    getStockTripsByinvoiceFilter,
+    updateStockTripBillingRate
 } from '../models/loadingToStockPointTrip.ts'
 import {
     updateBillNumber as updateStockToUnloading,
     getInvoiceDetails as stockToUnlaodingInvoice,
-    getUnloadingTripsByinvoiceFilter
+    getUnloadingTripsByinvoiceFilter,
+    updateUnloadingTripBillingRate
 } from '../models/stockPointToUnloadingPoint.ts'
 import { getContentBasedOnCompany } from '../InvoiceFormat/calculateTotal.tsx'
 import { InvoiceProp } from '../InvoiceFormat/type.tsx'
@@ -153,7 +156,21 @@ export const updateInvoiceDetails = async (req: Request, res: Response) => {
         .then(() => res.status(200).json(componentHtml))
         .catch((err) => res.status(500).json(`Error generating or uploading PDF: ${err}`))
 }
-
+interface updateQuery {
+    pageName: string
+    id: string
+    billingRate: string
+}
+const getTripType = async (updateDetails: updateQuery) => {
+    const { id, billingRate, pageName } = updateDetails
+    if (pageName === 'LoadingToUnloading') return updateDirectTripBillingRate(id, billingRate)
+    if (pageName === 'LoadingToStock') return updateStockTripBillingRate(id, billingRate)
+    if (pageName === 'StockToUnloading') return updateUnloadingTripBillingRate(id, billingRate)
+}
+export const updateBillingRate = async (req: Request, res: Response) =>
+    getTripType(req.body)
+        .then(() => res.sendStatus(200))
+        .catch(() => res.sendStatus(500))
 // export const previewPDFController = async (req: Request, res: Response) => {
 //     const { tripName } = req.body.trip[0]
 //     const { loadingToStock, loadingToUnloading, stockToUnloading } = groupTripId(req.body.trip)

@@ -28,7 +28,7 @@ describe('Amount Calculation Test', async () => {
             totalTransporterAmount: 9000,
             margin: 700,
             transporterAmount: 900,
-            freightAmount: 1000
+            approvedFreightAmount: 1000
         })
     })
 })

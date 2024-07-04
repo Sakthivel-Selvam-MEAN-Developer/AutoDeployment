@@ -417,6 +417,8 @@ model loadingPointToStockPointTrip {
   wantFuel                       Boolean?
   tripStatus                     Boolean                          @default(false)
   freightAmount                  Float                            @db.DoublePrecision
+  approvedFreightAmount          Float?                           @db.DoublePrecision
+  billingRate                    Float?                           @db.DoublePrecision
   transporterAmount              Float                            @db.DoublePrecision
   totalFreightAmount             Float                            @db.DoublePrecision
   totalTransporterAmount         Float                            @db.DoublePrecision
@@ -450,6 +452,7 @@ model stockPointToUnloadingPointTrip {
   tripStatus                     Boolean                      @default(false)
   acknowledgeDueTime             Int?
   freightAmount                  Float                        @db.DoublePrecision
+  billingRate                    Float?                       @db.DoublePrecision
   transporterAmount              Float                        @db.DoublePrecision
   totalFreightAmount             Float                        @db.DoublePrecision
   totalTransporterAmount         Float                        @db.DoublePrecision
@@ -479,6 +482,8 @@ model loadingPointToUnloadingPointTrip {
   partyName              String          @default("")
   lrNumber               String          @default("")
   freightAmount          Float           @db.DoublePrecision
+  approvedFreightAmount  Float?          @db.DoublePrecision
+  billingRate            Float?          @db.DoublePrecision
   transporterAmount      Float           @db.DoublePrecision
   totalFreightAmount     Float           @db.DoublePrecision
   totalTransporterAmount Float           @db.DoublePrecision

@@ -18,6 +18,7 @@ module.exports = {
         {
             files: ['*.test.ts'],
             rules: {
+                'complexity': ["warn", 10],
                 'max-lines': ['warn', 600],
                 'max-lines-per-function': ['warn', 600],
                 '@typescript-eslint/no-explicit-any': 'off'
