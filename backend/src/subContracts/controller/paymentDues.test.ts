@@ -122,6 +122,8 @@ const mockOverallTripData = [
         stockPointToUnloadingPointTripId: null,
         loadingPointToUnloadingPointTripId: 1,
         loadingPointToStockPointTrip: null,
+        truckId: 1,
+        truck: { vehicleNumber: 'TN93D5512', transporter: { name: 'Barath Logistics Pvt Ltd' } },
         loadingPointToUnloadingPointTrip: {
             id: 1,
             startDate: 1700764200,
@@ -151,6 +153,8 @@ const mockOverallTripData = [
         stockPointToUnloadingPointTripId: null,
         loadingPointToUnloadingPointTripId: 2,
         loadingPointToStockPointTrip: null,
+        truckId: 3,
+        truck: { vehicleNumber: 'TN29B3246', transporter: { name: 'Deepak Logistics Pvt Ltd' } },
         loadingPointToUnloadingPointTrip: {
             id: 2,
             startDate: 1706339785,

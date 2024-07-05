@@ -59,7 +59,6 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
     const handleAddTollEntry = () => {
         if (selectedLocation && tollFare && selectedRow) {
             const details = location.find((loc) => loc.location === selectedLocation)
-            console.log(details)
             setTollEntries([
                 ...tollEntries,
                 {

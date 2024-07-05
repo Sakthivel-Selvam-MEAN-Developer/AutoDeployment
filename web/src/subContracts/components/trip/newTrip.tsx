@@ -79,7 +79,8 @@ const NewTrip: React.FC = () => {
                 loadingKilometer: loadingKilometer,
                 wantFuel: ownTruck === false ? fuel : ownTruckFuel,
                 partyName: data.partyName,
-                lrNumber: data.lrNumber
+                lrNumber: data.lrNumber,
+                vehicleNumber: data.truckId
             }
             const driverDetails = {
                 tripStartDate: data.tripDate.startOf('day').unix(),

@@ -196,7 +196,8 @@ const mockReq = {
     wantFuel: false,
     partyName: 'zxczx',
     lrNumber: 'zxczxc',
-    stockPointId: 1
+    stockPointId: 1,
+    vehicleNumber: 'TN93D5512'
 }
 const mockReq2 = {
     truckId: 2,
@@ -213,7 +214,8 @@ const mockReq2 = {
     wantFuel: true,
     partyName: 'zxczx',
     lrNumber: 'zxczxc',
-    stockPointId: 1
+    stockPointId: 1,
+    vehicleNumber: 'TN93D5512'
 }
 describe('Trip Controller', () => {
     test('should be able to access all stock point trips', async () => {

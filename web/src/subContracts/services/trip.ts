@@ -9,6 +9,7 @@ interface dataProps {
     wantFuel: boolean
     partyName: string
     lrNumber: string
+    vehicleNumber: string
 }
 
 export const getAllTrip = () =>

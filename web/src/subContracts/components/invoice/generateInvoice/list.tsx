@@ -135,7 +135,6 @@ const InvoiceList: React.FC = () => {
         }
 
         html2pdf().set(options).from(pdfContainer).save()
-        console.log(filterData)
         await getTripDetailsByFilterData(filterData).then(setTripDetails)
         setLoad(false)
     }

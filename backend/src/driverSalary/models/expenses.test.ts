@@ -1,5 +1,10 @@
 import { seedExpenses } from '../seed/expenses.ts'
-import { create, getAllExpenseByTripId, getAllExpenses, getAllExpenseForApproval } from './expenses.ts'
+import {
+    create,
+    getAllExpenseByTripId,
+    getAllExpenses,
+    getAllExpenseForApproval
+} from './expenses.ts'
 
 describe('Driver model', () => {
     test('should able to create', async () => {

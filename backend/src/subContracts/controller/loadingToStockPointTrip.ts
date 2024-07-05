@@ -24,7 +24,6 @@ export const updateFuelDetails = async (
 }
 export const createStockPointTrip = async (req: Request, res: Response) => {
     try {
-        let vehicleNumber = ''
         const pricePoint = await getPricePoint(
             req.body.loadingPointId,
             req.body.unloadingPointId,
@@ -35,14 +34,14 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
             pricePoint?.transporterAmount || 0,
             pricePoint?.freightAmount || 0
         )
-        const { id } = await create(body).then(async (data) => {
-            vehicleNumber = data.truck.vehicleNumber
-            return createOverallTrip({
+        const { vehicleNumber, ...newData } = body
+        const { id } = await create(newData).then(async (data) =>
+            createOverallTrip({
                 loadingPointToStockPointTripId: data.id,
                 finalPayDuration: pricePoint?.payGeneratingDuration,
-                truckId: data.truckId
+                truckId: req.body.truckId
             })
-        })
+        )
         const fuelDetails = await getFuelWithoutTrip(vehicleNumber)
         await updateFuelDetails(fuelDetails, vehicleNumber, id)
             .then(() => res.status(200).json({ id }))

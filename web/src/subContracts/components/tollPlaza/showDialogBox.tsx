@@ -24,7 +24,6 @@ export const ShowDialogBox = (selectedToll: overallTripp['tollPayment'] | undefi
         setEditMode((prevState) => ({ ...prevState, [id]: true }))
     }
     const handleSaveClick = (id: number, tollPaymentId: number) => {
-        console.log(id, tollPaymentId)
         setEditMode((prevState) => ({ ...prevState, [id]: false }))
         const updatedAmount = tollAmounts[id]
         updateTollAmount([tollPaymentId], { amount: updatedAmount })

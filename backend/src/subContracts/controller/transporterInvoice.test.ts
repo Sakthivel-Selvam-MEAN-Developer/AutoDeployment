@@ -49,6 +49,7 @@ const transporterInvoiceData = [
         loadingPointToStockPointTripId: null,
         stockPointToUnloadingPointTripId: null,
         paymentDues: [],
+        truckId: 4,
         truck: {
             vehicleNumber: 'TN22E3456',
             transporter: {

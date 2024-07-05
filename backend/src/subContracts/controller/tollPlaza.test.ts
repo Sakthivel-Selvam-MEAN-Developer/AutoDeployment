@@ -46,6 +46,9 @@ const mockToll = {
 const mockTollPlaza = {
     id: 1,
     tollPlaza: [],
+    truck: {
+        vehicleNumber: 'TN30S4325'
+    },
     loadingPointToUnloadingPointTrip: {
         invoiceNumber: 'zx',
         loadingPoint: {

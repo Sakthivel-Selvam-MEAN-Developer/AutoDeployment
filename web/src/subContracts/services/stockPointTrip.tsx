@@ -10,6 +10,7 @@ interface dataProps {
     stockPointId: number | null
     partyName: string | undefined
     lrNumber: string | undefined
+    vehicleNumber: string
 }
 
 export const createStockPointTrip = (data: dataProps) =>
