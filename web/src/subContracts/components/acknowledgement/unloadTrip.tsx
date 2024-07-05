@@ -81,19 +81,9 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                     fontWeight: '600'
                 }}
             >
-                <p style={{ marginRight: '10px   ' }}>
-                    {tripDetails.stockPointToUnloadingPointTrip !== null
-                        ? tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-                              .truck.transporter.name
-                        : tripDetails.loadingPointToUnloadingPointTrip.truck.transporter.name}
-                </p>
+                <p style={{ marginRight: '10px   ' }}>{tripDetails.truck.transporter.name}</p>
                 <span>-</span>
-                <p style={{ marginLeft: '10px   ' }}>
-                    {tripDetails.stockPointToUnloadingPointTrip !== null
-                        ? tripDetails.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-                              .truck.vehicleNumber
-                        : tripDetails.loadingPointToUnloadingPointTrip.truck.vehicleNumber}
-                </p>
+                <p style={{ marginLeft: '10px   ' }}>{tripDetails.truck.vehicleNumber}</p>
             </div>
             <hr
                 style={{
@@ -205,12 +195,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                                 endAdornment: <InputAdornment position="start">RS</InputAdornment>
                             }}
                         />
-                        {(tripDetails.stockPointToUnloadingPointTrip !== null
-                            ? tripDetails.stockPointToUnloadingPointTrip
-                                  .loadingPointToStockPointTrip.truck.transporter
-                                  .transporterType === 'Own'
-                            : tripDetails.loadingPointToUnloadingPointTrip.truck.transporter
-                                  .transporterType === 'Own') && (
+                        {tripDetails.truck.transporter.transporterType === 'Own' && (
                             <TextField
                                 label="Unloading Kilometer"
                                 name="kilometer"

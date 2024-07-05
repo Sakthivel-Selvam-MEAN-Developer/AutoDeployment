@@ -24,6 +24,9 @@ const mockOverAllTripData = [
         acknowledgementStatus: false,
         loadingPointToStockPointTrip: null,
         stockPointToUnloadingPointTrip: null,
+        truck: {
+            vehicleNumber: 'TN93D5512'
+        },
         loadingPointToUnloadingPointTrip: {
             id: 1,
             truck: {
@@ -37,6 +40,12 @@ const mockOverAllTripDataById = {
     acknowledgementStatus: false,
     loadingPointToStockPointTrip: null,
     stockPointToUnloadingPointTrip: null,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Sakthivel Logistics'
+        }
+    },
     loadingPointToUnloadingPointTrip: {
         id: 1,
         startDate: 1705989708,
@@ -63,6 +72,12 @@ const mockOverAllTripDataByIdAfterTripClosed = {
     acknowledgementStatus: false,
     loadingPointToStockPointTrip: null,
     stockPointToUnloadingPointTrip: null,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Sakthivel Logistics'
+        }
+    },
     loadingPointToUnloadingPointTrip: {
         id: 1,
         startDate: 1705989708,
@@ -90,6 +105,12 @@ const mockOverAllTripDataByIdAfterAcknowledgeAdded = {
     acknowledgementStatus: true,
     loadingPointToStockPointTrip: null,
     stockPointToUnloadingPointTrip: null,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Sakthivel Logistics'
+        }
+    },
     loadingPointToUnloadingPointTrip: {
         id: 1,
         startDate: 1705989708,

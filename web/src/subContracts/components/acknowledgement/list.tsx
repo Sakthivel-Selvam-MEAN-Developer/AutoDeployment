@@ -32,11 +32,8 @@ const SelectTrip: React.FC = (): ReactElement => {
         setDisable(false)
     }
     const onChange = (_event: React.SyntheticEvent<Element, Event>, newValue: string) => {
-        const { id } = vehicleslist.find((trip: tripProps) =>
-            trip.stockPointToUnloadingPointTrip !== null
-                ? trip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
-                      .vehicleNumber === newValue
-                : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber === newValue
+        const { id } = vehicleslist.find(
+            (trip: tripProps) => trip.truck.vehicleNumber === newValue
         ) || { id: 0 }
         setTripId(id)
     }
@@ -57,12 +54,7 @@ const SelectTrip: React.FC = (): ReactElement => {
                     disableClearable
                     options={
                         vehicleslist
-                            ? vehicleslist.map((trip: tripProps) =>
-                                  trip.stockPointToUnloadingPointTrip !== null
-                                      ? trip.stockPointToUnloadingPointTrip
-                                            .loadingPointToStockPointTrip.truck.vehicleNumber
-                                      : trip.loadingPointToUnloadingPointTrip.truck.vehicleNumber
-                              )
+                            ? vehicleslist.map((trip: tripProps) => trip.truck.vehicleNumber)
                             : []
                     }
                     onChange={(event: React.SyntheticEvent<Element, Event>, newValue: string) => {

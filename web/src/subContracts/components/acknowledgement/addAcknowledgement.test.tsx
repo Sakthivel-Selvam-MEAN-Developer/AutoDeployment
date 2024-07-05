@@ -19,6 +19,12 @@ const mockOverAllTripDataById = {
     acknowledgementStatus: false,
     loadingPointToStockPointTrip: null,
     stockPointToUnloadingPointTrip: null,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Sakthivel Logistics'
+        }
+    },
     loadingPointToUnloadingPointTrip: {
         id: 1,
         startDate: 1705989708,
@@ -48,6 +54,12 @@ const mockOverAllTripData = [
         acknowledgementStatus: false,
         loadingPointToStockPointTrip: null,
         stockPointToUnloadingPointTrip: null,
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Sakthivel Logistics'
+            }
+        },
         loadingPointToUnloadingPointTrip: {
             id: 1,
             startDate: 1705989708,

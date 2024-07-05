@@ -68,7 +68,7 @@ const AddAcknowledgement: React.FC = () => {
                                           vehicleNumber =
                                               vehicleNumber?.loadingPointToStockPointTrip
                                       }
-                                      return `${vehicleNumber?.truck.vehicleNumber}-${vehicleNumber?.invoiceNumber}`
+                                      return `${trip?.truck.vehicleNumber}-${vehicleNumber?.invoiceNumber}`
                                   })
                                 : []
                         }
@@ -123,7 +123,7 @@ const AddAcknowledgement: React.FC = () => {
 }
 export default AddAcknowledgement
 type onChangeType = (
-    vehicleslist: never[],
+    vehicleslist: tripdetailsProps[],
     setTripId: React.Dispatch<React.SetStateAction<number>>,
     setVehicleNumber: React.Dispatch<React.SetStateAction<string>>,
     setTripDetails: React.Dispatch<React.SetStateAction<tripdetailsProps | null>>
@@ -144,7 +144,7 @@ const onChangeForVehicleList: onChangeType = (
             if (tripType?.loadingPointToStockPointTrip !== undefined)
                 tripType = tripType?.loadingPointToStockPointTrip
             return (
-                tripType?.truck.vehicleNumber === newValue.split(/-(.*)/s)[0] &&
+                trip?.truck?.vehicleNumber === newValue.split(/-(.*)/s)[0] &&
                 tripType?.invoiceNumber === newValue.split(/-(.*)/s)[1]
             )
         }) || { id: 0 }

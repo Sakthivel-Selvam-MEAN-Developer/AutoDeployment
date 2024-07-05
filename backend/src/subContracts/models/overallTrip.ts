@@ -119,6 +119,7 @@ export const getAllTripByAcknowledgementStatus = () =>
             ]
         },
         include: {
+            truck: true,
             stockPointToUnloadingPointTrip: {
                 include: { loadingPointToStockPointTrip: { include: { truck: true } }, truck: true }
             },

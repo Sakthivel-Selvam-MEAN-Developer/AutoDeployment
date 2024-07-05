@@ -14,6 +14,7 @@ export interface FormFieldProps {
     render: boolean
 }
 export interface tripProps {
+    truck: truck
     stockPointToUnloadingPointTrip: {
         loadingPointToStockPointTrip: {
             truck: truck
@@ -26,6 +27,7 @@ export interface tripProps {
 export interface tripdetailsProps {
     acknowledgementStatus: boolean
     id: number
+    truck: truck
     stockPointToUnloadingPointTrip: {
         startDate: number
         acknowledgeDueTime: number
