@@ -44,6 +44,14 @@ export interface shortageQuantity {
 }
 export interface overallTripProps {
     id: number
+    truck: {
+        vehicleNumber: string
+        transporter: {
+            id: number
+            name: string
+            csmName: string
+        }
+    }
     loadingPointToStockPointTrip: tripDetailsProps
     stockPointToUnloadingPointTrip: tripDetailsProps
     loadingPointToUnloadingPointTrip: tripDetailsProps

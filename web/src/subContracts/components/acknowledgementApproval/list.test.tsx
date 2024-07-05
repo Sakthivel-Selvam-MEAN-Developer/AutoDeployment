@@ -24,6 +24,14 @@ const mockData = [
                 unloadedQuantity: 34000
             }
         ],
+        truck: {
+            id: 1,
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                id: 1,
+                name: 'Barath Logistics Pvt Ltd'
+            }
+        },
         stockPointToUnloadingPointTrip: null,
         loadingPointToUnloadingPointTrip: {
             id: 11,

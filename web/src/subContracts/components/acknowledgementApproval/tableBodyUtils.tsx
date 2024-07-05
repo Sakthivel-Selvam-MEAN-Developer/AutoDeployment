@@ -18,12 +18,12 @@ const unloadingPoint = (overallTrip: overallTripProps) => {
 export const TableCells: FC<TableCells> = ({ trip, overallTrip, setSendStatus }) => {
     return (
         <>
-            <TableCell sx={center}>{trip?.truck.vehicleNumber}</TableCell>
+            <TableCell sx={center}>{overallTrip?.truck.vehicleNumber}</TableCell>
             <TableCell sx={center}>
                 {trip !== undefined && epochToMinimalDate(trip.startDate)}
             </TableCell>
             <TableCell sx={center}>{trip?.invoiceNumber}</TableCell>
-            <TableCell sx={center}>{trip?.truck.transporter.name}</TableCell>
+            <TableCell sx={center}>{overallTrip?.truck.transporter.name}</TableCell>
             <TableCell sx={center}>{trip?.loadingPoint.name}</TableCell>
             <TableCell sx={center}>{unloadingPoint(overallTrip)}</TableCell>
             <TableCell sx={center}>{overallTrip.shortageQuantity[0].filledLoad}</TableCell>
