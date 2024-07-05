@@ -136,8 +136,9 @@ const ChettinadAriyalurAnnexure: FC<AnnexureProps> = ({ trip, total, bill }) => 
                                 <h4>{total.totalFilledLoad.toFixed(2)}</h4>
                             </td>
                             <td />
+                            <td />
                             <td>
-                                <h4>{total.totalAmount.toFixed(2)}</h4>
+                                <h4>{Math.round(total.totalAmount).toFixed(2)}</h4>
                             </td>
                         </tr>
                     </tbody>

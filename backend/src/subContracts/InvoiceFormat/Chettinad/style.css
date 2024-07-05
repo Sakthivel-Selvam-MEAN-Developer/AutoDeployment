@@ -1,212 +1,57 @@
-/* Chettinad Tax Invoice Styles */
-
-.chettinad-main *,
-.chettinad-ariyalur-main *,
-.chettinad_annexure_main * {
-    color: #000;
-    padding: 0;
+.chettinad-ariyalur-section * {
     margin: 0;
-    box-sizing: border-box;
+    padding: 0;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
         Geneva, Verdana, sans-serif;
 }
-#chettinad-karikali-section,
-#chettinad-ariyalur-section {
-    padding: 100px 50px !important;
+.tc {
+    text-align: center;
 }
-.chettinad-section {
-    font-weight: 600;
-    padding: 40px;
+.tr {
+    text-align: right;
 }
-.chettinad-main div {
+.chettinad-ariyalur-section table {
     width: 100%;
 }
-.chettinad-main .head {
-    text-align: center;
-    background-color: #80808063;
-}
-.chettinad-main .date > *,
-.chettinad-main .date div > * {
-    flex: 1;
-}
-.chettinad-main .date {
-    width: 300px;
-}
-.chettinad-main .billing-address {
-    justify-content: space-between;
-}
-.chettinad-main .amount > * {
-    flex: 1 !important;
-}
-.chettinad-ariyalur-main .details div > *,
-.chettinad-ariyalur-main .gst > * {
-    flex: 1;
-}
 
-/* Chettinad Annexure Styles */
-#chettinad_annexure_main {
-    padding: 50px 20px !important;
-}
-.chettinad_annexure_main * {
-    padding: 0;
-    margin: 0;
-}
-
-.chettinad_annexure_main .header {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
-.chettinad_annexure_main .header .magnum-address {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px 0 !important;
-    padding: 20px !important;
-}
-
-.chettinad_annexure_main .header .magnum-address * {
-    padding: 5px;
-}
-
-.chettinad_annexure_main .margin {
-    padding: 5px;
-    display: flex;
-    justify-content: end;
-}
-
-.chettinad_annexure_main .margin > *,
-.chettinad_annexure_main .margin .magnum-details .list > *,
-.chettinad_annexure_main .footer .total > * {
-    flex: 1;
-}
-
-.chettinad_annexure_main .margin .company-address * {
-    padding: 5px;
-}
-
-.chettinad_annexure_main .margin .magnum-details * {
-    display: flex;
-    align-items: center;
-}
-
-.chettinad_annexure_main .margin .magnum-details {
-    display: flex;
-    align-items: end;
-    flex-direction: column;
-}
-
-.chettinad_annexure_main .margin .magnum-details .list {
-    padding: 5px;
-    justify-content: space-between;
-    width: 400px;
-}
-
-.chettinad_annexure_main td,
-.chettinad_annexure_main th {
-    padding: 5px !important;
-    text-align: center;
-}
-
-.chettinad_annexure_main table,
-.chettinad_annexure_main th,
-.chettinad_annexure_main td {
+.chettinad-ariyalur-section table,
+.chettinad-ariyalur-section td,
+.chettinad-ariyalur-section tr {
     border-collapse: collapse;
-    border: 1px solid black;
-}
-.chettinad_annexure_main table {
-    width: 100%;
-    margin: 40px 0 !important;
 }
 
-.chettinad_annexure_main .footer {
-    display: flex;
-    justify-content: space-between;
+.p10 {
+    padding: 10px;
+}
+.p5 {
+    padding: 5px;
 }
 
-.chettinad_annexure_main .footer * {
-    padding-bottom: 8px;
+.pl5 {
+    padding-left: 5px;
+}
+.pt5 {
+    padding-top: 5px;
+}
+.pb10 {
+    padding-bottom: 10px;
+}
+.pr5 {
+    padding-right: 5px;
 }
 
-.chettinad_annexure_main .footer .total {
-    display: flex;
-    justify-content: space-between;
-}
-
-.chettinad_annexure_main .footer .info {
-    display: flex;
-    flex-direction: column;
-}
-
-.chettinad_annexure_main .footer .sign {
-    display: flex;
-    align-items: end;
-}
-
-/* Common Styles */
-
-.df-fc {
-    display: flex;
-    flex-direction: column;
-}
-.df {
-    display: flex;
-}
-.bl {
-    border-left: 2px solid black;
-}
-.br {
-    border-right: 2px solid black;
-}
 .bt {
     border-top: 2px solid black;
 }
+
+.br {
+    border-right: 2px solid black;
+}
+
 .bb {
     border-bottom: 2px solid black;
 }
-.pt {
-    padding-top: 5px;
-}
-.pb {
-    padding-bottom: 5px;
-}
-.pl {
-    padding-left: 5px;
-}
-.pr {
-    padding-right: 5px;
-}
-.p-5 {
-    padding: 5px;
-}
-.p-2 {
-    padding: 2px;
-}
-.ai {
-    align-items: center;
-}
-.ae {
-    align-items: end;
-}
-.ta {
-    text-align: center;
-}
-.jc {
-    justify-content: center;
-}
-.jsp {
-    justify-content: space-between;
-}
-.jsa {
-    justify-content: space-around;
-}
-.te {
-    text-align: end;
-}
-.je {
-    justify-content: end;
-}
-.bg {
-    background-color: #00000021;
+
+.bl {
+    border-left: 2px solid black;
 }
