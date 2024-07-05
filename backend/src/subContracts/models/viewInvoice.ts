@@ -5,8 +5,18 @@ export const create = (
     data: Prisma.companyInvoiceCreateInput | Prisma.companyInvoiceUncheckedCreateInput
 ) => prisma.companyInvoice.create({ data })
 
-export const getCompanyInvoice = () =>
+export const getCompanyInvoice = (filterData: any = {}) =>
     prisma.companyInvoice.findMany({
+        where: {
+            cementCompany: {
+                name: filterData.cementCompany.name,
+                id: filterData.cementCompany.id
+            },
+            billDate: {
+                gte: filterData.startDate,
+                lte: filterData.endDate
+            }
+        },
         select: {
             billNo: true,
             billDate: true,

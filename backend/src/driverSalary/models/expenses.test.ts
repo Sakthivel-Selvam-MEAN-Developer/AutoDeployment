@@ -1,5 +1,5 @@
 import { seedExpenses } from '../seed/expenses.ts'
-import { create, getAllExpenseByTripId, getAllExpenses } from './expenses.ts'
+import { create, getAllExpenseByTripId, getAllExpenses, getAllExpenseForApproval } from './expenses.ts'
 
 describe('Driver model', () => {
     test('should able to create', async () => {
@@ -15,6 +15,11 @@ describe('Driver model', () => {
     test('should able to getAllExpenseByTripId', async () => {
         await create([seedExpenses])
         const actual = await getAllExpenseByTripId(seedExpenses.tripId)
+        expect(actual[0].placedAmount).toBe(seedExpenses.placedAmount)
+    })
+    test('should able to getAllExpenseForApproval', async () => {
+        await create([seedExpenses])
+        const actual = await getAllExpenseForApproval([seedExpenses.tripId])
         expect(actual[0].placedAmount).toBe(seedExpenses.placedAmount)
     })
 })

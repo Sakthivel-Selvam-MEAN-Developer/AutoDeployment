@@ -18,6 +18,7 @@ import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
 import { updateBillNumber as updateLoadingToUnloading } from '../models/loadingToUnloadingTrip.ts'
 import { create as createCompanyinvoice, getCompanyInvoice } from '../models/viewInvoice.ts'
+import cementCompany from '../seed/cementCompany.ts'
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -52,18 +53,23 @@ describe('ViewInvoice model', () => {
             acknowledgementStatus: true,
             transporterInvoice: 'asdfghjk'
         })
+        const filterData = {
+            cementCompany: cementCompany.name,
+            startDate: 1688282262,
+            endDate: 1688282262
+        }
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
         await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
         const companyInvoice = await createCompanyinvoice({
             billNo: 'MGL-034',
-            billDate: 1719878400,
+            billDate: 1688282262,
             amount: 24000,
             pdfLink: 'https://aws.s3.sample.pdf',
             cementCompanyId: company.id
         })
-        const actual = await getCompanyInvoice()
+        const actual = await getCompanyInvoice(filterData)
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
         expect(actual[0].billDate).toBe(companyInvoice.billDate)
         expect(actual[0].amount).toBe(companyInvoice.amount)
@@ -74,6 +80,7 @@ describe('ViewInvoice model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
+
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
@@ -82,6 +89,11 @@ describe('ViewInvoice model', () => {
             cementCompanyId: company.id,
             pricePointMarkerId: loadingPricePointMarker.id
         })
+        const filterData = {
+            cementCompany: cementCompany.name,
+            startDate: 1688282262,
+            endDate: 1688282262
+        }
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
             cementCompanyId: company.id,
@@ -111,7 +123,8 @@ describe('ViewInvoice model', () => {
             ...seedViewInvoice,
             cementCompanyId: company.id
         })
-        const actual = await getCompanyInvoice()
+        const actual = await getCompanyInvoice(filterData)
+        console.log(actual)
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
         expect(actual[0].billDate).toBe(companyInvoice.billDate)
         expect(actual[0].amount).toBe(companyInvoice.amount)

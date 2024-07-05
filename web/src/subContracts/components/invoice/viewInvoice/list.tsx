@@ -21,11 +21,13 @@ const ViewList: React.FC = () => {
     const onSubmit = async () => await getTripDetails()
     const getTripDetails = async () => {
         if (filterData?.cementCompany.name === '') return
-        await getCompanyInvoice().then(setDisplay)
+        await getCompanyInvoice({ ...filterData }).then(setDisplay)
     }
     return (
         <>
-            <Typography sx={{ fontWeight: 'bold' }}>View Generated Invoice</Typography>
+            <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
+                View Generated Invoice
+            </Typography>
             <invoiceFilterData.Provider value={{ filterData, setFilterData }}>
                 {submitEvent(handleSubmit, onSubmit, control, cementCompany, setCementCompany)}
             </invoiceFilterData.Provider>
