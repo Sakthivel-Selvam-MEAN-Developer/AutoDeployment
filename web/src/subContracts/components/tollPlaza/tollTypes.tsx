@@ -1,6 +1,7 @@
 import { trip } from './type'
 export interface overallTripp {
     id: number
+    truck: { vehicleNumber: string }
     loadingPointToStockPointTrip: trip
     loadingPointToUnloadingPointTrip: trip
     stockPointToUnloadingPointTrip: trip

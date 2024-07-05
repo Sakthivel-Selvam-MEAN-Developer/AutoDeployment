@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { tripDetails } from './list'
 
 export interface loadingPointToStockPointTrip {
@@ -60,6 +61,31 @@ export interface tripDetailProps {
     loadingPointToStockPointTripId: number | null
     stockPointToUnloadingPointTripId: number | null
     loadingPointToUnloadingPointTripId: number | null
+    truckId: number
+    truck: {
+        id: number
+        vehicleNumber: string
+        capacity: number
+        transporterId: number
+        transporter: {
+            id: number
+            name: string
+            csmName: string
+            emailId: string
+            contactPersonName: string
+            contactPersonNumber: number
+            address: string
+            hasGst: boolean
+            gstNumber: null
+            gstPercentage: null
+            hasTds: boolean
+            tdsPercentage: null
+            accountHolder: string
+            accountNumber: number
+            ifsc: string
+            accountTypeNumber: number
+        }
+    }
     stockPointToUnloadingPointTrip: {
         id: number
         startDate: number

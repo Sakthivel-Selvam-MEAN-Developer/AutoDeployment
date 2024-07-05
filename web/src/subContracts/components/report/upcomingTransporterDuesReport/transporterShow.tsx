@@ -10,6 +10,12 @@ interface OverallProps {
     dueDate: number
     payableAmount: number
     overallTrip: {
+        truck: {
+            vehicleNumber: string
+            transporter: {
+                csmName: string
+            }
+        }
         loadingPointToUnloadingPointTrip: props
         loadingPointToStockPointTrip: props
     }
@@ -91,7 +97,7 @@ const TransporterGrid: FC<TransporterGrid> = ({ gridData }) => {
 const getTripData = (data: OverallProps, trip: props | null, index: number) => {
     return {
         id: index,
-        vehicleNumber: trip?.truck.vehicleNumber,
+        vehicleNumber: data?.overallTrip.truck.vehicleNumber,
         startDate: trip && epochToMinimalDate(trip?.startDate),
         invoiceNumber: trip?.invoiceNumber,
         loadingPoint: trip?.loadingPoint.name,
@@ -103,7 +109,7 @@ const getTripData = (data: OverallProps, trip: props | null, index: number) => {
                   ? trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name
                   : 'Not yet unloaded',
         transporterName: data.name,
-        csmName: trip?.truck.transporter.csmName,
+        csmName: data?.overallTrip.truck.transporter.csmName,
         type: data.type,
         dueDate: data.dueDate && epochToMinimalDate(data.dueDate),
         amount: data.payableAmount

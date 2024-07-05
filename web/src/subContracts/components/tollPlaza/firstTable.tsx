@@ -8,7 +8,7 @@ export const rows = (tollPlaza: overallTripp[]) => {
             return {
                 id: index + 1,
                 overallTripId: row.id,
-                vehicleNumber: trip.truck.vehicleNumber,
+                vehicleNumber: row.truck.vehicleNumber,
                 startDate: epochToMinimalDate(trip.startDate),
                 invoiceNumber: trip.invoiceNumber,
                 loadingPoint: trip.loadingPoint.name,

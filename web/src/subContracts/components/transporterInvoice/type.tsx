@@ -3,6 +3,7 @@ export interface TransporterInvoiceProps {
 }
 export interface tripDetailProps {
     id: number
+    truck: { vehicleNumber: string; transporter: { name: string; csmName: string } }
     loadingPointToUnloadingPointTrip: tripProps | null
     loadingPointToStockPointTrip: tripProps | null
 }
@@ -16,6 +17,7 @@ interface tripProps {
 export interface GetCellsProps {
     trip: tripProps | undefined
     id: number
+    overallTrip: tripDetailProps[]
     setTripDetails: React.Dispatch<React.SetStateAction<tripDetailProps[]>>
 }
 export interface TextFieldContainerProps {
@@ -37,6 +39,6 @@ export interface tripTableProps {
     stock: tripDetailProps[]
 }
 export interface TableConatinerProps {
-    trip: tripDetailProps[]
+    trips: tripDetailProps[]
     setTripDetails: React.Dispatch<React.SetStateAction<tripDetailProps[]>>
 }

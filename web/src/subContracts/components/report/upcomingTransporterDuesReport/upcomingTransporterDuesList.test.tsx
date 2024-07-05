@@ -22,6 +22,15 @@ const mockStockTripData = [
         payableAmount: 20000,
         type: 'Final Pay',
         overallTrip: {
+            truckId: 1,
+            truck: {
+                vehicleNumber: 'TN93D5512',
+                transporter: {
+                    id: 1,
+                    name: 'Barath Logistics Pvt Ltd',
+                    csmName: 'Muthu'
+                }
+            },
             loadingPointToStockPointTrip: {
                 id: 1,
                 startDate: 1700764200,

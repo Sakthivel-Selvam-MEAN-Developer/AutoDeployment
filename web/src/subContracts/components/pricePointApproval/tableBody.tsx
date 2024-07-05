@@ -21,14 +21,15 @@ export const TableCellsConatiner: FC<TableConatinerProps> = ({ overallTrip }) =>
         getPricePoint(trip.loadingPointId, trip.unloadingPointId, trip.stockPointId).then((data) =>
             setTransporterPercentage(data.transporterPercentage)
         )
+        console.log(overallTrip)
     }, [trip, overallTrip])
     return (
         <TableRow>
-            <TableCell>{trip.truck.vehicleNumber}</TableCell>
+            <TableCell>{overallTrip.truck.vehicleNumber}</TableCell>
             <TableCell>{epochToMinimalDate(trip.startDate)}</TableCell>
             <TableCell>{trip.invoiceNumber}</TableCell>
-            <TableCell>{trip.truck.transporter.name}</TableCell>
-            <TableCell>{trip.truck.transporter.csmName}</TableCell>
+            <TableCell>{overallTrip.truck.transporter.name}</TableCell>
+            <TableCell>{overallTrip.truck.transporter.csmName}</TableCell>
             <TableCell>{trip.loadingPoint.name}</TableCell>
             <FreightUnloadingCells
                 trip={trip}

@@ -81,6 +81,14 @@ interface Props {
     loadingPointToStockPointTrip: Row
     loadingPointToUnloadingPointTrip: Row
     stockPointToUnloadingPointTrip: Row
+    truck: {
+        vehicleNumber: string
+        transporter: {
+            name: string
+            csmName: string
+            gstPercentage: FLOAT | string
+        }
+    }
     paymentDues: paymentType[]
     fuel: fuel[]
     shortageQuantity: shortage[]
@@ -261,14 +269,14 @@ const generateRow = (row: Props, index: number) => {
         id: row.id,
         number: ++index,
         cementCompany: data.loadingPoint.cementCompany.name,
-        vehicleNumber: data.truck.vehicleNumber,
+        vehicleNumber: row.truck.vehicleNumber,
         startDate: epochToMinimalDate(data.startDate),
         invoiceNumber: data.invoiceNumber,
-        transporterName: data.truck.transporter.name,
-        gstPercentage: data.truck.transporter.gstPercentage
-            ? data.truck.transporter.gstPercentage
+        transporterName: row.truck.transporter.name,
+        gstPercentage: row.truck.transporter.gstPercentage
+            ? row.truck.transporter.gstPercentage
             : 'No GST',
-        csmName: data.truck.transporter.csmName,
+        csmName: row.truck.transporter.csmName,
         loadingPoint: data.loadingPoint.name,
         stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',
         unloadingPoint: data.unloadingPoint ? data.unloadingPoint.name : 'null',

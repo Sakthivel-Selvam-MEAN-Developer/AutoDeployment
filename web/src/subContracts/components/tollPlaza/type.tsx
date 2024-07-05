@@ -14,6 +14,7 @@ export interface trip {
 }
 export interface overallTrip {
     id: number
+    truck: { vehicleNumber: string }
     loadingPointToStockPointTrip: trip
     loadingPointToUnloadingPointTrip: trip
     tollPayment: {

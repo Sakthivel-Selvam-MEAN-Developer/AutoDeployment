@@ -19,6 +19,15 @@ const mockData = [
         fuel: [],
         paymentDues: [],
         loadingPointToStockPointTrip: null,
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Barath Logistics Pvt Ltd',
+                csmName: 'Sakthivel',
+                transporterType: 'Market Transporter',
+                gstPercentage: null
+            }
+        },
         loadingPointToUnloadingPointTrip: {
             id: 8,
             startDate: 1718389800,

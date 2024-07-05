@@ -17,6 +17,7 @@ interface completedPaymentsProps {
     type: string
     payableAmount: string
     overallTrip: {
+        truck: { transporter: { csmName: string } }
         loadingPointToStockPointTrip: {
             invoiceNumber: string
             unloadingPoint: { name: string }
@@ -71,7 +72,7 @@ const rows = (completedPayments: completedPaymentsProps[]) => {
             type: row.type,
             transactionId: row.transactionId,
             payableAmount: row.payableAmount,
-            csmName: trip !== null ? trip?.truck.transporter.csmName : 'Null'
+            csmName: trip !== null ? row.overallTrip?.truck.transporter.csmName : 'Null'
         }
     })
 }
@@ -91,11 +92,7 @@ function download(completedPayments: completedPaymentsProps[]) {
     )
 }
 const getCsmName = (data: completedPaymentsProps) => {
-    return data.type !== 'fuel pay'
-        ? data.overallTrip.loadingPointToUnloadingPointTrip !== null
-            ? data.overallTrip.loadingPointToUnloadingPointTrip.truck.transporter.csmName
-            : data.overallTrip.loadingPointToStockPointTrip.truck.transporter.csmName
-        : 'NUll'
+    return data.type !== 'fuel pay' ? data.overallTrip.truck.transporter.csmName : 'NUll'
 }
 const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], num: number) => {
     const addData = {

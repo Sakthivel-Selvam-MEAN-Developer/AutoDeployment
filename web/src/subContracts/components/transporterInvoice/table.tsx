@@ -12,7 +12,7 @@ export const TripTable: FC<StockTripTableProps> = ({ trip, setTripDetails, table
                         <b>{tableName}</b>
                     </p>
                     <TableContainer sx={{ maxHeight: 340 }} component={Paper}>
-                        <TableConatiner trip={trip} setTripDetails={setTripDetails} />
+                        <TableConatiner trips={trip} setTripDetails={setTripDetails} />
                     </TableContainer>
                 </div>
             )}
@@ -29,18 +29,23 @@ const getStockTrip = (row: tripDetailProps) => {
     if (row.loadingPointToStockPointTrip !== null)
         return { trip: row.loadingPointToStockPointTrip, id: row.id }
 }
-export const TableConatiner: FC<TableConatinerProps> = ({ trip, setTripDetails }) => {
+export const TableConatiner: FC<TableConatinerProps> = ({ trips, setTripDetails }) => {
     return (
         <Table stickyHeader aria-label="sticky table">
             <GetTableHead />
-            {trip.map((data, index) => {
+            {trips.map((data, index) => {
                 const { trip, id } = getTripType(data) || {
                     trip: undefined,
                     id: 0
                 }
                 return (
                     <TableRow key={index}>
-                        <GetCells trip={trip} id={id} setTripDetails={setTripDetails} />
+                        <GetCells
+                            trip={trip}
+                            id={id}
+                            overallTrip={trips}
+                            setTripDetails={setTripDetails}
+                        />
                     </TableRow>
                 )
             })}

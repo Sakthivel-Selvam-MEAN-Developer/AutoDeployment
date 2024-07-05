@@ -4,16 +4,16 @@ import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { updateTransporterInvoice } from '../../services/transporterInvoice'
 import { GetCellsProps, textCellProps, TextFieldContainerProps } from './type'
 
-export const GetCells: FC<GetCellsProps> = ({ trip, id, setTripDetails }) => {
+export const GetCells: FC<GetCellsProps> = ({ trip, id, overallTrip, setTripDetails }) => {
     return (
         <>
             <TableCell align="left">1</TableCell>
-            <TableCell align="left">{trip?.truck.vehicleNumber}</TableCell>
+            <TableCell align="left">{overallTrip[0]?.truck.vehicleNumber}</TableCell>
             <TableCell align="left">{trip && epochToMinimalDate(trip.startDate)}</TableCell>
             <TableCell align="left">{trip?.loadingPoint.name}</TableCell>
             <TableCell align="left">{trip?.invoiceNumber}</TableCell>
-            <TableCell align="left">{trip?.truck.transporter.name}</TableCell>
-            <TableCell align="left">{trip?.truck.transporter.csmName}</TableCell>
+            <TableCell align="left">{overallTrip[0]?.truck.transporter.name}</TableCell>
+            <TableCell align="left">{overallTrip[0]?.truck.transporter.csmName}</TableCell>
             <TextFieldContainer id={id} setTripDetails={setTripDetails} />
         </>
     )

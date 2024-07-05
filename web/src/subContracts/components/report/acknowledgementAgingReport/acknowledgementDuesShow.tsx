@@ -37,12 +37,19 @@ interface Row {
     filledLoad: string
     startDate: number
 }
-
+interface truck {
+    vehicleNumber: string
+    transporter: {
+        name: string
+        csmName: string
+    }
+}
 interface Props {
     acknowledgementStatus: boolean
     loadingPointToStockPointTrip: Row
     loadingPointToUnloadingPointTrip: Row
     shortageQuantity: shortageQuantity[]
+    truck: truck
 }
 
 interface shortageQuantity {
@@ -74,10 +81,7 @@ const ListAllAcknowledgementDueDetails = ({
 }: listoverallTripProps) => {
     const rows = acknowledgementDueDetails.map((row, index) => ({
         id: index + 1,
-        vehicleNumber:
-            row.loadingPointToUnloadingPointTrip !== null
-                ? row.loadingPointToUnloadingPointTrip.truck.vehicleNumber
-                : row.loadingPointToStockPointTrip.truck.vehicleNumber,
+        vehicleNumber: row.truck.vehicleNumber,
         startDate: epochToMinimalDate(
             row.loadingPointToUnloadingPointTrip !== null
                 ? row.loadingPointToUnloadingPointTrip.startDate
@@ -97,14 +101,8 @@ const ListAllAcknowledgementDueDetails = ({
             row.loadingPointToUnloadingPointTrip !== null
                 ? row.loadingPointToUnloadingPointTrip.invoiceNumber
                 : row.loadingPointToStockPointTrip.invoiceNumber,
-        transporterName:
-            row.loadingPointToUnloadingPointTrip !== null
-                ? row.loadingPointToUnloadingPointTrip.truck.transporter.name
-                : row.loadingPointToStockPointTrip.truck.transporter.name,
-        csmName:
-            row.loadingPointToUnloadingPointTrip !== null
-                ? row.loadingPointToUnloadingPointTrip.truck.transporter.csmName
-                : row.loadingPointToStockPointTrip.truck.transporter.csmName
+        transporterName: row.truck.transporter.name,
+        csmName: row.truck.transporter.csmName
     }))
     const download = () => {
         const downloadtripData = rows.map((row) => ({

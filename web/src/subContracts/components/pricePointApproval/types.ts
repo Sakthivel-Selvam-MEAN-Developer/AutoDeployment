@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 export interface tripDetails {
     startDate: number
     invoiceNumber: string
@@ -20,6 +21,13 @@ export interface tripDetails {
 }
 export interface overallTrip {
     id: number
+    truck: {
+        transporter: {
+            name: string
+            csmName: string
+        }
+        vehicleNumber: string
+    }
     loadingPointToStockPointTrip: tripDetails
     loadingPointToUnloadingPointTrip: tripDetails
 }

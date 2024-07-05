@@ -21,6 +21,15 @@ const mockOverallTripData = [
             unloadedDate: 1707762600
         },
         loadingPointToStockPointTrip: null,
+        truckId: 1,
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                id: 1,
+                name: 'Barath Logistics',
+                csmName: 'Muthu'
+            }
+        },
         loadingPointToUnloadingPointTrip: {
             id: 1,
             startDate: 1700764200,
