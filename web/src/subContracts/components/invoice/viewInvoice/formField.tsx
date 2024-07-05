@@ -30,7 +30,8 @@ const FormField: React.FC<FormFieldsProps> = ({ control, cementCompany, setCemen
                 gap: '10px',
                 rowGap: '10px',
                 flexWrap: 'wrap',
-                alignItems: 'center'
+                alignItems: 'center',
+                marginBottom: '40px'
             }}
         >
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">

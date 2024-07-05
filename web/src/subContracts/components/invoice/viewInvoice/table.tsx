@@ -36,7 +36,7 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display }) => {
     }, [display])
     return (
         <div style={{ height: 400, width: '100%' }}>
-            <DataGrid rows={rows} columns={columns} />
+            <DataGrid rows={rows} columns={columns} hideFooterPagination />
         </div>
     )
 }

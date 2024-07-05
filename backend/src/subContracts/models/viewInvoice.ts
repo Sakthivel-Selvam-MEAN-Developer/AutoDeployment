@@ -5,16 +5,19 @@ export const create = (
     data: Prisma.companyInvoiceCreateInput | Prisma.companyInvoiceUncheckedCreateInput
 ) => prisma.companyInvoice.create({ data })
 
-export const getCompanyInvoice = (filterData: any = {}) =>
-    prisma.companyInvoice.findMany({
+export const getCompanyInvoice = (filterData: {
+    startDate: number
+    endDate: number
+    company: string
+}) => {
+    return prisma.companyInvoice.findMany({
         where: {
             cementCompany: {
-                name: filterData.cementCompany.name,
-                id: filterData.cementCompany.id
+                id: parseInt(filterData.company)
             },
             billDate: {
-                gte: filterData.startDate,
-                lte: filterData.endDate
+                lte: filterData.startDate === 0 ? undefined : filterData.startDate,
+                gte: filterData.endDate === 0 ? undefined : filterData.endDate
             }
         },
         select: {
@@ -30,3 +33,4 @@ export const getCompanyInvoice = (filterData: any = {}) =>
             }
         }
     })
+}

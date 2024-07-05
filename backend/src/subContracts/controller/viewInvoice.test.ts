@@ -18,7 +18,14 @@ const mockGeneratedInvoice = [
 describe('ViewInvoice Controller', () => {
     test('should able to get all invoiceGenerated billNo', async () => {
         mockCompanyGeneratedInvoice.mockResolvedValue(mockGeneratedInvoice)
-        await supertest(app).get('/api/invoice/viewInvoice').expect(200)
+        await supertest(app)
+            .get('/api/invoice/viewInvoice')
+            .query({
+                startDate: '1688282262',
+                endDate: '1688282262',
+                cementCompany: JSON.stringify({ id: 1 })
+            })
+            .expect(200)
         expect(mockCompanyGeneratedInvoice).toBeCalledTimes(1)
     })
 })

@@ -27,4 +27,5 @@ describe('Driver model', () => {
         const actual = await getAllExpenseForApproval([seedExpenses.tripId])
         expect(actual[0].placedAmount).toBe(seedExpenses.placedAmount)
     })
+    test('should able to getAllExpenseCountByTripId', async () => {})
 })

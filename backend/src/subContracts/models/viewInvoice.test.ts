@@ -18,7 +18,6 @@ import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
 import { updateBillNumber as updateLoadingToUnloading } from '../models/loadingToUnloadingTrip.ts'
 import { create as createCompanyinvoice, getCompanyInvoice } from '../models/viewInvoice.ts'
-import cementCompany from '../seed/cementCompany.ts'
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -54,7 +53,7 @@ describe('ViewInvoice model', () => {
             transporterInvoice: 'asdfghjk'
         })
         const filterData = {
-            cementCompany: cementCompany.name,
+            company: company.id.toString(),
             startDate: 1688282262,
             endDate: 1688282262
         }
@@ -80,7 +79,6 @@ describe('ViewInvoice model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
@@ -90,9 +88,9 @@ describe('ViewInvoice model', () => {
             pricePointMarkerId: loadingPricePointMarker.id
         })
         const filterData = {
-            cementCompany: cementCompany.name,
-            startDate: 1688282262,
-            endDate: 1688282262
+            company: company.id.toString(),
+            startDate: 0,
+            endDate: 0
         }
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
@@ -124,7 +122,6 @@ describe('ViewInvoice model', () => {
             cementCompanyId: company.id
         })
         const actual = await getCompanyInvoice(filterData)
-        console.log(actual)
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
         expect(actual[0].billDate).toBe(companyInvoice.billDate)
         expect(actual[0].amount).toBe(companyInvoice.amount)

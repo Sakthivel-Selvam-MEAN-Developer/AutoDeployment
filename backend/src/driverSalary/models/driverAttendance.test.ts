@@ -3,7 +3,8 @@ import {
     create,
     getAllDriverAttendanceDetails,
     getDriverAttendanceDetails,
-    updateDriverAttendanceDetails
+    updateDriverAttendanceDetails,
+    upsertDriverAttendanceDetails
 } from './driverAttendance'
 import { JsonArray } from '@prisma/client/runtime/library'
 import seedDriver from '../seed/driver.ts'
@@ -79,5 +80,17 @@ describe('Driver Daily Attendance model', () => {
             mockCreateDriverDailyAttendanceData.driverId
         ])
         expect(actual[0].attendance).toStrictEqual(mockCreateDriverDailyAttendanceData.attendance)
+    })
+    test('should able to upsertDriverAttendanceDetails', async () => {
+        await prisma.$transaction(async (prismas) => {
+            await createDriver(seedDriver, prismas)
+        })
+        const existingId = 1
+        const actual = await upsertDriverAttendanceDetails(
+            existingId,
+            mockCreateDriverDailyAttendanceData.driverId,
+            [mockCreateDriverDailyAttendanceData.attendance]
+        )
+        expect(actual.attendance[0]).toStrictEqual(mockCreateDriverDailyAttendanceData.attendance)
     })
 })
