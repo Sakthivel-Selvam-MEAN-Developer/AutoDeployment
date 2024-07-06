@@ -7,8 +7,8 @@ export default defineWorkspace([
             globals: true,
             environment: 'node',
             include: ['src/hrm/**/*.test.ts'],
-            setupFiles: ['./src/hrm/testUtils/testGlobalHooks.ts']
-            // poolOptions: { threads: { singleThread: true } }
+            setupFiles: ['./src/hrm/testUtils/testGlobalHooks.ts'],
+            poolOptions: { threads: { singleThread: true } }
         }
     },
     {
@@ -17,8 +17,8 @@ export default defineWorkspace([
             globals: true,
             environment: 'node',
             include: ['src/subContracts/**/*.test.ts'],
-            setupFiles: ['./src/subContracts/testUtils/testGlobalHooks.ts']
-            // poolOptions: { threads: { singleThread: true } }
+            setupFiles: ['./src/subContracts/testUtils/testGlobalHooks.ts'],
+            poolOptions: { threads: { singleThread: true } }
         }
     },
     {
@@ -27,8 +27,8 @@ export default defineWorkspace([
             globals: true,
             environment: 'node',
             include: ['src/wonderMove/**/*.test.ts'],
-            setupFiles: ['./src/wonderMove/testUtils/testGlobalHooks.ts']
-            // poolOptions: { threads: { singleThread: true } }
+            setupFiles: ['./src/wonderMove/testUtils/testGlobalHooks.ts'],
+            poolOptions: { threads: { singleThread: true } }
             }
     },
     {
@@ -37,8 +37,8 @@ export default defineWorkspace([
             globals: true,
             environment: 'node',
             include: ['src/driverSalary/**/*.test.ts'],
-            setupFiles: ['./src/driverSalary/testUtils/testGlobalHooks.ts']
-            // poolOptions: { threads: { singleThread: true } }
+            setupFiles: ['./src/driverSalary/testUtils/testGlobalHooks.ts'],
+            poolOptions: { threads: { singleThread: true } }
             }
     }
 ])
