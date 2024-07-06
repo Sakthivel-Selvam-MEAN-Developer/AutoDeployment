@@ -71,7 +71,6 @@ const TripBettaFormFields: FC<tripBettaFormFieldsProps> = ({
         setLoadingPointId(null)
         setUnloadingPointId(null)
         setStockPointId(null)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [clear, category])
     useEffect(() => {
         if (cementCompanyName !== '') {

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { Request, Response } from 'express'
 import dayjs from 'dayjs'
 import {

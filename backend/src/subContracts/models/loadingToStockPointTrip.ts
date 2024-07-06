@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 import { filterDataProps } from '../controller/invoice.ts'
+
 export const create = (
     data:
         | Prisma.loadingPointToStockPointTripCreateInput

@@ -9,7 +9,6 @@ const SelectedTableBody: FC<SelectedProps> = ({ selectedTrip, setSelectedTrip })
     const { filterData } = useContext(invoiceFilterData)
     useEffect(() => {
         setSelectedTrip([])
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterData.pageName, filterData.cementCompany])
     return (
         <>

@@ -47,7 +47,6 @@ const ListExpenses: React.FC = () => {
         setValue('expenseType', '')
         setValue('amount', '')
         setValue('driverAdvance', '')
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [clear])
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (

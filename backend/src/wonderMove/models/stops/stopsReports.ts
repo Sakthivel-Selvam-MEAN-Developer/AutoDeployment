@@ -22,12 +22,9 @@ export const getDurationWithInRange = async (from: number, to: number): Promise<
             durationInMillis: true
         }
     })
-    // eslint-disable-next-line
-    // @ts-ignore
+    // @ts-expect-error This is a prisma issue
     return duration.map((stop) => ({
         stopReasonId: stop.stopReasonId,
-        // This is a prisma issue
-        // eslint-disable-next-line no-underscore-dangle
         durationInMillis: stop._sum.durationInMillis
     }))
 }

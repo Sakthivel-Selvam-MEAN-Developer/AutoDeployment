@@ -18,7 +18,6 @@ interface FormFieldsProps {
 const FormField: React.FC<FormFieldsProps> = ({ control, cementCompany, setCementCompany }) => {
     useEffect(() => {
         getAllCementCompany().then(setCementCompany)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     const { setFilterData } = useContext(invoiceFilterData)
     const [startDate, setStartDate] = useState<string | null>(null)

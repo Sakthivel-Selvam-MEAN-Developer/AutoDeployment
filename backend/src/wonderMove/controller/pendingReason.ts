@@ -15,7 +15,7 @@ function groupNumber(groupedData: any[], gpsStopIdToVehicleId: any, vehicleDataM
                 _count: 0
             }
         }
-        // eslint-disable-next-line no-underscore-dangle
+
         acc[vehicleId]._count += entry._count
         return acc
     }, {})

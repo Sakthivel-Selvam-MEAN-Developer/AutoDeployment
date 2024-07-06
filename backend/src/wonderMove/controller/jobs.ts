@@ -3,8 +3,7 @@ import fetchTraccarStops from '../jobs/fetchTraccarStops.ts'
 
 const fetchTraccarData = (req: Request, res: Response) => {
     const { vehicleNumber, from, to } = req.query
-    // eslint-disable-next-line
-    // @ts-ignore
+    // @ts-expect-error param is a string
     fetchTraccarStops(vehicleNumber, from, to).then(() => res.sendStatus(200))
 }
 

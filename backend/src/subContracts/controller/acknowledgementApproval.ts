@@ -41,7 +41,6 @@ interface paymentDuesCreateManyInput {
     payableAmount: number
 }
 export const convertData = (finalDue: finalDuePropsfalse[]): paymentDuesCreateManyInput[] =>
-    // eslint-disable-next-line complexity
     finalDue.map((item) => ({
         name: item.name ?? '',
         type: item.type,

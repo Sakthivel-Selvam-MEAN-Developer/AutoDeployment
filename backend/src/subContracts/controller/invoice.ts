@@ -69,7 +69,6 @@ export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = a
         .catch(() => res.status(500))
 }
 
-// eslint-disable-next-line complexity
 export const updateInvoiceDetails = async (req: Request, res: Response) => {
     if (req.body.trip.tripName === 'LoadingToUnloading') {
         await updateLoadingToUnloading(req.body.trip.tripId, req.body.bill.billNo).then(() =>

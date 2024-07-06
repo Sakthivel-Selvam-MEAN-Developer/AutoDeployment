@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
-import prisma from '../../../prisma/index.ts'
 import { JsonArray } from '@prisma/client/runtime/library'
+import prisma from '../../../prisma/index.ts'
 
 export const create = (
     data: Prisma.driverAttendanceCreateInput | Prisma.driverAttendanceUncheckedCreateInput
@@ -35,7 +35,7 @@ export const upsertDriverAttendanceDetails = (
         where: { id },
         update: { attendance: data },
         create: {
-            driverId: driverId,
+            driverId,
             attendance: data
         }
     })

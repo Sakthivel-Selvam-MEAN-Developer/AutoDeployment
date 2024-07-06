@@ -1,5 +1,6 @@
 import { createTollPlazaLocation } from '../../services/tollPlaza'
 import { List, ListItem, ListItemText } from '@mui/material'
+
 function Submitbutton(
     tollEntries: {
         location: string
@@ -12,12 +13,18 @@ function Submitbutton(
     handleClose: () => void
 ) {
     return async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const entriesToSubmit = tollEntries.map(({ location, ...rest }) => rest)
+        const entriesToSubmit = tollEntries.map((tollEntity) => {
+            return {
+                amount: tollEntity.amount,
+                overallTripId: tollEntity.overallTripId,
+                tollPlazaLocationId: tollEntity.tollPlazaLocationId
+            }
+        })
         await createTollPlazaLocation(entriesToSubmit).then(() => setReload(!reload))
         handleClose()
     }
 }
+
 export const BoxModelType = (
     tollEntries: {
         location: string

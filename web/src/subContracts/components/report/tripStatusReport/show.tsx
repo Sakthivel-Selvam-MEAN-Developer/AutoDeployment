@@ -177,7 +177,6 @@ const columns = [
         field: 'action',
         headerName: 'Action',
         width: 150,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         renderCell: (params: any) => (
             <Button onClick={() => params.handleShowMore(params.row)} variant="contained">
                 Show More

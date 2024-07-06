@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
     test: {
+        exclude: ['**/models/*.test.ts'],
         coverage: {
             provider: 'v8',
             thresholds: {

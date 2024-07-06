@@ -35,7 +35,6 @@ const TripAmountCalculation = (trips: props['trip']) => {
         const tollPlazaSums = getTollSums(computedTripDetails)
         setTollTotal(tollPlazaSums)
         setTotalAmount(Object.values(tollPlazaSums || {}).reduce((sum, amount) => sum + amount, 0))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return { filledLoad, tollTotal, tripDetails, totalAmount }
 }

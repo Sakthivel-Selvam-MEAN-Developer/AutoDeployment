@@ -142,7 +142,6 @@ const GSTDues: React.FC<GenerateFormProps> = ({
     useEffect(() => {
         setGstNEFTDetails([])
         setPaymentDueId([])
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
         getGstDues(false).then(setGstDues)

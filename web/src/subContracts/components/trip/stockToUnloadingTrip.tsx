@@ -40,7 +40,6 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
     const [partyName, setPartyName] = useState<string>('')
     const [stockDate, setStockDate] = useState<number>(0)
     const authoriser = CheckUser()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const coverDateToEpoc = (date: any) => {
         const formattedDays =
             date !== null ? dayjs(dayjs((date as unknown as dateProps)?.$d)).unix() : 0

@@ -179,7 +179,6 @@ const NewTrip: React.FC = () => {
             setCementCompany(cementCompany && companyData.map(({ name }: transporter) => name))
         )
         if (driversList.length === 0) getAllDriver().then(setDriversList)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
         getPricePoint(loadingPointId, unloadingPointId, stockPointId).then((data) => {

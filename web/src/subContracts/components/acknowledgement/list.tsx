@@ -23,7 +23,6 @@ const SelectTrip: React.FC = (): ReactElement => {
     }, [vehicleNumber])
     useEffect(() => {
         if (tripId !== 0) getTripById(tripId).then(setTripDetails)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [render])
     const onSubmit = async () => {
         setDisable(true)

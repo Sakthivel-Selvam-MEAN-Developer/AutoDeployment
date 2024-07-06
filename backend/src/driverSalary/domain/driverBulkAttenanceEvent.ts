@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-/* eslint-disable max-lines-per-function */
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 

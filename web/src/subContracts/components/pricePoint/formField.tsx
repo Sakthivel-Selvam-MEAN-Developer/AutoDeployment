@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import InputWithDefaultValue from '../../../form/InputWithDefaultValue.tsx'
 import { getLoadingPointByCompanyName } from '../../services/loadingPoint.ts'
@@ -88,7 +87,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
     }
     useEffect(() => {
         clearForm()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category, cementCompanyName])
     useEffect(() => {
         if (

@@ -1,3 +1,4 @@
+import { JsonArray } from '@prisma/client/runtime/library'
 import prisma from '../../../prisma'
 import {
     create,
@@ -6,7 +7,6 @@ import {
     updateDriverAttendanceDetails,
     upsertDriverAttendanceDetails
 } from './driverAttendance'
-import { JsonArray } from '@prisma/client/runtime/library'
 import seedDriver from '../seed/driver.ts'
 import { create as createDriver } from './driver.ts'
 

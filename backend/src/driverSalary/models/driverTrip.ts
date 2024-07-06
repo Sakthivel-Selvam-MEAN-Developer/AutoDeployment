@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
-import prisma from '../../../prisma/index.ts'
 import dayjs from 'dayjs'
+import prisma from '../../../prisma/index.ts'
 
 export const create = async (
     data: Prisma.driverTripCreateInput | Prisma.driverTripUncheckedCreateInput

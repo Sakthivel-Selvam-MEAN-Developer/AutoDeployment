@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react'
 import { companyConfig } from './companyConfig.ts'
 import { InvoiceProp } from './type.tsx'

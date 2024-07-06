@@ -1,8 +1,9 @@
 import { Prisma } from '@prisma/client'
-import prisma from '../../../prisma/index.ts'
-import { updateExpenseType } from '../controller/expense.ts'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import prisma from '../../../prisma/index.ts'
+import { updateExpenseType } from '../controller/expense.ts'
+
 dayjs.extend(utc)
 
 export const create = (data: Prisma.expensesCreateManyInput | Prisma.expensesCreateManyInput[]) =>

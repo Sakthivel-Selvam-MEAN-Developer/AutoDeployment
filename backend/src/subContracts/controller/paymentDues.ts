@@ -186,9 +186,8 @@ export const groupDataByName = async (
         return {
             name: due.name,
             dueDetails: {
-                // eslint-disable-next-line no-underscore-dangle
                 count: due._count.status,
-                // eslint-disable-next-line no-underscore-dangle
+
                 totalPayableAmount: due._sum.payableAmount
             },
             bankDetails: transporterAccount.length !== 0 ? transporterAccount : bunkBankAccount,
@@ -268,9 +267,8 @@ export const groupGstDue = async (
         return {
             name: groupedDue.name,
             dueDetails: {
-                // eslint-disable-next-line no-underscore-dangle
                 count: groupedDue._count.status,
-                // eslint-disable-next-line no-underscore-dangle
+
                 payableAmount: groupedDue._sum.payableAmount
             },
             bankDetails: bankDetail,

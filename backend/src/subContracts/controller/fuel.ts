@@ -106,7 +106,7 @@ async function createDues(
 export interface latestTripIdForOwnProp {
     id: number | undefined | null
 }
-// eslint-disable-next-line max-lines-per-function
+
 export const createFuel = async (req: Request, res: Response) => {
     try {
         const { vehicleNumber } = req.body
@@ -142,7 +142,7 @@ export const updateFuelWithTrip = (req: Request, res: Response) => {
         .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }
-// eslint-disable-next-line max-lines-per-function
+
 export const generateFuel = async (
     fuelDataFormat: FuelingEvent,
     transactionId: string | null | undefined
@@ -207,7 +207,7 @@ type RequestQuery = {
     pageNumber: string
 }
 type fuelReportDetail = (req: Request<object, object, object, RequestQuery>, res: Response) => void
-// eslint-disable-next-line max-lines-per-function
+
 export const listAllFuelList: fuelReportDetail = async (_req, res) => {
     const { bunkId, paymentStatus, vehicleNumber, from, to, pageNumber } = _req.query
     const skipNumber = (parseInt(pageNumber) - 1) * 200

@@ -1,5 +1,8 @@
 import { create as createCompany } from './cementCompany.ts'
-import { create as createTrip } from './loadingToUnloadingTrip.ts'
+import {
+    create as createTrip,
+    updateBillNumber as updateLoadingToUnloading
+} from './loadingToUnloadingTrip.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
@@ -16,8 +19,8 @@ import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
-import { updateBillNumber as updateLoadingToUnloading } from '../models/loadingToUnloadingTrip.ts'
-import { create as createCompanyinvoice, getCompanyInvoice } from '../models/viewInvoice.ts'
+import { create as createCompanyinvoice, getCompanyInvoice } from './viewInvoice.ts'
+
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

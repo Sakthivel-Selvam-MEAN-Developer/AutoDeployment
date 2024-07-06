@@ -49,7 +49,6 @@ import { create as createStockToUnloadingTrip } from './stockPointToUnloadingPoi
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
-import { create as createShortageQuantity } from './shortageQuantity.ts'
 
 const tollPlazaCreationPreRequirements = async () => {
     const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -919,7 +918,7 @@ describe('Overall Trip model', () => {
             loadingKilometer: 0
         })
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
-        await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
+        await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         const actual = await getTripByUnloadDate(seedShortageQuantity.unloadedDate)
         expect(actual[0].shortageQuantity[0].unloadedDate).toBe(seedShortageQuantity.unloadedDate)
     })
@@ -1130,7 +1129,7 @@ describe('Overall Trip model', () => {
             loadingKilometer: 0
         })
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
-        await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
+        await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await getTripByUnloadDate(seedShortageQuantity.unloadedDate)
         const closedOverallTrip = await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
         const actual = await getAllDiscrepancyReport(1700764200, 1700764200)

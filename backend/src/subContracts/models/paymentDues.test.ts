@@ -103,7 +103,7 @@ describe('Payment-Due model', () => {
         const groupDues = await getOnlyActiveDuesByName(dueDate, false, type)
         expect(groupDues.length).toBe(1)
         expect(groupDues[0].name).toBe(seedPaymentDue.name)
-        // eslint-disable-next-line no-underscore-dangle
+
         expect(groupDues[0]._sum.payableAmount).toBe(50000)
     })
     test('should update the payment dues', async () => {
@@ -387,9 +387,9 @@ describe('Payment-Due model', () => {
         await create({ ...seedPaymentDue, type: 'gst pay' })
         const actual = await getGstDuesGroupByName(false)
         expect(actual.length).toBe(1)
-        // eslint-disable-next-line no-underscore-dangle
+
         expect(actual[0]._count.status).toBe(1)
-        // eslint-disable-next-line no-underscore-dangle
+
         expect(actual[0]._sum.payableAmount).toBe(seedPaymentDue.payableAmount)
     })
     test('should be able to get Gst PaymentDues', async () => {

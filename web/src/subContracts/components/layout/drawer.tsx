@@ -48,7 +48,6 @@ const closedMixin = (theme: Theme) => ({
 })
 const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== 'open'
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 })(({ theme, open }: any) => ({
     width: drawerWidth,
     flexShrink: 0,

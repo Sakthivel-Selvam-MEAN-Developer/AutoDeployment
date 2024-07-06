@@ -31,7 +31,6 @@ const FormField: React.FC<formProps> = ({
     const [transactionId, setTransactionId] = useState('')
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
     const [paymentDate, setPaymentDate] = useState(0)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const coverDateToEpoc = (date: any) => {
         const formattedDays =
             date !== null ? dayjs(dayjs((date as unknown as dateProps)?.$d)).unix() : 0

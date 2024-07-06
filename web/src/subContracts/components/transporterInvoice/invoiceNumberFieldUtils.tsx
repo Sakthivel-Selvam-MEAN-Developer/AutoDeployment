@@ -15,7 +15,6 @@ const InvoiceField: FC<InvoiceAutocompleteProps> = ({ control, setValue }) => {
     useEffect(() => {
         getTripByTransporterInvoice('').then((data) => {
             const invoiceNumbersList: string[] = []
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             data.forEach((item: any) => {
                 if (item.loadingPointToStockPointTrip?.invoiceNumber) {
                     invoiceNumbersList.push(item.loadingPointToStockPointTrip.invoiceNumber)

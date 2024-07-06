@@ -154,6 +154,22 @@ export const getOverAllTripIdByLoadingToStockId = (loadingPointToStockPointTripI
             loadingPointToStockPointTrip: { select: { stockPointId: true } }
         }
     })
+
+const truckWithTransporter = {
+    truck: {
+        select: {
+            vehicleNumber: true,
+            transporter: {
+                select: {
+                    name: true,
+                    csmName: true,
+                    transporterType: true,
+                    gstPercentage: true
+                }
+            }
+        }
+    }
+}
 export const getOverAllTripById = (id: number) =>
     prisma.overallTrip.findFirst({
         where: {
@@ -162,18 +178,7 @@ export const getOverAllTripById = (id: number) =>
         select: {
             id: true,
             acknowledgementStatus: true,
-            truck: {
-                select: {
-                    vehicleNumber: true,
-                    transporter: {
-                        select: {
-                            name: true,
-                            transporterType: true,
-                            gstPercentage: true
-                        }
-                    }
-                }
-            },
+            ...truckWithTransporter,
             stockPointToUnloadingPointTrip: {
                 select: {
                     acknowledgeDueTime: true,
@@ -1134,6 +1139,7 @@ export const getTripForAcknowlegementApproval = () =>
             }
         }
     })
+
 export const getTripForPricePointApproval = () =>
     prisma.overallTrip.findMany({
         where: {
@@ -1281,125 +1287,6 @@ export const getTripForPricePointApproval = () =>
             }
         }
     })
-// export const getOverallTripByVehicleNumber = (vehicleNumber: string) =>
-//     prisma.overallTrip.findMany({
-//         where: {
-//             OR: [
-//                 {
-//                     truck: { vehicleNumber },
-//                     loadingPointToStockPointTrip: {
-//                         truck: { vehicleNumber }
-//                     },
-//                     acknowledgementStatus: true
-//                 },
-//                 {
-//                     truck: { vehicleNumber },
-//                     loadingPointToUnloadingPointTrip: {
-//                         truck: { vehicleNumber }
-//                     },
-//                     acknowledgementStatus: true
-//                 }
-//             ]
-//         },
-//         orderBy: {
-//             id: 'desc'
-//         },
-//         take: 2,
-//         select: {
-//             id: true,
-//             shortageQuantity: {
-//                 select: {
-//                     unloadedDate: true,
-//                     shortageAmount: true
-//                 }
-//             },
-//             paymentDues: {
-//                 select: { payableAmount: true }
-//             },
-//             truck: {
-//                 select: {
-//                     vehicleNumber: true,
-//                     transporter: {
-//                         select: {
-//                             name: true,
-//                             csmName: true
-//                         }
-//                     }
-//                 }
-//             },
-//             loadingPointToStockPointTrip: {
-//                 select: {
-//                     loadingKilometer: true,
-//                     unloadingKilometer: true,
-//                     filledLoad: true,
-//                     totalFreightAmount: true,
-//                     startDate: true,
-//                     invoiceNumber: true,
-//                     truck: {
-//                         select: {
-//                             vehicleNumber: true,
-//                             transporter: {
-//                                 select: {
-//                                     name: true,
-//                                     csmName: true
-//                                 }
-//                             }
-//                         }
-//                     },
-//                     loadingPoint: {
-//                         select: {
-//                             name: true
-//                         }
-//                     },
-//                     stockPoint: {
-//                         select: {
-//                             name: true
-//                         }
-//                     },
-//                     stockPointToUnloadingPointTrip: {
-//                         select: {
-//                             unloadingPoint: {
-//                                 select: {
-//                                     name: true
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 }
-//             },
-//             loadingPointToUnloadingPointTrip: {
-//                 select: {
-//                     loadingKilometer: true,
-//                     unloadingKilometer: true,
-//                     filledLoad: true,
-//                     totalFreightAmount: true,
-//                     invoiceNumber: true,
-//                     startDate: true,
-//                     truck: {
-//                         select: {
-//                             vehicleNumber: true,
-//                             transporter: {
-//                                 select: {
-//                                     name: true,
-//                                     csmName: true
-//                                 }
-//                             }
-//                         }
-//                     },
-//                     loadingPoint: {
-//                         select: {
-//                             name: true
-//                         }
-//                     },
-//                     unloadingPoint: {
-//                         select: {
-//                             name: true
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     })
 export const updatePricePointApprovalStatus = (id: number) =>
     prisma.overallTrip.update({
         where: {
@@ -1453,19 +1340,7 @@ export const updatePricePointApprovalStatus = (id: number) =>
                             name: true
                         }
                     },
-                    truck: {
-                        select: {
-                            vehicleNumber: true,
-                            transporter: {
-                                select: {
-                                    name: true,
-                                    csmName: true,
-                                    transporterType: true,
-                                    gstPercentage: true
-                                }
-                            }
-                        }
-                    }
+                    ...truckWithTransporter
                 }
             },
             loadingPointToStockPointTrip: {

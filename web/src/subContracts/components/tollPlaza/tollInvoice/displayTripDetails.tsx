@@ -32,7 +32,6 @@ const DisplayTrips: FC<props> = ({ setTrips, trip, setDialog, dialog, setSelTrip
         getOverallTripWithTollDetailsNotEmpty().then((overAlltripDetails) => {
             setTrips(getTrip(overAlltripDetails))
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
     return (
         <>

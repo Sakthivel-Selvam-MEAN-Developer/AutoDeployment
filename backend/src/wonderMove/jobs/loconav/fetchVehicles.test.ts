@@ -35,8 +35,6 @@ vi.mock('../../models/vehicle', () => ({
 describe('fetch device details', () => {
     it('should get device details from loconav', async () => {
         const authToken = 'asdfasdf'
-        // eslint-disable-next-line
-        // @ts-ignore
         mockLoconavApi.mockResolvedValue([vehicleDetail])
         await fetchDeviceDetails(authToken)
         expect(mockLoconavModel).toBeCalledWith([{ ...RawDetailsTestData, vehicleId: 20 }])

@@ -26,8 +26,8 @@ export const updateBillDetails = (overallTripIds: number[], data: props) =>
             billedStatus: true
         }
     })
-export const updateTollAmount = (ids: number[], data: data) => {
-    return prisma.tollPayment.updateMany({
+export const updateTollAmount = (ids: number[], data: data) =>
+    prisma.tollPayment.updateMany({
         where: {
             id: { in: ids }
         },
@@ -35,7 +35,6 @@ export const updateTollAmount = (ids: number[], data: data) => {
             amount: data.amount
         }
     })
-}
 export const getTollPlaza = () => prisma.tollPayment.findMany({})
 export const getTollLocations = () =>
     prisma.tollPlazaLocation.findMany({

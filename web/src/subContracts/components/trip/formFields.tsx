@@ -131,7 +131,6 @@ const FormField: React.FC<FormFieldProps> = ({
             getLoadingPointByCompanyName(cementCompanyName).then(setLoadingPointList)
         if (transporterName !== null && transporterName !== '')
             getTruckByTransporter(transporterName).then(setListTruck)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [transporterName, cementCompanyName])
     useEffect(() => {
         if (cementCompanyName !== null && cementCompanyName !== '' && category === 'Stock Point')
@@ -160,7 +159,6 @@ const FormField: React.FC<FormFieldProps> = ({
         setFreightAmount(0)
         setTransporterAmount(0)
         setValue('invoiceNumber', '')
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category, cementCompanyName])
 
     useEffect(() => {

@@ -9,8 +9,8 @@ export const getCompanyInvoice = (filterData: {
     startDate: number
     endDate: number
     company: string
-}) => {
-    return prisma.companyInvoice.findMany({
+}) =>
+    prisma.companyInvoice.findMany({
         where: {
             cementCompany: {
                 id: parseInt(filterData.company)
@@ -33,4 +33,3 @@ export const getCompanyInvoice = (filterData: {
             }
         }
     })
-}
