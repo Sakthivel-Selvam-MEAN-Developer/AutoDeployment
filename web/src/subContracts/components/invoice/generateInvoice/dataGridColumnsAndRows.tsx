@@ -1,13 +1,24 @@
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 
 export const columns = [
-    { field: 'startDate', headerName: 'Start Date', width: 100 },
+    { field: 'startDate', headerName: 'Start Date', width: 150 },
     { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
     { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
     { field: 'loadingPoint', headerName: 'Loading Point', width: 150 },
     { field: 'unloadingPoint', headerName: 'Unloading Point', width: 150 },
-    { field: 'freightAmount', headerName: 'Freight Amount', width: 150 },
-    { field: 'totalFreightAmount', headerName: 'Total Freight Amount', width: 150 }
+    { field: 'filledLoad', headerName: 'Quantity', width: 150 },
+    {
+        field: 'freightAmount',
+        headerName: 'Freight Amount(₹)',
+        width: 150,
+        valueFormatter: (params: number) => `₹ ${params}`
+    },
+    {
+        field: 'totalFreightAmount',
+        headerName: 'Total Freight Amount(₹)',
+        width: 200,
+        valueFormatter: (params: number) => `₹ ${params}`
+    }
 ]
 export interface tripProp {
     id: number

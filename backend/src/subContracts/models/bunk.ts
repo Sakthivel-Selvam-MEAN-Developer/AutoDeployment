@@ -24,10 +24,10 @@ export const getBunkAccountByName = (bunkName: string[]) =>
         where: { bunkName: { in: bunkName } },
         select: bunkData
     })
-export const getBunkNameById = (id: number) =>
-    prisma.bunk.findMany({
-        where: { id: id },
-        select: {
-            bunkName: true
-        }
-    })
+// export const getBunkNameById = (id: number) =>
+//     prisma.bunk.findMany({
+//         where: { id: id },
+//         select: {
+//             bunkName: true
+//         }
+//     })

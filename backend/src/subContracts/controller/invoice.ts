@@ -71,21 +71,26 @@ export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = a
 
 // eslint-disable-next-line complexity
 export const updateInvoiceDetails = async (req: Request, res: Response) => {
-    try {
-        if (req.body.trip.tripName === 'LoadingToUnloading') {
-            await updateLoadingToUnloading(req.body.trip.tripId, req.body.bill.billNo)
-        }
-        if (req.body.trip.tripName === 'StockToUnloading') {
-            await updateStockToUnloading(req.body.trip.tripId, req.body.bill.billNo)
-        }
-        if (req.body.trip.tripName === 'LoadingToStock') {
-            await updateLoadingToStock(req.body.trip.tripId, req.body.bill.billNo)
-        }
-        res.sendStatus(200)
-        // await uploadToS3(combinedPdfBuffer, req.body.cementCompany.name, req.body.bill.billNo)
-    } catch (err) {
-        res.status(500).json(`Error updating invoice details : ${err}`)
+    if (req.body.trip.tripName === 'LoadingToUnloading') {
+        await updateLoadingToUnloading(req.body.trip.tripId, req.body.bill.billNo).then(() =>
+            res.sendStatus(200)
+        )
+        return
     }
+    if (req.body.trip.tripName === 'StockToUnloading') {
+        await updateStockToUnloading(req.body.trip.tripId, req.body.bill.billNo).then(() =>
+            res.sendStatus(200)
+        )
+        return
+    }
+    if (req.body.trip.tripName === 'LoadingToStock') {
+        await updateLoadingToStock(req.body.trip.tripId, req.body.bill.billNo).then(() =>
+            res.sendStatus(200)
+        )
+        return
+    }
+    res.sendStatus(500)
+    // await uploadToS3(combinedPdfBuffer, req.body.cementCompany.name, req.body.bill.billNo)
 }
 
 export const previewPDFController = async (req: Request, res: Response) => {

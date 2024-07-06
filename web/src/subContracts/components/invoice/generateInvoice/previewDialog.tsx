@@ -7,17 +7,7 @@ import {
     Button
 } from '@mui/material'
 import { FC } from 'react'
-
-interface dialog {
-    load: boolean
-    setLoad: React.Dispatch<React.SetStateAction<boolean>>
-    pdfStr: string
-    update: () => void
-}
-interface dialogAction {
-    setLoad: React.Dispatch<React.SetStateAction<boolean>>
-    update: () => void
-}
+import { dialog, dialogAction } from './type'
 const PreviewDialog: FC<dialog> = ({ load, setLoad, pdfStr, update }) => {
     return (
         <Dialog maxWidth={'xl'} open={load}>
@@ -40,7 +30,6 @@ const DialogContentContainer: FC<DialogContentType> = ({ pdfStr }) => {
         </DialogContent>
     )
 }
-
 const DialogAction: FC<dialogAction> = ({ setLoad, update }) => {
     return (
         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>

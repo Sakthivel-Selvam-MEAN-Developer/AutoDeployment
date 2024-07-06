@@ -14,6 +14,11 @@ const defaultFilterData = {
     endDate: 0,
     cementCompany: { name: '', id: 0 }
 }
+const viewInvoiceHeading = (
+    <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
+        View Generated Invoice
+    </Typography>
+)
 const ViewList: React.FC = () => {
     const [display, setDisplay] = useState<display[]>([])
     const { handleSubmit, control } = useForm<FieldValues>()
@@ -26,9 +31,7 @@ const ViewList: React.FC = () => {
     }
     return (
         <>
-            <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
-                View Generated Invoice
-            </Typography>
+            {viewInvoiceHeading}
             <invoiceFilterData.Provider value={{ filterData, setFilterData }}>
                 {submitEvent(handleSubmit, onSubmit, control, cementCompany, setCementCompany)}
             </invoiceFilterData.Provider>

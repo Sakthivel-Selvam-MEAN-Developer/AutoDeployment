@@ -92,6 +92,17 @@ const mockTripDuesData = [
         dueDate: 1700764200
     },
     {
+        id: 1,
+        payableAmount: 20000,
+        overallTripId: 1,
+        type: 'final pay',
+        fuelId: null,
+        name: 'Barath Logistics Pvt Ltd',
+        status: false,
+        vehicleNumber: 'TN93D5512',
+        dueDate: 1700764200
+    },
+    {
         id: 3,
         payableAmount: 2300,
         overallTripId: 2,
@@ -262,6 +273,20 @@ const mockGroupedDueDetails = [
                 overallTripId: 1,
                 payableAmount: 20000,
                 type: 'initial pay',
+                number: 'TN93D5512',
+                loadingPoint: 'Chennai',
+                unloadingPoint: 'Salem',
+                invoiceNumber: 'ABC123',
+                date: 1700764200,
+                dueDate: 1700764200,
+                fuelId: undefined,
+                location: undefined
+            },
+            {
+                id: 1,
+                overallTripId: 1,
+                payableAmount: 20000,
+                type: 'final pay',
                 number: 'TN93D5512',
                 loadingPoint: 'Chennai',
                 unloadingPoint: 'Salem',

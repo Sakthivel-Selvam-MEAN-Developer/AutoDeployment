@@ -29,8 +29,8 @@ async function addFuelStations() {
     VALUES ('TN12R9456',50,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
     await prisma.$executeRaw`INSERT INTO "subContract"."stockPoint" ("name", "createdAt", "updatedAt","cementCompanyId","pricePointMarkerId")
     VALUES ('StockPoint', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId", "createdAt", "updatedAt")
-    VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
+    await prisma.$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId","truckId", "createdAt", "updatedAt")
+    VALUES (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
     await prisma.$executeRaw`INSERT INTO "subContract"."transporter" ("name","emailId","contactPersonName","contactPersonNumber","address","hasGst","hasTds","transporterType","accountHolder","accountNumber","ifsc","accountTypeNumber","csmName", "createdAt", "updatedAt", "branchName")
     VALUES ('Magnum Logistics Pvt Ltd','magnum@gmail.com','Magnum', '987675654432','Magnum Street',false,false,'Own','Magnum','635534523','uvx1234',13454350,'Barath',CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'Erode');`
     await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")

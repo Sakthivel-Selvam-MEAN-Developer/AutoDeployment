@@ -14,6 +14,9 @@ const mockGetDirectTripsByinvoiceFilter = vi.fn()
 const mockGetStockTripsByinvoiceFilter = vi.fn()
 const mockGetUnloadingTripsByinvoiceFilter = vi.fn()
 const mockUploadToS3 = vi.fn()
+const mockupdateDirectTripBillingRate = vi.fn()
+const mockupdateStockTripBillingRate = vi.fn()
+const mockupdateUnloadingTripBillingRate = vi.fn()
 
 vi.mock('aws-sdk', () => ({
     S3: vi.fn(() => ({
@@ -65,17 +68,23 @@ vi.mock('jsdom', () => ({
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberD(inputs, billNo),
     getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsD(inputs),
-    getDirectTripsByinvoiceFilter: (inputs: any) => mockGetDirectTripsByinvoiceFilter(inputs)
+    getDirectTripsByinvoiceFilter: (inputs: any) => mockGetDirectTripsByinvoiceFilter(inputs),
+    updateDirectTripBillingRate: (id: number, billingRate: number, pageName: string) =>
+        mockupdateDirectTripBillingRate(id, billingRate, pageName)
 }))
 vi.mock('../models/loadingToStockPointTrip', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberS(inputs, billNo),
     getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsS(inputs),
-    getStockTripsByinvoiceFilter: (inputs: any) => mockGetStockTripsByinvoiceFilter(inputs)
+    getStockTripsByinvoiceFilter: (inputs: any) => mockGetStockTripsByinvoiceFilter(inputs),
+    updateStockTripBillingRate: (id: number, billingRate: number, pageName: string) =>
+        mockupdateStockTripBillingRate(id, billingRate, pageName)
 }))
 vi.mock('../models/stockPointToUnloadingPoint', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberU(inputs, billNo),
     getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsU(inputs),
-    getUnloadingTripsByinvoiceFilter: (inputs: any) => mockGetUnloadingTripsByinvoiceFilter(inputs)
+    getUnloadingTripsByinvoiceFilter: (inputs: any) => mockGetUnloadingTripsByinvoiceFilter(inputs),
+    updateUnloadingTripBillingRate: (id: number, billingRate: number, pageName: string) =>
+        mockupdateUnloadingTripBillingRate(id, billingRate, pageName)
 }))
 vi.mock('../models/billNumber', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberB(inputs, billNo)
@@ -303,6 +312,13 @@ describe('Invoice Controller', async () => {
         expect(mockUpdateBillNumberU).toBeCalledTimes(1)
         expect(mockUpdateBillNumberU).toHaveBeenCalledWith([5], 'MGL-01')
     }, 6000)
+    test('should able to retrun 500 for non trip', async () => {
+        // mockUploadToS3.mockResolvedValue('sample-file-path')
+        await supertest(app)
+            .put('/api/invoice/update')
+            .send({ ...mockBodyForStockToUnloading, trip: { tripName: 'undefined', tripId: [1] } })
+            .expect(500)
+    }, 6000)
     test('should have super admin role for invoice details', async () => {
         await supertest(app)
             .put('/api/invoice/update')
@@ -372,5 +388,29 @@ describe('Invoice Controller', async () => {
                 expect(typeof htmlContent).toBe('object')
             })
         expect(mockGetInvoiceDetailsU).toBeCalledTimes(1)
+    })
+    test('should able to update billing rate for loading to unloading trip', async () => {
+        mockupdateDirectTripBillingRate.mockResolvedValue('')
+        await supertest(app)
+            .put('/api/invoice/billingrate')
+            .send({ id: 1, billingRate: 12000, pageName: 'LoadingToUnloading' })
+            .expect(200)
+        expect(mockupdateDirectTripBillingRate).toHaveBeenCalledTimes(1)
+    })
+    test('should able to update billing rate for loading to stock trip', async () => {
+        mockupdateStockTripBillingRate.mockResolvedValue({})
+        await supertest(app)
+            .put('/api/invoice/billingrate')
+            .send({ id: 1, billingRate: 12000, pageName: 'LoadingToStock' })
+            .expect(200)
+        expect(mockupdateStockTripBillingRate).toHaveBeenCalledTimes(1)
+    })
+    test('should able to update billing rate for stock to unloading trip', async () => {
+        mockupdateUnloadingTripBillingRate.mockResolvedValue('')
+        await supertest(app)
+            .put('/api/invoice/billingrate')
+            .send({ id: 1, billingRate: 12000, pageName: 'StockToUnloading' })
+            .expect(200)
+        expect(mockupdateUnloadingTripBillingRate).toHaveBeenCalledTimes(1)
     })
 })
