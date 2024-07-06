@@ -26,3 +26,16 @@ export interface TableRowContainerProps {
     setTripDetails: React.Dispatch<React.SetStateAction<tripDetails[]>>
     tripDetails: tripDetails[]
 }
+export interface display {
+    id: number
+    billNo: string
+    billDate: number
+    cementCompany: {
+        name: string
+    }
+    amount: number
+    pdfLink: string
+}
+export interface gridProp {
+    display: display[]
+}
