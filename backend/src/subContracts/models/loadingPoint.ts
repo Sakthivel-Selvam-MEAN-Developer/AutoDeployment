@@ -15,13 +15,3 @@ export const getLoadingPointByCompany = (companyName: string) =>
 export const create = (
     data: Prisma.loadingPointCreateInput | Prisma.loadingPointUncheckedCreateInput
 ) => prisma.loadingPoint.create({ data })
-
-export const getCementCompanyByLocation = (loadingPointId: number) =>
-    prisma.loadingPoint.findFirst({
-        where: { id: loadingPointId },
-        select: {
-            cementCompany: {
-                select: { advanceType: true }
-            }
-        }
-    })

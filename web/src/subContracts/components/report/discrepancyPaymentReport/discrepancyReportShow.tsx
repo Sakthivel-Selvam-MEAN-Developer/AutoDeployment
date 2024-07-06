@@ -80,7 +80,7 @@ const ListDiscrepancyDetails: FC<listProps> = ({
         <>
             {generateCSVButton(handleDownloadCSV)}
             <Box sx={{ height: 400, width: '100%', marginTop: '50px' }}>
-                <DataGrid rows={rows} columns={columns} pagination />
+                <DataGrid rows={rows} columns={columns} pagination hideFooter />
             </Box>
             {stack(setskipNumber, totalItems)}
         </>

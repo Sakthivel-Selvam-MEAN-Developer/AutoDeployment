@@ -134,6 +134,7 @@ const ListAllAcknowledgementDueDetails = ({
                     columns={columns}
                     pageSizeOptions={[100]}
                     disableRowSelectionOnClick
+                    hideFooter
                 />
             </Box>
             <div

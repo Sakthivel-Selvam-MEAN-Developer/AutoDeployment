@@ -8,6 +8,7 @@ const mockTruck = vi.fn()
 const mockTruckByTransporter = vi.fn()
 const mockCreateTuck = vi.fn()
 const mockAuth = vi.fn()
+const mockGetNumberByTruckId = vi.fn()
 vi.mock('../routes/authorise', () => ({
     authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
         mockAuth(role)
@@ -17,7 +18,8 @@ vi.mock('../routes/authorise', () => ({
 vi.mock('../models/truck', () => ({
     getAllTruck: () => mockTruck(),
     create: (inputs: any) => mockCreateTuck(inputs),
-    getTruckByTransporter: () => mockTruckByTransporter()
+    getTruckByTransporter: () => mockTruckByTransporter(),
+    getNumberByTruckId: () => mockGetNumberByTruckId()
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -31,6 +33,13 @@ const mockReq = {
         transporterId: 1
     }
 } as Request
+const mockTruckData = {
+    vehicleNumber: 'Tn39cc5647',
+    transporter: {
+        name: 'Transporter',
+        transporterType: 'Market'
+    }
+}
 
 const mockRes = {
     sendStatus: vi.fn(),
@@ -54,6 +63,11 @@ describe('Truck Controller', () => {
     test('should have super admin role for creating truck', async () => {
         await supertest(app).post('/api/truck').expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
+    })
+    test('should get transporter name by id', async () => {
+        mockGetNumberByTruckId.mockResolvedValue(mockTruckData)
+        await supertest(app).get('/api/truck/transpotertype/1').expect(200)
+        expect(mockGetNumberByTruckId).toBeCalledTimes(1)
     })
     test('should get only the trucks by transporter name', async () => {
         mockTruckByTransporter.mockResolvedValue({

@@ -3,6 +3,7 @@ import {
     create,
     findTripWithActiveDues,
     getCompletedDues,
+    completedDuesLength,
     getGstDuesGroupByName,
     getGstPaymentDues,
     getOnlyActiveDuesByName,
@@ -318,21 +319,23 @@ export const listAllUpcomingTransporterDues = (
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }
-interface CompletedQuery {
-    name: string
-    from: string
-    to: string
-    page: string
+export interface CompletedDueQuery {
+    vendor: string
+    fromDate: string
+    toDate: string
+    pageNumber: string
     payType: string
+    csmName: string | undefined
 }
-export const listAllCompletedDues = (
-    req: Request<object, object, object, CompletedQuery>,
+type completedDuesTypes = (
+    req: Request<object, object, object, CompletedDueQuery>,
     res: Response
-) => {
-    const { name, from, to, page, payType } = req.query
-    getCompletedDues(name, parseInt(from), parseInt(to), parseInt(page), payType)
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.status(500))
+) => void
+export const listAllCompletedDues: completedDuesTypes = async (req, res) => {
+    const tripdetails = await getCompletedDues(req.query).catch(() => res.sendStatus(500))
+    await completedDuesLength(req.query)
+        .then((data) => res.status(200).json({ trips: tripdetails, length: data.length }))
+        .catch(() => res.sendStatus(500))
 }
 export const donwloadNEFTFile = (req: Request, res: Response) => {
     const NEFTData: dataProps[] = req.body

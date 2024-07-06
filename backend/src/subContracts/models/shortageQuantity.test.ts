@@ -1,4 +1,8 @@
-import { create, getShortageQuantityByOverallTripId } from './shortageQuantity.ts'
+import {
+    create,
+    getShortageQuantityByOverallTripId,
+    updateShortageByOverallTripId
+} from './shortageQuantity.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -53,5 +57,48 @@ describe('Shortage Quantity model', () => {
         await create({ ...seedShortageQuantity, overallTripId: trip.id })
         const actual = await getShortageQuantityByOverallTripId(trip.id)
         expect(actual?.shortageAmount).toBe(seedShortageQuantity.shortageAmount)
+    })
+    test('should able to create', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const unloadingTripTruck = await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const loadingToUnloadingTrip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            truckId: unloadingTripTruck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const trip = await createOverallTrip({
+            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
+        })
+        const newShortage = {
+            unloadedQuantity: 10000,
+            shortageQuantity: 100,
+            shortageAmount: 800,
+            approvalStatus: true
+        }
+        const shortage = await create({ ...seedShortageQuantity, overallTripId: trip.id })
+        const actual = await updateShortageByOverallTripId(shortage.id, newShortage)
+        expect(actual?.shortageAmount).toBe(newShortage.shortageAmount)
     })
 })

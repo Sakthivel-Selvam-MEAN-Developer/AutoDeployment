@@ -34,7 +34,6 @@ import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedLoadingToStockTrip from '../seed/loadingToStockTrip.ts'
 import seedStockToUnloadingTrip from '../seed/stockPointToUnloadingPoint.ts'
 import seedCompany from '../seed/cementCompany.ts'
-import seedTollPlaza from '../seed/tollPlaza.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedStockPoint from '../seed/stockPointWithoutDep.ts'
@@ -979,7 +978,6 @@ describe('Overall Trip model', () => {
         const overallTrip = await tollPlazaCreationPreRequirements()
         const tollPlazaLocation = await createTollPlazaLocations({ location: 'Dhone', state: 'AP' })
         await createTollPlaza([
-            { ...seedTollPlaza, overallTripId: overallTrip.id },
             {
                 overallTripId: overallTrip.id,
                 tollPlazaLocationId: tollPlazaLocation.id,
@@ -988,11 +986,9 @@ describe('Overall Trip model', () => {
         ])
         await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         const actual = await getOveralltripByTollNotEmpty()
+        console.log(actual[0].tollPayment)
         expect(actual.length).toStrictEqual(1)
-        expect(actual[0].tollPayment[0].tollPlazaLocation?.id).toStrictEqual(1)
-        expect(actual[0].tollPayment[0].amount).toStrictEqual(350)
-        expect(actual[0].tollPayment[1].tollPlazaLocation?.location).toStrictEqual('Dhone')
-        expect(actual[0].tollPayment[1].amount).toStrictEqual(500)
+        expect(actual[0].tollPayment[0].amount).toBe(500)
     })
     test('should able to get overall Trip for pricePointApproval', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

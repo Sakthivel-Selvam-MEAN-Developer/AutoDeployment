@@ -1,45 +1,48 @@
-import { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Control } from 'react-hook-form'
 import AutoComplete from '../../../../form/AutoComplete.tsx'
-import { Button } from '@mui/material'
-import { vendorProps } from './completedPayment.tsx'
+import { Autocomplete, Button, TextField } from '@mui/material'
 import DateInput from '../../../../form/DateInput.tsx'
 import { getAllTransporterName } from '../../../services/transporter.ts'
-import { getAllBunkName } from '../../../services/bunk.ts'
+import { filterDataType } from './completedPayment.tsx'
 
 interface FormFieldsProps {
     control: Control
-    vendor: vendorProps[]
-    setName: React.Dispatch<React.SetStateAction<string>>
-    setVendor: React.Dispatch<React.SetStateAction<vendorProps[]>>
-    setPayType: React.Dispatch<React.SetStateAction<string>>
+    setFilterData: React.Dispatch<React.SetStateAction<filterDataType>>
 }
-const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
-    control,
-    vendor,
-    setVendor,
-    setName,
-    setPayType
-}) => {
+export interface vendorProps {
+    id: string
+    bunkName: string
+    name: string
+    csmName: string
+}
+interface csmType {
+    id: string
+    csmName: string
+}
+const findUniqueCsName = (data: csmType[]) => {
+    const filteredArr = data.reduce((acc: csmType[], current: csmType) => {
+        const x = acc.find((item) => item.csmName === current.csmName)
+        if (!x) {
+            return acc.concat([current])
+        } else {
+            return acc
+        }
+    }, [])
+    return filteredArr
+}
+const CompletedPaymentForm: React.FC<FormFieldsProps> = ({ control, setFilterData }) => {
+    const [vendor, setVendor] = useState<vendorProps[]>([])
+    const [csmNameList, setCsmNameList] = useState<csmType[]>([])
     useEffect(() => {
-        getAllTransporterName()
-            .then(setVendor)
-            .then(() =>
-                getAllBunkName().then(
-                    (data) =>
-                        data &&
-                        data.map((bunk: vendorProps) =>
-                            setVendor((prev) => [...prev, { ...bunk, name: bunk.bunkName }])
-                        )
-                )
-            )
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        getAllTransporterName().then((data) => {
+            setVendor(data)
+            setCsmNameList(findUniqueCsName(data))
+        })
     }, [])
     return (
         <>
-            <p>
-                <b>Completed Payments</b>
-            </p>{' '}
+            <h4>Completed Payments</h4>
             <br />
             <div
                 style={{
@@ -68,16 +71,36 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({
                     label="Select Vendor"
                     options={vendor ? vendor.map(({ name }) => name) : []}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
-                        setName(value)
+                        setCsmNameList(vendor.filter(({ name }) => name === value))
+                        setFilterData((prev) => ({ ...prev, vendor: value }))
+                    }}
+                />
+                <Autocomplete
+                    options={csmNameList.map((transporter: csmType) => {
+                        return { id: transporter.id, csmName: transporter.csmName }
+                    })}
+                    sx={{ width: 300 }}
+                    getOptionLabel={(option) => option.csmName}
+                    renderOption={(props, option) => (
+                        <li {...props} key={option.id}>
+                            {option.csmName}
+                        </li>
+                    )}
+                    renderInput={(params) => <TextField {...params} label="Select CSM" />}
+                    onChange={(_event, value: csmType | null) => {
+                        if (!value) return setCsmNameList(findUniqueCsName(vendor))
+                        setCsmNameList([value])
+                        setFilterData((prev) => ({ ...prev, csmName: value.csmName }))
                     }}
                 />
                 <AutoComplete
                     control={control}
                     fieldName="type"
                     label="Select Payment Type"
-                    options={['Final Pay', 'Initial Pay', 'Fuel Pay']}
+                    options={['Initial Pay', 'Final Pay']}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
-                        setPayType(value.toLocaleLowerCase())
+                        const payType = value.toLocaleLowerCase()
+                        setFilterData((prev) => ({ ...prev, payType }))
                     }}
                 />
                 <Button

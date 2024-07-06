@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import { Prisma } from '@prisma/client'
 import utc from 'dayjs/plugin/utc'
 import prisma from '../../../prisma/index.ts'
+import { CompletedDueQuery } from '../controller/paymentDues.ts'
 
 dayjs.extend(utc)
 export const create = (
@@ -258,43 +259,33 @@ export const getUpcomingDuesByFilter = (
         }
     })
 
-export const getCompletedDues = (
-    name: string,
-    from: number,
-    to: number,
-    _page: number,
-    type: string
-) => {
-    const whereCondition: any = {
-        status: true,
-        AND: []
-    }
-    if (name !== 'null' && from !== 0 && to !== 0 && type !== null) {
-        whereCondition.AND.push({
-            name,
-            paidAt: {
-                gte: from,
-                lte: to
-            },
-            type
-        })
-    }
-    if (name !== 'null') {
-        whereCondition.AND.push({ name })
-    }
-    if (from !== 0 && to !== 0) {
-        whereCondition.AND.push({
-            paidAt: {
-                gte: from,
-                lte: to
-            }
-        })
-    }
-    if (type !== '') {
-        whereCondition.AND.push({ type })
-    }
+export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
+    const skip = (parseInt(fiterdata.pageNumber) - 1) * 20
     return prisma.paymentDues.findMany({
-        where: whereCondition,
+        skip,
+        take: 20,
+        where: {
+            name: fiterdata.vendor,
+            type: fiterdata.payType,
+            paidAt: {
+                gte: fiterdata.fromDate !== undefined ? parseInt(fiterdata.fromDate) : undefined,
+                lte: fiterdata.toDate !== undefined ? parseInt(fiterdata.toDate) : undefined
+            },
+            overallTrip: {
+                OR: [
+                    {
+                        loadingPointToStockPointTrip: {
+                            truck: { transporter: { csmName: fiterdata.csmName } }
+                        }
+                    },
+                    {
+                        loadingPointToUnloadingPointTrip: {
+                            truck: { transporter: { csmName: fiterdata.csmName } }
+                        }
+                    }
+                ]
+            }
+        },
         select: {
             name: true,
             paidAt: true,
@@ -303,19 +294,33 @@ export const getCompletedDues = (
             payableAmount: true,
             vehicleNumber: true,
             overallTrip: {
-                include: {
-                    stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
+                select: {
+                    stockPointToUnloadingPointTrip: {
+                        include: { unloadingPoint: { select: { name: true } } }
+                    },
                     loadingPointToStockPointTrip: {
-                        include: {
-                            loadingPoint: true,
-                            truck: { include: { transporter: true } }
+                        select: {
+                            invoiceNumber: true,
+                            loadingPoint: { select: { name: true } },
+                            truck: {
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: { select: { name: true, csmName: true } }
+                                }
+                            }
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
-                        include: {
-                            loadingPoint: true,
-                            unloadingPoint: true,
-                            truck: { include: { transporter: true } }
+                        select: {
+                            invoiceNumber: true,
+                            loadingPoint: { select: { name: true } },
+                            unloadingPoint: { select: { name: true } },
+                            truck: {
+                                select: {
+                                    vehicleNumber: true,
+                                    transporter: { select: { name: true, csmName: true } }
+                                }
+                            }
                         }
                     }
                 }
@@ -323,7 +328,31 @@ export const getCompletedDues = (
         }
     })
 }
-
+export const completedDuesLength = (fiterdata: CompletedDueQuery) =>
+    prisma.paymentDues.findMany({
+        where: {
+            name: fiterdata.vendor,
+            type: fiterdata.payType,
+            paidAt: {
+                gte: fiterdata.fromDate !== undefined ? parseInt(fiterdata.fromDate) : undefined,
+                lte: fiterdata.toDate !== undefined ? parseInt(fiterdata.toDate) : undefined
+            },
+            overallTrip: {
+                OR: [
+                    {
+                        loadingPointToStockPointTrip: {
+                            truck: { transporter: { csmName: fiterdata.csmName } }
+                        }
+                    },
+                    {
+                        loadingPointToUnloadingPointTrip: {
+                            truck: { transporter: { csmName: fiterdata.csmName } }
+                        }
+                    }
+                ]
+            }
+        }
+    })
 export const getFuelTransactionId = (id: number) =>
     prisma.paymentDues.findFirst({
         where: {

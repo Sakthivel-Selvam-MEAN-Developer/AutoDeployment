@@ -1,13 +1,29 @@
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CompletedPaymentForm from './completedPaymentForm'
 import { getCompletedDues } from '../../../services/paymentDues'
 import CompletedPaymentTable from './completedPaymentTable'
-import { Box, CircularProgress, Pagination, Stack } from '@mui/material'
-
-export interface vendorProps {
-    bunkName: string
-    name: string
+import dayjs from 'dayjs'
+import { Pagination, Stack } from '@mui/material'
+export interface filterDataType {
+    vendor: string | null
+    fromDate: number | null
+    toDate: number | null
+    pageNumber: number
+    payType: string | null
+    csmName: string | null
+}
+interface tripDetailsTypes {
+    trips: []
+    length: number
+}
+const initialState = {
+    pageNumber: 1,
+    fromDate: null,
+    toDate: null,
+    vendor: null,
+    payType: null,
+    csmName: null
 }
 const style = {
     display: 'flex',
@@ -17,86 +33,48 @@ const style = {
     padding: '10px 0',
     background: 'white'
 }
+const covertToEpoch = (data: FieldValues) => {
+    return {
+        fromDate: data.from ? dayjs(data.from).unix() : null,
+        toDate: data.to ? dayjs(data.to).unix() : null
+    }
+}
 const CompletedPayment: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
-    const [loading, setLoading] = useState(false)
-    const [completedPayments, setCompletedPayments] = useState([])
-    const [vendor, setVendor] = useState<vendorProps[]>([])
-    const [page, setPage] = useState(1)
-    const [name, setName] = useState('')
-    const [from, setFrom] = useState(0)
-    const [payType, setPayType] = useState('')
-    const [to, setTo] = useState(0)
-    const [message, setMessage] = useState<string>('Please Select Any One...')
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        setPage(1)
-        const from = data.from !== undefined ? data.from.unix() : 0
-        const to = data.to !== undefined ? data.to.unix() : 0
-        setFrom(from)
-        setTo(to)
-        if (name !== '' || (from !== 0 && to !== 0) || payType !== '') {
-            setLoading(true)
-            getCompletedDues(name !== '' ? name : 'null', from, to, page, payType)
-                .then(setCompletedPayments)
-                .then(() => {
-                    completedPayments.length === 0 && setMessage('No Records Found...')
-                    setLoading(false)
-                })
-        } else if (from === 0 && to === 0 && name === '' && payType === '')
-            alert('Please Select Valid Date Or Name...')
-    }
+    const [tripDetails, setTripdetails] = useState<tripDetailsTypes>({} as tripDetailsTypes)
+    const [filterData, setFilterData] = useState<filterDataType>(initialState)
     useEffect(() => {
-        if (name !== '' || (from !== 0 && to !== 0) || payType !== null) {
-            setLoading(true)
-            getCompletedDues(name, from, to, page, payType)
-                .then(setCompletedPayments)
-                .then(() => {
-                    completedPayments.length === 0 && setMessage('No Records Found...')
-                    setLoading(false)
-                })
+        if (tripDetails.length > 0) {
+            getCompletedDues(filterData).then(setTripdetails)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page])
+    }, [filterData.pageNumber])
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        const dates = covertToEpoch(data)
+        await getCompletedDues({ ...filterData, ...dates }).then(setTripdetails)
+    }
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <CompletedPaymentForm
-                control={control}
-                setName={setName}
-                vendor={vendor}
-                setVendor={setVendor}
-                setPayType={setPayType}
-            />
-            <br />
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                    <CircularProgress />
-                </Box>
-            ) : completedPayments.length !== 0 ? (
-                <CompletedPaymentTable completedPayments={completedPayments} />
-            ) : (
-                <p style={{ marginTop: '30px', textAlign: 'center' }}>{message}</p>
-            )}
-            <div style={{ ...style, position: 'sticky' }}>
-                <StackPage setPage={setPage} completedPaymentsLength={completedPayments.length} />
+            <CompletedPaymentForm control={control} setFilterData={setFilterData} />
+            {tripDetails.trips && <CompletedPaymentTable completedPayments={tripDetails.trips} />}
+            <div style={style}>
+                <StackPage setFilterData={setFilterData} length={tripDetails.length} />
             </div>
         </form>
     )
 }
 export default CompletedPayment
 interface stackProps {
-    setPage: React.Dispatch<React.SetStateAction<number>>
-    completedPaymentsLength: number
+    setFilterData: React.Dispatch<React.SetStateAction<filterDataType>>
+    length: number
 }
-const StackPage: FC<stackProps> = ({ setPage, completedPaymentsLength }) => {
+const StackPage: React.FC<stackProps> = ({ setFilterData, length }) => {
     return (
         <Stack spacing={10}>
             <Pagination
-                count={Math.ceil(completedPaymentsLength / 15)}
+                count={Math.ceil(length / 20)}
                 size="large"
                 color="primary"
-                onChange={(_e, value) => {
-                    setPage(value)
-                }}
+                onChange={(_e, value) => setFilterData((prev) => ({ ...prev, pageNumber: value }))}
             />
         </Stack>
     )

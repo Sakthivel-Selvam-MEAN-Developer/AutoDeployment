@@ -1,10 +1,12 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import {
+    completedDuesLength,
     create,
     findTripWithActiveDues,
     getCompletedDues,
     getDueByOverallTripId,
+    getFuelTransactionId,
     getGstDuesGroupByName,
     getGstPaymentDues,
     getOnlyActiveDuesByName,
@@ -16,6 +18,8 @@ import {
 } from './paymentDues.ts'
 import seedPaymentDue from '../seed/paymentDue.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
+import { create as createBunk } from './bunk.ts'
+import { create as createFuel } from './fuel.ts'
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
@@ -24,6 +28,8 @@ import { create as createTruck } from './truck.ts'
 import { create as createTransporter } from './transporter.ts'
 import seedLoadingToStockTrip from '../seed/loadingToStockTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
+import seedFuel from '../seed/fuel.ts'
+import seedBunk from '../seed/bunk.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedStockPoint from '../seed/stockPointWithoutDep.ts'
@@ -237,8 +243,55 @@ describe('Payment-Due model', () => {
         expect(actual[0].payableAmount).toBe(5000)
         expect(actual[0].type).toBe('final pay')
     })
-    test('should get only completed the payment dues', async () => {
-        await create(seedPaymentDue)
+    test('should get completed payment dues and completed dues with its page length', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const stockTripTruck = await createTruck({
+            ...seedTruck,
+            vehicleNumber: 'TN52S3555',
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+
+        const loadingToStockTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            truckId: stockTripTruck.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overallTrip = await createOverallTrip({
+            loadingPointToStockPointTripId: loadingToStockTrip.id
+        })
+        await create({ ...seedPaymentDue, overallTripId: overallTrip.id })
         const type = 'initial pay'
         const dues = await findTripWithActiveDues(dueDate, false, type)
         const wantToUpdate = {
@@ -246,15 +299,19 @@ describe('Payment-Due model', () => {
             transactionId: 'abc',
             paidAt: dueDate
         }
-        await updatePaymentDues(wantToUpdate)
-        const actual = await getCompletedDues(
-            seedPaymentDue.name,
-            dueDate,
-            dueDate,
-            1,
-            'initial pay'
-        )
+        const paymentDue = await updatePaymentDues(wantToUpdate)
+        const filterData = {
+            vendor: paymentDue.name,
+            fromDate: `${paymentDue.paidAt}`,
+            toDate: `${paymentDue.paidAt}`,
+            pageNumber: '1',
+            payType: paymentDue.type,
+            csmName: undefined
+        }
+        const actual = await getCompletedDues(filterData)
+        const tripLength = await completedDuesLength(filterData)
         expect(actual.length).toBe(1)
+        expect(tripLength.length).toBe(1)
         expect(actual[0].transactionId).toBe('abc')
     })
     test('should be able to get PaymentDues Without TripId', async () => {
@@ -308,7 +365,7 @@ describe('Payment-Due model', () => {
             wantFuel: false,
             loadingKilometer: 0
         })
-        const overallTrip: any = await createOverallTrip({
+        const overallTrip = await createOverallTrip({
             loadingPointToStockPointTripId: loadingToStockTrip.id
         })
         await create([seedPaymentDue])
@@ -340,5 +397,14 @@ describe('Payment-Due model', () => {
         const actual = await getGstPaymentDues([seedPaymentDue.name], true)
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
+    })
+    test('should be able to get Gst PaymentDues', async () => {
+        const bunk = await createBunk(seedBunk)
+        const fuel = await createFuel({ ...seedFuel, bunkId: bunk.id })
+        await create([
+            { ...seedPaymentDue, type: 'fuel pay', fuelId: fuel.id, transactionId: 'asdf' }
+        ])
+        const actual = await getFuelTransactionId(fuel.id)
+        expect(actual?.transactionId).toBe('asdf')
     })
 })

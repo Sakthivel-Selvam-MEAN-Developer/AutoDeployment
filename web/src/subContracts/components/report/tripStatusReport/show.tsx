@@ -355,6 +355,7 @@ const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser 
                 rows={finalData}
                 columns={adjustedColumns}
                 getRowId={(row) => row.number}
+                hideFooter
             />
             {selectedRow && (
                 <DialogBox

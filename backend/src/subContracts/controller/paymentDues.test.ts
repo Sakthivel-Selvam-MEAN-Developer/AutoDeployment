@@ -31,8 +31,8 @@ vi.mock('../models/paymentDues', () => ({
     getGstDuesGroupByName: () => mockgetGstDuesGroupByName(),
     getGstPaymentDues: () => mockgetGstPaymentDues(),
     updatePaymentNEFTStatus: (dueId: number[]) => mockUpdateNEFTStatus(dueId),
-    getCompletedDues: (name: string, from: number, to: number, page: number) =>
-        mockGetCompletedPaymentDues(name, from, to, page)
+    getCompletedDues: (details: any) => mockGetCompletedPaymentDues(details),
+    completedDuesLength: (details: any) => mockGetCompletedPaymentDues(details)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockGetAllTrip()
@@ -538,15 +538,16 @@ describe('Payment Due Controller', () => {
     })
     test('should get completed payment dues', async () => {
         mockGetCompletedPaymentDues.mockResolvedValue(mockCompletedPaymentDuesData)
+        mockGetCompletedPaymentDues.mockResolvedValue(mockCompletedPaymentDuesData)
         await supertest(app)
             .get('/api/completed-payment-dues')
             .query({ from: 0, to: 0 })
-            .expect(mockCompletedPaymentDuesData)
+            .expect({ trips: mockCompletedPaymentDuesData, length: 1 })
         await supertest(app)
             .get('/api/completed-payment-dues')
             .query({ from: 0, to: 0 })
             .expect(200)
-        expect(mockGetCompletedPaymentDues).toHaveBeenCalledTimes(2)
+        expect(mockGetCompletedPaymentDues).toHaveBeenCalledTimes(4)
     })
     test('should update NEFT Status', async () => {
         mockUpdateNEFTStatus.mockResolvedValue(mockUpdateNEFTStatusData)

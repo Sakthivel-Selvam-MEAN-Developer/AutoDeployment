@@ -115,10 +115,14 @@ const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], n
 const CompletedPaymentTable: React.FC<Props> = ({ completedPayments }) => {
     return (
         <>
-            <DownloadCsvButton completedPayments={completedPayments} />
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid rows={rows(completedPayments)} columns={columns} pageSizeOptions={[5]} />
-            </div>
+            {completedPayments.length > 0 && (
+                <>
+                    <DownloadCsvButton completedPayments={completedPayments} />
+                    <div style={{ height: 400, width: '100%' }}>
+                        <DataGrid rows={rows(completedPayments)} columns={columns} hideFooter />
+                    </div>
+                </>
+            )}
         </>
     )
 }

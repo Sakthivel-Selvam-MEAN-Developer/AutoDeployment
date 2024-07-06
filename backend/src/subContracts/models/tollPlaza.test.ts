@@ -1,4 +1,11 @@
-import { create, getTollPlaza, updateBillDetails, updateTollAmount } from './tollPlaza.ts'
+import {
+    create,
+    createTollPlazaLocations,
+    getTollLocations,
+    getTollPlaza,
+    updateBillDetails,
+    updateTollAmount
+} from './tollPlaza.ts'
 import seedtollPlazaLocation from '../seed/tollPlaza.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -47,7 +54,7 @@ describe('TollPlaza model', () => {
         const overallTrip = await createOverallTrip({ loadingPointToUnloadingPointTripId: trip.id })
         const tollPlazaLocationMaker = await create([
             { ...seedtollPlazaLocation, overallTripId: overallTrip.id },
-            { overallTripId: overallTrip.id, tollPlazaLocationId: 1, amount: 500 }
+            { overallTripId: overallTrip.id, amount: 500 }
         ])
         const actual = await getTollPlaza()
         expect(tollPlazaLocationMaker).toStrictEqual({ count: actual.length })
@@ -130,5 +137,10 @@ describe('TollPlaza model', () => {
             amount: 500
         })
         expect(actual).toStrictEqual({ count: tollPlaza.length })
+    })
+    test('should able to get all tollPlaza location', async () => {
+        const location = await createTollPlazaLocations({ location: 'Dhone', state: 'AP' })
+        const actual = await getTollLocations()
+        expect(actual[0].id).toBe(location.id)
     })
 })

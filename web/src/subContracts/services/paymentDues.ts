@@ -1,6 +1,6 @@
 import { axiosInstance, getData } from '../../apiCalls'
 import { Nullable } from '../../types'
-
+import { filterDataType } from '../components/report/completedPaymentDuesReport/completedPayment'
 interface dataProps {
     type: string
     bankDetails: bankDetailsProps[]
@@ -50,15 +50,8 @@ export const getUpcomingDuesByFilter = (filterData: object) =>
         .get(`/upcoming-payment-dues/`, { params: filterData })
         .then(getData)
         .catch(() => alert('Error Getting data'))
-
-export const getCompletedDues = (
-    name: string,
-    from: number,
-    to: number,
-    page: number,
-    payType: string
-) =>
+export const getCompletedDues = (filterData: filterDataType) =>
     axiosInstance
-        .get('/completed-payment-dues', { params: { name, from, to, page, payType } })
+        .get('/completed-payment-dues', { params: filterData })
         .then(getData)
         .catch(() => alert('Error Getting data'))

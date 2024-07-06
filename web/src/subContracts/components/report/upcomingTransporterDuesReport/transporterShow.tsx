@@ -89,6 +89,7 @@ const TransporterGrid: FC<TransporterGrid> = ({ gridData }) => {
                 columns={columns}
                 pageSizeOptions={[100]}
                 disableRowSelectionOnClick
+                hideFooter
             />
         </Box>
     )

@@ -5,14 +5,10 @@ import {
     getAllTripByAcknowledgementStatus,
     getOverAllTripById
 } from '../models/overallTrip.ts'
-import {
-    updateUnloadWeightforTrip,
-    updateUnloadingKilometer
-} from '../models/loadingToUnloadingTrip.ts'
+import { updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
 import { updateUnloadWeightForStockTrip } from '../models/stockPointToUnloadingPoint.ts'
 import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { create as createShortageQuantity } from '../models/shortageQuantity.ts'
-import { updateStockunloadingKilometer } from '../models/loadingToStockPointTrip.ts'
 import { allTrips, gstCalculation } from '../domain/gstDueLogic.ts'
 import { shortageAmountCalculation } from '../domain/shortageLogic.ts'
 
@@ -97,17 +93,7 @@ export const closeTripById = async (req: Request, res: Response) => {
                 overAllTripData &&
                 overAllTripData?.loadingPointToUnloadingPointTrip !== null
             ) {
-                await updateUnloadingKilometer(
-                    overAllTripData.loadingPointToUnloadingPointTrip.id,
-                    req.body.unloadingKilometer
-                )
                 await updateUnloadWeightforTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
-            }
-            if (overAllTripData && overAllTripData.loadingPointToStockPointTrip !== null) {
-                await updateStockunloadingKilometer(
-                    overAllTripData.loadingPointToStockPointTrip.id,
-                    req.body.unloadingKilometer
-                )
             }
             await gstCalculation(shortage, gstPercentage, overAllTripData).then(async (gstDue) => {
                 if (gstDue === undefined) return res.sendStatus(200)

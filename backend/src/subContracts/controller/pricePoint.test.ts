@@ -6,11 +6,13 @@ import { Role } from '../roles.ts'
 
 const mockPricePoint = vi.fn()
 const mockCreatePricePoint = vi.fn()
+const mockGetAllPricePoint = vi.fn()
 
 vi.mock('../models/pricePoint', () => ({
     getPricePoint: (loadingPointId: number, unloadingPointId: number, stockPointId: null) =>
         mockPricePoint(loadingPointId, unloadingPointId, stockPointId),
-    create: (inputs: any) => mockCreatePricePoint(inputs)
+    create: (inputs: any) => mockCreatePricePoint(inputs),
+    getAllPricePoint: (inputs: any) => mockGetAllPricePoint(inputs)
 }))
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
@@ -94,6 +96,27 @@ describe('PricePoint Controller', () => {
         expect(response.body).toEqual(mockCreatedPricePoint)
         expect(mockCreatePricePoint).toHaveBeenCalledWith(mockReq.body)
         expect(mockCreatePricePoint).toHaveBeenCalledTimes(3)
+    })
+    test('should be able to get all price point', async () => {
+        const mockCreatedPricePoint = {
+            loadingPoint: {
+                cementCompany: {
+                    name: 'Company'
+                }
+            },
+            unloadingPointId: null,
+            stockPoint: {
+                cementCompany: {
+                    name: 'Company'
+                }
+            },
+            freightAmount: 1007,
+            transporterPercentage: 8,
+            transporterAmount: 926.44
+        }
+        mockGetAllPricePoint.mockResolvedValue([mockCreatedPricePoint])
+        await supertest(app).get('/api/price-point').expect(200)
+        expect(mockGetAllPricePoint).toHaveBeenCalledTimes(1)
     })
 
     test('should handle errors during price point creation', async () => {
