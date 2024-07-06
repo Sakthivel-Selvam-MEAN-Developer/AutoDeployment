@@ -2,10 +2,11 @@ import { Box, Tab, Tabs } from '@mui/material'
 import { tripDetailsProps } from './list'
 import { FC, useContext, useState } from 'react'
 import { filterDataProps, invoiceFilterData } from './invoiceContext'
-import { getTripDetailsByFilterData } from '../../../services/invoice'
+import { getTripDetailsByFilterData, updateBillingRate } from '../../../services/invoice'
 import { alignRows, columns, tripProp } from './dataGridColumnsAndRows'
 import TripsDataGrid from './dataGrid'
-import { GridRowSelectionModel } from '@mui/x-data-grid'
+import { GridColDef, GridRowSelectionModel } from '@mui/x-data-grid'
+import ActionButton, { BillingRateField } from './actionFields'
 export interface tripProps {
     tripDetails: tripProp[]
     setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps>>
@@ -14,6 +15,7 @@ export interface tripProps {
 const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripDetails }) => {
     const { filterData, setFilterData } = useContext(invoiceFilterData)
     const [tripType, setTripType] = useState<string>('')
+    const [updated, setUpdated] = useState<number>(0)
     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
         setTripType(newValue)
         if (filterData.cementCompany.name === '') return
@@ -27,6 +29,26 @@ const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripD
     const handleSelection = (params: GridRowSelectionModel) => {
         setTripId({ tripId: params, tripName: tripType })
     }
+    const handleUpdate = async (id: number) => {
+        await updateBillingRate({ id, billingRate: updated, pageName: filterData.pageName })
+    }
+    const formattedRow: GridColDef[] = columns.map((column) => ({
+        ...column,
+        renderCell: (params) => {
+            if (column.field === 'action') {
+                return <ActionButton handleEdit={() => handleUpdate(params.row.id)} />
+            } else if (column.field === 'billingRate') {
+                return (
+                    <BillingRateField
+                        setUpdated={setUpdated}
+                        updated={updated}
+                        key={params.row.id}
+                    />
+                )
+            }
+        }
+    }))
+    console.log(formattedRow)
     return (
         <>
             <Box sx={{ width: '100%' }}>
@@ -50,7 +72,7 @@ interface InvoiceTabs {
 const InvoiceTabs: FC<InvoiceTabs> = ({ handleChange }) => {
     return (
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs onChange={handleChange} aria-label="basic tabs example">
+            <Tabs onChange={handleChange} aria-label="tabs">
                 <Tab label="Direct Trip" value="LoadingToUnloading" />
                 <Tab label="LoadingToStock Trip" value="LoadingToStock" />
                 <Tab label="StockToUnloading Trip" value="StockToUnloading" />

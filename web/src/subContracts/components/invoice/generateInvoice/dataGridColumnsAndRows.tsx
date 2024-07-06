@@ -18,7 +18,9 @@ export const columns = [
         headerName: 'Total Freight Amount(₹)',
         width: 200,
         valueFormatter: (params: number) => `₹ ${params}`
-    }
+    },
+    { field: 'billingRate', headerName: 'Billing Rate', width: 300 },
+    { field: 'action', headerName: 'Action' }
 ]
 export interface tripProp {
     id: number
