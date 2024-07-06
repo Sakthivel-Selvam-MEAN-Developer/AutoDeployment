@@ -1,10 +1,9 @@
 terraform {
-  #use local folder as source
-  source="../../modules/app/main.tf"
+  source="../../../modules/app"
 }
 
 inputs  = {
-  instance_type = "t4g.micro"
+  instance_type = "t4g.nano"
 }
 
 remote_state {
@@ -13,7 +12,3 @@ remote_state {
     path = "${get_parent_terragrunt_dir()}/${path_relative_to_include()}/terraform.tfstate"
   }
 }
-
-
-
-

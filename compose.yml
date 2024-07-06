@@ -88,7 +88,7 @@ services:
     command: [ nginx-debug, '-g', 'daemon off;' ]
 
   terra:
-    image: "alpine/terragrunt:1.7.3"
+    image: "alpine/terragrunt:1.8.4"
     platform: linux/amd64
     environment:
       AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
@@ -98,7 +98,7 @@ services:
       TF_LOG: error
     volumes:
       - ./:/app/
-    working_dir: /app/deploy/live/test
+    working_dir: /app/deploy/terra/env/test
     command: [ "bash" ]
 
 networks:
