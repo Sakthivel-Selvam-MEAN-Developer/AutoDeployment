@@ -17,7 +17,6 @@ interface tripProps {
 export interface GetCellsProps {
     trip: tripProps | undefined
     id: number
-    overallTrip: tripDetailProps[]
     setTripDetails: React.Dispatch<React.SetStateAction<tripDetailProps[]>>
 }
 export interface TextFieldContainerProps {

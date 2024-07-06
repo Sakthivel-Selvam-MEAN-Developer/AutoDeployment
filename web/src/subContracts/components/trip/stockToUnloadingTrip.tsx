@@ -67,7 +67,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
         }
         createStockTrip(
             details,
-            row.overallTrip.truck.transporter.transporterType,
+            row.overallTrip[0].truck.transporter.transporterType,
             row.stockPointId
         ).then(() => {
             setExpanded(false)
