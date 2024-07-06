@@ -304,9 +304,10 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
             payableAmount: true,
             vehicleNumber: true,
             overallTrip: {
-                include: {
-                    truck: { include: { transporter: true } },
-                    stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
+                select: {
+                    stockPointToUnloadingPointTrip: {
+                        include: { unloadingPoint: { select: { name: true } } }
+                    },
                     loadingPointToStockPointTrip: {
                         select: {
                             invoiceNumber: true,

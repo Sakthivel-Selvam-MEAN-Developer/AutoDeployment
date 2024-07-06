@@ -1,41 +1,6 @@
 import dayjs from 'dayjs'
+import overallTripProps from './overallTripsTypes.ts'
 
-interface Truck {
-    vehicleNumber: string
-    transporter: {
-        name: string
-        transporterType: string
-        gstPercentage: number | null
-    }
-}
-interface LoadingPointToStockPointTrip {
-    filledLoad?: number
-    totalTransporterAmount: number
-    truck: Truck
-}
-interface TripDetails {
-    id: number
-    filledLoad?: number
-    totalTransporterAmount: number
-    truck: Truck
-}
-interface stockPointToUnloadingPointTrip {
-    id: number
-    totalTransporterAmount: number
-    filledLoad?: number
-    loadingPointToStockPointTrip?: LoadingPointToStockPointTrip
-}
-export interface allTrips {
-    id: number
-    truck: Truck | null
-    loadingPointToStockPointTrip: LoadingPointToStockPointTrip | null
-    stockPointToUnloadingPointTrip: stockPointToUnloadingPointTrip | null
-    loadingPointToUnloadingPointTrip: TripDetails | null
-}
-interface shortageProp {
-    shortageAmount: number
-    approvalStatus: boolean
-}
 export const gstDueLogic = (
     gstPercentage: number,
     transporterAmount: number,
@@ -55,7 +20,7 @@ export const gstDueLogic = (
         }
     ]
 }
-const findTrip = (overallTrip: allTrips) => {
+const findTrip = (overallTrip: overallTripProps) => {
     if (overallTrip.stockPointToUnloadingPointTrip !== null) {
         return overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
             ? overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
@@ -65,15 +30,14 @@ const findTrip = (overallTrip: allTrips) => {
         return overallTrip.loadingPointToUnloadingPointTrip
     }
 }
-export const gstCalculation = async (
-    shortage: shortageProp,
-    gstPercentage: number | null,
-    overAllTripData: allTrips
-) => {
+export const gstCalculation = async (overAllTripData: overallTripProps) => {
     const trip = findTrip(overAllTripData)
+    const gstPercentage = overAllTripData.truck?.transporter.gstPercentage
+    const shortage = overAllTripData?.shortageQuantity[0]
     if (
         trip === undefined ||
         gstPercentage === null ||
+        gstPercentage === undefined ||
         overAllTripData?.truck?.transporter.transporterType === 'Own'
     ) {
         return

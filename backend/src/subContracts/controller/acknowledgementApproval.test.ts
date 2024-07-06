@@ -64,7 +64,8 @@ const mockOverAllTrip = [
             transporter: {
                 name: 'Muthu Logistics',
                 transporterType: 'Market',
-                tdsPercentage: 5
+                tdsPercentage: 5,
+                gstPercentage: 10
             }
         },
         loadingPointToUnloadingPointTrip: {
@@ -109,6 +110,16 @@ const mockGetDuesData = [
         vehicleNumber: 'TN22E3456'
     }
 ]
+const mockGstDuesData = [
+    {
+        name: 'Muthu Logistics',
+        type: 'gst pay',
+        dueDate: 1707244200,
+        payableAmount: 3600,
+        overallTripId: 1,
+        vehicleNumber: 'TN93D5512'
+    }
+]
 const shortageQuantity = { id: 1, unloadedQuantity: 1899, approvalStatus: true }
 describe('Acknowledgement Approval Controller', () => {
     test('should able to get overAllTrip for Acknowledgement Approval', async () => {
@@ -116,7 +127,17 @@ describe('Acknowledgement Approval Controller', () => {
         await supertest(app).get('/api/acknowlegementapproval').expect(200)
         expect(mockGetTripForAcknowlegementApproval).toBeCalledTimes(1)
     })
-    test('should able to update Acknowledgement Approval in overAllTrip', async () => {
+    test('should not able to get overAllTrip for Acknowledgement Approval', async () => {
+        mockGetTripForAcknowlegementApproval.mockResolvedValue([
+            {
+                ...mockOverAllTrip[0],
+                paymentDues: mockGstDuesData
+            }
+        ])
+        await supertest(app).get('/api/acknowlegementapproval').expect(200)
+        expect(mockGetTripForAcknowlegementApproval).toBeCalledTimes(2)
+    })
+    test('should able to update Acknowledgement Approval in overAllTrip and generate final pay', async () => {
         mockGetShortageQuantityByOverallTripId.mockResolvedValue(shortage)
         mockUpdateShortageInOverallTrip.mockResolvedValue(shortage)
         mockUpdateAcknowledgementApproval.mockResolvedValue(mockOverAllTrip[0])
@@ -124,7 +145,29 @@ describe('Acknowledgement Approval Controller', () => {
         await supertest(app).put('/api/acknowlegementapproval').send(shortageQuantity).expect(200)
         expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(1)
         expect(mockUpdateShortageInOverallTrip).toBeCalledTimes(1)
-        expect(mockcreatePaymentDues).toBeCalledTimes(1)
+        expect(mockcreatePaymentDues).toBeCalledTimes(2)
+    })
+    test('should able to update Acknowledgement Approval in overAllTrip and generate gst pay', async () => {
+        mockGetShortageQuantityByOverallTripId.mockResolvedValue(shortage)
+        mockUpdateShortageInOverallTrip.mockResolvedValue(shortage)
+        mockUpdateAcknowledgementApproval.mockResolvedValue(mockOverAllTrip[0])
+        mockcreatePaymentDues.mockResolvedValue(mockGstDuesData)
+        await supertest(app).put('/api/acknowlegementapproval').send(shortageQuantity).expect(200)
+        expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(2)
+        expect(mockUpdateShortageInOverallTrip).toBeCalledTimes(2)
+        expect(mockcreatePaymentDues).toBeCalledTimes(4)
+    })
+    test('should able to update Acknowledgement Approval in overAllTrip and should not generate gst pay', async () => {
+        mockGetShortageQuantityByOverallTripId.mockResolvedValue(shortage)
+        mockUpdateShortageInOverallTrip.mockResolvedValue(shortage)
+        mockUpdateAcknowledgementApproval.mockResolvedValue({
+            ...mockOverAllTrip[0],
+            shortageQuantity: [{ ...mockOverAllTrip[0].shortageQuantity, gstPercentage: null }]
+        })
+        await supertest(app).put('/api/acknowlegementapproval').send(shortageQuantity).expect(200)
+        expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(3)
+        expect(mockUpdateShortageInOverallTrip).toBeCalledTimes(3)
+        expect(mockcreatePaymentDues).toBeCalledTimes(6)
     })
 })
 describe('convertData Function', () => {

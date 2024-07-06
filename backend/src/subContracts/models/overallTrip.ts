@@ -940,7 +940,8 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
                         select: {
                             name: true,
                             tdsPercentage: true,
-                            transporterType: true
+                            transporterType: true,
+                            gstPercentage: true
                         }
                     }
                 }
@@ -958,7 +959,8 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
                                         select: {
                                             name: true,
                                             tdsPercentage: true,
-                                            transporterType: true
+                                            transporterType: true,
+                                            gstPercentage: true
                                         }
                                     }
                                 }
@@ -977,7 +979,8 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
                                 select: {
                                     name: true,
                                     tdsPercentage: true,
-                                    transporterType: true
+                                    transporterType: true,
+                                    gstPercentage: true
                                 }
                             }
                         }
@@ -994,7 +997,8 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
                                 select: {
                                     name: true,
                                     tdsPercentage: true,
-                                    transporterType: true
+                                    transporterType: true,
+                                    gstPercentage: true
                                 }
                             }
                         }
@@ -1026,7 +1030,8 @@ export const updateAcknowledgementApproval = async (id: number) =>
                         select: {
                             name: true,
                             tdsPercentage: true,
-                            transporterType: true
+                            transporterType: true,
+                            gstPercentage: true
                         }
                     }
                 }
@@ -1044,7 +1049,8 @@ export const updateAcknowledgementApproval = async (id: number) =>
                                         select: {
                                             name: true,
                                             tdsPercentage: true,
-                                            transporterType: true
+                                            transporterType: true,
+                                            gstPercentage: true
                                         }
                                     }
                                 }
@@ -1063,7 +1069,8 @@ export const updateAcknowledgementApproval = async (id: number) =>
                                 select: {
                                     name: true,
                                     tdsPercentage: true,
-                                    transporterType: true
+                                    transporterType: true,
+                                    gstPercentage: true
                                 }
                             }
                         }
@@ -1080,7 +1087,8 @@ export const updateAcknowledgementApproval = async (id: number) =>
                                 select: {
                                     name: true,
                                     tdsPercentage: true,
-                                    transporterType: true
+                                    transporterType: true,
+                                    gstPercentage: true
                                 }
                             }
                         }

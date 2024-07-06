@@ -1,5 +1,4 @@
 import supertest from 'supertest'
-import { Prisma } from '@prisma/client'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
@@ -13,7 +12,6 @@ const mockUpdateWeightForTrip = vi.fn()
 const mockAcknowledgeStatusforOverAllTrip = vi.fn()
 const mockCreateShortageQuantity = vi.fn()
 const mockGetPercentageByTransporter = vi.fn()
-const mockcreatePaymentDues = vi.fn()
 const mockGetShortageQuantityByOverallTripId = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
 
@@ -41,7 +39,6 @@ vi.mock('../models/transporter', () => ({
     getPercentageByTransporter: (tds: any) => mockGetPercentageByTransporter(tds)
 }))
 vi.mock('../models/paymentDues', () => ({
-    create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
     getDueByOverallTripId: (id: number) => mockGetDueByOverallTripId(id)
 }))
 const mockAuth = vi.fn()
@@ -251,16 +248,6 @@ const mockShortageQuantityData = {
     filledLoad: 40000,
     unloadedQuantity: 39500
 }
-const mockGstDuesData = [
-    {
-        name: 'Muthu Logistics',
-        type: 'gst pay',
-        dueDate: 1707244200,
-        payableAmount: 3600,
-        overallTripId: 1,
-        vehicleNumber: 'TN93D5512'
-    }
-]
 describe('Acknowledgement Controller', () => {
     test('should able to get all vehicle number from overAllTrip', async () => {
         mockGetAllActivetripTripByTripStatus.mockResolvedValue(mockOverAllTrip)
@@ -277,23 +264,36 @@ describe('Acknowledgement Controller', () => {
         await supertest(app).get('/api/acknowledgement/:id').expect(mockOverAllTripByStockIdData)
         expect(mockOverAllTripById).toBeCalledTimes(1)
     })
-    test('should able to close trip by Id for stockTrip', async () => {
+    test('should able to close trip by Id for stockTrip  and approval status is true', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
         mockGetPercentageByTransporter.mockResolvedValue(mockPercentageByTransporterData)
         mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
         mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
         mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
-        mockcreatePaymentDues.mockResolvedValue(mockGstDuesData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockOverAllTripById).toBeCalledTimes(2)
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(0)
     })
+    test('should able to close trip by Id for stockTrip and approval status is false', async () => {
+        mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
+        mockGetPercentageByTransporter.mockResolvedValue(mockPercentageByTransporterData)
+        mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
+        mockUpdateWeightForStockTrip.mockResolvedValue(mockUpdateData)
+        mockUpdateWeightForTrip.mockResolvedValue(mockUpdateData)
+        await supertest(app)
+            .put('/api/acknowledgement/trip')
+            .send({ approvalStatus: true })
+            .expect(200)
+        expect(mockOverAllTripById).toBeCalledTimes(3)
+        expect(mockUpdateWeightForStockTrip).toBeCalledTimes(2)
+        expect(mockUpdateWeightForTrip).toBeCalledTimes(0)
+    })
     test('should able to close trip by Id for trip', async () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
-        expect(mockOverAllTripById).toBeCalledTimes(3)
-        expect(mockUpdateWeightForStockTrip).toBeCalledTimes(1)
+        expect(mockOverAllTripById).toBeCalledTimes(4)
+        expect(mockUpdateWeightForStockTrip).toBeCalledTimes(2)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(1)
     })
     test('should able update acknowledgement status with create final due', async () => {

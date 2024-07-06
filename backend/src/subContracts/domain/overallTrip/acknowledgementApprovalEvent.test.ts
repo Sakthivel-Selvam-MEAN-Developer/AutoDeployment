@@ -8,7 +8,8 @@ const truck = {
         csmName: 'newName',
         name: 'Barath Logistics',
         tdsPercentage: null,
-        transporterType: 'Market'
+        transporterType: 'Market',
+        gstPercentage: 10
     }
 }
 const loadingPoint = {
@@ -194,7 +195,8 @@ describe('getTransporterName', () => {
             name: 'Transporter 1',
             csmName: 'newName',
             tdsPercentage: null,
-            transporterType: 'Market'
+            transporterType: 'Market',
+            gstPercentage: 10
         })
     })
 
@@ -220,7 +222,8 @@ describe('getTransporterName', () => {
             name: 'Transporter 2',
             csmName: 'newName',
             tdsPercentage: null,
-            transporterType: 'Market'
+            transporterType: 'Market',
+            gstPercentage: 10
         })
     })
 

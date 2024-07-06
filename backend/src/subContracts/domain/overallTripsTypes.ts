@@ -34,6 +34,7 @@ interface overallTripProps {
             name: string
             tdsPercentage: number | null
             transporterType: string
+            gstPercentage: number | null
         }
     } | null
     id: number
@@ -53,6 +54,7 @@ interface overallTripProps {
                     name: string
                     tdsPercentage: number | null
                     transporterType: string
+                    gstPercentage: number | null
                 }
             }
         }
@@ -65,6 +67,7 @@ interface overallTripProps {
                 name: string
                 tdsPercentage: number | null
                 transporterType: string
+                gstPercentage: number | null
             }
         }
     } | null
@@ -76,6 +79,7 @@ interface overallTripProps {
                 name: string
                 tdsPercentage: number | null
                 transporterType: string
+                gstPercentage: number | null
             }
         }
     } | null

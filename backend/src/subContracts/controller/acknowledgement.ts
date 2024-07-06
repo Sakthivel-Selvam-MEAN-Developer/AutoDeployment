@@ -7,10 +7,9 @@ import {
 } from '../models/overallTrip.ts'
 import { updateUnloadWeightforTrip } from '../models/loadingToUnloadingTrip.ts'
 import { updateUnloadWeightForStockTrip } from '../models/stockPointToUnloadingPoint.ts'
-import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { create as createShortageQuantity } from '../models/shortageQuantity.ts'
-import { allTrips, gstCalculation } from '../domain/gstDueLogic.ts'
 import { shortageAmountCalculation } from '../domain/shortageLogic.ts'
+import { allTrips } from '../domain/types.ts'
 
 export const listAllActivetripTripByTripStatus = (_req: Request, res: Response) => {
     getAllActivetripTripByTripStatus()
@@ -58,12 +57,8 @@ export const shotageCalculation: shortCal = (filledLoad, unload) => {
 export const closeTripById = async (req: Request, res: Response) => {
     await getOverAllTripById(req.body.overallTripId)
         .then(async (overAllTripData) => {
-            let gstPercentage = null
             if (overAllTripData === null) return res.sendStatus(500)
             const getTripDetails = getTrip(overAllTripData)
-            if (overAllTripData?.truck?.transporter.gstPercentage !== undefined) {
-                gstPercentage = overAllTripData.truck.transporter.gstPercentage
-            }
             let shortageAmount: number | boolean = false
             if (req.body.approvalStatus !== true) {
                 shortageAmount = shotageCalculation(
@@ -95,10 +90,6 @@ export const closeTripById = async (req: Request, res: Response) => {
             ) {
                 await updateUnloadWeightforTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
             }
-            await gstCalculation(shortage, gstPercentage, overAllTripData).then(async (gstDue) => {
-                if (gstDue === undefined) return res.sendStatus(200)
-                await createPaymentDues(gstDue)
-            })
         })
         .then(() => res.sendStatus(200))
         .catch(() => res.sendStatus(500))

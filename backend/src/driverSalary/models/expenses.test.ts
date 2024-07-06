@@ -3,7 +3,9 @@ import {
     create,
     getAllExpenseByTripId,
     getAllExpenses,
-    getAllExpenseForApproval
+    getAllExpenseForApproval,
+    updateExpenseApproval,
+    getAllExpenseCountByTripId
 } from './expenses.ts'
 
 describe('Driver model', () => {
@@ -27,5 +29,20 @@ describe('Driver model', () => {
         const actual = await getAllExpenseForApproval([seedExpenses.tripId])
         expect(actual[0].placedAmount).toBe(seedExpenses.placedAmount)
     })
-    test('should able to getAllExpenseCountByTripId', async () => {})
+    test('should able to update Expense Approval', async () => {
+        await create([seedExpenses])
+        const expense = await getAllExpenses()
+        const expenseApprovedData = {
+            acceptedAmount: 1000,
+            rejectableReason: 'qw'
+        }
+        const actual = await updateExpenseApproval(expense[0].id, expenseApprovedData)
+        expect(actual.acceptedAmount).toBe(expenseApprovedData.acceptedAmount)
+    })
+    test('should able to getAllExpenseCountByTripId', async () => {
+        await create([{ ...seedExpenses, expenseApproval: true }])
+        const expense = await getAllExpenses()
+        const actual = await getAllExpenseCountByTripId([expense[0].tripId])
+        expect(actual[0].tripId).toBe(seedExpenses.tripId)
+    })
 })

@@ -3,82 +3,101 @@ import { gstCalculation } from './gstDueLogic.ts'
 
 const alltrip = {
     id: 1,
-    truck: {
-        vehicleNumber: 'TN34MA3483',
-        transporter: {
-            name: 'kms Transport',
-            transporterType: 'Market',
-            gstPercentage: 3
+    acknowledgementApproval: true,
+    acknowledgementDate: 1720204200,
+    finalPayDuration: 0,
+    transporterInvoice: '',
+    paymentDues: [],
+    shortageQuantity: [
+        {
+            id: 14,
+            overallTripId: 14,
+            shortageQuantity: 0,
+            shortageAmount: 0,
+            approvalStatus: true,
+            reason: '',
+            filledLoad: 23000,
+            unloadedQuantity: 23000,
+            unloadedDate: 1720204200,
+            createdAt: new Date(2023, 10, 24),
+            updatedAt: new Date(2023, 10, 24)
         }
-    },
-    loadingPointToStockPointTrip: {
-        totalTransporterAmount: 30000,
-        filledLoad: 50,
-        truck: {
-            vehicleNumber: 'TN34MA3483',
-            transporter: {
-                name: 'kms Transport',
-                transporterType: 'Market',
-                gstPercentage: 3
-            }
+    ],
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporter: {
+            name: 'Barath Logistics Pvt Ltd',
+            tdsPercentage: null,
+            transporterType: 'Market Transporter',
+            gstPercentage: 10
         }
     },
     stockPointToUnloadingPointTrip: {
-        id: 1,
-        totalTransporterAmount: 30000,
-        filledLoad: 50,
+        totalTransporterAmount: 20700,
         loadingPointToStockPointTrip: {
-            totalTransporterAmount: 30000,
-            filledLoad: 50,
+            totalTransporterAmount: 20700,
             truck: {
-                vehicleNumber: 'TN34MA3483',
+                vehicleNumber: 'TN93D5512',
                 transporter: {
-                    name: 'kms Transport',
-                    transporterType: 'Market',
-                    gstPercentage: 3
+                    name: 'Barath Logistics Pvt Ltd',
+                    tdsPercentage: null,
+                    transporterType: 'Market Transporter',
+                    gstPercentage: 10
                 }
             }
         }
     },
     loadingPointToUnloadingPointTrip: {
-        id: 1,
-        totalTransporterAmount: 30000,
-        filledLoad: 50,
+        totalTransporterAmount: 20700,
         truck: {
-            vehicleNumber: 'TN34MA3483',
+            vehicleNumber: 'TN93D5512',
             transporter: {
-                name: 'kms Transport',
-                transporterType: 'Market',
-                gstPercentage: 3
+                name: 'Barath Logistics Pvt Ltd',
+                tdsPercentage: null,
+                transporterType: 'Market Transporter',
+                gstPercentage: 10
+            }
+        }
+    },
+    loadingPointToStockPointTrip: {
+        totalTransporterAmount: 20700,
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Barath Logistics Pvt Ltd',
+                tdsPercentage: null,
+                transporterType: 'Market Transporter',
+                gstPercentage: 10
             }
         }
     }
 }
-
 const gstOutputData = {
-    name: 'kms Transport',
+    name: 'Barath Logistics Pvt Ltd',
     type: 'gst pay',
     dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
     payableAmount: 3000,
     overallTripId: 1,
-    vehicleNumber: 'TN34MA3483'
+    vehicleNumber: 'TN93D5512'
 }
 
-const shortage = {
-    approvalStatus: true,
-    shortageAmount: 3000
-}
-
-let gstPercentage: number | null = 10
 describe('gst calculation for loading to unloading', async () => {
     test('when gst is not applicable for loading to unloading trip ', async () => {
         const input = {
             ...alltrip,
+            loadingPointToStockPointTrip: null,
             stockPointToUnloadingPointTrip: null,
-            loadingPointToStockPointTrip: null
+            truck: {
+                vehicleNumber: 'TN93D5512',
+                transporter: {
+                    name: 'Barath Logistics Pvt Ltd',
+                    tdsPercentage: null,
+                    transporterType: 'Market Transporter',
+                    gstPercentage: null
+                }
+            }
         }
-        gstPercentage = null
-        const actual = await gstCalculation(shortage, gstPercentage, input)
+        const actual = await gstCalculation(input)
         expect(actual).toEqual(undefined)
     })
     test('when gst is applicable and approval status is acceptable for loading to unloading trip ', async () => {
@@ -87,48 +106,37 @@ describe('gst calculation for loading to unloading', async () => {
             stockPointToUnloadingPointTrip: null,
             loadingPointToStockPointTrip: null
         }
-        gstPercentage = 10
-        const actual = await gstCalculation(shortage, gstPercentage, input)
-        expect(actual).toEqual([gstOutputData])
+        const actual = await gstCalculation(input)
+        expect(actual).toEqual([{ ...gstOutputData, payableAmount: 2070 }])
     })
     test('when approve status is rejectable in shortage', async () => {
         const input = {
             ...alltrip,
+            shortageQuantity: [
+                { ...alltrip.shortageQuantity[0], approvalStatus: false, shortageAmount: 1000 }
+            ],
             stockPointToUnloadingPointTrip: null,
             loadingPointToStockPointTrip: null
         }
-        const actual = await gstCalculation({ ...shortage, approvalStatus: false }, 10, input)
-        expect(actual).toEqual([{ ...gstOutputData, payableAmount: 2700 }])
+        const actual = await gstCalculation(input)
+        expect(actual).toEqual([{ ...gstOutputData, payableAmount: 1970 }])
     })
-    test('when transporter tytpe is Own gst not created', async () => {
+    test('when transporter type is Own gst not created', async () => {
         const input = {
             ...alltrip,
+            loadingPointToStockPointTrip: null,
+            stockPointToUnloadingPointTrip: null,
             truck: {
-                ...alltrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck,
+                vehicleNumber: 'TN93D5512',
                 transporter: {
-                    ...alltrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip.truck
-                        .transporter,
-                    transporterType: 'Own'
+                    name: 'Barath Logistics Pvt Ltd',
+                    tdsPercentage: null,
+                    transporterType: 'Own',
+                    gstPercentage: null
                 }
-            },
-            stockPointToUnloadingPointTrip: {
-                ...alltrip.stockPointToUnloadingPointTrip,
-                loadingPointToStockPointTrip: {
-                    ...alltrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip,
-                    truck: {
-                        ...alltrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-                            .truck,
-                        transporter: {
-                            ...alltrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-                                .truck.transporter,
-                            transporterType: 'Own'
-                        }
-                    }
-                }
-            },
-            loadingPointToUnloadingPointTrip: null
+            }
         }
-        const actual = await gstCalculation({ ...shortage, approvalStatus: false }, 10, input)
+        const actual = await gstCalculation(input)
         expect(actual).toEqual(undefined)
     })
 })

@@ -18,7 +18,8 @@ describe('Final Due Logics Test', async () => {
                 transporter: {
                     name: 'Muthu Logistics',
                     tdsPercentage: null,
-                    transporterType: 'Market'
+                    transporterType: 'Market',
+                    gstPercentage: 1
                 }
             },
             loadingPointToUnloadingPointTrip: {
@@ -37,7 +38,8 @@ describe('Final Due Logics Test', async () => {
                     transporter: {
                         name: 'Muthu Logistics',
                         tdsPercentage: null,
-                        transporterType: 'Market'
+                        transporterType: 'Market',
+                        gstPercentage: 1
                     }
                 }
             }
@@ -87,7 +89,8 @@ describe('Final Due Logics Test', async () => {
                 transporter: {
                     name: 'Muthu Logistics',
                     tdsPercentage: null,
-                    transporterType: 'Market'
+                    transporterType: 'Market',
+                    gstPercentage: 1
                 }
             },
             stockPointToUnloadingPointTrip: {
@@ -108,7 +111,8 @@ describe('Final Due Logics Test', async () => {
                         transporter: {
                             name: 'Muthu Logistics',
                             tdsPercentage: null,
-                            transporterType: 'Market'
+                            transporterType: 'Market',
+                            gstPercentage: 1
                         }
                     }
                 }
