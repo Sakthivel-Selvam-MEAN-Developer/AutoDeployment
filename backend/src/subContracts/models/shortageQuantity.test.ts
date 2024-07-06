@@ -58,7 +58,7 @@ describe('Shortage Quantity model', () => {
         const actual = await getShortageQuantityByOverallTripId(trip.id)
         expect(actual?.shortageAmount).toBe(seedShortageQuantity.shortageAmount)
     })
-    test('should able to create', async () => {
+    test('should be able to create', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,

@@ -61,7 +61,6 @@ describe('Factory model', () => {
         const actual = await getLoadingPointByCompany('Ravi Cements')
         expect(actual.length).toBe(0)
     })
-
     test('should handle no loading points gracefully', async () => {
         const actual = await getLoadingPointByCompany('NonExistentCements')
         expect(actual.length).toBe(0)

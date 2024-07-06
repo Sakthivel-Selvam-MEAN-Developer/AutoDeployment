@@ -212,6 +212,16 @@ export const getUpcomingDuesByFilter = (
             payableAmount: true,
             overallTrip: {
                 select: {
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    csmName: true
+                                }
+                            }
+                        }
+                    },
                     loadingPointToStockPointTrip: {
                         select: {
                             startDate: true,
@@ -294,10 +304,9 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
             payableAmount: true,
             vehicleNumber: true,
             overallTrip: {
-                select: {
-                    stockPointToUnloadingPointTrip: {
-                        include: { unloadingPoint: { select: { name: true } } }
-                    },
+                include: {
+                    truck: { include: { transporter: true } },
+                    stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
                     loadingPointToStockPointTrip: {
                         select: {
                             invoiceNumber: true,

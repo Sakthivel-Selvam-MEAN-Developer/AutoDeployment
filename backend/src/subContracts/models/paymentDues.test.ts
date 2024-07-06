@@ -407,4 +407,18 @@ describe('Payment-Due model', () => {
         const actual = await getFuelTransactionId(fuel.id)
         expect(actual?.transactionId).toBe('asdf')
     })
+    test('should handle case where payment due has no overall trip id', async () => {
+        const paymentDue = await getPaymentDuesWithoutTripId('non-existent-vehicle')
+        expect(paymentDue).toBeNull()
+    })
+
+    test('should handle case where no GST dues are present', async () => {
+        const actual = await getGstDuesGroupByName(false)
+        expect(actual.length).toBe(0)
+    })
+
+    test('should handle case where no fuel transaction ID is found', async () => {
+        const actual = await getFuelTransactionId(0)
+        expect(actual).toBeNull()
+    })
 })

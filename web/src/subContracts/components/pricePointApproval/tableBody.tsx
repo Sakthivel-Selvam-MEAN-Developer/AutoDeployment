@@ -21,7 +21,6 @@ export const TableCellsConatiner: FC<TableConatinerProps> = ({ overallTrip }) =>
         getPricePoint(trip.loadingPointId, trip.unloadingPointId, trip.stockPointId).then((data) =>
             setTransporterPercentage(data.transporterPercentage)
         )
-        console.log(overallTrip)
     }, [trip, overallTrip])
     return (
         <TableRow>

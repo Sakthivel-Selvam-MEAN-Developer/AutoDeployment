@@ -60,6 +60,14 @@ const mockTripData = [
         unloadingPoint: {
             name: 'erode'
         },
+        overallTrip: {
+            truck: {
+                vehicleNumber: 'TN93D5512',
+                transporter: {
+                    name: 'Barath'
+                }
+            }
+        },
         truck: {
             vehicleNumber: 'TN93D5512',
             transporter: {
@@ -90,6 +98,15 @@ const mockStockTripData = [
         },
         stockPoint: {
             name: 'StockPoint'
+        },
+        overallTrip: {
+            truckId: 4,
+            truck: {
+                vehicleNumber: 'TN22E3456',
+                transporter: {
+                    name: 'Deepak Logistics Pvt Ltd'
+                }
+            }
         },
         truck: {
             vehicleNumber: 'TN22E3456',

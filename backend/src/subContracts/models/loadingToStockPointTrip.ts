@@ -35,6 +35,16 @@ export const getAllStockPointTrip = () =>
         include: {
             loadingPoint: { select: { name: true, cementCompanyId: true } },
             stockPoint: { select: { name: true, id: true } },
+            overallTrip: {
+                select: {
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: { select: { name: true, transporterType: true } }
+                        }
+                    }
+                }
+            },
             truck: {
                 select: {
                     vehicleNumber: true,
@@ -86,7 +96,10 @@ export const getInvoiceDetails = (id: number[]) =>
                 }
             },
             overallTrip: {
-                select: { shortageQuantity: { select: { shortageQuantity: true } } }
+                select: {
+                    truck: { select: { vehicleNumber: true } },
+                    shortageQuantity: { select: { shortageQuantity: true } }
+                }
             },
             invoiceNumber: true,
             freightAmount: true,
