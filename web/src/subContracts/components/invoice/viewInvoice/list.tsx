@@ -25,10 +25,7 @@ const ViewList: React.FC = () => {
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
     const onSubmit = async () => await getTripDetails()
-    const getTripDetails = async () => {
-        if (filterData?.cementCompany.name === '') return
-        await getCompanyInvoice({ ...filterData }).then(setDisplay)
-    }
+    const getTripDetails = getTrip(filterData, setDisplay)
     return (
         <>
             {viewInvoiceHeading}
@@ -40,3 +37,12 @@ const ViewList: React.FC = () => {
     )
 }
 export default ViewList
+function getTrip(
+    filterData: filterDataProps,
+    setDisplay: React.Dispatch<React.SetStateAction<display[]>>
+) {
+    return async () => {
+        if (filterData?.cementCompany.name === '') return
+        await getCompanyInvoice({ ...filterData }).then(setDisplay)
+    }
+}
