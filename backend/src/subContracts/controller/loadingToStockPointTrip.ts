@@ -34,7 +34,8 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
             pricePoint?.transporterAmount || 0,
             pricePoint?.freightAmount || 0
         )
-        const { vehicleNumber, ...newData } = body
+        const { vehicleNumber, truckId, ...newData } = body
+        console.log(truckId)
         const { id } = await create(newData).then(async (data) =>
             createOverallTrip({
                 loadingPointToStockPointTripId: data.id,

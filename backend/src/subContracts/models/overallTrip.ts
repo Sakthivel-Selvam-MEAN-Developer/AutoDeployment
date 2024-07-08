@@ -85,10 +85,10 @@ export const getAllActivetripTripByTripStatus = () =>
             truck: true,
             stockPointToUnloadingPointTrip: {
                 include: {
-                    loadingPointToStockPointTrip: {}
+                    loadingPointToStockPointTrip: true
                 }
             },
-            loadingPointToUnloadingPointTrip: {}
+            loadingPointToUnloadingPointTrip: true
         }
     })
 export const getAllTripByAcknowledgementStatus = () =>

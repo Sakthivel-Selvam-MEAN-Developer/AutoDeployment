@@ -23,8 +23,8 @@ interface rowProps {
     totalFreightAmount: number
     totalTransporterAmount: number
     transporterAmount: number
-    truckId: number
     unloadingPointId: number
+    truckId?: number
 }
 
 const createStockToUnloadTrip = async (data: rowProps) =>
@@ -45,8 +45,10 @@ export const createStockPointToUnloadingPointTrip = async (
     res: Response
 ) => {
     const { type, stockPointId } = req.query
+    const { truckId, ...resData } = req.body
+    console.log(truckId)
     if (type !== 'Own') {
-        createStockToUnloadTrip(req.body)
+        createStockToUnloadTrip(resData)
             .then(() => res.sendStatus(200))
             .catch((error) => handlePrismaError(error, res))
     } else if (type === 'Own') {
@@ -56,7 +58,7 @@ export const createStockPointToUnloadingPointTrip = async (
             stockPointId.toString()
         )
         if (tripSalary !== null) {
-            const overallTrip = await createStockToUnloadTrip(req.body)
+            const overallTrip = await createStockToUnloadTrip(resData)
             const driverTrip = await getDriverIdByTripId(overallTrip?.id || 0)
             await updateDriverTripWithTripSalaryId(
                 driverTrip?.id || 0,

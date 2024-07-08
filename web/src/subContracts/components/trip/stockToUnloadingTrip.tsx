@@ -60,7 +60,6 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             totalTransporterAmount: parseFloat(totalTransporterAmountFloat),
             unloadingPointId,
             loadingPointToStockPointTripId: row.id,
-            truckId: row.truckId,
             partyName,
             lrNumber
         }

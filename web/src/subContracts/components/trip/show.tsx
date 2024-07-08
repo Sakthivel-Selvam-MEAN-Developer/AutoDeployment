@@ -34,8 +34,6 @@ export interface AllStockProps {
             truck: { vehicleNumber: string; transporter: { name: string; transporterType: string } }
         }
     ]
-    truck: { vehicleNumber: string; transporter: { name: string; transporterType: string } }
-    truckId: number
     wantFuel: boolean
 }
 
@@ -80,13 +78,13 @@ const ShowTypography = (index: number, row: AllStockProps, authoriser: boolean) 
                 {index + 1}
             </Typography>
             <Typography sx={{ fontSize: '15px', width: '12vw', padding: '3px 10px' }}>
-                {row.truck.vehicleNumber}
+                {row.overallTrip[0].truck.vehicleNumber}
             </Typography>
             <Typography sx={{ fontSize: '15px', width: '9.5vw', padding: '3px 10px' }}>
                 {epochToMinimalDate(row.startDate)}
             </Typography>
             <Typography sx={{ fontSize: '15px', width: '17vw', padding: '3px 10px' }}>
-                {row.truck.transporter.name}
+                {row.overallTrip[0].truck.transporter.name}
             </Typography>
             <Typography sx={{ fontSize: '15px', width: '11.7vw', padding: '3px 10px' }}>
                 {row.loadingPoint.name}
