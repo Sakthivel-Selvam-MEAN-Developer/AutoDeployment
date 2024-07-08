@@ -156,20 +156,35 @@ describe('Loading To Stock Trip model', () => {
             cementCompanyId: company.id,
             pricePointMarkerId: stockPricePointMarker.id
         })
-        const trip = await create({
+        const trip1 = await create({
             ...seedFactoryToStockTrip,
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             wantFuel: true,
             loadingKilometer: 0
         })
-        const mockFilterData = {
+        const trip2 = await create({
+            ...seedFactoryToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            invoiceNumber: '23',
+            wantFuel: true,
+            loadingKilometer: 0
+        })
+        const mockFilterData1 = {
+            startDate: trip2.startDate,
+            endDate: trip2.startDate,
+            company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+        }
+        const tripData1 = await getStockTripsByinvoiceFilter(mockFilterData1)
+        expect(tripData1[0].invoiceNumber).toBe(trip1.invoiceNumber)
+        const mockFilterData2 = {
             startDate: 0,
             endDate: 0,
             company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         }
-        const tripData = await getStockTripsByinvoiceFilter(mockFilterData)
-        expect(tripData[0].invoiceNumber).toBe(trip.invoiceNumber)
+        const tripData2 = await getStockTripsByinvoiceFilter(mockFilterData2)
+        expect(tripData2[1].invoiceNumber).toBe(trip2.invoiceNumber)
     })
     test('should able to get all stock point invoice numbers', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

@@ -4,11 +4,6 @@ import tripLogic from './tripLogics.ts'
 const tripData = {
     totalTransporterAmount: 10000,
     wantFuel: false,
-    loadingPoint: {
-        cementCompany: {
-            advanceType: 70
-        }
-    },
     truck: {
         vehicleNumber: 'TN93D5512',
         transporter: {
@@ -37,9 +32,16 @@ const overallTrip = {
         }
     ]
 }
+const pricePoint = {
+    freightAmount: 1000,
+    transporterAmount: 900,
+    transporterPercentage: 10,
+    payGeneratingDuration: 1,
+    transporterAdvancePercentage: 70
+}
 describe('Trip Logics Test', async () => {
     test('Should get only initial pay without fuel in trip', async () => {
-        const actual = await tripLogic(tripData, { ...overallTrip, fuel: [] }, 'LoadingToUnloading')
+        const actual = await tripLogic(tripData, { ...overallTrip, fuel: [] }, pricePoint)
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
@@ -55,7 +57,7 @@ describe('Trip Logics Test', async () => {
         ])
     })
     test('Should get both initial with fuel in trip', async () => {
-        const actual = await tripLogic(tripData, overallTrip, 'LoadingToUnloading')
+        const actual = await tripLogic(tripData, overallTrip, pricePoint)
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
@@ -70,9 +72,11 @@ describe('Trip Logics Test', async () => {
             }
         ])
     })
-    test('Should get get full transporterAmount as initial pay for advanceType is 100%', async () => {
-        const tripDetails = { ...tripData, loadingPoint: { cementCompany: { advanceType: 100 } } }
-        const actual = await tripLogic(tripDetails, overallTrip, 'LoadingToStock')
+    test('Should get get full transporterAmount as initial pay for transporterAdvancePercentage is 100%', async () => {
+        const actual = await tripLogic(tripData, overallTrip, {
+            ...pricePoint,
+            transporterAdvancePercentage: 100
+        })
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
@@ -100,7 +104,7 @@ describe('Trip Logics Test', () => {
                 }
             }
         }
-        const actual = await tripLogic(tripData, ownTransporterTrip, 'LoadingToUnloading')
+        const actual = await tripLogic(tripData, ownTransporterTrip, pricePoint)
         expect(actual).toBeUndefined()
     })
 
@@ -112,13 +116,13 @@ describe('Trip Logics Test', () => {
         const actual = await tripLogic(
             wantFuelTripData,
             { ...overallTrip, fuel: [null] },
-            'LoadingToUnloading'
+            pricePoint
         )
         expect(actual).toBeUndefined()
     })
 
     test('Should get only initial pay without fuel in trip', async () => {
-        const actual = await tripLogic(tripData, { ...overallTrip, fuel: [] }, 'LoadingToUnloading')
+        const actual = await tripLogic(tripData, { ...overallTrip, fuel: [] }, pricePoint)
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
@@ -135,7 +139,7 @@ describe('Trip Logics Test', () => {
     })
 
     test('Should get both initial with fuel in trip', async () => {
-        const actual = await tripLogic(tripData, overallTrip, 'LoadingToUnloading')
+        const actual = await tripLogic(tripData, overallTrip, pricePoint)
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',
@@ -151,23 +155,6 @@ describe('Trip Logics Test', () => {
         ])
     })
 
-    test('Should get full transporterAmount as initial pay for advanceType is 100%', async () => {
-        const tripDetails = { ...tripData, loadingPoint: { cementCompany: { advanceType: 100 } } }
-        const actual = await tripLogic(tripDetails, overallTrip, 'LoadingToStock')
-        expect(actual).toEqual([
-            {
-                name: 'Barath Logistics Pvt Ltd',
-                type: 'initial pay',
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
-                overallTripId: 1,
-                vehicleNumber: 'TN93D5512',
-                payableAmount: 9000,
-                transactionId: '',
-                NEFTStatus: false,
-                paidAt: 0
-            }
-        ])
-    })
     test('Should set transactionId to "0" when payableAmount is less than 0', async () => {
         const tripDetails = { ...tripData, totalTransporterAmount: 500 }
         const overallTripWithHighFuelCost = {
@@ -183,11 +170,7 @@ describe('Trip Logics Test', () => {
                 }
             ]
         }
-        const actual = await tripLogic(
-            tripDetails,
-            overallTripWithHighFuelCost,
-            'LoadingToUnloading'
-        )
+        const actual = await tripLogic(tripDetails, overallTripWithHighFuelCost, pricePoint)
         expect(actual).toEqual([
             {
                 name: 'Barath Logistics Pvt Ltd',

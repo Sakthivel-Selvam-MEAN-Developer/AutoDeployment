@@ -134,25 +134,44 @@ describe('Trip model', () => {
             cementCompanyId: company.id,
             pricePointMarkerId: unloadingPricePointMarker.id
         })
-        const trip = await create({
+        const trip1 = await create({
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
             tripStatus: true,
             loadingKilometer: 0
         })
-        const overallTrip = await createOverallTrip({
-            loadingPointToUnloadingPointTripId: trip.id,
-            truckId: truck.id
+        const overallTrip1 = await createOverallTrip({
+            loadingPointToUnloadingPointTripId: trip1.id
         })
-        await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
-        const mockFilterData = {
+        await closeAcknowledgementStatusforOverAllTrip(overallTrip1.id)
+        const mockFilterData1 = {
             startDate: 0,
             endDate: 0,
             company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         }
-        const actual = await getDirectTripsByinvoiceFilter(mockFilterData)
-        expect(actual[0].unloadingPoint).toStrictEqual({ name: 'Salem' })
+        const actual1 = await getDirectTripsByinvoiceFilter(mockFilterData1)
+        expect(actual1[0].id).toStrictEqual(trip1.id)
+        const trip2 = await create({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            invoiceNumber: 'fghj',
+            tripStatus: true,
+            loadingKilometer: 0
+        })
+        const overallTrip2 = await createOverallTrip({
+            truckId: truck.id,
+            loadingPointToUnloadingPointTripId: trip2.id
+        })
+        await closeAcknowledgementStatusforOverAllTrip(overallTrip2.id)
+        const mockFilterData2 = {
+            startDate: trip2.startDate,
+            endDate: trip2.startDate,
+            company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+        }
+        const actual2 = await getDirectTripsByinvoiceFilter(mockFilterData2)
+        expect(actual2[1].id).toStrictEqual(trip2.id)
     })
     test('should able to get all unloading point invoice numbers', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)

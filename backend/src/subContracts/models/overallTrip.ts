@@ -948,10 +948,7 @@ export const getTripForPricePointApproval = () =>
                     stockPointId: true,
                     loadingPoint: {
                         select: {
-                            name: true,
-                            cementCompany: {
-                                select: { advanceType: true }
-                            }
+                            name: true
                         }
                     },
                     stockPoint: { select: { name: true } }
@@ -973,10 +970,7 @@ export const getTripForPricePointApproval = () =>
                     unloadingPointId: true,
                     loadingPoint: {
                         select: {
-                            name: true,
-                            cementCompany: {
-                                select: { advanceType: true }
-                            }
+                            name: true
                         }
                     },
                     unloadingPoint: { select: { name: true } }
@@ -1026,10 +1020,7 @@ export const updatePricePointApprovalStatus = (id: number) =>
                     unloadingPointId: true,
                     loadingPoint: {
                         select: {
-                            name: true,
-                            cementCompany: {
-                                select: { advanceType: true }
-                            }
+                            name: true
                         }
                     },
                     unloadingPoint: {
@@ -1055,10 +1046,7 @@ export const updatePricePointApprovalStatus = (id: number) =>
                     stockPointId: true,
                     loadingPoint: {
                         select: {
-                            name: true,
-                            cementCompany: {
-                                select: { advanceType: true }
-                            }
+                            name: true
                         }
                     },
                     stockPoint: {

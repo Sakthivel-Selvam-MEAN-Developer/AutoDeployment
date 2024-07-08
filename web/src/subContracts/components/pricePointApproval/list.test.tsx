@@ -42,10 +42,7 @@ const mockData = [
             loadingPointId: 1,
             unloadingPointId: 1,
             loadingPoint: {
-                name: 'Chennai-south',
-                cementCompany: {
-                    advanceType: 100
-                }
+                name: 'Chennai-south'
             },
             unloadingPoint: {
                 name: 'Salem'

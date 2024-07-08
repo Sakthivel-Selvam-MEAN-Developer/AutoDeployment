@@ -5,15 +5,12 @@ import {
     TableHead,
     TableRow,
     TableCell,
-    TableBody,
-    Button
+    TableBody
 } from '@mui/material'
 import { FC, ReactElement } from 'react'
-import DownloadIcon from '@mui/icons-material/Download'
 import { epochToMinimalDate } from '../../../commonUtils/epochToTime'
 import { expensesProps, tripSalaryProps } from './driverDetails'
 export interface driverDialogProps {
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>
     driverTrips: tripProps[]
     expenses: expensesProps[]
 }
@@ -49,8 +46,7 @@ const cellNames = [
     'Expenses Amount',
     'Trip Betta',
     'Advance Amount',
-    'Trip Salary',
-    'Download'
+    'Trip Salary'
 ]
 
 const cells = (cell: string, index: number) => {
@@ -62,14 +58,14 @@ const cells = (cell: string, index: number) => {
 }
 const tableRow = <TableRow>{cellNames.map((cell, index) => cells(cell, index))}</TableRow>
 const tableHead = <TableHead>{tableRow}</TableHead>
-const DriverTable: FC<driverDialogProps> = ({ setActivateDialog, driverTrips, expenses }) => {
+const DriverTable: FC<driverDialogProps> = ({ driverTrips, expenses }) => {
     return (
         <>
             {driverTrips.length !== 0 ? (
                 <TableContainer component={Paper} sx={{ marginTop: '30px' }}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         {tableHead}
-                        {tableBody(setActivateDialog, driverTrips, expenses)}
+                        {tableBody(driverTrips, expenses)}
                     </Table>
                 </TableContainer>
             ) : (
@@ -100,15 +96,6 @@ const getTrip = (trip: tripProps) => {
     }
 }
 
-const buttonCell = (setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>) => {
-    return (
-        <TableCell align="center">
-            <Button onClick={() => setActivateDialog(true)}>
-                <DownloadIcon />
-            </Button>
-        </TableCell>
-    )
-}
 const tripDetailsCell = (trip: getTripProps, index: number) => {
     return (
         <>
@@ -141,27 +128,17 @@ const driverAmountCells = (totalExpenseAmount: number, tripSalaryDetails: tripSa
     )
 }
 
-type rowType = (
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
-    trip: getTripProps,
-    index: number,
-    totalExpenseAmount: number
-) => ReactElement
-const getRow: rowType = (setActivateDialog, trip, index, totalExpenseAmount) => {
+type rowType = (trip: getTripProps, index: number, totalExpenseAmount: number) => ReactElement
+const getRow: rowType = (trip, index, totalExpenseAmount) => {
     return (
         <TableRow key={index + 1}>
             {tripDetailsCell(trip, index)}
             {driverAmountCells(totalExpenseAmount, trip.tripSalaryDetails)}
-            {buttonCell(setActivateDialog)}
         </TableRow>
     )
 }
-type tableBody = (
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
-    driverTrips: tripProps[],
-    expenses: expensesProps[]
-) => ReactElement
-const tableBody: tableBody = (setActivateDialog, driverTrips, expenses) => {
+type tableBody = (driverTrips: tripProps[], expenses: expensesProps[]) => ReactElement
+const tableBody: tableBody = (driverTrips, expenses) => {
     return (
         <TableBody>
             {driverTrips &&
@@ -171,7 +148,7 @@ const tableBody: tableBody = (setActivateDialog, driverTrips, expenses) => {
                         (total, expense) => total + expense.acceptedAmount,
                         0
                     )
-                    return getRow(setActivateDialog, getTrip(trip), index, totalExpenseAmount)
+                    return getRow(getTrip(trip), index, totalExpenseAmount)
                 })}
         </TableBody>
     )

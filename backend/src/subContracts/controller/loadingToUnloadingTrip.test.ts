@@ -65,9 +65,6 @@ const mockTripData1 = {
             name: 'Barath Logistics Pvt Ltd',
             transporterType: 'Market'
         }
-    },
-    loadingPoint: {
-        cementCompany: { advanceType: 70 }
     }
 }
 const mockTripData2 = {
@@ -90,9 +87,6 @@ const mockTripData2 = {
             name: 'Barath Logistics Pvt Ltd',
             transporterType: 'Market'
         }
-    },
-    loadingPoint: {
-        cementCompany: { advanceType: 70 }
     }
 }
 

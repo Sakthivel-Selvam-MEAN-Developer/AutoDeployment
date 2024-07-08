@@ -12,7 +12,6 @@ vi.mock('../../../services/cementCompany', () => ({
 const mockCompanyData = [
     {
         name: 'sathki',
-        advanceType: 70,
         gstNo: 'bcd123',
         address: 'new street',
         emailId: 'newEmail@gmail.com',
@@ -31,9 +30,7 @@ describe('Report Test', () => {
             </BrowserRouter>
         )
         await waitFor(() => {
-            expect(screen.getByText('AdvanceType')).toBeInTheDocument()
             expect(screen.getByText('sathki')).toBeInTheDocument()
-            expect(screen.getByText('70')).toBeInTheDocument()
             expect(screen.getByText('bcd123')).toBeInTheDocument()
             expect(screen.getByText('new street')).toBeInTheDocument()
             expect(screen.getByText('newEmail@gmail.com')).toBeInTheDocument()

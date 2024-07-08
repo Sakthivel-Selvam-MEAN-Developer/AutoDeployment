@@ -5,19 +5,9 @@ import DriverFormFields from './formFields'
 import { expensesProps } from './driverDetails'
 import { driverDetailProps } from './types'
 
-type driverTableType = (
-    setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>,
-    driverTrips: tripProps[],
-    expenses: expensesProps[]
-) => ReactElement
-export const driverTable: driverTableType = (setActivateDialog, driverTrips, expenses) => {
-    return (
-        <DriverTable
-            setActivateDialog={setActivateDialog}
-            driverTrips={driverTrips}
-            expenses={expenses}
-        />
-    )
+type driverTableType = (driverTrips: tripProps[], expenses: expensesProps[]) => ReactElement
+export const driverTable: driverTableType = (driverTrips, expenses) => {
+    return <DriverTable driverTrips={driverTrips} expenses={expenses} />
 }
 export const driverFormFields = (
     setActivateDialog: React.Dispatch<React.SetStateAction<boolean>>

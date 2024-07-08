@@ -9,6 +9,7 @@ type priceType = (
     transporterAmount: number
     transporterPercentage: number
     payGeneratingDuration: number
+    transporterAdvancePercentage: number
 } | null>
 export const getPricePoint: priceType = (loadingPointId, unloadingPointId, stockPointId) =>
     prisma.pricePoint.findFirst({
@@ -17,7 +18,8 @@ export const getPricePoint: priceType = (loadingPointId, unloadingPointId, stock
             freightAmount: true,
             transporterAmount: true,
             transporterPercentage: true,
-            payGeneratingDuration: true
+            payGeneratingDuration: true,
+            transporterAdvancePercentage: true
         }
     })
 export const getAllPricePoint = () =>

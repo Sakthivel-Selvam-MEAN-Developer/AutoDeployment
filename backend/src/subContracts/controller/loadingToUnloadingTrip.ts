@@ -17,7 +17,6 @@ export interface props {
         transporter: { name: string; transporterType: string }
         vehicleNumber: string
     }
-    loadingPoint: { cementCompany: { advanceType: number } }
 }
 export const listAllTrip = (_req: Request, res: Response) => {
     getAllTrip().then((data) => res.status(200).json(data))

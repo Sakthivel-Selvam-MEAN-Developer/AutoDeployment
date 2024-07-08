@@ -21,7 +21,7 @@ const listTripDetails: listTripType = (
     return (
         <>
             {driverFormFields(setActivateDialog)}
-            {driverTable(setActivateDialog, driverTrips, expenses)}
+            {driverTable(driverTrips, expenses)}
             {driverDialog(activateDialog, setActivateDialog, tripDetails)}
         </>
     )

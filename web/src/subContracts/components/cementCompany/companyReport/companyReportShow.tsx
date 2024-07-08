@@ -14,7 +14,6 @@ interface Props {
 }
 interface Row {
     name: string
-    advanceType: number
     gstNo: string
     address: string
     emailId: string
@@ -23,7 +22,6 @@ interface Row {
 }
 const cellNames = [
     'Name',
-    'AdvanceType',
     'GstNo',
     'Address',
     'Email Id',

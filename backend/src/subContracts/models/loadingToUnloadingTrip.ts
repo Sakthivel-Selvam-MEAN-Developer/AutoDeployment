@@ -7,35 +7,7 @@ export const create = (
     data:
         | Prisma.loadingPointToUnloadingPointTripCreateInput
         | Prisma.loadingPointToUnloadingPointTripUncheckedCreateInput
-) =>
-    prisma.loadingPointToUnloadingPointTrip.create({
-        data,
-        include: {
-            overallTrip: {
-                select: {
-                    truck: {
-                        select: {
-                            vehicleNumber: true,
-                            transporter: {
-                                select: {
-                                    name: true,
-                                    transporterType: true
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-
-            loadingPoint: {
-                select: {
-                    cementCompany: {
-                        select: { advanceType: true }
-                    }
-                }
-            }
-        }
-    })
+) => prisma.loadingPointToUnloadingPointTrip.create({ data })
 
 export const getAllTrip = () =>
     prisma.loadingPointToUnloadingPointTrip.findMany({
@@ -252,13 +224,6 @@ export const updateFreightInDirectTrip = (id: number, details: any) =>
         select: {
             totalTransporterAmount: true,
             wantFuel: true,
-            loadingPoint: {
-                select: {
-                    cementCompany: {
-                        select: { advanceType: true }
-                    }
-                }
-            },
             overallTrip: {
                 select: {
                     truck: {

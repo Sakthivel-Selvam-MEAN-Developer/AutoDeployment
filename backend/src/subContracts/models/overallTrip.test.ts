@@ -1071,7 +1071,7 @@ describe('Overall Trip model', () => {
         const actual = await updateAcknowledgementApproval(overalltrip.id)
         expect(actual.acknowledgementApproval).toBe(!overalltrip.acknowledgementApproval)
     })
-    test.skip('should able to get overall data by from and to', async () => {
+    test('should able to get direct overall trip data by from and to for discrepancy', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,
@@ -1100,15 +1100,72 @@ describe('Overall Trip model', () => {
             startDate: dayjs().unix()
         })
         const overallTrip = await create({
+            truckId: truck.id,
             loadingPointToUnloadingPointTripId: trip.id,
-            truckId: truck.id
+            acknowledgementApproval: true,
+            transporterInvoice: 'fg'
         })
-        console.log(overallTrip, trip)
         await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await getTripByUnloadDate(seedShortageQuantity.unloadedDate)
+        await createPayment([
+            {
+                ...seedPaymentDue,
+                type: 'final pay',
+                transactionId: 'dfgjk',
+                overallTripId: overallTrip.id
+            }
+        ])
         const closedOverallTrip = await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
-        const actual = await getAllDiscrepancyReport(dayjs().unix(), dayjs().unix())
-        console.log(actual, closedOverallTrip)
+        const actual = await getAllDiscrepancyReport(trip.startDate, trip.startDate)
+        expect(actual[0]?.id).toBe(closedOverallTrip.id)
+    })
+    test('should able to get stock overall trip data by from and to for discrepancy', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const transporter = await createTransporter(seedTransporter)
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const loadingToStockPointTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overallTrip = await create({
+            truckId: truck.id,
+            loadingPointToStockPointTripId: loadingToStockPointTrip.id,
+            acknowledgementApproval: true,
+            transporterInvoice: 'fg'
+        })
+        await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
+        await getTripByUnloadDate(seedShortageQuantity.unloadedDate)
+        await createPayment([
+            {
+                ...seedPaymentDue,
+                type: 'final pay',
+                transactionId: 'dfgjk',
+                overallTripId: overallTrip.id
+            }
+        ])
+        const closedOverallTrip = await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
+        const actual = await getAllDiscrepancyReport(
+            loadingToStockPointTrip.startDate,
+            loadingToStockPointTrip.startDate
+        )
         expect(actual[0]?.id).toBe(closedOverallTrip.id)
     })
     test('should be able to get overall data by from and to', async () => {

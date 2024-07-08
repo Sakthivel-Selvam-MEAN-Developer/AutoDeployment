@@ -158,7 +158,6 @@ export interface overallTrip {
     }
 }
 export interface props {
-    loadingPoint: { cementCompany: { advanceType: number } }
     truck: { vehicleNumber: string; transporter: { name: string; transporterType: string } }
     id: number
     acknowledgeDueTime: number | null
@@ -183,11 +182,6 @@ export interface props {
 export interface tripLogicTripProps {
     totalTransporterAmount: number
     wantFuel: boolean | null
-    loadingPoint: {
-        cementCompany: {
-            advanceType: number
-        }
-    }
 }
 export interface paymentDuesProps {
     id: number

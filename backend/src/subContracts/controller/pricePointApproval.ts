@@ -13,6 +13,7 @@ import {
     isInitialPayAvailable,
     preEventApproval
 } from '../domain/overallTrip/pricePointApprovalEvent.ts'
+import { getPricePoint } from '../models/pricePoint.ts'
 
 const findTrip = (overallTrip: any) => {
     if (overallTrip.loadingPointToStockPointTrip !== null) {
@@ -43,11 +44,17 @@ export const approvePricePoint = (req: Request, res: Response) =>
                 req.body.approvedFreightAmount,
                 trip
             )
+            const pricePoint = await getPricePoint(
+                trip.loadingPointId,
+                trip.unloadingPointId,
+                trip.stockPointId
+            )
+            if (pricePoint === null) return res.sendStatus(500)
             const updatedTripDetails =
                 type === 'LoadingToUnloading'
                     ? await updateFreightInDirectTrip(trip.id, freightDetails)
                     : await updateFreightInStockTrip(trip.id, freightDetails)
-            await tripLogic(updatedTripDetails, overallTrip, type).then(async (dues) => {
+            await tripLogic(updatedTripDetails, overallTrip, pricePoint).then(async (dues) => {
                 if (dues === undefined) return
                 await createPaymentDues(dues)
             })

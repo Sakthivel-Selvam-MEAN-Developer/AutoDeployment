@@ -316,7 +316,6 @@ model accountType {
 model cementCompany {
   id                  Int                    @id @default(autoincrement())
   name                String                 @unique
-  advanceType         Int                    @default(70)
   gstNo               String
   address             String
   emailId             String                 @unique
@@ -553,19 +552,20 @@ model truck {
 }
 
 model pricePoint {
-  id                    Int             @id @default(autoincrement())
-  freightAmount         Float           @db.DoublePrecision
-  transporterAmount     Float           @db.DoublePrecision
-  transporterPercentage Float           @db.DoublePrecision
-  payGeneratingDuration Int             @default(0)
-  loadingPointId        Int?
-  loadingPoint          loadingPoint?   @relation(fields: [loadingPointId], references: [id])
-  unloadingPointId      Int?
-  unloadingPoint        unloadingPoint? @relation(fields: [unloadingPointId], references: [id])
-  stockPointId          Int?
-  stockPoint            stockPoint?     @relation(fields: [stockPointId], references: [id])
-  createdAt             DateTime        @default(now()) @db.Timestamptz(6)
-  updatedAt             DateTime        @updatedAt @db.Timestamptz(6)
+  id                           Int             @id @default(autoincrement())
+  freightAmount                Float           @db.DoublePrecision
+  transporterAmount            Float           @db.DoublePrecision
+  transporterPercentage        Float           @db.DoublePrecision
+  payGeneratingDuration        Int             @default(0)
+  transporterAdvancePercentage Int             @default(70)
+  loadingPointId               Int?
+  loadingPoint                 loadingPoint?   @relation(fields: [loadingPointId], references: [id])
+  unloadingPointId             Int?
+  unloadingPoint               unloadingPoint? @relation(fields: [unloadingPointId], references: [id])
+  stockPointId                 Int?
+  stockPoint                   stockPoint?     @relation(fields: [stockPointId], references: [id])
+  createdAt                    DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt                    DateTime        @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }
@@ -587,7 +587,7 @@ model paymentDues {
   overallTrip   overallTrip? @relation(fields: [overallTripId], references: [id])
   overallTripId Int?
 
-  @@unique([overallTripId, type])
+  // @@unique([overallTripId, type])
   @@schema("subContract")
 }
 

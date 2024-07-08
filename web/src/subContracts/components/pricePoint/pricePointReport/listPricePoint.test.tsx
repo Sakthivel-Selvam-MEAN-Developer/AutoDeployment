@@ -26,7 +26,6 @@ const mockPricePointData = [
             cementCompany: {
                 id: 1,
                 name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
-                advanceType: 100,
                 gstNo: 'acdd',
                 address: 'chennai',
                 emailId: 'sample45@gmail.com',
@@ -43,7 +42,6 @@ const mockPricePointData = [
             cementCompany: {
                 id: 1,
                 name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
-                advanceType: 100,
                 gstNo: 'acdd',
                 address: 'chennai',
                 emailId: 'sample45@gmail.com',
