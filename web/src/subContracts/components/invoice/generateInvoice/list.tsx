@@ -66,10 +66,6 @@ const InvoiceList: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [tripDetails, setTripDetails] = useState<tripProp[]>([])
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
-    // const [tripId, setTripId] = useState<tripDetailsProps>({
-    //     tripId: [],
-    //     tripName: ''
-    // })
     const [activateFields, setActivateFields] = useState<boolean>(false)
     const [invoiceValues, setInvoiceValues] = useState<invoiceValuesProps>({} as invoiceValuesProps)
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
@@ -170,7 +166,6 @@ const InvoiceList: React.FC = () => {
             </form>
             <ListAllTripForInvoice
                 tripDetails={tripDetails}
-                // setTripId={setTripId}
                 setDisabled={setDisabled}
                 disabled={disabled}
                 setTripDetails={setTripDetails}

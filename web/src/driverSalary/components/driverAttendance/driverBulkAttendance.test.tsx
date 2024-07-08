@@ -13,7 +13,7 @@ vi.mock('../../services/driver', () => ({
 }))
 vi.mock('../../services/driverAttendance', () => ({
     getDriverDailyAttendanceById: (driverID: number) => mockGetDriverDailyAttendanceById(driverID),
-    upsertDriverAttendanceById: (id: number, driverId: number, attendance: any) =>
+    upsertDriverAttendanceById: (id: number, driverId: number, attendance: JSON) =>
         mockUpsertDriverAttendanceById(id, driverId, attendance)
 }))
 const mockDriverDetails = [
