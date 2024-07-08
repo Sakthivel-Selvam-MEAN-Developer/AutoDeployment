@@ -22,7 +22,7 @@ const tableRow = (row: LoadingTripProps, index: number) => (
         <td>{epochToMinimalDate(row.startDate)}</td>
         <td>{row.partyName}</td>
         <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
-        <td>{row.truck.vehicleNumber}</td>
+        <td>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
         <td>5116</td>
         <td>{row.filledLoad.toFixed(2)}</td>
         <td>{row.freightAmount.toFixed(2)}</td>

@@ -58,7 +58,6 @@ export const getInvoiceDetails = (id: number[]) =>
             loadingPointToStockPointTrip: {
                 select: {
                     filledLoad: true,
-                    truck: { select: { vehicleNumber: true } },
                     stockPoint: { select: { name: true } }
                 }
             },
@@ -114,9 +113,13 @@ export const getAllStockToUnloadingPointUnbilledTrips = () =>
             invoiceNumber: true,
             startDate: true,
             acknowledgeDueTime: true,
-            truck: {
+            overallTrip: {
                 select: {
-                    vehicleNumber: true
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
                 }
             },
             loadingPointToStockPointTrip: {

@@ -6,6 +6,7 @@ import seedTransporter from '../seed/transporterWithoutDep.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
+import { create as createOverallTrip } from './overallTrip.ts'
 import {
     create as createTruck,
     getAllTruck,
@@ -28,24 +29,13 @@ describe('Truck model', () => {
         expect(actual[0].vehicleNumber).toBe(seedTruck.vehicleNumber)
     })
     test('should get only Truck by Transporter name', async () => {
-        const transporter = await create({ ...seedTransporter })
-        await createTruck({
-            ...seedTruckWithoutDep,
-            vehicleNumber: 'TN33ba1234',
-            transporterId: transporter.id
-        })
-        const actual = await getTruckByTransporter(transporter.name)
-        expect(actual.length).toBe(1)
-        expect(actual[0].transporterId).toBe(transporter.id)
-    })
-    test('should get only Truck with inactive by Transporter name', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,
             location: 'salem'
         })
         const transporter = await create(seedTransporter)
-        const truckWithActiveTrip = await createTruck({
+        await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',
             transporterId: transporter.id
@@ -67,14 +57,59 @@ describe('Truck model', () => {
             cementCompanyId: company.id,
             pricePointMarkerId: unloadingPricePointMarker.id
         })
-        await createTrip({
+        const tripCreate = await createTrip({
             ...seedLoadingToUnloadingTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truckWithActiveTrip.id,
             loadingKilometer: 0
         })
+        await createOverallTrip({
+            loadingPointToUnloadingPointTripId: tripCreate.id,
+            truckId: truckWithInActiveTrip.id
+        })
+        const actual = await getTruckByTransporter(transporter.name)
+        expect(actual.length).toBe(1)
+        expect(actual[0].transporterId).toBe(transporter.id)
+    })
+    test('should get only Truck with inactive by Transporter name', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const transporter = await create(seedTransporter)
+        await createTruck({
+            ...seedTruckWithoutDep,
+            vehicleNumber: 'TN33ba1234',
+            transporterId: transporter.id
+        })
+        const truckWithInActiveTrip = await createTruck({
+            ...seedTruckWithoutDep,
+            vehicleNumber: 'TN93D5512',
+            transporterId: transporter.id
+        })
 
+        const company = await createCompany(seedCompany)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const tripCreate = await createTrip({
+            ...seedLoadingToUnloadingTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            loadingKilometer: 0
+        })
+        await createOverallTrip({
+            loadingPointToUnloadingPointTripId: tripCreate.id,
+            truckId: truckWithInActiveTrip.id
+        })
         const actual = await getTruckByTransporter(transporter.name)
         expect(actual.length).toBe(1)
         expect(actual[0].transporterId).toBe(transporter.id)

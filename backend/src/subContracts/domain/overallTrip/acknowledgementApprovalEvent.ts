@@ -3,10 +3,10 @@ import overallTripProps from '../overallTripsTypes.ts'
 
 export const getTransporterName = (overallTrip: overallTripProps) => {
     if (overallTrip.loadingPointToStockPointTrip !== null) {
-        return overallTrip.loadingPointToStockPointTrip.truck.transporter
+        return overallTrip?.truck?.transporter
     }
 
-    return overallTrip?.loadingPointToUnloadingPointTrip?.truck.transporter
+    return overallTrip?.truck?.transporter
 }
 export const finalDueCreation = async (overallTrip: overallTripProps) => {
     const finalPay = overallTrip.paymentDues.filter((due) => due.type === 'final pay')

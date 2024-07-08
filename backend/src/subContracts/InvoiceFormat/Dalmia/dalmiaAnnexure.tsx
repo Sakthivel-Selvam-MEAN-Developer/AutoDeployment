@@ -19,7 +19,7 @@ const tableRow = (row: LoadingTripProps, index: number) => (
             {row.loadingPoint.name} -
             {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}
         </td>
-        <td className="tc">{row.truck.vehicleNumber}</td>
+        <td className="tc">{row.overallTrip[0]?.truck?.vehicleNumber}</td>
         <td className="tc">{row.filledLoad.toFixed(2)}</td>
         <td className="tc">{row.freightAmount.toFixed(2)}</td>
         <td className="tc">{(row.filledLoad * row.freightAmount).toFixed(2)}</td>

@@ -12,31 +12,29 @@ export const getTruckByTransporter = (transporterName: string) =>
             transporter: {
                 name: transporterName
             },
-            OR: [
-                {
-                    NOT: [
+            overallTrip: {
+                some: {
+                    OR: [
                         {
                             loadingPointToUnloadingPointTrip: {
-                                some: { tripStatus: false }
+                                tripStatus: false
                             }
                         },
                         {
                             loadingPointToStockPointTrip: {
-                                some: {
-                                    OR: [
-                                        {
-                                            stockPointToUnloadingPointTrip: {
-                                                some: { tripStatus: false }
-                                            }
-                                        },
-                                        { tripStatus: false }
-                                    ]
-                                }
+                                OR: [
+                                    {
+                                        stockPointToUnloadingPointTrip: {
+                                            some: { tripStatus: false }
+                                        }
+                                    },
+                                    { tripStatus: false }
+                                ]
                             }
                         }
                     ]
                 }
-            ]
+            }
         }
     })
 

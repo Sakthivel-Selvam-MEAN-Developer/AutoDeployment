@@ -35,7 +35,7 @@ describe('Fuel model', () => {
             location: 'salem'
         })
         const company = await createCompany(seedCompany)
-        const truck = await createTruck(seedTruck)
+        await createTruck(seedTruck)
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -49,9 +49,7 @@ describe('Fuel model', () => {
         const trip = await createTrip({
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            truckId: truck.id,
-            loadingKilometer: 0
+            unloadingPointId: deliveryPoint.id
         })
         const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
         const bunk = await create(seedBunk)
@@ -90,7 +88,7 @@ describe('Fuel model', () => {
         expect(fuel.overallTripId).toBe(null)
 
         const company = await createCompany(seedCompany)
-        const truck = await createTruck(seedTruck)
+        await createTruck(seedTruck)
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -104,9 +102,7 @@ describe('Fuel model', () => {
         const trip = await createTrip({
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            truckId: truck.id,
-            loadingKilometer: 0
+            unloadingPointId: deliveryPoint.id
         })
         const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
 

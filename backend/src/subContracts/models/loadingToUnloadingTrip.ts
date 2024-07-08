@@ -11,17 +11,22 @@ export const create = (
     prisma.loadingPointToUnloadingPointTrip.create({
         data,
         include: {
-            truck: {
+            overallTrip: {
                 select: {
-                    vehicleNumber: true,
-                    transporter: {
+                    truck: {
                         select: {
-                            name: true,
-                            transporterType: true
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    transporterType: true
+                                }
+                            }
                         }
                     }
                 }
             },
+
             loadingPoint: {
                 select: {
                     cementCompany: {
@@ -37,19 +42,35 @@ export const getAllTrip = () =>
         include: {
             loadingPoint: { select: { name: true } },
             unloadingPoint: { select: { name: true } },
-            truck: {
-                select: { vehicleNumber: true, transporter: { select: { name: true } } }
+            overallTrip: {
+                select: {
+                    truck: {
+                        select: { vehicleNumber: true, transporter: { select: { name: true } } }
+                    }
+                }
             }
         }
     })
 
 export const getTripByVehicleNumber = (trucknumber: string) =>
     prisma.loadingPointToUnloadingPointTrip.findFirst({
-        where: { truck: { vehicleNumber: trucknumber }, tripStatus: false, wantFuel: true },
+        where: {
+            overallTrip: {
+                some: {
+                    truck: { vehicleNumber: trucknumber }
+                }
+            },
+            tripStatus: false,
+            wantFuel: true
+        },
         select: {
             id: true,
             totalTransporterAmount: true,
-            truck: { select: { transporter: { select: { name: true } } } }
+            overallTrip: {
+                select: {
+                    truck: { select: { transporter: { select: { name: true } } } }
+                }
+            }
         }
     })
 
@@ -57,7 +78,11 @@ export const getOnlyActiveTripByVehicleNumber = (vehicleNumber: string) =>
     prisma.loadingPointToUnloadingPointTrip.findFirst({
         where: {
             tripStatus: false,
-            truck: { vehicleNumber }
+            overallTrip: {
+                some: {
+                    truck: { vehicleNumber }
+                }
+            }
         },
         select: { id: true }
     })
@@ -147,6 +172,11 @@ export const getInvoiceDetails = (id: number[]) =>
             },
             overallTrip: {
                 select: {
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    },
                     shortageQuantity: {
                         select: {
                             shortageQuantity: true
@@ -156,11 +186,6 @@ export const getInvoiceDetails = (id: number[]) =>
             },
             invoiceNumber: true,
             freightAmount: true,
-            truck: {
-                select: {
-                    vehicleNumber: true
-                }
-            },
             filledLoad: true
         }
     })
@@ -186,9 +211,13 @@ export const getAllUnloadingPointUnbilledTrips = () =>
             invoiceNumber: true,
             startDate: true,
             acknowledgeDueTime: true,
-            truck: {
+            overallTrip: {
                 select: {
-                    vehicleNumber: true
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
                 }
             },
             loadingPoint: {
@@ -230,11 +259,15 @@ export const updateFreightInDirectTrip = (id: number, details: any) =>
                     }
                 }
             },
-            truck: {
+            overallTrip: {
                 select: {
-                    vehicleNumber: true,
-                    transporter: {
-                        select: { name: true, transporterType: true }
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: { name: true, transporterType: true }
+                            }
+                        }
                     }
                 }
             }

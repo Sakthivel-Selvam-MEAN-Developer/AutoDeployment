@@ -433,8 +433,6 @@ model loadingPointToStockPointTrip {
   updatedAt                      DateTime                         @updatedAt @db.Timestamptz(6)
   stockPoint                     stockPoint                       @relation(fields: [stockPointId], references: [id])
   stockPointId                   Int
-  truck                          truck                            @relation(fields: [truckId], references: [id])
-  truckId                        Int
   stockPointToUnloadingPointTrip stockPointToUnloadingPointTrip[]
   overallTrip                    overallTrip[]
   billNo                         String?
@@ -464,8 +462,6 @@ model stockPointToUnloadingPointTrip {
   loadingPointToStockPointTrip   loadingPointToStockPointTrip @relation(fields: [loadingPointToStockPointTripId], references: [id])
   loadingPointToStockPointTripId Int
   overallTrip                    overallTrip[]
-  truck                          truck?                       @relation(fields: [truckId], references: [id])
-  truckId                        Int?
   billNo                         String?
   companyInvoice                 companyInvoice?              @relation(fields: [companyInvoiceId], references: [id])
   companyInvoiceId               Int?
@@ -498,8 +494,6 @@ model loadingPointToUnloadingPointTrip {
   updatedAt              DateTime        @updatedAt @db.Timestamptz(6)
   unloadingPoint         unloadingPoint  @relation(fields: [unloadingPointId], references: [id])
   unloadingPointId       Int
-  truck                  truck           @relation(fields: [truckId], references: [id])
-  truckId                Int
   overallTrip            overallTrip[]
   billNo                 String?
   companyInvoice         companyInvoice? @relation(fields: [companyInvoiceId], references: [id])
@@ -553,9 +547,6 @@ model truck {
   transporter                      transporter                        @relation(fields: [transporterId], references: [id])
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
-  loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
-  loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
-  stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
   overallTrip                      overallTrip[]
 
   @@schema("subContract")

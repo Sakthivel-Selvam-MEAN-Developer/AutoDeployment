@@ -7,13 +7,13 @@ export default defineConfig({
             thresholds: {
                 branches: 87.36,
                 functions: 78.11,
-                lines: 86.96,
-                statements: 86.96,
+                lines: 86.99,
+                statements: 86.99,
                 'src/subContracts/models/**': {
-                    branches: 84.34,
-                    functions: 98.38,
-                    lines: 98.09,
-                    statements: 98.09
+                    branches: 85.38,
+                    functions: 99.19,
+                    lines: 99.85,
+                    statements: 99.85
                 },
                 'src/subContracts/controller/**': {
                     branches: 87.78,

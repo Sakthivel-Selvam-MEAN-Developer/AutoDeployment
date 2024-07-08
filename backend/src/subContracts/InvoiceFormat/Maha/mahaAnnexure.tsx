@@ -13,7 +13,7 @@ const tableRow = (row: LoadingTripProps, index: number) => (
         <td style={{ textAlign: 'center' }}>{index + 1}</td>
         <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
         <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
-        <td style={{ textAlign: 'center' }}>{row.truck.vehicleNumber}</td>
+        <td style={{ textAlign: 'center' }}>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
         <td style={{ textAlign: 'center' }}>{row.partyName}</td>
         <td style={{ textAlign: 'center' }}>
             {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}

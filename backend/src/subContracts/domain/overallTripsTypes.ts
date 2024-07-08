@@ -48,40 +48,13 @@ interface overallTripProps {
         totalTransporterAmount: number
         loadingPointToStockPointTrip: {
             totalTransporterAmount: number
-            truck: {
-                vehicleNumber: string
-                transporter: {
-                    name: string
-                    tdsPercentage: number | null
-                    transporterType: string
-                    gstPercentage: number | null
-                }
-            }
         }
     } | null
     loadingPointToUnloadingPointTrip: {
         totalTransporterAmount: number
-        truck: {
-            vehicleNumber: string
-            transporter: {
-                name: string
-                tdsPercentage: number | null
-                transporterType: string
-                gstPercentage: number | null
-            }
-        }
     } | null
     loadingPointToStockPointTrip: {
         totalTransporterAmount: number
-        truck: {
-            vehicleNumber: string
-            transporter: {
-                name: string
-                tdsPercentage: number | null
-                transporterType: string
-                gstPercentage: number | null
-            }
-        }
     } | null
 }
 

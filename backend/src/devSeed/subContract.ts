@@ -84,7 +84,6 @@ async function seedSubContract() {
         ...seedLoadingToUnloadingTrip,
         loadingPointId: loadingPoint.id,
         unloadingPointId: unloadingPoint.id,
-        truckId: truck.id,
         loadingKilometer: 0
     })
     await addFuelStations()

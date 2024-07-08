@@ -188,13 +188,6 @@ export interface tripLogicTripProps {
             advanceType: number
         }
     }
-    truck: {
-        vehicleNumber: string
-        transporter: {
-            name: string
-            transporterType: string
-        }
-    }
 }
 export interface paymentDuesProps {
     id: number

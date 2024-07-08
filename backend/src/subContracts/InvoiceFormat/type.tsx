@@ -241,14 +241,14 @@ export interface LoadingTripProps {
         }
     }
     overallTrip: {
+        truck: {
+            vehicleNumber: string
+        } | null
         shortageQuantity: {
             shortageQuantity: number
         }[]
     }[]
     freightAmount: number
-    truck: {
-        vehicleNumber: string
-    }
     filledLoad: number
     invoiceNumber: string
 }

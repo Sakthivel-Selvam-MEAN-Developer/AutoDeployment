@@ -65,7 +65,7 @@ describe('Payment-Due model', () => {
             ...seedTruck,
             transporterId: transporter.id
         })
-        const stockTripTruck = await createTruck({
+        await createTruck({
             ...seedTruck,
             vehicleNumber: 'TN52S3555',
             transporterId: transporter.id
@@ -90,7 +90,6 @@ describe('Payment-Due model', () => {
             ...seedLoadingToStockTrip,
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
-            truckId: stockTripTruck.id,
             wantFuel: false,
             loadingKilometer: 0
         })
@@ -134,7 +133,7 @@ describe('Payment-Due model', () => {
             ...seedTruck,
             transporterId: transporter.id
         })
-        const stockTripTruck = await createTruck({
+        await createTruck({
             ...seedTruck,
             vehicleNumber: 'TN52S3555',
             transporterId: transporter.id
@@ -159,7 +158,6 @@ describe('Payment-Due model', () => {
             ...seedLoadingToStockTrip,
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
-            truckId: stockTripTruck.id,
             wantFuel: false,
             loadingKilometer: 0
         })
@@ -193,7 +191,7 @@ describe('Payment-Due model', () => {
             ...seedTruck,
             transporterId: transporter.id
         })
-        const stockTripTruck = await createTruck({
+        await createTruck({
             ...seedTruck,
             vehicleNumber: 'TN52S3555',
             transporterId: transporter.id
@@ -218,7 +216,6 @@ describe('Payment-Due model', () => {
             ...seedLoadingToStockTrip,
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
-            truckId: stockTripTruck.id,
             wantFuel: false,
             loadingKilometer: 0
         })
@@ -259,7 +256,7 @@ describe('Payment-Due model', () => {
             ...seedTruck,
             transporterId: transporter.id
         })
-        const stockTripTruck = await createTruck({
+        const truck = await createTruck({
             ...seedTruck,
             vehicleNumber: 'TN52S3555',
             transporterId: transporter.id
@@ -284,12 +281,12 @@ describe('Payment-Due model', () => {
             ...seedLoadingToStockTrip,
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
-            truckId: stockTripTruck.id,
             wantFuel: false,
             loadingKilometer: 0
         })
         const overallTrip = await createOverallTrip({
-            loadingPointToStockPointTripId: loadingToStockTrip.id
+            loadingPointToStockPointTripId: loadingToStockTrip.id,
+            truckId: truck.id
         })
         await create({ ...seedPaymentDue, overallTripId: overallTrip.id })
         const type = 'initial pay'
@@ -336,7 +333,7 @@ describe('Payment-Due model', () => {
             ...seedTruck,
             transporterId: transporter.id
         })
-        const stockTripTruck = await createTruck({
+        await createTruck({
             ...seedTruck,
             vehicleNumber: 'TN52S3555',
             transporterId: transporter.id
@@ -361,7 +358,6 @@ describe('Payment-Due model', () => {
             ...seedLoadingToStockTrip,
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
-            truckId: stockTripTruck.id,
             wantFuel: false,
             loadingKilometer: 0
         })

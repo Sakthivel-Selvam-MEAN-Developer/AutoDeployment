@@ -230,6 +230,7 @@ describe('getTransporterName', () => {
     test('should return undefined if neither loadingPointToStockPointTrip nor loadingPointToUnloadingPointTrip exist', () => {
         const actual = {
             ...overallTrip,
+            truck: null,
             loadingPointToStockPointTrip: null,
             loadingPointToUnloadingPointTrip: null
         }

@@ -30,7 +30,7 @@ describe('ViewInvoice model', () => {
         })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
-        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -45,7 +45,6 @@ describe('ViewInvoice model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id,
             wantFuel: false,
             loadingKilometer: 0
         })
@@ -84,7 +83,7 @@ describe('ViewInvoice model', () => {
         })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
-        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -104,7 +103,6 @@ describe('ViewInvoice model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: truck.id,
             wantFuel: false,
             loadingKilometer: 0
         })

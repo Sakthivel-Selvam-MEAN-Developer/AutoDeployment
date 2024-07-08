@@ -29,7 +29,7 @@ describe('Shortage Quantity model', () => {
         })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
-        const unloadingTripTruck = await createTruck({
+        await createTruck({
             ...seedTruck,
             transporterId: transporter.id
         })
@@ -47,7 +47,6 @@ describe('Shortage Quantity model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: unloadingTripTruck.id,
             wantFuel: false,
             loadingKilometer: 0
         })
@@ -66,7 +65,7 @@ describe('Shortage Quantity model', () => {
         })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
-        const unloadingTripTruck = await createTruck({
+        await createTruck({
             ...seedTruck,
             transporterId: transporter.id
         })
@@ -84,7 +83,6 @@ describe('Shortage Quantity model', () => {
             ...seedFactoryToCustomerTrip,
             loadingPointId: factoryPoint.id,
             unloadingPointId: deliveryPoint.id,
-            truckId: unloadingTripTruck.id,
             wantFuel: false,
             loadingKilometer: 0
         })

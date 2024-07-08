@@ -233,16 +233,6 @@ export const getUpcomingDuesByFilter = (
                                     invoiceNumber: true,
                                     unloadingPoint: { select: { name: true } }
                                 }
-                            },
-                            truck: {
-                                select: {
-                                    vehicleNumber: true,
-                                    transporter: {
-                                        select: {
-                                            csmName: true
-                                        }
-                                    }
-                                }
                             }
                         }
                     },
@@ -251,17 +241,7 @@ export const getUpcomingDuesByFilter = (
                             startDate: true,
                             invoiceNumber: true,
                             loadingPoint: { select: { name: true } },
-                            unloadingPoint: { select: { name: true } },
-                            truck: {
-                                select: {
-                                    vehicleNumber: true,
-                                    transporter: {
-                                        select: {
-                                            csmName: true
-                                        }
-                                    }
-                                }
-                            }
+                            unloadingPoint: { select: { name: true } }
                         }
                     }
                 }
@@ -284,14 +264,10 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
             overallTrip: {
                 OR: [
                     {
-                        loadingPointToStockPointTrip: {
-                            truck: { transporter: { csmName: fiterdata.csmName } }
-                        }
+                        truck: { transporter: { csmName: fiterdata.csmName } }
                     },
                     {
-                        loadingPointToUnloadingPointTrip: {
-                            truck: { transporter: { csmName: fiterdata.csmName } }
-                        }
+                        truck: { transporter: { csmName: fiterdata.csmName } }
                     }
                 ]
             }
@@ -305,32 +281,26 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
             vehicleNumber: true,
             overallTrip: {
                 select: {
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: { select: { name: true, csmName: true } }
+                        }
+                    },
                     stockPointToUnloadingPointTrip: {
                         include: { unloadingPoint: { select: { name: true } } }
                     },
                     loadingPointToStockPointTrip: {
                         select: {
                             invoiceNumber: true,
-                            loadingPoint: { select: { name: true } },
-                            truck: {
-                                select: {
-                                    vehicleNumber: true,
-                                    transporter: { select: { name: true, csmName: true } }
-                                }
-                            }
+                            loadingPoint: { select: { name: true } }
                         }
                     },
                     loadingPointToUnloadingPointTrip: {
                         select: {
                             invoiceNumber: true,
                             loadingPoint: { select: { name: true } },
-                            unloadingPoint: { select: { name: true } },
-                            truck: {
-                                select: {
-                                    vehicleNumber: true,
-                                    transporter: { select: { name: true, csmName: true } }
-                                }
-                            }
+                            unloadingPoint: { select: { name: true } }
                         }
                     }
                 }
@@ -350,14 +320,10 @@ export const completedDuesLength = (fiterdata: CompletedDueQuery) =>
             overallTrip: {
                 OR: [
                     {
-                        loadingPointToStockPointTrip: {
-                            truck: { transporter: { csmName: fiterdata.csmName } }
-                        }
+                        truck: { transporter: { csmName: fiterdata.csmName } }
                     },
                     {
-                        loadingPointToUnloadingPointTrip: {
-                            truck: { transporter: { csmName: fiterdata.csmName } }
-                        }
+                        truck: { transporter: { csmName: fiterdata.csmName } }
                     }
                 ]
             }

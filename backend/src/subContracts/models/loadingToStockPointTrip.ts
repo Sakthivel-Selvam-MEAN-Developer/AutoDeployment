@@ -10,13 +10,17 @@ export const create = (
     prisma.loadingPointToStockPointTrip.create({
         data,
         include: {
-            truck: {
+            overallTrip: {
                 select: {
-                    vehicleNumber: true,
-                    transporter: {
+                    truck: {
                         select: {
-                            name: true,
-                            transporterType: true
+                            vehicleNumber: true,
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    transporterType: true
+                                }
+                            }
                         }
                     }
                 }
@@ -44,12 +48,6 @@ export const getAllStockPointTrip = () =>
                             transporter: { select: { name: true, transporterType: true } }
                         }
                     }
-                }
-            },
-            truck: {
-                select: {
-                    vehicleNumber: true,
-                    transporter: { select: { name: true, transporterType: true } }
                 }
             },
             stockPointToUnloadingPointTrip: true
@@ -104,7 +102,6 @@ export const getInvoiceDetails = (id: number[]) =>
             },
             invoiceNumber: true,
             freightAmount: true,
-            truck: { select: { vehicleNumber: true } },
             filledLoad: true
         }
     })
@@ -168,9 +165,13 @@ export const getAllStockPointUnbilledTrips = () =>
             invoiceNumber: true,
             startDate: true,
             acknowledgeDueTime: true,
-            truck: {
+            overallTrip: {
                 select: {
-                    vehicleNumber: true
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    }
                 }
             },
             loadingPoint: {
@@ -212,11 +213,15 @@ export const updateFreightInStockTrip = (id: number, details: any) =>
                     }
                 }
             },
-            truck: {
+            overallTrip: {
                 select: {
-                    vehicleNumber: true,
-                    transporter: {
-                        select: { name: true, transporterType: true }
+                    truck: {
+                        select: {
+                            vehicleNumber: true,
+                            transporter: {
+                                select: { name: true, transporterType: true }
+                            }
+                        }
                     }
                 }
             }
