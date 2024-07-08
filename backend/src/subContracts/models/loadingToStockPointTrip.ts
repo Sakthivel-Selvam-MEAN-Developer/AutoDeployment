@@ -119,6 +119,7 @@ export const getStockTripsByinvoiceFilter = (filterData: filterDataProps) =>
             billNo: null
         },
         select: {
+            billingRate: true,
             id: true,
             startDate: true,
             invoiceNumber: true,

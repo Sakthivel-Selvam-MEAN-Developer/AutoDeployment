@@ -14,7 +14,6 @@ import html2pdf from 'html2pdf.js'
 import dayjs from 'dayjs'
 import PreviewDialog from './previewDialog'
 import { tripProp } from './dataGridColumnsAndRows'
-import { GridRowSelectionModel } from '@mui/x-data-grid'
 export interface dateProps {
     $d: number
 }
@@ -28,7 +27,7 @@ export interface cementCompanyProps {
     name: string
 }
 export interface tripDetailsProps {
-    tripId: GridRowSelectionModel
+    tripId: number[]
     tripName: string
 }
 export interface tripDetails {
@@ -66,18 +65,18 @@ const InvoiceList: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [tripDetails, setTripDetails] = useState<tripProp[]>([])
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
-    const [tripId, setTripId] = useState<tripDetailsProps>({
-        tripId: [],
-        tripName: ''
-    })
+    // const [tripId, setTripId] = useState<tripDetailsProps>({
+    //     tripId: [],
+    //     tripName: ''
+    // })
     const [activateFields, setActivateFields] = useState<boolean>(false)
     const [invoiceValues, setInvoiceValues] = useState<invoiceValuesProps>({} as invoiceValuesProps)
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
     const [pdfStr, setPdfStr] = useState<string>('')
     const [load, setLoad] = useState(false)
+    const [disabled, setDisabled] = useState<Set<number>>(new Set([]))
     useEffect(() => {
         setTripDetails([])
-        setTripId({ tripId: [], tripName: '' })
     }, [filterData?.cementCompany])
     const onSubmit = async () => await getTripDetails()
     const handleClick = () => setActivateFields(true)
@@ -87,7 +86,7 @@ const InvoiceList: React.FC = () => {
     }
     const previewPdf = async () => {
         const data = {
-            trip: { ...tripId, tripName: filterData.pageName },
+            trip: { tripId: Array.from(disabled), tripName: filterData.pageName },
             bill: invoiceValues,
             cementCompany: filterData?.cementCompany
         }
@@ -98,7 +97,7 @@ const InvoiceList: React.FC = () => {
     }
     const updateInvocie = async () => {
         const data = {
-            trip: { ...tripId, tripName: filterData.pageName },
+            trip: { tripId: Array.from(disabled), tripName: filterData.pageName },
             bill: invoiceValues,
             cementCompany: filterData?.cementCompany
         }
@@ -160,7 +159,7 @@ const InvoiceList: React.FC = () => {
                         type="button"
                         style={{ margin: '10px' }}
                         onClick={handleClick}
-                        disabled={tripId?.tripId.length === 0}
+                        disabled={Array.from(disabled).length === 0}
                     >
                         Preview Invoice PDF
                     </Button>
@@ -168,7 +167,9 @@ const InvoiceList: React.FC = () => {
             </form>
             <ListAllTripForInvoice
                 tripDetails={tripDetails}
-                setTripId={setTripId}
+                // setTripId={setTripId}
+                setDisabled={setDisabled}
+                disabled={disabled}
                 setTripDetails={setTripDetails}
             />
             <br />

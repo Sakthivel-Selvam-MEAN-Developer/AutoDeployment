@@ -1,28 +1,29 @@
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 
 export const columns = [
-    { field: 'startDate', headerName: 'Start Date', width: 150 },
-    { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
-    { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
-    { field: 'loadingPoint', headerName: 'Loading Point', width: 150 },
-    { field: 'unloadingPoint', headerName: 'Unloading Point', width: 150 },
-    { field: 'filledLoad', headerName: 'Quantity', width: 150 },
+    { field: 'startDate', headerName: 'Start Date', flex: 1 },
+    { field: 'invoiceNumber', headerName: 'Invoice Number', flex: 1 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', flex: 1 },
+    { field: 'loadingPoint', headerName: 'Loading Point', flex: 1 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', flex: 1 },
+    { field: 'filledLoad', headerName: 'Quantity', flex: 1 },
     {
         field: 'freightAmount',
         headerName: 'Freight Amount(₹)',
-        width: 150,
+        flex: 1,
         valueFormatter: (params: number) => `₹ ${params}`
     },
     {
         field: 'totalFreightAmount',
         headerName: 'Total Freight Amount(₹)',
-        width: 200,
+        flex: 1,
         valueFormatter: (params: number) => `₹ ${params}`
     },
-    { field: 'billingRate', headerName: 'Billing Rate', width: 300 },
-    { field: 'action', headerName: 'Action' }
+    { field: 'billingRate', headerName: 'Billing Rate', flex: 1, justifyCOntent: 'center' },
+    { field: 'action', headerName: 'Action', flex: 1 }
 ]
 export interface tripProp {
+    billingRate: number
     id: number
     startDate: number
     invoiceNumber: string
@@ -55,7 +56,8 @@ export const alignRows = (tripDetails: tripProp[]) => {
                 ? trip.filledLoad
                 : trip.loadingPointToStockPointTrip?.filledLoad,
             freightAmount: trip.freightAmount,
-            totalFreightAmount: trip.totalFreightAmount
+            totalFreightAmount: trip.totalFreightAmount,
+            billingRate: trip.billingRate
         }
     })
 }

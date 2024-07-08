@@ -6,14 +6,14 @@ export default defineConfig({
             provider: 'v8',
             thresholds: {
                 branches: 87.36,
-                functions: 77.06,
-                lines: 85.62,
-                statements: 85.62,
+                functions: 78.11,
+                lines: 86.96,
+                statements: 86.96,
                 'src/subContracts/models/**': {
                     branches: 84.34,
-                    functions: 96.77,
-                    lines: 94.15,
-                    statements: 94.15
+                    functions: 98.38,
+                    lines: 98.09,
+                    statements: 98.09
                 },
                 'src/subContracts/controller/**': {
                     branches: 87.74,
@@ -34,10 +34,7 @@ export default defineConfig({
                     statements: 99.46
                 }
             },
-            exclude: [
-                'src/subContracts/InvoiceFormat/**',
-                'src/subContracts/controller/uploadToS3.ts'
-            ]
+            exclude: ['src/subContracts/InvoiceFormat/**']
         }
     }
 })

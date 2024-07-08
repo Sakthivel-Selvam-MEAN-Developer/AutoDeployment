@@ -5,6 +5,7 @@ import { invoiceFilterData } from './invoiceContext'
 import { getSelectedTableHead } from './table'
 import { SelectedProps } from './interface'
 import { SelectedTableCells } from './selectedTableCells'
+
 const SelectedTableBody: FC<SelectedProps> = ({ selectedTrip, setSelectedTrip }) => {
     const { filterData } = useContext(invoiceFilterData)
     useEffect(() => {

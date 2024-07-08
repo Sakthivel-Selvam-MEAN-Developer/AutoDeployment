@@ -23,7 +23,6 @@ const TripsDataGrid: React.FC<gridProps> = ({ row, column, handleSelection }) =>
                 columns={column}
                 rows={row}
                 onRowSelectionModelChange={handleSelection}
-                // checkboxSelection
                 disableRowSelectionOnClick
                 hideFooterPagination
                 initialState={{ sorting: { sortModel: [{ field: 'startDate', sort: 'asc' }] } }}

@@ -1,54 +1,82 @@
 import { Box, Tab, Tabs } from '@mui/material'
-import { tripDetailsProps } from './list'
 import { FC, useContext, useState } from 'react'
 import { filterDataProps, invoiceFilterData } from './invoiceContext'
 import { getTripDetailsByFilterData, updateBillingRate } from '../../../services/invoice'
 import { alignRows, columns, tripProp } from './dataGridColumnsAndRows'
 import TripsDataGrid from './dataGrid'
-import { GridColDef, GridRowSelectionModel } from '@mui/x-data-grid'
+import { GridColDef } from '@mui/x-data-grid'
 import ActionButton, { BillingRateField } from './actionFields'
 export interface tripProps {
     tripDetails: tripProp[]
-    setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps>>
+    // setTripId: React.Dispatch<React.SetStateAction<tripDetailsProps>>
     setTripDetails: React.Dispatch<React.SetStateAction<tripProp[]>>
+    setDisabled: React.Dispatch<React.SetStateAction<Set<number>>>
+    disabled: Set<number>
 }
-const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripDetails }) => {
+const ListAllTripForInvoice: FC<tripProps> = ({
+    tripDetails,
+    setTripDetails,
+    setDisabled,
+    disabled
+}) => {
     const { filterData, setFilterData } = useContext(invoiceFilterData)
-    const [tripType, setTripType] = useState<string>('')
-    const [updated, setUpdated] = useState<number>(0)
+    // const [tripType, setTripType] = useState<string>('')
+    const [billingRates, setBillingRates] = useState<{ [key: number]: number }>({})
+    // const [disabled, setDisabled] = useState<Set<number>>(new Set())
+
     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
-        setTripType(newValue)
+        setDisabled(new Set())
+        // setTripType(newValue)
         if (filterData.cementCompany.name === '') return
         setTripDetails([])
-        setTripId({ tripId: [], tripName: '' })
         await getTripDetailsByFilterData({ ...filterData, pageName: newValue }).then(setTripDetails)
         setFilterData((prevData: filterDataProps) => {
             return { ...prevData, pageName: newValue }
         })
     }
-    const handleSelection = (params: GridRowSelectionModel) => {
-        setTripId({ tripId: params, tripName: tripType })
-    }
+    // const handleSelection = (params: GridRowSelectionModel) => {
+    //     setTripId({ tripId: params, tripName: tripType })
+    // }
     const handleUpdate = async (id: number) => {
-        await updateBillingRate({ id, billingRate: updated, pageName: filterData.pageName })
+        await updateBillingRate({
+            id,
+            billingRate: billingRates[id],
+            pageName: filterData.pageName
+        }).then(() => setDisabled((prev) => new Set(prev).add(id)))
+    }
+    const handleBillingRateChange = (id: number, newRate: number) => {
+        setBillingRates((prevRates) => ({ ...prevRates, [id]: newRate }))
     }
     const formattedRow: GridColDef[] = columns.map((column) => ({
         ...column,
         renderCell: (params) => {
+            const isDiabled = disabled.has(params.row.id)
             if (column.field === 'action') {
-                return <ActionButton handleEdit={() => handleUpdate(params.row.id)} />
+                return (
+                    <ActionButton
+                        handleEdit={() => handleUpdate(params.row.id)}
+                        disabled={isDiabled}
+                    />
+                )
             } else if (column.field === 'billingRate') {
                 return (
                     <BillingRateField
-                        setUpdated={setUpdated}
-                        updated={updated}
                         key={params.row.id}
+                        value={
+                            params.row.billingRate !== null
+                                ? params.row.billingRate
+                                : params.row.freightAmount
+                        }
+                        onRateChange={(newRate: number) =>
+                            handleBillingRateChange(params.row.id, newRate)
+                        }
+                        disabled={isDiabled}
                     />
                 )
             }
         }
     }))
-    console.log(formattedRow)
+
     return (
         <>
             <Box sx={{ width: '100%' }}>
@@ -57,8 +85,8 @@ const ListAllTripForInvoice: FC<tripProps> = ({ tripDetails, setTripId, setTripD
             {tripDetails.length ? (
                 <TripsDataGrid
                     row={alignRows(tripDetails)}
-                    column={columns}
-                    handleSelection={handleSelection}
+                    column={formattedRow}
+                    // handleSelection={handleSelection}
                 />
             ) : (
                 <p>No Trips to Generate Invoice ..!</p>

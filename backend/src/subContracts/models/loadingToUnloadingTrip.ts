@@ -96,6 +96,7 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
             overallTrip: { some: { acknowledgementStatus: true } }
         },
         select: {
+            billingRate: true,
             id: true,
             startDate: true,
             invoiceNumber: true,
@@ -103,13 +104,7 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
             freightAmount: true,
             totalFreightAmount: true,
             overallTrip: {
-                select: {
-                    truck: {
-                        select: {
-                            vehicleNumber: true
-                        }
-                    }
-                }
+                select: { truck: { select: { vehicleNumber: true } } }
             },
             loadingPoint: {
                 select: {
