@@ -314,6 +314,7 @@ export interface AnnexureProps {
     trip: InvoiceProp['trips']
     bill: { billNo: string; date: number }
     total: totalProps
+    depot?: string
 }
 export interface rowProps {
     startDate: number

@@ -119,7 +119,8 @@ export const previewPDFController = async (req: Request, res: Response) => {
                     stockPointToUnloadingPointTrip
                 }
             },
-            req.body.bill
+            req.body.bill,
+            req.body.depot
         )
     )
     res.status(200).json(componentHtml)

@@ -5,6 +5,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { containerProps, DateFieldProps, TextContainerProps } from './dialogFieldTypes'
+import DepotTextField from './getDepotInputField'
 
 export const DialogContentConatiner: FC<containerProps> = ({ invoiceValues, setInvoiceValues }) => {
     return <DialogContent>{TextContainer(invoiceValues, setInvoiceValues)}</DialogContent>
@@ -12,8 +13,8 @@ export const DialogContentConatiner: FC<containerProps> = ({ invoiceValues, setI
 const TextContainer: TextContainerProps = (invoiceValues: invoiceValuesProps, setInvoiceValues) => {
     return (
         <DialogContentText>
-            <br />
             <TextField
+                style={{ margin: '20px 0' }}
                 fullWidth
                 label="Enter Bill Number"
                 value={invoiceValues.billNo}
@@ -23,8 +24,8 @@ const TextContainer: TextContainerProps = (invoiceValues: invoiceValuesProps, se
                     })
                 }
             />
-            <br /> <br />
             <DateField setInvoiceValues={setInvoiceValues} />
+            <DepotTextField setInvoiceValues={setInvoiceValues} invoiceValues={invoiceValues} />
         </DialogContentText>
     )
 }

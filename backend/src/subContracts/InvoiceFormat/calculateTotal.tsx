@@ -87,7 +87,8 @@ export default calculateTotals
 export const getContentBasedOnCompany = (
     company: string,
     trips: InvoiceProp,
-    bill: { billNo: string; date: number }
+    bill: { billNo: string; date: number },
+    depot: string
 ) => {
     let total = {
         totalAmount: 0,
@@ -100,7 +101,15 @@ export const getContentBasedOnCompany = (
     if (trips !== null) total = calculateTotals(trips.trips)
     if (company && companyConfig[company]) {
         const { Component, address } = companyConfig[company]
-        return <Component trip={trips?.trips} address={address} bill={bill} total={total} />
+        return (
+            <Component
+                trip={trips?.trips}
+                address={address}
+                bill={bill}
+                total={total}
+                depot={depot}
+            />
+        )
     }
     return null
 }

@@ -19,9 +19,10 @@ interface invoiceProps {
     trip: InvoiceProp['trips']
     bill: { billNo: string; date: number }
     total: totalProps
+    depot?: string
 }
 
-const ChettinadAriyalur: FC<invoiceProps> = ({ trip, bill, total }) => (
+const ChettinadAriyalur: FC<invoiceProps> = ({ trip, bill, total, depot }) => (
     <>
         <section id="invoice" className="chettinad-ariyalur-section" style={{ padding: '20px' }}>
             <style
@@ -171,7 +172,7 @@ const ChettinadAriyalur: FC<invoiceProps> = ({ trip, bill, total }) => (
                             <p>1</p>
                         </td>
                         <td className="p5 tc br" colSpan={3}>
-                            <p>TRANSPORTATION CHARGES</p>
+                            <p>TRANSPORTATION CHARGES for {depot}</p>
                         </td>
                         <td className="p5 tc br" colSpan={2}>
                             <p>996791</p>

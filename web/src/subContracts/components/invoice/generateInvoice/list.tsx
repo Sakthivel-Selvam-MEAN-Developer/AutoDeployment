@@ -60,6 +60,7 @@ const defaultFilterData = {
 export interface invoiceValuesProps {
     billNo: string
     date: number
+    depot: string
 }
 const InvoiceList: React.FC = () => {
     const { handleSubmit, control } = useForm<FieldValues>()
@@ -88,7 +89,8 @@ const InvoiceList: React.FC = () => {
         const data = {
             trip: { tripId: Array.from(disabled), tripName: filterData.pageName },
             bill: invoiceValues,
-            cementCompany: filterData?.cementCompany
+            cementCompany: filterData?.cementCompany,
+            depot: invoiceValues.depot
         }
         await previewInvoicePDF(data).then((details) => {
             setPdfStr(details)
@@ -99,7 +101,8 @@ const InvoiceList: React.FC = () => {
         const data = {
             trip: { tripId: Array.from(disabled), tripName: filterData.pageName },
             bill: invoiceValues,
-            cementCompany: filterData?.cementCompany
+            cementCompany: filterData?.cementCompany,
+            depot: invoiceValues.depot
         }
         await updateInvoiceDetails(data).then(async () => await downloadPDF(pdfStr))
     }

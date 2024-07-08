@@ -7,7 +7,7 @@ import { epochToMinimalDate } from '../epochToNormal'
 import ChettinadAnnexure from './chettinadAnnexure'
 import { AnnexureProps } from '../type'
 
-const ChettinadKarikkali: FC<AnnexureProps> = ({ trip, total, bill }) => {
+const ChettinadKarikkali: FC<AnnexureProps> = ({ trip, total, bill, depot }) => {
     return (
         <>
             <section className="chettinad-section" id="invoice" style={{ padding: '20px' }}>
@@ -111,7 +111,7 @@ const ChettinadKarikkali: FC<AnnexureProps> = ({ trip, total, bill }) => {
                                 <div className="df-fc pt pb jsp">
                                     <div>
                                         <h4 className="ta p-2">
-                                            Transportation charges for DEPOTS
+                                            Transportation charges for {depot}
                                         </h4>
                                         <p className="ta p-2">
                                             ({epochToMinimalDate(total.fromDate)} to{' '}

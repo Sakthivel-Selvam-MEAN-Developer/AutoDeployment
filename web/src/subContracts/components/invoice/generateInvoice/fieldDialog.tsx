@@ -17,7 +17,7 @@ export const InvoiceFieldDialog: FC<FieldDialogProps> = ({
 }) => {
     const { invoiceValues, setInvoiceValues } = useContext(billNoContext)
     const handleClose = () => {
-        setInvoiceValues({ billNo: '', date: 0 })
+        setInvoiceValues({ billNo: '', date: 0, depot: '' })
         setActivateFields(false)
     }
     const handleClick = () => {
