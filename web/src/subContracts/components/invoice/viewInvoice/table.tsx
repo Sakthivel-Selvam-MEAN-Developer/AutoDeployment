@@ -3,20 +3,21 @@ import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { formattedData } from './tableList'
-import { gridProp } from './showTypes'
+import { display, gridProp } from './showTypes'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
 import { closeDialogBox, openDialogBox, pdfBox, link } from './tableCells'
 import { columns } from './tripType'
+import { filterDataProps } from './invoiceContext'
 
-const InvoiceDataGrid: React.FC<gridProp> = ({ display }) => {
+const InvoiceDataGrid: React.FC<gridProp> = ({ display, setFilterData, filterData }) => {
     const [rows, setRows] = useState<formattedData[]>([])
     const [pdfLink, setPdfLink] = useState<string | null>(null)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [page, setPage] = useState(1)
     useEffect(() => {
         try {
-            const formattedData = display.map((row, index) => ({
+            const formattedData = display.data.map((row: display, index: number) => ({
                 id: index + 1,
                 billNo: row.billNo,
                 billDate: epochToMinimalDate(row.billDate),
@@ -25,6 +26,7 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display }) => {
                 pdfLink: row.pdfLink
             }))
             setRows(formattedData)
+            setPage(1)
         } catch (error) {
             console.error('Error fetching company invoices:', error)
         }
@@ -41,11 +43,6 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display }) => {
         }
         return column
     })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handlePageChange = (_event: any, value: React.SetStateAction<number>) => {
-        setPage(value)
-    }
-
     const paginatedRows = rows.slice((page - 1) * 50, page * 50)
 
     return (
@@ -65,7 +62,7 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display }) => {
                     padding: '10px 0'
                 }}
             >
-                <Stack spacing={2}>{pagination(rows, page, handlePageChange)}</Stack>
+                <Stack spacing={2}>{pagination(display.count, filterData, setFilterData)}</Stack>
             </div>
         </div>
     )
@@ -73,16 +70,15 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display }) => {
 export default InvoiceDataGrid
 
 function pagination(
-    rows: formattedData[],
-    page: number,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    handlePageChange: (_event: any, value: React.SetStateAction<number>) => void
+    count: number,
+    filterData: filterDataProps,
+    setFilterData: React.Dispatch<React.SetStateAction<filterDataProps>>
 ) {
     return (
         <Pagination
-            count={Math.ceil(rows.length / 50)}
-            page={page}
-            onChange={handlePageChange}
+            count={Math.ceil(count / 50)}
+            page={filterData.pageNumber}
+            onChange={(_e, value) => setFilterData((prev) => ({ ...prev, pageNumber: value }))}
             size="large"
             shape="rounded"
             color="primary"

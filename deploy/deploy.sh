@@ -17,11 +17,11 @@ git clone --depth 1 git@github.com:WonderWhyDev/wonderWhy.git
 echo "copy code to aws server"
 rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' wonderWhy  ec2-user@"$IP":~/
 echo "copy secrets to aws server"
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/wonderWhy/backend/.env
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/wonderWhy/keycloak/keycloak.aws.conf  ec2-user@"$IP":~/wonderWhy/keycloak/keycloak.conf
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/wonderWhy/docker/certs/*.pem  ec2-user@"$IP":~/wonderWhy/nginx/certs/
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/wonderWhy/web/dist/*  ec2-user@"$IP":~/wonderWhy/nginx/html/
-rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/wonderWhy/backend/dist/*  ec2-user@"$IP":~/wonderWhy/backend/dist/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/newproject/wonderWhy/backend/.env.aws  ec2-user@"$IP":~/wonderWhy/backend/.env
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/newproject/wonderWhy/keycloak/keycloak.aws.conf  ec2-user@"$IP":~/wonderWhy/keycloak/keycloak.conf
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/newproject/wonderWhy/docker/certs/*.pem  ec2-user@"$IP":~/wonderWhy/nginx/certs/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/newproject/wonderWhy/web/dist/*  ec2-user@"$IP":~/wonderWhy/nginx/html/
+rsync -avz  -e 'ssh -i ~/.ssh/wonderWhy.pem' ~/Desktop/newproject/wonderWhy/backend/dist/*  ec2-user@"$IP":~/wonderWhy/backend/dist/
 echo "install all dependencies"
 ssh -t -i ~/.ssh/wonderWhy.pem ec2-user@"$IP"  << EOF
   set -e

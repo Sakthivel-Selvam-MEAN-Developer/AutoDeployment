@@ -8,6 +8,7 @@ export interface filterDataProps {
     startDate: number
     endDate: number
     cementCompany: { id: number | undefined; name: string | undefined }
+    pageNumber: number
 }
 export const invoiceFilterData = createContext<contextProps>({} as contextProps)
 interface billNoContextProps {
@@ -18,10 +19,4 @@ export const billNoContext = createContext<billNoContextProps>({} as billNoConte
 export interface invoiceValuesProps {
     billNo: string
     date: number
-}
-export interface filterDataProps {
-    pageName: string
-    startDate: number
-    endDate: number
-    cementCompany: { id: number | undefined; name: string | undefined }
 }

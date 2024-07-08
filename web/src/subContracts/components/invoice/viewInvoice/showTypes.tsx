@@ -1,4 +1,5 @@
 import { tripDetails, tripDetailsProps } from './tableList'
+import { filterDataProps } from './invoiceContext'
 export interface TableBodyProps {
     tripDetails: tripDetails[]
     setSelectedTrip: React.Dispatch<React.SetStateAction<tripDetails[]>>
@@ -37,5 +38,8 @@ export interface display {
     pdfLink: string
 }
 export interface gridProp {
-    display: display[]
+    display: { data: display[]; count: number }
+    setFilterData: React.Dispatch<React.SetStateAction<filterDataProps>>
+    count?: number
+    filterData: filterDataProps
 }

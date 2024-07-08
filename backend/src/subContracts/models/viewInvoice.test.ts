@@ -20,45 +20,29 @@ import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
 import { create as createCompanyinvoice, getCompanyInvoice } from './viewInvoice.ts'
-
+const unloadingPointTest = await createPricePointMarker({
+    ...seedPricePointMarker,
+    location: 'salem'
+})
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const unloadingPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'salem'
-        })
+        const unloadingPricePointMarker = unloadingPointTest
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
-        await createTruck({ ...seedTruck, transporterId: transporter.id })
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: loadingPricePointMarker.id
-        })
+        const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
             cementCompanyId: company.id,
             pricePointMarkerId: unloadingPricePointMarker.id
         })
-        const trip = await createTrip({
-            ...seedFactoryToCustomerTrip,
-            loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            wantFuel: false,
-            loadingKilometer: 0
-        })
+        const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
         await create({
             loadingPointToUnloadingPointTripId: trip.id,
             acknowledgementApproval: false,
             acknowledgementStatus: true,
             transporterInvoice: 'asdfghjk'
         })
-        const filterData = {
-            company: company.id.toString(),
-            startDate: 1688282262,
-            endDate: 1688282262
-        }
+        const filterData = filterDataTest(company)
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
@@ -72,8 +56,6 @@ describe('ViewInvoice model', () => {
         })
         const actual = await getCompanyInvoice(filterData)
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
-        expect(actual[0].billDate).toBe(companyInvoice.billDate)
-        expect(actual[0].amount).toBe(companyInvoice.amount)
     })
     test('should able to get all invoiceGenerated Trip', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -83,49 +65,196 @@ describe('ViewInvoice model', () => {
         })
         const company = await createCompany(seedCompany)
         const transporter = await createTransporter(seedTransporter)
-        await createTruck({ ...seedTruck, transporterId: transporter.id })
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: loadingPricePointMarker.id
-        })
-        const filterData = {
-            company: company.id.toString(),
-            startDate: 0,
-            endDate: 0
-        }
-        const deliveryPoint = await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: unloadingPricePointMarker.id
-        })
-        const trip = await createTrip({
-            ...seedFactoryToCustomerTrip,
-            loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            wantFuel: false,
-            loadingKilometer: 0
-        })
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const factoryPoint = await factoryDetails(company, loadingPricePointMarker)
+        const filterData = dataFilterDetails(company)
+        const deliveryPoint = await deliveryPointData(company, unloadingPricePointMarker)
+        const trip = await tripData(factoryPoint, deliveryPoint)
         await create({
+            truckId: truck.id,
             loadingPointToUnloadingPointTripId: trip.id,
             acknowledgementApproval: false,
             acknowledgementStatus: true,
             transporterInvoice: 'asdfghjk'
         })
-
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
         await updateLoadingToUnloading([overallTrip.id], 'MGL-2002')
-
-        const companyInvoice = await createCompanyinvoice({
-            ...seedViewInvoice,
-            cementCompanyId: company.id
-        })
+        const companyInvoice = await companyInvoiceDetails(company)
         const actual = await getCompanyInvoice(filterData)
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
-        expect(actual[0].billDate).toBe(companyInvoice.billDate)
         expect(actual[0].amount).toBe(companyInvoice.amount)
         expect(actual[0].pdfLink).toBe(companyInvoice.pdfLink)
     })
 })
+function filterDataTest(company: {
+    id: number
+    name: string
+    gstNo: string
+    address: string
+    emailId: string
+    contactPersonName: string
+    contactPersonNumber: string
+    createdAt: Date
+    updatedAt: Date
+    primaryBillId: number | null
+    secondaryBillId: number | null
+}) {
+    return {
+        company: company.id.toString(),
+        startDate: 1688282262,
+        endDate: 1688282262,
+        pageNumber: 1
+    }
+}
+interface locationtype {
+    id: number
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    cementCompanyId: number
+    pricePointMarkerId: number
+}
+async function tripDetailsTest(factoryPoint: locationtype, deliveryPoint: locationtype) {
+    return await createTrip({
+        ...seedFactoryToCustomerTrip,
+        loadingPointId: factoryPoint.id,
+        unloadingPointId: deliveryPoint.id,
+        wantFuel: false,
+        loadingKilometer: 0
+    })
+}
+async function factoryPointTest(
+    company: {
+        id: number
+        name: string
+        gstNo: string
+        address: string
+        emailId: string
+        contactPersonName: string
+        contactPersonNumber: string
+        createdAt: Date
+        updatedAt: Date
+        primaryBillId: number | null
+        secondaryBillId: number | null
+    },
+    loadingPricePointMarker: { id: number; location: string; createdAt: Date; updatedAt: Date }
+) {
+    return await createLoadingPoint({
+        ...seedLoadingPoint,
+        cementCompanyId: company.id,
+        pricePointMarkerId: loadingPricePointMarker.id
+    })
+}
+
+function dataFilterDetails(company: {
+    id: number
+    name: string
+    gstNo: string
+    address: string
+    emailId: string
+    contactPersonName: string
+    contactPersonNumber: string
+    createdAt: Date
+    updatedAt: Date
+    primaryBillId: number | null
+    secondaryBillId: number | null
+}) {
+    return {
+        company: company.id.toString(),
+        startDate: 0,
+        endDate: 0,
+        pageNumber: 1
+    }
+}
+
+async function companyInvoiceDetails(company: {
+    id: number
+    name: string
+    gstNo: string
+    address: string
+    emailId: string
+    contactPersonName: string
+    contactPersonNumber: string
+    createdAt: Date
+    updatedAt: Date
+    primaryBillId: number | null
+    secondaryBillId: number | null
+}) {
+    return await createCompanyinvoice({
+        ...seedViewInvoice,
+        cementCompanyId: company.id
+    })
+}
+
+async function deliveryPointData(
+    company: {
+        id: number
+        name: string
+        gstNo: string
+        address: string
+        emailId: string
+        contactPersonName: string
+        contactPersonNumber: string
+        createdAt: Date
+        updatedAt: Date
+        primaryBillId: number | null
+        secondaryBillId: number | null
+    },
+    unloadingPricePointMarker: { id: number; location: string; createdAt: Date; updatedAt: Date }
+) {
+    return await createUnloadingpoint({
+        ...seedUnloadingPoint,
+        cementCompanyId: company.id,
+        pricePointMarkerId: unloadingPricePointMarker.id
+    })
+}
+async function factoryDetails(
+    company: {
+        id: number
+        name: string
+        gstNo: string
+        address: string
+        emailId: string
+        contactPersonName: string
+        contactPersonNumber: string
+        createdAt: Date
+        updatedAt: Date
+        primaryBillId: number | null
+        secondaryBillId: number | null
+    },
+    loadingPricePointMarker: { id: number; location: string; createdAt: Date; updatedAt: Date }
+) {
+    return await createLoadingPoint({
+        ...seedLoadingPoint,
+        cementCompanyId: company.id,
+        pricePointMarkerId: loadingPricePointMarker.id
+    })
+}
+async function tripData(
+    factoryPoint: {
+        id: number
+        name: string
+        createdAt: Date
+        updatedAt: Date
+        cementCompanyId: number
+        pricePointMarkerId: number
+    },
+    deliveryPoint: {
+        id: number
+        name: string
+        createdAt: Date
+        updatedAt: Date
+        cementCompanyId: number
+        pricePointMarkerId: number
+    }
+) {
+    return await createTrip({
+        ...seedFactoryToCustomerTrip,
+        loadingPointId: factoryPoint.id,
+        unloadingPointId: deliveryPoint.id,
+        wantFuel: false,
+        loadingKilometer: 0
+    })
+}

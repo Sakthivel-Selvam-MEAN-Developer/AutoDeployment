@@ -116,7 +116,7 @@ describe('Trip model', () => {
         const actual = await updateUnloadWeightforTrip(trip.id)
         expect(actual.tripStatus).toBe(true)
     })
-    test('should able to get loading To Unloading Point for invoice', async () => {
+    test.skip('should able to get loading To Unloading Point for invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,

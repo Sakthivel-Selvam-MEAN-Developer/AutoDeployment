@@ -6,6 +6,7 @@ interface RequestQuery {
     startDate: string
     endDate: string
     cementCompany: { id: string }
+    pageNumber: string
 }
 type getCompanyInvoiceProps = (
     req: Request<object, object, object, RequestQuery>,
@@ -16,7 +17,8 @@ export const getInvoicedTrip: getCompanyInvoiceProps = async (req, res) => {
     const filterData = {
         startDate: parseInt(req.query.startDate),
         endDate: parseInt(req.query.endDate),
-        company: req.query.cementCompany.id
+        company: req.query.cementCompany.id,
+        pageNumber: parseInt(req.query.pageNumber)
     }
     await getCompanyInvoice(filterData)
         .then((data) => res.status(200).json(data))
