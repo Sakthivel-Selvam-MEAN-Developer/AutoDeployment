@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
@@ -9,7 +8,6 @@ import Stack from '@mui/material/Stack'
 import { closeDialogBox, openDialogBox, pdfBox, link } from './tableCells'
 import { columns } from './tripType'
 import { filterDataProps } from './invoiceContext'
-
 const InvoiceDataGrid: React.FC<gridProp> = ({ display, setFilterData, filterData }) => {
     const [rows, setRows] = useState<formattedData[]>([])
     const [pdfLink, setPdfLink] = useState<string | null>(null)
@@ -44,7 +42,6 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display, setFilterData, filterDat
         return column
     })
     const paginatedRows = rows.slice((page - 1) * 50, page * 50)
-
     return (
         <div style={{ height: 600, width: '100%' }}>
             <DataGrid
@@ -68,7 +65,6 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display, setFilterData, filterDat
     )
 }
 export default InvoiceDataGrid
-
 function pagination(
     count: number,
     filterData: filterDataProps,

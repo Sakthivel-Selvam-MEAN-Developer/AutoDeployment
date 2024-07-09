@@ -28,7 +28,7 @@ const ViewList: React.FC = () => {
     const onSubmit = async () => {
         await getCompanyInvoice({ ...filterData }).then(setDisplay)
     }
-    // const getTripDetails = getTrip(filterData, setDisplay)
+    console.log(display)
     useEffect(() => {
         onSubmit()
     }, [filterData.pageNumber])
@@ -43,13 +43,3 @@ const ViewList: React.FC = () => {
     )
 }
 export default ViewList
-// function getTrip(
-//     filterData: filterDataProps,
-//     setDisplay: React.Dispatch<React.SetStateAction<display[]>>
-// ) {
-//     console.log(filterData)
-//     return async () => {
-//         if (filterData?.cementCompany.name === '') return
-//         await getCompanyInvoice({ ...filterData }).then(setDisplay)
-//     }
-// }
