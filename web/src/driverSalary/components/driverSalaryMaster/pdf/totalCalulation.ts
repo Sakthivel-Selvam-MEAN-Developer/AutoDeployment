@@ -11,9 +11,9 @@ const findTrip = (overallTrip: Trip) => {
         return { trip: overallTrip.loadingPointToUnloadingPointTrip, type: 'direct' }
     }
 }
-export const fuelCalculation = (fuel: { totalprice: number }[]) => {
-    if (fuel.length === 0) return 0
-    return fuel[0].totalprice
+export const fuelCalculation = (fuel: { totalprice: number; quantity: number }[]) => {
+    if (fuel.length === 0) return { price: 0, quantity: 0 }
+    return { price: fuel[0].totalprice, quantity: fuel[0].quantity }
 }
 export const advanceCalculation = (advanceforTrip: AdvanceforTrip[]) => {
     let total = 0
@@ -27,11 +27,14 @@ export const totalCalculation = (tripDetails: driverDetailProps) => {
     let totalBetta = 0
     let totalFuel = 0
     let totalFilledLoad = 0
+    let totalQuantity = 0
     let averageFilledLoad = 0
     tripDetails.trips.map((tripDetails) => {
+        const { price, quantity } = fuelCalculation(tripDetails.fuel)
+        totalFuel += price
+        totalQuantity += quantity
         averageFilledLoad += 1
         const { trip } = findTrip(tripDetails)
-        totalFuel += fuelCalculation(tripDetails.fuel)
         totalBetta += tripDetails.tripSalaryDetails.totalTripBetta
         totalFilledLoad += trip.filledLoad
     })
@@ -40,6 +43,7 @@ export const totalCalculation = (tripDetails: driverDetailProps) => {
         advanceDetails.advanceforTrip.map(({ amount }) => (totalAdvance += amount))
     )
     return {
+        totalQuantity,
         totalAdvance,
         totalExpense,
         totalBetta,

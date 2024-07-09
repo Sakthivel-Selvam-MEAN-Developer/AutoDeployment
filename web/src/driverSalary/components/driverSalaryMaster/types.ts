@@ -23,6 +23,7 @@ interface fuelProps {
 export interface Trip {
     id: number
     fuel: fuelProps[]
+    truck: Truck
     loadingPointToUnloadingPointTrip: LoadingPointToUnloadingPointTrip
     loadingPointToStockPointTrip: LoadingPointToUnloadingPointTrip
     tripSalaryDetails: TripSalaryDetails
@@ -56,7 +57,6 @@ interface LoadingPointToUnloadingPointTrip {
     startDate: number
     unloadingPoint: LoadingPoint
     stockPoint: LoadingPoint
-    truck: Truck
     filledLoad: number
 }
 

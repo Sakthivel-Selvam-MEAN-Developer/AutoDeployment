@@ -42,7 +42,7 @@ export const SummaryTable: FC<SummaryTableProps> = ({ tripDetails }) => {
             <tr>
                 <td className="alignLeft">5</td>
                 <td className="alignLeft">
-                    <b>Trip Batta</b>
+                    <b>Daily Batta</b>
                 </td>
                 <td className="alignRight">{tripDetails.totalTripBetta}</td>
             </tr>
@@ -51,21 +51,21 @@ export const SummaryTable: FC<SummaryTableProps> = ({ tripDetails }) => {
                 <td className="alignLeft">
                     <b>Other Incentives</b>
                 </td>
-                <td className="alignRight">0.00</td>
+                <td className="alignRight"></td>
             </tr>
             <tr>
                 <td className="alignLeft">7</td>
                 <td className="alignLeft">
                     <b>Diesel Deductions</b>
                 </td>
-                <td className="alignRight">0.00</td>
+                <td className="alignRight"></td>
             </tr>
             <tr>
                 <td className="alignLeft">8</td>
                 <td className="alignLeft">
                     <b>Other Deductions</b>
                 </td>
-                <td className="alignRight">0.00</td>
+                <td className="alignRight"></td>
             </tr>
             <tr>
                 <td className="alignLeft">9</td>
@@ -74,11 +74,6 @@ export const SummaryTable: FC<SummaryTableProps> = ({ tripDetails }) => {
                 </td>
                 <td className="alignRight">
                     <b>{salary}</b>
-                </td>
-            </tr>
-            <tr>
-                <td colSpan={3}>
-                    <b>Comments :</b> okay|Attendance - Rs {tripDetails.totalTripBetta}(+)
                 </td>
             </tr>
         </table>

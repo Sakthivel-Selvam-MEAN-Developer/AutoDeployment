@@ -34,6 +34,9 @@ const mockExpenseData = [
     {
         trip: {
             id: 37,
+            truck: {
+                vehicleNumber: 'TN12G9456'
+            },
             loadingPointToUnloadingPointTrip: null,
             loadingPointToStockPointTrip: {
                 id: 3,
@@ -48,10 +51,7 @@ const mockExpenseData = [
                             name: 'Salem'
                         }
                     }
-                ],
-                truck: {
-                    vehicleNumber: 'TN12G9456'
-                }
+                ]
             }
         },
         expense: [

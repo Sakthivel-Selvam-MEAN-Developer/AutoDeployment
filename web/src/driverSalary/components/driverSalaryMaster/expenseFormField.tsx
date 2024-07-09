@@ -19,6 +19,9 @@ interface FormFieldProps {
 }
 interface driverTripDetailsProps {
     id: number
+    truck: {
+        vehicleNumber: string | undefined
+    }
     loadingPointToUnloadingPointTrip: {
         id: number
         loadingPoint: {
@@ -27,9 +30,6 @@ interface driverTripDetailsProps {
         }
         invoiceNumber: string
         startDate: number
-        truck: {
-            vehicleNumber: string | undefined
-        }
     }
     loadingPointToStockPointTrip: {
         id: number
@@ -39,9 +39,6 @@ interface driverTripDetailsProps {
         }
         invoiceNumber: string
         startDate: number
-        truck: {
-            vehicleNumber: string | undefined
-        }
     }
 }
 const expenseTypes = [
@@ -103,7 +100,7 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
             return {
                 id: tripData.id,
                 invoiceNumber: tripType?.invoiceNumber,
-                vehicleNumber: tripType?.truck.vehicleNumber
+                vehicleNumber: tripData?.truck.vehicleNumber
             }
         })
     useEffect(() => setInvoice(''), [driverId])

@@ -31,7 +31,7 @@ export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
         totalExpense,
         totalFilledLoad,
         averageFilledLoad,
-        totalFuel,
+        totalQuantity,
         totalBetta
     } = totalCalculation(tripDetails)
     return (
@@ -52,7 +52,7 @@ export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
                 </td>
                 <td></td>
                 <td className="alignRight">
-                    <h4>13,668.00</h4>
+                    <h4></h4>
                 </td>
                 <td className="alignRight">
                     <h4>{totalExpense.toFixed(2)}</h4>
@@ -61,19 +61,19 @@ export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>
+                <td className="alignRight">
                     <b>
                         T {totalFilledLoad.toFixed(2)} <br />A {averageFilledLoad.toFixed(2)}
                     </b>
                 </td>
                 <td></td>
-                <td>
-                    <b>{totalFuel.toFixed(2)}</b>
+                <td className="alignRight">
+                    <b>{totalQuantity.toFixed(2)}</b>
                 </td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>
+                <td className="alignRight">
                     <b>{totalBetta.toFixed(2)}</b>
                 </td>
             </tr>
@@ -115,9 +115,9 @@ const TableCells: FC<TableCells> = ({ tripDetails }) =>
                 <td className="alignRight">{tripData.filledLoad.toFixed(2)}</td>
                 <td className="alignLeft"></td>
                 <td className="alignRight">
-                    {trip.fuel.length > 0 ? trip.fuel[0].totalprice.toFixed(2) : 0}
+                    {trip.fuel.length > 0 ? trip.fuel[0].quantity.toFixed(2) : 0}
                 </td>
-                <td className="alignRight">0.00</td>
+                <td className="alignRight"></td>
                 <td className="alignRight">{trip.mileage}</td>
                 <td className="alignLeft"></td>
                 <td className="alignRight">{trip.tripSalaryDetails.totalTripBetta.toFixed(2)}</td>

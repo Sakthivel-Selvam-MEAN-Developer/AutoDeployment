@@ -29,6 +29,9 @@ const mockTripDetailsData = {
     trips: [
         {
             id: 2,
+            truck: {
+                vehicleNumber: 'TN12G9456'
+            },
             loadingPointToUnloadingPointTrip: {
                 id: 2,
                 loadingPoint: {
@@ -38,9 +41,6 @@ const mockTripDetailsData = {
                 startDate: 1714588200,
                 unloadingPoint: {
                     name: 'Salem'
-                },
-                truck: {
-                    vehicleNumber: 'TN12G9456'
                 }
             },
             loadingPointToStockPointTrip: null

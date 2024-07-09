@@ -79,7 +79,7 @@ const ExpenseAccordionSummary: FC<ExpenseAccordionSummaryProps> = ({ trip }) => 
     return (
         <>
             <Typography sx={style}>
-                <b>{driverTrip?.truck.vehicleNumber}</b>
+                <b>{trip?.truck.vehicleNumber}</b>
             </Typography>
             <Typography sx={style}>{driverTrip?.invoiceNumber}</Typography>
             <Typography sx={style}>

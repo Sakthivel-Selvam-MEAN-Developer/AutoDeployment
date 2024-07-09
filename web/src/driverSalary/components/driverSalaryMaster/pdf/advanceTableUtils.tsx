@@ -12,7 +12,7 @@ export const TableCells: FC<tableCellProps> = ({ tripDetails, number }) => {
             <tr key={index}>
                 <td className="alignLeft">{number + 1}</td>
                 <td className="alignLeft">{epochToMinimalDate(tripAdvance.advanceDate)}</td>
-                <td className="alignLeft">Recd From Vigneshwaran R at HO</td>
+                <td className="alignLeft">Advance Transfered</td>
                 <td className="alignRight">{tripAdvance.amount.toFixed(2)}</td>
             </tr>
         )

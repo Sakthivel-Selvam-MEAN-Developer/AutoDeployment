@@ -5,7 +5,6 @@ interface loadingPointToUnloadingPointTrip {
     invoiceNumber: string
     startDate: number
     unloadingPoint: { name: string }
-    truck: { vehicleNumber: string }
 }
 interface loadingPointToStockPointTrip {
     id: number
@@ -23,6 +22,7 @@ export interface expense {
 }
 export interface trips {
     id: number
+    truck: { vehicleNumber: string }
     loadingPointToUnloadingPointTrip?: loadingPointToUnloadingPointTrip
     loadingPointToStockPointTrip?: loadingPointToStockPointTrip
 }
