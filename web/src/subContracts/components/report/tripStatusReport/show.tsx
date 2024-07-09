@@ -129,7 +129,8 @@ export interface finalDataProps {
     loadingPoint: string
     stockPoint: string
     unloadingPoint: string
-    filledLoad: string
+    loadedQuantity: number | string
+    tripRoute: string
     freightAmount: number
     transporterAmount: number
     totalFreightAmount: number
@@ -166,10 +167,14 @@ const style = {
 }
 let finalData: finalDataProps[] = []
 const columns = [
-    { field: 'number', headerName: '#', width: 50 },
-    { field: 'cementCompany', headerName: 'CementCompany Name', width: 240 },
+    { field: 'number', headerName: '#', maxWidth: 40, minWidth: 10 },
+    { field: 'cementCompany', headerName: 'CementCompany Name', width: 200 },
     { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
-    { field: 'startDate', headerName: 'Start Date', width: 120 },
+    { field: 'startDate', headerName: 'Start Date', width: 80 },
+    { field: 'loadedQuantity', headerName: 'Loaded Quantity', width: 80 },
+    { field: 'loadingPoint', headerName: 'Loading Point', width: 150 },
+    { field: 'stockPoint', headerName: 'Stock Point', width: 150 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', width: 150 },
     { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
     { field: 'transporterName', headerName: 'Transporter', width: 240 },
     { field: 'csmName', headerName: 'CSM Name', width: 130 },
@@ -279,7 +284,7 @@ const generateRow = (row: Props, index: number) => {
         loadingPoint: data.loadingPoint.name,
         stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',
         unloadingPoint: data.unloadingPoint ? data.unloadingPoint.name : 'null',
-        filledLoad: data.filledLoad,
+        loadedQuantity: data.filledLoad,
         freightAmount: data.freightAmount,
         transporterAmount: data.transporterAmount,
         totalFreightAmount: data.totalFreightAmount,
@@ -288,6 +293,7 @@ const generateRow = (row: Props, index: number) => {
         transporterInvoice: row.transporterInvoice ? 'Yes' : 'No',
         primaryBillNo,
         secondaryBillNo,
+        tripRoute: `${data.loadingPoint.name} to ${data.unloadingPoint ? data.unloadingPoint.name : 'null'}`,
         bunkName: row.fuel.length !== 0 ? row.fuel[0].bunk.bunkName : 'Not Fueled',
         fuelQuantity: row.fuel.length !== 0 ? row.fuel[0].quantity : 'Not Fueled',
         fuelPrice: row.fuel.length !== 0 ? row.fuel[0].totalprice : 'Not Fueled',
