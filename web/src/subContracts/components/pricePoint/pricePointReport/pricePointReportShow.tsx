@@ -17,6 +17,7 @@ interface picePointProps {
     transporterAmount: number
     transporterPercentage: number
     payGeneratingDuration: number
+    transporterAdvancePercentage: number
     loadingPoint: locationProps
     unloadingPoint: locationProps
     stockPoint: locationProps
@@ -36,7 +37,8 @@ const cellNames = [
     'FreightAmount',
     'TransporterPercentage',
     'TransporterAmount',
-    'PayGeneratingDuration'
+    'PayGeneratingDuration',
+    'Transporter AdvancePercentage'
 ]
 const cells = (cell: string, index: number) => {
     return (
@@ -80,6 +82,7 @@ const cell = (pricePoint: picePointProps) => {
             <TableCell align="left">{pricePoint.transporterPercentage}</TableCell>
             <TableCell align="left">{pricePoint.transporterAmount}</TableCell>
             <TableCell align="left">{pricePoint.payGeneratingDuration}</TableCell>
+            <TableCell align="left">{pricePoint.transporterAdvancePercentage}</TableCell>
         </>
     )
 }
