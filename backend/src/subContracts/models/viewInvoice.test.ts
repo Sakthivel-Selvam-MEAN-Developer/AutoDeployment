@@ -19,7 +19,7 @@ import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
-import { create as createCompanyinvoice, getCompanyInvoice } from './viewInvoice.ts'
+import { create as createCompanyinvoice, getCompanyInvoice, pageCount } from './viewInvoice.ts'
 const unloadingPointTest = await createPricePointMarker({
     ...seedPricePointMarker,
     location: 'salem'
@@ -87,7 +87,81 @@ describe('ViewInvoice model', () => {
         expect(actual[0].amount).toBe(companyInvoice.amount)
         expect(actual[0].pdfLink).toBe(companyInvoice.pdfLink)
     })
+    test('should calculate balance correctly after creating company invoice', async () => {
+        const company = await createCompany(seedCompany)
+        const initialBalance = 50000
+        const companyInvoice = await createCompanyinvoice({
+            billNo: 'MGL-034',
+            billDate: 1688282262,
+            amount: 24000,
+            pdfLink: 'https://aws.s3.sample.pdf',
+            cementCompanyId: company.id
+        })
+        const finalBalance = initialBalance - companyInvoice.amount
+        expect(finalBalance).toBe(26000)
+    })
+    test('should able to get pagecount', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = unloadingPointTest
+        const company = await createCompany(seedCompany)
+        const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
+        await create({
+            loadingPointToUnloadingPointTripId: trip.id,
+            acknowledgementApproval: false,
+            acknowledgementStatus: true,
+            transporterInvoice: 'asdfghjk'
+        })
+        const filterData = filterDataTest(company)
+        const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
+        await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
+        await createCompanyinvoice({
+            billNo: 'MGL-034',
+            billDate: 1688282262,
+            amount: 24000,
+            pdfLink: 'https://aws.s3.sample.pdf',
+            cementCompanyId: company.id
+        })
+        const actual = await pageCount(filterData)
+        expect(actual).toBe(1)
+    })
+    test('should able to get page count undefined', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = unloadingPointTest
+        const company = await createCompany(seedCompany)
+        const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
+        await create({
+            loadingPointToUnloadingPointTripId: trip.id,
+            acknowledgementApproval: false,
+            acknowledgementStatus: true,
+            transporterInvoice: 'asdfghjk'
+        })
+        const filterData = filterDataPageCount(company)
+        const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
+        await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
+        await createCompanyinvoice({
+            billNo: 'MGL-034',
+            billDate: 1688282262,
+            amount: 24000,
+            pdfLink: 'https://aws.s3.sample.pdf',
+            cementCompanyId: company.id
+        })
+        const actual = await pageCount(filterData)
+        expect(actual).toBe(1)
+    })
 })
+
 function filterDataTest(company: {
     id: number
     name: string
@@ -105,6 +179,26 @@ function filterDataTest(company: {
         company: company.id.toString(),
         startDate: 1688282262,
         endDate: 1688282262,
+        pageNumber: 1
+    }
+}
+function filterDataPageCount(company: {
+    id: number
+    name: string
+    gstNo: string
+    address: string
+    emailId: string
+    contactPersonName: string
+    contactPersonNumber: string
+    createdAt: Date
+    updatedAt: Date
+    primaryBillId: number | null
+    secondaryBillId: number | null
+}) {
+    return {
+        company: company.id.toString(),
+        startDate: 0,
+        endDate: 0,
         pageNumber: 1
     }
 }

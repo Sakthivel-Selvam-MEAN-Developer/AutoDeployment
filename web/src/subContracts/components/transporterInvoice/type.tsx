@@ -16,6 +16,8 @@ interface tripProps {
 }
 export interface GetCellsProps {
     trip: tripProps | undefined
+    trips: tripDetailProps[]
+    index: number
     id: number
     setTripDetails: React.Dispatch<React.SetStateAction<tripDetailProps[]>>
 }

@@ -40,7 +40,13 @@ export const TableConatiner: FC<TableConatinerProps> = ({ trips, setTripDetails 
                 }
                 return (
                     <TableRow key={index}>
-                        <GetCells trip={trip} id={id} setTripDetails={setTripDetails} />
+                        <GetCells
+                            trip={trip}
+                            trips={trips}
+                            index={index}
+                            id={id}
+                            setTripDetails={setTripDetails}
+                        />
                     </TableRow>
                 )
             })}

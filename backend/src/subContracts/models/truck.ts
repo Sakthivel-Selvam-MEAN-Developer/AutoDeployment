@@ -13,7 +13,7 @@ export const getTruckByTransporter = (transporterName: string) =>
                 name: transporterName
             },
             overallTrip: {
-                some: {
+                none: {
                     OR: [
                         {
                             loadingPointToUnloadingPointTrip: {
@@ -22,14 +22,12 @@ export const getTruckByTransporter = (transporterName: string) =>
                         },
                         {
                             loadingPointToStockPointTrip: {
-                                OR: [
-                                    {
-                                        stockPointToUnloadingPointTrip: {
-                                            some: { tripStatus: false }
-                                        }
-                                    },
-                                    { tripStatus: false }
-                                ]
+                                tripStatus: false,
+                                stockPointToUnloadingPointTrip: {
+                                    some: {
+                                        tripStatus: false
+                                    }
+                                }
                             }
                         }
                     ]

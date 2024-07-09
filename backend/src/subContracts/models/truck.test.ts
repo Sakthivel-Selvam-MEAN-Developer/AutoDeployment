@@ -78,7 +78,7 @@ describe('Truck model', () => {
             location: 'salem'
         })
         const transporter = await create(seedTransporter)
-        await createTruck({
+        const truck = await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',
             transporterId: transporter.id
@@ -113,7 +113,7 @@ describe('Truck model', () => {
         const actual = await getTruckByTransporter(transporter.name)
         expect(actual.length).toBe(1)
         expect(actual[0].transporterId).toBe(transporter.id)
-        expect(actual[0].vehicleNumber).toBe(truckWithInActiveTrip.vehicleNumber)
+        expect(actual[0].vehicleNumber).toBe(truck.vehicleNumber)
     })
     test('should get only Number By TruckId', async () => {
         const transporter = await create(seedTransporter)
