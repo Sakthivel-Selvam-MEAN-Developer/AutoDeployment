@@ -22,12 +22,12 @@ export const getTruckByTransporter = (transporterName: string) =>
                         },
                         {
                             loadingPointToStockPointTrip: {
-                                tripStatus: false,
-                                stockPointToUnloadingPointTrip: {
-                                    some: {
-                                        tripStatus: false
-                                    }
-                                }
+                                tripStatus: false
+                            }
+                        },
+                        {
+                            stockPointToUnloadingPointTrip: {
+                                tripStatus: false
                             }
                         }
                     ]
