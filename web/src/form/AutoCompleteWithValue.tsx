@@ -7,7 +7,7 @@ interface AutocompleteProps {
     fieldName: string
     label: string
     onChange: any
-    value: string
+    value: string | null
 }
 const AutoCompleteWithValue: React.FC<AutocompleteProps> = ({
     options,

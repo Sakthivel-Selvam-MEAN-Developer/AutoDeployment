@@ -13,7 +13,7 @@ import { create as createTrip } from './loadingToUnloadingTrip.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
-import { create as createTransporter } from './transporter.ts'
+import { create as createTransporter } from './transporterEdit.ts'
 import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
@@ -31,7 +31,7 @@ describe('TollPlaza model', () => {
             location: 'salem'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
@@ -65,7 +65,7 @@ describe('TollPlaza model', () => {
             location: 'salem'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
@@ -104,7 +104,7 @@ describe('TollPlaza model', () => {
             location: 'salem'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,

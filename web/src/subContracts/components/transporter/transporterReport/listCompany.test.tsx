@@ -34,9 +34,10 @@ describe('Report Test', () => {
         mockGetAllTransporter.mockResolvedValue(mockTransporterData)
     })
     test('should be able to view Company Report', async () => {
+        const handleEdit = vi.fn()
         render(
             <BrowserRouter>
-                <TransporterReport />
+                <TransporterReport handleEdit={handleEdit} />
             </BrowserRouter>
         )
         await waitFor(() => {

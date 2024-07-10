@@ -49,7 +49,7 @@ describe('Trip Test', () => {
                 <CreateTransporter />
             </BrowserRouter>
         )
-        expect(screen.getByText('Create')).toBeInTheDocument()
+        expect(screen.getByText('Create / Update')).toBeInTheDocument()
         await userEvent.type(screen.getByLabelText('Transporter Name'), 'Muthu Transporters')
         await userEvent.type(screen.getByLabelText('Email Id'), 'sample@gmail.com')
         await userEvent.type(screen.getByLabelText('Contact Person'), 'Muthu')
@@ -83,7 +83,7 @@ describe('Trip Test', () => {
         await userEvent.type(screen.getByLabelText('TDS Percentage'), '11')
         expect(screen.getByDisplayValue('11')).toBeVisible()
 
-        const option = screen.getByText('Create')
+        const option = screen.getByText('Create / Update')
         await userEvent.click(option)
 
         expect(mockCreateTransporter).toHaveBeenCalledTimes(1)

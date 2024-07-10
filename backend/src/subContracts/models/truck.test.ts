@@ -11,10 +11,10 @@ import {
     create as createTruck,
     getAllTruck,
     getNumberByTruckId,
-    getTruckByTransporter,
-    getTransporterTypeByVehicleNumber
+    getTruckByTransporter
 } from './truck.ts'
-import { create } from './transporter.ts'
+import { getTransporterTypeByVehicleNumber } from './truck1.ts'
+import { create } from './transporterEdit.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'
 import { create as createCompany } from './cementCompany.ts'
@@ -34,7 +34,7 @@ describe('Truck model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const transporter = await create(seedTransporter)
+        const transporter = await create(seedTransporter, 1)
         await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',
@@ -77,7 +77,7 @@ describe('Truck model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const transporter = await create(seedTransporter)
+        const transporter = await create(seedTransporter, 1)
         const truck = await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',
@@ -116,7 +116,7 @@ describe('Truck model', () => {
         expect(actual[0].vehicleNumber).toBe(truck.vehicleNumber)
     })
     test('should get only Number By TruckId', async () => {
-        const transporter = await create(seedTransporter)
+        const transporter = await create(seedTransporter, 1)
         const truck = await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',
@@ -126,7 +126,7 @@ describe('Truck model', () => {
         expect(actual?.vehicleNumber).toBe(truck.vehicleNumber)
     })
     test('should get only Truck by vehicleNumber', async () => {
-        const transporter = await create(seedTransporter)
+        const transporter = await create(seedTransporter, 1)
         const truck = await createTruck({
             ...seedTruckWithoutDep,
             vehicleNumber: 'TN33ba1234',

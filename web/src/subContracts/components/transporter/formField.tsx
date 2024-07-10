@@ -1,6 +1,5 @@
 import { Control } from 'react-hook-form'
 import InputWithType from '../../../form/InputWithType.tsx'
-import MultiLineInput from '../../../form/MultiLineInput.tsx'
 import { Autocomplete, Checkbox, TextField } from '@mui/material'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { ChangeEvent } from 'react'
@@ -17,10 +16,10 @@ export interface FormFieldsProps {
     setTds: React.Dispatch<React.SetStateAction<boolean>>
     accountTypes: accountTypeProps[]
     setAccountTypeNumber: React.Dispatch<React.SetStateAction<number | undefined>>
-    setAccountType: React.Dispatch<React.SetStateAction<string | null>>
+    setAccountType: React.Dispatch<React.SetStateAction<string | undefined>>
     setTransporterType: React.Dispatch<React.SetStateAction<string>>
     transporterType: string
-    accountType: string | null
+    accountType: string | undefined
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -113,9 +112,15 @@ const FormFields: React.FC<FormFieldsProps> = ({
                         ({ accountTypeName }) => accountTypeName === value
                     ) || { accountTypeNumber: 0 }
                     setAccountTypeNumber(accountTypeNumber)
-                    setAccountType(value)
+                    setAccountType(value || '')
                 }}
-                renderInput={(params) => <TextField {...params} label={'Account Type'} />}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label={'Account Type'}
+                        InputLabelProps={{ shrink: true }}
+                    />
+                )}
             />
             <InputWithType
                 control={control}
@@ -124,12 +129,12 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 fieldName="ifsc"
                 type="string"
             />
-            <MultiLineInput
+            <InputWithType
                 control={control}
                 label="Transporter Address"
                 fieldName="address"
                 type="string"
-                rows={1}
+                disabled={false}
             />
             <InputWithType
                 control={control}

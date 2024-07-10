@@ -37,7 +37,7 @@ const codeErrorMessageMap: CodeErrorMessageMap = {
 export const handlePrismaError = (err: any, res: Response) => {
     const prismaError = err as Prisma.PrismaClientKnownRequestError
     const errorConfig = codeErrorMessageMap[prismaError.code]
-
+    console.log(err)
     if (errorConfig) {
         res.status(errorConfig.returnCode).json({ error: errorConfig.message(prismaError) })
     } else {

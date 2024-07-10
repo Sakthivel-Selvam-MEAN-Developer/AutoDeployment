@@ -9,7 +9,7 @@ import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
-import { create as createTransporter } from './transporter.ts'
+import { create as createTransporter } from './transporterEdit.ts'
 import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
@@ -28,7 +28,7 @@ describe('Shortage Quantity model', () => {
             location: 'Erode'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
             transporterId: transporter.id
@@ -64,7 +64,7 @@ describe('Shortage Quantity model', () => {
             location: 'Erode'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
             transporterId: transporter.id

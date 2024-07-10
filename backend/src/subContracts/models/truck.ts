@@ -1,11 +1,8 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
-
 export const create = (data: Prisma.truckCreateInput | Prisma.truckUncheckedCreateInput) =>
     prisma.truck.create({ data })
-
 export const getAllTruck = () => prisma.truck.findMany({})
-
 export const getTruckByTransporter = (transporterName: string) =>
     prisma.truck.findMany({
         where: {
@@ -35,22 +32,9 @@ export const getTruckByTransporter = (transporterName: string) =>
             }
         }
     })
-
 export const getNumberByTruckId = (id: number) =>
     prisma.truck.findFirst({
         where: { id },
-        select: {
-            vehicleNumber: true,
-            transporter: {
-                select: { name: true, transporterType: true }
-            }
-        }
-    })
-export const getTransporterTypeByVehicleNumber = (vehicleNumber: string) =>
-    prisma.truck.findFirst({
-        where: {
-            vehicleNumber
-        },
         select: {
             vehicleNumber: true,
             transporter: {

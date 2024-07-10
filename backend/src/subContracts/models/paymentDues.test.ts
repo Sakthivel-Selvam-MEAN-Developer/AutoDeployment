@@ -25,7 +25,7 @@ import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createStockpoint } from './stockPoint.ts'
 import { create as createTruck } from './truck.ts'
-import { create as createTransporter } from './transporter.ts'
+import { create as createTransporter } from './transporterEdit.ts'
 import seedLoadingToStockTrip from '../seed/loadingToStockTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedFuel from '../seed/fuel.ts'
@@ -60,7 +60,7 @@ describe('Payment-Due model', () => {
             location: 'Erode'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
             transporterId: transporter.id
@@ -128,7 +128,7 @@ describe('Payment-Due model', () => {
             location: 'Erode'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
             transporterId: transporter.id
@@ -186,7 +186,7 @@ describe('Payment-Due model', () => {
             location: 'Erode'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
             transporterId: transporter.id
@@ -251,7 +251,7 @@ describe('Payment-Due model', () => {
             location: 'Erode'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
             transporterId: transporter.id
@@ -328,7 +328,7 @@ describe('Payment-Due model', () => {
             location: 'Erode'
         })
         const company = await createCompany(seedCompany)
-        const transporter = await createTransporter(seedTransporter)
+        const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
             transporterId: transporter.id

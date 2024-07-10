@@ -11,7 +11,14 @@ interface TextInputProps {
 const InputWithType = ({ control, label, fieldName, type, disabled }: TextInputProps) => {
     return (
         <Controller
-            render={({ field }) => <TextField {...field} label={label} type={type} />}
+            render={({ field }) => (
+                <TextField
+                    {...field}
+                    label={label}
+                    type={type}
+                    InputLabelProps={{ shrink: true }}
+                />
+            )}
             name={fieldName}
             control={control}
             disabled={disabled}

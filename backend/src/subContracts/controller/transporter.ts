@@ -1,9 +1,11 @@
 import { Request, Response } from 'express'
-import { getAllTransporter, create, getAllTransporterName } from '../models/transporter.ts'
+import { getAllTransporter, getAllTransporterName } from '../models/transporter.ts'
+import { create } from '../models/transporterEdit.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createTransporter = (req: Request, res: Response) => {
-    create(req.body)
+    const { id, ...data } = req.body
+    create(data, id)
         .then((data) => res.status(200).json(data))
         .catch((error) => handlePrismaError(error, res))
 }

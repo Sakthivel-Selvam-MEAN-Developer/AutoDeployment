@@ -30,7 +30,6 @@ export const getAllPricePoint = () =>
             unloadingPoint: { include: { cementCompany: true } }
         }
     })
-
 export const create = async (data: any) => {
     const pricePointData = await prisma.pricePoint.findFirst({
         where: {
