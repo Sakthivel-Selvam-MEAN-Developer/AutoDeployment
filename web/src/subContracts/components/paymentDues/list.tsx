@@ -85,8 +85,7 @@ const PaymentDuesList: React.FC = () => {
     const handleGstPay = (_event: React.SyntheticEvent, newValue: number) => setGstPay(newValue)
     const handleDonwloadNEFT = async () => {
         if (NEFTDetails.length !== 0 || gstNEFTDetails.length !== 0) {
-            const bankDetails: dataProps[] =
-                NEFTDetails.length !== 0 ? gstNEFTDetails : gstNEFTDetails
+            const bankDetails: dataProps[] = NEFTDetails.length !== 0 ? NEFTDetails : gstNEFTDetails
             const iobDetails: dataProps[] = []
             const nonIobDetails: dataProps[] = []
             bankDetails.forEach((detail) => {
