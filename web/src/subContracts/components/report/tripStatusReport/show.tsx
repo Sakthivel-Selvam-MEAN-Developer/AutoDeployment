@@ -94,6 +94,7 @@ interface Props {
     shortageQuantity: shortage[]
     number: number
     transporterInvoice: string
+    transporterInvoiceReceivedDate: number
 }
 interface paymentType {
     dueDate: number
@@ -233,11 +234,7 @@ const addAuthorisedColumns = (authoriser: boolean) => {
             width: 150
         }
         const margin = { field: 'margin', headerName: 'Margin', width: 100 }
-
-        // Find the index of 'bunkName' field in columns array
         const bunkNameIndex = columns.findIndex((column) => column.field === 'bunkName')
-
-        // If 'bunkName' field is found, splice the new columns at that index
         if (bunkNameIndex !== -1)
             columns.splice(bunkNameIndex, 0, freightAmount, totalFreightAmount, margin)
     }
@@ -290,7 +287,11 @@ const generateRow = (row: Props, index: number) => {
         totalFreightAmount: data.totalFreightAmount,
         totalTransporterAmount: data.totalTransporterAmount,
         margin: data.margin,
-        transporterInvoice: row.transporterInvoice ? 'Yes' : 'No',
+        transporterInvoice: row.transporterInvoice
+            ? row.transporterInvoiceReceivedDate !== null
+                ? epochToMinimalDate(row.transporterInvoiceReceivedDate)
+                : ''
+            : 'No',
         primaryBillNo,
         secondaryBillNo,
         tripRoute: `${data.loadingPoint.name} to ${data.unloadingPoint ? data.unloadingPoint.name : 'null'}`,

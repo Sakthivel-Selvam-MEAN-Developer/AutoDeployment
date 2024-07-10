@@ -457,6 +457,7 @@ export const tripStatusFilter = (
         select: {
             id: true,
             transporterInvoice: true,
+            transporterInvoiceReceivedDate: true,
             acknowledgementDate: true,
             acknowledgementStatus: true,
             createdAt: true,
