@@ -2,7 +2,7 @@ import { Box, Button, Tab, Tabs, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import GenerateForm from './generateForm'
 import PaymentDues from './paymentDues'
-import { exportFile } from './NEFTForm/exportFile.ts'
+// import { exportFile } from './NEFTForm/exportFile.ts'
 import { donwloadNEFTFile, updateNEFTStatus } from '../../services/paymentDues.ts'
 import GSTDues, { gstNEFTDetailsProps } from './gstDues.tsx'
 import GSTPaymentDues from './gstPaymentDues.tsx'
@@ -25,6 +25,11 @@ export interface bankDetailsProps {
     accountHolder: string
     name: string
     branchName: string
+}
+interface dataProps {
+    type: string
+    bankDetails: bankDetailsProps[]
+    payableAmount: number
 }
 export interface NEFTDetailsProps {
     id: number
@@ -79,19 +84,46 @@ const PaymentDuesList: React.FC = () => {
     const handleFinalPay = (_event: React.SyntheticEvent, newValue: number) => setFinalPay(newValue)
     const handleGstPay = (_event: React.SyntheticEvent, newValue: number) => setGstPay(newValue)
     const handleDonwloadNEFT = async () => {
-        if (NEFTDetails.length !== 0)
-            donwloadNEFTFile(NEFTDetails)
-                .then((data) => {
-                    const { fileName: name, data: fileContent } = data
-                    const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' })
-                    saveAs(blob, name)
-                })
-                .then(() => updateNEFTStatus(paymentDueId))
-                .then(reset)
-        else if (gstNEFTDetails.length !== 0)
-            await exportFile(gstNEFTDetails)
-                .then(() => updateNEFTStatus(paymentDueId))
-                .then(reset)
+        if (NEFTDetails.length !== 0 || gstNEFTDetails.length !== 0) {
+            const bankDetails: dataProps[] =
+                NEFTDetails.length !== 0 ? gstNEFTDetails : gstNEFTDetails
+            const iobDetails: dataProps[] = []
+            const nonIobDetails: dataProps[] = []
+            bankDetails.forEach((detail) => {
+                if (detail.bankDetails[0].ifsc.startsWith('IOBA')) {
+                    iobDetails.push(detail)
+                } else {
+                    nonIobDetails.push(detail)
+                }
+            })
+            if (nonIobDetails.length !== 0) {
+                await donwloadNEFTFile(nonIobDetails)
+                    .then((data) => {
+                        const { fileName: name, data: fileContent } = data
+                        const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' })
+                        saveAs(blob, name)
+                    })
+                    .then(() => updateNEFTStatus(paymentDueId))
+                    .then(reset)
+            }
+            if (iobDetails.length !== 0) {
+                await donwloadNEFTFile(iobDetails)
+                    .then((datas) => {
+                        const { fileName: name, data: fileContent } = datas
+                        const blob = new Blob([fileContent], {
+                            type: 'text/plain;charset=utf-8'
+                        })
+                        saveAs(blob, name)
+                    })
+                    .then(() => updateNEFTStatus(paymentDueId))
+                    .then(reset)
+            }
+        }
+        // else if (gstNEFTDetails.length !== 0) {
+        //     await exportFile(gstNEFTDetails)
+        //         .then(() => updateNEFTStatus(paymentDueId))
+        //         .then(reset)
+        // }
     }
     const tabs = ['initial pay', 'Fuel Pay', 'Final pay', 'GST Pay']
     const reset = () => {

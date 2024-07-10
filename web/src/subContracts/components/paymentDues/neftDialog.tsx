@@ -60,7 +60,6 @@ const GstPay = (
     let amount = 0
     useEffect(() => {
         setAmount(amount)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [amount])
     return (
         <>

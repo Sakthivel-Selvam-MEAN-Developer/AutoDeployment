@@ -139,4 +139,43 @@ describe('gst calculation for loading to unloading', async () => {
         const actual = await gstCalculation(input)
         expect(actual).toEqual(undefined)
     })
+    test('when stockPointToUnloadingPointTrip is not null and loadingPointToStockPointTrip is null', async () => {
+        const input = {
+            ...alltrip,
+            loadingPointToStockPointTrip: null
+        }
+        const actual = await gstCalculation(input)
+        expect(actual).toEqual([{ ...gstOutputData, payableAmount: 4140 }])
+    })
+
+    test('when gstPercentage is defined but transporter type is Own', async () => {
+        const input = {
+            ...alltrip,
+            truck: {
+                vehicleNumber: 'TN93D5512',
+                transporter: {
+                    name: 'Barath Logistics Pvt Ltd',
+                    tdsPercentage: null,
+                    transporterType: 'Own',
+                    gstPercentage: 10
+                }
+            }
+        }
+        const actual = await gstCalculation(input)
+        expect(actual).toEqual(undefined)
+    })
+
+    test('when stockPointToUnloadingPointTrip is null', async () => {
+        const input = {
+            ...alltrip,
+            loadingPointToStockPointTrip: null,
+            stockPointToUnloadingPointTrip: {
+                totalTransporterAmount: 20700,
+                loadingPointToStockPointTrip: null
+            },
+            loadingPointToUnloadingPointTrip: null
+        }
+        const actual = await gstCalculation(input)
+        expect(actual).toEqual(undefined)
+    })
 })

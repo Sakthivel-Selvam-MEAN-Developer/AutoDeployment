@@ -17,23 +17,40 @@ export interface dataProps {
     bankDetails: bankDetailsProps[]
     payableAmount: number
 }
+let NEFTDataHeaders: string
 const getType = (type: string) => {
     if (type === 'initial pay') return { neftType: 'INITIALPAY', type: 'MagnumAdvance' }
     if (type === 'fuel pay') return { neftType: 'FUELPAY', type: 'MagnumFuel' }
     if (type === 'final pay') return { neftType: 'FINALPAY', type: 'MagnumFinal' }
     if (type === 'gst pay') return { neftType: 'GSTPAY', type: 'MagnumGST' }
 }
+const otherBank = (NEFTData: dataProps, type: string | undefined) => {
+    return `${NEFTData.bankDetails[0].ifsc},${NEFTData.bankDetails[0].accountTypeNumber},${NEFTData.bankDetails[0].accountNumber},${NEFTData.bankDetails[0].accountHolder},${NEFTData.bankDetails[0].branchName},${type},${NEFTData.payableAmount}\n`
+}
+const ifscCheckForIob = (NEFTData: dataProps) => {
+    const ifscPattern = /^IOBA/
+    return ifscPattern.test(NEFTData.bankDetails[0].ifsc)
+}
+const getNEFTBodyForIob = (NEFTData: dataProps, type: string | undefined) => {
+    const ifscCheck = ifscCheckForIob(NEFTData)
+    if (ifscCheck) {
+        NEFTDataHeaders = 'Account number,Amount,Narration\n'
+        return `${NEFTData.bankDetails[0].accountNumber},${NEFTData.payableAmount},${type}\n`
+    }
+    NEFTDataHeaders =
+        'IFSC Code,Account type,Account number,Name of the beneficiary,Address of the beneficiary,Sender information,Amount\n'
+    return otherBank(NEFTData, type)
+}
 const getNEFTBody = (NEFTData: dataProps[]) => {
     let types: typeProps | undefined = { neftType: '', type: '' }
     let NEFTDataBody: string = ''
     NEFTData.forEach((data) => {
         types = getType(data.type)
-        NEFTDataBody += `${data.bankDetails[0].ifsc},${data.bankDetails[0].accountTypeNumber},${data.bankDetails[0].accountNumber},${data.bankDetails[0].accountHolder},${data.bankDetails[0].branchName},${types?.type},${data.payableAmount}\n`
+        const NEFTData = getNEFTBodyForIob(data, types?.type)
+        NEFTDataBody += NEFTData
     })
     return { body: NEFTDataBody, fileType: types.neftType }
 }
-const NEFTDataHeaders =
-    'IFSC Code,Account type,Account number,Name of the beneficiary,Address of the beneficiary,Sender information,Amount\n'
 export const getNEFTData = (NEFTData: dataProps[]) => {
     const { body: NEFTDataBody, fileType } = getNEFTBody(NEFTData)
     const date = dayjs().format('DDMMYYYY')
