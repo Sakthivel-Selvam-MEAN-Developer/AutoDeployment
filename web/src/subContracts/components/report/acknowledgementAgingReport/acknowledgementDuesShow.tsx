@@ -107,8 +107,9 @@ const ListAllAcknowledgementDueDetails = ({
     const download = () => {
         const downloadtripData = rows.map((row) => ({
             vehicleNumber: row.vehicleNumber,
-            unloadDate: row.unloadDate,
+            startDate: row.startDate,
             invoiceNumber: row.invoiceNumber,
+            unloadDate: row.unloadDate,
             transporterName: row.transporterName,
             csmName: row.csmName
         }))
