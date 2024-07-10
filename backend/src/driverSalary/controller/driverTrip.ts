@@ -17,6 +17,7 @@ import { getTripSalaryDetailsById } from '../models/tripSalary.ts'
 import { createDriverAdvance } from '../models/driverAdvance.ts'
 import { tripBettaCalculation } from '../domain/tripBettaCalculation.ts'
 import { getPerviousAndCurrentFuel } from '../domain/mileageCalculation.ts'
+import { tripDaysCalculation } from '../domain/tripDaysCaluclation.ts'
 
 dayjs.extend(utc)
 
@@ -41,6 +42,7 @@ export interface allTripProps {
             attendance: JsonValue[]
         }[]
     }
+    tripStartDate: number
     tripId: number
     unloadingTripSalaryId: number | null
     stockTripSalaryId: number | null
@@ -81,6 +83,7 @@ interface milages {
     mileage: number
     runKilometer?: number
 }
+
 const getOverallTrip = async (
     headers: IncomingHttpHeaders,
     allTrips: allTripProps[],
@@ -94,7 +97,7 @@ const getOverallTrip = async (
     const allTripsById = await axios.get(`${headers.hostname}/api/overalltrip/ids`, {
         params: { ids: JSON.stringify(overAllTripIds), month: date }
     })
-    console.log(allTrips)
+    const { tripDays, averageTripDays } = tripDaysCalculation(allTrips)
     const expensesDetails = await getAllExpenseCountByTripId(overAllTripIds)
     const advanceDetails = await allTripsById.data.map((trip: { id: number }) => {
         const advanceforTrip = allTrips.filter((tripAdvance) => tripAdvance.tripId === trip.id)
@@ -132,7 +135,15 @@ const getOverallTrip = async (
             advanceforTrip: advance[0].driverAdvanceForTrip
         }
     })
-    return { driverName, trips: combinedData, expensesDetails, advanceDetails, totalTripBetta }
+    return {
+        driverName,
+        trips: combinedData,
+        expensesDetails,
+        advanceDetails,
+        totalTripBetta,
+        tripDays,
+        averageTripDays
+    }
 }
 export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res) => {
     const { driverId, month } = req.query

@@ -4,6 +4,8 @@ export interface driverDetailProps {
     expensesDetails: Expense[]
     advanceDetails: AdvanceDetail[]
     totalTripBetta: number
+    tripDays: number
+    averageTripDays: number
 }
 
 export interface AdvanceDetail {
