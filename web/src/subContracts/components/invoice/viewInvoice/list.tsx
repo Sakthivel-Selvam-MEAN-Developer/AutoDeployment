@@ -28,7 +28,6 @@ const ViewList: React.FC = () => {
     const onSubmit = async () => {
         await getCompanyInvoice({ ...filterData }).then(setDisplay)
     }
-    console.log(display)
     useEffect(() => {
         onSubmit()
     }, [filterData.pageNumber])

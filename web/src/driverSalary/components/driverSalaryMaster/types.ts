@@ -28,6 +28,7 @@ export interface Trip {
     loadingPointToStockPointTrip: LoadingPointToUnloadingPointTrip
     tripSalaryDetails: TripSalaryDetails
     mileage: number
+    runKilometer: number
     expenses: Expense[]
     advanceforTrip: AdvanceforTrip[]
 }
@@ -77,5 +78,5 @@ export interface tableCellProps {
     tripDetails: Trip[]
 }
 export interface mileageProps {
-    mileage: number
+    trip: Trip
 }

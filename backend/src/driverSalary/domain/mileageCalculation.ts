@@ -23,14 +23,15 @@ type mileageTypes = (
     fullTankFuels: fuelTypes[],
     partialFuels: fuelTypes[],
     previousFuels: fuelTypes | null
-) => number
+) => { mileage: number; runKilometer: number }
 export const mileageCalculation: mileageTypes = (fullTankFuels, partialFuels, previousFuels) => {
-    if (previousFuels === null) return 0
-    if (fullTankFuels.length === 0) return 0
+    if (previousFuels === null) return { mileage: 0, runKilometer: 0 }
+    if (fullTankFuels.length === 0) return { mileage: 0, runKilometer: 0 }
     const { currentFuelKm, currentQuantity } = getFullTankFuel(fullTankFuels)
     const { partialQuantity } = getPartialFuels(partialFuels)
-    const kilometer = currentFuelKm - previousFuels.dieselkilometer
-    return parseFloat((kilometer / (currentQuantity - partialQuantity)).toFixed(2))
+    const runKilometer = currentFuelKm - previousFuels.dieselkilometer
+    const mileageFixed = (runKilometer / (currentQuantity - partialQuantity)).toFixed(2)
+    return { mileage: parseFloat(mileageFixed), runKilometer }
 }
 interface trips {
     id: number
@@ -48,11 +49,11 @@ const seperationOfFuel = (trip: trips) => {
 type getPerandCurrFuelTypes = (
     headers: IncomingHttpHeaders,
     trip: { id: number; fuel: fuelTypes[] }
-) => Promise<{ id: number; mileage: number }>
+) => Promise<{ id: number; mileage: number; runKilometer?: number }>
 export const getPerviousAndCurrentFuel: getPerandCurrFuelTypes = async (headers, trip) => {
     if (trip.fuel.length === 0) return { id: trip.id, mileage: 0 }
     const { partialFuels, fullTankFuels, maxDate } = seperationOfFuel(trip)
     const previousFuel = await getPreviousFuel(headers, maxDate, trip.fuel)
-    const mileage = mileageCalculation(fullTankFuels, partialFuels, previousFuel)
-    return { id: trip.id, mileage }
+    const { mileage, runKilometer } = mileageCalculation(fullTankFuels, partialFuels, previousFuel)
+    return { id: trip.id, mileage, runKilometer }
 }

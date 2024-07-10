@@ -8,6 +8,7 @@ vi.mock('axios', () => ({
 }))
 const mockFuel = [
     {
+        id: 1,
         fuelType: 'Full tank',
         dieselkilometer: 5000,
         vehicleNumber: 'TN12G9456',
@@ -40,7 +41,8 @@ describe('getPreviousFuel', () => {
         expect(axios.get).toHaveBeenCalledWith('http://localhost/api/previousfuel', {
             params: {
                 date: maxDate,
-                vehicleNumber: mockFuel[0].vehicleNumber
+                vehicleNumber: mockFuel[0].vehicleNumber,
+                id: mockFuel[0].id
             }
         })
     })

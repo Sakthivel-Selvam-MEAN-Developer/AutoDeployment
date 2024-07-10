@@ -4,7 +4,9 @@ import {
     getAllDriverTripById,
     getDriverAdvance,
     getDriverIdByTripId,
-    getExpensesByTripIds
+    getDriverTripByOverallId,
+    getExpensesByTripIds,
+    updateDriverTripWithTripSalaryId
 } from './driverTrip.ts'
 import seedDriver from '../seed/driver.ts'
 import { create as createDriver } from './driver.ts'
@@ -94,5 +96,32 @@ describe('Driver model', () => {
         })
         const actual = await getExpensesByTripIds(driverTrip.tripId)
         expect(actual[0].acceptedAmount).toBe(100)
+    })
+    test('should able to get DriverTrip By OverallId', async () => {
+        let driver: { id: number } | undefined = { id: 1 }
+        await prisma.$transaction(async (prismas) => {
+            driver = await createDriver(seedDriver, prismas)
+        })
+        const driverTrip = await create({
+            ...seedDriverTrip,
+            driverId: driver.id,
+            tripId: 1,
+            unloadingTripSalaryId: 1
+        })
+        const actual = await getDriverTripByOverallId(driverTrip.tripId)
+        expect(actual[0].id).toBe(driverTrip.id)
+    })
+    test('should able to update DriverTrip With TripSalary Id', async () => {
+        let driver: { id: number } | undefined = { id: 1 }
+        await prisma.$transaction(async (prismas) => {
+            driver = await createDriver(seedDriver, prismas)
+        })
+        const driverTrip = await create({
+            ...seedDriverTrip,
+            driverId: driver.id,
+            unloadingTripSalaryId: 1
+        })
+        const actual = await updateDriverTripWithTripSalaryId(driverTrip.id, 1000, 2)
+        expect(actual.stockTripSalaryId).toBe(2)
     })
 })

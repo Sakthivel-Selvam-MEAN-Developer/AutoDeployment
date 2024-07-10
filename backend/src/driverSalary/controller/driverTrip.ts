@@ -66,6 +66,7 @@ const getTotalTripSalary: props = (tripAdvanceDetails, data) => {
     return { totalTripBetta, totalAdvance }
 }
 export interface fuelTypes {
+    id: number
     fuelType: string
     dieselkilometer: number
     vehicleNumber: string
@@ -78,6 +79,7 @@ export interface fuelTypes {
 interface milages {
     id: number
     mileage: number
+    runKilometer?: number
 }
 const getOverallTrip = async (
     headers: IncomingHttpHeaders,
@@ -92,6 +94,7 @@ const getOverallTrip = async (
     const allTripsById = await axios.get(`${headers.hostname}/api/overalltrip/ids`, {
         params: { ids: JSON.stringify(overAllTripIds), month: date }
     })
+    console.log(allTrips)
     const expensesDetails = await getAllExpenseCountByTripId(overAllTripIds)
     const advanceDetails = await allTripsById.data.map((trip: { id: number }) => {
         const advanceforTrip = allTrips.filter((tripAdvance) => tripAdvance.tripId === trip.id)
@@ -116,6 +119,7 @@ const getOverallTrip = async (
         return {
             ...trip,
             mileage: mileage[0].mileage,
+            runKilometer: mileage[0].runKilometer,
             tripSalaryDetails: {
                 totalTripBetta: totalTripSalary && totalTripSalary[0].totalTripBetta,
                 totalAdvance: totalTripSalary && totalTripSalary[0].totalAdvance,

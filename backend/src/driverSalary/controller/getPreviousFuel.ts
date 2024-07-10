@@ -8,7 +8,7 @@ export const getPreviousFuel = async (
     fuel: fuelTypes[]
 ) => {
     const data = await axios.get(`${headers.hostname}/api/previousfuel`, {
-        params: { date: maxDate, vehicleNumber: fuel[0].vehicleNumber }
+        params: { date: maxDate, vehicleNumber: fuel[0].vehicleNumber, id: fuel[0].id }
     })
     return data.data
 }

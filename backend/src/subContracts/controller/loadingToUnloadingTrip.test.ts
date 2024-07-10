@@ -89,7 +89,6 @@ const mockTripData2 = {
         }
     }
 }
-
 const mockcreateOverallTripData = {
     id: 1
 }
@@ -130,33 +129,31 @@ const mockReq = {
     lrNumber: 'zxczxc',
     stockPointId: 1
 }
-const mockReq2 = {
-    truckId: 2,
-    loadingPointId: 1,
-    startDate: 1717525800,
-    filledLoad: 56,
-    invoiceNumber: 'zaxc',
-    loadingKilometer: 0,
-    freightAmount: 1000,
-    transporterAmount: 900,
-    totalFreightAmount: 56000,
-    totalTransporterAmount: 50400,
-    margin: 3920,
-    wantFuel: true,
-    partyName: 'zxczx',
-    lrNumber: 'zxczxc',
-    stockPointId: 1
+const paymentDuesData = {
+    id: 1,
+    payableAmount: 2000,
+    overallTripId: null,
+    type: 'fuel pay',
+    fuelId: null,
+    name: 'Barath Logistics Pvt Ltd',
+    status: false,
+    vehicleNumber: 'TN93D5512',
+    dueDate: 1700764200
+}
+const fuelData = {
+    id: 1,
+    vehicleNumber: 'TN93D5512',
+    pricePerliter: 100,
+    quantity: 20,
+    fuelStationId: 1,
+    totalprice: 2000,
+    overallTripId: null
 }
 describe('Trip Controller', () => {
     test('should able to access all trip', async () => {
-        mockgetTrip.mockResolvedValue({
-            filledLoad: 40,
-            invoiceNumber: 'ABC123'
-        })
-        await supertest(app).get('/api/trip').expect({
-            filledLoad: 40,
-            invoiceNumber: 'ABC123'
-        })
+        const input = { filledLoad: 40, invoiceNumber: 'ABC123' }
+        mockgetTrip.mockResolvedValue(input)
+        await supertest(app).get('/api/trip').expect(input)
         expect(mockgetTrip).toBeCalledWith()
     })
     test('should able to create trip with payment dues without fuel', async () => {
@@ -172,7 +169,11 @@ describe('Trip Controller', () => {
     test('should able to create trip with payment dues with fuel', async () => {
         mockCreateTrip.mockResolvedValue(mockTripData2)
         mockCreateOverallTrip.mockResolvedValue(mockcreateOverallTripData)
-        await supertest(app).post('/api/trip').send(mockReq2).expect(200)
+        mockUpdateFuelWithTripId.mockResolvedValue(0)
+        mockGetPaymentDuesWithoutTripId.mockResolvedValue(paymentDuesData)
+        mockGetFuelWithoutTrip.mockResolvedValue(fuelData)
+        const body = { ...mockReq, wantFuel: true }
+        await supertest(app).post('/api/trip').send(body).expect(200)
         expect(mockCreateTrip).toBeCalledTimes(2)
         expect(mockCreateOverallTrip).toBeCalledTimes(2)
         expect(mockGetFuelWithoutTrip).toBeCalledTimes(2)

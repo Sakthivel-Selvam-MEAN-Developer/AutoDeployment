@@ -227,13 +227,14 @@ export const listAllFuelList: fuelReportDetail = async (_req, res) => {
 interface Query {
     vehicleNumber: string
     date: string
+    id: string
 }
 export const listPreviousFullFuel = (
     req: Request<object, object, object, Query>,
     res: Response
 ) => {
-    const { vehicleNumber, date } = req.query
-    getPreviousFullFuel(vehicleNumber, date)
+    const { vehicleNumber, date, id } = req.query
+    getPreviousFullFuel(vehicleNumber, date, id)
         .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }

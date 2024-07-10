@@ -12,7 +12,7 @@ vi.mock('../models/driverAttendance', () => ({
         mockUpdateDriverAttendanceDetails(id, attendance),
     getDriverAttendanceDetails: (driverId: number) => mockGetDriverAttendanceDetails(driverId)
 }))
-const mockDailyAttendanceReqBody = {
+const dailyAttendanceReqBody = {
     body: [1]
 } as Request
 
@@ -39,7 +39,7 @@ const mockCreateDriverDailyAttendanceData = [
         driverId: 1
     }
 ]
-const mockUpdateDriverAttendanceDetailsData = [
+const updateAttendanceData = [
     {
         id: 1,
         attendance: [
@@ -69,7 +69,7 @@ const mockAttendanceObj = [
     }
 ]
 
-const mockGetDriverAttendanceDetailsData = {
+const driverAttendanceData = {
     id: 1,
     driverId: 1,
     attendance: [
@@ -89,29 +89,61 @@ describe('Driver Daily Attendance Controller', () => {
     test('should create driver daily attendance details', async () => {
         mockGetDriverAttendanceDetails.mockResolvedValue(null)
         mockCreateDriverDailyAttendance.mockResolvedValue(mockCreateDriverDailyAttendanceData)
-        await createDriverAttendance(mockDailyAttendanceReqBody, mockRes)
+        await createDriverAttendance(dailyAttendanceReqBody, mockRes)
         expect(mockCreateDriverDailyAttendance).toHaveBeenCalledWith({
             attendance: mockAttendanceObj,
             driverId: 1
         })
-        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledWith(
-            mockDailyAttendanceReqBody.body[0]
-        )
+        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledWith(dailyAttendanceReqBody.body[0])
         expect(mockCreateDriverDailyAttendance).toHaveBeenCalledTimes(1)
         expect(mockGetDriverAttendanceDetails).toHaveBeenCalledTimes(1)
     })
     test('should update driver daily attendance details', async () => {
-        mockGetDriverAttendanceDetails.mockResolvedValue(mockGetDriverAttendanceDetailsData)
-        mockUpdateDriverAttendanceDetails.mockResolvedValue(mockUpdateDriverAttendanceDetailsData)
-        await createDriverAttendance(mockDailyAttendanceReqBody, mockRes)
+        mockGetDriverAttendanceDetails.mockResolvedValue(driverAttendanceData)
+        mockUpdateDriverAttendanceDetails.mockResolvedValue(updateAttendanceData)
+        await createDriverAttendance(dailyAttendanceReqBody, mockRes)
         expect(mockUpdateDriverAttendanceDetails).toHaveBeenCalledWith(
-            mockGetDriverAttendanceDetailsData.id,
-            mockGetDriverAttendanceDetailsData.attendance
+            driverAttendanceData.id,
+            driverAttendanceData.attendance
         )
-        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledWith(
-            mockDailyAttendanceReqBody.body[0]
-        )
+        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledWith(dailyAttendanceReqBody.body[0])
         expect(mockGetDriverAttendanceDetails).toHaveBeenCalledTimes(2)
         expect(mockUpdateDriverAttendanceDetails).toHaveBeenCalledTimes(1)
+    })
+})
+const input = {
+    ...driverAttendanceData,
+    attendance: [
+        {
+            year: 2024,
+            attendance: []
+        }
+    ]
+}
+describe('Driver Bulk Attendance Controller', () => {
+    test('should add a year and update driver daily attendance details', async () => {
+        const input = { ...driverAttendanceData, attendance: [] }
+        mockGetDriverAttendanceDetails.mockResolvedValue(input)
+        mockUpdateDriverAttendanceDetails.mockResolvedValue(updateAttendanceData)
+        await createDriverAttendance(dailyAttendanceReqBody, mockRes)
+        expect(mockUpdateDriverAttendanceDetails).toHaveBeenCalledWith(
+            driverAttendanceData.id,
+            driverAttendanceData.attendance
+        )
+        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledWith(dailyAttendanceReqBody.body[0])
+        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledTimes(3)
+        expect(mockUpdateDriverAttendanceDetails).toHaveBeenCalledTimes(2)
+    })
+    test('should add a month and update driver daily attendance details', async () => {
+        mockGetDriverAttendanceDetails.mockResolvedValue(input)
+        mockUpdateDriverAttendanceDetails.mockResolvedValue(updateAttendanceData)
+        await createDriverAttendance(dailyAttendanceReqBody, mockRes)
+        expect(mockUpdateDriverAttendanceDetails).toHaveBeenCalledWith(
+            driverAttendanceData.id,
+            driverAttendanceData.attendance
+        )
+        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledWith(dailyAttendanceReqBody.body[0])
+        expect(mockGetDriverAttendanceDetails).toHaveBeenCalledTimes(4)
+        expect(mockUpdateDriverAttendanceDetails).toHaveBeenCalledTimes(3)
     })
 })

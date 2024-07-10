@@ -19,11 +19,11 @@ export const FuelTable: FC<FuelTableProps> = ({ tripDetails }) => {
         </table>
     )
 }
-const Mileage: FC<mileageProps> = ({ mileage }) => {
+const Mileage: FC<mileageProps> = ({ trip }) => {
     return (
         <>
-            <td className="alignLeft"></td>
-            <td className="alignRight">{mileage}</td>
+            <td className="alignRight">{trip.runKilometer}</td>
+            <td className="alignRight">{trip.mileage}</td>
         </>
     )
 }
@@ -42,7 +42,7 @@ const TableCells: FC<tableCellProps> = ({ tripDetails }) => {
                 <td className="alignRight">{fuel.quantity}</td>
                 <td className="alignRight">{fuel.totalprice.toFixed(2)}</td>
                 <td className="alignRight">{fuel.dieselkilometer}</td>
-                <Mileage mileage={trip.mileage} />
+                <Mileage trip={trip} />
             </tr>
         )
     })

@@ -2,6 +2,7 @@ import { mileageCalculation } from './mileageCalculation.ts'
 
 const fullTankFuels = [
     {
+        id: 1,
         fuelType: 'Full tank',
         dieselkilometer: 5100,
         vehicleNumber: 'TN12G9456',
@@ -14,6 +15,7 @@ const fullTankFuels = [
 ]
 const partialFuels = [
     {
+        id: 1,
         fuelType: 'Partial fill',
         dieselkilometer: 5000,
         vehicleNumber: 'TN12G9456',
@@ -25,6 +27,7 @@ const partialFuels = [
     }
 ]
 const previousFuels = {
+    id: 1,
     fuelType: 'Full tank',
     dieselkilometer: 5000,
     vehicleNumber: 'TN12G9456',
@@ -34,22 +37,22 @@ const previousFuels = {
     invoiceNumber: 'asdfghjkl',
     bunk: { bunkName: 'SRK Barath Petroleum' }
 }
-const mileage = 14.29
+const mileage = { mileage: 14.29, runKilometer: 100 }
 describe('mileage calcultion', () => {
     test('should able to calculate mileage with previous fulltank available', async () => {
         const actual = mileageCalculation(fullTankFuels, partialFuels, previousFuels)
-        expect(actual).toBe(mileage)
+        expect(actual).toStrictEqual(mileage)
     })
     test('should able to calculate mileage with partialQuantity is not available', async () => {
         const actual = mileageCalculation(fullTankFuels, [], previousFuels)
-        expect(actual).toBe(8.33)
+        expect(actual).toStrictEqual({ ...mileage, mileage: 8.33 })
     })
     test('should able to calculate mileage with previous fulltank fuel not available', async () => {
         const actual = mileageCalculation(fullTankFuels, partialFuels, null)
-        expect(actual).toBe(0)
+        expect(actual).toStrictEqual({ mileage: 0, runKilometer: 0 })
     })
     test('should not able to calculate mileage with current fulltank fuel not available', async () => {
         const actual = mileageCalculation([], partialFuels, previousFuels)
-        expect(actual).toBe(0)
+        expect(actual).toStrictEqual({ mileage: 0, runKilometer: 0 })
     })
 })

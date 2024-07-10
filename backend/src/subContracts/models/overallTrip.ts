@@ -303,6 +303,18 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
 
 export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string | undefined) =>
     prisma.overallTrip.findMany({
+        orderBy: [
+            {
+                loadingPointToStockPointTrip: {
+                    startDate: 'asc'
+                }
+            },
+            {
+                loadingPointToUnloadingPointTrip: {
+                    startDate: 'asc'
+                }
+            }
+        ],
         where: {
             id: { in: arrayOfId },
             OR: [
@@ -340,6 +352,7 @@ export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string | u
             id: true,
             fuel: {
                 select: {
+                    id: true,
                     fuelType: true,
                     dieselkilometer: true,
                     vehicleNumber: true,

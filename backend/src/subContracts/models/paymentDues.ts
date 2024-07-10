@@ -257,11 +257,11 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
         where: {
             name: fiterdata.vendor,
             type: fiterdata.payType,
+            status: true,
             paidAt: {
                 gte: fiterdata.fromDate !== undefined ? parseInt(fiterdata.fromDate) : undefined,
                 lte: fiterdata.toDate !== undefined ? parseInt(fiterdata.toDate) : undefined
             },
-            status: true,
             overallTrip: {
                 OR: [
                     {

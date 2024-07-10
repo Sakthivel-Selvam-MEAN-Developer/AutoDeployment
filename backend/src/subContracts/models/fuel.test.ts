@@ -361,7 +361,7 @@ describe('Fuel Count', () => {
             bunkId: bunk.id,
             dieselkilometer: 0
         })
-        const actual = await getPreviousFullFuel('TN93D5512', JSON.stringify(fuel.fueledDate))
+        const actual = await getPreviousFullFuel('TN93D5512', JSON.stringify(fuel.fueledDate), `1`)
         expect(actual?.id).toStrictEqual(fuel.id)
     })
     // test('should able to get current trip id by vehicleNumber', async () => {})

@@ -50,7 +50,6 @@ const TollPlazaTable: FC<Props> = ({ trip, reload, setReload, display }) => {
     const handleToll = (params: dataGrid) => {
         setOpenTollDialog(true)
         const tollPlazaPlace = display.find((check) => check.id === params.row.overallTripId)
-        console.log(tollPlazaPlace, display)
         setSelectedToll(tollPlazaPlace?.tollPayment)
     }
     const handleCloseButton = () => {

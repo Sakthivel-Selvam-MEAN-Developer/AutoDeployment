@@ -61,11 +61,9 @@ export const TripTable: FC<TablePorps> = ({ tripDetails }) => {
                 <td></td>
                 <td></td>
                 <td></td>
-                <td className="alignRight">
-                    <b>
-                        T {totalFilledLoad.toFixed(2)} <br />A {averageFilledLoad.toFixed(2)}
-                    </b>
-                </td>
+                <h4 className="alignLeft" style={{ minWidth: '65px' }}>
+                    T {totalFilledLoad.toFixed(2)} <br />A {averageFilledLoad.toFixed(2)}
+                </h4>
                 <td></td>
                 <td className="alignRight">
                     <b>{totalQuantity.toFixed(2)}</b>
