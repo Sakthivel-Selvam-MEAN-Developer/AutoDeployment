@@ -783,7 +783,8 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
             id
         },
         data: {
-            transporterInvoice: invoice
+            transporterInvoice: invoice,
+            transporterInvoiceReceivedDate: dayjs.utc().startOf('day').unix()
         },
         select: {
             id: true,

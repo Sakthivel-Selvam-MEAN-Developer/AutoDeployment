@@ -539,14 +539,14 @@ model fuel {
 }
 
 model truck {
-  id                               Int                                @id @default(autoincrement())
-  vehicleNumber                    String                             @unique
-  capacity                         Int
-  transporterId                    Int
-  transporter                      transporter                        @relation(fields: [transporterId], references: [id])
-  createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
-  updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
-  overallTrip                      overallTrip[]
+  id            Int           @id @default(autoincrement())
+  vehicleNumber String        @unique
+  capacity      Int
+  transporterId Int
+  transporter   transporter   @relation(fields: [transporterId], references: [id])
+  createdAt     DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime      @updatedAt @db.Timestamptz(6)
+  overallTrip   overallTrip[]
 
   @@schema("subContract")
 }
@@ -642,6 +642,7 @@ model overallTrip {
   pricePointApprovalStatus           Boolean                           @default(false)
   finalPayDuration                   Int                               @default(0)
   transporterInvoice                 String                            @default("")
+  transporterInvoiceReceivedDate     Int?
   acknowledgementDate                Int?
   paymentDues                        paymentDues[]
   loadingPointToStockPointTripId     Int?
