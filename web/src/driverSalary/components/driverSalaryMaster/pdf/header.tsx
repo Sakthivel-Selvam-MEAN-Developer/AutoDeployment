@@ -39,7 +39,7 @@ export const Header: FC<HeaderProps> = ({ tripDetails }) => {
                     </div>
                     <div className="driverDetail">
                         <p>
-                            <b> Trip Sheet No :</b> 20246-46
+                            <b> Trip Sheet No :</b>
                         </p>
                     </div>
                 </div>
