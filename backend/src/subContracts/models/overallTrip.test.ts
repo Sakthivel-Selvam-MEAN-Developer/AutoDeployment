@@ -1270,7 +1270,6 @@ describe('Overall Trip model', () => {
         ])
         await createShortage({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         const actual = await getOveralltripByTollNotEmpty()
-        console.log(actual[0].tollPayment)
         expect(actual.length).toStrictEqual(1)
         expect(actual[0].tollPayment[0].amount).toBe(500)
     })

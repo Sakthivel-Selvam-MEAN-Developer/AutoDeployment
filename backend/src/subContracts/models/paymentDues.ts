@@ -261,6 +261,7 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
                 gte: fiterdata.fromDate !== undefined ? parseInt(fiterdata.fromDate) : undefined,
                 lte: fiterdata.toDate !== undefined ? parseInt(fiterdata.toDate) : undefined
             },
+            status: true,
             overallTrip: {
                 OR: [
                     {
@@ -317,6 +318,7 @@ export const completedDuesLength = (fiterdata: CompletedDueQuery) =>
                 gte: fiterdata.fromDate !== undefined ? parseInt(fiterdata.fromDate) : undefined,
                 lte: fiterdata.toDate !== undefined ? parseInt(fiterdata.toDate) : undefined
             },
+            status: true,
             overallTrip: {
                 OR: [
                     {

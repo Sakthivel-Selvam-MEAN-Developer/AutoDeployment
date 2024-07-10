@@ -44,7 +44,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
         <td>{epochToMinimalDate(row.startDate)}</td>
         <td>{row.partyName}</td>
         <td>{row.unloadingPoint.name}</td>
-        <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
+        <td>{row.overallTrip[0].truck.vehicleNumber}</td>
         <td>5116</td>
         <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
         <td>{row.freightAmount.toFixed(2)}</td>
@@ -57,7 +57,6 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
         <td>0</td>
     </tr>
 )
-
 const CustomInvoice: React.FC<InvoiceProps> = ({ trip, bill }) => {
     let totalFilledLoad = 0
     let totalAmount = 0

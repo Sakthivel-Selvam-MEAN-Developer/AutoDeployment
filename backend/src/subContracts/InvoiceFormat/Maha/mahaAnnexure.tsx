@@ -36,9 +36,7 @@ const tableRowForStockToUnloading: StockToUnloadingProps = (row, index) => (
         <td style={{ textAlign: 'center' }}>{index + 1}</td>
         <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
         <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
-        <td style={{ textAlign: 'center' }}>
-            {row.loadingPointToStockPointTrip.truck.vehicleNumber}
-        </td>
+        <td style={{ textAlign: 'center' }}>{row.overallTrip[0].truck.vehicleNumber}</td>
         <td style={{ textAlign: 'center' }}>{row.partyName}</td>
         <td style={{ textAlign: 'center' }}>{row.unloadingPoint.name}</td>
         <td style={{ textAlign: 'right' }}>

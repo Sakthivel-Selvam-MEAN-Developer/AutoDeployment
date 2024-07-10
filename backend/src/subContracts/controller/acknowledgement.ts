@@ -57,7 +57,7 @@ export const shotageCalculation: shortCal = (filledLoad, unload) => {
 export const closeTripById = async (req: Request, res: Response) => {
     await getOverAllTripById(req.body.overallTripId)
         .then(async (overAllTripData) => {
-            if (overAllTripData === null) return res.sendStatus(500)
+            if (overAllTripData === null) throw new Error('Overall Trip Is Empty')
             const getTripDetails = getTrip(overAllTripData)
             let shortageAmount: number | boolean = false
             if (req.body.approvalStatus !== true) {

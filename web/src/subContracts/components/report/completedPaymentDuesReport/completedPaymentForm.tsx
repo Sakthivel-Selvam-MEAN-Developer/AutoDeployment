@@ -97,7 +97,7 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({ control, setFilterDat
                     control={control}
                     fieldName="type"
                     label="Select Payment Type"
-                    options={['Initial Pay', 'Final Pay']}
+                    options={['Initial Pay', 'Final Pay', 'GST Pay']}
                     onChange={(_event: ChangeEvent<HTMLInputElement>, value: string) => {
                         const payType = value.toLocaleLowerCase()
                         setFilterData((prev) => ({ ...prev, payType }))

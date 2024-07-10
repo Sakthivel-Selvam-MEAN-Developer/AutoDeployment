@@ -27,7 +27,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
             <td>{row.invoiceNumber}</td>
             <td>{row.partyName}</td>
             <td>{row.unloadingPoint.name}</td>
-            <td>{row.loadingPointToStockPointTrip.truck.vehicleNumber}</td>
+            <td>{row.overallTrip[0].truck.vehicleNumber}</td>
             <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
             <td>{row.freightAmount.toFixed(2)}</td>
             <td>{(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}</td>

@@ -34,7 +34,7 @@ const codeErrorMessageMap: CodeErrorMessageMap = {
         message: () => 'There is No Trip Salary Details for Specified Locations'
     }
 }
- export const handlePrismaError = (err: any, res: Response) => {
+export const handlePrismaError = (err: any, res: Response) => {
     const prismaError = err as Prisma.PrismaClientKnownRequestError
     const errorConfig = codeErrorMessageMap[prismaError.code]
 

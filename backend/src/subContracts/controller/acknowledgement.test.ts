@@ -296,6 +296,13 @@ describe('Acknowledgement Controller', () => {
         expect(mockUpdateWeightForStockTrip).toBeCalledTimes(2)
         expect(mockUpdateWeightForTrip).toBeCalledTimes(1)
     })
+    test('should able to return status 500 when overalltrip is null', async () => {
+        mockOverAllTripById.mockResolvedValue(null)
+        await supertest(app).put('/api/acknowledgement/trip').expect(500)
+        expect(mockOverAllTripById).toBeCalledTimes(5)
+        expect(mockUpdateWeightForStockTrip).toBeCalledTimes(2)
+        expect(mockUpdateWeightForTrip).toBeCalledTimes(1)
+    })
     test('should able update acknowledgement status with create final due', async () => {
         mockAcknowledgeStatusforOverAllTrip.mockResolvedValue(mockAcknowledgeStatusforAllTrip)
         await supertest(app).put('/api/acknowledge/12').expect(200)

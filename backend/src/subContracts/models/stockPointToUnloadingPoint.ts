@@ -61,7 +61,12 @@ export const getInvoiceDetails = (id: number[]) =>
                     stockPoint: { select: { name: true } }
                 }
             },
-            overallTrip: { select: { shortageQuantity: { select: { shortageQuantity: true } } } }
+            overallTrip: {
+                select: {
+                    shortageQuantity: { select: { shortageQuantity: true } },
+                    truck: { select: { vehicleNumber: true } }
+                }
+            }
         }
     })
 

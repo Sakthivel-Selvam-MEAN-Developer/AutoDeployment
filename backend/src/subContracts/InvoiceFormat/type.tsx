@@ -301,6 +301,9 @@ export interface StockToUnloadingPointProps {
         shortageQuantity: {
             shortageQuantity: number
         }[]
+        truck: {
+            vehicleNumber: string
+        }
     }[]
 }
 export interface InvoiceProp {

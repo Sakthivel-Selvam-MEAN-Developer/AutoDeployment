@@ -22,7 +22,7 @@ const getAllDriver = [
                 year: dayjs().year(),
                 attendance: [
                     {
-                        month: dayjs().format('MMMM').toString(),
+                        month: 'May',
                         datesPresent: [parseInt(dayjs().format('DD'))]
                     }
                 ]
@@ -51,12 +51,15 @@ describe('when driver attendance event clicking', () => {
         await driverAttenance(attendanceDetails, mockRes, [getAllDriver[0]])
         expect(mockRes.status).toHaveBeenCalledWith(200)
         expect(mockRes.json).toHaveBeenCalledWith([
-            { id: 52, name: 'Ravishankar Venkatasamy', mobileNumber: '11111' }
+            { id: 52, name: 'Ravishankar Venkatasamy', mobileNumber: '11111' },
+            { id: 53, name: 'karthik', mobileNumber: '222222222' }
         ])
     })
     test('should not get all driver attendance details', async () => {
         await driverAttenance(attendanceDetails, mockRes, getAllDriver)
         expect(mockRes.status).toHaveBeenCalledWith(200)
-        expect(mockRes.json).toHaveBeenCalledWith([])
+        expect(mockRes.json).toHaveBeenCalledWith([
+            { id: 53, name: 'karthik', mobileNumber: '222222222' }
+        ])
     })
 })

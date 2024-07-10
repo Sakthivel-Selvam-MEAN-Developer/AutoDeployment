@@ -124,14 +124,14 @@ const mockGetInvoiceDetailsDData = [
                     {
                         shortageQuantity: 0
                     }
-                ]
+                ],
+                truck: {
+                    vehicleNumber: 'TN33M0989'
+                }
             }
         ],
         invoiceNumber: 'asasdcsdc',
         freightAmount: 1200,
-        truck: {
-            vehicleNumber: 'TN29B3246'
-        },
         filledLoad: 12
     }
 ]
@@ -153,14 +153,14 @@ const mockGetInvoiceDetailsSData = [
                     {
                         shortageQuantity: 0
                     }
-                ]
+                ],
+                truck: {
+                    vehicleNumber: 'TN33M0989'
+                }
             }
         ],
         invoiceNumber: 'wqqwqw',
         freightAmount: 1200,
-        truck: {
-            vehicleNumber: 'TN29B3246'
-        },
         filledLoad: 23
     }
 ]
@@ -183,9 +183,6 @@ const mockGetInvoiceDetailsUData = [
         freightAmount: 800,
         loadingPointToStockPointTrip: {
             filledLoad: 23,
-            truck: {
-                vehicleNumber: 'TN29B3246'
-            },
             stockPoint: {
                 name: 'StockPoint'
             }
@@ -196,7 +193,36 @@ const mockGetInvoiceDetailsUData = [
                     {
                         shortageQuantity: 0
                     }
-                ]
+                ],
+                truck: {
+                    vehicleNumber: 'TN33M0989'
+                }
+            }
+        ]
+    },
+    {
+        startDate: 1709317800,
+        unloadingPoint: {
+            name: 'Salem'
+        },
+        invoiceNumber: 'wqsqwsdsd',
+        freightAmount: 800,
+        loadingPointToStockPointTrip: {
+            filledLoad: 23,
+            stockPoint: {
+                name: 'StockPoint'
+            }
+        },
+        overallTrip: [
+            {
+                shortageQuantity: [
+                    {
+                        shortageQuantity: 0
+                    }
+                ],
+                truck: {
+                    vehicleNumber: 'TN33M0989'
+                }
             }
         ]
     },
@@ -222,33 +248,10 @@ const mockGetInvoiceDetailsUData = [
                     {
                         shortageQuantity: 0
                     }
-                ]
-            }
-        ]
-    },
-    {
-        startDate: 1709317800,
-        unloadingPoint: {
-            name: 'Salem'
-        },
-        invoiceNumber: 'wqsqwsdsd',
-        freightAmount: 800,
-        loadingPointToStockPointTrip: {
-            filledLoad: 23,
-            truck: {
-                vehicleNumber: 'TN29B3246'
-            },
-            stockPoint: {
-                name: 'StockPoint'
-            }
-        },
-        overallTrip: [
-            {
-                shortageQuantity: [
-                    {
-                        shortageQuantity: 0
-                    }
-                ]
+                ],
+                truck: {
+                    vehicleNumber: 'TN33M0989'
+                }
             }
         ]
     }
@@ -275,7 +278,30 @@ const mockFilterData = {
     cementCompany: { name: 'ultraTech', id: 1 },
     pageName: 'LoadingToUnloading'
 }
-
+const mockUpdateBillingRateData = {
+    id: 5,
+    startDate: 1720549800,
+    filledLoad: 45,
+    wantFuel: false,
+    tripStatus: true,
+    acknowledgeDueTime: 1720591540,
+    partyName: 'zxczxczx',
+    lrNumber: 'zxc',
+    freightAmount: 1000,
+    approvedFreightAmount: 1000,
+    billingRate: null,
+    transporterAmount: 900,
+    totalFreightAmount: 45000,
+    totalTransporterAmount: 40500,
+    margin: 3150,
+    loadingKilometer: 0,
+    unloadingKilometer: 0,
+    invoiceNumber: 'zxczxc',
+    loadingPointId: 1,
+    unloadingPointId: 1,
+    billNo: null,
+    companyInvoiceId: null
+}
 describe('Invoice Controller', async () => {
     test('should able to update billDetails details for loading to unloading', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
@@ -390,7 +416,7 @@ describe('Invoice Controller', async () => {
         expect(mockGetInvoiceDetailsU).toBeCalledTimes(1)
     })
     test('should able to update billing rate for loading to unloading trip', async () => {
-        mockupdateDirectTripBillingRate.mockResolvedValue('')
+        mockupdateDirectTripBillingRate.mockResolvedValue(mockUpdateBillingRateData)
         await supertest(app)
             .put('/api/invoice/billingrate')
             .send({ id: 1, billingRate: 12000, pageName: 'LoadingToUnloading' })
@@ -398,7 +424,7 @@ describe('Invoice Controller', async () => {
         expect(mockupdateDirectTripBillingRate).toHaveBeenCalledTimes(1)
     })
     test('should able to update billing rate for loading to stock trip', async () => {
-        mockupdateStockTripBillingRate.mockResolvedValue({})
+        mockupdateStockTripBillingRate.mockResolvedValue(mockUpdateBillingRateData)
         await supertest(app)
             .put('/api/invoice/billingrate')
             .send({ id: 1, billingRate: 12000, pageName: 'LoadingToStock' })
@@ -406,7 +432,7 @@ describe('Invoice Controller', async () => {
         expect(mockupdateStockTripBillingRate).toHaveBeenCalledTimes(1)
     })
     test('should able to update billing rate for stock to unloading trip', async () => {
-        mockupdateUnloadingTripBillingRate.mockResolvedValue('')
+        mockupdateUnloadingTripBillingRate.mockResolvedValue(mockUpdateBillingRateData)
         await supertest(app)
             .put('/api/invoice/billingrate')
             .send({ id: 1, billingRate: 12000, pageName: 'StockToUnloading' })
