@@ -6,7 +6,7 @@ import {
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createTruck } from './truck.ts'
-import { create as createTransporter } from './transporterEdit.ts'
+import { create as createTransporter } from './transporter.ts'
 import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'

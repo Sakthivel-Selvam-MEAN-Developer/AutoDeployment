@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
@@ -39,17 +39,21 @@ const mockAccounttype = [
         accountTypeNumber: 10
     }
 ]
+
 describe('Trip Test', () => {
     test('checking the component called NewTrip', async () => {
         mockGetAllAccountTypes.mockResolvedValue(mockAccounttype)
         mockGetAllTransporter.mockResolvedValue(mockTransporterData)
         mockCreateTransporter.mockResolvedValue(mockTransporterData[0])
+
         render(
             <BrowserRouter>
                 <CreateTransporter />
             </BrowserRouter>
         )
+
         expect(screen.getByText('Create / Update')).toBeInTheDocument()
+
         await userEvent.type(screen.getByLabelText('Transporter Name'), 'Muthu Transporters')
         await userEvent.type(screen.getByLabelText('Email Id'), 'sample@gmail.com')
         await userEvent.type(screen.getByLabelText('Contact Person'), 'Muthu')
@@ -58,20 +62,26 @@ describe('Trip Test', () => {
         await userEvent.type(screen.getByLabelText('Account Holder Name'), 'muthu')
         await userEvent.type(screen.getByLabelText('Account Number'), '43534523')
         await userEvent.type(screen.getByLabelText('IFSC code'), 'zxy1234')
+
         const accountType = screen.getByRole('combobox', { name: 'Account Type' })
         await userEvent.click(accountType)
         await waitFor(() => {
-            screen.getByRole('listbox')
+            expect(screen.getByRole('listbox')).toBeInTheDocument()
         })
-        const opt = screen.getByRole('option', {
-            name: 'Savings Account'
-        })
+
+        const opt = screen.getByRole('option', { name: 'Savings Account' })
         await userEvent.click(opt)
+
+        await waitFor(() => {
+            const checkbox = screen.getAllByRole('checkbox')
+            expect(checkbox[0]).not.toBeChecked()
+            expect(screen.getByRole('textbox', { name: 'GST Number' })).toBeDisabled()
+            expect(screen.getByRole('spinbutton', { name: 'GST Percentage' })).toBeDisabled()
+        })
+
         const checkbox = screen.getAllByRole('checkbox')
-        expect(checkbox[0]).not.toBeChecked()
-        expect(screen.getByRole('textbox', { name: 'GST Number' })).toBeDisabled()
-        expect(screen.getByRole('spinbutton', { name: 'GST Percentage' })).toBeDisabled()
         await fireEvent.click(checkbox[0])
+
         await userEvent.type(screen.getByLabelText('GST Number'), 'abcd123')
         await userEvent.type(screen.getByLabelText('GST Percentage'), '10')
 
@@ -79,8 +89,10 @@ describe('Trip Test', () => {
 
         expect(checkbox[1]).not.toBeChecked()
         expect(screen.getByRole('spinbutton', { name: 'TDS Percentage' }))
+
         await fireEvent.click(checkbox[1])
         await userEvent.type(screen.getByLabelText('TDS Percentage'), '11')
+
         expect(screen.getByDisplayValue('11')).toBeVisible()
 
         const option = screen.getByText('Create / Update')

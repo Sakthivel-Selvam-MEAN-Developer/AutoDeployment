@@ -319,8 +319,8 @@ export const listAllUpcomingTransporterDues = (
 }
 export interface CompletedDueQuery {
     vendor: string
-    fromDate: string
-    toDate: string
+    fromDate: string | undefined
+    toDate: string | undefined
     pageNumber: string
     payType: string
     csmName: string | undefined

@@ -25,7 +25,7 @@ import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createUnloadingpoint } from './unloadingPoint.ts'
 import { create as createStockpoint } from './stockPoint.ts'
 import { create as createTruck } from './truck.ts'
-import { create as createTransporter } from './transporterEdit.ts'
+import { create as createTransporter } from './transporter.ts'
 import seedLoadingToStockTrip from '../seed/loadingToStockTrip.ts'
 import seedCompany from '../seed/cementCompany.ts'
 import seedFuel from '../seed/fuel.ts'
@@ -297,6 +297,14 @@ describe('Payment-Due model', () => {
             paidAt: dueDate
         }
         const paymentDue = await updatePaymentDues(wantToUpdate)
+        const filterData1 = {
+            vendor: paymentDue.name,
+            fromDate: undefined,
+            toDate: undefined,
+            pageNumber: '1',
+            payType: paymentDue.type,
+            csmName: undefined
+        }
         const filterData = {
             vendor: paymentDue.name,
             fromDate: `${paymentDue.paidAt}`,
@@ -305,7 +313,7 @@ describe('Payment-Due model', () => {
             payType: paymentDue.type,
             csmName: undefined
         }
-        const actual = await getCompletedDues(filterData)
+        const actual = await getCompletedDues(filterData1)
         const tripLength = await completedDuesLength(filterData)
         expect(actual.length).toBe(1)
         expect(tripLength.length).toBe(1)

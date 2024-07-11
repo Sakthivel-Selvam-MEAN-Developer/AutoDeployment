@@ -116,7 +116,7 @@ describe('Trip model', () => {
         const actual = await updateUnloadWeightforTrip(trip.id)
         expect(actual.tripStatus).toBe(true)
     })
-    test.skip('should able to get loading To Unloading Point for invoice', async () => {
+    test('should able to get loading To Unloading Point for invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,
@@ -142,7 +142,8 @@ describe('Trip model', () => {
             loadingKilometer: 0
         })
         const overallTrip1 = await createOverallTrip({
-            loadingPointToUnloadingPointTripId: trip1.id
+            loadingPointToUnloadingPointTripId: trip1.id,
+            truckId: truck.id
         })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip1.id)
         const mockFilterData1 = {
@@ -158,7 +159,8 @@ describe('Trip model', () => {
             unloadingPointId: deliveryPoint.id,
             invoiceNumber: 'fghj',
             tripStatus: true,
-            loadingKilometer: 0
+            loadingKilometer: 0,
+            startDate: new Date(2023, 10, 30).getTime() / 1000
         })
         const overallTrip2 = await createOverallTrip({
             truckId: truck.id,
@@ -171,7 +173,7 @@ describe('Trip model', () => {
             company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
         }
         const actual2 = await getDirectTripsByinvoiceFilter(mockFilterData2)
-        expect(actual2[1].id).toStrictEqual(trip2.id)
+        expect(actual2[0].id).toStrictEqual(trip2.id)
     })
     test('should able to get all unloading point invoice numbers', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -327,5 +329,54 @@ describe('Trip model', () => {
         const actual = await updateDirectTripBillingRate(`${trip.id}`, '1200')
         expect(actual.id).toBe(trip.id)
         expect(actual.billingRate).toBe(1200)
+    })
+    test.skip('should able to get direct trips by invoice filter', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const trip1 = await create({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            tripStatus: true,
+            loadingKilometer: 0,
+            startDate: 0,
+            invoiceNumber: 'INV-1'
+        })
+        const trip2 = await create({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            tripStatus: true,
+            loadingKilometer: 0,
+            startDate: 0,
+            invoiceNumber: 'INV-2'
+        })
+        const filterData = {
+            company: company.name,
+            startDate: 0,
+            endDate: 0
+        }
+        const directTrips = await getDirectTripsByinvoiceFilter(filterData)
+        expect(directTrips.length).toBe(1)
+        expect(directTrips[0].id).toBe(trip1.id)
+        expect(directTrips[1].id).toBe(trip2.id)
+        expect(directTrips[0].startDate).toEqual(trip1.startDate)
+        expect(directTrips[1].startDate).toEqual(trip2.startDate)
+        expect(directTrips[0].invoiceNumber).toBe(trip1.invoiceNumber)
+        expect(directTrips[1].invoiceNumber).toBe(trip2.invoiceNumber)
     })
 })

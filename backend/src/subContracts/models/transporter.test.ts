@@ -5,7 +5,7 @@ import {
     getPercentageByTransporter,
     getTransporterAccountByName
 } from './transporter.ts'
-import { create } from './transporterEdit.ts'
+import { create } from './transporter.ts'
 
 describe('Factory model', () => {
     test('should able to create', async () => {

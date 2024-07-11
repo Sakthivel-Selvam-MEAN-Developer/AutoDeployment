@@ -5,7 +5,7 @@ import seedDeliveryPointWithoutDep from '../subContracts/seed/unloadingPointWith
 import { create as createTruck } from '../subContracts/models/truck.ts'
 import seedTruck from '../subContracts/seed/truck.ts'
 import seedTruckWithoutDep from '../subContracts/seed/truckWithoutDeb.ts'
-import { create as createTransporter } from '../subContracts/models/transporterEdit.ts'
+import { create as createTransporter } from '../subContracts/models/transporter.ts'
 import seedTransporterWithoutDep from '../subContracts/seed/transporterWithoutDep.ts'
 import { create as createPricePoint } from '../subContracts/models/pricePoint.ts'
 import seedPricePoint from '../subContracts/seed/pricePoint.ts'

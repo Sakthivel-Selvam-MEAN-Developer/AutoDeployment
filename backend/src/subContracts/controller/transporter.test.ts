@@ -38,16 +38,24 @@ vi.mock('../../auditRoute.ts', () => ({
 }))
 const mockReq = {
     body: {
+        id: undefined,
         name: 'Barath Logistics Pvt Ltd',
+        csmName: 'muthu',
         emailId: 'sample@gmail.com',
         contactPersonName: 'Muthu',
         contactPersonNumber: '1234',
         address: 'Muthu Street',
-        hasGst: false,
-        hasTds: false,
+        hasGst: true,
+        gstNumber: '123',
+        gstPercentage: 10,
+        transporterType: 'own',
+        hasTds: true,
         accountHolder: 'muthu',
         accountNumber: '43534523',
-        ifsc: 'zxy1234'
+        ifsc: 'zxy1234',
+        accountTypeNumber: 1,
+        tdsPercentage: 10,
+        branchName: 'abc'
     }
 } as Request
 
@@ -70,14 +78,15 @@ describe('Transporter Controller', () => {
         expect(mockTransporter).toBeCalledWith()
     })
     test('should able to create transporter', async () => {
+        const { ...details } = mockReq.body
         mockCreateTransporter.mockResolvedValue(mockReq.body)
         createTransporter(mockReq, mockRes)
-        await supertest(app).post('/api/transporter').expect(500)
-        // expect(mockCreateTransporter).toHaveBeenCalledWith(mockReq.body)
-        // expect(mockCreateTransporter).toBeCalledTimes(2)
+        await supertest(app).post('/api/transporter').expect(200)
+        expect(mockCreateTransporter).toHaveBeenCalledWith(details)
+        expect(mockCreateTransporter).toBeCalledTimes(2)
     })
     test('should have super admin role for transporter', async () => {
-        await supertest(app).post('/api/transporter').expect(500)
+        await supertest(app).post('/api/transporter').expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
     })
     test('should get all transporter names', async () => {
@@ -85,11 +94,7 @@ describe('Transporter Controller', () => {
         await supertest(app).get('/api/transporter_name').expect(200)
         await supertest(app)
             .get('/api/transporter_name')
-            .expect([
-                {
-                    name: 'Barath Logistics Pvt Ltd'
-                }
-            ])
+            .expect([{ name: 'Barath Logistics Pvt Ltd' }])
         expect(mockGetAllTransporterName).toBeCalledTimes(2)
     })
 })

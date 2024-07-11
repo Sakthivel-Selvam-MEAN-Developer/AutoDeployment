@@ -136,6 +136,7 @@ export default CreateTransporter
 type clearType = (
     setValue: UseFormSetValue<FieldValues>,
     setAccountType: React.Dispatch<React.SetStateAction<string | undefined>>,
+
     setGst: React.Dispatch<React.SetStateAction<boolean>>,
     setTds: React.Dispatch<React.SetStateAction<boolean>>
 ) => void
@@ -146,6 +147,7 @@ const clearForm: clearType = (setValue, setAccountType, setGst, setTds) => {
     setValue('ifsc', '')
     setAccountType('')
     setValue('csmName', '')
+    setValue('branchName', '')
     setGst(true)
     setTds(true)
 }
