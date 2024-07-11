@@ -20,6 +20,10 @@ interface Row {
                 name: string
             }
             billNo: string
+            freightAmount: number
+            transporterAmount: number
+            totalFreightAmount: number
+            totalTransporterAmount: number
         }
     ]
 
@@ -132,10 +136,18 @@ export interface finalDataProps {
     unloadingPoint: string
     loadedQuantity: number | string
     tripRoute: string
-    freightAmount: number
-    transporterAmount: number
-    totalFreightAmount: number
-    totalTransporterAmount: number
+    primaryFreightAmount: number
+    primaryTransporterAmount: number
+    primaryTotalFreightAmount: number
+    primaryTotalTransporterAmount: number
+    secondaryFreightAmount: number | string
+    secondaryTransporterAmount: number | string
+    secondaryTotalFreightAmount: number | string
+    secondaryTotalTransporterAmount: number | string
+    totalFreightAmount: number | string
+    totalTransporterAmount: number | string
+    overallFreightAmount: number | string
+    overallTransporterAmount: number | string
     margin: number
     transporterInvoice: string
     primaryBillNo: string
@@ -214,8 +226,8 @@ const downloadCSV = (listoverallTrip: Props[], authoriser: boolean) => {
     const downloadtripData: finalDataProps[] = finalData
     if (!authoriser && downloadtripData.length === listoverallTrip.length) {
         downloadtripData.forEach((data: Partial<finalDataProps>) => {
-            delete data.freightAmount
-            delete data.totalFreightAmount
+            delete data.primaryFreightAmount
+            delete data.primaryTotalFreightAmount
             delete data.margin
         })
     }
@@ -282,10 +294,53 @@ const generateRow = (row: Props, index: number) => {
         loadedQuantity: data.filledLoad,
         stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',
         unloadingPoint: data.unloadingPoint ? data.unloadingPoint.name : 'null',
-        freightAmount: data.freightAmount,
-        transporterAmount: data.transporterAmount,
-        totalFreightAmount: data.totalFreightAmount,
-        totalTransporterAmount: data.totalTransporterAmount,
+        primaryFreightAmount: data.freightAmount,
+        primaryTransporterAmount: data.transporterAmount,
+        primaryTotalFreightAmount: data.totalFreightAmount,
+        primaryTotalTransporterAmount: data.totalTransporterAmount,
+        secondaryFreightAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data?.stockPointToUnloadingPointTrip[0]?.freightAmount
+                : 'null',
+        secondaryTransporterAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data?.stockPointToUnloadingPointTrip[0]?.transporterAmount
+                : 'null',
+        secondaryTotalFreightAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data?.stockPointToUnloadingPointTrip[0]?.totalFreightAmount
+                : 'null',
+        secondaryTotalTransporterAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data?.stockPointToUnloadingPointTrip[0]?.totalTransporterAmount
+                : 'null',
+        totalFreightAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data.freightAmount + data?.stockPointToUnloadingPointTrip[0]?.freightAmount
+                : 'null',
+        totalTransporterAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data.transporterAmount +
+                  data?.stockPointToUnloadingPointTrip[0]?.transporterAmount
+                : 'null',
+        overallFreightAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data.totalFreightAmount +
+                  data?.stockPointToUnloadingPointTrip[0]?.totalFreightAmount
+                : 'null',
+        overallTransporterAmount:
+            data?.stockPointToUnloadingPointTrip !== undefined &&
+            data?.stockPointToUnloadingPointTrip[0] !== undefined
+                ? data.totalTransporterAmount +
+                  data?.stockPointToUnloadingPointTrip[0]?.totalTransporterAmount
+                : 'null',
         margin: data.margin,
         transporterInvoice: row.transporterInvoice
             ? row.transporterInvoiceReceivedDate !== null

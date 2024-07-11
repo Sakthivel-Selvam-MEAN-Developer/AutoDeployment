@@ -2,6 +2,7 @@ import React from 'react'
 import { finalDataProps } from './show'
 import DialogContent from '@mui/material/DialogContent'
 import { columnsContainerStyles } from './dialogboxStyle'
+import { renderColumn } from './columnHelpers.tsx'
 
 interface ColumnProps {
     keys: string[]
@@ -14,15 +15,10 @@ interface DialogContentComponentProps {
     secCol: string[]
     formatKey: (key: string) => string
 }
-
 export const Column: React.FC<ColumnProps> = ({ keys, row, formatKey }) => {
     return (
         <div style={{ display: 'inline-block', marginRight: '20px' }}>
-            {keys.map((key) => (
-                <div key={key} style={{ marginBottom: '10px' }}>
-                    <strong>{formatKey(key)}:</strong> {row[key as keyof finalDataProps]}
-                </div>
-            ))}
+            {keys.map((key) => renderColumn(key, row, formatKey))}
         </div>
     )
 }

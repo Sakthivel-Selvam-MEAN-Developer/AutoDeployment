@@ -16,10 +16,16 @@ interface DialogBoxProps {
     id: number | undefined
     setSelectedRow: (row: finalDataProps | null) => void
 }
+const authoriserFields = [
+    'primaryFreightAmount',
+    'primaryTtotalFreightAmount',
+    'margin',
+    'secondaryFreightAmount',
+    'secondaryTotalFreightAmount'
+]
 const filterColumns = (keys: string[], authoriser: boolean): string[] => {
     return keys.filter((key) => {
-        if (!authoriser && ['freightAmount', 'totalFreightAmount', 'margin'].includes(key))
-            return false
+        if (!authoriser && authoriserFields.includes(key)) return false
         return key !== 'number' && key !== 'id'
     })
 }
