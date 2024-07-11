@@ -291,18 +291,18 @@ model transporter {
 model employee {
   id            Int           @id @default(autoincrement())
   corporateId   String        @unique
-  joiningDate   DateTime
+  joiningDate   Int
   mailId        String
   contactNumber Int
-  department    Int
-  designation   Int
-  address       Int
+  department    String
+  designation   String
+  address       String
   dateOfBirth   Int
-  aadharNumber  Int
-  panNumber     Int
+  aadharNumber  String
+  panNumber     String
   bloodGroup    String
   accountName   String
-  accountNumber Int
+  accountNumber String
   ifscCode      String
   branch        String
   accountType   String

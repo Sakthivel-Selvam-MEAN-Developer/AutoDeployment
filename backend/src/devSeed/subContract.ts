@@ -69,7 +69,7 @@ async function seedSubContract() {
     })
     const truck = await createTruck(seedTruck)
     await createTruck({ ...seedTruckWithoutDep, transporterId: truck.transporterId })
-    const transporter = await createTransporter(seedTransporterWithoutDep, 1)
+    const transporter = await createTransporter(seedTransporterWithoutDep, 0)
     await createTruck({
         ...seedTruckWithoutDep,
         vehicleNumber: 'TN30S4325',
