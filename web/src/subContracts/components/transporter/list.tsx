@@ -40,7 +40,7 @@ const CreateTransporter: React.FC = (): ReactElement => {
                 setDisable(false)
             })
             .then(() => setOpenSuccessDialog(true))
-            .then(() => clearForm(setValue, setAccountType, setGst, setTds))
+            .then(() => clearForm(setValue, setAccountType, setGst, setTds, setTransporterType))
             .catch((error) => {
                 setDisable(false)
                 alert(error.response.data.error)
@@ -136,11 +136,11 @@ export default CreateTransporter
 type clearType = (
     setValue: UseFormSetValue<FieldValues>,
     setAccountType: React.Dispatch<React.SetStateAction<string | undefined>>,
-
     setGst: React.Dispatch<React.SetStateAction<boolean>>,
-    setTds: React.Dispatch<React.SetStateAction<boolean>>
+    setTds: React.Dispatch<React.SetStateAction<boolean>>,
+    setTransporterType: React.Dispatch<React.SetStateAction<string>>
 ) => void
-const clearForm: clearType = (setValue, setAccountType, setGst, setTds) => {
+const clearForm: clearType = (setValue, setAccountType, setGst, setTds, setTransporterType) => {
     clearSubForm(setValue)
     setValue('gstPercentage', '')
     setValue('tdsPercentage', '')
@@ -150,6 +150,7 @@ const clearForm: clearType = (setValue, setAccountType, setGst, setTds) => {
     setValue('branchName', '')
     setGst(true)
     setTds(true)
+    setTransporterType('')
 }
 const clearSubForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('name', '')
