@@ -232,13 +232,22 @@ describe('Payment-Due model', () => {
         })
         const actual = await getUpcomingDuesByFilter(
             'Barath Logistics',
-            undefined,
-            undefined,
+            `${loadingToStockTrip.startDate}`,
+            `${loadingToStockTrip.startDate}`,
             'final pay'
         )
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(5000)
         expect(actual[0].type).toBe('final pay')
+        const actualForFromAndTo = await getUpcomingDuesByFilter(
+            'Barath Logistics',
+            undefined,
+            undefined,
+            'final pay'
+        )
+        expect(actualForFromAndTo.length).toBe(1)
+        expect(actualForFromAndTo[0].payableAmount).toBe(5000)
+        expect(actualForFromAndTo[0].type).toBe('final pay')
     })
     test('should get completed payment dues and completed dues with its page length', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -305,10 +314,26 @@ describe('Payment-Due model', () => {
             payType: paymentDue.type,
             csmName: undefined
         }
+        const filterDataForCompletedPaymentDues = {
+            vendor: paymentDue.name,
+            fromDate: `${paymentDue.paidAt}`,
+            toDate: `${paymentDue.paidAt}`,
+            pageNumber: '1',
+            payType: paymentDue.type,
+            csmName: undefined
+        }
         const filterData = {
             vendor: paymentDue.name,
             fromDate: `${paymentDue.paidAt}`,
             toDate: `${paymentDue.paidAt}`,
+            pageNumber: '1',
+            payType: paymentDue.type,
+            csmName: undefined
+        }
+        const filterDataForCompleted = {
+            vendor: paymentDue.name,
+            fromDate: undefined,
+            toDate: undefined,
             pageNumber: '1',
             payType: paymentDue.type,
             csmName: undefined
@@ -318,6 +343,13 @@ describe('Payment-Due model', () => {
         expect(actual.length).toBe(1)
         expect(tripLength.length).toBe(1)
         expect(actual[0].transactionId).toBe('abc')
+        const actualForCompletedPaymentDues = await getCompletedDues(
+            filterDataForCompletedPaymentDues
+        )
+        const tripLengthForCompletedPaymentDues = await completedDuesLength(filterDataForCompleted)
+        expect(actualForCompletedPaymentDues.length).toBe(1)
+        expect(tripLengthForCompletedPaymentDues.length).toBe(1)
+        expect(actualForCompletedPaymentDues[0].transactionId).toBe('abc')
     })
     test('should be able to get PaymentDues Without TripId', async () => {
         await create(seedPaymentDue)

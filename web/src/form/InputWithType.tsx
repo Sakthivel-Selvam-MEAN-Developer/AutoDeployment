@@ -6,7 +6,7 @@ interface TextInputProps {
     label: string
     fieldName: string
     type: 'number' | 'string' | 'email'
-    disabled: boolean
+    disabled?: boolean
 }
 const InputWithType = ({ control, label, fieldName, type, disabled }: TextInputProps) => {
     return (

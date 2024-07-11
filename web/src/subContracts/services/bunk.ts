@@ -11,3 +11,9 @@ export const getAllBunkName = () =>
         .get(`/bunk_name`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+export const createBunk = () =>
+    axiosInstance
+        .post('/bunk')
+        .then(getData)
+        .catch(() => alert('Soemthing Went Wrong'))

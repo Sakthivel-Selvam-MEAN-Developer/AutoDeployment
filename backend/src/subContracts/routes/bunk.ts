@@ -5,6 +5,7 @@ const bunkRoutes = (router: Router) => {
     router.post('/bunk', createBunk)
     router.get('/bunk', listAllBunk)
     router.get('/bunk_name', listAllBunkName)
+    router.post('/bunk')
 }
 
 export default bunkRoutes

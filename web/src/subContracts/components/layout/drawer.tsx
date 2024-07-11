@@ -9,11 +9,11 @@ import {
     Receipt,
     LocalGasStation,
     LibraryAddCheck,
+    DirectionsBus,
     Summarize,
     NoteAlt,
     FileDownload,
-    Beenhere,
-    AddBox
+    Beenhere
 } from '@mui/icons-material'
 import TollIcon from '@mui/icons-material/Toll'
 import Divider from '@mui/material/Divider'
@@ -71,15 +71,12 @@ const reportSubs = [
         icon: 'AA'
     },
     { navigate: '/sub/reports/discrepancydues', name: 'DiscrepancyPayment Report', icon: 'DR' },
-    { navigate: '/sub/reports/completedpayment', name: 'Completed Payments', icon: 'CP' }
+    { navigate: '/sub/reports/completedpayment', name: 'Completed Payments', icon: 'CP' },
+    { navigate: '/sub/reports/fuel', name: 'Fuel Report', icon: 'FR' }
 ]
 const invoiceSubs = [
     { navigate: '/sub/invoice', name: 'Generate Invoice', icon: 'GI' },
     { navigate: '/sub/invoice/viewInvoice', name: 'View Invoice', icon: 'VI' }
-]
-const addNewSubs = [
-    { navigate: '/sub/transporter', name: 'Transporter', icon: 'AT ' },
-    { navigate: '/sub/bunk', name: 'Bunk', icon: 'AB' }
 ]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
@@ -110,12 +107,12 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     />
                 )}
                 {authoriser.adminAccess && (
-                    <DrawerCollapse
-                        text="Add New"
+                    <DrawerListItem
+                        text="Transporter"
+                        navigate="/sub/transporter"
                         drawerState={drawerState}
                         index={2}
-                        icon={<AddBox />}
-                        subs={addNewSubs}
+                        icon={<DirectionsBus />}
                     />
                 )}
                 {authoriser.adminAccess && (
@@ -142,8 +139,8 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     icon={<Receipt />}
                 />
                 <DrawerListItem
-                    text="Fuel"
-                    navigate="/sub/fuel"
+                    text="Bunk"
+                    navigate="/sub/bunk"
                     drawerState={drawerState}
                     index={6}
                     icon={<LocalGasStation />}
