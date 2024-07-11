@@ -261,27 +261,55 @@ model orgUnitRelations {
 }
 
 model transporter {
-  id                  Int      @id @default(autoincrement())
-  name                String   @unique
+  id                  Int       @id @default(autoincrement())
+  name                String    @unique
   csmName             String
-  emailId             String   @unique
+  employeeId          Int?
+  employee            employee? @relation(fields: [employeeId], references: [id])
+  emailId             String    @unique
   contactPersonName   String
-  contactPersonNumber String   @unique
+  contactPersonNumber String    @unique
   address             String
-  hasGst              Boolean  @default(false)
+  hasGst              Boolean   @default(false)
   gstNumber           String?
-  gstPercentage       Float?   @db.DoublePrecision
-  hasTds              Boolean  @default(false)
+  gstPercentage       Float?    @db.DoublePrecision
+  hasTds              Boolean   @default(false)
   transporterType     String
-  tdsPercentage       Float?   @db.DoublePrecision
+  tdsPercentage       Float?    @db.DoublePrecision
   accountHolder       String
-  accountNumber       String   @unique
-  branchName          String   @default("name")
+  accountNumber       String    @unique
+  branchName          String    @default("name")
   ifsc                String
   accountTypeNumber   Int
-  createdAt           DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt           DateTime @updatedAt @db.Timestamptz(6)
+  createdAt           DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime  @updatedAt @db.Timestamptz(6)
   trucks              truck[]
+
+  @@schema("subContract")
+}
+
+model employee {
+  id            Int           @id @default(autoincrement())
+  corporateId   String        @unique
+  joiningDate   DateTime
+  mailId        String
+  contactNumber Int
+  department    Int
+  designation   Int
+  address       Int
+  dateOfBirth   Int
+  aadharNumber  Int
+  panNumber     Int
+  bloodGroup    String
+  accountName   String
+  accountNumber Int
+  ifscCode      String
+  branch        String
+  accountType   String
+  loginAccess   Boolean       @default(true)
+  transporter   transporter[]
+  createdAt     DateTime      @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime      @updatedAt @db.Timestamptz(6)
 
   @@schema("subContract")
 }
