@@ -12,7 +12,7 @@ const DrawerCollapse: FC<DrawerListItemProps> = ({ subs, text, drawerState, inde
     return (
         <>
             <ListItemButton sx={{ px: 2.5 }} onClick={handleClick}>
-                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemIcon sx={{ minWidth: '48px' }}>{icon}</ListItemIcon>
                 <ListItemText primary={<div>{text}</div>} sx={{ opacity: drawerState ? 1 : 0 }} />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
@@ -23,7 +23,6 @@ const DrawerCollapse: FC<DrawerListItemProps> = ({ subs, text, drawerState, inde
     )
 }
 export default DrawerCollapse
-
 interface DrawerCollapseItemProps {
     subs: subsProps[]
 }
@@ -38,7 +37,7 @@ const DrawerCollapseItem: FC<DrawerCollapseItemProps> = ({ subs }) => {
                             sx={{ pl: 3 }}
                             onClick={() => navigateFunction(subData.navigate)}
                         >
-                            <ListItemIcon>{`${subData.icon}`} </ListItemIcon>
+                            <ListItemIcon>{`${subData.icon}`}</ListItemIcon>
                             <ListItemText primary={subData.name} />
                         </ListItemButton>
                     </List>

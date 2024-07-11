@@ -85,7 +85,7 @@ const Fuel: React.FC = (): ReactElement => {
                 open={openSuccessDialog}
                 handleClose={() => {
                     setOpenSuccessDialog(false)
-                    navigate('/sub/bunk')
+                    navigate('/sub/fuel')
                 }}
                 message="Fuel Created Succesfully"
             />

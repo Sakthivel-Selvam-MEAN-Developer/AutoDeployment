@@ -9,11 +9,11 @@ import {
     Receipt,
     LocalGasStation,
     LibraryAddCheck,
-    DirectionsBus,
     Summarize,
     NoteAlt,
     FileDownload,
-    Beenhere
+    Beenhere,
+    AddBox
 } from '@mui/icons-material'
 import TollIcon from '@mui/icons-material/Toll'
 import Divider from '@mui/material/Divider'
@@ -77,6 +77,10 @@ const invoiceSubs = [
     { navigate: '/sub/invoice', name: 'Generate Invoice', icon: 'GI' },
     { navigate: '/sub/invoice/viewInvoice', name: 'View Invoice', icon: 'VI' }
 ]
+const addNewSubs = [
+    { navigate: '/sub/transporter', name: 'Transporter', icon: 'AT ' },
+    { navigate: '/sub/bunk', name: 'Bunk', icon: 'AB' }
+]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
     const authoriser = CheckUser()
@@ -106,12 +110,12 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     />
                 )}
                 {authoriser.adminAccess && (
-                    <DrawerListItem
-                        text="Transporter"
-                        navigate="/sub/transporter"
+                    <DrawerCollapse
+                        text="Add New"
                         drawerState={drawerState}
                         index={2}
-                        icon={<DirectionsBus />}
+                        icon={<AddBox />}
+                        subs={addNewSubs}
                     />
                 )}
                 {authoriser.adminAccess && (
@@ -138,8 +142,8 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     icon={<Receipt />}
                 />
                 <DrawerListItem
-                    text="Bunk"
-                    navigate="/sub/bunk"
+                    text="Fuel"
+                    navigate="/sub/fuel"
                     drawerState={drawerState}
                     index={6}
                     icon={<LocalGasStation />}

@@ -15,7 +15,7 @@ const style = {
 
 const Header: React.FC = () => (
     <div style={{ ...style }}>
-        <Link to={'/sub/bunk/fuel'}>
+        <Link to={'/sub/fuel/addfuel'}>
             <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
                 Add Fuel
             </Button>

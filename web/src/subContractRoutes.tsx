@@ -101,7 +101,7 @@ const sunContractRoutes = {
             ]
         },
         {
-            path: 'bunk',
+            path: 'fuel',
             element: <Bunk />,
             children: [
                 {
@@ -109,7 +109,7 @@ const sunContractRoutes = {
                     element: <BunkList />
                 },
                 {
-                    path: 'fuel',
+                    path: 'addfuel',
                     element: <Fuel />
                 }
             ]
