@@ -13,7 +13,7 @@ import {
     getNumberByTruckId,
     getTruckByTransporter
 } from './truck.ts'
-import { getTransporterTypeByVehicleNumber } from './truck1.ts'
+import { getTransporterTypeByVehicleNumber } from './TransporterTypeByVehicleNumber.ts'
 import { create } from './transporter.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import { create as createTrip } from './loadingToUnloadingTrip.ts'

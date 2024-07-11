@@ -12,7 +12,7 @@ import fuelLogics from '../domain/fuelLogics.ts'
 import { create as createPaymentDues, getFuelTransactionId } from '../models/paymentDues.ts'
 import { getActiveTripByVehicle, getOverallTripIdByVehicleNumber } from '../models/overallTrip.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
-import { getTransporterTypeByVehicleNumber } from '../models/truck1.ts'
+import { getTransporterTypeByVehicleNumber } from '../models/TransporterTypeByVehicleNumber.ts'
 
 export interface dataProps {
     id: number
