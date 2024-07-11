@@ -84,7 +84,6 @@ const TransporterGrid: FC<TransporterGrid> = ({ gridData }) => {
     return (
         <Box sx={{ height: 400, width: '94vw' }}>
             <DataGrid
-                loading={gridData.length === 0}
                 rows={gridData}
                 columns={columns}
                 pageSizeOptions={[100]}
