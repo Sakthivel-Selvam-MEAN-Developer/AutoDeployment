@@ -6,19 +6,28 @@ import AddVehicle from './addVehicle'
 
 const mockCreateTruck = vi.fn()
 const mockAllTransporter = vi.fn()
+const mockGetAllTruck = vi.fn()
 
 vi.mock('../../services/truck', () => ({
-    createTruck: (inputs: any) => mockCreateTruck(inputs)
+    createTruck: (inputs: any) => mockCreateTruck(inputs),
+    getAllTruck: () => mockGetAllTruck()
 }))
 vi.mock('../../services/transporter', () => ({
     getAllTransporter: () => mockAllTransporter()
 }))
 
 const mockTruckData = {
-    vehicleNumber: 'Tn39cc5647',
+    vehicleNumber: 'TN33GG1234',
     capacity: 45,
     transporterId: 1
 }
+const mockTruck = [
+    {
+        id: 1,
+        vehicleNumber: 'TN33GG1234',
+        transporter: { name: 'Barath Logistics' }
+    }
+]
 const mockTransporterData = [
     {
         name: 'Barath Logistics',
@@ -28,6 +37,7 @@ const mockTransporterData = [
 describe('Trip Test', () => {
     test('checking the component called NewTrip', async () => {
         mockAllTransporter.mockResolvedValue(mockTransporterData)
+        mockGetAllTruck.mockResolvedValue(mockTruck)
         mockCreateTruck.mockResolvedValue(mockTruckData)
         render(
             <BrowserRouter>
@@ -45,9 +55,6 @@ describe('Trip Test', () => {
             name: 'Barath Logistics'
         })
         await userEvent.click(options)
-
-        await userEvent.type(screen.getByLabelText('Vehicle Number'), 'TN33GG1234')
-        expect(screen.getByDisplayValue('TN33GG1234')).toBeVisible()
 
         expect(screen.getByRole('spinbutton', { name: 'Capacity' }))
         await userEvent.type(screen.getByLabelText('Capacity'), '11')

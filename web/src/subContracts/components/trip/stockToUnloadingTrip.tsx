@@ -5,7 +5,7 @@ import { createStockTrip } from '../../services/unloadingPointTrip.ts'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { AllStockProps } from './show.tsx'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { CheckUser } from '../../../auth/checkUser.tsx'
 
 interface dataProps {
@@ -238,8 +238,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
 }
 
 export default StockToUnloadingFormFields
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-const NewTime = (coverDateToEpoc: (date: any) => void) => {
+const NewTime = (coverDateToEpoc: (date: Dayjs | null) => void) => {
     return (
         <DatePicker
             label="Stock Point Date"

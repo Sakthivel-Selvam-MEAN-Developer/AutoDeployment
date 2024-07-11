@@ -2,7 +2,12 @@ import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 export const create = (data: Prisma.truckCreateInput | Prisma.truckUncheckedCreateInput) =>
     prisma.truck.create({ data })
-export const getAllTruck = () => prisma.truck.findMany({})
+export const getAllTruck = () =>
+    prisma.truck.findMany({
+        include: {
+            transporter: { select: { id: true, name: true } }
+        }
+    })
 export const getTruckByTransporter = (transporterName: string) =>
     prisma.truck.findMany({
         where: {

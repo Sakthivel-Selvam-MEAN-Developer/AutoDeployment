@@ -5,6 +5,7 @@ import SuccessDialog from '../../../commonUtils/SuccessDialog.tsx'
 import { useState } from 'react'
 import VehicleFormField from './vehicleFormField.tsx'
 import { Box, CircularProgress } from '@mui/material'
+import UpdateTransporter from './updateTransporterForVehicle/updateTransporter.tsx'
 
 const AddVehicle: React.FC = () => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
@@ -46,6 +47,7 @@ const AddVehicle: React.FC = () => {
                     <SubmitButton name="Create" type="submit" disabled={disable} />
                 )}
             </form>
+            <UpdateTransporter />
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={handleClose}
