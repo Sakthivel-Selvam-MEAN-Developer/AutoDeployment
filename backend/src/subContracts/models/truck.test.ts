@@ -11,7 +11,8 @@ import {
     create as createTruck,
     getAllTruck,
     getNumberByTruckId,
-    getTruckByTransporter
+    getTruckByTransporter,
+    updateTransporterId
 } from './truck.ts'
 import { getTransporterTypeByVehicleNumber } from './TransporterTypeByVehicleNumber.ts'
 import { create } from './transporter.ts'
@@ -134,5 +135,30 @@ describe('Truck model', () => {
         })
         const actual = await getTransporterTypeByVehicleNumber('TN33ba1234')
         expect(actual?.vehicleNumber).toBe(truck.vehicleNumber)
+    })
+    test('should able to update transporterId in Truck by truck Id', async () => {
+        const transporter1 = await create(seedTransporter, 0)
+        const transporter2 = await create(
+            {
+                ...seedTransporter,
+                name: 'newCompany',
+                emailId: 'aa@123.com',
+                contactPersonNumber: '122121',
+                accountNumber: '12333'
+            },
+            0
+        )
+        await createTruck({
+            ...seedTruckWithoutDep,
+            vehicleNumber: 'TN33ba1234',
+            transporterId: transporter1.id
+        })
+        const truck2 = await createTruck({
+            ...seedTruckWithoutDep,
+            vehicleNumber: 'TN33cc1234',
+            transporterId: transporter2.id
+        })
+        const actual = await updateTransporterId(transporter1.id, truck2.id)
+        expect(actual?.vehicleNumber).toBe(truck2.vehicleNumber)
     })
 })

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { getAllTruck } from '../../../services/truck'
+import { getAllTruck, updateTransporterId } from '../../../services/truck'
 import { getAllTransporter } from '../../../services/transporter'
 import SubmitButton from '../../../../form/button'
 import { transporterType, vehicleListType } from './types'
 import { GetVehicleListField } from './GetVehicleListField'
 import { GetTransporterTextFild } from './GetTransporterTextFild'
 import { GetNewTransporterField } from './GetNewTransporterField'
+import SuccessDialog from '../../../../commonUtils/SuccessDialog'
 
 export const UpdateTransporter: React.FC = () => {
     const [vehicleList, setVehicleList] = useState<vehicleListType[]>([])
@@ -14,14 +15,18 @@ export const UpdateTransporter: React.FC = () => {
     const [currentTransporterName, setCurrentTransporterName] = useState('')
     const [truckId, setTruckId] = useState<number>(0)
     const [newTranporterId, setNewTranporterId] = useState(0)
-    const { handleSubmit, control } = useForm<FieldValues>()
+    const { handleSubmit, control, reset } = useForm<FieldValues>()
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     useEffect(() => {
         getAllTruck().then(setVehicleList)
         getAllTransporter().then(setTransporterList)
     }, [])
-    const onSubmit: SubmitHandler<FieldValues> = async () => {
-        console.log(truckId, newTranporterId)
-    }
+    const onSubmit: SubmitHandler<FieldValues> = () =>
+        updateTransporterId(truckId, newTranporterId).then(() => {
+            setCurrentTransporterName('')
+            reset({})
+            setOpenSuccessDialog(true)
+        })
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: '60px' }}>
             <div style={{ display: 'flex', gap: '10px', rowGap: '10px', flexWrap: 'wrap' }}>
@@ -38,7 +43,12 @@ export const UpdateTransporter: React.FC = () => {
                     setNewTranporterId={setNewTranporterId}
                 />
             </div>
-            <SubmitButton name="Start" type="submit" disabled={false} />
+            <SubmitButton name="Update" type="submit" disabled={false} />
+            <SuccessDialog
+                open={openSuccessDialog}
+                handleClose={() => setOpenSuccessDialog(false)}
+                message="Truck Transfered Successfully"
+            />
         </form>
     )
 }

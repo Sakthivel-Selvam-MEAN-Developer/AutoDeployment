@@ -1,5 +1,22 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
+const tripStatusCheck = [
+    {
+        loadingPointToStockPointTrip: {
+            tripStatus: false
+        }
+    },
+    {
+        loadingPointToUnloadingPointTrip: {
+            tripStatus: false
+        }
+    },
+    {
+        stockPointToUnloadingPointTrip: {
+            tripStatus: false
+        }
+    }
+]
 export const create = (data: Prisma.truckCreateInput | Prisma.truckUncheckedCreateInput) =>
     prisma.truck.create({ data })
 export const getAllTruck = () =>
@@ -42,8 +59,14 @@ export const getNumberByTruckId = (id: number) =>
         where: { id },
         select: {
             vehicleNumber: true,
-            transporter: {
-                select: { name: true, transporterType: true }
-            }
+            transporter: { select: { name: true, transporterType: true } }
         }
+    })
+export const updateTransporterId = (transporterId: number, truckId: number) =>
+    prisma.truck.update({
+        where: {
+            id: truckId,
+            overallTrip: { none: { OR: tripStatusCheck } }
+        },
+        data: { transporterId }
     })

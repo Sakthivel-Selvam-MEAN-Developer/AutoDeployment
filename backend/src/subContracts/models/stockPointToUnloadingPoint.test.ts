@@ -239,6 +239,54 @@ describe('stock Point to unloading point', () => {
             tripStatus: true
         })
         const mockFilterData = {
+            startDate: unloadingPointTrip.startDate,
+            endDate: unloadingPointTrip.startDate,
+            company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
+        }
+        const actual = await getUnloadingTripsByinvoiceFilter(mockFilterData)
+        expect(actual[0].invoiceNumber).toBe(unloadingPointTrip.invoiceNumber)
+    })
+    test('should able to gracefully handle undefined to get Invoice Details for stockPoint To UnloadingPoint Trip by filterData', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const company = await createCompany(seedCompany)
+        await createTruck(seedTruck)
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+        const unloadingPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const loadingPointToStockPoint = await createLoadingPointToStockPoint({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const unloadingPointTrip = await create({
+            ...seedStockPointToUnloadingPoint,
+            loadingPointToStockPointTripId: loadingPointToStockPoint.id,
+            unloadingPointId: unloadingPoint.id,
+            tripStatus: true
+        })
+        const mockFilterData = {
             startDate: 0,
             endDate: 0,
             company: 'ULTRATECH CEMENT LIMITED,TADIPATRI'

@@ -9,7 +9,7 @@ const mockAllTransporter = vi.fn()
 const mockGetAllTruck = vi.fn()
 
 vi.mock('../../services/truck', () => ({
-    createTruck: (inputs: any) => mockCreateTruck(inputs),
+    createTruck: () => mockCreateTruck(),
     getAllTruck: () => mockGetAllTruck()
 }))
 vi.mock('../../services/transporter', () => ({

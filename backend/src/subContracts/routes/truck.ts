@@ -3,7 +3,8 @@ import {
     createTruck,
     listAllTruck,
     listTruckByTransporter,
-    listTruckByVehicleNumber
+    listTruckByVehicleNumber,
+    updateTransporterIdInTruck
 } from '../controller/truck.ts'
 import { authorise } from './authorise.ts'
 
@@ -12,5 +13,6 @@ const truckRoutes = (router: Router) => {
     router.post('/truck', authorise(['Admin']), createTruck)
     router.get('/transporter-truck/:transporterName', listTruckByTransporter)
     router.get('/truck/transpotertype/:id', listTruckByVehicleNumber)
+    router.put('/truck/updateTranspoter', updateTransporterIdInTruck)
 }
 export default truckRoutes

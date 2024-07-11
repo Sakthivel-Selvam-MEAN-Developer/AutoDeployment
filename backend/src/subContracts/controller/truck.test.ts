@@ -9,6 +9,7 @@ const mockTruckByTransporter = vi.fn()
 const mockCreateTuck = vi.fn()
 const mockAuth = vi.fn()
 const mockGetNumberByTruckId = vi.fn()
+const mockUpdateTransporterId = vi.fn()
 vi.mock('../routes/authorise', () => ({
     authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
         mockAuth(role)
@@ -19,7 +20,8 @@ vi.mock('../models/truck', () => ({
     getAllTruck: () => mockTruck(),
     create: (inputs: any) => mockCreateTuck(inputs),
     getTruckByTransporter: () => mockTruckByTransporter(),
-    getNumberByTruckId: () => mockGetNumberByTruckId()
+    getNumberByTruckId: () => mockGetNumberByTruckId(),
+    updateTransporterId: () => mockUpdateTransporterId()
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -40,7 +42,11 @@ const mockTruckData = {
         transporterType: 'Market'
     }
 }
-
+const truck = {
+    id: 1,
+    vehicleNumber: 'UV23AA222',
+    transporterId: 5
+}
 const mockRes = {
     sendStatus: vi.fn(),
     status: vi.fn().mockReturnThis(),
@@ -77,5 +83,14 @@ describe('Truck Controller', () => {
             .get('/api/transporter-truck/Barath')
             .expect({ vehicleNumber: 'TN93D5512' })
         expect(mockTruckByTransporter).toBeCalledWith()
+    })
+    test('should able to update the trucks to transporter ', async () => {
+        mockUpdateTransporterId.mockResolvedValue(truck)
+        await supertest(app)
+            .put('/api/truck/updateTranspoter')
+            .send({ transporterId: 5, truckId: 1 })
+            .expect(200)
+        expect(mockUpdateTransporterId).toBeCalledWith()
+        expect(mockUpdateTransporterId).toBeCalledTimes(1)
     })
 })

@@ -13,14 +13,7 @@ type priceType = (
 } | null>
 export const getPricePoint: priceType = (loadingPointId, unloadingPointId, stockPointId) =>
     prisma.pricePoint.findFirst({
-        where: { loadingPointId, unloadingPointId, stockPointId },
-        select: {
-            freightAmount: true,
-            transporterAmount: true,
-            transporterPercentage: true,
-            payGeneratingDuration: true,
-            transporterAdvancePercentage: true
-        }
+        where: { loadingPointId, unloadingPointId, stockPointId }
     })
 export const getAllPricePoint = () =>
     prisma.pricePoint.findMany({

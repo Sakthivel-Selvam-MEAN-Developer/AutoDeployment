@@ -1,5 +1,11 @@
 import { Request, Response } from 'express'
-import { getAllTruck, getTruckByTransporter, create, getNumberByTruckId } from '../models/truck.ts'
+import {
+    getAllTruck,
+    getTruckByTransporter,
+    create,
+    getNumberByTruckId,
+    updateTransporterId
+} from '../models/truck.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const listAllTruck = (_req: Request, res: Response) => {
@@ -22,4 +28,10 @@ export const listTruckByVehicleNumber = (req: Request, res: Response) => {
     getNumberByTruckId(parseInt(id))
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
+}
+export const updateTransporterIdInTruck = (req: Request, res: Response) => {
+    const { transporterId, truckId } = req.body
+    updateTransporterId(transporterId, truckId)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500).json('Truck has an Active Trip'))
 }

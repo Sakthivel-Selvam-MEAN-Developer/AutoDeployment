@@ -127,6 +127,16 @@ describe('Expense Controller', () => {
         createExpense(mockExpenseData, mockRes)
         mockCreateExpense.mockResolvedValue(mockExpenseData.body)
     })
+    test('should able to create expense', async () => {
+        const input = {
+            ...mockExpenseData,
+            body: [{ ...mockExpenseData.body[0], expenseType: 's' }]
+        }
+        console.log(input)
+        //@ts-expect-error input
+        createExpense(input, mockRes)
+        mockCreateExpense.mockResolvedValue(mockExpenseData.body)
+    })
     test('should able to get all expense', async () => {
         mockGetAllExpenseByTripId.mockResolvedValue(mockExpenseData.body)
         await supertest(app).get('/api/expenses').expect(200)

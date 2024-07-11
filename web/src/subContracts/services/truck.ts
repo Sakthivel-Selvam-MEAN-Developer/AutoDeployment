@@ -22,3 +22,8 @@ export const getNumberByTruckId = (id: number) =>
         .get(`/truck/transpotertype/${id}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+export const updateTransporterId = (truckId: number, transporterId: number) =>
+    axiosInstance
+        .put(`/truck/updateTranspoter`, { transporterId, truckId })
+        .then(getData)
+        .catch((e) => alert(e.response.data))

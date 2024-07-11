@@ -6,8 +6,6 @@ export const getTransporterTypeByVehicleNumber = (vehicleNumber: string) =>
         },
         select: {
             vehicleNumber: true,
-            transporter: {
-                select: { name: true, transporterType: true }
-            }
+            transporter: { select: { name: true, transporterType: true } }
         }
     })
