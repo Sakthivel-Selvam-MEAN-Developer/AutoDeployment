@@ -6,6 +6,7 @@ import { createEmployee } from './employee.ts'
 
 const mockCreateEmployee = vi.fn()
 const mockAuth = vi.fn()
+const mockGetAllEmployee = vi.fn()
 vi.mock('../routes/authorise', () => ({
     authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
         mockAuth(role)
@@ -13,7 +14,8 @@ vi.mock('../routes/authorise', () => ({
     }
 }))
 vi.mock('../models/employee', () => ({
-    create: (inputs: any) => mockCreateEmployee(inputs)
+    create: (inputs: any) => mockCreateEmployee(inputs),
+    getAllEmployee: () => mockGetAllEmployee()
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -56,5 +58,10 @@ describe('Employee Controller', () => {
         await supertest(app).post('/api/employee').expect(200)
         expect(mockCreateEmployee).toHaveBeenCalledWith(mockReq.body)
         expect(mockCreateEmployee).toBeCalledTimes(2)
+    })
+    test('should able to get all Employee', async () => {
+        mockGetAllEmployee.mockResolvedValue(mockReq.body)
+        await supertest(app).get('/api/getAllEmployee').expect(200)
+        expect(mockGetAllEmployee).toBeCalledWith()
     })
 })
