@@ -17,6 +17,7 @@ export const getDriverTripByDriverId = (id: number, month: number | undefined) =
 interface updateProps {
     tripId: number | undefined
     driverAdvance: string
+    advanceDate: number
 }
 export const updateDriverAdvance = (data: updateProps) =>
     axiosInstance.put(`/drivertrip/updateDriverAdvance`, data).then(getData)

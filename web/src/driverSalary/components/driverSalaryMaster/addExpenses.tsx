@@ -8,6 +8,12 @@ import { ExpenseTable } from './expenseTable.tsx'
 import { AddedExpense } from './addedExpenses.tsx'
 import { getAllDriver } from '../../services/driver.ts'
 import { getExpenseByTripId } from '../../services/expenses.ts'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
+interface dateProps {
+    $d: number
+}
 export interface expenseDetailsType {
     expenseType: string
     placedAmount: number
@@ -52,13 +58,20 @@ const ListExpenses: React.FC = () => {
         if (
             (category === 'Driver Expense' &&
                 (data.expenseType === undefined || data.amount === undefined || tripId === 0)) ||
-            (category === 'Driver Advance' && data.driverAdvance === undefined)
+            (category === 'Driver Advance' &&
+                (data.driverAdvance === undefined || data.advanceDate === undefined))
         ) {
             alert('All Fields are Required')
             return
         }
         if (category === 'Driver Advance' && data.driverAdvance !== undefined) {
-            await updateDriverAdvance({ tripId, driverAdvance: data.driverAdvance }).then(() => {
+            const date = dayjs((data.advanceDate as unknown as dateProps)?.$d).format('DD/MM/YYYY')
+            const advanceDate = dayjs.utc(date, 'DD/MM/YYYY').unix()
+            await updateDriverAdvance({
+                tripId,
+                driverAdvance: data.driverAdvance,
+                advanceDate
+            }).then(() => {
                 setMessage('Driver Advance Creation is Successfull')
                 setOpenSuccessDialog(true)
                 setClear(!clear)

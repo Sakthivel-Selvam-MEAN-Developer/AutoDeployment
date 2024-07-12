@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
 import axios from 'axios'
 import { IncomingHttpHeaders } from 'http'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 import { JsonValue } from '@prisma/client/runtime/library'
 import {
     create,
@@ -18,8 +16,6 @@ import { createDriverAdvance } from '../models/driverAdvance.ts'
 import { tripBettaCalculation } from '../domain/tripBettaCalculation.ts'
 import { getPerviousAndCurrentFuel } from '../domain/mileageCalculation.ts'
 import { tripDaysCalculation } from '../domain/tripDaysCaluclation.ts'
-
-dayjs.extend(utc)
 
 export const createDriverTrip = async (req: Request, res: Response) => {
     create(req.body)
@@ -155,16 +151,18 @@ export const listAllDriverTripById: listAllDriverTripByIdType = async (req, res)
         })
         .catch(() => res.sendStatus(500))
 }
-const creatData = (advance: string, id: number) => ({
+const creatData = (advance: string, id: number, advanceDate: number) => ({
     amount: parseFloat(advance),
     driverTripId: id,
-    advanceDate: dayjs.utc().startOf('day').unix()
+    advanceDate
 })
 export const updateDriverAdvance = async (req: Request, res: Response) => {
     const dataBody = req.body
     const driverTrip = await getDriverIdByTripId(dataBody.tripId)
     if (driverTrip === null) return res.sendStatus(500)
-    await createDriverAdvance(creatData(dataBody.driverAdvance, driverTrip.id))
+    await createDriverAdvance(
+        creatData(dataBody.driverAdvance, driverTrip.id, dataBody.advanceDate)
+    )
         .then((data) => res.status(200).json(data))
         .catch(() => res.status(500))
 }

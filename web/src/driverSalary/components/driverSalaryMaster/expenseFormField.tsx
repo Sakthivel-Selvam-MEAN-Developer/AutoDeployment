@@ -4,6 +4,7 @@ import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { InputAdornment } from '@mui/material'
 import NumberInputWithProps from '../../../form/NumberInputwithProps.tsx'
 import { AutocompleteWithDriverName } from './driverDetails.tsx'
+import DateInput from '../../../form/DateInput.tsx'
 
 interface FormFieldProps {
     control: Control
@@ -167,6 +168,14 @@ const ExpensesFormField: React.FC<FormFieldProps> = ({
                             </InputAdornment>
                         )
                     }}
+                />
+            )}
+            {category === 'Driver Advance' && (
+                <DateInput
+                    control={control}
+                    format="DD/MM/YYYY"
+                    fieldName="advanceDate"
+                    label="Advance Paid Date"
                 />
             )}
             {category === 'Driver Advance' && (

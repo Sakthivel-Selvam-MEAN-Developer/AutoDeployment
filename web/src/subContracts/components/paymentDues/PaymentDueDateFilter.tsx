@@ -1,13 +1,7 @@
 // import { Button } from '@mui/material'
 import { FC } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
 import { DatePickerField, ButtonWithWrapper } from './paymentDueFilterFields'
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
 
 interface PaymentDueFieldProps {
     setPaymentDueDate: React.Dispatch<React.SetStateAction<string | null>>

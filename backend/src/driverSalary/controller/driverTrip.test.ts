@@ -1,7 +1,6 @@
 import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
 import axios from 'axios'
-import dayjs from 'dayjs'
 import { app } from '../../app.ts'
 import { createDriverTrip, updateDriverAdvance } from './driverTrip.ts'
 
@@ -142,7 +141,7 @@ const mockCreateDriverAdvanceData = {
     driverAdvance: [1234]
 }
 const mockUpdateDriverAdvance = {
-    body: { driverAdvance: '1234', tripId: 3 }
+    body: { driverAdvance: '1234', tripId: 3, advanceDate: 1714674600 }
 } as Request
 const previousFuelDetails = {
     fuelType: 'Full tank',
@@ -218,7 +217,7 @@ describe('driverTrip Controller', () => {
         expect(mockCreateDriverAdvance).toHaveBeenCalledWith({
             driverTripId: mockGetDriverIdByTripIdData.id,
             amount: parseInt(mockUpdateDriverAdvance.body.driverAdvance),
-            advanceDate: dayjs.utc().startOf('day').unix()
+            advanceDate: 1714674600
         })
         expect(mockGetDriverIdByTripId).toBeCalledTimes(1)
     })

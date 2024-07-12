@@ -174,7 +174,8 @@ describe('Add Expense Test', () => {
             name: 'Driver Advance'
         })
         await userEvent.click(categoryOption)
-
+        // date
+        await userEvent.type(screen.getByLabelText('Advance Paid Date'), '02032024')
         //Advance Amount
         await userEvent.type(screen.getByLabelText('Driver Advance'), '1200')
         expect(screen.getByDisplayValue('1200')).toBeVisible()
