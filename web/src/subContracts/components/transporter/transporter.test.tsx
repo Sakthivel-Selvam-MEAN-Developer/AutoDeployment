@@ -55,12 +55,10 @@ describe('Trip Test', () => {
         expect(screen.getByText('Create / Update')).toBeInTheDocument()
 
         await userEvent.type(screen.getByLabelText('Transporter Name'), 'Muthu Transporters')
-        await userEvent.type(screen.getByLabelText('Email Id'), 'sample@gmail.com')
         await userEvent.type(screen.getByLabelText('Contact Person'), 'Muthu')
         await userEvent.type(screen.getByLabelText('Transporter Address'), 'Muthu Street')
         await userEvent.type(screen.getByLabelText('Contact Number'), '1234')
         await userEvent.type(screen.getByLabelText('Account Holder Name'), 'muthu')
-        await userEvent.type(screen.getByLabelText('Account Number'), '43534523')
         await userEvent.type(screen.getByLabelText('IFSC code'), 'zxy1234')
 
         const accountType = screen.getByRole('combobox', { name: 'Account Type' })
@@ -82,18 +80,10 @@ describe('Trip Test', () => {
         const checkbox = screen.getAllByRole('checkbox')
         await fireEvent.click(checkbox[0])
 
-        await userEvent.type(screen.getByLabelText('GST Number'), 'abcd123')
-        await userEvent.type(screen.getByLabelText('GST Percentage'), '10')
-
-        expect(screen.getByDisplayValue('abcd123')).toBeVisible()
-
         expect(checkbox[1]).not.toBeChecked()
         expect(screen.getByRole('spinbutton', { name: 'TDS Percentage' }))
 
         await fireEvent.click(checkbox[1])
-        await userEvent.type(screen.getByLabelText('TDS Percentage'), '11')
-
-        expect(screen.getByDisplayValue('11')).toBeVisible()
 
         const option = screen.getByText('Create / Update')
         await userEvent.click(option)

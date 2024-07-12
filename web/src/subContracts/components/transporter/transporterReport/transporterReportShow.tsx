@@ -1,15 +1,8 @@
 import React from 'react'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Button from '@mui/material/Button'
 import EditNoteIcon from '@mui/icons-material/EditNote'
 import { CircularLoader } from '../../cementCompany/companyReport/companyReportShow'
-
 interface Props {
     allTransporter: Row[]
     loading: boolean
@@ -36,103 +29,51 @@ export interface Row {
     panNumber: string
     aadharNumber: string
 }
-const cellNames = [
-    'Name',
-    'CSM Name',
-    'Email Id',
-    'Contact Person Name',
-    'Contact Person Number',
-    'Address',
-    'Aadhaar Number',
-    'Pan Number',
-    'GST',
-    'GST Number',
-    'GST Percentage',
-    'TDS',
-    'Transporter Type',
-    'TDS Percentage',
-    'AccountHolder',
-    'Account Number',
-    'BranchName',
-    'IFSC',
-    'AccountType',
-    'Actions'
+const columns = (handleEdit: (row: Row) => void): GridColDef[] => [
+    { field: 'id', headerName: '#', width: 40 },
+    { field: 'name', headerName: 'Name', width: 130 },
+    { field: 'csmName', headerName: 'CSM Name', width: 130 },
+    { field: 'emailId', headerName: 'Email Id', width: 150 },
+    { field: 'contactPersonName', headerName: 'Contact Person Name', width: 150 },
+    { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 150 },
+    { field: 'address', headerName: 'Address', width: 150 },
+    { field: 'aadharNumber', headerName: 'Aadhaar Number', width: 150 },
+    { field: 'panNumber', headerName: 'Pan Number', width: 150 },
+    { field: 'hasGst', headerName: 'GST', width: 90 },
+    { field: 'gstNumber', headerName: 'GST Number', width: 100 },
+    { field: 'gstPercentage', headerName: 'GST Percentage', width: 100 },
+    { field: 'hasTds', headerName: 'TDS', width: 90 },
+    { field: 'transporterType', headerName: 'Transporter Type', width: 150 },
+    { field: 'tdsPercentage', headerName: 'TDS Percentage', width: 100 },
+    { field: 'accountHolder', headerName: 'Account Holder', width: 150 },
+    { field: 'accountNumber', headerName: 'Account Number', width: 150 },
+    { field: 'branchName', headerName: 'Branch Name', width: 100 },
+    { field: 'ifsc', headerName: 'IFSC', width: 150 },
+    { field: 'accountTypeNumber', headerName: 'Account Type', width: 130 },
+    {
+        field: 'actions',
+        headerName: 'Actions',
+        width: 130,
+        renderCell: (params) => (
+            <Button
+                onClick={() => handleEdit(params.row as Row)}
+                variant="contained"
+                color="primary"
+            >
+                <EditNoteIcon />
+            </Button>
+        )
+    }
 ]
-const tableRow = (
-    <TableRow>
-        <TableCell>#</TableCell>
-        {cellNames.map((name, index) => (
-            <TableCell key={index} align="center" style={{ fontWeight: 'bold' }}>
-                {name}
-            </TableCell>
-        ))}
-    </TableRow>
-)
-const getTableHead = () => {
-    return <TableHead>{tableRow}</TableHead>
-}
-function cell(data: Row) {
-    console.log(data)
-    const cells = Object.entries(data).map(([key, value]) => {
-        if (key === 'createdAt' || key === 'updatedAt' || key === 'id' || key === 'employeeId')
-            return null
-        return subCell(key, value)
-    })
-    return cells
-}
-const style = { '&:last-child td, &:last-child th': { border: 0 } }
-const getTableBody = (allTransporter: Row[], handleEdit: (row: Row) => void) => {
-    return (
-        <TableBody>
-            {allTransporter &&
-                allTransporter.map((row, index) => tableBodyRow(index, row, handleEdit))}
-        </TableBody>
-    )
-}
-const tableContainer = (allTransporter: Row[], handleEdit: (row: Row) => void) => {
-    return (
-        <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
-            <Table stickyHeader sx={{ minWidth: 600 }} aria-label="sticky table">
-                {getTableHead()}
-                {getTableBody(allTransporter, handleEdit)}
-            </Table>
-        </TableContainer>
-    )
-}
 const ListAllTransporter: React.FC<Props> = ({ allTransporter, loading, handleEdit }) => {
+    if (loading) {
+        return <CircularLoader />
+    }
+    const rowsWithId = allTransporter.map((row, index) => ({ ...row, id: index + 1 }))
     return (
-        <>
-            {loading ? <CircularLoader /> : tableContainer(allTransporter, handleEdit)}
-            <br />
-            <br />
-        </>
+        <div style={{ height: 390, width: '100%' }}>
+            <DataGrid rows={rowsWithId} columns={columns(handleEdit)} hideFooter />
+        </div>
     )
 }
-
 export default ListAllTransporter
-
-function tableBodyRow(index: number, row: Row, handleEdit: (row: Row) => void) {
-    return (
-        <TableRow key={index} sx={style}>
-            <TableCell>{index + 1}</TableCell>
-            {cell(row)}
-            <TableCell align="center">{editButton(handleEdit, row)}</TableCell>
-        </TableRow>
-    )
-}
-
-function editButton(handleEdit: (row: Row) => void, row: Row) {
-    return (
-        <Button onClick={() => handleEdit(row)} variant="contained" color="primary">
-            <EditNoteIcon />
-        </Button>
-    )
-}
-
-function subCell(key: string, value: string) {
-    return (
-        <TableCell key={key} align="left">
-            {value ? value : 'NULL'}
-        </TableCell>
-    )
-}
