@@ -5,3 +5,12 @@ export const create = (data: Prisma.employeeCreateInput | Prisma.employeeUncheck
     prisma.employee.create({ data })
 
 export const getAllEmployee = () => prisma.employee.findMany({})
+
+export const updateEmployee = (
+    id: number,
+    data: Prisma.employeeUpdateInput | Prisma.employeeUncheckedUpdateInput
+) =>
+    prisma.employee.update({
+        where: { id },
+        data
+    })

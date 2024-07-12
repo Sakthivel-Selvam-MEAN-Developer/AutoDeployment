@@ -1,8 +1,9 @@
-import { create as createEmployee, getAllEmployee } from './employee'
+import { create as createEmployee, getAllEmployee, updateEmployee } from './employee'
 
 const employeeData = {
     corporateId: 'MAG0001',
     joiningDate: 960808392,
+    name: 'Ravi shankar',
     mailId: 'ravi@gmail.com',
     contactNumber: 9,
     department: 'support',
@@ -29,5 +30,13 @@ describe('Employee model', () => {
         await createEmployee(input)
         const actual = await getAllEmployee()
         expect(actual[0].corporateId).toEqual(input.corporateId)
+    })
+    test('should be able to get employee', async () => {
+        const input = { ...employeeData, corporateId: 'MAG0003' }
+        const actual = await createEmployee(input)
+        const updateInput = { ...input, name: 'karthik' }
+        const upDateEmployeeInput = await updateEmployee(actual.id, updateInput)
+        expect(upDateEmployeeInput.id).toEqual(actual.id)
+        console.log(actual, upDateEmployeeInput)
     })
 })
