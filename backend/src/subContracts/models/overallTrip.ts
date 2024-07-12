@@ -820,12 +820,16 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
             },
             loadingPointToUnloadingPointTrip: {
                 select: {
-                    totalTransporterAmount: true
+                    totalTransporterAmount: true,
+                    loadingPointId: true,
+                    unloadingPointId: true
                 }
             },
             loadingPointToStockPointTrip: {
                 select: {
-                    totalTransporterAmount: true
+                    totalTransporterAmount: true,
+                    loadingPointId: true,
+                    stockPointId: true
                 }
             }
         }
@@ -871,12 +875,16 @@ export const updateAcknowledgementApproval = async (id: number) =>
             },
             loadingPointToUnloadingPointTrip: {
                 select: {
-                    totalTransporterAmount: true
+                    totalTransporterAmount: true,
+                    loadingPointId: true,
+                    unloadingPointId: true
                 }
             },
             loadingPointToStockPointTrip: {
                 select: {
-                    totalTransporterAmount: true
+                    totalTransporterAmount: true,
+                    loadingPointId: true,
+                    stockPointId: true
                 }
             }
         }

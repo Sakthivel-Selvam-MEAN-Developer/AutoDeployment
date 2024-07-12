@@ -8,14 +8,13 @@ const finalDueLogic = async (
     overallTrip: overallTripProps,
     paymentDueDetails: dataProps[],
     shortageAmount: number,
-    tdsPercentage: number | null
+    tdsPercentage: number | null,
+    advancePerc: number | undefined
 ) => {
     let amount = 0
     let dueDetails
     let tdsAmount
-    let totalAmount = 0
     paymentDueDetails.forEach((data: dataProps) => {
-        totalAmount += data.payableAmount
         if (data.payableAmount < 0) amount = data.payableAmount
     })
     if (overallTrip === null) return
@@ -30,7 +29,7 @@ const finalDueLogic = async (
             (tdsPercentage !== null ? tdsPercentage / 100 : 0)
         dueDetails = overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
         amount =
-            totalAmount !== dueDetails.totalTransporterAmount
+            advancePerc !== 100
                 ? dueDetails.totalTransporterAmount * 0.3 +
                   overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount -
                   (-amount + shortageAmount + tdsAmount)

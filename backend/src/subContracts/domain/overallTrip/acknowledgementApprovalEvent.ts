@@ -8,7 +8,10 @@ export const getTransporterName = (overallTrip: overallTripProps) => {
 
     return overallTrip?.truck?.transporter
 }
-export const finalDueCreation = async (overallTrip: overallTripProps) => {
+export const finalDueCreation = async (
+    overallTrip: overallTripProps,
+    advancePerc: number | undefined
+) => {
     const finalPay = overallTrip.paymentDues.filter((due) => due.type === 'final pay')
     if (
         overallTrip.acknowledgementApproval === false ||
@@ -27,9 +30,13 @@ export const finalDueCreation = async (overallTrip: overallTripProps) => {
     ) {
         return false
     }
-    return finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsPercentage).then(
-        (finalDue) => {
-            if (finalDue !== null && finalDue !== undefined) return finalDue
-        }
-    )
+    return finalDueLogic(
+        overallTrip,
+        paymentDueDetails,
+        shortageAmount,
+        tdsPercentage,
+        advancePerc
+    ).then((finalDue) => {
+        if (finalDue !== null && finalDue !== undefined) return finalDue
+    })
 }

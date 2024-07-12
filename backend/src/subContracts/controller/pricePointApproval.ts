@@ -14,13 +14,8 @@ import {
     preEventApproval
 } from '../domain/overallTrip/pricePointApprovalEvent.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
+import { findTrip } from '../findTripType.ts'
 
-const findTrip = (overallTrip: any) => {
-    if (overallTrip.loadingPointToStockPointTrip !== null) {
-        return { trip: overallTrip.loadingPointToStockPointTrip, type: 'LoadingToStock' }
-    }
-    return { trip: overallTrip.loadingPointToUnloadingPointTrip, type: 'LoadingToUnloading' }
-}
 export const listTripsForPricePointApproval = (_req: Request, res: Response) =>
     getTripForPricePointApproval()
         .then((tripDetails) => {

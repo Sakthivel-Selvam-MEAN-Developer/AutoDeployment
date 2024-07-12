@@ -58,7 +58,8 @@ describe('Final Due Logics Test', async () => {
             overallTrip,
             paymentDueDetails,
             shortageAmount,
-            tdsPercentage
+            tdsPercentage,
+            100
         )
         expect(actual).toEqual([
             {
@@ -129,7 +130,8 @@ describe('Final Due Logics Test', async () => {
             overallTrip,
             paymentDueDetails,
             shortageAmount,
-            tdsPercentage
+            tdsPercentage,
+            70
         )
         expect(actual).toEqual([
             {

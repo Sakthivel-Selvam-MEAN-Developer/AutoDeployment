@@ -105,14 +105,14 @@ describe('For an overall trip when ack approved event is called', () => {
     test('when acknowledgementApproval is equal to false final pay should not be created', async () => {
         const overAllTrip = { ...overallTrip, acknowledgementApproval: false }
         const finalPay = false
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, 100)
         expect(actual).toEqual(finalPay)
     })
 
     test('when transporterInvoice is equal to "" final pay should not be created', async () => {
         const overAllTrip = { ...overallTrip, transporterInvoice: '' }
         const finalPay = false
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, 100)
         expect(actual).toEqual(finalPay)
     })
 
@@ -126,7 +126,7 @@ describe('For an overall trip when ack approved event is called', () => {
             }
         }
         const finalPay = false
-        const actual = await finalDueCreation(overalltrip)
+        const actual = await finalDueCreation(overalltrip, 100)
         expect(actual).toEqual(finalPay)
     })
 
@@ -134,10 +134,13 @@ describe('For an overall trip when ack approved event is called', () => {
         const overAllTrip = {
             ...overallTrip,
             truck,
+            stockPointToUnloadingPointTrip: {
+                totalTransporterAmount: 100000,
+                loadingPointToStockPointTrip: { totalTransporterAmount: 100000 }
+            },
             loadingPointToStockPointTrip: {
                 totalTransporterAmount: 100000,
                 id: 1,
-                startDate: 1700764200,
                 filledLoad: 100,
                 truck,
                 loadingPointToUnloadingPointTrip: null
@@ -145,7 +148,7 @@ describe('For an overall trip when ack approved event is called', () => {
         }
         const finalPay = [
             {
-                payableAmount: 22000,
+                payableAmount: 92000,
                 overallTripId: 1,
                 type: 'final pay',
                 name: 'Barath Logistics',
@@ -153,7 +156,7 @@ describe('For an overall trip when ack approved event is called', () => {
                 dueDate: 1701196200
             }
         ]
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, 100)
         expect(actual).toEqual(finalPay)
     })
 
@@ -169,7 +172,7 @@ describe('For an overall trip when ack approved event is called', () => {
                 dueDate: 1701196200
             }
         ]
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, 100)
         expect(actual).toEqual(finalPay)
     })
 })

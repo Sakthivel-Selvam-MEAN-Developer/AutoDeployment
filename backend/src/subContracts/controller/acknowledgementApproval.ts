@@ -12,6 +12,8 @@ import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { finalDueCreation } from '../domain/overallTrip/acknowledgementApprovalEvent.ts'
 import { gstCalculation } from '../domain/gstDueLogic.ts'
 import overallTripProps from '../domain/overallTripsTypes.ts'
+import { getPricePoint } from '../models/pricePoint.ts'
+import { findTrip } from '../findTripType.ts'
 
 export const listTripForAcknowlegementApproval = (_req: Request, res: Response) => {
     getTripForAcknowlegementApproval()
@@ -62,8 +64,9 @@ export const approveAcknowledgement = async (req: Request, res: Response) => {
     await updateShortageByOverallTripId(shortage.id, newShortage)
     await updateAcknowledgementApproval(req.body.id)
         .then(async (overallTrip) => {
+            const pricePoint = await getPricePointDetails(overallTrip)
             await createGstPaymentDue(overallTrip).catch(() => res.sendStatus(500))
-            await finalDueCreation(overallTrip).then(
+            await finalDueCreation(overallTrip, pricePoint?.transporterAdvancePercentage).then(
                 async (due: boolean | undefined | finalDuePropsfalse[]) => {
                     if (due === undefined || typeof due === 'boolean') return res.sendStatus(200)
                     await createPaymentDues(convertData(due)).then(() => res.sendStatus(200))
@@ -71,4 +74,8 @@ export const approveAcknowledgement = async (req: Request, res: Response) => {
             )
         })
         .catch(() => res.sendStatus(500))
+}
+async function getPricePointDetails(overallTrip: overallTripProps) {
+    const { trip } = findTrip(overallTrip)
+    return getPricePoint(trip.loadingPointId, trip.unloadingPointId, trip.stockPointId)
 }
