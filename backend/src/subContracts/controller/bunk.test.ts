@@ -70,4 +70,5 @@ describe('Bunk Controller', () => {
         })
         expect(mockGetAllBunkName).toBeCalledWith()
     })
+    test('should able to create bunk master', async () => {})
 })

@@ -63,6 +63,7 @@ const Fuel: React.FC = (): ReactElement => {
     }
     return (
         <>
+            <div style={{ marginBottom: '30px' }}>Fuel</div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FuelFormFields
                     control={control}
