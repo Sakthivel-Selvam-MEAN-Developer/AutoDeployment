@@ -51,6 +51,8 @@ const mockReq = {
         transporterType: 'own',
         hasTds: true,
         accountHolder: 'muthu',
+        panNumber: 'FZHPR32101',
+        aadharNumber: '1234567890',
         accountNumber: '43534523',
         ifsc: 'zxy1234',
         accountTypeNumber: 1,

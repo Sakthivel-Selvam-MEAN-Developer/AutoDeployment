@@ -30,27 +30,32 @@ export interface Row {
     tdsPercentage: number
     accountHolder: string
     accountNumber: string
+    branchName: string
     ifsc: string
     accountTypeNumber: number
+    panNumber: string
+    aadharNumber: string
 }
 const cellNames = [
     'Name',
-    'Csm Name',
+    'CSM Name',
     'Email Id',
     'Contact Person Name',
     'Contact Person Number',
     'Address',
-    'HasGst',
+    'Aadhaar Number',
+    'Pan Number',
+    'GST',
     'GST Number',
     'GST Percentage',
-    'Has Tds',
+    'TDS',
     'Transporter Type',
-    'Tds Percentage',
+    'TDS Percentage',
     'AccountHolder',
     'Account Number',
     'BranchName',
     'IFSC',
-    'AccountType Number',
+    'AccountType',
     'Actions'
 ]
 const tableRow = (
@@ -67,8 +72,10 @@ const getTableHead = () => {
     return <TableHead>{tableRow}</TableHead>
 }
 function cell(data: Row) {
+    console.log(data)
     const cells = Object.entries(data).map(([key, value]) => {
-        if (key === 'createdAt' || key === 'updatedAt' || key === 'id') return null
+        if (key === 'createdAt' || key === 'updatedAt' || key === 'id' || key === 'employeeId')
+            return null
         return subCell(key, value)
     })
     return cells
@@ -109,12 +116,16 @@ function tableBodyRow(index: number, row: Row, handleEdit: (row: Row) => void) {
         <TableRow key={index} sx={style}>
             <TableCell>{index + 1}</TableCell>
             {cell(row)}
-            <TableCell align="center">
-                <Button onClick={() => handleEdit(row)} variant="contained" color="primary">
-                    <EditNoteIcon />
-                </Button>
-            </TableCell>
+            <TableCell align="center">{editButton(handleEdit, row)}</TableCell>
         </TableRow>
+    )
+}
+
+function editButton(handleEdit: (row: Row) => void, row: Row) {
+    return (
+        <Button onClick={() => handleEdit(row)} variant="contained" color="primary">
+            <EditNoteIcon />
+        </Button>
     )
 }
 

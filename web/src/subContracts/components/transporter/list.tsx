@@ -20,6 +20,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [disable, setDisable] = useState(false)
     const [transpoterId, setTranspoterId] = useState<number>(0)
+    const [aadharNumber, setAadharNumber] = useState<string | undefined>('')
+    const [panNumber, setPanNumber] = useState<string | undefined>('')
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data)
         setLoading(true)
@@ -40,7 +42,18 @@ const CreateTransporter: React.FC = (): ReactElement => {
                 setDisable(false)
             })
             .then(() => setOpenSuccessDialog(true))
-            .then(() => clearForm(setValue, setAccountType, setGst, setTds, setTransporterType))
+            .then(() =>
+                clearForm(
+                    setValue,
+                    setAccountType,
+                    setGst,
+                    setTds,
+                    setTransporterType,
+                    setTranspoterId,
+                    setAadharNumber,
+                    setPanNumber
+                )
+            )
             .catch((error) => {
                 setDisable(false)
                 alert(error.response.data.error)
@@ -73,6 +86,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
         setValue('ifsc', editedTransporter.ifsc)
         setValue('address', editedTransporter.address)
         setValue('csmName', editedTransporter.csmName)
+        setValue('panNumber', editedTransporter.panNumber)
+        setValue('aadharNumber', editedTransporter.aadharNumber)
         setTransporterType(editedTransporter.transporterType)
         setAccountType(acc?.accountTypeName)
         setAccountTypeNumber(editedTransporter.accountTypeNumber)
@@ -112,6 +127,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
                     setAccountTypeNumber={setAccountTypeNumber}
                     setAccountType={setAccountType}
                     accountType={accountType}
+                    aadharNumber={aadharNumber}
+                    panNumber={panNumber}
                 />
                 {loading ? (
                     <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -138,9 +155,21 @@ type clearType = (
     setAccountType: React.Dispatch<React.SetStateAction<string | undefined>>,
     setGst: React.Dispatch<React.SetStateAction<boolean>>,
     setTds: React.Dispatch<React.SetStateAction<boolean>>,
-    setTransporterType: React.Dispatch<React.SetStateAction<string>>
+    setTransporterType: React.Dispatch<React.SetStateAction<string>>,
+    setTranspoterId: React.Dispatch<React.SetStateAction<number>>,
+    setAadhaarNumber: React.Dispatch<React.SetStateAction<string | undefined>>,
+    setPanNumber: React.Dispatch<React.SetStateAction<string | undefined>>
 ) => void
-const clearForm: clearType = (setValue, setAccountType, setGst, setTds, setTransporterType) => {
+const clearForm: clearType = (
+    setValue,
+    setAccountType,
+    setGst,
+    setTds,
+    setTransporterType,
+    setTranspoterId,
+    setAadharNumber,
+    setPanNumber
+) => {
     clearSubForm(setValue)
     setValue('gstPercentage', '')
     setValue('tdsPercentage', '')
@@ -151,6 +180,9 @@ const clearForm: clearType = (setValue, setAccountType, setGst, setTds, setTrans
     setGst(true)
     setTds(true)
     setTransporterType('')
+    setTranspoterId(0)
+    setAadharNumber('')
+    setPanNumber('')
 }
 const clearSubForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('name', '')
@@ -161,4 +193,6 @@ const clearSubForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('accountNumber', '')
     setValue('address', '')
     setValue('gstNumber', '')
+    setValue('aadharNumber', '')
+    setValue('panNumber', '')
 }

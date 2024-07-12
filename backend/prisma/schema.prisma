@@ -270,6 +270,8 @@ model transporter {
   contactPersonName   String
   contactPersonNumber String    @unique
   address             String
+  aadharNumber        String?   @unique
+  panNumber           String?   @unique
   hasGst              Boolean   @default(false)
   gstNumber           String?
   gstPercentage       Float?    @db.DoublePrecision

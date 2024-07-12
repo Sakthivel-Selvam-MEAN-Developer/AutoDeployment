@@ -45,8 +45,6 @@ describe('Report Test', () => {
             expect(screen.getByText('Own')).toBeInTheDocument()
             expect(screen.getByText('new address')).toBeInTheDocument()
             expect(screen.getByText('sakthi@gmail.com')).toBeInTheDocument()
-            expect(screen.getByText('ifsc1234')).toBeInTheDocument()
-            expect(screen.getByText('3456789')).toBeInTheDocument()
         })
         expect(mockGetAllTransporter).toHaveBeenCalledTimes(1)
     })

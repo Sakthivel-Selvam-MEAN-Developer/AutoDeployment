@@ -20,6 +20,8 @@ export interface FormFieldsProps {
     setTransporterType: React.Dispatch<React.SetStateAction<string>>
     transporterType: string
     accountType: string | undefined
+    aadharNumber: string | undefined
+    panNumber: string | undefined
 }
 const FormFields: React.FC<FormFieldsProps> = ({
     control,
@@ -85,6 +87,20 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 label="Account Number"
                 fieldName="accountNumber"
                 type="number"
+            />
+            <InputWithType
+                control={control}
+                disabled={false}
+                label="Aadhaar Number"
+                fieldName="aadharNumber"
+                type="string"
+            />
+            <InputWithType
+                control={control}
+                disabled={false}
+                label="Pan Number"
+                fieldName="panNumber"
+                type="string"
             />
             <InputWithType
                 control={control}
