@@ -1,119 +1,54 @@
-import Table from '@mui/material/Table'
 import React from 'react'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import { Box, CircularProgress } from '@mui/material'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 interface Props {
-    allPricePoint: picePointProps[]
+    allPricePoint: PricePointProps[]
     loading: boolean
 }
-interface picePointProps {
+interface PricePointProps {
     freightAmount: number
     transporterAmount: number
     transporterPercentage: number
     payGeneratingDuration: number
     transporterAdvancePercentage: number
-    loadingPoint: locationProps
-    unloadingPoint: locationProps
-    stockPoint: locationProps
+    loadingPoint: LocationProps
+    unloadingPoint: LocationProps
+    stockPoint: LocationProps
 }
-interface locationProps {
+interface LocationProps {
     name: string
-    cementCompany: companyProps
+    cementCompany: CompanyProps
 }
-interface companyProps {
+interface CompanyProps {
     name: string
 }
-const cellNames = [
-    'Company Name',
-    'Loading Point',
-    'Unloading Point',
-    'Stock Point',
-    'FreightAmount',
-    'TransporterPercentage',
-    'TransporterAmount',
-    'PayGeneratingDuration',
-    'Transporter AdvancePercentage'
+const columns: GridColDef[] = [
+    { field: 'id', headerName: '#', width: 70 },
+    { field: 'companyName', headerName: 'Company Name', width: 250 },
+    { field: 'loadingPoint', headerName: 'Loading Point', width: 200 },
+    { field: 'unloadingPoint', headerName: 'Unloading Point', width: 200 },
+    { field: 'stockPoint', headerName: 'Stock Point', width: 200},
+    { field: 'freightAmount', headerName: 'Freight Amount', width: 150 },
+    { field: 'transporterPercentage', headerName: 'Transporter Percentage', width: 180 },
+    { field: 'transporterAmount', headerName: 'Transporter Amount', width: 180 },
+    { field: 'payGeneratingDuration', headerName: 'Pay Generating Duration', width: 180 },
+    { field: 'transporterAdvancePercentage', headerName: 'Transporter Advance Percentage', width: 180 }
 ]
-const cells = (cell: string, index: number) => {
-    return (
-        <TableCell key={index} style={{ fontWeight: 'bold' }}>
-            {cell}
-        </TableCell>
-    )
-}
-const tableRow = (
-    <TableRow>
-        <TableCell>#</TableCell>
-        {cellNames.map((name, index) => cells(name, index))}
-    </TableRow>
-)
 
-const getTableHead = () => {
-    return (
-        <TableHead sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
-            {tableRow}
-        </TableHead>
-    )
-}
-const cell = (pricePoint: picePointProps) => {
-    return (
-        <>
-            <TableCell align="left">
-                {pricePoint.unloadingPoint !== null
-                    ? pricePoint.unloadingPoint.cementCompany.name
-                    : pricePoint.loadingPoint.cementCompany.name}
-            </TableCell>
-            <TableCell align="left">
-                {pricePoint.loadingPoint !== null ? pricePoint.loadingPoint.name : 'Null'}
-            </TableCell>
-            <TableCell align="left">
-                {pricePoint.unloadingPoint !== null ? pricePoint.unloadingPoint.name : 'Null'}
-            </TableCell>
-            <TableCell align="left">
-                {pricePoint.stockPoint !== null ? pricePoint.stockPoint.name : 'Null'}
-            </TableCell>
-            <TableCell align="left">{pricePoint.freightAmount}</TableCell>
-            <TableCell align="left">{pricePoint.transporterPercentage}</TableCell>
-            <TableCell align="left">{pricePoint.transporterAmount}</TableCell>
-            <TableCell align="left">{pricePoint.payGeneratingDuration}</TableCell>
-            <TableCell align="left">{pricePoint.transporterAdvancePercentage}</TableCell>
-        </>
-    )
-}
-const getTableBody = (allPricePoint: picePointProps[]) => {
-    return (
-        <>
-            <TableBody>
-                {allPricePoint &&
-                    allPricePoint.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                            <TableCell> {index + 1} </TableCell>
-                            {cell(row)}
-                        </TableRow>
-                    ))}
-            </TableBody>
-        </>
-    )
-}
-
-const tableContainer = (allPricePoint: picePointProps[]) => {
-    return (
-        <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
-            <Table stickyHeader aria-label="sticky table" sx={{ minWidth: 600 }}>
-                {getTableHead()}
-                {getTableBody(allPricePoint)}
-            </Table>
-        </TableContainer>
-    )
+const mapData = (allPricePoint: PricePointProps[]) => {
+    return allPricePoint.map((pricePoint, index) => ({
+        id: index + 1,
+        companyName: pricePoint.unloadingPoint ? pricePoint.unloadingPoint.cementCompany.name : pricePoint.loadingPoint.cementCompany.name,
+        loadingPoint: pricePoint.loadingPoint ? pricePoint.loadingPoint.name : 'Null',
+        unloadingPoint: pricePoint.unloadingPoint ? pricePoint.unloadingPoint.name : 'Null',
+        stockPoint: pricePoint.stockPoint ? pricePoint.stockPoint.name : 'Null',
+        freightAmount: pricePoint.freightAmount,
+        transporterPercentage: pricePoint.transporterPercentage,
+        transporterAmount: pricePoint.transporterAmount,
+        payGeneratingDuration: pricePoint.payGeneratingDuration,
+        transporterAdvancePercentage: pricePoint.transporterAdvancePercentage
+    }))
 }
 export const CircularLoader = () => {
     return (
@@ -122,17 +57,27 @@ export const CircularLoader = () => {
         </Box>
     )
 }
-const TablePricePoint: React.FC<Props> = ({ allPricePoint: allPricePoint, loading }) => {
-    return <>{loading ? <CircularLoader /> : tableContainer(allPricePoint)}</>
+const TablePricePoint: React.FC<Props> = ({ allPricePoint, loading }) => {
+    const rows = mapData(allPricePoint)
+    return (
+        <Box sx={{ height: 500, width: '100%' }}>
+            {loading ? (
+                <CircularLoader />
+            ) : (
+                <DataGrid
+                    rows={rows}
+                    columns={columns} />
+            )}
+        </Box>
+    )
 }
-const ListAllPricePoint: React.FC<Props> = ({ allPricePoint: allCompany, loading }) => {
+const ListAllPricePoint: React.FC<Props> = ({ allPricePoint, loading }) => {
     return (
         <>
-            <TablePricePoint allPricePoint={allCompany} loading={loading} />
+            <TablePricePoint allPricePoint={allPricePoint} loading={loading} />
             <br />
             <br />
         </>
     )
 }
-
 export default ListAllPricePoint
