@@ -147,6 +147,7 @@ describe('Fuel Report', () => {
                 bunk: {
                     bunkName: 'Bharath Petroleum'
                 },
+                dieselkilometer: 0,
                 fueledDate: 1706553000,
                 invoiceNumber: 'abcdefg',
                 overallTrip: null,
@@ -179,6 +180,7 @@ describe('Fuel Report', () => {
                 bunk: {
                     bunkName: 'Bharath Petroleum'
                 },
+                dieselkilometer: 0,
                 fueledDate: 1706553000,
                 invoiceNumber: 'abcdefg',
                 overallTrip: null,
@@ -211,6 +213,7 @@ describe('Fuel Report', () => {
                 bunk: {
                     bunkName: 'Bharath Petroleum'
                 },
+                dieselkilometer: 0,
                 fueledDate: 1706553000,
                 invoiceNumber: 'abcdefg',
                 overallTrip: null,
@@ -236,6 +239,7 @@ describe('Fuel Report', () => {
                 bunk: {
                     bunkName: 'Bharath Petroleum'
                 },
+                dieselkilometer: 0,
                 fueledDate: 1706553000,
                 invoiceNumber: 'abcdefg',
                 overallTrip: null,
@@ -268,6 +272,7 @@ describe('Fuel Report', () => {
                 bunk: {
                     bunkName: 'Bharath Petroleum'
                 },
+                dieselkilometer: 0,
                 fueledDate: 1706553000,
                 invoiceNumber: 'abcdefg',
                 overallTrip: null,

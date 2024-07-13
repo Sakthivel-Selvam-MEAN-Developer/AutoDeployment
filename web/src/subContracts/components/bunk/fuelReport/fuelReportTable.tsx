@@ -8,19 +8,20 @@ import { getAllFuelReport } from '../../../services/fuel'
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 
 const columns = [
-    { field: 'id', headerName: '#', width: 50 },
-    { field: 'bunkName', headerName: 'Bunk Name', width: 240 },
-    { field: 'fueledDate', headerName: 'Fueled Date', width: 240 },
-    { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 150 },
+    { field: 'id', headerName: '#', width: 5 },
+    { field: 'bunkName', headerName: 'Bunk Name', width: 220 },
+    { field: 'fueledDate', headerName: 'Fueled Date', width: 100 },
+    { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 100 },
     { field: 'loadingPoint', headerName: 'LoadingPoint Name', width: 120 },
-    { field: 'stockPointName', headerName: 'StockPoint Name', width: 150 },
-    { field: 'unLodaingPoint', headerName: 'UnLodaingPoint', width: 240 },
-    { field: 'quantity', headerName: 'Quantity', width: 130 },
-    { field: 'pricePerliter', headerName: 'Rate/Ltr', width: 130 },
-    { field: 'totalprice', headerName: 'Amount', width: 130 },
+    { field: 'stockPointName', headerName: 'StockPoint Name', width: 120 },
+    { field: 'unLodaingPoint', headerName: 'UnLodaingPoint', width: 120 },
+    { field: 'quantity', headerName: 'Quantity', width: 90 },
+    { field: 'pricePerliter', headerName: 'Rate/Ltr', width: 90 },
+    { field: 'totalprice', headerName: 'Amount', width: 100 },
     { field: 'fuelInvoiceNumber', headerName: 'Fuel Bill', width: 130 },
     { field: 'transactionId', headerName: 'Transaction Id', width: 130 },
-    { field: 'tripInvoiceNumber', headerName: 'Trip InvoiceNumber', width: 130 }
+    { field: 'tripInvoiceNumber', headerName: 'Trip InvoiceNumber', width: 130 },
+    { field: 'dieselkilometer', headerName: 'Disel Kilometer', width: 80 }
 ]
 const style = {
     display: 'flex',

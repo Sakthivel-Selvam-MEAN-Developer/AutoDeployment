@@ -86,6 +86,7 @@ export const getFuelReport = (
             fueledDate: true,
             vehicleNumber: true,
             quantity: true,
+            dieselkilometer: true,
             pricePerliter: true,
             totalprice: true,
             invoiceNumber: true,

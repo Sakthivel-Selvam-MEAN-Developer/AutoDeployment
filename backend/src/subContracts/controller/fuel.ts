@@ -31,6 +31,7 @@ export interface dataProps {
 export interface FuelReport {
     id: number
     fueledDate: Date | number
+    dieselkilometer: number
     bunkName: string
     vehicleNumber: string
     loadingPoint: string | null
@@ -84,6 +85,7 @@ interface Bunk {
 export interface FuelingEvent {
     id: number
     fueledDate: number
+    dieselkilometer: number
     vehicleNumber: string
     quantity: number
     pricePerliter: number
@@ -149,6 +151,7 @@ export const generateFuel = async (
 ): Promise<FuelReport> => ({
     id: fuelDataFormat.id,
     fueledDate: fuelDataFormat.fueledDate,
+    dieselkilometer: fuelDataFormat.dieselkilometer,
     bunkName: fuelDataFormat.bunk.bunkName,
     vehicleNumber: fuelDataFormat.vehicleNumber,
     loadingPoint:
