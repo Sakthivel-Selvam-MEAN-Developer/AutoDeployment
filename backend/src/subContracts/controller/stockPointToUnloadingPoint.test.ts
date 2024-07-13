@@ -107,6 +107,7 @@ const mockUnbilledTripData = [
         }
     }
 ]
+const mockError = new Error('Test error')
 describe('Trip Controller', () => {
     test('should able to create trip', async () => {
         mockCreateUnloadingPointTrip.mockResolvedValue(mockTripData)
@@ -166,5 +167,26 @@ describe('Trip Controller', () => {
             .expect(mockUnbilledTripData)
         expect(mockUnbilledTrip).toBeCalledTimes(1)
         expect(mockUnbilledTrip).toBeCalledWith()
+    })
+    test('should handle error when creating trip fails', async () => {
+        mockCreateUnloadingPointTrip.mockRejectedValue(mockError)
+        await supertest(app)
+            .post('/api/unloading-trip')
+            .send(mockBody)
+            .query({ type: 'Market Transporter', stockPointId: 1 })
+            .expect(500)
+        expect(mockCreateUnloadingPointTrip).toBeCalledTimes(3)
+    })
+
+    test('should handle error when updating overall trip fails', async () => {
+        mockCreateUnloadingPointTrip.mockResolvedValue(mockTripData)
+        mockgetOverAllTripIdByLoadingToStockId.mockRejectedValue(mockError)
+        await supertest(app)
+            .post('/api/unloading-trip')
+            .send(mockBody)
+            .query({ type: 'Market Transporter', stockPointId: 1 })
+            .expect(500)
+        expect(mockCreateUnloadingPointTrip).toBeCalledTimes(4)
+        expect(mockgetOverAllTripIdByLoadingToStockId).toBeCalledTimes(3)
     })
 })

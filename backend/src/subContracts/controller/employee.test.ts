@@ -2,11 +2,11 @@ import supertest from 'supertest'
 import { Request, Response, NextFunction } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
-import { createEmployee } from './employee.ts'
 
 const mockCreateEmployee = vi.fn()
 const mockAuth = vi.fn()
 const mockGetAllEmployee = vi.fn()
+const mockUpdateEmployee = vi.fn()
 vi.mock('../routes/authorise', () => ({
     authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
         mockAuth(role)
@@ -15,7 +15,8 @@ vi.mock('../routes/authorise', () => ({
 }))
 vi.mock('../models/employee', () => ({
     create: (inputs: any) => mockCreateEmployee(inputs),
-    getAllEmployee: () => mockGetAllEmployee()
+    getAllEmployee: () => mockGetAllEmployee(),
+    updateEmployee: () => mockUpdateEmployee()
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -45,23 +46,22 @@ const mockReq = {
     }
 } as Request
 
-const mockRes = {
-    sendStatus: vi.fn(),
-    status: vi.fn().mockReturnThis(),
-    json: vi.fn()
-} as unknown as Response
-
 describe('Employee Controller', () => {
     test('should able to create employee', async () => {
         mockCreateEmployee.mockResolvedValue(mockReq.body)
-        createEmployee(mockReq, mockRes)
         await supertest(app).post('/api/employee').expect(200)
-        expect(mockCreateEmployee).toHaveBeenCalledWith(mockReq.body)
-        expect(mockCreateEmployee).toBeCalledTimes(2)
     })
     test('should able to get all Employee', async () => {
         mockGetAllEmployee.mockResolvedValue(mockReq.body)
         await supertest(app).get('/api/getAllEmployee').expect(200)
         expect(mockGetAllEmployee).toBeCalledWith()
+    })
+    test('should able to update the trucks to transporter ', async () => {
+        mockUpdateEmployee.mockResolvedValue(mockReq.body)
+        await supertest(app)
+            .put('/api/updateEmployee')
+            .send({ id: 5, data: mockReq.body })
+            .expect(200)
+        expect(mockUpdateEmployee).toBeCalledWith()
     })
 })

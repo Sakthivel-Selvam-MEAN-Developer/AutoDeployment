@@ -147,6 +147,7 @@ describe('Acknowledgement Approval Controller', () => {
         expect(mockUpdateShortageInOverallTrip).toBeCalledTimes(1)
         expect(mockcreatePaymentDues).toBeCalledTimes(2)
     })
+
     test('should able to update Acknowledgement Approval in overAllTrip and generate gst pay', async () => {
         mockGetShortageQuantityByOverallTripId.mockResolvedValue(shortage)
         mockUpdateShortageInOverallTrip.mockResolvedValue(shortage)
@@ -278,5 +279,10 @@ describe('convertData Function', () => {
         const expected: paymentDuesCreateManyInput[] = []
 
         expect(convertData(finalDue)).toEqual(expected)
+    })
+    test('should return 500 if shortage is null in approveAcknowledgement', async () => {
+        mockGetShortageQuantityByOverallTripId.mockResolvedValue(null)
+        await supertest(app).put('/api/acknowlegementapproval').send(shortageQuantity).expect(500)
+        expect(mockGetShortageQuantityByOverallTripId).toBeCalledTimes(4)
     })
 })
