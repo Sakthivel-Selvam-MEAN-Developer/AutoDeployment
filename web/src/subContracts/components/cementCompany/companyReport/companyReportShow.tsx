@@ -14,13 +14,13 @@ interface Row {
     contactPersonNumber: string
 }
 const columns: GridColDef[] = [
-    { field: 'id', headerName: '#', width: 50 },
-    { field: 'name', headerName: 'Name', width: 150 },
-    { field: 'gstNo', headerName: 'GstNo', width: 150 },
-    { field: 'address', headerName: 'Address', width: 200 },
-    { field: 'emailId', headerName: 'Email Id', width: 200 },
-    { field: 'contactPersonName', headerName: 'Contact Person Name', width: 200 },
-    { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 200 }
+    { field: 'id', headerName: '#', width: 150 },
+    { field: 'name', headerName: 'Name', width: 300 },
+    { field: 'gstNo', headerName: 'GstNo', width: 250 },
+    { field: 'address', headerName: 'Address', width: 250 },
+    { field: 'emailId', headerName: 'Email Id', width: 250 },
+    { field: 'contactPersonName', headerName: 'Contact Person Name', width: 300 },
+    { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 300 }
 ]
 export const CircularLoader = () => {
     return (
