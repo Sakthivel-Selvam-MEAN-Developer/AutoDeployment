@@ -1,13 +1,6 @@
-import Table from '@mui/material/Table'
 import React from 'react'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
 import { Box, CircularProgress } from '@mui/material'
-
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 interface Props {
     allCompany: Row[]
     loading: boolean
@@ -20,59 +13,15 @@ interface Row {
     contactPersonName: string
     contactPersonNumber: string
 }
-const cellNames = [
-    'Name',
-    'GstNo',
-    'Address',
-    'Email Id',
-    'ContactPersonName',
-    'ContactPersonNumber'
+const columns: GridColDef[] = [
+    { field: 'id', headerName: '#', width: 50 },
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'gstNo', headerName: 'GstNo', width: 150 },
+    { field: 'address', headerName: 'Address', width: 200 },
+    { field: 'emailId', headerName: 'Email Id', width: 200 },
+    { field: 'contactPersonName', headerName: 'Contact Person Name', width: 200 },
+    { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 200 }
 ]
-const cells = (cell: string, index: number) => {
-    return (
-        <TableCell key={index} align="center" style={{ fontWeight: 'bold' }}>
-            {cell}
-        </TableCell>
-    )
-}
-const tableRow = (
-    <TableRow>
-        <TableCell>#</TableCell>
-        {cellNames.map((name, index) => cells(name, index))}
-    </TableRow>
-)
-const getTableHead = () => {
-    return <TableHead>{tableRow}</TableHead>
-}
-function cell(data: Row) {
-    return Object.entries(data).map(([key, value]) => {
-        if (key == 'createdAt' || key == 'updatedAt' || key == 'id') return
-        return (
-            <TableCell key={key} align="center">
-                {value}
-            </TableCell>
-        )
-    })
-}
-const style = { '&:last-child td, &:last-child th': { border: 0 } }
-const getTableBody = (allCompany: Row[]) => {
-    return (
-        <TableBody>
-            {allCompany && allCompany.map((row, index) => tableBodyRow(index, row))}
-        </TableBody>
-    )
-}
-
-const tableContainer = (allCompany: Row[]) => {
-    return (
-        <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
-            <Table stickyHeader sx={{ minWidth: 600 }} aria-label="sticky table">
-                {getTableHead()}
-                {getTableBody(allCompany)}
-            </Table>
-        </TableContainer>
-    )
-}
 export const CircularLoader = () => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -81,7 +30,15 @@ export const CircularLoader = () => {
     )
 }
 const TableCompany: React.FC<Props> = ({ allCompany, loading }) => {
-    return <>{loading ? <CircularLoader /> : tableContainer(allCompany)}</>
+    const rowsWithId = allCompany.map((row, index) => ({
+        ...row,
+        id: index + 1
+    }))
+    return (
+        <Box sx={{ height: 500, width: '100%' }}>
+            {loading ? <CircularLoader /> : <DataGrid rows={rowsWithId} columns={columns} />}
+        </Box>
+    )
 }
 const ListAllCompany: React.FC<Props> = ({ allCompany, loading }) => {
     return (
@@ -92,13 +49,4 @@ const ListAllCompany: React.FC<Props> = ({ allCompany, loading }) => {
         </>
     )
 }
-
 export default ListAllCompany
-function tableBodyRow(index: number, row: Row) {
-    return (
-        <TableRow key={index} sx={style}>
-            <TableCell> {index + 1} </TableCell>
-            {cell(row)}
-        </TableRow>
-    )
-}
