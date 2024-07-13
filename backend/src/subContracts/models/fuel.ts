@@ -101,6 +101,7 @@ export const getFuelReport = (
                     loadingPointToStockPointTrip: {
                         select: {
                             invoiceNumber: true,
+                            startDate: true,
                             loadingPoint: { select: { name: true } },
                             stockPoint: { select: { name: true } },
                             stockPointToUnloadingPointTrip: {
@@ -117,6 +118,7 @@ export const getFuelReport = (
                     loadingPointToUnloadingPointTrip: {
                         select: {
                             invoiceNumber: true,
+                            startDate: true,
                             loadingPoint: { select: { name: true } },
                             unloadingPoint: { select: { name: true } }
                         }

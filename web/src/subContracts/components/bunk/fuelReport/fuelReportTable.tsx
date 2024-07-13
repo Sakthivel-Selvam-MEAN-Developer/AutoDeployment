@@ -10,8 +10,9 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 const columns = [
     { field: 'id', headerName: '#', width: 5 },
     { field: 'bunkName', headerName: 'Bunk Name', width: 220 },
-    { field: 'fueledDate', headerName: 'Fueled Date', width: 100 },
+    { field: 'startDate', headerName: 'Start Date', width: 100 },
     { field: 'vehicleNumber', headerName: 'Vehicle Number', width: 100 },
+    { field: 'fueledDate', headerName: 'Fueled Date', width: 100 },
     { field: 'loadingPoint', headerName: 'LoadingPoint Name', width: 120 },
     { field: 'stockPointName', headerName: 'StockPoint Name', width: 120 },
     { field: 'unLodaingPoint', headerName: 'UnLodaingPoint', width: 120 },
@@ -39,6 +40,7 @@ interface fuelDataObject {
     bunkName: string
     fuelInvoiceNumber: string
     fueledDate: number
+    startDate: number
     id: number
     loadingPoint: string
     pricePerliter: number
@@ -103,7 +105,8 @@ const StackPage: FC<stackProps> = ({ setfuelReportData, dispatch, count, setCoun
 const DataGridTable: React.FC<DataGridTableProps> = ({ fuelReportData }) => {
     const formattedFuelReportData = fuelReportData.map((item) => ({
         ...item,
-        fueledDate: epochToMinimalDate(item.fueledDate)
+        fueledDate: epochToMinimalDate(item.fueledDate),
+        startDate: item.startDate === 0 ? null : epochToMinimalDate(item.startDate)
     }))
     return (
         <DataGrid

@@ -43,6 +43,7 @@ export interface FuelReport {
     fuelInvoiceNumber: string
     transactionId: string | null
     tripInvoiceNumber: string | null
+    startDate: number
 }
 
 interface LoadingPoint {
@@ -59,6 +60,7 @@ interface StockPoint {
 
 interface LoadingPointToUnloadingPointTrip {
     invoiceNumber: string
+    startDate: number
     loadingPoint: LoadingPoint
     unloadingPoint: UnloadingPoint
 }
@@ -67,6 +69,7 @@ interface stockPointToUnloadingPointTrip {
 }
 interface LoadingPointToStockPointTrip {
     invoiceNumber: string
+    startDate: number
     loadingPoint: LoadingPoint
     stockPoint: StockPoint
     stockPointToUnloadingPointTrip: stockPointToUnloadingPointTrip[]
@@ -81,7 +84,6 @@ export interface OverallTrip {
 interface Bunk {
     bunkName: string
 }
-
 export interface FuelingEvent {
     id: number
     fueledDate: number
@@ -173,7 +175,11 @@ export const generateFuel = async (
     tripInvoiceNumber:
         fuelDataFormat?.overallTrip?.loadingPointToUnloadingPointTrip?.invoiceNumber ||
         fuelDataFormat?.overallTrip?.loadingPointToStockPointTrip?.invoiceNumber ||
-        null
+        null,
+    startDate:
+        fuelDataFormat?.overallTrip?.loadingPointToUnloadingPointTrip?.startDate ||
+        fuelDataFormat?.overallTrip?.loadingPointToStockPointTrip?.startDate ||
+        0
 })
 
 const generateFuelData = async (
