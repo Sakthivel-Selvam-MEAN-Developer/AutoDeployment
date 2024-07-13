@@ -7,8 +7,8 @@ CREATE SCHEMA IF NOT EXISTS "peopleOrg";
 -- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "wonderMove";
 
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "postgis";
+-- -- CreateExtension
+-- CREATE EXTENSION IF NOT EXISTS "postgis";
 
 -- CreateTable
 CREATE TABLE "wonderMove"."customers" (

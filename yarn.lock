@@ -1006,6 +1006,11 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
+"@electric-sql/pglite@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@electric-sql/pglite/-/pglite-0.1.5.tgz#ad9d5356a7668b9c56af055a79f7ae82c6c41545"
+  integrity sha512-eymv4ONNvoPZQTvOQIi5dbpR+J5HzEv0qQH9o/y3gvNheJV/P/NFcrbsfJZYTsDKoq7DKrTiFNexsRkJKy8x9Q==
+
 "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.11.0.tgz#c2d872b6a7767a9d176d007f5b31f7d504bb5d6c"
@@ -1816,10 +1821,22 @@
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.16.1.tgz#65c5649b4701c097e7fa943c91a3140ce8bf053d"
   integrity sha512-wM9SKQjF0qLxdnOZIVAIMKiz6Hu7vDt4FFAih85K1dk/Rr2mdahy6d3QP41K62N9O0DJJA//gUDA3Mp49xsKIg==
 
+"@prisma/debug@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-5.14.0.tgz#1227c705893c38284f7c63d72441480ebaa12605"
+  integrity sha512-iq56qBZuFfX3fCxoxT8gBX33lQzomBU0qIUaEj1RebsKVz1ob/BVH1XSBwwwvRVtZEV1b7Fxx2eVu34Ge/mg3w==
+
 "@prisma/debug@5.16.1":
   version "5.16.1"
   resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-5.16.1.tgz#4887a57a0973fb732a60c30dc48de97bf1eefd7e"
   integrity sha512-JsNgZAg6BD9RInLSrg7ZYzo11N7cVvYArq3fHGSD89HSgtN0VDdjV6bib7YddbcO6snzjchTiLfjeTqBjtArVQ==
+
+"@prisma/driver-adapter-utils@5.14.0":
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/@prisma/driver-adapter-utils/-/driver-adapter-utils-5.14.0.tgz#f9b68ef4baab86237ced57c94f81efbcc357e4cd"
+  integrity sha512-EyAfdKjk0M7CaA7BfiwDTPLs7udOwt+RUnyWIPSg7uBEFp2GS/l9Ig7CCgMZFcBFc62v0c6Z/R3WFuQ+bNxfnA==
+  dependencies:
+    "@prisma/debug" "5.14.0"
 
 "@prisma/engines-version@5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303":
   version "5.16.0-24.34ace0eb2704183d2c05b60b52fba5c43c13f303"
@@ -8108,6 +8125,13 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==
+
+pglite-prisma-adapter@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/pglite-prisma-adapter/-/pglite-prisma-adapter-0.2.0.tgz#6f88cb04d508111a4342b00c849837941eee7da1"
+  integrity sha512-O/QZtBtgHxzP3nyJeYtt6kvGq+ZV9Q/iYlHC23KkFzKH3wEVB/DnBm//MgPKgyCe/U7cdrazky+PG5bWWsfDsQ==
+  dependencies:
+    "@prisma/driver-adapter-utils" "5.14.0"
 
 phantomjs-prebuilt@^2.1.16:
   version "2.1.16"
