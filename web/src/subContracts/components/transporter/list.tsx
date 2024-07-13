@@ -23,7 +23,6 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const [aadharNumber, setAadharNumber] = useState<string | undefined>('')
     const [panNumber, setPanNumber] = useState<string | undefined>('')
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
         setLoading(true)
         setDisable(true)
         createTransporter({
@@ -74,7 +73,6 @@ const CreateTransporter: React.FC = (): ReactElement => {
         const acc = accountTypes.find(
             (acc) => acc.accountTypeNumber === editedTransporter.accountTypeNumber
         )
-        console.log(editedTransporter)
         setTranspoterId(editedTransporter.id)
         setValue('name', editedTransporter.name)
         setValue('emailId', editedTransporter.emailId)

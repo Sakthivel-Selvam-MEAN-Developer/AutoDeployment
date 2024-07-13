@@ -18,6 +18,7 @@ vi.mock('../../services/accountType', () => ({
 
 const mockTransporterData = [
     {
+        id: 1,
         name: 'Muthu Transporters',
         emailId: 'sample@gmail.com',
         contactPersonName: 'Muthu',

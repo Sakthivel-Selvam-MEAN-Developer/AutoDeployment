@@ -11,6 +11,7 @@ vi.mock('../../../services/transporter', () => ({
 
 const mockTransporterData = [
     {
+        id: 1,
         name: 'sakthi',
         csmName: 'sakthi',
         emailId: 'sakthi@gmail.com',

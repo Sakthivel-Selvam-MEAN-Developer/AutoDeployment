@@ -9,6 +9,7 @@ interface Props {
     handleEdit: (row: Row) => void
 }
 export interface Row {
+    id: number
     name: string
     csmName: string
     emailId: string
@@ -30,7 +31,7 @@ export interface Row {
     aadharNumber: string
 }
 const columns = (handleEdit: (row: Row) => void): GridColDef[] => [
-    { field: 'id', headerName: '#', width: 40 },
+    { field: 'index', headerName: '#', width: 40 },
     { field: 'name', headerName: 'Name', width: 130 },
     { field: 'csmName', headerName: 'CSM Name', width: 130 },
     { field: 'emailId', headerName: 'Email Id', width: 150 },
@@ -69,10 +70,14 @@ const ListAllTransporter: React.FC<Props> = ({ allTransporter, loading, handleEd
     if (loading) {
         return <CircularLoader />
     }
-    const rowsWithId = allTransporter.map((row, index) => ({ ...row, id: index + 1 }))
+    const rowsWithId = allTransporter.map((row, index) => ({
+        ...row,
+        index: index + 1,
+        id: row.id
+    }))
     return (
         <div style={{ height: 390, width: '100%' }}>
-            <DataGrid rows={rowsWithId} columns={columns(handleEdit)} hideFooter />
+            <DataGrid rows={rowsWithId} columns={columns(handleEdit)} />
         </div>
     )
 }
