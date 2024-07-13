@@ -98,7 +98,7 @@ services:
       TF_LOG: error
     volumes:
       - ./:/app/
-    working_dir: /app/deploy/terra/env/test
+    working_dir: /app/deploy/terra/env/test/app
     command: [ "bash" ]
 
 networks:

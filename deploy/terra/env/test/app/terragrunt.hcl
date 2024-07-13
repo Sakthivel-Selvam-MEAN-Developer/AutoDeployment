@@ -3,7 +3,7 @@ terraform {
 }
 
 inputs  = {
-  instance_type = "t4g.nano"
+  instance_type = "t2.micro"
 }
 
 remote_state {
