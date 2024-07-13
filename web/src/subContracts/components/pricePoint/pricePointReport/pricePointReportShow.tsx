@@ -28,18 +28,24 @@ const columns: GridColDef[] = [
     { field: 'companyName', headerName: 'Company Name', width: 250 },
     { field: 'loadingPoint', headerName: 'Loading Point', width: 200 },
     { field: 'unloadingPoint', headerName: 'Unloading Point', width: 200 },
-    { field: 'stockPoint', headerName: 'Stock Point', width: 200},
+    { field: 'stockPoint', headerName: 'Stock Point', width: 200 },
     { field: 'freightAmount', headerName: 'Freight Amount', width: 150 },
     { field: 'transporterPercentage', headerName: 'Transporter Percentage', width: 180 },
     { field: 'transporterAmount', headerName: 'Transporter Amount', width: 180 },
     { field: 'payGeneratingDuration', headerName: 'Pay Generating Duration', width: 180 },
-    { field: 'transporterAdvancePercentage', headerName: 'Transporter Advance Percentage', width: 180 }
+    {
+        field: 'transporterAdvancePercentage',
+        headerName: 'Transporter Advance Percentage',
+        width: 180
+    }
 ]
 
 const mapData = (allPricePoint: PricePointProps[]) => {
     return allPricePoint.map((pricePoint, index) => ({
         id: index + 1,
-        companyName: pricePoint.unloadingPoint ? pricePoint.unloadingPoint.cementCompany.name : pricePoint.loadingPoint.cementCompany.name,
+        companyName: pricePoint.unloadingPoint
+            ? pricePoint.unloadingPoint.cementCompany.name
+            : pricePoint.loadingPoint.cementCompany.name,
         loadingPoint: pricePoint.loadingPoint ? pricePoint.loadingPoint.name : 'Null',
         unloadingPoint: pricePoint.unloadingPoint ? pricePoint.unloadingPoint.name : 'Null',
         stockPoint: pricePoint.stockPoint ? pricePoint.stockPoint.name : 'Null',
@@ -61,13 +67,7 @@ const TablePricePoint: React.FC<Props> = ({ allPricePoint, loading }) => {
     const rows = mapData(allPricePoint)
     return (
         <Box sx={{ height: 500, width: '100%' }}>
-            {loading ? (
-                <CircularLoader />
-            ) : (
-                <DataGrid
-                    rows={rows}
-                    columns={columns} />
-            )}
+            {loading ? <CircularLoader /> : <DataGrid rows={rows} columns={columns} />}
         </Box>
     )
 }

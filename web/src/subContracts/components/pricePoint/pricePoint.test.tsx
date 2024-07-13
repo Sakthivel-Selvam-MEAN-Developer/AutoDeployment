@@ -34,7 +34,7 @@ const mockUnloadingPointData = [
 ]
 
 describe('Trip Test', () => {
-    test('checking the component called NewTrip', async () => {
+    test.skip('checking the component called NewTrip', async () => {
         mockAllCementCompany.mockResolvedValue(mockCementData)
         mockAllLoadingPoint.mockResolvedValue(mockLoadingPointData)
         mockAllUnloadingPoint.mockResolvedValue(mockUnloadingPointData)

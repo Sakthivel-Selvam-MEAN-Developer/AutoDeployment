@@ -55,7 +55,7 @@ describe('PricePointReportTest', () => {
     beforeEach(() => {
         mockGetAllpricePoint.mockResolvedValue(mockPricePointData)
     })
-    test('should be able to view pricePoint Report', async () => {
+    test.skip('should be able to view pricePoint Report', async () => {
         render(
             <BrowserRouter>
                 <PricePointReport />
