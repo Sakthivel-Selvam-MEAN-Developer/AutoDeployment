@@ -52,7 +52,7 @@ describe('Fuel model', () => {
             unloadingPointId: deliveryPoint.id
         })
         const overAllTrip = await createOverAllTrip({ loadingPointToUnloadingPointTripId: trip.id })
-        const bunk = await create(seedBunk)
+        const bunk = await create(seedBunk, 0)
         await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -64,7 +64,7 @@ describe('Fuel model', () => {
         expect(actual[0].pricePerliter).toBe(seedFuel.pricePerliter)
     })
     test('should able to get fuel without any tripId', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -79,7 +79,7 @@ describe('Fuel model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -110,7 +110,7 @@ describe('Fuel model', () => {
         expect(actual.overallTripId).toBe(overAllTrip.id)
     })
     test('should able to update fuel with tripId', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -120,7 +120,7 @@ describe('Fuel model', () => {
         expect(actual[0].bunk.id).toBe(bunk.id)
     })
     test('should able to update fuel with tripId', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -133,7 +133,7 @@ describe('Fuel model', () => {
 })
 describe('Fuel Report', () => {
     test('should able to display fuel report', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -159,7 +159,7 @@ describe('Fuel Report', () => {
         ])
     })
     test('should able to display fuel report with bunk name', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -192,7 +192,7 @@ describe('Fuel Report', () => {
         ])
     })
     test('should able to display fuel report with fueled date', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -225,7 +225,7 @@ describe('Fuel Report', () => {
         ])
     })
     test('should able to display fuel report with paymentStatus', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -251,7 +251,7 @@ describe('Fuel Report', () => {
         ])
     })
     test('should able to display fuel report with vehicleNumber', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -287,7 +287,7 @@ describe('Fuel Report', () => {
 
 describe('Fuel Count', () => {
     test('should able to get fuel report count', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -298,7 +298,7 @@ describe('Fuel Count', () => {
         expect(actual).toStrictEqual(1)
     })
     test('should able to get fuel count with bunk name', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -315,7 +315,7 @@ describe('Fuel Count', () => {
         expect(actual).toStrictEqual(1)
     })
     test('should able to get count fuel report with fueled date', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -332,7 +332,7 @@ describe('Fuel Count', () => {
         expect(actual).toStrictEqual(1)
     })
     test('should able to get count fuel report with paymentStatus', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -343,7 +343,7 @@ describe('Fuel Count', () => {
         expect(actual).toStrictEqual(1)
     })
     test('should able to get count fuel report with vehicleNumber', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,
@@ -360,7 +360,7 @@ describe('Fuel Count', () => {
         expect(actual).toStrictEqual(1)
     })
     test('should able to get previous fuel for same vehicleNumber', async () => {
-        const bunk = await create(seedBunkWithoutDep)
+        const bunk = await create(seedBunkWithoutDep, 0)
         const fuel = await createFuel({
             ...seedFuel,
             bunkId: bunk.id,

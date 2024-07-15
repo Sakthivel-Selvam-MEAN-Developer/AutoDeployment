@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import FormFields from './formFields'
-import { useForm } from 'react-hook-form'
+import { Control, FieldValues, UseFormHandleSubmit, UseFormSetValue } from 'react-hook-form'
 import { onSubmit } from './onSubmit'
 import { FC, useState } from 'react'
 import Header from './header'
@@ -12,25 +12,28 @@ const SubmitButton = () => {
         </Button>
     )
 }
-interface bunkProp {
+interface prop {
     setReCall: React.Dispatch<React.SetStateAction<boolean>>
     reCall: boolean
+    control: Control
+    handleSubmit: UseFormHandleSubmit<FieldValues, undefined>
+    setValue: UseFormSetValue<FieldValues>
+    id: { type: number; id: number }
+    setId: React.Dispatch<React.SetStateAction<{ type: number; id: number }>>
 }
-const AddBunk: FC<bunkProp> = ({ setReCall, reCall }) => {
-    const { control, handleSubmit, setValue } = useForm()
-    const [accTypeNumber, setAccTypeNumber] = useState<number>(0)
+const AddBunk: FC<prop> = ({ setReCall, reCall, control, handleSubmit, setValue, id, setId }) => {
     const [openDialog, setOpenDialog] = useState<boolean>(false)
     return (
         <>
             <Header />
             <form
-                onSubmit={handleSubmit((data) =>
-                    onSubmit(data, accTypeNumber, setOpenDialog, setReCall, reCall)
+                onSubmit={handleSubmit((data: FieldValues) =>
+                    onSubmit(data, id.type, setOpenDialog, setReCall, reCall, id.id)
                 )}
             >
                 <FormFields
                     control={control}
-                    setAccType={setAccTypeNumber}
+                    setAccType={setId}
                     openDialog={openDialog}
                     setOpenDialog={setOpenDialog}
                     setValue={setValue}

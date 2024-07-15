@@ -10,7 +10,7 @@ const mockBunkDetails = vi.fn()
 const mockGetAllBunkName = vi.fn()
 
 vi.mock('../models/bunk', () => ({
-    create: (inputs: Prisma.bunkCreateInput) => mockCreateBunk(inputs),
+    create: (inputs: Prisma.bunkCreateInput, id: number) => mockCreateBunk(inputs, id),
     getAllBunk: () => mockBunkDetails(),
     getAllBunkName: () => mockGetAllBunkName()
 }))
@@ -21,10 +21,13 @@ vi.mock('../../auditRoute.ts', () => ({
     }
 }))
 const mockBunk = {
+    body: { details: seedBunk }
+}
+const mockBunkWithoutId = {
     body: { ...seedBunk }
 }
 const mockReq = {
-    body: { ...seedBunk }
+    body: { details: seedBunk, id: 0 }
 } as Request
 
 const mockRes = {
@@ -36,7 +39,7 @@ describe('Bunk Controller', () => {
     test('should able to create Bunk', async () => {
         mockCreateBunk.mockResolvedValue({ ...mockBunk.body, id: 1 })
         createBunk(mockReq, mockRes)
-        expect(mockCreateBunk).toHaveBeenCalledWith(mockReq.body)
+        expect(mockCreateBunk).toHaveBeenCalledWith(mockReq.body.details, 0)
         await supertest(app).post('/api/bunk').expect(200)
         expect(mockCreateBunk).toBeCalledTimes(2)
     })
@@ -46,7 +49,7 @@ describe('Bunk Controller', () => {
         expect(mockBunkDetails).toBeCalledWith()
     })
     test('should return all bunk names', async () => {
-        mockGetAllBunkName.mockResolvedValue(mockBunk.body)
+        mockGetAllBunkName.mockResolvedValue(mockBunkWithoutId.body)
         await supertest(app)
             .get('/api/bunk_name')
             .expect({ ...seedBunk })

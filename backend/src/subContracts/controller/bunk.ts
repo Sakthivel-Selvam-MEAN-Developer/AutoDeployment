@@ -3,7 +3,8 @@ import { create, getAllBunk, getAllBunkName } from '../models/bunk.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createBunk = (req: Request, res: Response) => {
-    create(req.body)
+    const { details, id } = req.body
+    create(details, id)
         .then(() => res.sendStatus(200))
         .catch((error) => handlePrismaError(error, res))
 }

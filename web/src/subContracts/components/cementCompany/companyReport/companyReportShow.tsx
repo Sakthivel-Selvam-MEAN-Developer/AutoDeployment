@@ -61,7 +61,7 @@ const TableCompany: React.FC<Props> = ({ allCompany, loading, handleEdit }) => {
             {loading ? (
                 <CircularLoader />
             ) : (
-                <DataGrid rows={rowsWithId} columns={columns(handleEdit)} hideFooter/>
+                <DataGrid rows={rowsWithId} columns={columns(handleEdit)} hideFooter />
             )}
         </Box>
     )

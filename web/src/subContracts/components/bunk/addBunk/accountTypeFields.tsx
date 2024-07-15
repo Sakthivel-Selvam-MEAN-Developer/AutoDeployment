@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import InputWithType from '../../../../form/InputWithType'
-import { AutoCompleteWithValue } from '../../../../form/AutoCompleteWithValue'
 import { getAllAccountTypes } from '../../../services/accountType'
 import { accType, accTypeFields, bunkFields } from './types'
+import AutoComplete from '../../../../form/AutoComplete'
 
 const AccountTypeFields: FC<accTypeFields> = ({ control, setAccType }) => {
     const [accountType, setAccountType] = useState<accType[]>([])
@@ -25,18 +25,19 @@ const AccountTypeFields: FC<accTypeFields> = ({ control, setAccType }) => {
 export default AccountTypeFields
 
 const AccountTypeField: FC<bunkFields> = ({ control, accTypes, setAccType }) => {
-    const [accountType, setAccountType] = useState<string>('')
     return (
-        <AutoCompleteWithValue
+        <AutoComplete
             control={control}
-            value={accountType}
             fieldName="accountType"
             label="Account Type"
             options={accTypes && accTypes.map((acc) => acc.accountTypeName)}
             onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                setAccountType(newValue)
-                const accType = accTypes.find((acc) => acc.accountTypeName === newValue)
-                setAccType(accType ? accType.accountTypeNumber : 0)
+                const accType = accTypes.find(
+                    (acc) => acc.accountTypeName === newValue
+                )?.accountTypeNumber
+                setAccType((prev) => {
+                    return { ...prev, type: accType ? accType : 0 }
+                })
             }}
         />
     )

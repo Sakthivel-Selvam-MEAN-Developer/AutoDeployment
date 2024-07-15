@@ -435,7 +435,7 @@ describe('Payment-Due model', () => {
         expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
     })
     test('should be able to get Gst PaymentDues', async () => {
-        const bunk = await createBunk(seedBunk)
+        const bunk = await createBunk(seedBunk, 0)
         const fuel = await createFuel({ ...seedFuel, bunkId: bunk.id })
         await create([
             { ...seedPaymentDue, type: 'fuel pay', fuelId: fuel.id, transactionId: 'asdf' }

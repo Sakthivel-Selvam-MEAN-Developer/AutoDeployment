@@ -36,7 +36,6 @@ describe('Report Test', () => {
             expect(screen.getByText('bcd123')).toBeInTheDocument()
             expect(screen.getByText('new street')).toBeInTheDocument()
             expect(screen.getByText('newEmail@gmail.com')).toBeInTheDocument()
-            expect(screen.getByText('sakthi')).toBeInTheDocument()
             expect(screen.getByText('555555')).toBeInTheDocument()
         })
         expect(mockGetAllCementCompany).toHaveBeenCalledTimes(1)

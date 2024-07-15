@@ -1,7 +1,7 @@
 import InputWithType from '../../../../form/InputWithType'
-import { ChangeEvent, FC, useState } from 'react'
-import { AutoCompleteWithValue } from '../../../../form/AutoCompleteWithValue'
+import { FC } from 'react'
 import { bunkField } from './types'
+import AutoComplete from '../../../../form/AutoComplete'
 
 const BunkNameAndTypeFields: FC<bunkField> = ({ control }) => {
     return (
@@ -14,17 +14,13 @@ const BunkNameAndTypeFields: FC<bunkField> = ({ control }) => {
 export default BunkNameAndTypeFields
 
 const BunkTypeField: FC<bunkField> = ({ control }) => {
-    const [bunkType, setBunkType] = useState<string>('')
     return (
-        <AutoCompleteWithValue
+        <AutoComplete
             control={control}
-            value={bunkType}
             fieldName="bunkType"
             label="Bunk Type"
             options={['HPCL', 'IOCL', 'BPCL', 'RIL', 'Nayara']}
-            onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                setBunkType(newValue)
-            }}
+            onChange={() => {}}
         />
     )
 }

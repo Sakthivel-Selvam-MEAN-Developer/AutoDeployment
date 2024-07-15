@@ -12,6 +12,9 @@ export const getAllBunkName = () =>
         .get(`/bunk_name`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-
-export const createBunk = (bunkDetails: bunkDetailsProps) =>
+interface bunk {
+    details: bunkDetailsProps
+    id: number
+}
+export const createBunk = (bunkDetails: bunk) =>
     axiosInstance.post('/bunk', bunkDetails).then(getData)
