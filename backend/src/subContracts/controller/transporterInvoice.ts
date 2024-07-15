@@ -3,9 +3,6 @@ import { getTripByTransporterInvoice, updateTransporterInvoice } from '../models
 import { create as createPaymentDues } from '../models/paymentDues.ts'
 import { finalDueCreation } from '../domain/overallTrip/acknowledgementApprovalEvent.ts'
 import { convertData } from './acknowledgementApproval.ts'
-import { getPricePoint } from '../models/pricePoint.ts'
-import { findTrip } from '../findTripType.ts'
-import overallTripProps from '../domain/overallTripsTypes.ts'
 
 export const listTripByTransporterInvoice = (req: Request, res: Response) => {
     const invoiceNumber = req.query.invoiceNumber === '' ? undefined : req.query.invoiceNumber
@@ -25,8 +22,7 @@ interface finalDuePropsfalse {
 export const updateTransporterInvoiceinTrip = (req: Request, res: Response) => {
     updateTransporterInvoice(req.body.invoice, req.body.id)
         .then(async (data) => {
-            const pricePoint = await getPricePointDetails(data)
-            await finalDueCreation(data, pricePoint?.transporterAdvancePercentage).then(
+            await finalDueCreation(data).then(
                 async (due: boolean | undefined | finalDuePropsfalse[]) => {
                     if (due === undefined || typeof due === 'boolean') return res.sendStatus(200)
                     await createPaymentDues(convertData(due)).then(() => res.sendStatus(200))
@@ -34,13 +30,4 @@ export const updateTransporterInvoiceinTrip = (req: Request, res: Response) => {
             )
         })
         .catch(() => res.sendStatus(500))
-}
-async function getPricePointDetails(data: overallTripProps) {
-    const { trip } = findTrip(data)
-    const pricePoint = await getPricePoint(
-        trip.loadingPointId,
-        trip.unloadingPointId,
-        trip.stockPointId
-    )
-    return pricePoint
 }

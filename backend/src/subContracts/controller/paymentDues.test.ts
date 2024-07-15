@@ -512,7 +512,26 @@ const mockCompletedPaymentDuesData = [
 const mockUpdateNEFTStatusData = {
     NEFTStatus: true
 }
-
+const NeftData = {
+    id: 1,
+    bankDetails: [
+        {
+            name: 'Deepak Logistics Pvt Ltd',
+            accountNumber: '435534523',
+            ifsc: 'zxy1234',
+            accountTypeNumber: 10,
+            branchName: 'Erode',
+            accountHolder: 'sakthi'
+        }
+    ],
+    type: 'initial pay',
+    payableAmount: 28350,
+    vehicleNumber: 'TN93D5512',
+    date: '24/11/2023',
+    location: 'Chennai-south - Salem',
+    invoiceNumber: 'ABC123',
+    transporterName: 'Deepak Logistics Pvt Ltd'
+}
 describe('Payment Due Controller', () => {
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
@@ -603,5 +622,8 @@ describe('Payment Due Controller', () => {
 
         expect(mockcreatePaymentDues).toHaveBeenCalledWith(mockCreateDues)
         expect(response.body).toEqual({})
+    })
+    test('should to generate neft file', async () => {
+        await supertest(app).put('/api/payment-dues/donwloadNEFTFile').send([NeftData]).expect(200)
     })
 })

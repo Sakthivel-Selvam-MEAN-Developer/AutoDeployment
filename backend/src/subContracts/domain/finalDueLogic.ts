@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import overallTripProps from './overallTripsTypes.ts'
+import { findTrip } from '../findTripType.ts'
 
 interface dataProps {
     payableAmount: number
@@ -8,41 +9,24 @@ const finalDueLogic = async (
     overallTrip: overallTripProps,
     paymentDueDetails: dataProps[],
     shortageAmount: number,
-    tdsPercentage: number | null,
-    advancePerc: number | undefined
+    tdsPercentage: number | null
 ) => {
-    let amount = 0
-    let dueDetails
-    let tdsAmount
+    const { trip } = findTrip(overallTrip)
+    let paidAmount = 0
+    let totalTransporterAmount = 0
+    let remainingAmount = 0
+    let negativePay = 0
     paymentDueDetails.forEach((data: dataProps) => {
-        if (data.payableAmount < 0) amount = data.payableAmount
+        paidAmount += data.payableAmount
+        negativePay = data.payableAmount < 0 ? data.payableAmount : 0
     })
-    if (overallTrip === null) return
-    if (
-        overallTrip.stockPointToUnloadingPointTrip !== null &&
-        overallTrip.loadingPointToStockPointTrip?.totalTransporterAmount !== 0
-    ) {
-        tdsAmount =
-            (overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount +
-                overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-                    .totalTransporterAmount) *
-            (tdsPercentage !== null ? tdsPercentage / 100 : 0)
-        dueDetails = overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip
-        amount =
-            advancePerc !== 100
-                ? dueDetails.totalTransporterAmount * 0.3 +
-                  overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount -
-                  (-amount + shortageAmount + tdsAmount)
-                : overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount -
-                  (-amount + shortageAmount + tdsAmount)
-    } else if (overallTrip.loadingPointToUnloadingPointTrip !== null) {
-        tdsAmount =
-            overallTrip.loadingPointToUnloadingPointTrip.totalTransporterAmount *
-            (tdsPercentage !== null ? tdsPercentage / 100 : 0)
-        dueDetails = overallTrip.loadingPointToUnloadingPointTrip
-        amount = dueDetails.totalTransporterAmount * 0.3 - (-amount + shortageAmount + tdsAmount)
+    totalTransporterAmount = trip.totalTransporterAmount
+    if (overallTrip.stockPointToUnloadingPointTrip) {
+        totalTransporterAmount += overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
     }
-    if (amount === 0 || dueDetails === undefined) return false
+    const tdsAmount = totalTransporterAmount * (tdsPercentage !== null ? tdsPercentage / 100 : 0)
+    remainingAmount =
+        totalTransporterAmount - (paidAmount + shortageAmount + tdsAmount) + negativePay
     const acknowledgementDate = dayjs.unix(
         overallTrip.acknowledgementDate ? overallTrip.acknowledgementDate : 0
     )
@@ -52,11 +36,11 @@ const finalDueLogic = async (
             type: 'final pay',
             dueDate: acknowledgementDate
                 .add(overallTrip.finalPayDuration ? overallTrip.finalPayDuration : 0, 'day')
-                // .startOf('day')
+                .startOf('day')
                 .unix(),
             overallTripId: overallTrip.id,
             vehicleNumber: overallTrip?.truck?.vehicleNumber,
-            payableAmount: parseFloat(amount.toFixed(2))
+            payableAmount: parseFloat(remainingAmount.toFixed(2))
         }
     ]
     return paymentDues
