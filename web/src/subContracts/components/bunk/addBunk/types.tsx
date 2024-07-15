@@ -1,5 +1,4 @@
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
-
 export interface accType {
     id: number
     accountTypeNumber: number
@@ -25,7 +24,7 @@ export interface accTypeField {
     setValue: UseFormSetValue<FieldValues>
 }
 export type type = (setValue: UseFormSetValue<FieldValues>) => void
-export interface bunDetailsProps {
+export interface bunkDetailsProps {
     bunkName: string
     accountHolder: string
     accountNumber: number
@@ -38,4 +37,10 @@ export interface bunDetailsProps {
     contactPersonNumber: number
     creaditDays: number
     emailId: string
+}
+export const style = {
+    marginBottom: '30px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
 }

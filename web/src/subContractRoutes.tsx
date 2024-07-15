@@ -13,7 +13,7 @@ import PaymentDues from './subContracts/components/paymentDues'
 import PaymentDuesList from './subContracts/components/paymentDues/list'
 import Fuel from './subContracts/components/bunk/fuel'
 import BunkList from './subContracts/components/bunk/list'
-import Bunk from './subContracts/components/bunk'
+import BunkIndex from './subContracts/components/bunk'
 import Acknowledgement from './subContracts/components/acknowledgement'
 import SelectTrip from './subContracts/components/acknowledgement/list'
 import Invoice from './subContracts/components/invoice/generateInvoice'
@@ -38,7 +38,7 @@ import ListTrips from './subContracts/components/tollPlaza/list'
 import ListTripsForTollInvoice from './subContracts/components/tollPlaza/tollInvoice/listTripsForTollInvoice'
 import PricePointApproval from './subContracts/components/pricePointApproval'
 import PricePointApprovalList from './subContracts/components/pricePointApproval/list'
-import AddBunk from './subContracts/components/bunk/addBunk/list'
+import Bunk from './subContracts/components/bunk/addBunk/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -103,11 +103,11 @@ const sunContractRoutes = {
         },
         {
             path: 'bunk',
-            element: <Bunk />,
+            element: <BunkIndex />,
             children: [
                 {
                     path: '',
-                    element: <AddBunk />
+                    element: <Bunk />
                 },
                 {
                     path: 'fuel',

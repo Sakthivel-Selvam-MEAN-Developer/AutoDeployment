@@ -14,16 +14,27 @@ const checkAllFields = (allFieldsData: FieldValues): boolean => {
 }
 type submitType = (
     data: FieldValues,
-    accTypeNumber: number,
-    setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>
+    typeNumber: number,
+    setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>,
+    setReCall: React.Dispatch<React.SetStateAction<boolean>>,
+    reCall: boolean
 ) => void
-export const onSubmit: submitType = async (data, accTypeNumber, setOpenDialog) => {
+export const onSubmit: submitType = async (data, typeNumber, setOpenDialog, setReCall, reCall) => {
     if (!checkAllFields(data)) return alert('All Fields are Required')
-    const details = {
+    const details = getBunkDetails(data, typeNumber)
+    await createBunk(details)
+        .then(() => {
+            setOpenDialog(true)
+            setReCall(!reCall)
+        })
+        .catch((err) => alert(err.response.data.error))
+}
+const getBunkDetails = (data: FieldValues, typeNumber: number) => {
+    return {
         bunkName: data.bunkName,
         accountHolder: data.accountHolder,
         accountNumber: data.accountNumber,
-        accountTypeNumber: accTypeNumber,
+        accountTypeNumber: typeNumber,
         ifsc: data.ifsc,
         location: data.location,
         branchName: data.branchName,
@@ -33,7 +44,4 @@ export const onSubmit: submitType = async (data, accTypeNumber, setOpenDialog) =
         creaditDays: parseInt(data.creditDays),
         emailId: data.mailId
     }
-    await createBunk(details)
-        .then(() => setOpenDialog(true))
-        .catch((err) => alert(err.response.data.error))
 }
