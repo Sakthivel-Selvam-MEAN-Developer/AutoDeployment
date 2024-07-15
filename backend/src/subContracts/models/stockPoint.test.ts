@@ -8,7 +8,7 @@ import seedPricePointMarker from '../seed/pricePointMarker.ts'
 describe('StockPoint model', () => {
     test('should able to create a StockPoint', async () => {
         const pricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const cementCompany = await createCementCompany(seedCementCompany)
+        const cementCompany = await createCementCompany(seedCementCompany, 1)
         await create({
             ...seedStockPointWithoutDep,
             cementCompanyId: cementCompany.id,
@@ -20,7 +20,7 @@ describe('StockPoint model', () => {
     })
     test('should able to  get StockPoint By Company', async () => {
         const pricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const cementCompany = await createCementCompany(seedCementCompany)
+        const cementCompany = await createCementCompany(seedCementCompany, 1)
         await create({
             ...seedStockPointWithoutDep,
             cementCompanyId: cementCompany.id,

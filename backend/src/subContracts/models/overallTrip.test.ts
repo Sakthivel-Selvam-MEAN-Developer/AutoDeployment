@@ -61,7 +61,7 @@ const tollPlazaCreationPreRequirements = async () => {
         ...seedPricePointMarker,
         location: 'Erode'
     })
-    const company = await createCompany(seedCompany)
+    const company = await createCompany(seedCompany, 1)
     const transporter = await createTransporter(seedTransporter, 1)
     await createTruck({
         ...seedTruck,
@@ -125,7 +125,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -160,7 +160,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const unloadingTripTruck = await createTruck({
             ...seedTruck,
@@ -222,7 +222,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const unloadingTripTruck = await createTruck({
             ...seedTruck,
@@ -283,7 +283,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -344,7 +344,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -404,7 +404,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -469,7 +469,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -527,7 +527,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -571,7 +571,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -603,7 +603,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -642,7 +642,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -681,7 +681,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -711,7 +711,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -749,7 +749,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -787,7 +787,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -818,7 +818,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -853,7 +853,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -883,7 +883,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -919,7 +919,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -956,7 +956,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -991,7 +991,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -1039,7 +1039,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -1088,7 +1088,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -1152,7 +1152,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const unloadingTripTruck = await createTruck({
             ...seedTruck,
@@ -1188,7 +1188,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -1223,7 +1223,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -1258,7 +1258,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -1296,7 +1296,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -1331,7 +1331,7 @@ describe('Overall Trip model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
@@ -1366,7 +1366,7 @@ describe('overall trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(
             { ...seedTransporter, transporterType: 'Own' },
             1
@@ -1405,7 +1405,7 @@ describe('overall trip model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(
             {
                 ...seedTransporter,

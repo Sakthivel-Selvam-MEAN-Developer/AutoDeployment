@@ -9,7 +9,7 @@ import seedPricePointMarker from '../seed/pricePointMarker.ts'
 describe('UnloadingPoint model', () => {
     test('should able to create a deliveryPoint', async () => {
         const pricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const cementCompany = await createCementCompany(seedCementCompany)
+        const cementCompany = await createCementCompany(seedCementCompany, 1)
         await create({
             ...seedUnloadingPointWithoutDep,
             cementCompanyId: cementCompany.id,
@@ -21,17 +21,20 @@ describe('UnloadingPoint model', () => {
     })
     test('should get only the Unloading Point by Cement Comapny name', async () => {
         const pricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const company = await createCementCompany(seedCementCompany)
+        const company = await createCementCompany(seedCementCompany, 1)
         await create({
             ...seedUnloadingPointWithoutDep,
             cementCompanyId: company.id,
             pricePointMarkerId: pricePointMarker.id
         })
-        const cementCompany = await createCementCompany({
-            ...seedCementCompany,
-            name: 'Barath Cements',
-            emailId: 'gg@gmail.com'
-        })
+        const cementCompany = await createCementCompany(
+            {
+                ...seedCementCompany,
+                name: 'Barath Cements',
+                emailId: 'gg@gmail.com'
+            },
+            1
+        )
         await create({
             ...seedUnloadingPointWithoutDep,
             cementCompanyId: cementCompany.id,

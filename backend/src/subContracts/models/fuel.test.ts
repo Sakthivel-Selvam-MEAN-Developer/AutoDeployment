@@ -34,7 +34,7 @@ describe('Fuel model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         await createTruck(seedTruck)
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
@@ -87,7 +87,7 @@ describe('Fuel model', () => {
         })
         expect(fuel.overallTripId).toBe(null)
 
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         await createTruck(seedTruck)
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,

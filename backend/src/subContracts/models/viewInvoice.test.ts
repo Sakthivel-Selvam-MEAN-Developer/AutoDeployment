@@ -28,7 +28,7 @@ describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = unloadingPointTest
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
@@ -63,7 +63,7 @@ describe('ViewInvoice model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await factoryDetails(company, loadingPricePointMarker)
@@ -88,7 +88,7 @@ describe('ViewInvoice model', () => {
         expect(actual[0].pdfLink).toBe(companyInvoice.pdfLink)
     })
     test('should calculate balance correctly after creating company invoice', async () => {
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const initialBalance = 50000
         const companyInvoice = await createCompanyinvoice({
             billNo: 'MGL-034',
@@ -103,7 +103,7 @@ describe('ViewInvoice model', () => {
     test('should able to get pagecount', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = unloadingPointTest
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,
@@ -133,7 +133,7 @@ describe('ViewInvoice model', () => {
     test('should able to get page count undefined', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const unloadingPricePointMarker = unloadingPointTest
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
         const deliveryPoint = await createUnloadingpoint({
             ...seedUnloadingPoint,

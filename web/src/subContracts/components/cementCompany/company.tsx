@@ -36,11 +36,12 @@ const CreateCompany: React.FC = (): ReactElement => {
         console.log(data)
         setLoading(true)
         setDisable(true)
-        createCompany({ ...data, id })
+        createCompany({ data, id })
             .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
             .then(() => setDisable(false))
+            .then(() => setId(0))
             .catch((error) => {
                 setDisable(false)
                 alert(error.response.data.error)

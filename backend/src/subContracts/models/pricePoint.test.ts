@@ -16,7 +16,7 @@ describe('Price Point model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const loadingPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -42,7 +42,7 @@ describe('Price Point model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const loadingPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -70,7 +70,7 @@ describe('Price Point model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const loadingPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -102,7 +102,7 @@ describe('Price Point model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const loadingPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -139,7 +139,7 @@ describe('Price Point model', () => {
             ...seedPricePointMarker,
             location: 'salem'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const loadingPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,

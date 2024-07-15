@@ -1,8 +1,12 @@
 import { axiosInstance, getData } from '../../apiCalls'
 import { FieldValues } from '../components/cementCompany/company.tsx'
 
-export const createCompany = (data: FieldValues) =>
-    axiosInstance.post('/cementCompany', data).then(getData)
+interface company {
+    data: FieldValues
+    id: number
+}
+export const createCompany = (details: company) =>
+    axiosInstance.post('/cementCompany', details).then(getData)
 
 export const getAllCementCompany = () =>
     axiosInstance

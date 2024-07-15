@@ -8,7 +8,7 @@ import seedPricePointMarker from '../seed/pricePointMarker.ts'
 describe('Factory model', () => {
     test('should be able to create', async () => {
         const pricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const cementCompany = await createCementCompany(seedCementCompany)
+        const cementCompany = await createCementCompany(seedCementCompany, 1)
         await create({
             ...seedLoadingPointWithoutDep,
             cementCompanyId: cementCompany.id,
@@ -20,17 +20,20 @@ describe('Factory model', () => {
     })
     test('should get only Factory Point by Cement Company name', async () => {
         const pricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const company = await createCementCompany(seedCementCompany)
+        const company = await createCementCompany(seedCementCompany, 1)
         await create({
             ...seedLoadingPointWithoutDep,
             cementCompanyId: company.id,
             pricePointMarkerId: pricePointMarker.id
         })
-        const cementCompany = await createCementCompany({
-            ...seedCementCompany,
-            name: 'Barath Cements',
-            emailId: 'gg@gmail.com'
-        })
+        const cementCompany = await createCementCompany(
+            {
+                ...seedCementCompany,
+                name: 'Barath Cements',
+                emailId: 'gg@gmail.com'
+            },
+            1
+        )
         await create({
             ...seedLoadingPointWithoutDep,
             cementCompanyId: cementCompany.id,
@@ -42,17 +45,20 @@ describe('Factory model', () => {
     })
     test('should not get Factory Point by invalid Cement Company name', async () => {
         const pricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const company = await createCementCompany(seedCementCompany)
+        const company = await createCementCompany(seedCementCompany, 1)
         await create({
             ...seedLoadingPointWithoutDep,
             cementCompanyId: company.id,
             pricePointMarkerId: pricePointMarker.id
         })
-        const cementCompany = await createCementCompany({
-            ...seedCementCompany,
-            name: 'Barath Cements',
-            emailId: 'gg@gmail.com'
-        })
+        const cementCompany = await createCementCompany(
+            {
+                ...seedCementCompany,
+                name: 'Barath Cements',
+                emailId: 'gg@gmail.com'
+            },
+            1
+        )
         await create({
             ...seedLoadingPointWithoutDep,
             cementCompanyId: cementCompany.id,

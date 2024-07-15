@@ -56,7 +56,7 @@ async function seedSubContract() {
         ...seedPricePointMarker,
         location: 'salem'
     })
-    const cementCompany = await createCementCompany(seedCementCompany)
+    const cementCompany = await createCementCompany(seedCementCompany, 1)
     const loadingPoint = await createLoadingPoint({
         ...seedFactoryWithoutDep,
         cementCompanyId: cementCompany.id,

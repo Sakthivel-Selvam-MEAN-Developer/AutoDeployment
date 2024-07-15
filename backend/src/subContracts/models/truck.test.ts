@@ -47,7 +47,7 @@ describe('Truck model', () => {
             transporterId: transporter.id
         })
 
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -90,7 +90,7 @@ describe('Truck model', () => {
             transporterId: transporter.id
         })
 
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,

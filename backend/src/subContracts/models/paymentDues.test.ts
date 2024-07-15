@@ -59,7 +59,7 @@ describe('Payment-Due model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -127,7 +127,7 @@ describe('Payment-Due model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -185,7 +185,7 @@ describe('Payment-Due model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -259,7 +259,7 @@ describe('Payment-Due model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
@@ -367,7 +367,7 @@ describe('Payment-Due model', () => {
             ...seedPricePointMarker,
             location: 'Erode'
         })
-        const company = await createCompany(seedCompany)
+        const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
         await createTruck({
             ...seedTruck,
