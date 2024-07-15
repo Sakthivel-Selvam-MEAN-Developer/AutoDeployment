@@ -2,13 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 import TransporterReport from './listTransporter'
-
 const mockGetAllTransporter = vi.fn()
-
 vi.mock('../../../services/transporter', () => ({
     getAllTransporter: () => mockGetAllTransporter()
 }))
-
 const mockTransporterData = [
     {
         id: 1,

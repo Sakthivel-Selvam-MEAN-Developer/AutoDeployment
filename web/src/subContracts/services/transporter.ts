@@ -23,8 +23,3 @@ interface dataProps {
 }
 export const createTransporter = (data: dataProps) =>
     axiosInstance.post('/transporter', data).then(getData)
-// export const updateTranspoter = () =>
-//     axiosInstance
-//         .put(`/transpoter/update`)
-//         .then(getData)
-//         .catch(() => alert('Error Getting data'))

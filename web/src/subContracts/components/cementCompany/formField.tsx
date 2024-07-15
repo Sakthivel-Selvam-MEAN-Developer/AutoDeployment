@@ -1,6 +1,5 @@
 import { Control } from 'react-hook-form'
 import InputWithType from '../../../form/InputWithType.tsx'
-import MultiLineInput from '../../../form/MultiLineInput.tsx'
 import { FieldValues } from './company.tsx'
 
 interface FormFieldsProps {
@@ -51,13 +50,7 @@ const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
                 fieldName="contactPersonNumber"
                 type="number"
             />
-            <MultiLineInput
-                control={control}
-                label="Address"
-                fieldName="address"
-                type="string"
-                rows={1}
-            />
+            <InputWithType control={control} label="Address" fieldName="address" type="string" />
         </div>
     )
 }

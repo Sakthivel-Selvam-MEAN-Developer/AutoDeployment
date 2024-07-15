@@ -1,11 +1,16 @@
 import React from 'react'
 import { Box, CircularProgress } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import EditNoteIcon from '@mui/icons-material/EditNote'
+import Button from '@mui/material/Button'
+
 interface Props {
-    allCompany: Row[]
+    allCompany: Rows[]
     loading: boolean
+    handleEdit: (row: Rows) => void
 }
-interface Row {
+export interface Rows {
+    id: number
     name: string
     gstNo: string
     address: string
@@ -13,14 +18,30 @@ interface Row {
     contactPersonName: string
     contactPersonNumber: string
 }
-const columns: GridColDef[] = [
-    { field: 'id', headerName: '#', width: 150 },
-    { field: 'name', headerName: 'Name', width: 300 },
-    { field: 'gstNo', headerName: 'GstNo', width: 250 },
-    { field: 'address', headerName: 'Address', width: 250 },
+const columns = (handleEdit: (row: Rows) => void): GridColDef[] => [
+    { field: 'index', headerName: '#', width: 150 },
+    { field: 'name', headerName: 'Name', width: 200 },
+    { field: 'gstNo', headerName: 'GstNo', width: 150 },
+    { field: 'address', headerName: 'Address', width: 200 },
     { field: 'emailId', headerName: 'Email Id', width: 250 },
     { field: 'contactPersonName', headerName: 'Contact Person Name', width: 300 },
-    { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 300 }
+    { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 300 },
+    {
+        field: 'action',
+        headerName: 'Actions',
+        width: 100,
+        renderCell: (params) => (
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                    handleEdit(params.row as Rows)
+                }}
+            >
+                <EditNoteIcon />
+            </Button>
+        )
+    }
 ]
 export const CircularLoader = () => {
     return (
@@ -29,21 +50,26 @@ export const CircularLoader = () => {
         </Box>
     )
 }
-const TableCompany: React.FC<Props> = ({ allCompany, loading }) => {
+const TableCompany: React.FC<Props> = ({ allCompany, loading, handleEdit }) => {
     const rowsWithId = allCompany.map((row, index) => ({
         ...row,
-        id: index + 1
+        index: index + 1,
+        id: row.id
     }))
     return (
-        <Box sx={{ height: 500, width: '100%' }}>
-            {loading ? <CircularLoader /> : <DataGrid rows={rowsWithId} columns={columns} />}
+        <Box sx={{ height: 500, width: '95%' }}>
+            {loading ? (
+                <CircularLoader />
+            ) : (
+                <DataGrid rows={rowsWithId} columns={columns(handleEdit)} />
+            )}
         </Box>
     )
 }
-const ListAllCompany: React.FC<Props> = ({ allCompany, loading }) => {
+const ListAllCompany: React.FC<Props> = ({ allCompany, loading, handleEdit }) => {
     return (
         <>
-            <TableCompany allCompany={allCompany} loading={loading} />
+            <TableCompany allCompany={allCompany} loading={loading} handleEdit={handleEdit} />
             <br />
             <br />
         </>

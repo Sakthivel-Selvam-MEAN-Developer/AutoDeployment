@@ -11,6 +11,7 @@ vi.mock('../../../services/cementCompany', () => ({
 
 const mockCompanyData = [
     {
+        id: 1,
         name: 'sathki',
         gstNo: 'bcd123',
         address: 'new street',
@@ -24,9 +25,10 @@ describe('Report Test', () => {
         mockGetAllCementCompany.mockResolvedValue(mockCompanyData)
     })
     test('should be able to view Company Report', async () => {
+        const handleEdit = vi.fn()
         render(
             <BrowserRouter>
-                <CompanyReport />
+                <CompanyReport handleEdit={handleEdit} />
             </BrowserRouter>
         )
         await waitFor(() => {

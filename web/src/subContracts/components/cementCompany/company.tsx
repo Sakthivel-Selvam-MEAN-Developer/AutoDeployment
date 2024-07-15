@@ -9,6 +9,7 @@ import { createCompany } from '../../services/cementCompany.ts'
 import CompanyReport from './companyReport/listCompany.tsx'
 
 export type FieldValues = {
+    id: number
     name: string
     gstNo: string
     emailId: string
@@ -30,10 +31,12 @@ const CreateCompany: React.FC = (): ReactElement => {
     const [loading, setLoading] = useState(false)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [disable, setDisable] = useState(false)
+    const [id, setId] = useState<number>(0)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data)
         setLoading(true)
         setDisable(true)
-        createCompany(data)
+        createCompany({ ...data, id })
             .then(() => setLoading(false))
             .then(() => setOpenSuccessDialog(true))
             .then(() => clearForm(setValue))
@@ -45,6 +48,15 @@ const CreateCompany: React.FC = (): ReactElement => {
             .then(() => setLoading(false))
     }
     const handleClose = () => setOpenSuccessDialog(false)
+    const handleEdit = (editedCompany: any) => {
+        setId(editedCompany.id)
+        setValue('name', editedCompany.name)
+        setValue('gstNo', editedCompany.gstNo)
+        setValue('emailId', editedCompany.emailId)
+        setValue('contactPersonName', editedCompany.contactPersonName)
+        setValue('contactPersonNumber', editedCompany.contactPersonNumber)
+        setValue('address', editedCompany.address)
+    }
     return (
         <>
             <div style={{ margin: '20px 0', textAlign: 'end' }}>
@@ -61,12 +73,12 @@ const CreateCompany: React.FC = (): ReactElement => {
                         <CircularProgress />
                     </Box>
                 ) : (
-                    <SubmitButton name="Create" type="submit" disabled={disable} />
+                    <SubmitButton name="Create / Update " type="submit" disabled={disable} />
                 )}
             </form>
             <br />
             <br />
-            {!loading && <CompanyReport />}
+            {!loading && <CompanyReport handleEdit={handleEdit} />}
             <SuccessDialog
                 open={openSuccessDialog}
                 handleClose={handleClose}

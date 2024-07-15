@@ -3,7 +3,9 @@ import { create, getAllCementCompany } from '../models/cementCompany.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 
 export const createCompany = (req: Request, res: Response) => {
-    create(req.body)
+    const { id, ...details } = req.body
+    console.log(id, details)
+    create(details)
         .then(() => res.sendStatus(200))
         .catch((error) => handlePrismaError(error, res))
 }
