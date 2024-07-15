@@ -1,4 +1,5 @@
 import { axiosInstance, getData } from '../../apiCalls'
+import { bunDetailsProps } from '../components/bunk/addBunk/types'
 
 export const getAllBunk = () =>
     axiosInstance
@@ -12,8 +13,5 @@ export const getAllBunkName = () =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const createBunk = () =>
-    axiosInstance
-        .post('/bunk')
-        .then(getData)
-        .catch(() => alert('Soemthing Went Wrong'))
+export const createBunk = (bunkDetails: bunDetailsProps) =>
+    axiosInstance.post('/bunk', bunkDetails).then(getData)

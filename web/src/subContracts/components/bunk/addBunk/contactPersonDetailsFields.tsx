@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import InputWithType from '../../../../form/InputWithType'
-import { bunkField } from './formFields'
+import { bunkField } from './types'
 
 const ContactPersonDetailsFields: FC<bunkField> = ({ control }) => {
     return (

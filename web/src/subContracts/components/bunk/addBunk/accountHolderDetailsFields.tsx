@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import InputWithType from '../../../../form/InputWithType'
-import { bunkField } from './formFields'
+import { bunkField } from './types'
 
 const AccountHolderDetailFields: FC<bunkField> = ({ control }) => {
     return (
@@ -15,7 +15,7 @@ const AccountHolderDetailFields: FC<bunkField> = ({ control }) => {
             <InputWithType
                 control={control}
                 label="Account Holder Name"
-                fieldName="accountHolderName"
+                fieldName="accountHolder"
                 type="string"
             />
         </>
@@ -26,11 +26,6 @@ export default AccountHolderDetailFields
 
 const BunkLocationField: FC<bunkField> = ({ control }) => {
     return (
-        <InputWithType
-            control={control}
-            label="Bunk Location"
-            fieldName="bunkLocation"
-            type="string"
-        />
+        <InputWithType control={control} label="Bunk Location" fieldName="location" type="string" />
     )
 }

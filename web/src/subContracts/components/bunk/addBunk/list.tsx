@@ -1,14 +1,18 @@
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
-import BunkFormFields from './formFields'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-
+import FormFields from './formFields'
+import { useForm } from 'react-hook-form'
+import { onSubmit } from './onSubmit'
+import { useState } from 'react'
 const Header: React.FC = () => (
-    <Link to={'/sub/bunk/fuel'}>
-        <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
-            Add Fuel
-        </Button>
-    </Link>
+    <div style={style}>
+        Bunk
+        <Link to={'/sub/bunk/fuel'}>
+            <Button color="primary" variant="contained" data-testid={'new-trip-button'}>
+                Add Fuel
+            </Button>
+        </Link>
+    </div>
 )
 const style = {
     marginBottom: '30px',
@@ -16,22 +20,29 @@ const style = {
     justifyContent: 'space-between',
     alignItems: 'center'
 }
+const SubmitButton = () => {
+    return (
+        <Button variant="contained" type="submit" style={{ margin: '20px 0' }}>
+            Create Bunk
+        </Button>
+    )
+}
 const AddBunk = () => {
-    const { control, handleSubmit } = useForm()
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
-    }
+    const { control, handleSubmit, setValue } = useForm()
+    const [accTypeNumber, setAccTypeNumber] = useState<number>(0)
+    const [openDialog, setOpenDialog] = useState<boolean>(false)
     return (
         <>
-            <div style={style}>
-                Bunk
-                <Header />
-            </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <BunkFormFields control={control} />
-                <Button variant="contained" type="submit" style={{ margin: '20px 0' }}>
-                    Create Bunk
-                </Button>
+            <Header />
+            <form onSubmit={handleSubmit((data) => onSubmit(data, accTypeNumber, setOpenDialog))}>
+                <FormFields
+                    control={control}
+                    setAccType={setAccTypeNumber}
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                    setValue={setValue}
+                />
+                <SubmitButton />
             </form>
         </>
     )

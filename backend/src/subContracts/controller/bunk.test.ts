@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { createBunk } from './bunk.ts'
+import seedBunk from '../seed/bunk.ts'
 
 const mockCreateBunk = vi.fn()
 const mockBunkDetails = vi.fn()
@@ -20,24 +21,10 @@ vi.mock('../../auditRoute.ts', () => ({
     }
 }))
 const mockBunk = {
-    body: {
-        accountHolder: 'Barath',
-        accountNumber: '123ABC',
-        accountTypeNumber: 121212,
-        bunkName: 'Bharath Petroleum',
-        ifsc: '1234XYZA',
-        location: 'London'
-    }
+    body: { ...seedBunk }
 }
 const mockReq = {
-    body: {
-        bunkName: 'Bharath Petroleum',
-        location: 'London',
-        accountHolder: 'Barath',
-        accountNumber: '123ABC',
-        ifsc: '1234XYZA',
-        accountTypeNumber: 121212
-    }
+    body: { ...seedBunk }
 } as Request
 
 const mockRes = {
@@ -47,7 +34,7 @@ const mockRes = {
 
 describe('Bunk Controller', () => {
     test('should able to create Bunk', async () => {
-        mockCreateBunk.mockResolvedValue(mockBunk)
+        mockCreateBunk.mockResolvedValue({ ...mockBunk.body, id: 1 })
         createBunk(mockReq, mockRes)
         expect(mockCreateBunk).toHaveBeenCalledWith(mockReq.body)
         await supertest(app).post('/api/bunk').expect(200)
@@ -60,15 +47,9 @@ describe('Bunk Controller', () => {
     })
     test('should return all bunk names', async () => {
         mockGetAllBunkName.mockResolvedValue(mockBunk.body)
-        await supertest(app).get('/api/bunk_name').expect({
-            accountHolder: 'Barath',
-            accountNumber: '123ABC',
-            accountTypeNumber: 121212,
-            bunkName: 'Bharath Petroleum',
-            ifsc: '1234XYZA',
-            location: 'London'
-        })
+        await supertest(app)
+            .get('/api/bunk_name')
+            .expect({ ...seedBunk })
         expect(mockGetAllBunkName).toBeCalledWith()
     })
-    test('should able to create bunk master', async () => {})
 })
