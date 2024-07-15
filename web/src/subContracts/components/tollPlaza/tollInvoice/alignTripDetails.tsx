@@ -3,8 +3,17 @@ import { overallTrip, trip } from '../type'
 import BillDetailsDialog from './dialogToGetBillDetails'
 import PreviewSelTrips from './dialogPreviewForSelectedTrips'
 import { useState } from 'react'
+interface truck {
+    vehicleNumber: string
+}
 export interface props {
-    trip: { trip: trip; toll: overallTrip['tollPayment']; id: number; tollDetails?: tollDetails }[]
+    trip: {
+        trip: trip
+        toll: overallTrip['tollPayment']
+        id: number
+        tollDetails?: tollDetails
+        truck: truck
+    }[]
     setDialog: React.Dispatch<React.SetStateAction<boolean>>
     dialog: boolean
     setLoad: React.Dispatch<React.SetStateAction<boolean>>

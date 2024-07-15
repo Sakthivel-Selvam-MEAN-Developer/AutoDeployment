@@ -255,7 +255,7 @@ const TollInvoiceForUntraTech: FC<tripProp> = ({ trips, bill }) => {
                                 <small>COIMBATORE-RMC_6464-6409</small>
                             </td>
                             <td>
-                                <small>{trip.trip.truck.vehicleNumber}</small>
+                                <small>{trip.truck.vehicleNumber}</small>
                             </td>
                             <td>
                                 <small>{trip.trip.lrNumber}</small>

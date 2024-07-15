@@ -5,7 +5,7 @@ export const alignTrips = (trips: tripProp[]) => {
     return trips.map((trip) => {
         return {
             id: trip.id,
-            vehicleNumber: trip.trip.truck.vehicleNumber,
+            vehicleNumber: trip.truck.vehicleNumber,
             invoiceNumber: trip.trip.invoiceNumber,
             loadingPoint: trip.trip.loadingPoint.name,
             unloadingPoint: getName(trip),
@@ -21,9 +21,16 @@ export const getTrip = (overallTrip: overallTrip[]) => {
             return {
                 trip: trip.loadingPointToUnloadingPointTrip,
                 toll: trip.tollPayment,
-                id: trip.id
+                id: trip.id,
+                truck: trip.truck
             }
-        else return { trip: trip.loadingPointToStockPointTrip, toll: trip.tollPayment, id: trip.id }
+        else
+            return {
+                trip: trip.loadingPointToStockPointTrip,
+                toll: trip.tollPayment,
+                id: trip.id,
+                truck: trip.truck
+            }
     })
 }
 export const columns = [

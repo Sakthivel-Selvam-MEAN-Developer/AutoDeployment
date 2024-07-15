@@ -17,6 +17,7 @@ export interface tripProp {
     trip: trip
     toll: overallTrip['tollPayment']
     id: number
+    truck: { vehicleNumber: string }
 }
 type selProps = (
     params: GridRowSelectionModel,

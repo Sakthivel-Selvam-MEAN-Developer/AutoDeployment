@@ -70,7 +70,7 @@ const TollInvoice: FC<tripProp> = ({ trips, bill }) => {
                                           .name
                                     : trip.trip.unloadingPoint?.name}
                             </td>
-                            <td>{trip.trip.truck.vehicleNumber}</td>
+                            <td>{trip.truck.vehicleNumber}</td>
                             <td>{trip.trip.filledLoad}</td>
                             <td>
                                 {(trip.tollDetails &&
