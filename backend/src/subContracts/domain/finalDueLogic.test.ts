@@ -60,11 +60,11 @@ describe('Final Due Logics Test', async () => {
             shortageAmount,
             tdsPercentage
         )
-        expect(actual).toEqual([
+        expect(actual).toStrictEqual([
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: 1716661800,
+                dueDate: 1716681600,
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 8872
@@ -104,11 +104,11 @@ describe('Final Due Logics Test', async () => {
         const shortageAmount = 100
         const tdsPercentage = 2.3
         const actual = await finalDueLogic(input, paymentDueDetails, shortageAmount, tdsPercentage)
-        expect(actual).toEqual([
+        expect(actual).toStrictEqual([
             {
                 name: 'Muthu Logistics',
                 type: 'final pay',
-                dueDate: 1716661800,
+                dueDate: 1716681600,
                 overallTripId: overallTrip.id,
                 vehicleNumber: 'TN30S7777',
                 payableAmount: 588.95

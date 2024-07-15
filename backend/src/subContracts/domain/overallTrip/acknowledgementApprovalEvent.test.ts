@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { finalDueCreation } from './acknowledgementApprovalEvent.ts'
 
 const truck = {
@@ -100,20 +101,22 @@ const overallTrip = {
         truck
     }
 }
-
+const acknowledgementDate = dayjs.unix(
+    overallTrip.acknowledgementDate ? overallTrip.acknowledgementDate : 0
+)
 describe('For an overall trip when ack approved event is called', () => {
     test('when acknowledgementApproval is equal to false final pay should not be created', async () => {
         const overAllTrip = { ...overallTrip, acknowledgementApproval: false }
         const finalPay = false
         const actual = await finalDueCreation(overAllTrip)
-        expect(actual).toEqual(finalPay)
+        expect(actual).toStrictEqual(finalPay)
     })
 
     test('when transporterInvoice is equal to "" final pay should not be created', async () => {
         const overAllTrip = { ...overallTrip, transporterInvoice: '' }
         const finalPay = false
         const actual = await finalDueCreation(overAllTrip)
-        expect(actual).toEqual(finalPay)
+        expect(actual).toStrictEqual(finalPay)
     })
 
     test('when transporter type is equal to own final pay should not be created', async () => {
@@ -127,7 +130,7 @@ describe('For an overall trip when ack approved event is called', () => {
         }
         const finalPay = false
         const actual = await finalDueCreation(overalltrip)
-        expect(actual).toEqual(finalPay)
+        expect(actual).toStrictEqual(finalPay)
     })
 
     test('should be able to generate final pay for loading to stock trip', async () => {
@@ -154,11 +157,13 @@ describe('For an overall trip when ack approved event is called', () => {
                 type: 'final pay',
                 name: 'Barath Logistics',
                 vehicleNumber: 'TN93D5512',
-                dueDate: 1701196200
+                dueDate: acknowledgementDate
+                    .add(overallTrip.finalPayDuration ? overallTrip.finalPayDuration : 0, 'day')
+                    .unix()
             }
         ]
         const actual = await finalDueCreation(overAllTrip)
-        expect(actual).toEqual(finalPay)
+        expect(actual).toStrictEqual(finalPay)
     })
 
     test('should be able to generate final pay for loading to unloading trip', async () => {
@@ -170,10 +175,12 @@ describe('For an overall trip when ack approved event is called', () => {
                 type: 'final pay',
                 name: 'Barath Logistics',
                 vehicleNumber: 'TN93D5512',
-                dueDate: 1701196200
+                dueDate: acknowledgementDate
+                    .add(overallTrip.finalPayDuration ? overallTrip.finalPayDuration : 0, 'day')
+                    .unix()
             }
         ]
         const actual = await finalDueCreation(overAllTrip)
-        expect(actual).toEqual(finalPay)
+        expect(actual).toStrictEqual(finalPay)
     })
 })
