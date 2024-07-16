@@ -672,6 +672,8 @@ model tollPlazaLocation {
 
 model overallTrip {
   id                                 Int                               @id @default(autoincrement())
+  tdsPercenatage                     Int?
+  tdsAmount                          Int?
   acknowledgementStatus              Boolean                           @default(false)
   acknowledgementApproval            Boolean                           @default(false)
   pricePointApprovalStatus           Boolean                           @default(false)
