@@ -7,8 +7,8 @@ export default defineConfig({
             thresholds: {
                 branches: 91.22,
                 functions: 80.44,
-                lines: 88.04,
-                statements: 88.04,
+                lines: 88.05,
+                statements: 88.05,
                 'src/subContracts/models/**': {
                     branches: 98.84,
                     functions: 99.22,

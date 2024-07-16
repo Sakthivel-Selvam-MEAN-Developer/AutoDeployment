@@ -131,7 +131,7 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                     <AccordionDetails sx={accordianStyle}>
-                                        <TableHeadRow type={type} />
+                                        <TableHeadRow />
                                         <TableBody>
                                             {data.tripDetails &&
                                                 data.tripDetails.length !== 0 &&
@@ -183,15 +183,13 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
                                                                     {list.invoiceNumber}
                                                                 </Typography>
                                                             </TableCell>
-                                                            {type !== 'fuel pay' && (
-                                                                <TableCell align="left">
-                                                                    <Typography sx={style}>
-                                                                        {epochToMinimalDate(
-                                                                            list.dueDate
-                                                                        )}
-                                                                    </Typography>
-                                                                </TableCell>
-                                                            )}
+                                                            <TableCell align="left">
+                                                                <Typography sx={style}>
+                                                                    {epochToMinimalDate(
+                                                                        list.dueDate
+                                                                    )}
+                                                                </Typography>
+                                                            </TableCell>
                                                         </TableRow>
                                                     )
                                                 })}
@@ -209,10 +207,8 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
     )
 }
 export default GenerateForm
-interface tableHeadRowProps {
-    type: string
-}
-const TableHeadRow: FC<tableHeadRowProps> = ({ type }) => {
+
+const TableHeadRow: FC = () => {
     return (
         <TableHead>
             <TableRow>
@@ -223,7 +219,7 @@ const TableHeadRow: FC<tableHeadRowProps> = ({ type }) => {
                 <TableCell align="left">Payment Type</TableCell>
                 <TableCell align="left">Payable Amount</TableCell>
                 <TableCell align="left">Invoice Number</TableCell>
-                {type !== 'fuel pay' && <TableCell align="left">Due Date</TableCell>}
+                <TableCell align="left">Due Date</TableCell>
             </TableRow>
         </TableHead>
     )
