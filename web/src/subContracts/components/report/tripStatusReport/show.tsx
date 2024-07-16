@@ -332,20 +332,24 @@ const generateRow = (row: Props, index: number) => {
         overallFreightAmount:
             data?.stockPointToUnloadingPointTrip !== undefined &&
             data?.stockPointToUnloadingPointTrip[0] !== undefined
-                ? data.totalFreightAmount +
-                  data?.stockPointToUnloadingPointTrip[0]?.totalFreightAmount
+                ? (
+                      data.totalFreightAmount +
+                      data?.stockPointToUnloadingPointTrip[0]?.totalFreightAmount
+                  ).toFixed(2)
                 : 'null',
         overallTransporterAmount:
             data?.stockPointToUnloadingPointTrip !== undefined &&
             data?.stockPointToUnloadingPointTrip[0] !== undefined
-                ? data.totalTransporterAmount +
-                  data?.stockPointToUnloadingPointTrip[0]?.totalTransporterAmount
+                ? (
+                      data.totalTransporterAmount +
+                      data?.stockPointToUnloadingPointTrip[0]?.totalTransporterAmount
+                  ).toFixed(2)
                 : 'null',
         margin: data.margin,
         transporterInvoice: row.transporterInvoice
             ? row.transporterInvoiceReceivedDate !== null
                 ? epochToMinimalDate(row.transporterInvoiceReceivedDate)
-                : ''
+                : 'Yes'
             : 'No',
         primaryBillNo,
         secondaryBillNo,
