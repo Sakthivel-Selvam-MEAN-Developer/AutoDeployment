@@ -39,6 +39,8 @@ import ListTripsForTollInvoice from './subContracts/components/tollPlaza/tollInv
 import PricePointApproval from './subContracts/components/pricePointApproval'
 import PricePointApprovalList from './subContracts/components/pricePointApproval/list'
 import Bunk from './subContracts/components/bunk/addBunk/list'
+import Employee from './subContracts/components/employee'
+import CreateEmployee from './subContracts/components/employee/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -140,6 +142,16 @@ const sunContractRoutes = {
                 {
                     path: 'addvehicle',
                     element: <AddVehicle />
+                }
+            ]
+        },
+        {
+            path: 'employee',
+            element: <Employee />,
+            children: [
+                {
+                    path: '',
+                    element: <CreateEmployee />
                 }
             ]
         },

@@ -1,11 +1,6 @@
 import { axiosInstance, getData } from '../../apiCalls'
-import { Nullable } from '../../types'
-import { tripDetailsProps } from '../components/invoice/generateInvoice/list'
-interface updateInvoiceProps {
-    trip: tripDetailsProps
-    bill: { billNo: string; date: number }
-    cementCompany: { name: string | undefined; id: number | undefined }
-}
+import { Nullable, tripTypeProps, updateInvoiceProps, updateProps } from '../../types'
+
 export const updateInvoiceDetails = (invoiceDetails: updateInvoiceProps) =>
     axiosInstance
         .put('/invoice/update', invoiceDetails)
@@ -16,12 +11,7 @@ export const previewInvoicePDF = (invoiceDetails: updateInvoiceProps) =>
         .post('/invoice/previewPDF', invoiceDetails)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-type tripTypeProps = {
-    cementCompany: { name: string | undefined; id: number | undefined }
-    startDate: number
-    endDate: number
-    pageName: string
-}
+
 export const getTripDetailsByFilterData = (filterData: Nullable<tripTypeProps>) =>
     axiosInstance
         .get('/invoice', { params: filterData })

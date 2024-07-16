@@ -79,7 +79,6 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
                     setAmount(pricePoint.transporterAmount, pricePoint.freightAmount)
                 else setAmount(0, 0)
             })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [unloadingPointId])
 
     const setAmount = (transporterAmount: number, freight: number) => {

@@ -24,6 +24,7 @@ import { DrawerHeader } from '../../../layout/drawerHeader.ts'
 import DrawerListItem from '../../../layout/drawerListItem.tsx'
 import DrawerCollapse from './drawerCollapse.tsx'
 import { CheckUser } from '../../../auth/checkUser.tsx'
+import BadgeIcon from '@mui/icons-material/Badge'
 interface MiniDrawerProps {
     handleDrawerClose: () => void
     drawerState: boolean
@@ -113,6 +114,15 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                         drawerState={drawerState}
                         index={2}
                         icon={<DirectionsBus />}
+                    />
+                )}
+                {authoriser.adminAccess && (
+                    <DrawerListItem
+                        text="Employee"
+                        navigate="/sub/employee"
+                        drawerState={drawerState}
+                        index={2}
+                        icon={<BadgeIcon />}
                     />
                 )}
                 {authoriser.adminAccess && (

@@ -171,7 +171,6 @@ const FormField: React.FC<FormFieldProps> = ({
                 if (fuelDetails !== null) onFuelNotNull(fuelDetails)
                 else onFuelNull()
             })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vehicleNumber])
     const onFuelNotNull = (fuelDetails: fuelDetailsProps) => {
         setDisableWantFuel(true)

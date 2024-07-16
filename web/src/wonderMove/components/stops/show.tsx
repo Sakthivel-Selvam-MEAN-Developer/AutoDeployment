@@ -27,6 +27,15 @@ interface StopListProps {
     stopDetails: StopDetails[]
     tableState: any
 }
+const headers = [
+    { label: '#', align: 'left' },
+    { label: 'Start Time', align: 'left' },
+    { label: 'End Time', align: 'left' },
+    { label: 'Duration', align: 'left' },
+    { label: 'Location', align: 'left' },
+    { label: 'Reason', align: 'left' },
+    { label: 'Edit', align: 'left' }
+]
 const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
     const [selectedRows, setSelectedRows] = useState<StopDetails[] | null>([])
     const [allReasons, setAllReasons] = useState([])
@@ -52,13 +61,11 @@ const StopList: React.FC<StopListProps> = ({ stopDetails, tableState }) => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell align="left">Start Time</TableCell>
-                            <TableCell align="left">End Time</TableCell>
-                            <TableCell align="left">Duration</TableCell>
-                            <TableCell align="left">Location</TableCell>
-                            <TableCell align="left">Reason</TableCell>
-                            <TableCell align="left">Edit</TableCell>
+                            {headers.map((header, index) => (
+                                <TableCell key={index} align="left">
+                                    {header.label}
+                                </TableCell>
+                            ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
