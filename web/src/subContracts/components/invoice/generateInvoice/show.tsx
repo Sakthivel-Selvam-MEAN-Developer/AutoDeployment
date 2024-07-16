@@ -37,10 +37,14 @@ const ListAllTripForInvoice: FC<tripProps> = ({
     // const handleSelection = (params: GridRowSelectionModel) => {
     //     setTripId({ tripId: params, tripName: tripType })
     // }
+    const getFreight = (id: number) => {
+        return tripDetails.find((trip) => trip.id === id)?.freightAmount
+    }
     const handleUpdate = async (id: number) => {
+        const freightAmount = getFreight(id)
         await updateBillingRate({
             id,
-            billingRate: billingRates[id],
+            billingRate: billingRates[id] || freightAmount,
             pageName: filterData.pageName
         }).then(() => setDisabled((prev) => new Set(prev).add(id)))
     }

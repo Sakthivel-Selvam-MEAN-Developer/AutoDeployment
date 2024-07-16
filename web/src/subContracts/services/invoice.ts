@@ -28,7 +28,7 @@ export const getTripDetailsByFilterData = (filterData: Nullable<tripTypeProps>) 
         .then(getData)
         .catch(() => alert('Error Getting data'))
 type updateProps = {
-    billingRate: number
+    billingRate: number | undefined
     pageName: string
     id: number
 }
