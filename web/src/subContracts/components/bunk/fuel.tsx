@@ -10,6 +10,7 @@ const Fuel: React.FC = (): ReactElement => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const [bunkId, setBunkId] = useState(0)
+    const [creditDays, setCreditDays] = useState(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [quantity, setQuantity] = useState<number>(0)
     const [pricePerliter, setPricePerliter] = useState<number>(0)
@@ -50,7 +51,7 @@ const Fuel: React.FC = (): ReactElement => {
                 dieselkilometer: dieselkilometer,
                 fuelType: fuelType
             }
-            createFuel(details, data.bunkId)
+            createFuel(details, data.bunkId, creditDays)
                 .then(() => {
                     setOpenSuccessDialog(true)
                     setDisable(false)
@@ -79,6 +80,7 @@ const Fuel: React.FC = (): ReactElement => {
                     transporterType={transporterType}
                     fuelType={fuelType}
                     setFuelType={setFuelType}
+                    setCreditDays={setCreditDays}
                 />
                 <SubmitButton name="Add Fuel" type="submit" disabled={disable} />
             </form>

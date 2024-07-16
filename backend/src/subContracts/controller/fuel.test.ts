@@ -103,6 +103,22 @@ const mockUpdateFuelWithTripData = {
     totalprice: 6227.285,
     loadingPointToUnloadingPointTripId: 1
 }
+const mockReq = {
+    body: {
+        data: {
+            vehicleNumber: 'TN29B3246',
+            pricePerliter: 12,
+            quantity: 123,
+            totalprice: 1476,
+            bunkId: 2,
+            fueledDate: 1720636200,
+            invoiceNumber: 123,
+            dieselkilometer: 0,
+            fuelType: ''
+        },
+        creaditDays: 0
+    }
+}
 describe('Fuel Controller', () => {
     test('should able to create Fuel with dues', async () => {
         mockGetOnlyActiveTripByVehicle.mockResolvedValue(null)
@@ -113,7 +129,7 @@ describe('Fuel Controller', () => {
         mockGetOverallTripIdByVehicleNumber.mockResolvedValue(1)
         mockGetActiveTripByVehicle.mockResolvedValue(1)
         mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
-        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').send(mockReq.body).expect(200)
         expect(mockCreateFuel).toBeCalledTimes(1)
     })
     test('should able to create fuel for market vehicle', async () => {
@@ -124,7 +140,7 @@ describe('Fuel Controller', () => {
         })
         mockGetActiveTripByVehicle.mockResolvedValue(1)
         mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
-        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').send(mockReq.body).expect(200)
         expect(mockCreateFuel).toBeCalledTimes(2)
     })
     test('should able to create Fuel for active trip', async () => {
@@ -136,7 +152,7 @@ describe('Fuel Controller', () => {
         mockGetOverallTripIdByVehicleNumber.mockResolvedValue(1)
         mockGetActiveTripByVehicle.mockResolvedValue(1)
         mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
-        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').send(mockReq.body).expect(200)
         expect(mockCreateFuel).toBeCalledTimes(3)
     })
     test('should not able to create dues for fuel', async () => {
@@ -148,7 +164,7 @@ describe('Fuel Controller', () => {
         mockGetOverallTripIdByVehicleNumber.mockResolvedValue(null)
         mockGetActiveTripByVehicle.mockResolvedValue(null)
         mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
-        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').send(mockReq.body).expect(200)
         expect(mockCreateFuel).toBeCalledTimes(4)
     })
     test('should able to create dues for fuel when transporter type is Own', async () => {
@@ -160,7 +176,7 @@ describe('Fuel Controller', () => {
         mockGetOverallTripIdByVehicleNumber.mockResolvedValue(null)
         mockGetActiveTripByVehicle.mockResolvedValue(null)
         mockCreatePaymentDues.mockResolvedValue(mockCreatePaymentDuesData1)
-        await supertest(app).post('/api/fuel/Barath%20Petroleum').expect(200)
+        await supertest(app).post('/api/fuel/Barath%20Petroleum').send(mockReq.body).expect(200)
         expect(mockCreateFuel).toBeCalledTimes(5)
     })
     test('should able to access', async () => {

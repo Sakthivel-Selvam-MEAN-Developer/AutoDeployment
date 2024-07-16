@@ -1,5 +1,8 @@
 import dayjs from 'dayjs'
 import fuelLogics from './fuelLogics.ts'
+import utc from 'dayjs/plugin/utc'
+
+dayjs.extend(utc)
 
 describe('Fuel Logics Test', async () => {
     test('Should get both initial & fuel pay with fuel after trip started', async () => {
@@ -42,13 +45,13 @@ describe('Fuel Logics Test', async () => {
         const bunkname = 'Barath Petroleum'
         const vehicleNumber = 'TN29BA3211'
 
-        const actual = await fuelLogics(fuel, trip.id, bunkname, vehicleNumber)
+        const actual = await fuelLogics(fuel, trip.id, bunkname, vehicleNumber, 0)
         expect(actual).toEqual([
             {
                 name: 'Barath Petroleum',
                 type: 'fuel pay',
                 fuelId: 1,
-                dueDate: dayjs().subtract(1, 'day').startOf('day').unix(),
+                dueDate: dayjs.utc().add(0, 'day').startOf('day').unix(),
                 overallTripId: 3,
                 vehicleNumber: 'TN29BA3211',
                 payableAmount: 100000

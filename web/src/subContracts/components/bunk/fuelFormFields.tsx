@@ -23,6 +23,7 @@ interface FormFieldsProps {
     setTransporterType: React.Dispatch<SetStateAction<transporterType>>
     transporterType: transporterType
     setFuelType: React.Dispatch<SetStateAction<string>>
+    setCreditDays: React.Dispatch<SetStateAction<number>>
 }
 interface vehicleProps {
     id: number
@@ -49,7 +50,8 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
     setDieselkilometer,
     setTransporterType,
     transporterType,
-    setFuelType
+    setFuelType,
+    setCreditDays
 }) => {
     const [bunkList, setBunkList] = useState([])
     const [bunkLocation, setBunkLocation] = useState<string>('')
@@ -84,11 +86,12 @@ const FuelFormFields: React.FC<FormFieldsProps> = ({
                 label="Select Bunk"
                 options={bunkList ? bunkList.map(({ bunkName }) => bunkName) : []}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                    const { id, location } = bunkList.find(
+                    const { id, location, creaditDays } = bunkList.find(
                         (bunk: { bunkName: string }) => bunk.bunkName === newValue
-                    ) || { id: 0, location: '' }
+                    ) || { id: 0, location: '', creaditDays: 0 }
                     setBunkId(id)
                     setBunkLocation(location)
+                    setCreditDays(creaditDays)
                 }}
             />
             <TextField

@@ -8,8 +8,8 @@ interface fuelProps {
     totalprice: number
     bunkId: number
 }
-export const createFuel = (data: fuelProps, bunkname: string) =>
-    axiosInstance.post(`/fuel/${bunkname}`, data).then(getData)
+export const createFuel = (data: fuelProps, bunkname: string, creaditDays: number) =>
+    axiosInstance.post(`/fuel/${bunkname}`, { data, creaditDays }).then(getData)
 
 export const getAllFuel = () =>
     axiosInstance

@@ -101,9 +101,10 @@ async function createDues(
     fuel: dataProps,
     overallTripId: number | null | undefined,
     bunkname: string,
-    vehicleNumber: string
+    vehicleNumber: string,
+    creditDays: number
 ) {
-    return fuelLogics(fuel, overallTripId, bunkname, vehicleNumber).then((dues) =>
+    return fuelLogics(fuel, overallTripId, bunkname, vehicleNumber, creditDays).then((dues) =>
         createPaymentDues(dues)
     )
 }
@@ -113,8 +114,9 @@ export interface latestTripIdForOwnProp {
 
 export const createFuel = async (req: Request, res: Response) => {
     try {
-        const { vehicleNumber } = req.body
+        const { vehicleNumber } = req.body.data
         const { bunkname } = req.params
+        const creditDays = req.body.creaditDays
         const activeTrip = await getActiveTripByVehicle(vehicleNumber)
         let latestTripIdForOwn: latestTripIdForOwnProp | null | undefined | number = activeTrip?.id
         const vehicleType = await getTransporterTypeByVehicleNumber(vehicleNumber)
@@ -122,8 +124,8 @@ export const createFuel = async (req: Request, res: Response) => {
             latestTripIdForOwn = await getOverallTripIdByVehicleNumber(vehicleNumber)
             latestTripIdForOwn = latestTripIdForOwn?.id
         }
-        const fuel = await create({ ...req.body, overallTripId: latestTripIdForOwn })
-        return createDues(fuel, latestTripIdForOwn, bunkname, vehicleNumber)
+        const fuel = await create({ ...req.body.data, overallTripId: latestTripIdForOwn })
+        return createDues(fuel, latestTripIdForOwn, bunkname, vehicleNumber, creditDays)
             .then(() => res.sendStatus(200))
             .catch((error) => handlePrismaError(error, res))
     } catch (error) {
