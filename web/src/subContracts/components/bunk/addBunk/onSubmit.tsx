@@ -14,19 +14,20 @@ const checkAllFields = (allFieldsData: FieldValues): boolean => {
 }
 type submitType = (
     data: FieldValues,
-    typeNumber: number,
+    id: { type: number; id: number },
     setDialog: React.Dispatch<React.SetStateAction<boolean>>,
     setReCall: React.Dispatch<React.SetStateAction<boolean>>,
     reCall: boolean,
-    id: number
+    setId: React.Dispatch<React.SetStateAction<{ type: number; id: number }>>
 ) => void
-export const onSubmit: submitType = async (data, typeNumber, setDialog, setReCall, reCall, id) => {
+export const onSubmit: submitType = async (data, id, setDialog, setReCall, reCall, setId) => {
     if (!checkAllFields(data)) return alert('All Fields are Required')
-    const details = getBunkDetails(data, typeNumber)
-    await createBunk({ details, id })
+    const details = getBunkDetails(data, id.type)
+    await createBunk({ details, id: id.id })
         .then(() => {
             setDialog(true)
             setReCall(!reCall)
+            setId({ type: 0, id: 0 })
         })
         .catch((err) => alert(err.response.data.error))
 }

@@ -17,7 +17,6 @@ resource "aws_vpc" "main" {
     Name = "wonderwhy"
   }
 }
-
 resource "aws_subnet" "application" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "172.32.1.0/24"
@@ -81,7 +80,6 @@ resource "aws_instance" "test_server" {
   }
   subnet_id = aws_subnet.application.id
   vpc_security_group_ids = [aws_security_group.application.id]
-
 }
 resource "aws_security_group" "db_security_group" {
   vpc_id = aws_vpc.main.id

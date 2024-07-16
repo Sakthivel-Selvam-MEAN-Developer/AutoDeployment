@@ -28,7 +28,7 @@ const AddBunk: FC<prop> = ({ setReCall, reCall, control, handleSubmit, setValue,
             <Header />
             <form
                 onSubmit={handleSubmit((data: FieldValues) =>
-                    onSubmit(data, id.type, setOpenDialog, setReCall, reCall, id.id)
+                    onSubmit(data, id, setOpenDialog, setReCall, reCall, setId)
                 )}
             >
                 <FormFields
