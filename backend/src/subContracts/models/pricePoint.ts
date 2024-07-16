@@ -30,9 +30,7 @@ export const create = async (data: any) => {
             unloadingPointId: data.unloadingPointId,
             stockPointId: data.stockPointId
         },
-        select: {
-            id: true
-        }
+        select: { id: true }
     })
     if (pricePointData !== null) {
         return prisma.pricePoint.update({

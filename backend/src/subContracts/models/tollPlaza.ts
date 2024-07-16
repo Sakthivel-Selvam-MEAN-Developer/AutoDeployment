@@ -17,9 +17,7 @@ export interface tollPlaza {
 }
 export const updateBillDetails = (overallTripIds: number[], data: props) =>
     prisma.tollPayment.updateMany({
-        where: {
-            overallTripId: { in: overallTripIds }
-        },
+        where: { overallTripId: { in: overallTripIds } },
         data: {
             billNo: data.billNo,
             billDate: data.billDate,

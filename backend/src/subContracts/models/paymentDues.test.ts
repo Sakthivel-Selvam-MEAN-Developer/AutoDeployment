@@ -14,7 +14,8 @@ import {
     getUpcomingDuesByFilter,
     updatePaymentDues,
     updatePaymentDuesWithTripId,
-    updatePaymentNEFTStatus
+    updatePaymentNEFTStatus,
+    checkNEFTStatus
 } from './paymentDues.ts'
 import seedPaymentDue from '../seed/paymentDue.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
@@ -38,6 +39,7 @@ import seedTransporter from '../seed/transporter.ts'
 import { create as createLoadingToStockTrip } from './loadingToStockPointTrip.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
+import prisma from '../../../prisma/index.ts'
 
 dayjs.extend(utc)
 const dueDate = dayjs.utc().startOf('day').unix()
@@ -479,7 +481,7 @@ describe('Payment-Due model', () => {
     test('should be able to update Payment NEFT Status', async () => {
         await create(seedPaymentDue)
         const paymentDue: any = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
-        await updatePaymentNEFTStatus([paymentDue?.id])
+        await updatePaymentNEFTStatus(prisma, [paymentDue?.id])
         const actual = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
         expect(actual?.NEFTStatus).toBe(true)
     })
@@ -520,5 +522,15 @@ describe('Payment-Due model', () => {
     test('should handle case where no fuel transaction ID is found', async () => {
         const actual = await getFuelTransactionId(0)
         expect(actual).toBeNull()
+    })
+    test('should check NEFT status', async () => {
+        const dueId = [1, 2, 3]
+        const result = await checkNEFTStatus(dueId)
+        expect(result).toBe(0)
+    })
+    test('should return 0 when no payment dues are found', async () => {
+        const dueId = [999, 998, 997]
+        const result = await checkNEFTStatus(dueId)
+        expect(result).toBe(0)
     })
 })

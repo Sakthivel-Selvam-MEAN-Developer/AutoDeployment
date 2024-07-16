@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
-import { Prisma } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import utc from 'dayjs/plugin/utc'
 import prisma from '../../../prisma/index.ts'
 import { CompletedDueQuery } from '../controller/paymentDues.ts'
-
+import { DefaultArgs } from '@prisma/client/runtime/library'
 dayjs.extend(utc)
 export const create = (
     data: Prisma.paymentDuesCreateManyInput | Prisma.paymentDuesCreateManyInput[]
@@ -124,25 +124,37 @@ export const updatePaymentDuesWithTripId = (data: props) =>
 
 export const getDueByOverallTripId = (overallTripId: number) =>
     prisma.paymentDues.findMany({
-        where: {
-            overallTripId,
-            NOT: { type: 'gst pay' }
-        },
+        where: { overallTripId, NOT: { type: 'gst pay' } },
         select: {
             payableAmount: true,
             type: true
         }
     })
-export const updatePaymentNEFTStatus = (dueId: number[]) =>
-    prisma.paymentDues.updateMany({
+export const updatePaymentNEFTStatus = async (
+    prismas:
+        | Omit<
+              PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+              '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+          >
+        | undefined,
+    dueIds: number[]
+) => {
+    return prismas?.paymentDues.updateMany({
         where: {
-            id: { in: dueId }
+            id: { in: dueIds }
         },
         data: {
             NEFTStatus: true
         }
     })
-
+}
+export const checkNEFTStatus = (dueId: number[]) =>
+    prisma.paymentDues.count({
+        where: {
+            id: { in: dueId },
+            NEFTStatus: false
+        }
+    })
 export const getGstDuesGroupByName = (status: boolean) =>
     prisma.paymentDues.groupBy({
         by: ['name'],

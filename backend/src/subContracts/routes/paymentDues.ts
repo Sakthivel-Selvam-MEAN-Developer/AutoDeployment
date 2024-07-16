@@ -6,13 +6,13 @@ import {
     listAllUpcomingTransporterDues,
     listGstDuesGroupByName,
     listOnlyActiveTransporterDues,
-    updateNEFTStatus,
+    // updateNEFTStatus,
     updatePayment
 } from '../controller/paymentDues.ts'
 import { authorise } from './authorise.ts'
 
 const neftRoute = (router: Router) => {
-    router.put('/payment-dues/NEFT', authorise(['Admin']), updateNEFTStatus)
+    router.put('/payment-dues/NEFT', authorise(['Admin']))
     router.put('/payment-dues/donwloadNEFTFile', authorise(['Admin']), donwloadNEFTFile)
 }
 

@@ -13,6 +13,8 @@ interface typeProps {
     type: string
 }
 export interface dataProps {
+    [x: string]: any
+    neftStatus: boolean
     type: string
     bankDetails: bankDetailsProps[]
     payableAmount: number

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import GenerateForm from './generateForm'
 import PaymentDues from './paymentDues'
 // import { exportFile } from './NEFTForm/exportFile.ts'
-import { donwloadNEFTFile, updateNEFTStatus } from '../../services/paymentDues.ts'
+import { donwloadNEFTFile } from '../../services/paymentDues.ts'
 import GSTDues, { gstNEFTDetailsProps } from './gstDues.tsx'
 import GSTPaymentDues from './gstPaymentDues.tsx'
 import NEFTDialog from './neftDialog.tsx'
@@ -102,7 +102,7 @@ const PaymentDuesList: React.FC = () => {
                         const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' })
                         saveAs(blob, name)
                     })
-                    .then(() => updateNEFTStatus(paymentDueId))
+                    // .then(() => updateNEFTStatus(paymentDueId))
                     .then(reset)
             }
             if (iobDetails.length !== 0) {
@@ -114,7 +114,7 @@ const PaymentDuesList: React.FC = () => {
                         })
                         saveAs(blob, name)
                     })
-                    .then(() => updateNEFTStatus(paymentDueId))
+                    // .then(() => updateNEFTStatus(paymentDueId))
                     .then(reset)
             }
         }

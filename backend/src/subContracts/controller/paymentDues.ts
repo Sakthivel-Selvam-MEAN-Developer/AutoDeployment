@@ -9,7 +9,8 @@ import {
     getOnlyActiveDuesByName,
     getUpcomingDuesByFilter,
     updatePaymentDues,
-    updatePaymentNEFTStatus
+    updatePaymentNEFTStatus,
+    checkNEFTStatus
 } from '../models/paymentDues.ts'
 import { getFuelDetailsWithoutTrip, updateFuelStatus } from '../models/fuel.ts'
 import { getTransporterAccountByName } from '../models/transporter.ts'
@@ -17,7 +18,9 @@ import { getBunkAccountByName } from '../models/bunk.ts'
 import { overallTripByPendingPaymentDues } from '../models/overallTrip.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { dataProps, getNEFTData } from '../domain/neftLogic.ts'
+import { PrismaClient } from '@prisma/client'
 
+const prisma = new PrismaClient()
 interface transporterAccountProps {
     name: string
     accountNumber: string
@@ -242,11 +245,11 @@ export const updatePayment = (req: Request, res: Response) => {
         .catch(() => res.sendStatus(500))
 }
 
-export const updateNEFTStatus = (req: Request, res: Response) => {
-    updatePaymentNEFTStatus(req.body)
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.sendStatus(500))
-}
+// export const updateNEFTStatus = (req: Request, res: Response) => {
+//     updatePaymentNEFTStatus(req.body)
+//         .then((data) => res.status(200).json(data))
+//         .catch(() => res.sendStatus(500))
+// }
 const findTripType = (overallTrip: overallTripProps) => {
     let tripType
     if (overallTrip.loadingPointToStockPointTrip !== null) {
@@ -335,8 +338,21 @@ export const listAllCompletedDues: completedDuesTypes = async (req, res) => {
         .then((data) => res.status(200).json({ trips: tripdetails, length: data.length }))
         .catch(() => res.sendStatus(500))
 }
-export const donwloadNEFTFile = (req: Request, res: Response) => {
+export const donwloadNEFTFile = async (req: Request, res: Response) => {
     const NEFTData: dataProps[] = req.body
-    const finalData = getNEFTData(NEFTData)
-    res.status(200).send(finalData)
+    const dueIds = NEFTData.map((data) => data.id)
+    try {
+        await prisma.$transaction(async (prismas) => {
+            const count = await checkNEFTStatus(dueIds)
+            if (!(dueIds.length === count)) {
+                throw new Error('Not all files have NEFT status true')
+            }
+            await updatePaymentNEFTStatus(prismas, dueIds)
+            const finalData = getNEFTData(NEFTData)
+            res.status(200).send(finalData)
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).send('Error processing NEFT file')
+    }
 }
