@@ -19,7 +19,7 @@ const BunkTypeField: FC<bunkField> = ({ control }) => {
             control={control}
             fieldName="bunkType"
             label="Bunk Type"
-            options={['HPCL', 'IOCL', 'BPCL', 'RIL', 'Nayara']}
+            options={['HPCL', 'IOCL', 'BPCL', 'RIL', 'Nayara', 'Shell']}
             onChange={() => {}}
         />
     )

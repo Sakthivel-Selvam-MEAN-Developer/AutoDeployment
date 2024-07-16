@@ -8,7 +8,7 @@ import Header from './header'
 const SubmitButton = () => {
     return (
         <Button variant="contained" type="submit" style={{ margin: '20px 0' }}>
-            Create Bunk
+            Create / Update Bunk
         </Button>
     )
 }
