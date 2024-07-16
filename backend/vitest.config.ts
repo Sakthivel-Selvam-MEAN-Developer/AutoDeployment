@@ -6,9 +6,9 @@ export default defineConfig({
             provider: 'v8',
             thresholds: {
                 branches: 91.18,
-                functions: 80.44,
-                lines: 88.05,
-                statements: 88.05,
+                functions: 80.51,
+                lines: 88.08,
+                statements: 88.08,
                 'src/subContracts/models/**': {
                     branches: 100,
                     functions: 99.22,
