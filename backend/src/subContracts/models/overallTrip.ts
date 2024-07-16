@@ -253,22 +253,20 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
                 {
                     acknowledgementStatus: true,
                     acknowledgementApproval: true,
-                    transporterInvoice: {
-                        not: ''
-                    },
+                    transporterInvoice: { not: '' },
                     truck: { transporter: { transporterType: { not: 'Own' } } },
                     loadingPointToStockPointTrip: {
+                        billingRate: { not: null },
                         startDate: { gte: from, lte: to }
                     }
                 },
                 {
                     acknowledgementStatus: true,
                     acknowledgementApproval: true,
-                    transporterInvoice: {
-                        not: ''
-                    },
+                    transporterInvoice: { not: '' },
                     truck: { transporter: { transporterType: { not: 'Own' } } },
                     loadingPointToUnloadingPointTrip: {
+                        billingRate: { not: null },
                         startDate: { gte: from, lte: to }
                     }
                 }
@@ -276,9 +274,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
             paymentDues: {
                 some: {
                     type: 'final pay',
-                    transactionId: {
-                        not: ''
-                    }
+                    transactionId: { not: '' }
                 }
             }
         },

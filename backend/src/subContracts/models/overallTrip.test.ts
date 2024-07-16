@@ -1011,7 +1011,8 @@ describe('Overall Trip model', () => {
             wantFuel: false,
             tripStatus: true,
             loadingKilometer: 0,
-            startDate: dayjs().unix()
+            startDate: dayjs().unix(),
+            billingRate: seedFactoryToCustomerTrip.freightAmount
         })
         const overallTrip = await create({
             truckId: truck.id,
@@ -1057,7 +1058,8 @@ describe('Overall Trip model', () => {
             loadingPointId: factoryPoint.id,
             stockPointId: stockPoint.id,
             wantFuel: false,
-            loadingKilometer: 0
+            loadingKilometer: 0,
+            billingRate: seedLoadingToStockTrip.freightAmount
         })
         const overallTrip = await create({
             truckId: truck.id,

@@ -42,14 +42,22 @@ import seedPricePointMarker from '../seed/pricePointMarker.ts'
 dayjs.extend(utc)
 const dueDate = dayjs.utc().startOf('day').unix()
 describe('Payment-Due model', () => {
-    test('should able to create', async () => {
+    test('should able to create and get day specific paymentDues', async () => {
         await create(seedPaymentDue)
         const type = 'initial pay'
         const actual = await findTripWithActiveDues(dueDate, false, type)
         expect(actual.length).toBe(1)
         expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
     })
-    test('should get grouped active dues by name', async () => {
+    test('should able to create and get todays paymentDues', async () => {
+        await create(seedPaymentDue)
+        const type = 'initial pay'
+        const dueDate = new Date(2023, 10, 24).getTime() / 1000
+        const actual = await findTripWithActiveDues(dueDate, false, type)
+        expect(actual.length).toBe(1)
+        expect(actual[0].payableAmount).toBe(seedPaymentDue.payableAmount)
+    })
+    test('should get grouped active dues by name and get dues by specific day', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
         const stockPricePointMarker = await createPricePointMarker({
             ...seedPricePointMarker,
@@ -100,6 +108,62 @@ describe('Payment-Due model', () => {
         const type = 'initial pay'
         await create({ ...seedPaymentDue, payableAmount: 30000, overallTripId: id })
         const groupDues = await getOnlyActiveDuesByName(dueDate, false, type)
+        expect(groupDues.length).toBe(1)
+        expect(groupDues[0].name).toBe(seedPaymentDue.name)
+
+        expect(groupDues[0]._sum.payableAmount).toBe(50000)
+    })
+    test('should get grouped active dues by name and get dues by todays date', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const stockPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'salem'
+        })
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany, 1)
+        const transporter = await createTransporter(seedTransporter, 1)
+        await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        await createTruck({
+            ...seedTruck,
+            vehicleNumber: 'TN52S3555',
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const stockPoint = await createStockpoint({
+            ...seedStockPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: stockPricePointMarker.id
+        })
+
+        const loadingToStockTrip = await createLoadingToStockTrip({
+            ...seedLoadingToStockTrip,
+            loadingPointId: factoryPoint.id,
+            stockPointId: stockPoint.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const { id } = await createOverallTrip({
+            loadingPointToStockPointTripId: loadingToStockTrip.id
+        })
+        await create(seedPaymentDue)
+        const type = 'initial pay'
+        await create({ ...seedPaymentDue, payableAmount: 30000, overallTripId: id })
+        const groupDues = await getOnlyActiveDuesByName(seedPaymentDue.dueDate, false, type)
         expect(groupDues.length).toBe(1)
         expect(groupDues[0].name).toBe(seedPaymentDue.name)
 

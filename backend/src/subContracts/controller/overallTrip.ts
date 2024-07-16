@@ -11,6 +11,8 @@ import {
 import { getAllUnloadingPointInvoiceNumbers } from '../models/loadingToUnloadingTrip.ts'
 import { getAllStockPointInvoiceNumbers } from '../models/loadingToStockPointTrip.ts'
 import { getAllStockToUnloadingPointInvoiceNumbers } from '../models/stockPointToUnloadingPoint.ts'
+// import { findTrip } from '../findTripType.ts'
+// import { getPricePoint } from '../models/pricePoint.ts'
 
 export const listOverallTripWithPaymentStatus = (_req: Request, res: Response) => {
     getOverallTrip()
@@ -108,6 +110,7 @@ export const differenceCalculation = (
 }
 export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
     const { from, to } = req.params
+    // await newDiscrepancy(req, res)
     await getAllDiscrepancyReport(parseInt(from), parseInt(to))
         .then((data) =>
             data.map((overallTrip) => {
@@ -189,6 +192,57 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
         })
         .catch(() => res.status(500))
 }
+// const getTransporterPercentage = async (
+//     loadingPointId: number,
+//     unloadingPointId: number,
+//     stockPointId: number
+// ) => {
+//     const pricePoint = await getPricePoint(loadingPointId, unloadingPointId, stockPointId)
+//     if (pricePoint === null) return 0
+//     return pricePoint.transporterPercentage
+// }
+// export const newDiscrepancy = async (req: Request, _res: Response) => {
+//     const { from, to } = req.params
+//     await getAllDiscrepancyReport(parseInt(from), parseInt(to)).then((data) =>
+//         data.map(async (overallTrip) => {
+//             let paidAmount = 0
+//             let shortageAmount = 0
+//             let secondaryRate = 0
+//             const { trip } = findTrip(overallTrip)
+//             const transporterPercentage = await getTransporterPercentage(
+//                 trip.loadingPointId,
+//                 trip.unloadingPointId,
+//                 trip.stockPointId
+//             )
+//             overallTrip.paymentDues.forEach((dues) => {
+//                 if (dues.type !== 'gst pay' && dues.payableAmount > 0) {
+//                     paidAmount += dues.payableAmount
+//                 }
+//             })
+//             overallTrip.shortageQuantity.forEach((shortage) => {
+//                 shortageAmount += shortage.shortageAmount
+//             })
+//             if (overallTrip.stockPointToUnloadingPointTrip?.billingRate) {
+//                 const billingRate = overallTrip.stockPointToUnloadingPointTrip.billingRate
+//                 const pricePoint = await getPricePoint(
+//                     null,
+//                     overallTrip.stockPointToUnloadingPointTrip.unloadingPointId,
+//                     trip.stockPointId
+//                 )
+//                 if (pricePoint === null) return
+//                 secondaryRate +=
+//                     billingRate - (billingRate * pricePoint.transporterPercentage) / 100
+//             }
+//             const pirmaryRate = trip.billingRate - (trip.billingRate * transporterPercentage) / 100
+//             const totalPrimaryAmount = pirmaryRate * trip.filledLoad
+//             const totalSecondaryAmount = secondaryRate * trip.filledLoad
+//             const tdsPercentage = overallTrip.truck?.transporter.tdsPercentage
+//             const totalTransporterAmount = totalPrimaryAmount + totalSecondaryAmount
+//             const tdsAmount = tdsPercentage ? (totalTransporterAmount * tdsPercentage / 100) : 0
+//             console.log(paidAmount + shortageAmount, totalTransporterAmount - tdsAmount)
+//         })
+//     )
+// }
 const getAllInvoiceNumbers = async () => [
     ...(await getAllStockPointInvoiceNumbers()),
     ...(await getAllStockToUnloadingPointInvoiceNumbers()),

@@ -5,7 +5,9 @@ export const create = (
     id: number | undefined
 ) => {
     return prisma.transporter.upsert({
-        where: { id: id ?? undefined },
+        where: {
+            id: id
+        },
         update: data,
         create: data
     })
