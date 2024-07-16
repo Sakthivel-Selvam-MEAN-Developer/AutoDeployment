@@ -17,11 +17,6 @@ export const getTripDetailsByFilterData = (filterData: Nullable<tripTypeProps>) 
         .get('/invoice', { params: filterData })
         .then(getData)
         .catch(() => alert('Error Getting data'))
-type updateProps = {
-    billingRate: number | undefined
-    pageName: string
-    id: number
-}
 export const updateBillingRate = (updateDetails: updateProps) =>
     axiosInstance
         .put('/invoice/billingrate', updateDetails)

@@ -1,7 +1,7 @@
 export type Nullable<T> = T | null | undefined
 
 export type updateProps = {
-    billingRate: number
+    billingRate: number | undefined
     pageName: string
     id: number
 }
