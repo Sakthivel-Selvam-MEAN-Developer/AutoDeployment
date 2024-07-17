@@ -20,6 +20,7 @@ export interface updateInvoiceProps {
     trip: tripDetailsProps
     bill: { billNo: string; date: number }
     cementCompany: { name: string | undefined; id: number | undefined }
+    totalAmount?: number
 }
 export interface dataProps {
     loadingPointId: number | null

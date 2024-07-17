@@ -23,6 +23,8 @@ const mockgetGstPaymentDues = vi.fn()
 const mockGetCompletedPaymentDues = vi.fn()
 const mockUpdateNEFTStatus = vi.fn()
 const mockCheckNEFTStatus = vi.fn()
+const mockUpdateFuelStatus = vi.fn()
+
 vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
     findTripWithActiveDues: () => mockfindTripWithActiveDues(),
@@ -50,7 +52,8 @@ vi.mock('../models/bunk', () => ({
     getBunkAccountByName: (name: string[]) => mockBunkAccountDetails(name)
 }))
 vi.mock('../models/fuel', () => ({
-    getFuelDetailsWithoutTrip: () => mockFuelDetails()
+    getFuelDetailsWithoutTrip: () => mockFuelDetails(),
+    updateFuelStatus: (id: number) => mockUpdateFuelStatus(id)
 }))
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
@@ -334,6 +337,13 @@ const mockUpdateData = {
     id: 1,
     transactionId: 'hgf43',
     paidAt: dayjs().unix()
+}
+const mockUpdateDataWithFuelId = {
+    id: 1,
+    transactionId: 'hgf43',
+    paidAt: dayjs().unix(),
+    fuelId: 1,
+    type: 'fuel pay'
 }
 
 const mockCreateDues = {
@@ -635,5 +645,12 @@ describe('Payment Due Controller', () => {
         mockCheckNEFTStatus.mockResolvedValue(0)
         await supertest(app).put('/api/payment-dues/donwloadNEFTFile').send(NeftData).expect(500)
         expect(mockCheckNEFTStatus).toHaveBeenCalledTimes(3)
+    })
+    test('should able to update fuel status with fuel id', async () => {
+        mockUpdatePayment.mockResolvedValue(mockUpdateDataWithFuelId)
+        mockUpdateFuelStatus.mockResolvedValue(0)
+        await supertest(app).put('/api/payment-dues').send(mockUpdateDataWithFuelId).expect(200)
+        expect(mockUpdateFuelStatus).toHaveBeenCalledTimes(1)
+        expect(mockUpdatePayment).toHaveBeenCalledTimes(3)
     })
 })

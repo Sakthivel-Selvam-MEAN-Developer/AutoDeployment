@@ -101,15 +101,18 @@ export const getContentBasedOnCompany = (
     if (trips !== null) total = calculateTotals(trips.trips)
     if (company && companyConfig[company]) {
         const { Component, address } = companyConfig[company]
-        return (
-            <Component
-                trip={trips?.trips}
-                address={address}
-                bill={bill}
-                total={total}
-                depot={depot}
-            />
-        )
+        return {
+            component: (
+                <Component
+                    trip={trips?.trips}
+                    address={address}
+                    bill={bill}
+                    total={total}
+                    depot={depot}
+                />
+            ),
+            totalAmount: total.totalAmount
+        }
     }
     return null
 }

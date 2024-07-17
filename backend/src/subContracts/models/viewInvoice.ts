@@ -14,9 +14,7 @@ export const getCompanyInvoice = (filterData: {
         skip,
         take: 50,
         where: {
-            cementCompany: {
-                id: parseInt(filterData.company)
-            },
+            cementCompany: { id: parseInt(filterData.company) },
             billDate: {
                 lte: filterData.startDate === 0 ? undefined : filterData.startDate,
                 gte: filterData.endDate === 0 ? undefined : filterData.endDate
@@ -28,10 +26,7 @@ export const getCompanyInvoice = (filterData: {
             amount: true,
             pdfLink: true,
             cementCompany: {
-                select: {
-                    name: true,
-                    id: true
-                }
+                select: { name: true, id: true }
             }
         }
     })

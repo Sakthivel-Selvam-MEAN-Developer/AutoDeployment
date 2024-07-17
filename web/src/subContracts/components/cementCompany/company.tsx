@@ -33,7 +33,6 @@ const CreateCompany: React.FC = (): ReactElement => {
     const [disable, setDisable] = useState(false)
     const [id, setId] = useState<number>(0)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data)
         setLoading(true)
         setDisable(true)
         createCompany({ data, id })

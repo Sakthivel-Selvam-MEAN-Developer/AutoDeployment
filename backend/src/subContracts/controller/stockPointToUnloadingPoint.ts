@@ -14,6 +14,7 @@ import {
     getDriverIdByTripId,
     updateDriverTripWithTripSalaryId
 } from '../../driverSalary/models/driverTrip.ts'
+import logger from '../../logger.ts'
 
 interface rowProps {
     freightAmount: number
@@ -46,7 +47,7 @@ export const createStockPointToUnloadingPointTrip = async (
 ) => {
     const { type, stockPointId } = req.query
     const { truckId, ...resData } = req.body
-    console.log(truckId)
+    logger.info(truckId)
     if (type !== 'Own') {
         createStockToUnloadTrip(resData)
             .then(() => res.sendStatus(200))

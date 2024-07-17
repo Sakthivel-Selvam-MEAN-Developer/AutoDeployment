@@ -15,7 +15,7 @@ export interface InvoiceProps {
     bill: { billNo: string; date: number }
 }
 const tableRow = (row: LoadingTripProps, index: number) => (
-    <tr>
+    <tr key={row.invoiceNumber}>
         <td>{index + 1}</td>
         <td>{row.invoiceNumber}</td>
         <td>{row.lrNumber}</td>
@@ -37,7 +37,7 @@ const tableRow = (row: LoadingTripProps, index: number) => (
 )
 
 const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => (
-    <tr>
+    <tr key={row.invoiceNumber}>
         <td>{index + 1}</td>
         <td>{row.invoiceNumber}</td>
         <td>{row.lrNumber}</td>

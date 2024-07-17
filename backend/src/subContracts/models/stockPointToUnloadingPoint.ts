@@ -1,7 +1,8 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, PrismaClient, PrismaPromise } from '@prisma/client'
 import dayjs from 'dayjs'
 import prisma from '../../../prisma/index.ts'
 import { filterDataProps } from '../controller/invoice.ts'
+import { DefaultArgs } from '@prisma/client/runtime/library'
 
 export const create = (
     data:
@@ -23,13 +24,23 @@ export const updateUnloadWeightForStockTrip = (id: number) =>
             }
         }
     })
-export const updateBillNumber = (id: number[], billNo: string) =>
-    prisma.stockPointToUnloadingPointTrip.updateMany({
+type type = (
+    prismaT: Omit<
+        PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+        '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+    >,
+    id: number[],
+    billNo: string,
+    invoiceId: number
+) => PrismaPromise<{ count: number }>
+export const updateBillNumber: type = (prismaT, id, billNo, invoiceId) =>
+    prismaT.stockPointToUnloadingPointTrip.updateMany({
         where: {
             id: { in: id }
         },
         data: {
-            billNo
+            billNo,
+            companyInvoiceId: invoiceId
         }
     })
 

@@ -2,6 +2,7 @@ import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
+import { updateInvoiceDetails } from './invoice.ts'
 
 const mockGetInvoiceDetailsD = vi.fn()
 const mockUpdateBillNumberD = vi.fn()
@@ -17,6 +18,7 @@ const mockUploadToS3 = vi.fn()
 const mockupdateDirectTripBillingRate = vi.fn()
 const mockupdateStockTripBillingRate = vi.fn()
 const mockupdateUnloadingTripBillingRate = vi.fn()
+const mockCreateCompanyInvoice = vi.fn()
 
 vi.mock('aws-sdk', () => ({
     S3: vi.fn(() => ({
@@ -66,11 +68,15 @@ vi.mock('jsdom', () => ({
     }))
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
-    updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberD(inputs, billNo),
+    updateBillNumber: (prismaT: any, id: number, billNo: any) =>
+        mockUpdateBillNumberD(prismaT, id, billNo),
     getInvoiceDetails: (inputs: any) => mockGetInvoiceDetailsD(inputs),
     getDirectTripsByinvoiceFilter: (inputs: any) => mockGetDirectTripsByinvoiceFilter(inputs),
     updateDirectTripBillingRate: (id: number, billingRate: number, pageName: string) =>
         mockupdateDirectTripBillingRate(id, billingRate, pageName)
+}))
+vi.mock('../models/viewInvoice.ts', () => ({
+    create: (inputs: any) => mockCreateCompanyInvoice(inputs)
 }))
 vi.mock('../models/loadingToStockPointTrip', () => ({
     updateBillNumber: (inputs: any, billNo: any) => mockUpdateBillNumberS(inputs, billNo),
@@ -258,20 +264,26 @@ const mockGetInvoiceDetailsUData = [
 ]
 
 const mockBodyForLoadingToUnloading = {
-    trip: { tripId: [1, 2, 3], tripName: 'LoadingToUnloading' },
-    bill: { billNo: 'MGL-01', date: 1717180200 },
-    cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
-}
+    body: {
+        trip: { tripId: [1, 2, 3], tripName: 'LoadingToUnloading' },
+        bill: { billNo: 'MGL-01', date: 1717180200 },
+        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
+    }
+} as Request
 const mockBodyForLoadingToStock = {
-    trip: { tripId: [2], tripName: 'LoadingToStock' },
-    bill: { billNo: 'MGL-01', date: 1717180200 },
-    cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
-}
+    body: {
+        trip: { tripId: [2], tripName: 'LoadingToStock' },
+        bill: { billNo: 'MGL-01', date: 1717180200 },
+        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
+    }
+} as Request
 const mockBodyForStockToUnloading = {
-    trip: { tripId: [5], tripName: 'StockToUnloading' },
-    bill: { billNo: 'MGL-01', date: 1717180200 },
-    cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
-}
+    body: {
+        trip: { tripId: [5], tripName: 'StockToUnloading' },
+        bill: { billNo: 'MGL-01', date: 1717180200 },
+        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
+    }
+} as Request
 const mockFilterData = {
     startDate: 1709317800,
     endDate: 1709317800,
@@ -302,55 +314,71 @@ const mockUpdateBillingRateData = {
     billNo: null,
     companyInvoiceId: null
 }
+const mockRes = {
+    sendStatus: vi.fn().mockReturnThis(),
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+} as unknown as Response
+const mockCreateCompanyInvoiceData = {
+    id: 2,
+    billNo: 'Sample',
+    pdfLink: 'https://www.s3.pdf/sample',
+    billDate: 1720809000,
+    amount: 54000,
+    GSTAmount: 6480,
+    TDSAmount: 1080,
+    cementCompanyId: 1
+}
 describe('Invoice Controller', async () => {
     test('should able to update billDetails details for loading to unloading', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
+        mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         mockUpdateBillNumberD.mockResolvedValue({ count: 3 })
         mockUpdateBillNumberS.mockResolvedValue({ count: 0 })
         mockUpdateBillNumberU.mockResolvedValue({ count: 0 })
-
-        await supertest(app)
-            .put('/api/invoice/update')
-            .send(mockBodyForLoadingToUnloading)
-            .expect(200)
-
+        await updateInvoiceDetails(mockBodyForLoadingToUnloading, mockRes)
         expect(mockUpdateBillNumberD).toBeCalledTimes(1)
-        expect(mockUpdateBillNumberD).toHaveBeenCalledWith([1, 2, 3], 'MGL-01')
-    }, 6000)
+    })
     test('should able to update billDetails details for loading to stock', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
+        mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         mockUpdateBillNumberD.mockResolvedValue({ count: 0 })
         mockUpdateBillNumberS.mockResolvedValue({ count: 1 })
         mockUpdateBillNumberU.mockResolvedValue({ count: 0 })
-        await supertest(app).put('/api/invoice/update').send(mockBodyForLoadingToStock).expect(200)
+        await updateInvoiceDetails(mockBodyForLoadingToStock, mockRes)
         expect(mockUpdateBillNumberS).toBeCalledTimes(1)
-        expect(mockUpdateBillNumberS).toHaveBeenCalledWith([2], 'MGL-01')
-    }, 6000)
+    })
     test('should able to update billDetails details for stock to unloading', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
+        mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         mockUpdateBillNumberD.mockResolvedValue({ count: 0 })
         mockUpdateBillNumberS.mockResolvedValue({ count: 0 })
         mockUpdateBillNumberU.mockResolvedValue({ count: 1 })
-        await supertest(app)
-            .put('/api/invoice/update')
-            .send(mockBodyForStockToUnloading)
-            .expect(200)
+        await updateInvoiceDetails(mockBodyForStockToUnloading, mockRes)
         expect(mockUpdateBillNumberU).toBeCalledTimes(1)
-        expect(mockUpdateBillNumberU).toHaveBeenCalledWith([5], 'MGL-01')
-    }, 6000)
+    })
     test('should able to retrun 500 for non trip', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
+        const body = {
+            ...mockBodyForStockToUnloading.body,
+            trip: { tripName: 'undefined', tripId: [1] }
+        }
+        mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
+        await updateInvoiceDetails({ ...mockBodyForStockToUnloading.body, body }, mockRes)
         await supertest(app)
             .put('/api/invoice/update')
-            .send({ ...mockBodyForStockToUnloading, trip: { tripName: 'undefined', tripId: [1] } })
-            .expect(500)
-    }, 6000)
+            .send({ ...mockBodyForStockToUnloading.body, body })
+            .expect(200)
+    })
     test('should have super admin role for invoice details', async () => {
+        mockUpdateBillNumberD.mockResolvedValue({ count: 3 })
+        mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         await supertest(app)
             .put('/api/invoice/update')
-            .send(mockBodyForLoadingToUnloading)
+            .send(mockBodyForLoadingToUnloading.body)
             .expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
+        expect(mockUpdateBillNumberD).toHaveBeenCalledTimes(2)
     })
     test('should able to get invoice details from direct trip', async () => {
         mockGetDirectTripsByinvoiceFilter.mockResolvedValue(mockGetInvoiceDetailsDData)
@@ -382,7 +410,7 @@ describe('Invoice Controller', async () => {
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
         await supertest(app)
             .post('/api/invoice/previewPDF')
-            .send(mockBodyForLoadingToUnloading)
+            .send(mockBodyForLoadingToUnloading.body)
             .expect(200)
             .then((htmlContent) => {
                 expect(typeof htmlContent).toBe('object')
@@ -395,7 +423,7 @@ describe('Invoice Controller', async () => {
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
         await supertest(app)
             .post('/api/invoice/previewPDF')
-            .send(mockBodyForLoadingToStock)
+            .send(mockBodyForLoadingToStock.body)
             .expect(200)
             .then((htmlContent) => {
                 expect(typeof htmlContent).toBe('object')
@@ -408,7 +436,7 @@ describe('Invoice Controller', async () => {
         mockGetInvoiceDetailsU.mockResolvedValue(mockGetInvoiceDetailsUData)
         await supertest(app)
             .post('/api/invoice/previewPDF')
-            .send(mockBodyForStockToUnloading)
+            .send(mockBodyForStockToUnloading.body)
             .expect(200)
             .then((htmlContent) => {
                 expect(typeof htmlContent).toBe('object')

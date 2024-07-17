@@ -71,6 +71,7 @@ const InvoiceList: React.FC = () => {
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
     const [pdfStr, setPdfStr] = useState<string>('')
     const [load, setLoad] = useState(false)
+    const [amount, setAmount] = useState(0)
     const [disabled, setDisabled] = useState<Set<number>>(new Set([]))
     useEffect(() => {
         setTripDetails([])
@@ -89,7 +90,8 @@ const InvoiceList: React.FC = () => {
             depot: invoiceValues.depot
         }
         await previewInvoicePDF(data).then((details) => {
-            setPdfStr(details)
+            setPdfStr(details.componentHtml)
+            setAmount(details.totalAmount)
             setLoad(true)
         })
     }
@@ -98,7 +100,8 @@ const InvoiceList: React.FC = () => {
             trip: { tripId: Array.from(disabled), tripName: filterData.pageName },
             bill: invoiceValues,
             cementCompany: filterData?.cementCompany,
-            depot: invoiceValues.depot
+            depot: invoiceValues.depot,
+            totalAmount: amount
         }
         await updateInvoiceDetails(data).then(async () => await downloadPDF(pdfStr))
     }

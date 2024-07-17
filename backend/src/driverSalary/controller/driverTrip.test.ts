@@ -221,6 +221,13 @@ describe('driverTrip Controller', () => {
         })
         expect(mockGetDriverIdByTripId).toBeCalledTimes(1)
     })
+    test('should not able to update driver advance by trip id if driver trip is null', async () => {
+        mockGetDriverIdByTripId.mockResolvedValue(null)
+        await updateDriverAdvance(mockUpdateDriverAdvance, mockRes)
+        await supertest(app).get('/api/drivertrip/updateDriverAdvance').expect(500)
+        expect(mockGetDriverIdByTripId).toHaveBeenCalledWith(mockUpdateDriverAdvance.body.tripId)
+        expect(mockGetDriverIdByTripId).toBeCalledTimes(2)
+    })
     test('should return driver advances and expenses with total amount', async () => {
         const tripId = 1
         mockGetDriverAdvance.mockResolvedValue(mockDriverAdvanceData)

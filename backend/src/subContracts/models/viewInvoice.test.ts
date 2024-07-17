@@ -12,7 +12,6 @@ import seedCompany from '../seed/cementCompany.ts'
 import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 import seedTruck from '../seed/truckWithoutDeb.ts'
-import seedViewInvoice from '../seed/viewInvoice.ts'
 import seedTransporter from '../seed/transporter.ts'
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
@@ -20,10 +19,25 @@ import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
 import { create as createCompanyinvoice, getCompanyInvoice, pageCount } from './viewInvoice.ts'
+import prisma from '../../../prisma/index.ts'
+import { create as createInvoice } from './viewInvoice.ts'
 const unloadingPointTest = await createPricePointMarker({
     ...seedPricePointMarker,
     location: 'salem'
 })
+const companyInvoice = {
+    billNo: 'MGL-034',
+    billDate: 1688282262,
+    amount: 24000,
+    pdfLink: 'https://aws.s3.sample.pdf',
+    GSTAmount: parseInt((24000 * (12 / 100)).toFixed(2)),
+    TDSAmount: parseInt((24000 * (2 / 100)).toFixed(2))
+}
+const createTripDetails = {
+    acknowledgementApproval: false,
+    acknowledgementStatus: true,
+    transporterInvoice: 'asdfghjk'
+}
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -38,21 +52,15 @@ describe('ViewInvoice model', () => {
         const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
         await create({
             loadingPointToUnloadingPointTripId: trip.id,
-            acknowledgementApproval: false,
-            acknowledgementStatus: true,
-            transporterInvoice: 'asdfghjk'
+            ...createTripDetails
         })
         const filterData = filterDataTest(company)
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
-        await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
-        const companyInvoice = await createCompanyinvoice({
-            billNo: 'MGL-034',
-            billDate: 1688282262,
-            amount: 24000,
-            pdfLink: 'https://aws.s3.sample.pdf',
-            cementCompanyId: company.id
+        await prisma.$transaction(async (prismaT) => {
+            const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+            await updateLoadingToUnloading(prismaT, [overallTrip.id], 'MGL-034', invoice.id)
         })
         const actual = await getCompanyInvoice(filterData)
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
@@ -73,31 +81,27 @@ describe('ViewInvoice model', () => {
         await create({
             truckId: truck.id,
             loadingPointToUnloadingPointTripId: trip.id,
-            acknowledgementApproval: false,
-            acknowledgementStatus: true,
-            transporterInvoice: 'asdfghjk'
+            ...createTripDetails
         })
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
         await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
         await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
-        await updateLoadingToUnloading([overallTrip.id], 'MGL-2002')
-        const companyInvoice = await companyInvoiceDetails(company)
+        await prisma.$transaction(async (pris) => {
+            const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+            await updateLoadingToUnloading(pris, [overallTrip.id], 'MGL-2002', invoice.id)
+        })
         const actual = await getCompanyInvoice(filterData)
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
         expect(actual[0].amount).toBe(companyInvoice.amount)
-        expect(actual[0].pdfLink).toBe(companyInvoice.pdfLink)
     })
     test('should calculate balance correctly after creating company invoice', async () => {
         const company = await createCompany(seedCompany, 1)
         const initialBalance = 50000
-        const companyInvoice = await createCompanyinvoice({
-            billNo: 'MGL-034',
-            billDate: 1688282262,
-            amount: 24000,
-            pdfLink: 'https://aws.s3.sample.pdf',
+        const companyInvoices = await createCompanyinvoice({
+            ...companyInvoice,
             cementCompanyId: company.id
         })
-        const finalBalance = initialBalance - companyInvoice.amount
+        const finalBalance = initialBalance - companyInvoices.amount
         expect(finalBalance).toBe(26000)
     })
     test('should able to get pagecount', async () => {
@@ -113,19 +117,13 @@ describe('ViewInvoice model', () => {
         const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
         await create({
             loadingPointToUnloadingPointTripId: trip.id,
-            acknowledgementApproval: false,
-            acknowledgementStatus: true,
-            transporterInvoice: 'asdfghjk'
+            ...createTripDetails
         })
         const filterData = filterDataTest(company)
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
-        await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
-        await createCompanyinvoice({
-            billNo: 'MGL-034',
-            billDate: 1688282262,
-            amount: 24000,
-            pdfLink: 'https://aws.s3.sample.pdf',
-            cementCompanyId: company.id
+        await prisma.$transaction(async (pris) => {
+            const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+            await updateLoadingToUnloading(pris, [overallTrip.id], 'MGL-034', invoice.id)
         })
         const actual = await pageCount(filterData)
         expect(actual).toBe(1)
@@ -143,19 +141,13 @@ describe('ViewInvoice model', () => {
         const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
         await create({
             loadingPointToUnloadingPointTripId: trip.id,
-            acknowledgementApproval: false,
-            acknowledgementStatus: true,
-            transporterInvoice: 'asdfghjk'
+            ...createTripDetails
         })
         const filterData = filterDataPageCount(company)
         const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
-        await updateLoadingToUnloading([overallTrip.id], 'MGL-034')
-        await createCompanyinvoice({
-            billNo: 'MGL-034',
-            billDate: 1688282262,
-            amount: 24000,
-            pdfLink: 'https://aws.s3.sample.pdf',
-            cementCompanyId: company.id
+        await prisma.$transaction(async (pris) => {
+            const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+            await updateLoadingToUnloading(pris, [overallTrip.id], 'MGL-034', invoice.id)
         })
         const actual = await pageCount(filterData)
         expect(actual).toBe(1)
@@ -261,25 +253,6 @@ function dataFilterDetails(company: {
         endDate: 0,
         pageNumber: 1
     }
-}
-
-async function companyInvoiceDetails(company: {
-    id: number
-    name: string
-    gstNo: string
-    address: string
-    emailId: string
-    contactPersonName: string
-    contactPersonNumber: string
-    createdAt: Date
-    updatedAt: Date
-    primaryBillId: number | null
-    secondaryBillId: number | null
-}) {
-    return await createCompanyinvoice({
-        ...seedViewInvoice,
-        cementCompanyId: company.id
-    })
 }
 
 async function deliveryPointData(

@@ -11,6 +11,7 @@ import { create as createLoadingPointToStockPoint } from './loadingToStockPointT
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createTruck } from './truck.ts'
+import { create as createInvoice } from './viewInvoice.ts'
 import {
     create,
     getAllStockToUnloadingPointTrip,
@@ -25,7 +26,15 @@ import {
 import { create as createPricePointMarker } from './pricePointMarker.ts'
 import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
-
+import prisma from '../../../prisma/index.ts'
+const companyInvoice = {
+    billNo: 'MGL-034',
+    billDate: 1688282262,
+    amount: 24000,
+    pdfLink: 'https://aws.s3.sample.pdf',
+    GSTAmount: parseInt((24000 * (12 / 100)).toFixed(2)),
+    TDSAmount: parseInt((24000 * (2 / 100)).toFixed(2))
+}
 describe('stock Point to unloading point', () => {
     test('should able to create a stock Point to unloading point trip', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -151,7 +160,10 @@ describe('stock Point to unloading point', () => {
             loadingPointToStockPointTripId: loadingPointToStockPoint.id,
             unloadingPointId: unloadingPoint.id
         })
-        await updateBillNumber([unloadingPointTrip.id], 'MGL')
+        await prisma.$transaction(async (prismaT) => {
+            const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+            await updateBillNumber(prismaT, [unloadingPointTrip.id], 'MGL', invoice.id)
+        })
         const stockTrip = await getAllStockToUnloadingPointTrip()
         expect(stockTrip[0].billNo).toBe('MGL')
     })

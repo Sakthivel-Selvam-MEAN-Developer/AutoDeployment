@@ -323,6 +323,8 @@ model companyInvoice {
   pdfLink                          String
   billDate                         Int
   amount                           Int
+  GSTAmount                        Int
+  TDSAmount                        Int
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])

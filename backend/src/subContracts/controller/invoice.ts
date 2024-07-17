@@ -20,23 +20,8 @@ import {
 } from '../models/stockPointToUnloadingPoint.ts'
 import { getContentBasedOnCompany } from '../InvoiceFormat/calculateTotal.tsx'
 import { InvoiceProp } from '../InvoiceFormat/type.tsx'
-
-// type pdfBuffers = (
-//     browser: Browser,
-//     htmlContent: string | undefined,
-//     width: number,
-//     height: number
-// ) => Promise<Buffer>
-// const generateBufferFromHtml: pdfBuffers = async (browser, htmlContent, width, height) => {
-//     const page = await browser.newPage()
-//     await page.setContent(htmlContent || '', { waitUntil: 'networkidle0' })
-//     const pdfBuffer = await page.pdf({
-//         width: `${width}px`,
-//         height: `${height}px`,
-//         printBackground: true
-//     })
-//     return pdfBuffer
-// }
+import prisma from '../../../prisma/index.ts'
+import { create } from '../models/viewInvoice.ts'
 
 export interface filterDataProps {
     startDate: number
@@ -70,25 +55,48 @@ export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = a
 }
 
 export const updateInvoiceDetails = async (req: Request, res: Response) => {
-    if (req.body.trip.tripName === 'LoadingToUnloading') {
-        await updateLoadingToUnloading(req.body.trip.tripId, req.body.bill.billNo).then(() =>
-            res.sendStatus(200)
-        )
-        return
-    }
-    if (req.body.trip.tripName === 'StockToUnloading') {
-        await updateStockToUnloading(req.body.trip.tripId, req.body.bill.billNo).then(() =>
-            res.sendStatus(200)
-        )
-        return
-    }
-    if (req.body.trip.tripName === 'LoadingToStock') {
-        await updateLoadingToStock(req.body.trip.tripId, req.body.bill.billNo).then(() =>
-            res.sendStatus(200)
-        )
-        return
-    }
-    res.sendStatus(500)
+    await prisma
+        .$transaction(async (prismaT) => {
+            const invoice = await create({
+                amount: req.body.totalAmount,
+                billDate: req.body.bill.date,
+                billNo: req.body.bill.billNo,
+                cementCompanyId: req.body.cementCompany.id,
+                GSTAmount: parseInt((req.body.totalAmount * (12 / 100)).toFixed(2)),
+                pdfLink: 'https://www.s3.pdf/sample',
+                TDSAmount: parseInt((req.body.totalAmount * (2 / 100)).toFixed(2))
+            })
+            switch (req.body.trip.tripName) {
+                case 'LoadingToUnloading':
+                    await updateLoadingToUnloading(
+                        prismaT,
+                        req.body.trip.tripId,
+                        req.body.bill.billNo,
+                        invoice.id
+                    ).then(() => res.sendStatus(200))
+                    break
+                case 'StockToUnloading':
+                    await updateStockToUnloading(
+                        prismaT,
+                        req.body.trip.tripId,
+                        req.body.bill.billNo,
+                        invoice.id
+                    ).then(() => res.sendStatus(200))
+                    break
+                case 'LoadingToStock':
+                    await updateLoadingToStock(
+                        prismaT,
+                        req.body.trip.tripId,
+                        req.body.bill.billNo,
+                        invoice.id
+                    ).then(() => res.sendStatus(200))
+                    break
+                default:
+                    res.sendStatus(500)
+                    break
+            }
+        })
+        .catch((err) => res.status(500).json(err))
     // await uploadToS3(combinedPdfBuffer, req.body.cementCompany.name, req.body.bill.billNo)
 }
 
@@ -109,21 +117,22 @@ export const previewPDFController = async (req: Request, res: Response) => {
     if (tripName === 'LoadingToStock') {
         loadingPointToStockPointTrip = await loadingToStockInvoice(tripId)
     }
-    const componentHtml = ReactDOMServer.renderToString(
-        getContentBasedOnCompany(
-            req.body.cementCompany.name,
-            {
-                trips: {
-                    loadingPointToUnloadingPointTrip,
-                    loadingPointToStockPointTrip,
-                    stockPointToUnloadingPointTrip
-                }
-            },
-            req.body.bill,
-            req.body.depot
-        )
+    const componentDetails = getContentBasedOnCompany(
+        req.body.cementCompany.name,
+        {
+            trips: {
+                loadingPointToUnloadingPointTrip,
+                loadingPointToStockPointTrip,
+                stockPointToUnloadingPointTrip
+            }
+        },
+        req.body.bill,
+        req.body.depot
     )
-    res.status(200).json(componentHtml)
+    res.status(200).json({
+        componentHtml: ReactDOMServer.renderToString(componentDetails?.component),
+        totalAmount: componentDetails?.totalAmount
+    })
 }
 interface updateQuery {
     pageName: string

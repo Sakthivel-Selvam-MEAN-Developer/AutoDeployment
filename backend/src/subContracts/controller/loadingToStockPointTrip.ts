@@ -11,6 +11,7 @@ import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { getPricePoint } from '../models/pricePoint.ts'
 import { amountCalculation } from '../domain/overallTrip/loadingToStockTripEvent.ts'
 import { fuelProps } from './loadingToUnloadingTrip.ts'
+import logger from '../../logger.ts'
 
 export const updateFuelDetails = async (
     fuelDetails: fuelProps | null,
@@ -35,7 +36,7 @@ export const createStockPointTrip = async (req: Request, res: Response) => {
             pricePoint?.freightAmount || 0
         )
         const { vehicleNumber, truckId, ...newData } = body
-        console.log(truckId)
+        logger.info(truckId)
         const { id } = await create(newData).then(async (data) =>
             createOverallTrip({
                 loadingPointToStockPointTripId: data.id,

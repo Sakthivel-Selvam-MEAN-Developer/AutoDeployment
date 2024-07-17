@@ -132,7 +132,6 @@ describe('Expense Controller', () => {
             ...mockExpenseData,
             body: [{ ...mockExpenseData.body[0], expenseType: 's' }]
         }
-        console.log(input)
         //@ts-expect-error input
         createExpense(input, mockRes)
         mockCreateExpense.mockResolvedValue(mockExpenseData.body)
