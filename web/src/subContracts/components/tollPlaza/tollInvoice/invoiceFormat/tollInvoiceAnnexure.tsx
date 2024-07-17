@@ -3,7 +3,44 @@ import { epochToMinimalDate } from '../../../../../commonUtils/epochToTime'
 import TripAmountCalculation from '../tollAmountCalculations'
 import { tripProp } from '../type'
 import { toWords } from './numberToWords'
-
+const headers = [
+    'S.No',
+    'DI Number',
+    'DI Creation Date',
+    'Sold-to-Party Name',
+    'City Code Description',
+    'Truck No.',
+    'LR No.',
+    'INV QTY',
+    'Marur Toll AP',
+    'Bagepalli Toll KA',
+    'Nalluru Devanahalli Toll KA',
+    'Hoskote & Electronic City KAToll Plaza',
+    'Bandapalli Plaza AP',
+    'Yerradoddi Toll plaza AP',
+    'Bandlapalli Toll Plaza AP',
+    'Danamaiahgaaripalli Toll Plaza AP',
+    'Durgamvripalli Toll AP',
+    'Attibele Toll Plaza KA',
+    'Thennepalli Toll AP',
+    'Vallam Toll plaza',
+    'Enamkariyandal toll',
+    'Pallikonda / Mahasamudram Toll Plaza TN',
+    'Vaniyambadi Toll Plaza TN',
+    'Krishnagiri Toll Plaza (TN)',
+    'L&T Krishnagiri Thopur Toll (TN)',
+    'Omalur Toll Plaza (TN)',
+    'Vaiguntham Toll Plaza (TN)',
+    'Vijayamangalam Toll Plaza (TN)',
+    'Chengapaly Toll Plaza (TN)',
+    'Neelambur Toll Plaza (TN)',
+    'Trichy Cochin Toll Plaza (TN)',
+    'Pampam Pallam Toll Plaza (KL TOLL)',
+    'Paniyankara (KL TOLL)',
+    'Paliyekkarera Toll Plaza (KL TOLL)',
+    'Kumbalam Toll Plaza KL',
+    'Total Toll Amount'
+]
 const TollInvoiceForUntraTech: FC<tripProp> = ({ trips, bill }) => {
     const { filledLoad, tollTotal, tripDetails, totalAmount } = TripAmountCalculation(trips)
     return (
@@ -128,114 +165,11 @@ const TollInvoiceForUntraTech: FC<tripProp> = ({ trips, bill }) => {
                         <td>&nbsp;</td>
                     </tr>
                     <tr className="table-head">
-                        <td>
-                            <small>S.No</small>
-                        </td>
-                        <td>
-                            <small>DI Number</small>
-                        </td>
-                        <td>
-                            <small>DI Creation Date</small>
-                        </td>
-                        <td>
-                            <small>Sold-to-Party Name</small>
-                        </td>
-                        <td>
-                            <small>City Code Description</small>
-                        </td>
-                        <td>
-                            <small>Truck No.</small>
-                        </td>
-                        <td>
-                            <small>LR No.</small>
-                        </td>
-                        <td>
-                            <small>INV QTY</small>
-                        </td>
-                        <td>
-                            <small>Marur Toll AP</small>
-                        </td>
-                        <td>
-                            <small>Bagepalli Toll KA</small>
-                        </td>
-                        <td>
-                            <small>Nalluru Devanahalli Toll KA</small>
-                        </td>
-                        <td>
-                            <small>Hoskote & Electronic City KAToll Plaza</small>
-                        </td>
-                        <td>
-                            <small>Bandapalli Plaza AP</small>
-                        </td>
-                        <td>
-                            <small>Yerradoddi Toll plaza AP</small>
-                        </td>
-                        <td>
-                            <small>Bandlapalli Toll Plaza AP</small>
-                        </td>
-                        <td>
-                            <small>Danamaiahgaaripalli Toll Plaza AP</small>
-                        </td>
-                        <td>
-                            <small>Durgamvripalli Toll AP</small>
-                        </td>
-                        <td>
-                            <small>Attibele Toll Plaza KA</small>
-                        </td>
-                        <td>
-                            <small>Thennepalli Toll AP</small>
-                        </td>
-                        <td>
-                            <small>Vallam Toll plaza</small>
-                        </td>
-                        <td>
-                            <small>Enamkariyandal toll</small>
-                        </td>
-                        <td>
-                            <small>Pallikonda / Mahasamudram Toll Plaza TN</small>
-                        </td>
-                        <td>
-                            <small>Vaniyambadi Toll Plaza TN</small>
-                        </td>
-                        <td>
-                            <small>Krishnagiri Toll Plaza (TN)</small>
-                        </td>
-                        <td>
-                            <small>L&T Krishnagiri Thopur Toll (TN)</small>
-                        </td>
-                        <td>
-                            <small>Omalur Toll Plaza (TN)</small>
-                        </td>
-                        <td>
-                            <small>Vaiguntham Toll Plaza (TN)</small>
-                        </td>
-                        <td>
-                            <small>Vijayamangalam Toll Plaza (TN)</small>
-                        </td>
-                        <td>
-                            <small>Chengapaly Toll Plaza (TN)</small>
-                        </td>
-                        <td>
-                            <small>Neelambur Toll Plaza (TN)</small>
-                        </td>
-                        <td>
-                            <small>Trichy Cochin Toll Plaza (TN)</small>
-                        </td>
-                        <td>
-                            <small>Pampam Pallam Toll Plaza (KL TOLL)</small>
-                        </td>
-                        <td>
-                            <small>Paniyankara (KL TOLL)</small>
-                        </td>
-                        <td>
-                            <small>Paliyekkarera Toll Plaza (KL TOLL)</small>
-                        </td>
-                        <td>
-                            <small>Kumbalam Toll Plaza KL</small>
-                        </td>
-                        <td>
-                            <small>Total Toll Amount</small>
-                        </td>
+                        {headers.map((header, index) => (
+                            <td key={index}>
+                                <small>{header}</small>
+                            </td>
+                        ))}
                     </tr>
                     {tripDetails.map((trip, index) => (
                         <tr className="table-body" key={trip.id}>
