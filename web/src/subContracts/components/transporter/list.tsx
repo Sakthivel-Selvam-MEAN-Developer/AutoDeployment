@@ -8,6 +8,28 @@ import { Link } from 'react-router-dom'
 import { Box, Button, CircularProgress } from '@mui/material'
 import { getAllAccountTypes } from '../../services/accountType'
 import TransporterReport from './transporterReport/listTransporter'
+import { getAllEmployee } from '../../services/employee'
+export interface Row {
+    id: number
+    corporateId: string
+    joiningDate: number
+    name: string
+    mailId: string
+    contactNumber: number
+    department: string
+    designation: string
+    address: string
+    dateOfBirth: number
+    aadharNumber: string
+    panNumber: string
+    bloodGroup: string
+    accountName: string
+    accountNumber: string
+    ifscCode: string
+    branch: string
+    accountType: string
+    loginAccess: boolean
+}
 const CreateTransporter: React.FC = (): ReactElement => {
     const [accountType, setAccountType] = useState<string | undefined>('')
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
@@ -16,6 +38,9 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const [transporterType, setTransporterType] = useState('')
     const [tds, setTds] = useState<boolean>(true)
     const [accountTypes, setAccountTypes] = useState<accountTypeProps[]>([] as accountTypeProps[])
+    const [employeeList, setEmployeeList] = useState<Row[]>([] as Row[])
+    const [employeeId, setEmployeeId] = useState<number | undefined>(0)
+    const [employeeName, setEmployeeName] = useState<string | undefined>('')
     const [accountTypeNumber, setAccountTypeNumber] = useState<number | undefined>(0)
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [disable, setDisable] = useState(false)
@@ -34,7 +59,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
             gstPercentage: gst ? null : parseFloat(parseFloat(data.gstPercentage).toFixed(2)),
             gstNumber: gst ? null : data.gstNumber,
             accountTypeNumber,
-            transporterType
+            transporterType,
+            employeeId: employeeId
         })
             .then(() => {
                 setLoading(false)
@@ -50,7 +76,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
                     setTransporterType,
                     setTranspoterId,
                     setAadharNumber,
-                    setPanNumber
+                    setPanNumber,
+                    setEmployeeName
                 )
             )
             .catch((error) => {
@@ -68,11 +95,13 @@ const CreateTransporter: React.FC = (): ReactElement => {
     const handleClose = () => setOpenSuccessDialog(false)
     useEffect(() => {
         getAllAccountTypes().then(setAccountTypes)
+        getAllEmployee().then(setEmployeeList)
     }, [])
     const handleEdit = (editedTransporter: any) => {
         const acc = accountTypes.find(
             (acc) => acc.accountTypeNumber === editedTransporter.accountTypeNumber
         )
+        const emp = employeeList.find((emp: any) => emp?.id === editedTransporter.employeeId)
         setTranspoterId(editedTransporter.id)
         setValue('name', editedTransporter.name)
         setValue('emailId', editedTransporter.emailId)
@@ -89,6 +118,8 @@ const CreateTransporter: React.FC = (): ReactElement => {
         setTransporterType(editedTransporter.transporterType)
         setAccountType(acc?.accountTypeName)
         setAccountTypeNumber(editedTransporter.accountTypeNumber)
+        setEmployeeName(emp?.name)
+        setEmployeeId(editedTransporter?.employeeId)
         setGst(!editedTransporter.hasGst)
         setTds(!editedTransporter.hasTds)
         if (editedTransporter.hasGst) {
@@ -127,6 +158,10 @@ const CreateTransporter: React.FC = (): ReactElement => {
                     accountType={accountType}
                     aadharNumber={aadharNumber}
                     panNumber={panNumber}
+                    employeeList={employeeList}
+                    setEmployeeId={setEmployeeId}
+                    setEmployeeName={setEmployeeName}
+                    employeeName={employeeName}
                 />
                 {loading ? (
                     <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -156,7 +191,8 @@ type clearType = (
     setTransporterType: React.Dispatch<React.SetStateAction<string>>,
     setTranspoterId: React.Dispatch<React.SetStateAction<number>>,
     setAadhaarNumber: React.Dispatch<React.SetStateAction<string | undefined>>,
-    setPanNumber: React.Dispatch<React.SetStateAction<string | undefined>>
+    setPanNumber: React.Dispatch<React.SetStateAction<string | undefined>>,
+    setEmployeeName: React.Dispatch<React.SetStateAction<string | undefined>>
 ) => void
 const clearForm: clearType = (
     setValue,
@@ -166,7 +202,8 @@ const clearForm: clearType = (
     setTransporterType,
     setTranspoterId,
     setAadharNumber,
-    setPanNumber
+    setPanNumber,
+    setEmployeeName
 ) => {
     clearSubForm(setValue)
     setValue('gstPercentage', '')
@@ -181,6 +218,7 @@ const clearForm: clearType = (
     setTranspoterId(0)
     setAadharNumber('')
     setPanNumber('')
+    setEmployeeName('')
 }
 const clearSubForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('name', '')

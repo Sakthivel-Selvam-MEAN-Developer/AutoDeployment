@@ -20,6 +20,7 @@ interface dataProps {
     gstNumber: string
     accountTypeNumber: number | undefined
     transporterType: string
+    employeeId: number | undefined
 }
 export const createTransporter = (data: dataProps) =>
     axiosInstance.post('/transporter', data).then(getData)

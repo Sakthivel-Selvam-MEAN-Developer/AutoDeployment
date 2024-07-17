@@ -3,6 +3,7 @@ import InputWithType from '../../../form/InputWithType.tsx'
 import { Autocomplete, Checkbox, TextField } from '@mui/material'
 import { AutoCompleteWithValue } from '../../../form/AutoCompleteWithValue.tsx'
 import { ChangeEvent } from 'react'
+import { Row } from './list.tsx'
 export interface accountTypeProps {
     id: number
     accountTypeNumber: number
@@ -18,6 +19,10 @@ export interface FormFieldsProps {
     setAccountTypeNumber: React.Dispatch<React.SetStateAction<number | undefined>>
     setAccountType: React.Dispatch<React.SetStateAction<string | undefined>>
     setTransporterType: React.Dispatch<React.SetStateAction<string>>
+    employeeList: Row[]
+    setEmployeeId: React.Dispatch<React.SetStateAction<number | undefined>>
+    setEmployeeName: React.Dispatch<React.SetStateAction<string | undefined>>
+    employeeName: string | undefined
     transporterType: string
     accountType: string | undefined
     aadharNumber: string | undefined
@@ -34,7 +39,11 @@ const FormFields: React.FC<FormFieldsProps> = ({
     setAccountType,
     accountType,
     setTransporterType,
-    transporterType
+    transporterType,
+    employeeList,
+    setEmployeeId,
+    setEmployeeName,
+    employeeName
 }) => {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
     return (
@@ -158,6 +167,19 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 label="CSM Name"
                 fieldName="csmName"
                 type="string"
+            />
+            <Autocomplete
+                sx={{ width: 200 }}
+                value={employeeName}
+                options={employeeList ? employeeList.map((option) => option.name) : []}
+                onChange={(_event, value) => {
+                    const { id } = employeeList.find(({ name }) => name === value) || { id: 0 }
+                    setEmployeeId(id)
+                    setEmployeeName(value || '')
+                }}
+                renderInput={(params) => (
+                    <TextField {...params} label={'CSM Name'} InputLabelProps={{ shrink: true }} />
+                )}
             />
             <div style={{ display: 'flex' }}>
                 <Checkbox onClick={() => setGst(!gst)} {...label} checked={!gst} />
