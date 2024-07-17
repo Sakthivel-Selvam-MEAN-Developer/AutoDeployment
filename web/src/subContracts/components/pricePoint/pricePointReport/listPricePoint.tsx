@@ -5,6 +5,7 @@ import ListAllPricePoint from './pricePointReportShow'
 const PricePointReport: React.FC = () => {
     const [listPricePoint, setListPricePoint] = useState([])
     const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         getAllpricePoint()
             .then(setListPricePoint)

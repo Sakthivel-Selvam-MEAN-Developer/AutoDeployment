@@ -22,17 +22,16 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [transporterAdvancePercentage, setTransporterAdvancePercentage] = useState(0)
     const [disable, setDisable] = useState(false)
     const [dueDate, setDueDate] = useState<number>(0)
+
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
             setCementCompany(companyData.map(({ name }: { name: string }) => name))
         )
     }, [])
     useEffect(() => {
-        console.log(transporterAdvancePercentage)
-    }, [transporterAdvancePercentage])
-    useEffect(() => {
         setTransporterRate(freightAmount - (freightAmount * transporterPercentage) / 100)
     }, [freightAmount, transporterPercentage])
+
     const onSubmit: SubmitHandler<FieldValues> = () => {
         if (
             (loadingPointId && stockPointId) ||
