@@ -58,14 +58,19 @@ const overallTrip = {
         }
     }
 }
+const result = {
+    tdsAmount: 0,
+    tdsPercentage: 2
+}
 test('Should able to get tds amount from direct trip', async () => {
     const input = {
         ...overallTrip,
         loadingPointToStockPointTrip: null,
         stockPointToUnloadingPointTrip: null
     }
+
     const actual = await tdsCalculation(input)
-    expect(actual).toEqual(720)
+    expect(actual).toEqual({ ...result, tdsAmount: 720 })
 })
 test('Should able to get tds amount from loading to stock trip', async () => {
     const input = {
@@ -73,7 +78,7 @@ test('Should able to get tds amount from loading to stock trip', async () => {
         loadingPointToUnloadingPointTrip: null
     }
     const actual = await tdsCalculation(input)
-    expect(actual).toEqual(27)
+    expect(actual).toEqual({ ...result, tdsAmount: 27 })
 })
 test('Should able to handle when tds is null', async () => {
     const input = {
@@ -89,5 +94,5 @@ test('Should able to handle when tds is null', async () => {
         }
     }
     const actual = await tdsCalculation(input)
-    expect(actual).toEqual(0)
+    expect(actual).toEqual({ tdsPercentage: 0, tdsAmount: 0 })
 })

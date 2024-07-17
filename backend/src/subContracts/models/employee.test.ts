@@ -37,6 +37,5 @@ describe('Employee model', () => {
         const updateInput = { ...input, name: 'karthik' }
         const upDateEmployeeInput = await updateEmployee(actual.id, updateInput)
         expect(upDateEmployeeInput.id).toEqual(actual.id)
-        console.log(actual, upDateEmployeeInput)
     })
 })

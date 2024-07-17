@@ -101,6 +101,7 @@ const overallTrip = {
         truck
     }
 }
+const tdsAmount = 0
 const acknowledgementDate = dayjs.unix(
     overallTrip.acknowledgementDate ? overallTrip.acknowledgementDate : 0
 )
@@ -108,14 +109,14 @@ describe('For an overall trip when ack approved event is called', () => {
     test('when acknowledgementApproval is equal to false final pay should not be created', async () => {
         const overAllTrip = { ...overallTrip, acknowledgementApproval: false }
         const finalPay = false
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, tdsAmount)
         expect(actual).toStrictEqual(finalPay)
     })
 
     test('when transporterInvoice is equal to "" final pay should not be created', async () => {
         const overAllTrip = { ...overallTrip, transporterInvoice: '' }
         const finalPay = false
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, tdsAmount)
         expect(actual).toStrictEqual(finalPay)
     })
 
@@ -129,7 +130,7 @@ describe('For an overall trip when ack approved event is called', () => {
             }
         }
         const finalPay = false
-        const actual = await finalDueCreation(overalltrip)
+        const actual = await finalDueCreation(overalltrip, tdsAmount)
         expect(actual).toStrictEqual(finalPay)
     })
 
@@ -162,7 +163,7 @@ describe('For an overall trip when ack approved event is called', () => {
                     .unix()
             }
         ]
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, tdsAmount)
         expect(actual).toStrictEqual(finalPay)
     })
 
@@ -180,7 +181,7 @@ describe('For an overall trip when ack approved event is called', () => {
                     .unix()
             }
         ]
-        const actual = await finalDueCreation(overAllTrip)
+        const actual = await finalDueCreation(overAllTrip, tdsAmount)
         expect(actual).toStrictEqual(finalPay)
     })
 })

@@ -9,7 +9,7 @@ const finalDueLogic = async (
     overallTrip: overallTripProps,
     paymentDueDetails: dataProps[],
     shortageAmount: number,
-    tdsPercentage: number | null
+    tdsAmount: number
 ) => {
     const { trip } = findTrip(overallTrip)
     let paidAmount = 0
@@ -24,7 +24,6 @@ const finalDueLogic = async (
     if (overallTrip.stockPointToUnloadingPointTrip) {
         totalTransporterAmount += overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
     }
-    const tdsAmount = totalTransporterAmount * (tdsPercentage !== null ? tdsPercentage / 100 : 0)
     remainingAmount =
         totalTransporterAmount - (paidAmount + shortageAmount + tdsAmount) + negativePay
     const acknowledgementDate = dayjs.unix(

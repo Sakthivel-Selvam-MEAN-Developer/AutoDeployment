@@ -8,5 +8,5 @@ export const tdsCalculation = (overallTrip: overallTripProps) => {
     if (overallTrip.stockPointToUnloadingPointTrip) {
         totalTransporterAmount += overallTrip.stockPointToUnloadingPointTrip.totalTransporterAmount
     }
-    return totalTransporterAmount * (tdsPercentage / 100)
+    return { tdsAmount: totalTransporterAmount * (tdsPercentage / 100), tdsPercentage }
 }

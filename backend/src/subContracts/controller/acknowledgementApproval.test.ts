@@ -10,9 +10,11 @@ const mockGetShortageQuantityByOverallTripId = vi.fn()
 const mockUpdateShortageInOverallTrip = vi.fn()
 const mockUpdateAcknowledgementApproval = vi.fn()
 const mockcreatePaymentDues = vi.fn()
+const mockUpdateTdsAmountAndPercentage = vi.fn()
 vi.mock('../models/overallTrip', () => ({
     getTripForAcknowlegementApproval: () => mockGetTripForAcknowlegementApproval(),
-    updateAcknowledgementApproval: () => mockUpdateAcknowledgementApproval()
+    updateAcknowledgementApproval: () => mockUpdateAcknowledgementApproval(),
+    updateTdsAmountAndPercentage: () => mockUpdateTdsAmountAndPercentage()
 }))
 vi.mock('../models/shortageQuantity', () => ({
     updateShortageByOverallTripId: (id: number) => mockUpdateShortageInOverallTrip(id),

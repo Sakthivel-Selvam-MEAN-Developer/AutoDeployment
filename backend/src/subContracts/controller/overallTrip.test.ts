@@ -1,7 +1,6 @@
 import supertest from 'supertest'
 import { NextFunction } from 'express'
 import { app } from '../../app.ts'
-import { differenceCalculation } from './overallTrip.ts'
 
 const mockListOverallTrip = vi.fn()
 const mockOverallTripByFiltrer = vi.fn()
@@ -13,6 +12,7 @@ const mockGetStockPointInvoiceNumbers = vi.fn()
 const mockGetStockToUnloadingPointInvoiceNumbers = vi.fn()
 const mockGetUnloadingPointInvoiceNumbers = vi.fn()
 const mockGetOverAllTripid = vi.fn()
+const mockGetPricePoint = vi.fn()
 vi.mock('../models/overallTrip', () => ({
     getOverallTrip: () => mockListOverallTrip(),
     getTripByUnloadDate: (inputs: any) => mockgetTripByUnloadDate(inputs),
@@ -34,6 +34,9 @@ vi.mock('../models/loadingToUnloadingTrip.ts', () => ({
     getAllStockPointInvoiceNumbers: () => mockGetInvoiceNumbers(),
     getAllStockToUnloadingPointInvoiceNumbers: () => mockGetInvoiceNumbers(),
     getAllUnloadingPointInvoiceNumbers: () => mockGetInvoiceNumbers()
+}))
+vi.mock('../models/pricePoint.ts', () => ({
+    getPricePoint: () => mockGetPricePoint()
 }))
 
 vi.mock('../models/loadingToStockPointTrip.ts', () => ({
@@ -58,11 +61,32 @@ const mockOverallTripData = [
         acknowledgementStatus: true,
         loadingPointToStockPointTripId: null,
         stockPointToUnloadingPointTripId: null,
-        stockPointToUnloadingPointTrip: null,
+        stockPointToUnloadingPointTrip: {
+            id: 1,
+            billingRate: 1000,
+            startDate: 1700764200,
+            filledLoad: 40,
+            invoiceNumber: 'ABC123',
+            loadingPointId: 1,
+            unloadingPointId: 1,
+            unloadingPoint: {
+                id: 1,
+                name: 'Chennai-south'
+            }
+        },
         loadingPointToUnloadingPointTripId: 1,
         fuel: [],
         fuelId: null,
-        paymentDues: [],
+        paymentDues: [
+            {
+                type: 'gst pay',
+                payableAmount: 100
+            },
+            {
+                type: 'initial pay',
+                payableAmount: 100
+            }
+        ],
         paymentDuesId: null,
         shortageQuantityId: [],
         truckId: 1,
@@ -90,47 +114,35 @@ const mockOverallTripData = [
                 updatedAt: new Date()
             }
         ],
-        loadingPointToStockPointTrip: null,
+        loadingPointToStockPointTrip: {
+            id: 1,
+            startDate: 1700764200,
+            billingRate: 1000,
+            filledLoad: 40,
+            loadingPoint: {
+                id: 1,
+                name: 'Chennai-south'
+            },
+            stockPoint: {
+                id: 1,
+                name: 'Salem'
+            }
+        },
         loadingPointToUnloadingPointTrip: {
             id: 1,
             startDate: 1700764200,
+            billingRate: 1000,
             filledLoad: 40,
-            wantFuel: null,
-            tripStatus: false,
-            acknowledgeDueTime: null,
-            freightAmount: 1000,
-            transporterAmount: 900,
-            totalFreightAmount: 40000,
-            totalTransporterAmount: 36000,
-            margin: 4000,
-            invoiceNumber: 'ABC123',
             loadingPointId: 1,
             unloadingPointId: 1,
             truckId: 1,
             loadingPoint: {
                 id: 1,
-                name: 'Chennai-south',
-                cementCompanyId: 1,
-                cementCompany: {
-                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
-                }
+                name: 'Chennai-south'
             },
             unloadingPoint: {
                 id: 1,
-                name: 'Salem',
-                cementCompanyId: 1,
-                cementCompany: {
-                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
-                }
-            },
-            truck: {
-                vehicleNumber: 'TN93D5512',
-                transporterId: 1,
-                transporter: {
-                    id: 1,
-                    csmName: 'newName',
-                    name: 'Barath Logistics'
-                }
+                name: 'Salem'
             }
         }
     }
@@ -143,6 +155,9 @@ const mockTripData = [
     { id: 1, name: 'Trip 1' },
     { id: 2, name: 'Trip 2' }
 ]
+const pricePointData = {
+    transporterPercentage: 8
+}
 const invoiceNumbers = [{ invoiceNumber: 'ABC001' }]
 describe('OverallTrip Controller', () => {
     test('should able to access overalltrip data', async () => {
@@ -161,12 +176,29 @@ describe('OverallTrip Controller', () => {
         await supertest(app).get('/api/overalltrip/acknowledgement/0').expect(200)
         expect(mockgetTripByUnloadDate).toBeCalledTimes(1)
     })
-    test('should able to get discrepancy report', async () => {
-        mockGetAllDiscrepancyReport.mockResolvedValue(mockOverallTripData)
+    test('should able to get discrepancy report for direct trip', async () => {
+        const input = [
+            {
+                ...mockOverallTripData[0],
+                loadingPointToStockPointTrip: null,
+                stockPointToUnloadingPointTrip: null
+            }
+        ]
+        mockGetAllDiscrepancyReport.mockResolvedValue(input)
+        mockGetPricePoint.mockResolvedValue(pricePointData)
         await supertest(app)
             .get('/api/overalltrip/report/discrepancy/1700764200/1700764200')
             .expect(200)
         expect(mockGetAllDiscrepancyReport).toBeCalledTimes(1)
+    })
+    test('should able to get discrepancy report for stock trip', async () => {
+        const input = [{ ...mockOverallTripData[0], loadingPointToUnloadingPointTrip: null }]
+        mockGetPricePoint.mockResolvedValue(pricePointData)
+        mockGetAllDiscrepancyReport.mockResolvedValue(input)
+        await supertest(app)
+            .get('/api/overalltrip/report/discrepancy/1700764200/1700764200')
+            .expect(200)
+        expect(mockGetAllDiscrepancyReport).toBeCalledTimes(2)
     })
     test('should not able to get all invoice numbers', async () => {
         mockGetInvoiceNumbers.mockResolvedValue(invoiceNumbers)
@@ -202,25 +234,6 @@ describe('OverallTrip Controller', () => {
         expect(mockGetOverAllTripid).toBeCalledWith([1, 2], month)
         expect(mockGetOverAllTripid).toBeCalledTimes(2)
     })
-    test('should calculate difference correctly', () => {
-        const tripData = {
-            loadingPointToStockPointTrip: { totalTransporterAmount: 5000 },
-            stockPointToUnloadingPointTrip: { totalTransporterAmount: 3000 },
-            truck: { transporter: { tdsPercentage: 5 } }
-        }
-        const totalPaidAmount = 1000
-        const totalShortageAmount = 500
-        const result = differenceCalculation(tripData, totalPaidAmount, totalShortageAmount)
-        const expectedTransporterAmount =
-            tripData.loadingPointToStockPointTrip.totalTransporterAmount +
-            tripData.stockPointToUnloadingPointTrip.totalTransporterAmount
-        const expectedDifference =
-            expectedTransporterAmount -
-            (totalPaidAmount + totalShortageAmount) -
-            (expectedTransporterAmount / 100) * tripData.truck.transporter.tdsPercentage
-
-        expect(result).toBe(expectedDifference)
-    })
 })
 
 describe('Invoice Controller', () => {
@@ -249,79 +262,5 @@ describe('Invoice Controller', () => {
         expect(mockGetStockPointInvoiceNumbers).toBeCalledTimes(3)
         expect(mockGetStockToUnloadingPointInvoiceNumbers).toBeCalledTimes(1)
         expect(mockGetUnloadingPointInvoiceNumbers).toBeCalledTimes(1)
-    })
-})
-describe('differenceCalculation', () => {
-    test('should calculate difference for loadingPointToStockPointTrip and stockPointToUnloadingPointTrip', () => {
-        const tripData = {
-            loadingPointToStockPointTrip: {
-                totalTransporterAmount: 5000
-            },
-            stockPointToUnloadingPointTrip: {
-                totalTransporterAmount: 3000
-            },
-            truck: {
-                transporter: {
-                    tdsPercentage: 5
-                }
-            }
-        }
-        const totalPaidAmount = 1000
-        const totalShortageAmount = 500
-        const result = differenceCalculation(tripData, totalPaidAmount, totalShortageAmount)
-
-        const expectedTransporterAmount =
-            tripData.loadingPointToStockPointTrip.totalTransporterAmount +
-            tripData.stockPointToUnloadingPointTrip.totalTransporterAmount
-        const expectedDifference =
-            expectedTransporterAmount -
-            (totalPaidAmount + totalShortageAmount) -
-            (expectedTransporterAmount / 100) * tripData.truck.transporter.tdsPercentage
-
-        expect(result).toBe(expectedDifference)
-    })
-
-    test('should calculate difference for loadingPointToUnloadingPointTrip', () => {
-        const tripData = {
-            loadingPointToUnloadingPointTrip: {
-                totalTransporterAmount: 6000
-            },
-            loadingPointToStockPointTrip: null,
-            truck: {
-                transporter: {
-                    tdsPercentage: 10
-                }
-            }
-        }
-        const totalPaidAmount = 2000
-        const totalShortageAmount = 1000
-
-        const result = differenceCalculation(tripData, totalPaidAmount, totalShortageAmount)
-
-        const expectedDifference =
-            tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount -
-            (totalPaidAmount + totalShortageAmount) -
-            (tripData.loadingPointToUnloadingPointTrip.totalTransporterAmount / 100) *
-                tripData.truck.transporter.tdsPercentage
-        expect(result).toBe(expectedDifference)
-    })
-
-    test('should return undefined if both trip properties are null', () => {
-        const tripData = {
-            loadingPointToStockPointTrip: null,
-            stockPointToUnloadingPointTrip: null,
-            loadingPointToUnloadingPointTrip: null,
-            truck: {
-                transporter: {
-                    tdsPercentage: 0
-                }
-            }
-        }
-        const totalPaidAmount = 0
-        const totalShortageAmount = 0
-
-        const result = differenceCalculation(tripData, totalPaidAmount, totalShortageAmount)
-
-        expect(result).toBeUndefined()
     })
 })

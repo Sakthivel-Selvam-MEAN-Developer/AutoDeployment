@@ -8,11 +8,13 @@ const mockGetTripByTransporterInvoice = vi.fn()
 const mockUpdateTransporterInvoice = vi.fn()
 const mockcreatePaymentDues = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
+const mockUpdateTdsAmountAndPercentage = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getTripByTransporterInvoice: () => mockGetTripByTransporterInvoice(),
     updateTransporterInvoice: (invoice: any, id: number) =>
-        mockUpdateTransporterInvoice(invoice, id)
+        mockUpdateTransporterInvoice(invoice, id),
+    updateTdsAmountAndPercentage: () => mockUpdateTdsAmountAndPercentage()
 }))
 vi.mock('../models/paymentDues', () => ({
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
@@ -95,14 +97,6 @@ const transporterInvoiceData = [
             },
             unloadingPoint: {
                 name: 'Salem'
-            },
-            truck: {
-                vehicleNumber: 'TN22E3456',
-                transporter: {
-                    id: 2,
-                    name: 'Deepak Logistics Pvt Ltd',
-                    csmName: 'Barath'
-                }
             }
         }
     }
@@ -118,10 +112,18 @@ const mockGetDuesData = [
     }
 ]
 describe('Transporter Invoice Controller', () => {
-    test('should able to get Transporter Invoice', async () => {
+    test('should able to get all Transporter Invoice', async () => {
         mockGetTripByTransporterInvoice.mockResolvedValue(transporterInvoiceData)
-        await supertest(app).get('/api/transporterinvoice').expect(200)
+        await supertest(app).get('/api/transporterinvoice').query({ invoiceNumber: '' }).expect(200)
         expect(mockGetTripByTransporterInvoice).toBeCalledTimes(1)
+    })
+    test('should able to get specific Transporter Invoice', async () => {
+        mockGetTripByTransporterInvoice.mockResolvedValue(transporterInvoiceData)
+        await supertest(app)
+            .get('/api/transporterinvoice')
+            .query({ invoiceNumber: 'qwed' })
+            .expect(200)
+        expect(mockGetTripByTransporterInvoice).toBeCalledTimes(2)
     })
     test('should able to update Transporter Invoice in overallTrip', async () => {
         mockUpdateTransporterInvoice.mockResolvedValue(transporterInvoiceData[0])

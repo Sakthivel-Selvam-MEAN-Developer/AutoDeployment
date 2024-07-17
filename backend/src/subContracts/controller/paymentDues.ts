@@ -344,7 +344,6 @@ export const donwloadNEFTFile = async (req: Request, res: Response) => {
     try {
         await prisma.$transaction(async (prismas) => {
             const count = await checkNEFTStatus(dueIds)
-            console.log(count)
             if (!(dueIds.length === count)) {
                 throw new Error('Not all files have NEFT status true')
             }

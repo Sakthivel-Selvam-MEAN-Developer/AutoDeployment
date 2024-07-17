@@ -1253,3 +1253,17 @@ export const getOverallTripIdByVehicleNumber = (vehicleNumber: string) =>
             id: true
         }
     })
+export const updateTdsAmountAndPercentage = (
+    id: number,
+    tdsAmount: number,
+    tdsPercentage: number
+) =>
+    prisma.overallTrip.update({
+        where: {
+            id
+        },
+        data: {
+            tdsAmount: tdsAmount,
+            tdsPercenatage: tdsPercentage
+        }
+    })

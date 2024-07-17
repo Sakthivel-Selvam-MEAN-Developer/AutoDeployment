@@ -40,4 +40,14 @@ describe('Trip Betta Calculation', () => {
         const totalTripBetta = await tripBettaCalculation(driverAttendance, undefined)
         expect(totalTripBetta).toBe(0)
     })
+    test('should return when dailyBetta is null', async () => {
+        const input = { ...driverAttendance, dailyBetta: null }
+        const totalTripBetta = await tripBettaCalculation(input, salaryMonth)
+        expect(totalTripBetta).toBe(0)
+    })
+    test('should return when driver attendance is not available', async () => {
+        const input = { ...driverAttendance, driver: { driverAttendance: [] } }
+        const totalTripBetta = await tripBettaCalculation(input, salaryMonth)
+        expect(totalTripBetta).toBe(0)
+    })
 })

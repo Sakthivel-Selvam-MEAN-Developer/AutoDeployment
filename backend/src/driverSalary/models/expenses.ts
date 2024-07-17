@@ -9,14 +9,6 @@ dayjs.extend(utc)
 export const create = (data: Prisma.expensesCreateManyInput | Prisma.expensesCreateManyInput[]) =>
     prisma.expenses.createMany({ data })
 
-export const groupAllExpensesByTripId = (tripId: number[]) =>
-    prisma.expenses.groupBy({
-        by: ['tripId'],
-        where: {
-            tripId: { in: tripId },
-            expenseApproval: false
-        }
-    })
 export const getAllExpenses = () => prisma.expenses.findMany({})
 
 export const getAllExpenseByTripId = (id: number) =>

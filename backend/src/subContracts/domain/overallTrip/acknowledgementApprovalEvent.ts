@@ -1,7 +1,7 @@
 import finalDueLogic from '../finalDueLogic.ts'
 import overallTripProps from '../overallTripsTypes.ts'
 
-export const finalDueCreation = async (overallTrip: overallTripProps) => {
+export const finalDueCreation = async (overallTrip: overallTripProps, tdsAmount: number) => {
     const finalPay = overallTrip.paymentDues.filter((due) => due.type === 'final pay')
     if (
         overallTrip.acknowledgementApproval === false ||
@@ -10,7 +10,6 @@ export const finalDueCreation = async (overallTrip: overallTripProps) => {
     ) {
         return false
     }
-    const tdsPercentage = overallTrip?.truck?.transporter.tdsPercentage || null
     const paymentDueDetails = overallTrip.paymentDues.filter((pay) => pay.type !== 'gst pay')
     const { shortageAmount } = overallTrip.shortageQuantity[0]
     if (
@@ -19,7 +18,7 @@ export const finalDueCreation = async (overallTrip: overallTripProps) => {
     ) {
         return false
     }
-    return finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsPercentage).then(
+    return finalDueLogic(overallTrip, paymentDueDetails, shortageAmount, tdsAmount).then(
         (finalDue) => {
             if (finalDue !== null && finalDue !== undefined) return finalDue
         }

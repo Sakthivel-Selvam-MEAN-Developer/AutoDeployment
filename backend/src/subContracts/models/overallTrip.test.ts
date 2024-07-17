@@ -22,6 +22,7 @@ import {
     updateAcknowledgementApproval,
     updatePricePointApprovalStatus,
     updateStockToUnloadingInOverall,
+    updateTdsAmountAndPercentage,
     updateTransporterInvoice
 } from './overallTrip.ts'
 import seedPaymentDue from '../seed/paymentDue.ts'
@@ -1441,5 +1442,47 @@ describe('overall trip model', () => {
         })
         const actual = await getOverallTripIdByVehicleNumber(seedTruck.vehicleNumber)
         expect(actual?.id).toEqual(undefined)
+    })
+    test('should able to update TdsAmount And Percentage in overallTrip', async () => {
+        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+        const unloadingPricePointMarker = await createPricePointMarker({
+            ...seedPricePointMarker,
+            location: 'Erode'
+        })
+        const company = await createCompany(seedCompany, 1)
+        const transporter = await createTransporter(
+            {
+                ...seedTransporter,
+                transporterType: 'Market'
+            },
+            1
+        )
+        await createTruck({
+            ...seedTruck,
+            transporterId: transporter.id
+        })
+        const factoryPoint = await createLoadingPoint({
+            ...seedLoadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: loadingPricePointMarker.id
+        })
+        const deliveryPoint = await createUnloadingpoint({
+            ...seedUnloadingPoint,
+            cementCompanyId: company.id,
+            pricePointMarkerId: unloadingPricePointMarker.id
+        })
+        const loadingToUnloadingTrip = await createTrip({
+            ...seedFactoryToCustomerTrip,
+            loadingPointId: factoryPoint.id,
+            unloadingPointId: deliveryPoint.id,
+            wantFuel: false,
+            loadingKilometer: 0
+        })
+        const overallTrip = await create({
+            loadingPointToUnloadingPointTripId: loadingToUnloadingTrip.id
+        })
+        const actual = await updateTdsAmountAndPercentage(overallTrip.id, 1000, 2)
+        expect(actual?.id).toEqual(overallTrip.id)
+        expect(actual?.tdsAmount).toEqual(1000)
     })
 })
