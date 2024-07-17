@@ -88,7 +88,8 @@ const clearForm: clearType = (setValue) => {
 }
 const clearFormSub = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('panNumber', '')
-    setValue('dateOfBirth', '')
+    setValue('dateOfBirth', null)
+    setValue('joiningDate', null)
     setValue('bloodGroup', '')
     setValue('accountName', '')
     setValue('accountNumber', '')
