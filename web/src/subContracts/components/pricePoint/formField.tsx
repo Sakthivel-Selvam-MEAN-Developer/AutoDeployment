@@ -23,9 +23,9 @@ export interface FormFieldsProps {
     stockPointId: number | null
     freightAmount: number
     setTransporterPercentage: React.Dispatch<React.SetStateAction<number>>
-    setInitialPayPercentage: React.Dispatch<React.SetStateAction<number>>
+    setTransporterAdvancePercentage: React.Dispatch<React.SetStateAction<number>>
     transporterPercentage: number
-    initialPayPercentage: number
+    transporterAdvancePercentage: number
     setFreightAmount: React.Dispatch<React.SetStateAction<number>>
     setCategory: React.Dispatch<React.SetStateAction<string>>
     category: string
@@ -48,9 +48,9 @@ const FormFields: React.FC<FormFieldsProps> = ({
     freightAmount,
     setCategory,
     setTransporterPercentage,
-    setInitialPayPercentage,
+    setTransporterAdvancePercentage,
     transporterPercentage,
-    initialPayPercentage,
+    transporterAdvancePercentage,
     category,
     setCementCompanyName,
     cementCompanyName,
@@ -86,7 +86,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
         setStockPointName({ id: 0, name: '' })
         setFreightAmount(0)
         setTransporterPercentage(0)
-        setInitialPayPercentage(0)
+        setTransporterAdvancePercentage(0)
         setDueDate(0)
         clearSubForm()
     }
@@ -108,7 +108,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 if (amount) {
                     setFreightAmount(amount.freightAmount)
                     setTransporterPercentage(amount.transporterPercentage)
-                    setInitialPayPercentage(amount.setInitialPayPercentage)
+                    setTransporterAdvancePercentage(amount.setTransporterAdvancePercentage)
                     setDueDate(amount.payGeneratingDuration)
                 }
             })
@@ -268,12 +268,12 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 render={() => (
                     <TextField
                         sx={{ width: '200px' }}
-                        value={initialPayPercentage}
+                        value={transporterAdvancePercentage}
                         label="InitialPay Percentage"
                         inputProps={{ step: 1, min: 1, max: 100 }}
                         type="number"
                         onChange={(e) =>
-                            setInitialPayPercentage(checkInitialPayLimit(e.target.value))
+                            setTransporterAdvancePercentage(checkInitialPayLimit(e.target.value))
                         }
                     />
                 )}

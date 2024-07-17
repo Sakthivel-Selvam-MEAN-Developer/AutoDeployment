@@ -34,12 +34,11 @@ const columns: GridColDef[] = [
     { field: 'transporterAmount', headerName: 'Transporter Amount', width: 180 },
     { field: 'payGeneratingDuration', headerName: 'Pay Generating Duration', width: 180 },
     {
-        field: 'initialPayPercentage',
+        field: 'transporterAdvancePercentage',
         headerName: 'InitialPay %',
         width: 180
     }
 ]
-
 const mapData = (allPricePoint: PricePointProps[]) => {
     return allPricePoint.map((pricePoint, index) => ({
         id: index + 1,

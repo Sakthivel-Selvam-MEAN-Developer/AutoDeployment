@@ -41,7 +41,8 @@ export const create = async (data: any) => {
                 freightAmount: data.freightAmount,
                 transporterPercentage: data.transporterPercentage,
                 transporterAmount: data.transporterAmount,
-                payGeneratingDuration: data.payGeneratingDuration
+                payGeneratingDuration: data.payGeneratingDuration,
+                transporterAdvancePercentage: data.transporterAdvancePercentage
             }
         })
     }
