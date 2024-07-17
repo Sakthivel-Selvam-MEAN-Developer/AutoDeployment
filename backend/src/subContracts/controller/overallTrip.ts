@@ -125,7 +125,7 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                     const tdsAmount = overallTrip.tdsAmount ?? 0
                     const totalTransporterAmount = totalPrimaryAmount + totalSecondaryAmount
                     const differenceAmount =
-                        paidAmount - (totalTransporterAmount - shortageAmount - tdsAmount)
+                        paidAmount + shortageAmount + tdsAmount - totalTransporterAmount
                     const details = {
                         startDate: trip.startDate,
                         loadingPoint: trip.loadingPoint.name,
