@@ -19,6 +19,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [category, setCategory] = useState<string>('')
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false)
     const [transporterPercentage, setTransporterPercentage] = useState(0)
+    const [initialPayPercentage, setInitialPayPercentage] = useState(0)
     const [disable, setDisable] = useState(false)
     const [dueDate, setDueDate] = useState<number>(0)
 
@@ -44,6 +45,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 stockPointId: stockPointId,
                 freightAmount: freightAmount,
                 transporterPercentage: transporterPercentage,
+                initialPayPercentage: initialPayPercentage,
                 transporterAmount: parseFloat(transporterAmountFloat),
                 payGeneratingDuration: dueDate
             }
@@ -104,6 +106,8 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                     unloadingPointId={unloadingPointId}
                     stockPointId={stockPointId}
                     setTransporterPercentage={setTransporterPercentage}
+                    setInitialPayPercentage={setInitialPayPercentage}
+                    initialPayPercentage={initialPayPercentage}
                     transporterPercentage={transporterPercentage}
                     transporterRate={transporterRate}
                     category={category}

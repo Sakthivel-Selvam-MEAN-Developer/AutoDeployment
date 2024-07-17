@@ -30,12 +30,12 @@ const columns: GridColDef[] = [
     { field: 'unloadingPoint', headerName: 'Unloading Point', width: 200 },
     { field: 'stockPoint', headerName: 'Stock Point', width: 200 },
     { field: 'freightAmount', headerName: 'Freight Amount', width: 150 },
-    { field: 'transporterPercentage', headerName: 'Transporter Percentage', width: 180 },
+    { field: 'transporterPercentage', headerName: 'Transporter %', width: 180 },
     { field: 'transporterAmount', headerName: 'Transporter Amount', width: 180 },
     { field: 'payGeneratingDuration', headerName: 'Pay Generating Duration', width: 180 },
     {
-        field: 'transporterAdvancePercentage',
-        headerName: 'Transporter Advance Percentage',
+        field: 'initialPayPercentage',
+        headerName: 'InitialPay %',
         width: 180
     }
 ]
