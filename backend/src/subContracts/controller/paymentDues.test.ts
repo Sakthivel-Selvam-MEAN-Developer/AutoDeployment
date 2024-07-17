@@ -6,6 +6,7 @@ import { app } from '../../app.ts'
 import { groupDataByName, groupGstDue } from './paymentDues.ts'
 import { Role } from '../roles.ts'
 import { vi } from 'vitest'
+
 // import { PrismaClient } from '@prisma/client'
 const mockgetOnlyActiveDuesByName = vi.fn()
 const mockfindTripWithActiveDues = vi.fn()
@@ -21,7 +22,7 @@ const mockgetTransporterAccountByName = vi.fn()
 const mockgetGstPaymentDues = vi.fn()
 const mockGetCompletedPaymentDues = vi.fn()
 const mockUpdateNEFTStatus = vi.fn()
-
+const mockCheckNEFTStatus = vi.fn()
 vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
     findTripWithActiveDues: () => mockfindTripWithActiveDues(),
@@ -33,7 +34,8 @@ vi.mock('../models/paymentDues', () => ({
     getGstPaymentDues: () => mockgetGstPaymentDues(),
     updatePaymentNEFTStatus: (dueId: number[]) => mockUpdateNEFTStatus(dueId),
     getCompletedDues: (details: any) => mockGetCompletedPaymentDues(details),
-    completedDuesLength: (details: any) => mockGetCompletedPaymentDues(details)
+    completedDuesLength: (details: any) => mockGetCompletedPaymentDues(details),
+    checkNEFTStatus: (details: any) => mockCheckNEFTStatus(details)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockGetAllTrip()
@@ -514,26 +516,28 @@ const mockCompletedPaymentDuesData = [
 const mockUpdateNEFTStatusData = {
     NEFTStatus: true
 }
-const NeftData = {
-    id: 1,
-    bankDetails: [
-        {
-            name: 'Deepak Logistics Pvt Ltd',
-            accountNumber: '435534523',
-            ifsc: 'zxy1234',
-            accountTypeNumber: 10,
-            branchName: 'Erode',
-            accountHolder: 'sakthi'
-        }
-    ],
-    type: 'initial pay',
-    payableAmount: 28350,
-    vehicleNumber: 'TN93D5512',
-    date: '24/11/2023',
-    location: 'Chennai-south - Salem',
-    invoiceNumber: 'ABC123',
-    transporterName: 'Deepak Logistics Pvt Ltd'
-}
+const NeftData = [
+    {
+        id: 1,
+        bankDetails: [
+            {
+                name: 'Deepak Logistics Pvt Ltd',
+                accountNumber: '435534523',
+                ifsc: 'zxy1234',
+                accountTypeNumber: 10,
+                branchName: 'Erode',
+                accountHolder: 'sakthi'
+            }
+        ],
+        type: 'initial pay',
+        payableAmount: 28350,
+        vehicleNumber: 'TN93D5512',
+        date: '24/11/2023',
+        location: 'Chennai-south - Salem',
+        invoiceNumber: 'ABC123',
+        transporterName: 'Deepak Logistics Pvt Ltd'
+    }
+]
 describe('Payment Due Controller', () => {
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
@@ -595,15 +599,6 @@ describe('Payment Due Controller', () => {
             .expect(200)
         expect(mockGetCompletedPaymentDues).toHaveBeenCalledTimes(4)
     })
-    test('should update NEFT Status', async () => {
-        mockUpdateNEFTStatus.mockResolvedValue(mockUpdateNEFTStatusData)
-        await supertest(app).put('/api/payment-dues/NEFT').expect(500)
-        // expect(mockUpdateNEFTStatus).toHaveBeenCalledTimes(0)
-    })
-    test('should have super admin role for stock point', async () => {
-        await supertest(app).put('/api/payment-dues/NEFT').expect(500)
-        expect(mockAuth).toBeCalledWith(['Admin'])
-    })
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
 
@@ -626,46 +621,19 @@ describe('Payment Due Controller', () => {
         expect(response.body).toEqual({})
     })
     test('should to generate neft file', async () => {
-        await supertest(app).put('/api/payment-dues/donwloadNEFTFile').send([NeftData]).expect(500)
+        const dueIds = NeftData.map((data) => data.id)
+        mockCheckNEFTStatus.mockResolvedValue(dueIds.length)
+        await supertest(app).put('/api/payment-dues/donwloadNEFTFile').send(NeftData).expect(200)
+        expect(mockCheckNEFTStatus).toHaveBeenCalledTimes(1)
     })
-    // test('should generate NEFT file', async () => {
-    //     // const NEFTData = [
-    //     //     {
-    //     //         id: 1,
-    //     //         bankDetails: [
-    //     //             {
-    //     //                 name: 'Deepak Logistics Pvt Ltd',
-    //     //                 accountNumber: '435534523',
-    //     //                 ifsc: 'zxy1234',
-    //     //                 accountTypeNumber: 10,
-    //     //                 branchName: 'Erode',
-    //     //                 accountHolder: 'sakthi'
-    //     //             }
-    //     //         ],
-    //     //         type: 'initial pay',
-    //     //         payableAmount: 28350,
-    //     //         vehicleNumber: 'TN93D5512',
-    //     //         date: '24/11/2023',
-    //     //         location: 'Chennai-south - Salem',
-    //     //         invoiceNumber: 'ABC123',
-    //     //         transporterName: 'Deepak Logistics Pvt Ltd'
-    //     //     }
-    //     // ]
-    //     const mockUpdateNEFTStatus = vi.fn()
-    //     // const prisma: PrismaClient = {
-    //     //     $transaction: vi.fn().mockImplementation((callback) => callback(prisma)),
-    //     //     paymentDues: {
-    //     //         checkNEFTStatus: vi.fn().mockResolvedValue(NEFTData.length),
-    //     //         updateNEFTStatus: mockUpdateNEFTStatus
-    //     //     }
-    //     // }
-
-    //     // const req = { body: NEFTData } as any
-    //     // const res = {} as any
-
-    //     // await donwloadNEFTFile(prisma as any, req, res)
-
-    //     // expect(prisma.$transaction).toHaveBeenCalledTimes(1)
-    //     expect(mockUpdateNEFTStatus).toHaveBeenCalledTimes(0)
-    // })
+    test('should NEFTStatus is true,not able to generate neft file', async () => {
+        mockUpdateNEFTStatus.mockResolvedValue(mockUpdateNEFTStatusData)
+        await supertest(app).put('/api/payment-dues/donwloadNEFTFile').send(NeftData).expect(200)
+        expect(mockCheckNEFTStatus).toHaveBeenCalledTimes(2)
+    })
+    test('shouldnot generate neft file', async () => {
+        mockCheckNEFTStatus.mockResolvedValue(0)
+        await supertest(app).put('/api/payment-dues/donwloadNEFTFile').send(NeftData).expect(500)
+        expect(mockCheckNEFTStatus).toHaveBeenCalledTimes(3)
+    })
 })
