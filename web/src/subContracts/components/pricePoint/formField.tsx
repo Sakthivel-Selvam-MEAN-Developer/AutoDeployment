@@ -271,6 +271,7 @@ const FormFields: React.FC<FormFieldsProps> = ({
                         value={transporterAdvancePercentage}
                         label="InitialPay Percentage"
                         inputProps={{ step: 1, min: 1, max: 100 }}
+                        InputLabelProps={{ shrink: true }}
                         type="number"
                         onChange={(e) =>
                             setTransporterAdvancePercentage(checkInitialPayLimit(e.target.value))

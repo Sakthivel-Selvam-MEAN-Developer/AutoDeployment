@@ -22,7 +22,6 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [transporterAdvancePercentage, setTransporterAdvancePercentage] = useState(0)
     const [disable, setDisable] = useState(false)
     const [dueDate, setDueDate] = useState<number>(0)
-
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
             setCementCompany(companyData.map(({ name }: { name: string }) => name))
