@@ -60,9 +60,7 @@ const FormFields: React.FC<FormFieldsProps> = ({ control }) => {
                 label="Billing Quantity Type"
                 options={['Loading Quantity', 'Unloading Quantity']}
                 onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string | null) => {
-                    if (newValue) {
-                        // setFuelType(newValue)
-                    }
+                    console.log(newValue)
                 }}
             />
         </div>

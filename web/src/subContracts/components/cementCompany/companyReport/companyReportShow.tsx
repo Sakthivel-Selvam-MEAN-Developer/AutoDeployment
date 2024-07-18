@@ -15,18 +15,19 @@ export interface Rows {
     gstNo: string
     address: string
     emailId: string
-    quantity: string
+    quantityType: string
     contactPersonName: string
     contactPersonNumber: string
 }
 const columns = (handleEdit: (row: Rows) => void): GridColDef[] => [
     { field: 'index', headerName: '#', width: 70 },
-    { field: 'name', headerName: 'Name', width: 320 },
-    { field: 'gstNo', headerName: 'GstNo', width: 250 },
-    { field: 'address', headerName: 'Address', width: 250 },
-    { field: 'emailId', headerName: 'Email Id', width: 250 },
+    { field: 'name', headerName: 'Name', width: 300 },
+    { field: 'gstNo', headerName: 'GstNo', width: 200 },
+    { field: 'address', headerName: 'Address', width: 200 },
+    { field: 'emailId', headerName: 'Email Id', width: 200 },
     { field: 'contactPersonName', headerName: 'Contact Person Name', width: 200 },
     { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 200 },
+    { field: 'quantityType', headerName: 'Quantity Type', width: 200 },
     {
         field: 'action',
         headerName: 'Actions',

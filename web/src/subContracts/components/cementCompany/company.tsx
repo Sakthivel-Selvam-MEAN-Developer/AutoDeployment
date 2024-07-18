@@ -26,6 +26,7 @@ const clearForm = (setValue: UseFormSetValue<FieldValues>) => {
     setValue('contactPersonName', '')
     setValue('contactPersonNumber', '')
     setValue('address', '')
+    setValue('quantityType', '')
 }
 const CreateCompany: React.FC = (): ReactElement => {
     const { handleSubmit, control, setValue } = useForm<FieldValues>()
@@ -34,6 +35,7 @@ const CreateCompany: React.FC = (): ReactElement => {
     const [disable, setDisable] = useState(false)
     const [id, setId] = useState<number>(0)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data)
         setLoading(true)
         setDisable(true)
         createCompany({ data, id })
@@ -57,6 +59,7 @@ const CreateCompany: React.FC = (): ReactElement => {
         setValue('contactPersonName', editedCompany.contactPersonName)
         setValue('contactPersonNumber', editedCompany.contactPersonNumber)
         setValue('address', editedCompany.address)
+        setValue('quantityType', editedCompany.quantityType)
     }
     return (
         <>
