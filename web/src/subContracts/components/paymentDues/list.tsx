@@ -11,7 +11,11 @@ import { CheckUser } from '../../../auth/checkUser.tsx'
 import saveAs from 'file-saver'
 import { paymentDueContext } from './paymentDueContext.ts'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import { PaymentDueDateFilter } from './PaymentDueDateFilter.tsx'
+import { dateProps } from '../invoice/generateInvoice/list.tsx'
+dayjs.extend(utc)
+
 interface TabPanelProps {
     children?: React.ReactNode
     index: number
@@ -135,8 +139,9 @@ const PaymentDuesList: React.FC = () => {
     }
     useEffect(() => {
         if (paymentDueDate !== null) {
-            const startOfDayGMT = dayjs(paymentDueDate).utcOffset(0).startOf('day')
-            setPaymentDueDateEpoch(startOfDayGMT.unix())
+            const date = dayjs((paymentDueDate as unknown as dateProps)?.$d).format('DD/MM/YYYY')
+            const advanceDate = dayjs.utc(date, 'DD/MM/YYYY').unix()
+            setPaymentDueDateEpoch(advanceDate)
         } else if (paymentDueDate === null) {
             setPaymentDueDateEpoch(dayjs.utc().startOf('day').unix())
         }

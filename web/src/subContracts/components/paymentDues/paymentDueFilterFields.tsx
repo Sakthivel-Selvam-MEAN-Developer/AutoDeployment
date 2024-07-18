@@ -10,10 +10,15 @@ interface DatePickerFieldProps {
 }
 export const DatePickerField: FC<DatePickerFieldProps> = ({ paymentDueDate, control }) => {
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Controller
                 render={({ field }) => (
-                    <DatePicker {...field} label="Select Payment Date" value={paymentDueDate} />
+                    <DatePicker
+                        {...field}
+                        format="DD/MM/YYYY"
+                        label="Select Payment Date"
+                        value={paymentDueDate}
+                    />
                 )}
                 name="paymentDate"
                 control={control}
