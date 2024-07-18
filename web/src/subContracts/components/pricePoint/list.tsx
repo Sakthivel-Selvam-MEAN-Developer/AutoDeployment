@@ -22,12 +22,13 @@ const CreatePricepoint: React.FC = (): ReactElement => {
     const [transporterAdvancePercentage, setTransporterAdvancePercentage] = useState(0)
     const [disable, setDisable] = useState(false)
     const [dueDate, setDueDate] = useState<number>(0)
-
+    const [displayData, setDisplayData] = useState(false)
     useEffect(() => {
         getAllCementCompany().then((companyData) =>
             setCementCompany(companyData.map(({ name }: { name: string }) => name))
         )
     }, [])
+
     useEffect(() => {
         setTransporterRate(freightAmount - (freightAmount * transporterPercentage) / 100)
     }, [freightAmount, transporterPercentage])
@@ -39,6 +40,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             (stockPointId && unloadingPointId)
         ) {
             setDisable(true)
+            setDisplayData(true)
             const transporterAmountFloat = transporterRate.toFixed(2)
             const details = {
                 loadingPointId: loadingPointId,
@@ -54,6 +56,8 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 createpricePoint({ ...details, stockPointId: null })
                     .then(() => {
                         setDisable(false)
+                        setDisplayData(!displayData)
+
                         clearForm(
                             setDueDate,
                             setCategory,
@@ -68,6 +72,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 createpricePoint({ ...details, unloadingPointId: null })
                     .then(() => {
                         setDisable(false)
+                        setDisplayData(!displayData)
                         clearForm(
                             setDueDate,
                             setCategory,
@@ -82,6 +87,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
                 createpricePoint({ ...details, loadingPointId: null })
                     .then(() => {
                         setDisable(false)
+                        setDisplayData(!displayData)
                         clearForm(
                             setDueDate,
                             setCategory,
@@ -130,7 +136,7 @@ const CreatePricepoint: React.FC = (): ReactElement => {
             </form>
             <br />
             <br />
-            <PricePointReport />
+            <PricePointReport displayData={displayData} />
         </>
     )
 }

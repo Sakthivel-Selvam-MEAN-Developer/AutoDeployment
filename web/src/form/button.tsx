@@ -5,6 +5,7 @@ interface ButtonProps {
     name: string
     type: 'submit' | 'reset' | 'button'
     disabled?: boolean
+    displayData?: boolean
 }
 const style = {
     display: 'flex',

@@ -58,7 +58,7 @@ describe('PricePointReportTest', () => {
     test.skip('should be able to view pricePoint Report', async () => {
         render(
             <BrowserRouter>
-                <PricePointReport />
+                <PricePointReport displayData={false} />
             </BrowserRouter>
         )
         // await waitFor(() => {
