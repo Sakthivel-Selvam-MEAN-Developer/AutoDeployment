@@ -124,8 +124,11 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                     const totalSecondaryAmount = secondaryRate * trip.filledLoad
                     const tdsAmount = overallTrip.tdsAmount ?? 0
                     const totalTransporterAmount = totalPrimaryAmount + totalSecondaryAmount
-                    const differenceAmount =
-                        paidAmount + shortageAmount + tdsAmount - totalTransporterAmount
+                    const differenceAmount = parseFloat(
+                        (paidAmount + shortageAmount + tdsAmount - totalTransporterAmount).toFixed(
+                            2
+                        )
+                    )
                     const details = {
                         startDate: trip.startDate,
                         loadingPoint: trip.loadingPoint.name,
@@ -137,7 +140,7 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                         invoiceNumber: trip.invoiceNumber,
                         transporterName: overallTrip.truck?.transporter.name,
                         csmName: overallTrip.truck?.transporter.csmName,
-                        transporterAmount: totalTransporterAmount,
+                        transporterAmount: totalTransporterAmount.toFixed(2),
                         totalPaidAmount: paidAmount.toFixed(2),
                         differenceAmount
                     }

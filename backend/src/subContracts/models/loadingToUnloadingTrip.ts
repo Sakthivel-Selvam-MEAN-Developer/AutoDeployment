@@ -159,6 +159,7 @@ export const getInvoiceDetails = (id: number[]) =>
             },
             invoiceNumber: true,
             freightAmount: true,
+            billingRate: true,
             filledLoad: true
         }
     })

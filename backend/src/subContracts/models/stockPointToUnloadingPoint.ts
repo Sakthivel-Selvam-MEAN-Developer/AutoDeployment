@@ -66,6 +66,7 @@ export const getInvoiceDetails = (id: number[]) =>
             },
             invoiceNumber: true,
             freightAmount: true,
+            billingRate: true,
             loadingPointToStockPointTrip: {
                 select: {
                     filledLoad: true,

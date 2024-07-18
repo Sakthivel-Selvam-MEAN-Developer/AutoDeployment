@@ -83,6 +83,7 @@ export const getInvoiceDetails = (id: number[]) =>
                     shortageQuantity: { select: { shortageQuantity: true } }
                 }
             },
+            billingRate: true,
             invoiceNumber: true,
             freightAmount: true,
             filledLoad: true
