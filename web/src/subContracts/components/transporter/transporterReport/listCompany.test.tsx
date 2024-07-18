@@ -24,7 +24,10 @@ const mockTransporterData = [
         accountHolder: 'sakthi',
         accountNumber: '123456789',
         ifsc: 'ifsc1234',
-        accountTypeNumber: 3456789
+        accountTypeNumber: 3456789,
+        employee: {
+            name: 'sakthi'
+        }
     }
 ]
 describe('Report Test', () => {

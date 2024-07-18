@@ -3,7 +3,10 @@ export interface TransporterInvoiceProps {
 }
 export interface tripDetailProps {
     id: number
-    truck: { vehicleNumber: string; transporter: { name: string; csmName: string } }
+    truck: {
+        vehicleNumber: string
+        transporter: { name: string; csmName: string; employee?: { name: string } }
+    }
     loadingPointToUnloadingPointTrip: tripProps | null
     loadingPointToStockPointTrip: tripProps | null
 }
@@ -12,7 +15,10 @@ interface tripProps {
     startDate: number
     loadingPoint: { name: string }
     unloadingPoint: { name: string }
-    truck: { vehicleNumber: string; transporter: { name: string; csmName: string } }
+    truck: {
+        vehicleNumber: string
+        transporter: { name: string; csmName: string; employee?: { name: string } }
+    }
 }
 export interface GetCellsProps {
     trip: tripProps | undefined

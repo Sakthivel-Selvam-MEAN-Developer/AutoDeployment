@@ -50,7 +50,10 @@ const overallTrip = [
                 name: 'Barath Logistics Pvt Ltd',
                 csmName: 'Sakthi',
                 transporterType: 'Market',
-                gstPercentage: 2
+                gstPercentage: 2,
+                employee: {
+                    name: 'Sakthi'
+                }
             }
         },
         loadingPointToStockPointTrip: {
@@ -76,7 +79,10 @@ const overallTrip = [
                     name: 'Barath Logistics Pvt Ltd',
                     csmName: 'Sakthi',
                     transporterType: 'Market',
-                    gstPercentage: 2
+                    gstPercentage: 2,
+                    employee: {
+                        name: 'Sakthi'
+                    }
                 }
             }
         },
@@ -103,7 +109,10 @@ const overallTrip = [
                     name: 'Barath Logistics Pvt Ltd',
                     csmName: 'Sakthi',
                     transporterType: 'Market',
-                    gstPercentage: 2
+                    gstPercentage: 2,
+                    employee: {
+                        name: 'Sakthi'
+                    }
                 }
             }
         }

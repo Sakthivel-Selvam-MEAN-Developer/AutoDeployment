@@ -13,7 +13,10 @@ export const GetCells: FC<GetCellsProps> = ({ trip, trips, index, id, setTripDet
             <TableCell align="left">{trip?.loadingPoint.name}</TableCell>
             <TableCell align="left">{trip?.invoiceNumber}</TableCell>
             <TableCell align="left">{trips[index]?.truck?.transporter.name}</TableCell>
-            <TableCell align="left">{trips[index]?.truck.transporter.csmName}</TableCell>
+            <TableCell align="left">
+                {trips[index]?.truck.transporter.employee?.name ||
+                    trips[index]?.truck.transporter.csmName}
+            </TableCell>
             <TextFieldContainer id={id} setTripDetails={setTripDetails} />
         </>
     )

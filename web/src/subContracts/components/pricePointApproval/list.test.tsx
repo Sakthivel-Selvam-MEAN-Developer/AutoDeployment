@@ -25,7 +25,10 @@ const mockData = [
                 name: 'Barath Logistics Pvt Ltd',
                 csmName: 'Sakthivel',
                 transporterType: 'Market Transporter',
-                gstPercentage: null
+                gstPercentage: null,
+                employee: {
+                    name: 'Sakthivel'
+                }
             }
         },
         loadingPointToUnloadingPointTrip: {
@@ -53,7 +56,10 @@ const mockData = [
                     name: 'Barath Logistics Pvt Ltd',
                     csmName: 'Sakthivel',
                     transporterType: 'Market Transporter',
-                    gstPercentage: null
+                    gstPercentage: null,
+                    employee: {
+                        name: 'Sakthivel'
+                    }
                 }
             }
         }

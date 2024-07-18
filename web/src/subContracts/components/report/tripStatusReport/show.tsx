@@ -41,6 +41,9 @@ interface Row {
             name: string
             csmName: string
             gstPercentage: FLOAT | string
+            employee?: {
+                name: string
+            }
         }
     }
     endDate: number
@@ -91,6 +94,9 @@ interface Props {
             name: string
             csmName: string
             gstPercentage: FLOAT | string
+            employee?: {
+                name: string
+            }
         }
     }
     paymentDues: paymentType[]
@@ -289,7 +295,7 @@ const generateRow = (row: Props, index: number) => {
         gstPercentage: row.truck.transporter.gstPercentage
             ? row.truck.transporter.gstPercentage
             : 'No GST',
-        csmName: row.truck.transporter.csmName,
+        csmName: row.truck.transporter.employee?.name || row.truck.transporter.csmName,
         loadingPoint: data.loadingPoint.name,
         loadedQuantity: data.filledLoad,
         stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',

@@ -29,11 +29,15 @@ export interface Row {
     accountTypeNumber: number
     panNumber: string
     aadharNumber: string
+    employee?: {
+        name: string
+    }
 }
 const columns = (handleEdit: (row: Row) => void): GridColDef[] => [
     { field: 'index', headerName: '#', width: 40 },
     { field: 'name', headerName: 'Name', width: 130 },
     { field: 'csmName', headerName: 'CSM Name', width: 130 },
+    { field: 'employeeName', headerName: 'CSM Name New', width: 130 },
     { field: 'emailId', headerName: 'Email Id', width: 150 },
     { field: 'contactPersonName', headerName: 'Contact Person Name', width: 150 },
     { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 150 },
@@ -73,7 +77,8 @@ const ListAllTransporter: React.FC<Props> = ({ allTransporter, loading, handleEd
     const rowsWithId = allTransporter.map((row, index) => ({
         ...row,
         index: index + 1,
-        id: row.id
+        id: row.id,
+        employeeName: row.employee?.name || row.csmName
     }))
     return (
         <div style={{ height: 390, width: '100%' }}>

@@ -29,7 +29,13 @@ export interface trip {
     startDate: number
     truck: {
         vehicleNumber: string
-        transporter: { name: string; csmName: string }
+        transporter: {
+            name: string
+            csmName: string
+            employee?: {
+                name: string
+            }
+        }
     }
     loadingPoint: { name: string }
     unloadingPoint?: { name: string } | null
@@ -45,7 +51,13 @@ export interface tripType {
     startDate?: number
     truck?: {
         vehicleNumber: string
-        transporter: { name: string; csmName: string }
+        transporter: {
+            name: string
+            csmName: string
+            employee?: {
+                name: string
+            }
+        }
     }
     loadingPoint?: { name: string }
     unloadingPoint?: string
@@ -106,6 +118,9 @@ interface truck {
         name: string
         tdsPercentage: number | null
         transporterType: string
+        employee?: {
+            name: string
+        }
     }
 }
 interface loadingPoint {

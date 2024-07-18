@@ -2,6 +2,7 @@ import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
+import { getTrip } from './acknowledgement.ts'
 
 const mockGetAllActivetripTripByTripStatus = vi.fn()
 const mockGetAllTripByAcknowledgementStatus = vi.fn()
@@ -312,5 +313,74 @@ describe('Acknowledgement Controller', () => {
         mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
+    })
+    //additional test
+
+    // test('should handle error for close trip by Id for stockTrip and approval status is true', async () => {
+    //     mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
+    //     mockGetPercentageByTransporter.mockResolvedValue(mockPercentageByTransporterData)
+    //     mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
+    //     mockUpdateWeightForStockTrip.mockRejectedValue(new Error('Error'))
+    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
+    //     expect(mockOverAllTripById).toBeCalledTimes(7)
+    //     expect(mockUpdateWeightForStockTrip).toBeCalledTimes(3)
+    // })
+
+    // test('should handle error for close trip by Id for trip', async () => {
+    //     mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
+    //     mockUpdateWeightForTrip.mockRejectedValue(new Error('Error'))
+    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
+    //     expect(mockOverAllTripById).toBeCalledTimes(8)
+    //     expect(mockUpdateWeightForTrip).toBeCalledTimes(3)
+    // })
+
+    // test('should handle error for update acknowledgement status with create final due', async () => {
+    //     mockAcknowledgeStatusforOverAllTrip.mockRejectedValue(new Error('Error'))
+    //     await supertest(app).put('/api/acknowledge/12').expect(500)
+    //     expect(mockAcknowledgeStatusforOverAllTrip).toBeCalledTimes(2)
+    // })
+
+    // test('should handle error for createShortageQuantity', async () => {
+    //     mockCreateShortageQuantity.mockRejectedValue(new Error('Error'))
+    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
+    //     expect(mockCreateShortageQuantity).toBeCalledTimes(7)
+    // })
+
+    // test('should handle error for updateWeightForStockTrip', async () => {
+    //     mockUpdateWeightForStockTrip.mockRejectedValue(new Error('Error'))
+    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
+    //     expect(mockUpdateWeightForStockTrip).toBeCalledTimes(3)
+    // })
+
+    // test('should handle error for updateWeightForTrip', async () => {
+    //     mockUpdateWeightForTrip.mockRejectedValue(new Error('Error'))
+    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
+    //     expect(mockUpdateWeightForTrip).toBeCalledTimes(3)
+    // })
+})
+const mockOverallTripWithStockPointToUnloadingPointTrip = {
+    stockPointToUnloadingPointTrip: {
+        loadingPointToStockPointTrip: {
+            id: 1,
+            name: 'Stock Point Trip'
+        }
+    }
+}
+
+const mockOverallTripWithoutLoadingPointToStockPointTrip = {
+    stockPointToUnloadingPointTrip: {
+        loadingPointToStockPointTrip: null
+    }
+}
+
+describe('getTrip', () => {
+    test('should return loadingPointToStockPointTrip when stockPointToUnloadingPointTrip and loadingPointToStockPointTrip are not null', () => {
+        const result = getTrip(mockOverallTripWithStockPointToUnloadingPointTrip)
+        expect(result).toEqual({ id: 1, name: 'Stock Point Trip' })
+    })
+
+    test('should return null when stockPointToUnloadingPointTrip is not null but loadingPointToStockPointTrip is null', () => {
+        const result = getTrip(mockOverallTripWithoutLoadingPointToStockPointTrip)
+        expect(result).toBeNull()
     })
 })

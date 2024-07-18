@@ -96,7 +96,10 @@ const mockOverallTrip = {
         transporter: {
             id: 1,
             csmName: 'newName',
-            name: 'Barath Logistics'
+            name: 'Barath Logistics',
+            employee: {
+                name: 'newName'
+            }
         }
     },
     shortageQuantity: [

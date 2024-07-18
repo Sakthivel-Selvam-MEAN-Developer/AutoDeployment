@@ -229,7 +229,12 @@ export const getUpcomingDuesByFilter = (
                             vehicleNumber: true,
                             transporter: {
                                 select: {
-                                    csmName: true
+                                    csmName: true,
+                                    employee: {
+                                        select: {
+                                            name: true
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -281,6 +286,9 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
                     },
                     {
                         truck: { transporter: { csmName: fiterdata.csmName } }
+                    },
+                    {
+                        truck: { transporter: { employee: { name: fiterdata.csmName } } }
                     }
                 ]
             }
@@ -297,7 +305,13 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
                     truck: {
                         select: {
                             vehicleNumber: true,
-                            transporter: { select: { name: true, csmName: true } }
+                            transporter: {
+                                select: {
+                                    name: true,
+                                    csmName: true,
+                                    employee: { select: { name: true } }
+                                }
+                            }
                         }
                     },
                     stockPointToUnloadingPointTrip: {
@@ -338,6 +352,14 @@ export const completedDuesLength = (fiterdata: CompletedDueQuery) =>
                     },
                     {
                         truck: { transporter: { csmName: fiterdata.csmName } }
+                    },
+                    {
+                        truck: {
+                            transporter: {
+                                csmName: fiterdata.csmName,
+                                employee: { name: fiterdata.csmName }
+                            }
+                        }
                     }
                 ]
             }

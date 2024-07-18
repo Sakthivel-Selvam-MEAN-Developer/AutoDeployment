@@ -139,7 +139,9 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                         vehicleNumber: overallTrip.truck?.vehicleNumber,
                         invoiceNumber: trip.invoiceNumber,
                         transporterName: overallTrip.truck?.transporter.name,
-                        csmName: overallTrip.truck?.transporter.csmName,
+                        csmName:
+                            overallTrip.truck?.transporter.employee?.name ||
+                            overallTrip.truck?.transporter.csmName,
                         transporterAmount: totalTransporterAmount.toFixed(2),
                         totalPaidAmount: paidAmount.toFixed(2),
                         differenceAmount

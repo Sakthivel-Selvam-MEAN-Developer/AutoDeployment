@@ -27,7 +27,10 @@ const mockOverallTripData = [
             transporter: {
                 id: 1,
                 name: 'Barath Logistics',
-                csmName: 'Muthu'
+                csmName: 'Muthu',
+                employee: {
+                    name: 'Muthu'
+                }
             }
         },
         loadingPointToUnloadingPointTrip: {
@@ -58,7 +61,10 @@ const mockOverallTripData = [
                 transporter: {
                     id: 1,
                     name: 'Barath Logistics',
-                    csmName: 'Muthu'
+                    csmName: 'Muthu',
+                    employee: {
+                        name: 'Muthu'
+                    }
                 }
             }
         }

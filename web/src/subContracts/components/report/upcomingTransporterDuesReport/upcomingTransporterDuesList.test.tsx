@@ -28,7 +28,10 @@ const mockStockTripData = [
                 transporter: {
                     id: 1,
                     name: 'Barath Logistics Pvt Ltd',
-                    csmName: 'Muthu'
+                    csmName: 'Muthu',
+                    employee: {
+                        name: 'Muthu'
+                    }
                 }
             },
             loadingPointToStockPointTrip: {
@@ -66,7 +69,10 @@ const mockStockTripData = [
                     transporter: {
                         id: 1,
                         name: 'Barath Logistics Pvt Ltd',
-                        csmName: 'Muthu'
+                        csmName: 'Muthu',
+                        employee: {
+                            name: 'Muthu'
+                        }
                     }
                 }
             }

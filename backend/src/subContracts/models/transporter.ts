@@ -10,13 +10,23 @@ export const create = (
         create: data
     })
 }
-export const getAllTransporter = () => prisma.transporter.findMany({})
+export const getAllTransporter = () =>
+    prisma.transporter.findMany({
+        include: {
+            employee: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    })
 export const getAllTransporterName = () =>
     prisma.transporter.findMany({
         select: {
             id: true,
             name: true,
-            csmName: true
+            csmName: true,
+            employee: { select: { name: true } }
         }
     })
 export const getPercentageByTransporter = (name: string) =>

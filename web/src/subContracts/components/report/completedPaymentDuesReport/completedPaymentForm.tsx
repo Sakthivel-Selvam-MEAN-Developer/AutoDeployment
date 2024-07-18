@@ -15,10 +15,16 @@ export interface vendorProps {
     bunkName: string
     name: string
     csmName: string
+    employee?: {
+        name: string
+    }
 }
 interface csmType {
     id: string
     csmName: string
+    employee?: {
+        name: string
+    }
 }
 const findUniqueCsName = (data: csmType[]) => {
     const filteredArr = data.reduce((acc: csmType[], current: csmType) => {
@@ -77,7 +83,10 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({ control, setFilterDat
                 />
                 <Autocomplete
                     options={csmNameList.map((transporter: csmType) => {
-                        return { id: transporter.id, csmName: transporter.csmName }
+                        return {
+                            id: transporter.id,
+                            csmName: transporter.employee?.name || transporter.csmName
+                        }
                     })}
                     sx={{ width: 300 }}
                     getOptionLabel={(option) => option.csmName}
@@ -90,7 +99,10 @@ const CompletedPaymentForm: React.FC<FormFieldsProps> = ({ control, setFilterDat
                     onChange={(_event, value: csmType | null) => {
                         if (!value) return setCsmNameList(findUniqueCsName(vendor))
                         setCsmNameList([value])
-                        setFilterData((prev) => ({ ...prev, csmName: value.csmName }))
+                        setFilterData((prev) => ({
+                            ...prev,
+                            csmName: value.employee?.name || value.csmName
+                        }))
                     }}
                 />
                 <AutoComplete

@@ -39,6 +39,9 @@ export interface loadingPointToStockPointTrip {
             accountNumber: number
             ifsc: string
             accountTypeNumber: number
+            employee?: {
+                name: string
+            }
         }
     }
     loadingPoint: {
@@ -84,6 +87,9 @@ export interface tripDetailProps {
             accountNumber: number
             ifsc: string
             accountTypeNumber: number
+            employee?: {
+                name: string
+            }
         }
     }
     stockPointToUnloadingPointTrip: {
@@ -150,6 +156,9 @@ export interface tripDetailProps {
                 accountNumber: number
                 ifsc: string
                 accountTypeNumber: number
+                employee?: {
+                    name: string
+                }
             }
         }
         loadingPoint: {
@@ -220,6 +229,9 @@ export interface stockToUnloadingProps {
                 accountNumber: number
                 ifsc: string
                 accountTypeNumber: number
+                employee?: {
+                    name: string
+                }
             }
         }
         loadingPoint: {

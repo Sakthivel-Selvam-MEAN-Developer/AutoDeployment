@@ -144,7 +144,12 @@ const truckWithTransporter = {
                     name: true,
                     csmName: true,
                     transporterType: true,
-                    gstPercentage: true
+                    gstPercentage: true,
+                    employee: {
+                        select: {
+                            name: true
+                        }
+                    }
                 }
             }
         }
@@ -280,7 +285,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
         },
         include: {
             paymentDues: true,
-            truck: { include: { transporter: true } },
+            truck: { include: { transporter: { include: { employee: true } } } },
             stockPointToUnloadingPointTrip: { include: { unloadingPoint: true } },
             loadingPointToUnloadingPointTrip: {
                 include: {
@@ -477,7 +482,12 @@ export const tripStatusFilter = (
                         select: {
                             name: true,
                             gstPercentage: true,
-                            csmName: true
+                            csmName: true,
+                            employee: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }
@@ -734,7 +744,12 @@ export const getTripByTransporterInvoice = (invoiceNumber: string) =>
                     transporter: {
                         select: {
                             name: true,
-                            csmName: true
+                            csmName: true,
+                            employee: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }
@@ -944,7 +959,12 @@ export const getTripForPricePointApproval = () =>
                             name: true,
                             csmName: true,
                             transporterType: true,
-                            gstPercentage: true
+                            gstPercentage: true,
+                            employee: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }
@@ -1016,7 +1036,12 @@ export const updatePricePointApprovalStatus = (id: number) =>
                             name: true,
                             csmName: true,
                             transporterType: true,
-                            gstPercentage: true
+                            gstPercentage: true,
+                            employee: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }

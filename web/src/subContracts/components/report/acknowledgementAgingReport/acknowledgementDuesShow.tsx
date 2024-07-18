@@ -23,6 +23,9 @@ interface Row {
         transporter: {
             name: string
             csmName: string
+            employee?: {
+                name: string
+            }
         }
     }
     stockPointToUnloadingPointTrip: unloadingProps[]
@@ -42,6 +45,9 @@ interface truck {
     transporter: {
         name: string
         csmName: string
+        employee?: {
+            name: string
+        }
     }
 }
 interface Props {
@@ -102,7 +108,7 @@ const ListAllAcknowledgementDueDetails = ({
                 ? row.loadingPointToUnloadingPointTrip.invoiceNumber
                 : row.loadingPointToStockPointTrip.invoiceNumber,
         transporterName: row.truck.transporter.name,
-        csmName: row.truck.transporter.csmName
+        csmName: row.truck.transporter.employee?.name || row.truck.transporter.csmName
     }))
     const download = () => {
         const downloadtripData = rows.map((row) => ({

@@ -18,6 +18,9 @@ export interface tripDetailsProps {
             id: number
             name: string
             csmName: string
+            employee?: {
+                name: string
+            }
         }
     }
     loadingPoint: {
@@ -50,6 +53,9 @@ export interface overallTripProps {
             id: number
             name: string
             csmName: string
+            employee?: {
+                name: string
+            }
         }
     }
     loadingPointToStockPointTrip: tripDetailsProps

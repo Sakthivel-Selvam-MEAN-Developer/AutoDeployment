@@ -365,7 +365,10 @@ const mockTransporterDuesDues = {
     overallTrip: {
         truck: {
             transporter: {
-                csmName: 'Bharath'
+                csmName: 'Bharath',
+                employee: {
+                    name: 'Bharath'
+                }
             }
         },
         loadingPointToStockPointTrip: {
@@ -440,7 +443,10 @@ const mockGstPaymentDues = [
         overallTrip: {
             truck: {
                 transporter: {
-                    csmName: 'Bharath'
+                    csmName: 'Bharath',
+                    employee: {
+                        name: 'Bharath'
+                    }
                 }
             },
             loadingPointToStockPointTrip: {
@@ -503,7 +509,10 @@ const mockCompletedPaymentDuesData = [
         overallTrip: {
             truck: {
                 transporter: {
-                    csmName: 'Bharath'
+                    csmName: 'Bharath',
+                    employee: {
+                        name: 'Bharath'
+                    }
                 }
             },
             loadingPointToStockPointTrip: {

@@ -14,6 +14,9 @@ interface OverallProps {
             vehicleNumber: string
             transporter: {
                 csmName: string
+                employee?: {
+                    name: string
+                }
             }
         }
         loadingPointToUnloadingPointTrip: props
@@ -33,6 +36,9 @@ interface props {
         vehicleNumber: string
         transporter: {
             csmName: string
+            employee?: {
+                name: string
+            }
         }
     }
     loadingPoint: {
@@ -109,7 +115,9 @@ const getTripData = (data: OverallProps, trip: props | null, index: number) => {
                   ? trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name
                   : 'Not yet unloaded',
         transporterName: data.name,
-        csmName: data?.overallTrip.truck.transporter.csmName,
+        csmName:
+            data?.overallTrip.truck.transporter.employee?.name ||
+            data?.overallTrip.truck.transporter.csmName,
         type: data.type,
         dueDate: data.dueDate && epochToMinimalDate(data.dueDate),
         amount: data.payableAmount

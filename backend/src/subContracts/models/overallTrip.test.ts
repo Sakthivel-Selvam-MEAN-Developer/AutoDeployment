@@ -118,7 +118,49 @@ const tripStatus = async () => {
         undefined
     )
 }
+async function setupPricePointMarkers() {
+    const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+    const unloadingPricePointMarker = await createPricePointMarker({
+        ...seedPricePointMarker,
+        location: 'salem'
+    })
+    return { loadingPricePointMarker, unloadingPricePointMarker }
+}
 
+async function setupCompanyAndTransporter() {
+    const company = await createCompany(seedCompany, 1)
+    const transporter = await createTransporter(seedTransporter, 1)
+    return { company, transporter }
+}
+
+async function setupTruck(transporterId: number) {
+    return createTruck({ ...seedTruck, transporterId })
+}
+
+async function setupPointsAndTrip(
+    companyId: number,
+    loadingPricePointMarkerId: number,
+    unloadingPricePointMarkerId: number
+) {
+    const factoryPoint = await createLoadingPoint({
+        ...seedLoadingPoint,
+        cementCompanyId: companyId,
+        pricePointMarkerId: loadingPricePointMarkerId
+    })
+    const deliveryPoint = await createUnloadingpoint({
+        ...seedUnloadingPoint,
+        cementCompanyId: companyId,
+        pricePointMarkerId: unloadingPricePointMarkerId
+    })
+    const trip = await createTrip({
+        ...seedFactoryToCustomerTrip,
+        loadingPointId: factoryPoint.id,
+        unloadingPointId: deliveryPoint.id,
+        wantFuel: false,
+        loadingKilometer: 0
+    })
+    return { factoryPoint, deliveryPoint, trip }
+}
 describe('Overall Trip model', () => {
     test('should able to create a overall trip', async () => {
         const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
@@ -638,32 +680,18 @@ describe('Overall Trip model', () => {
         expect(actual[0]?.truck?.id).toBe(truck.id)
     })
     test('should able to handle undefined to get overall trip by filter', async () => {
-        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const unloadingPricePointMarker = await createPricePointMarker({
-            ...seedPricePointMarker,
-            location: 'salem'
-        })
-        const company = await createCompany(seedCompany, 1)
-        const transporter = await createTransporter(seedTransporter, 1)
-        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
-        const factoryPoint = await createLoadingPoint({
-            ...seedLoadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: loadingPricePointMarker.id
-        })
-        const deliveryPoint = await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: unloadingPricePointMarker.id
-        })
-        const trip = await createTrip({
-            ...seedFactoryToCustomerTrip,
-            loadingPointId: factoryPoint.id,
-            unloadingPointId: deliveryPoint.id,
-            wantFuel: false,
-            loadingKilometer: 0
-        })
+        const { loadingPricePointMarker, unloadingPricePointMarker } =
+            await setupPricePointMarkers()
+        const { company, transporter } = await setupCompanyAndTransporter()
+        const truck = await setupTruck(transporter.id)
+        const { trip } = await setupPointsAndTrip(
+            company.id,
+            loadingPricePointMarker.id,
+            unloadingPricePointMarker.id
+        )
+
         await create({ loadingPointToUnloadingPointTripId: trip.id, truckId: truck.id })
+
         const actual = await tripStatusFilter(
             undefined,
             undefined,
@@ -674,6 +702,7 @@ describe('Overall Trip model', () => {
             undefined,
             undefined
         )
+
         expect(actual[0]?.truck?.id).toBe(truck.id)
     })
     test('should not able to get from to to date undefined data', async () => {

@@ -15,6 +15,9 @@ export interface tripDetails {
         transporter: {
             name: string
             csmName: string
+            employee?: {
+                name: string
+            }
         }
         vehicleNumber: string
     }
@@ -25,6 +28,9 @@ export interface overallTrip {
         transporter: {
             name: string
             csmName: string
+            employee?: {
+                name: string
+            }
         }
         vehicleNumber: string
     }

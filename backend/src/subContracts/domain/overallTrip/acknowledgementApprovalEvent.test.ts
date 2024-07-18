@@ -10,7 +10,10 @@ const truck = {
         name: 'Barath Logistics',
         tdsPercentage: null,
         transporterType: 'Market',
-        gstPercentage: 10
+        gstPercentage: 10,
+        employee: {
+            name: 'newName'
+        }
     }
 }
 const loadingPoint = {

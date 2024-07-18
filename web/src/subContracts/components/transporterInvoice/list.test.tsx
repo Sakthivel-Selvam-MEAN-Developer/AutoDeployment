@@ -27,7 +27,10 @@ const mockOverallTripData = [
             transporter: {
                 id: 2,
                 name: 'Deepak Logistics Pvt Ltd',
-                csmName: 'Barath'
+                csmName: 'Barath',
+                employee: {
+                    name: 'Barath'
+                }
             }
         },
         loadingPointToUnloadingPointTrip: {
@@ -58,7 +61,10 @@ const mockOverallTripData = [
                 transporter: {
                     id: 2,
                     name: 'Deepak Logistics Pvt Ltd',
-                    csmName: 'Barath'
+                    csmName: 'Barath',
+                    employee: {
+                        name: 'Barath'
+                    }
                 }
             }
         }
