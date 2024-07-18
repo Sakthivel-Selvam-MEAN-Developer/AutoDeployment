@@ -354,6 +354,7 @@ model cementCompany {
   emailId             String                 @unique
   contactPersonName   String
   contactPersonNumber String
+  quantityType        String?
   loadingPoints       loadingPoint[]
   stockPoints         stockPoint[]
   unloadingPoints     unloadingPoint[]
