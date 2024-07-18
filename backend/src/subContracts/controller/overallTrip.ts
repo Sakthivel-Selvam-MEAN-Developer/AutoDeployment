@@ -141,12 +141,15 @@ export const listAllDiscrepancyReport = async (req: Request, res: Response) => {
                         totalPaidAmount: paidAmount.toFixed(2),
                         differenceAmount
                     }
-                    return details
+                    if (differenceAmount > 1 || differenceAmount < -1) {
+                        return details
+                    }
+                    return null
                 })
             )
         )
         .then((data) => {
-            const filteredData = data.filter((item) => item !== null && item.differenceAmount > 1)
+            const filteredData = data.filter((item) => item !== null)
             res.status(200).json(filteredData)
         })
         .catch(() => res.status(500))
