@@ -296,7 +296,7 @@ model employee {
   name          String?
   joiningDate   Int
   mailId        String
-  contactNumber Int
+  contactNumber String
   department    String
   designation   String
   address       String

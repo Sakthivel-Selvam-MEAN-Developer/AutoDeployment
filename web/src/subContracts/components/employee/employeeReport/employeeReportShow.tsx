@@ -15,7 +15,7 @@ export interface Row {
     joiningDate: number
     name: string
     mailId: string
-    contactNumber: number
+    contactNumber: string
     department: string
     designation: string
     address: string

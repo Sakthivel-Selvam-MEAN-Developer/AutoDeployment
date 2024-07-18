@@ -5,7 +5,7 @@ const employeeData = {
     joiningDate: 960808392,
     name: 'Ravi shankar',
     mailId: 'ravi@gmail.com',
-    contactNumber: 9,
+    contactNumber: '9',
     department: 'support',
     designation: 'CSM',
     address: 'Erode',

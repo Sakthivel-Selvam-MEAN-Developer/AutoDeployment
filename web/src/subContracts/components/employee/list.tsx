@@ -28,7 +28,7 @@ const CreateEmployee: React.FC = (): ReactElement => {
 
         const payload = {
             ...data,
-            contactNumber: parseFloat(data.contactNumber),
+            contactNumber: data.contactNumber.toString(),
             dateOfBirth: dayjs(data.dateOfBirth).unix(),
             joiningDate: dayjs(data.joiningDate).unix(),
             accountType: accountTypeNumber?.toString(),
