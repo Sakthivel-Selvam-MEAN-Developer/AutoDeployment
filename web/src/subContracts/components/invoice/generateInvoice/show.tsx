@@ -26,6 +26,7 @@ const ListAllTripForInvoice: FC<tripProps> = ({
 
     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
         setDisabled(new Set())
+        setBillingRates({})
         // setTripType(newValue)
         if (filterData.cementCompany.name === '') return
         setTripDetails([])
@@ -66,11 +67,7 @@ const ListAllTripForInvoice: FC<tripProps> = ({
                 return (
                     <BillingRateField
                         key={params.row.id}
-                        value={
-                            params.row.billingRate !== null
-                                ? params.row.billingRate
-                                : params.row.freightAmount
-                        }
+                        value={params.row.freightAmount}
                         onRateChange={(newRate: number) =>
                             handleBillingRateChange(params.row.id, newRate)
                         }
