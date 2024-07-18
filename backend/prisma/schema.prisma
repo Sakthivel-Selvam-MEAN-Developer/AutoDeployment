@@ -325,6 +325,7 @@ model companyInvoice {
   amount                           Int
   GSTAmount                        Int
   TDSAmount                        Int
+  dueDate                          Int?
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])
@@ -332,6 +333,8 @@ model companyInvoice {
   loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
   stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
   loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
+  companyAdvisory                  companyAdvisory?                   @relation(fields: [companyAdvisoryId], references: [id])
+  companyAdvisoryId                Int?
 
   @@schema("subContract")
 }
@@ -355,6 +358,7 @@ model cementCompany {
   contactPersonName   String
   contactPersonNumber String
   quantityType        String?
+  paymentOffSetDays   Int?
   loadingPoints       loadingPoint[]
   stockPoints         stockPoint[]
   unloadingPoints     unloadingPoint[]
@@ -365,6 +369,19 @@ model cementCompany {
   primaryBillId       Int?
   secondaryBill       companyBillingDetails? @relation("secondaryBill", fields: [secondaryBillId], references: [id])
   secondaryBillId     Int?
+
+  @@schema("subContract")
+}
+
+model companyAdvisory {
+  id                    Int              @id @default(autoincrement())
+  bankReferenceNumber   String
+  paymentDocumentNumber String
+  paymentReceivedDate   Int
+  receivedAmount        Int
+  createdAt             DateTime         @default(now()) @db.Timestamptz(6)
+  updatedAt             DateTime         @updatedAt @db.Timestamptz(6)
+  companyInvoice        companyInvoice[]
 
   @@schema("subContract")
 }
