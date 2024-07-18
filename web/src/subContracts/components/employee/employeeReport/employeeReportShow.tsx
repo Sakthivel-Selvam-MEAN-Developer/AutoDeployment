@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Button from '@mui/material/Button'
 import EditNoteIcon from '@mui/icons-material/EditNote'
 import { CircularLoader } from '../../cementCompany/companyReport/companyReportShow'
 import dayjs from 'dayjs'
+import { getAllAccountTypes } from '../../../services/accountType'
+import { accType } from '../../bunk/addBunk/types'
 interface Props {
     allEmployee: Row[]
     loading: boolean
@@ -48,7 +50,7 @@ const columns = (handleEdit: (row: Row) => void): GridColDef[] => [
     { field: 'accountNumber', headerName: 'Account Number', width: 100 },
     { field: 'ifscCode', headerName: 'IFSC Code', width: 150 },
     { field: 'branch', headerName: 'Branch Name', width: 100 },
-    { field: 'accountType', headerName: 'Account Type', width: 130 },
+    { field: 'accountTypeName', headerName: 'Account Type', width: 130 },
     {
         field: 'actions',
         headerName: 'Actions',
@@ -65,16 +67,24 @@ const columns = (handleEdit: (row: Row) => void): GridColDef[] => [
     }
 ]
 const ListAllEmployee: React.FC<Props> = ({ allEmployee, loading, handleEdit }) => {
+    const [accTypes, setAccTypes] = useState<accType[]>([])
+    useEffect(() => {
+        getAllAccountTypes().then(setAccTypes)
+    }, [])
     if (loading) {
         return <CircularLoader />
     }
-    const rowsWithId = allEmployee?.map((row, index) => ({
-        ...row,
-        dateOfBirth: dayjs.unix(row.dateOfBirth).format('DD MMM YYYY'),
-        joiningDate: dayjs.unix(row.joiningDate).format('DD MMM YYYY'),
-        index: index + 1,
-        id: row.id
-    }))
+    const rowsWithId = allEmployee?.map((row, index) => {
+        const account = accTypes.find((acc) => acc.accountTypeNumber.toString() === row.accountType)
+        return {
+            ...row,
+            dateOfBirth: dayjs.unix(row.dateOfBirth).format('DD MMM YYYY'),
+            joiningDate: dayjs.unix(row.joiningDate).format('DD MMM YYYY'),
+            index: index + 1,
+            id: row.id,
+            accountTypeName: account?.accountTypeName
+        }
+    })
     return (
         <div style={{ height: 390, width: '100%' }}>
             <DataGrid rows={rowsWithId} columns={columns(handleEdit)} />
