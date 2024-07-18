@@ -76,6 +76,8 @@ const mockGetDriverTripData = [
                 }
             ]
         },
+        primaryTripBetta: 2000,
+        secondaryTripBetta: 1200,
         unloadingTripSalaryId: 1,
         stockTripSalaryId: 2,
         dailyBetta: 100,

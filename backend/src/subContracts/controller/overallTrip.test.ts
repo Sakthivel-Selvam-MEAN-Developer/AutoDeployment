@@ -55,97 +55,102 @@ vi.mock('../../auditRoute.ts', () => ({
         next()
     }
 }))
-const mockOverallTripData = [
-    {
+const mockOverallTrip = {
+    id: 1,
+    createdAt: 1720569600,
+    acknowledgementStatus: true,
+    loadingPointToStockPointTripId: null,
+    stockPointToUnloadingPointTripId: null,
+    stockPointToUnloadingPointTrip: {
         id: 1,
-        acknowledgementStatus: true,
-        loadingPointToStockPointTripId: null,
-        stockPointToUnloadingPointTripId: null,
-        stockPointToUnloadingPointTrip: {
+        billingRate: 1000,
+        startDate: 1700764200,
+        filledLoad: 40,
+        invoiceNumber: 'ABC123',
+        loadingPointId: 1,
+        unloadingPointId: 1,
+        unloadingPoint: {
             id: 1,
-            billingRate: 1000,
-            startDate: 1700764200,
-            filledLoad: 40,
-            invoiceNumber: 'ABC123',
-            loadingPointId: 1,
-            unloadingPointId: 1,
-            unloadingPoint: {
-                id: 1,
-                name: 'Chennai-south'
-            }
+            name: 'Chennai-south'
+        }
+    },
+    loadingPointToUnloadingPointTripId: 1,
+    fuel: [],
+    fuelId: null,
+    paymentDues: [
+        {
+            type: 'gst pay',
+            payableAmount: 2000
         },
-        loadingPointToUnloadingPointTripId: 1,
-        fuel: [],
-        fuelId: null,
-        paymentDues: [
-            {
-                type: 'gst pay',
-                payableAmount: 100
-            },
-            {
-                type: 'initial pay',
-                payableAmount: 100
-            }
-        ],
-        paymentDuesId: null,
-        shortageQuantityId: [],
+        {
+            type: 'initial pay',
+            payableAmount: 2400
+        }
+    ],
+    paymentDuesId: null,
+    shortageQuantityId: [],
+    truckId: 1,
+    truck: {
+        vehicleNumber: 'TN93D5512',
+        transporterId: 1,
+        transporter: {
+            id: 1,
+            csmName: 'newName',
+            name: 'Barath Logistics'
+        }
+    },
+    shortageQuantity: [
+        {
+            id: 1,
+            overallTripId: 1,
+            shortageQuantity: 2000,
+            shortageAmount: 16000,
+            approvalStatus: false,
+            reason: 'Test reason',
+            filledLoad: 20,
+            unloadedQuantity: 19000,
+            unloadedDate: Date.now(),
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    ],
+    loadingPointToStockPointTrip: {
+        id: 1,
+        startDate: 1700764200,
+        billingRate: 1000,
+        filledLoad: 40,
+        loadingPoint: {
+            id: 1,
+            name: 'Chennai-south'
+        },
+        stockPoint: {
+            id: 1,
+            name: 'Salem'
+        }
+    },
+    loadingPointToUnloadingPointTrip: {
+        id: 1,
+        startDate: 1700764200,
+        billingRate: 1000,
+        filledLoad: 20,
+        loadingPointId: 1,
+        unloadingPointId: 1,
         truckId: 1,
-        truck: {
-            vehicleNumber: 'TN93D5512',
-            transporterId: 1,
-            transporter: {
-                id: 1,
-                csmName: 'newName',
-                name: 'Barath Logistics'
-            }
-        },
-        shortageQuantity: [
-            {
-                id: 1,
-                overallTripId: 1,
-                shortageQuantity: 1000,
-                shortageAmount: 8000,
-                approvalStatus: false,
-                reason: 'Test reason',
-                filledLoad: 40,
-                unloadedQuantity: 39000,
-                unloadedDate: Date.now(),
-                createdAt: new Date(),
-                updatedAt: new Date()
-            }
-        ],
-        loadingPointToStockPointTrip: {
+        loadingPoint: {
             id: 1,
-            startDate: 1700764200,
-            billingRate: 1000,
-            filledLoad: 40,
-            loadingPoint: {
-                id: 1,
-                name: 'Chennai-south'
-            },
-            stockPoint: {
-                id: 1,
-                name: 'Salem'
-            }
+            name: 'Chennai-south'
         },
-        loadingPointToUnloadingPointTrip: {
+        unloadingPoint: {
             id: 1,
-            startDate: 1700764200,
-            billingRate: 1000,
-            filledLoad: 40,
-            loadingPointId: 1,
-            unloadingPointId: 1,
-            truckId: 1,
-            loadingPoint: {
-                id: 1,
-                name: 'Chennai-south'
-            },
-            unloadingPoint: {
-                id: 1,
-                name: 'Salem'
-            }
+            name: 'Salem'
         }
     }
+}
+const mockOverallTripData = [
+    { ...mockOverallTrip },
+    { ...mockOverallTrip, id: 2, createdAt: 1720656000 },
+    { ...mockOverallTrip, id: 3, createdAt: 1720483200 },
+    { ...mockOverallTrip, id: 4, createdAt: 1720483200 }
 ]
 const mockTripStatusFilterCountData = {
     filterData: mockOverallTripData,
