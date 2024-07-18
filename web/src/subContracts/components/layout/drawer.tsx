@@ -13,7 +13,8 @@ import {
     Summarize,
     NoteAlt,
     FileDownload,
-    Beenhere
+    Beenhere,
+    CallReceived
 } from '@mui/icons-material'
 import TollIcon from '@mui/icons-material/Toll'
 import Divider from '@mui/material/Divider'
@@ -79,6 +80,7 @@ const invoiceSubs = [
     { navigate: '/sub/invoice', name: 'Generate Invoice', icon: 'GI' },
     { navigate: '/sub/invoice/viewInvoice', name: 'View Invoice', icon: 'VI' }
 ]
+const receivablesSubs = [{ navigate: '/sub/companyAdvisory', name: 'Company Advisory', icon: 'CA' }]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
     const theme = useTheme()
     const authoriser = CheckUser()
@@ -205,6 +207,13 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                     text="Reports"
                     icon={<Summarize />}
                     subs={reportSubs}
+                />
+                <DrawerCollapse
+                    index={14}
+                    drawerState={drawerState}
+                    text="Receivables"
+                    icon={<CallReceived />}
+                    subs={receivablesSubs}
                 />
             </List>
         </Drawer>

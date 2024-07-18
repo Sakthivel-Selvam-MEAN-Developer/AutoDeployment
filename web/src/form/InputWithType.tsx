@@ -14,6 +14,7 @@ const InputWithType = ({ control, label, fieldName, type, disabled }: TextInputP
         <Controller
             render={({ field }) => (
                 <TextField
+                    sx={{ width: '250px' }}
                     {...field}
                     label={label}
                     type={type}

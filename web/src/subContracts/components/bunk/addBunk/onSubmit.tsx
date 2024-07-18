@@ -1,17 +1,7 @@
 import { FieldValues } from 'react-hook-form'
 import { createBunk } from '../../../services/bunk'
+import { checkAllFields } from '../../../../commonUtils/checkAllFields'
 
-const checkAllFields = (allFieldsData: FieldValues): boolean => {
-    let check = true
-    Object.entries(allFieldsData).forEach(([key, value]) => {
-        console.log(key)
-        if (value === '') {
-            check = false
-            return
-        }
-    })
-    return check
-}
 type submitType = (
     data: FieldValues,
     id: { type: number; id: number },
