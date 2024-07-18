@@ -16,6 +16,7 @@ export type FieldValues = {
     contactPersonName: string
     contactPersonNumber: string
     address: string
+    quantityType: string
 }
 
 const clearForm = (setValue: UseFormSetValue<FieldValues>) => {

@@ -15,6 +15,7 @@ export interface Rows {
     gstNo: string
     address: string
     emailId: string
+    quantity: string
     contactPersonName: string
     contactPersonNumber: string
 }

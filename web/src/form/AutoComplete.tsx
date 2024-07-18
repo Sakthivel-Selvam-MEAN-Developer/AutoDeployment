@@ -3,7 +3,7 @@ import { Control, Controller } from 'react-hook-form'
 
 interface AutocompleteProps {
     options: string[]
-    control: Control
+    control: Control<any>
     fieldName: string
     label: string
     onChange: any
