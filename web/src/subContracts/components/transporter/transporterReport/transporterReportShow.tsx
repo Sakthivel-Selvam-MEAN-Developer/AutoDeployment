@@ -36,7 +36,7 @@ export interface Row {
 const columns = (handleEdit: (row: Row) => void): GridColDef[] => [
     { field: 'index', headerName: '#', width: 40 },
     { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'employeeName', headerName: 'CSM Name New', width: 130 },
+    { field: 'employeeName', headerName: 'CSM Name', width: 130 },
     { field: 'emailId', headerName: 'Email Id', width: 150 },
     { field: 'contactPersonName', headerName: 'Contact Person Name', width: 150 },
     { field: 'contactPersonNumber', headerName: 'Contact Person Number', width: 150 },
