@@ -37,7 +37,7 @@ interface RequestQuery {
     pageName: string
     startDate: string
     endDate: string
-    cementCompany: { name: string; id: number }
+    cementCompany: { name: string; id: number; quantityType: string }
 }
 type listTripDetailsByCompanyNameProps = (
     req: Request<object, object, object, RequestQuery>,

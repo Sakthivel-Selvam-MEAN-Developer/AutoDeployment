@@ -13,5 +13,14 @@ export const create = (
 }
 export const getAllCementCompany = () =>
     prisma.cementCompany.findMany({
-        select: { id: true, name: true }
+        select: {
+            id: true,
+            name: true,
+            gstNo: true,
+            address: true,
+            emailId: true,
+            contactPersonName: true,
+            contactPersonNumber: true,
+            quantityType: true
+        }
     })

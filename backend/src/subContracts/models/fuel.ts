@@ -61,9 +61,7 @@ export const getFuelReport = (
     prisma.fuel.findMany({
         skip: skipNumber,
         take: 200,
-        orderBy: {
-            id: 'asc'
-        },
+        orderBy: { id: 'asc' },
         where: {
             vehicleNumber:
                 vehicleNumber === undefined || vehicleNumber === null ? undefined : vehicleNumber,

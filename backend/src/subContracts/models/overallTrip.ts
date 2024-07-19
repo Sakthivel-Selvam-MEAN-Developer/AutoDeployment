@@ -1279,11 +1279,6 @@ export const updateTdsAmountAndPercentage = (
     tdsPercentage: number
 ) =>
     prisma.overallTrip.update({
-        where: {
-            id
-        },
-        data: {
-            tdsAmount: tdsAmount,
-            tdsPercenatage: tdsPercentage
-        }
+        where: { id },
+        data: { tdsAmount: tdsAmount, tdsPercenatage: tdsPercentage }
     })

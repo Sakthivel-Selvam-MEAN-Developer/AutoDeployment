@@ -55,7 +55,7 @@ const defaultFilterData = {
     pageName: 'LoadingToUnloading',
     startDate: 0,
     endDate: 0,
-    cementCompany: { name: '', id: 0 }
+    cementCompany: { name: '', id: 0, quantityType: 'loagingQuantity' }
 }
 export interface invoiceValuesProps {
     billNo: string
