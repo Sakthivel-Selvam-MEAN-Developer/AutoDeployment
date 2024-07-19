@@ -78,7 +78,7 @@ const ListAllTransporter: React.FC<Props> = ({ allTransporter, loading, handleEd
         ...row,
         index: index + 1,
         id: row.id,
-        employeeName: row.employee?.name || row.csmName
+        employeeName: row.employee?.name || null
     }))
     return (
         <div style={{ height: 390, width: '100%' }}>
