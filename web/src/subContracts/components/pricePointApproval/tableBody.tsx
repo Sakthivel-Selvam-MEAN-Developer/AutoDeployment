@@ -28,10 +28,7 @@ export const TableCellsConatiner: FC<TableConatinerProps> = ({ overallTrip }) =>
             <TableCell>{epochToMinimalDate(trip.startDate)}</TableCell>
             <TableCell>{trip.invoiceNumber}</TableCell>
             <TableCell>{overallTrip.truck.transporter.name}</TableCell>
-            <TableCell>
-                {overallTrip.truck.transporter.employee?.name ||
-                    overallTrip.truck.transporter.csmName}
-            </TableCell>
+            <TableCell>{overallTrip.truck.transporter.employee?.name || null}</TableCell>
             <TableCell>{trip.loadingPoint.name}</TableCell>
             <FreightUnloadingCells
                 trip={trip}

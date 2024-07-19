@@ -25,7 +25,6 @@ export const getAllTransporterName = () =>
         select: {
             id: true,
             name: true,
-            csmName: true,
             employee: { select: { name: true } }
         }
     })

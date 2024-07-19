@@ -10,7 +10,6 @@ export default {
     accountNumber: '435534523',
     ifsc: 'zxy1234',
     accountTypeNumber: 10,
-    csmName: 'Barath',
     transporterType: 'Market Transporter',
     branchName: 'Erode'
 }

@@ -66,7 +66,7 @@ interface TransporterGrid {
         loadingPoint: string | undefined
         unloadingPoint: string | undefined
         transporterName: string
-        csmName: string | undefined
+        csmName: string | undefined | null
         type: string
         dueDate: string | 0
         amount: number
@@ -115,9 +115,7 @@ const getTripData = (data: OverallProps, trip: props | null, index: number) => {
                   ? trip?.stockPointToUnloadingPointTrip[0].unloadingPoint.name
                   : 'Not yet unloaded',
         transporterName: data.name,
-        csmName:
-            data?.overallTrip.truck.transporter.employee?.name ||
-            data?.overallTrip.truck.transporter.csmName,
+        csmName: data?.overallTrip.truck.transporter.employee?.name || null,
         type: data.type,
         dueDate: data.dueDate && epochToMinimalDate(data.dueDate),
         amount: data.payableAmount

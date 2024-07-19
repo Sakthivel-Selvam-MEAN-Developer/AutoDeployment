@@ -72,11 +72,7 @@ const rows = (completedPayments: completedPaymentsProps[]) => {
             type: row.type,
             transactionId: row.transactionId,
             payableAmount: row.payableAmount,
-            csmName:
-                trip !== null
-                    ? row.overallTrip?.truck.transporter.employee?.name ||
-                      row.overallTrip?.truck.transporter.csmName
-                    : 'Null'
+            csmName: trip !== null ? row.overallTrip?.truck.transporter.employee?.name : 'Null'
         }
     })
 }
@@ -97,9 +93,7 @@ function download(completedPayments: completedPaymentsProps[]) {
 }
 const getCsmName = (data: completedPaymentsProps) => {
     return data.type !== 'fuel pay'
-        ? data.overallTrip.truck.transporter.employee?.name ||
-              data.overallTrip.truck.transporter.employee?.name ||
-              data.overallTrip.truck.transporter.csmName
+        ? data.overallTrip.truck.transporter.employee?.name || null
         : 'NUll'
 }
 const downloadCSV = (data: completedPaymentsProps, downloadtripData: object[], num: number) => {

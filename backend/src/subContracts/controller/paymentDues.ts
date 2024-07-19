@@ -75,9 +75,9 @@ interface tripProps {
     stockPointToUnloadingPointTrip: stockPointToUnloadingPointTripProps[] | undefined
 }
 interface overallTripProps {
-    loadingPointToStockPointTrip: tripProps | undefined
-    loadingPointToUnloadingPointTrip: tripProps | undefined
-    stockPointToUnloadingPointTrip: tripProps | undefined
+    loadingPointToStockPointTrip: tripProps | null
+    loadingPointToUnloadingPointTrip: tripProps | null
+    stockPointToUnloadingPointTrip: tripProps | null
 }
 interface tripDueProps {
     id: number
@@ -250,7 +250,7 @@ export const updatePayment = (req: Request, res: Response) => {
 //         .then((data) => res.status(200).json(data))
 //         .catch(() => res.sendStatus(500))
 // }
-const findTripType = (overallTrip: overallTripProps) => {
+export const findTripType = (overallTrip: overallTripProps) => {
     let tripType
     if (overallTrip.loadingPointToStockPointTrip !== null) {
         tripType = overallTrip.loadingPointToStockPointTrip

@@ -142,7 +142,6 @@ const truckWithTransporter = {
             transporter: {
                 select: {
                     name: true,
-                    csmName: true,
                     transporterType: true,
                     gstPercentage: true,
                     employee: {
@@ -482,7 +481,6 @@ export const tripStatusFilter = (
                         select: {
                             name: true,
                             gstPercentage: true,
-                            csmName: true,
                             employee: {
                                 select: {
                                     name: true
@@ -744,7 +742,6 @@ export const getTripByTransporterInvoice = (invoiceNumber: string) =>
                     transporter: {
                         select: {
                             name: true,
-                            csmName: true,
                             employee: {
                                 select: {
                                     name: true
@@ -957,7 +954,6 @@ export const getTripForPricePointApproval = () =>
                     transporter: {
                         select: {
                             name: true,
-                            csmName: true,
                             transporterType: true,
                             gstPercentage: true,
                             employee: {
@@ -1034,7 +1030,6 @@ export const updatePricePointApprovalStatus = (id: number) =>
                     transporter: {
                         select: {
                             name: true,
-                            csmName: true,
                             transporterType: true,
                             gstPercentage: true,
                             employee: {

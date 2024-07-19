@@ -229,7 +229,6 @@ export const getUpcomingDuesByFilter = (
                             vehicleNumber: true,
                             transporter: {
                                 select: {
-                                    csmName: true,
                                     employee: {
                                         select: {
                                             name: true
@@ -282,12 +281,6 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
             overallTrip: {
                 OR: [
                     {
-                        truck: { transporter: { csmName: fiterdata.csmName } }
-                    },
-                    {
-                        truck: { transporter: { csmName: fiterdata.csmName } }
-                    },
-                    {
                         truck: { transporter: { employee: { name: fiterdata.csmName } } }
                     }
                 ]
@@ -308,7 +301,6 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
                             transporter: {
                                 select: {
                                     name: true,
-                                    csmName: true,
                                     employee: { select: { name: true } }
                                 }
                             }
@@ -348,15 +340,8 @@ export const completedDuesLength = (fiterdata: CompletedDueQuery) =>
             overallTrip: {
                 OR: [
                     {
-                        truck: { transporter: { csmName: fiterdata.csmName } }
-                    },
-                    {
-                        truck: { transporter: { csmName: fiterdata.csmName } }
-                    },
-                    {
                         truck: {
                             transporter: {
-                                csmName: fiterdata.csmName,
                                 employee: { name: fiterdata.csmName }
                             }
                         }

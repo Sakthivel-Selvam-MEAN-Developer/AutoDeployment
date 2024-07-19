@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client'
 import dayjs from 'dayjs'
 import { NextFunction } from 'express'
 import { app } from '../../app.ts'
-import { groupDataByName, groupGstDue } from './paymentDues.ts'
+import { groupDataByName, groupGstDue, findTripType } from './paymentDues.ts'
 import { Role } from '../roles.ts'
 import { vi } from 'vitest'
 
@@ -557,6 +557,76 @@ const NeftData = [
         transporterName: 'Deepak Logistics Pvt Ltd'
     }
 ]
+const mockOverallTrip = {
+    loadingPointToStockPointTrip: {
+        truck: {
+            vehicleNumber: 'TN93D5512',
+            transporter: {
+                name: 'Barath Logistics'
+            }
+        },
+        loadingPoint: {
+            name: 'Chennai-south'
+        },
+        unloadingPoint: {
+            name: 'Salem'
+        },
+        stockPoint: {
+            name: 'Salem'
+        },
+        invoiceNumber: 12345,
+        startDate: 1700764200,
+        stockPointToUnloadingPointTrip: undefined // Can also be an array of objects if needed
+    },
+    loadingPointToUnloadingPointTrip: {
+        truck: {
+            vehicleNumber: 'TN93D5513',
+            transporter: {
+                name: 'Barath Logistics'
+            }
+        },
+        loadingPoint: {
+            name: 'Chennai-north'
+        },
+        unloadingPoint: {
+            name: 'Coimbatore'
+        },
+        stockPoint: undefined,
+        invoiceNumber: 67890,
+        startDate: 1700764201,
+        stockPointToUnloadingPointTrip: [
+            {
+                unloadingPoint: {
+                    name: 'Coimbatore'
+                }
+            }
+        ]
+    },
+    stockPointToUnloadingPointTrip: {
+        truck: {
+            vehicleNumber: 'TN93D5514',
+            transporter: {
+                name: 'Barath Logistics'
+            }
+        },
+        loadingPoint: {
+            name: 'Salem'
+        },
+        unloadingPoint: {
+            name: 'Bangalore'
+        },
+        stockPoint: undefined,
+        invoiceNumber: 54321,
+        startDate: 1700764202,
+        stockPointToUnloadingPointTrip: [
+            {
+                unloadingPoint: {
+                    name: 'Bangalore'
+                }
+            }
+        ]
+    }
+}
 describe('Payment Due Controller', () => {
     test('should update the paymentDue with transactionId', async () => {
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
@@ -661,5 +731,14 @@ describe('Payment Due Controller', () => {
         await supertest(app).put('/api/payment-dues').send(mockUpdateDataWithFuelId).expect(200)
         expect(mockUpdateFuelStatus).toHaveBeenCalledTimes(1)
         expect(mockUpdatePayment).toHaveBeenCalledTimes(3)
+    })
+    it('should return loadingPointToStockPointTrip when it is not null', () => {
+        const tripData = {
+            ...mockOverallTrip,
+            loadingPointToStockPointTrip: null
+        }
+        const result = findTripType(tripData)
+        console.log(result)
+        // expect(result).toBe({mockOverallTripData.})
     })
 })

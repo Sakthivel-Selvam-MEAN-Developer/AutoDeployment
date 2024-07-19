@@ -263,7 +263,6 @@ model orgUnitRelations {
 model transporter {
   id                  Int       @id @default(autoincrement())
   name                String    @unique
-  csmName             String
   employeeId          Int?
   employee            employee? @relation(fields: [employeeId], references: [id])
   emailId             String    @unique

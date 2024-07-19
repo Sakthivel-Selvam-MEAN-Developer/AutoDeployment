@@ -136,7 +136,7 @@ export interface finalDataProps {
     invoiceNumber: string
     transporterName: string
     gstPercentage: FLOAT | string
-    csmName: string
+    csmName: string | null
     loadingPoint: string
     stockPoint: string
     unloadingPoint: string
@@ -295,7 +295,7 @@ const generateRow = (row: Props, index: number) => {
         gstPercentage: row.truck.transporter.gstPercentage
             ? row.truck.transporter.gstPercentage
             : 'No GST',
-        csmName: row.truck.transporter.employee?.name || row.truck.transporter.csmName,
+        csmName: row.truck.transporter.employee?.name || null,
         loadingPoint: data.loadingPoint.name,
         loadedQuantity: data.filledLoad,
         stockPoint: data.stockPoint ? data.stockPoint.name : 'Null',

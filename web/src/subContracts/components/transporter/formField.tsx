@@ -161,13 +161,6 @@ const FormFields: React.FC<FormFieldsProps> = ({
                 type="string"
                 disabled={false}
             />
-            <InputWithType
-                control={control}
-                disabled={false}
-                label="CSM Name"
-                fieldName="csmName"
-                type="string"
-            />
             <Autocomplete
                 sx={{ width: 200 }}
                 value={employeeName}
