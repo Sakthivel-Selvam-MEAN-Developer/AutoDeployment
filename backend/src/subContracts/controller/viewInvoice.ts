@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { getCompanyInvoice, pageCount } from '../models/viewInvoice.ts'
+import { getCompanyInvoice, getCompanyInvoiceNameList, pageCount } from '../models/viewInvoice.ts'
 interface RequestQuery {
     startDate: string
     endDate: string
@@ -24,4 +24,9 @@ function filterDatas(req: Request<object, object, object, RequestQuery, Record<s
         company: req.query.cementCompany.id,
         pageNumber: parseInt(req.query.pageNumber)
     }
+}
+export const getInvocieNameList = async (_req: Request, res: Response) => {
+    await getCompanyInvoiceNameList()
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
 }

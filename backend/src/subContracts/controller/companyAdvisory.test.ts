@@ -5,16 +5,13 @@ import { app } from '../../app'
 
 const mockCreateCompanyAdvisory = vi.fn()
 const mockGetCompanyAdvisory = vi.fn()
-// const mockUpdateCompanyInvoice = vi.fn()
 const mockAuth = vi.fn()
 
 vi.mock('../models/companyAdvisory', () => ({
     create: (data: any) => mockCreateCompanyAdvisory(data),
-    getCompanyAdvisory: (companyId: number) => mockGetCompanyAdvisory(companyId)
+    getCompanyAdvisorys: () => mockGetCompanyAdvisory()
 }))
-// vi.mock('../models/viewInvoice', () => ({
-//     updateCompanyInvoice: (companyAdvisoryId: number) => mockUpdateCompanyInvoice(companyAdvisoryId)
-// }))
+
 vi.mock('../routes/authorise', () => ({
     authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
         mockAuth(role)
@@ -45,5 +42,9 @@ describe('company advisory controller', async () => {
         expect(mockCreateCompanyAdvisory).toBeCalledTimes(1)
         expect(mockCreateCompanyAdvisory).toHaveBeenCalledWith(mockReqBody.body)
     })
-    test('should able to get company advisory', async () => {})
+    test('should able to get company advisory', async () => {
+        mockGetCompanyAdvisory.mockResolvedValue({ bankReferenceNumber: 'P0900767567', id: 1 })
+        await supertest(app).get('/api/companyAdvisory/get').send(mockReqBody.body).expect(200)
+        expect(mockGetCompanyAdvisory).toHaveBeenCalledTimes(1)
+    })
 })

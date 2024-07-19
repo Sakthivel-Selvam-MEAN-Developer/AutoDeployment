@@ -1,4 +1,4 @@
-import { create } from './companyAdvisory'
+import { create, getCompanyAdvisorys } from './companyAdvisory'
 
 const mockCompanyAdvisory = {
     bankReferenceNumber: 'P0900767567',
@@ -12,5 +12,11 @@ describe('company advisory model', async () => {
         expect(actual.bankReferenceNumber).toBe(mockCompanyAdvisory.bankReferenceNumber)
         expect(actual.paymentDocumentNumber).toBe(mockCompanyAdvisory.paymentDocumentNumber)
         expect(actual.paymentReceivedDate).toBe(mockCompanyAdvisory.paymentReceivedDate)
+    })
+    test('should able to create company advisory', async () => {
+        const actual = await create(mockCompanyAdvisory)
+        const advisory = await getCompanyAdvisorys()
+        expect(actual.bankReferenceNumber).toBe(advisory[0].bankReferenceNumber)
+        expect(actual.id).toBe(advisory[0].id)
     })
 })

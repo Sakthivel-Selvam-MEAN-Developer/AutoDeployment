@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { createCompanyAdvisory } from '../controller/companyAdvisory'
+import { createCompanyAdvisory, getCompanyAdvisory } from '../controller/companyAdvisory'
 
 const companyAdvisoryRoutes = (router: Router) => {
     router.post('/companyAdvisory/create', createCompanyAdvisory)
-    router.get('/companyAdvisory/get')
+    router.get('/companyAdvisory/get', getCompanyAdvisory)
 }
 
 export default companyAdvisoryRoutes

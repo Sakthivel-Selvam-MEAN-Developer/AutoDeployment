@@ -18,7 +18,12 @@ import seedPricePointMarker from '../seed/pricePointMarker.ts'
 import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.ts'
 import seedShortageQuantity from '../seed/shortageQuantity.ts'
 import { create as createShortageQuantity } from './shortageQuantity.ts'
-import { create as createCompanyinvoice, getCompanyInvoice, pageCount } from './viewInvoice.ts'
+import {
+    create as createCompanyinvoice,
+    getCompanyInvoice,
+    getCompanyInvoiceNameList,
+    pageCount
+} from './viewInvoice.ts'
 import prisma from '../../../prisma/index.ts'
 import { create as createInvoice } from './viewInvoice.ts'
 const unloadingPointTest = await createPricePointMarker({
@@ -38,31 +43,40 @@ const createTripDetails = {
     acknowledgementStatus: true,
     transporterInvoice: 'asdfghjk'
 }
+const companyInvoiceGeneration = async () => {
+    const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
+    const unloadingPricePointMarker = unloadingPointTest
+    const company = await createCompany(seedCompany, 1)
+    const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
+    const deliveryPoint = await createUnloadingpoint({
+        ...seedUnloadingPoint,
+        cementCompanyId: company.id,
+        pricePointMarkerId: unloadingPricePointMarker.id
+    })
+    const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
+    await create({
+        loadingPointToUnloadingPointTripId: trip.id,
+        ...createTripDetails
+    })
+    const filterData = filterDataTest(company)
+    const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
+    await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
+    await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
+    await prisma.$transaction(async (prismaT) => {
+        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+        await updateLoadingToUnloading(prismaT, [overallTrip.id], 'MGL-034', invoice.id)
+    })
+    return filterData
+}
 describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
-        const loadingPricePointMarker = await createPricePointMarker(seedPricePointMarker)
-        const unloadingPricePointMarker = unloadingPointTest
-        const company = await createCompany(seedCompany, 1)
-        const factoryPoint = await factoryPointTest(company, loadingPricePointMarker)
-        const deliveryPoint = await createUnloadingpoint({
-            ...seedUnloadingPoint,
-            cementCompanyId: company.id,
-            pricePointMarkerId: unloadingPricePointMarker.id
-        })
-        const trip = await tripDetailsTest(factoryPoint, deliveryPoint)
-        await create({
-            loadingPointToUnloadingPointTripId: trip.id,
-            ...createTripDetails
-        })
-        const filterData = filterDataTest(company)
-        const overallTrip = await create({ loadingPointToUnloadingPointTripId: trip.id })
-        await createShortageQuantity({ ...seedShortageQuantity, overallTripId: overallTrip.id })
-        await closeAcknowledgementStatusforOverAllTrip(overallTrip.id)
-        await prisma.$transaction(async (prismaT) => {
-            const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
-            await updateLoadingToUnloading(prismaT, [overallTrip.id], 'MGL-034', invoice.id)
-        })
+        const filterData = await companyInvoiceGeneration()
         const actual = await getCompanyInvoice(filterData)
+        expect(actual[0].billNo).toBe(companyInvoice.billNo)
+    })
+    test('should able to get company invoice name list', async () => {
+        await companyInvoiceGeneration()
+        const actual = await getCompanyInvoiceNameList()
         expect(actual[0].billNo).toBe(companyInvoice.billNo)
     })
     test('should able to get all invoiceGenerated Trip', async () => {

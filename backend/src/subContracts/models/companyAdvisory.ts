@@ -7,3 +7,8 @@ interface companyAdvisory {
 }
 
 export const create = (data: companyAdvisory) => prisma.companyAdvisory.create({ data })
+
+export const getCompanyAdvisorys = () =>
+    prisma.companyAdvisory.findMany({
+        select: { id: true, bankReferenceNumber: true }
+    })
