@@ -326,6 +326,7 @@ model companyInvoice {
   GSTAmount                        Int
   TDSAmount                        Int
   dueDate                          Int?
+  receivedAmount                   Int?
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])
@@ -378,7 +379,6 @@ model companyAdvisory {
   bankReferenceNumber   String
   paymentDocumentNumber String
   paymentReceivedDate   Int
-  receivedAmount        Int
   createdAt             DateTime         @default(now()) @db.Timestamptz(6)
   updatedAt             DateTime         @updatedAt @db.Timestamptz(6)
   companyInvoice        companyInvoice[]

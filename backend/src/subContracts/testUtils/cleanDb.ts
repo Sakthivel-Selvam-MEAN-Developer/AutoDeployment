@@ -15,7 +15,8 @@ const tableToClean = [
     '"billNo"',
     '"tollPlazaLocation"',
     '"tollPayment"',
-    '"employee"'
+    '"employee"',
+    '"companyAdvisory"'
 ]
 const cleanTableData = async (table: string) =>
     prisma.$executeRawUnsafe(`truncate "subContract".${table} cascade`)
