@@ -1,8 +1,8 @@
 import { ChangeEvent, FC } from 'react'
 import AutoComplete from '../../../form/AutoComplete'
-import { invocieList } from './types'
+import { invoiceList } from './types'
 
-const InvoiceNumberList: FC<invocieList> = ({ control, invoiceList }) => {
+const InvoiceNumberList: FC<invoiceList> = ({ control, invoiceList }) => {
     return (
         <AutoComplete
             control={control}
