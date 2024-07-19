@@ -8,7 +8,7 @@ const BankRefNumberField: FC<formField> = ({ control }) => {
             <InputWithType
                 control={control}
                 label="Bank Reference Number"
-                fieldName="bankRefenrenceName"
+                fieldName="bankReferenceNumber"
                 type="string"
             />
             <PaymentDocNumber control={control} />

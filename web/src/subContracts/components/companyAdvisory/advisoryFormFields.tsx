@@ -17,7 +17,6 @@ const FormFields: FC<{ control: invoiceList['control'] }> = ({ control }) => {
         <div style={{ ...style, flexWrap: 'wrap' }}>
             <BankRefNumberField control={control} />
             <PaymentReceivedDateField control={control} />
-            {/* <PaymentReceivedDate control={control} /> */}
             <SubmitButton name={'Create'} />
         </div>
     )

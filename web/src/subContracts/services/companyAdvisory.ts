@@ -9,7 +9,7 @@ export const createCompanyAdvisory = (advisory: advisory) =>
     axiosInstance
         .post('/companyAdvisory/create', advisory)
         .then(getData)
-        .catch(() => alert('Error Getting data'))
+        .catch(() => alert('Error Creating data'))
 
 export const getAllCompanyAdvisory = () =>
     axiosInstance

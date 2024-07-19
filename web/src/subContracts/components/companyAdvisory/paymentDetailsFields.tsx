@@ -8,7 +8,7 @@ const PaymentReceivedDateField: FC<formField> = ({ control }) => {
             <DateInput
                 control={control}
                 format="DD/MM/YYYY"
-                fieldName="receivedDate"
+                fieldName="paymentReceivedDate"
                 label="Payment Received Date"
             />
         </>

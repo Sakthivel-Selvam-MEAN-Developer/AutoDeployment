@@ -41,8 +41,8 @@ import PricePointApprovalList from './subContracts/components/pricePointApproval
 import Bunk from './subContracts/components/bunk/addBunk/list'
 import Employee from './subContracts/components/employee'
 import CreateEmployee from './subContracts/components/employee/list'
-// import CompanyAdvisoryIndex from './subContracts/components/companyAdvisory'
-// import CompanyAdvisory from './subContracts/components/companyAdvisory/list'
+import CompanyAdvisoryIndex from './subContracts/components/companyAdvisory'
+import CompanyAdvisory from './subContracts/components/companyAdvisory/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -244,17 +244,17 @@ const sunContractRoutes = {
                     element: <PricePointApprovalList />
                 }
             ]
+        },
+        {
+            path: 'companyAdvisory',
+            element: <CompanyAdvisoryIndex />,
+            children: [
+                {
+                    path: '',
+                    element: <CompanyAdvisory />
+                }
+            ]
         }
-        // {
-        //     path: 'companyAdvisory',
-        //     element: <CompanyAdvisoryIndex />,
-        //     children: [
-        //         {
-        //             path: '',
-        //             element: <CompanyAdvisory />
-        //         }
-        //     ]
-        // }
     ]
 }
 export default sunContractRoutes
