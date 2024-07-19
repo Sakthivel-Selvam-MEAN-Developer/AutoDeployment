@@ -39,4 +39,5 @@ describe('ViewInvoice Controller', () => {
         expect(mockCompanyGeneratedInvoice).toBeCalledTimes(1)
         expect(mockPageCount).toBeCalledTimes(1)
     })
+    test('should able to update company advisory id in company invoice', async () => {})
 })

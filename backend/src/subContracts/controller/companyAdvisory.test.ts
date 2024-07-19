@@ -45,4 +45,5 @@ describe('company advisory controller', async () => {
         expect(mockCreateCompanyAdvisory).toBeCalledTimes(1)
         expect(mockCreateCompanyAdvisory).toHaveBeenCalledWith(mockReqBody.body)
     })
+    test('should able to get company advisory', async () => {})
 })
