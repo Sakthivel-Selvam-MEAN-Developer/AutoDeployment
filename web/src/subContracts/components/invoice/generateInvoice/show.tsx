@@ -20,9 +20,7 @@ const ListAllTripForInvoice: FC<tripProps> = ({
     disabled
 }) => {
     const { filterData, setFilterData } = useContext(invoiceFilterData)
-    // const [tripType, setTripType] = useState<string>('')
     const [billingRates, setBillingRates] = useState<{ [key: number]: number }>({})
-    // const [disabled, setDisabled] = useState<Set<number>>(new Set())
 
     const handleChange = async (_event: React.SyntheticEvent, newValue: string) => {
         setDisabled(new Set())
@@ -35,9 +33,6 @@ const ListAllTripForInvoice: FC<tripProps> = ({
             return { ...prevData, pageName: newValue }
         })
     }
-    // const handleSelection = (params: GridRowSelectionModel) => {
-    //     setTripId({ tripId: params, tripName: tripType })
-    // }
     const getFreight = (id: number) => {
         return tripDetails.find((trip) => trip.id === id)?.freightAmount
     }
@@ -84,11 +79,7 @@ const ListAllTripForInvoice: FC<tripProps> = ({
                 <InvoiceTabs handleChange={handleChange} />
             </Box>
             {tripDetails.length ? (
-                <TripsDataGrid
-                    row={alignRows(tripDetails)}
-                    column={formattedRow}
-                    // handleSelection={handleSelection}
-                />
+                <TripsDataGrid row={alignRows(tripDetails)} column={formattedRow} />
             ) : (
                 <p>No Trips to Generate Invoice ..!</p>
             )}
