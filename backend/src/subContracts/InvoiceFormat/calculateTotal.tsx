@@ -1,7 +1,10 @@
 import React from 'react'
 import { companyConfig } from './companyConfig.ts'
 import { InvoiceProp } from './type.tsx'
-
+export const checkBillingRate = (billingRate: number | null) => {
+    if (billingRate === null) return 0
+    return billingRate
+}
 const calculateTotals = (trips: InvoiceProp['trips']) => {
     let totalFilledLoad = 0
     let totalAmount = 0
@@ -11,6 +14,7 @@ const calculateTotals = (trips: InvoiceProp['trips']) => {
     let shortageQuantity = 0
     if (trips.loadingPointToStockPointTrip) {
         trips.loadingPointToStockPointTrip.forEach((loadingToStock) => {
+            const billingRate = checkBillingRate(loadingToStock.billingRate)
             fromDate =
                 fromDate === 0
                     ? loadingToStock.startDate
@@ -24,7 +28,7 @@ const calculateTotals = (trips: InvoiceProp['trips']) => {
                       ? loadingToStock.startDate
                       : endDate
             numberOfTrips += 1
-            totalAmount += loadingToStock.freightAmount * loadingToStock.filledLoad
+            totalAmount += billingRate * loadingToStock.filledLoad
             totalFilledLoad += loadingToStock.filledLoad
             if (loadingToStock.overallTrip[0].shortageQuantity.length > 0) {
                 shortageQuantity +=
@@ -34,6 +38,7 @@ const calculateTotals = (trips: InvoiceProp['trips']) => {
     }
     if (trips.loadingPointToUnloadingPointTrip) {
         trips.loadingPointToUnloadingPointTrip.forEach((loadingToUnloading) => {
+            const billingRate = checkBillingRate(loadingToUnloading.billingRate)
             fromDate =
                 fromDate === 0
                     ? loadingToUnloading.startDate
@@ -47,7 +52,7 @@ const calculateTotals = (trips: InvoiceProp['trips']) => {
                       ? loadingToUnloading.startDate
                       : endDate
             numberOfTrips += 1
-            totalAmount += loadingToUnloading.freightAmount * loadingToUnloading.filledLoad
+            totalAmount += billingRate * loadingToUnloading.filledLoad
             totalFilledLoad += loadingToUnloading.filledLoad
             if (loadingToUnloading.overallTrip[0].shortageQuantity.length > 0) {
                 shortageQuantity +=
@@ -57,6 +62,7 @@ const calculateTotals = (trips: InvoiceProp['trips']) => {
     }
     if (trips.stockPointToUnloadingPointTrip) {
         trips.stockPointToUnloadingPointTrip.forEach((stockToUnloading) => {
+            const billingRate = checkBillingRate(stockToUnloading.billingRate)
             fromDate =
                 fromDate === 0
                     ? stockToUnloading.startDate
@@ -70,9 +76,7 @@ const calculateTotals = (trips: InvoiceProp['trips']) => {
                       ? stockToUnloading.startDate
                       : endDate
             numberOfTrips += 1
-            totalAmount +=
-                stockToUnloading.freightAmount *
-                stockToUnloading.loadingPointToStockPointTrip.filledLoad
+            totalAmount += billingRate * stockToUnloading.loadingPointToStockPointTrip.filledLoad
             totalFilledLoad += stockToUnloading.loadingPointToStockPointTrip.filledLoad
             if (stockToUnloading.overallTrip[0].shortageQuantity.length > 0) {
                 shortageQuantity +=

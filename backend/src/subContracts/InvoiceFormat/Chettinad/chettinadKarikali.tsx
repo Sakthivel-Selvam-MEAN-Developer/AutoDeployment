@@ -114,7 +114,7 @@ const ChettinadKarikkali: FC<AnnexureProps> = ({ trip, total, bill, depot }) => 
                                             Transportation charges for {depot}
                                         </h4>
                                         <p className="ta p-2">
-                                            ({epochToMinimalDate(total.fromDate)} to{' '}
+                                            ({epochToMinimalDate(total.fromDate)} to
                                             {epochToMinimalDate(total.endDate)})
                                         </p>
                                     </div>

@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { InvoiceProp, LoadingTripProps, StockToUnloadingPointProps, totalProps } from '../type.tsx'
 import { epochToMinimalDate } from '../epochToNormal.ts'
+import { checkBillingRate } from '../calculateTotal.tsx'
 
 interface AnnexureProps {
     trip: InvoiceProp['trips']
@@ -8,38 +9,44 @@ interface AnnexureProps {
     bill: { billNo: string; date: number }
 }
 
-const tableRow = (row: LoadingTripProps, index: number) => (
-    <tr>
-        <td>{index + 1}</td>
-        <td>{epochToMinimalDate(row.startDate)}</td>
-        <td>{row.invoiceNumber}</td>
-        <td>{row.partyName}</td>
-        <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
-        <td>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
-        <td>{row.filledLoad.toFixed(2)}</td>
-        <td>22</td>
-        <td>{row.freightAmount.toFixed(2)}</td>
-        <td>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
-    </tr>
-)
+const tableRow = (row: LoadingTripProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr>
+            <td>{index + 1}</td>
+            <td>{epochToMinimalDate(row.startDate)}</td>
+            <td>{row.invoiceNumber}</td>
+            <td>{row.partyName}</td>
+            <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
+            <td>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
+            <td>{row.filledLoad.toFixed(2)}</td>
+            <td>22</td>
+            <td>{billingRate.toFixed(2)}</td>
+            <td>{(row.filledLoad * billingRate).toFixed(2)}</td>
+        </tr>
+    )
+}
 type tableRowForStockToUnloadingProps = (
     row: StockToUnloadingPointProps,
     index: number
 ) => React.ReactNode
-const tableRowForStockToUnloading: tableRowForStockToUnloadingProps = (row, index) => (
-    <tr>
-        <td>{index + 1}</td>
-        <td>{epochToMinimalDate(row.startDate)}</td>
-        <td>{row.invoiceNumber}</td>
-        <td>{row.partyName}</td>
-        <td>{row.unloadingPoint.name}</td>
-        <td>{row.overallTrip[0].truck.vehicleNumber}</td>
-        <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
-        <td>22</td>
-        <td>{row.freightAmount.toFixed(2)}</td>
-        <td>{(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}</td>
-    </tr>
-)
+const tableRowForStockToUnloading: tableRowForStockToUnloadingProps = (row, index) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr>
+            <td>{index + 1}</td>
+            <td>{epochToMinimalDate(row.startDate)}</td>
+            <td>{row.invoiceNumber}</td>
+            <td>{row.partyName}</td>
+            <td>{row.unloadingPoint.name}</td>
+            <td>{row.overallTrip[0].truck.vehicleNumber}</td>
+            <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
+            <td>22</td>
+            <td>{billingRate.toFixed(2)}</td>
+            <td>{(row.loadingPointToStockPointTrip.filledLoad * billingRate).toFixed(2)}</td>
+        </tr>
+    )
+}
 
 const ChettinadAriyalurAnnexure: FC<AnnexureProps> = ({ trip, total, bill }) => (
     <section style={{ padding: '20px' }} id="annexure">

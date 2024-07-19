@@ -4,57 +4,64 @@ import dayjs from 'dayjs'
 import { toWords } from '../numberToWords.ts'
 import { InvoiceProp, LoadingTripProps, StockToUnloadingPointProps, totalProps } from '../type.tsx'
 import { epochToMinimalDate } from '../epochToNormal.ts'
+import { checkBillingRate } from '../calculateTotal.tsx'
 export interface dalmiaProps {
     trip: InvoiceProp['trips']
     bill: { billNo: string; date: number }
     total: totalProps
 }
-const tableRow = (row: LoadingTripProps, index: number) => (
-    <tr>
-        <td className="tc">{index + 1}</td>
-        <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
-        <td></td>
-        <td>{row.lrNumber}</td>
-        <td className="tc">
-            {row.loadingPoint.name} -
-            {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}
-        </td>
-        <td className="tc">{row.overallTrip[0]?.truck?.vehicleNumber}</td>
-        <td className="tc">{row.filledLoad.toFixed(2)}</td>
-        <td className="tc">{row.freightAmount.toFixed(2)}</td>
-        <td className="tc">{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
-        <td className="tc">
-            {row.overallTrip[0].shortageQuantity.length > 0
-                ? row.overallTrip[0].shortageQuantity[0].shortageQuantity.toFixed(2)
-                : 0}
-        </td>
-        <td></td>
-    </tr>
-)
+const tableRow = (row: LoadingTripProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr>
+            <td className="tc">{index + 1}</td>
+            <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
+            <td></td>
+            <td>{row.lrNumber}</td>
+            <td className="tc">
+                {row.loadingPoint.name} -
+                {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}
+            </td>
+            <td className="tc">{row.overallTrip[0]?.truck?.vehicleNumber}</td>
+            <td className="tc">{row.filledLoad.toFixed(2)}</td>
+            <td className="tc">{billingRate.toFixed(2)}</td>
+            <td className="tc">{(row.filledLoad * billingRate).toFixed(2)}</td>
+            <td className="tc">
+                {row.overallTrip[0].shortageQuantity.length > 0
+                    ? row.overallTrip[0].shortageQuantity[0].shortageQuantity.toFixed(2)
+                    : 0}
+            </td>
+            <td></td>
+        </tr>
+    )
+}
 
-const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => (
-    <tr>
-        <td className="tc">{index + 1}</td>
-        <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
-        <td></td>
-        <td>{row.lrNumber}</td>
-        <td className="tc">
-            {row.loadingPointToStockPointTrip.stockPoint.name} - {row.unloadingPoint.name}
-        </td>
-        <td className="tc">{row.overallTrip[0].truck.vehicleNumber}</td>
-        <td className="tc">{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
-        <td className="tc">{row.freightAmount.toFixed(2)}</td>
-        <td className="tc">
-            {(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}
-        </td>
-        <td className="tc">
-            {row.overallTrip[0].shortageQuantity.length > 0
-                ? row.overallTrip[0].shortageQuantity[0].shortageQuantity.toFixed(2)
-                : 0}
-        </td>
-        <td></td>
-    </tr>
-)
+const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr>
+            <td className="tc">{index + 1}</td>
+            <td className="tc">{dayjs().format('DD/MM/YYYY')}</td>
+            <td></td>
+            <td>{row.lrNumber}</td>
+            <td className="tc">
+                {row.loadingPointToStockPointTrip.stockPoint.name} - {row.unloadingPoint.name}
+            </td>
+            <td className="tc">{row.overallTrip[0].truck.vehicleNumber}</td>
+            <td className="tc">{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
+            <td className="tc">{billingRate.toFixed(2)}</td>
+            <td className="tc">
+                {(row.loadingPointToStockPointTrip.filledLoad * billingRate).toFixed(2)}
+            </td>
+            <td className="tc">
+                {row.overallTrip[0].shortageQuantity.length > 0
+                    ? row.overallTrip[0].shortageQuantity[0].shortageQuantity.toFixed(2)
+                    : 0}
+            </td>
+            <td></td>
+        </tr>
+    )
+}
 
 const DalmiaAnnexure: FC<dalmiaProps> = ({ trip, bill, total }) => (
     <section id="annexure">

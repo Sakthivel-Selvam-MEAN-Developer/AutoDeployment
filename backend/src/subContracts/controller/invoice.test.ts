@@ -115,6 +115,7 @@ vi.mock('../../auditRoute.ts', () => ({
 const mockGetInvoiceDetailsDData = [
     {
         startDate: 1709231400,
+        billingRate: 1200,
         unloadingPoint: {
             name: 'Salem'
         },
@@ -144,6 +145,7 @@ const mockGetInvoiceDetailsDData = [
 const mockGetInvoiceDetailsSData = [
     {
         startDate: 1709317800,
+        billingRate: 1200,
         stockPoint: {
             name: 'StockPoint'
         },
@@ -173,6 +175,7 @@ const mockGetInvoiceDetailsSData = [
 const mockGetInvoiceDetailsUData = [
     {
         startDate: 1709317800,
+        billingRate: 800,
         unloadingPoint: {
             name: 'Salem',
             cementCompany: {
@@ -213,6 +216,7 @@ const mockGetInvoiceDetailsUData = [
         },
         invoiceNumber: 'wqsqwsdsd',
         freightAmount: 800,
+        billingRate: 800,
         loadingPointToStockPointTrip: {
             filledLoad: 23,
             stockPoint: {
@@ -239,6 +243,7 @@ const mockGetInvoiceDetailsUData = [
         },
         invoiceNumber: 'wqsqwsdsd',
         freightAmount: 800,
+        billingRate: 800,
         loadingPointToStockPointTrip: {
             filledLoad: 23,
             truck: {
@@ -301,7 +306,7 @@ const mockUpdateBillingRateData = {
     lrNumber: 'zxc',
     freightAmount: 1000,
     approvedFreightAmount: 1000,
-    billingRate: null,
+    billingRate: 1000,
     transporterAmount: 900,
     totalFreightAmount: 45000,
     totalTransporterAmount: 40500,

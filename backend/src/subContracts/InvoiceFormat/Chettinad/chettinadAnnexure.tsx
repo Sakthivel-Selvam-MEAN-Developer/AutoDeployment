@@ -2,8 +2,10 @@ import React from 'react'
 import { FC } from 'react'
 import { epochToMinimalDate } from '../epochToNormal'
 import { AnnexureProps, LoadingTripProps, StockToUnloadingPointProps } from '../type'
+import { checkBillingRate } from '../calculateTotal'
 
 const tableRow = (row: LoadingTripProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
     return (
         <tr>
             <td>{index + 1}</td>
@@ -13,13 +15,14 @@ const tableRow = (row: LoadingTripProps, index: number) => {
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
             <td>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
             <td>{row.filledLoad.toFixed(2)}</td>
-            <td>{row.freightAmount.toFixed(2)}</td>
-            <td>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
+            <td>{billingRate.toFixed(2)}</td>
+            <td>{(row.filledLoad * billingRate).toFixed(2)}</td>
         </tr>
     )
 }
 
 const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
     return (
         <tr>
             <td>{index + 1}</td>
@@ -29,8 +32,8 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
             <td>{row.unloadingPoint.name}</td>
             <td>{row.overallTrip[0].truck.vehicleNumber}</td>
             <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
-            <td>{row.freightAmount.toFixed(2)}</td>
-            <td>{(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}</td>
+            <td>{billingRate.toFixed(2)}</td>
+            <td>{(row.loadingPointToStockPointTrip.filledLoad * billingRate).toFixed(2)}</td>
         </tr>
     )
 }

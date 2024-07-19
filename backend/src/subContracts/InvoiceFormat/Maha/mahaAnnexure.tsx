@@ -2,58 +2,65 @@ import React, { FC } from 'react'
 import './style.css'
 import { InvoiceProp, LoadingTripProps, StockToUnloadingPointProps, totalProps } from '../type.tsx'
 import { epochToMinimalDate } from '../epochToNormal.ts'
+import { checkBillingRate } from '../calculateTotal.tsx'
 
 interface MahaAnnexure {
     tripDetails: InvoiceProp['trips']
     total: totalProps
     bill: { billNo: string; date: number }
 }
-const tableRow = (row: LoadingTripProps, index: number) => (
-    <tr>
-        <td style={{ textAlign: 'center' }}>{index + 1}</td>
-        <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
-        <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
-        <td style={{ textAlign: 'center' }}>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
-        <td style={{ textAlign: 'center' }}>{row.partyName}</td>
-        <td style={{ textAlign: 'center' }}>
-            {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}
-        </td>
-        <td style={{ textAlign: 'right' }}>{row.filledLoad.toFixed(2)}</td>
-        <td style={{ textAlign: 'right' }}>{row.freightAmount.toFixed(2)}</td>
-        <td style={{ textAlign: 'right' }}>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
-        <td style={{ textAlign: 'right' }}>
-            {row.overallTrip[0].shortageQuantity.length > 0
-                ? (row.overallTrip[0].shortageQuantity[0].shortageQuantity / 1000).toFixed(2)
-                : '-'}
-        </td>
-        <td style={{ textAlign: 'right' }}>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
-    </tr>
-)
+const tableRow = (row: LoadingTripProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr>
+            <td style={{ textAlign: 'center' }}>{index + 1}</td>
+            <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
+            <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
+            <td style={{ textAlign: 'center' }}>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
+            <td style={{ textAlign: 'center' }}>{row.partyName}</td>
+            <td style={{ textAlign: 'center' }}>
+                {row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}
+            </td>
+            <td style={{ textAlign: 'right' }}>{row.filledLoad.toFixed(2)}</td>
+            <td style={{ textAlign: 'right' }}>{billingRate.toFixed(2)}</td>
+            <td style={{ textAlign: 'right' }}>{(row.filledLoad * billingRate).toFixed(2)}</td>
+            <td style={{ textAlign: 'right' }}>
+                {row.overallTrip[0].shortageQuantity.length > 0
+                    ? (row.overallTrip[0].shortageQuantity[0].shortageQuantity / 1000).toFixed(2)
+                    : '-'}
+            </td>
+            <td style={{ textAlign: 'right' }}>{(row.filledLoad * billingRate).toFixed(2)}</td>
+        </tr>
+    )
+}
 
 type StockToUnloadingProps = (row: StockToUnloadingPointProps, index: number) => JSX.Element
-const tableRowForStockToUnloading: StockToUnloadingProps = (row, index) => (
-    <tr>
-        <td style={{ textAlign: 'center' }}>{index + 1}</td>
-        <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
-        <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
-        <td style={{ textAlign: 'center' }}>{row.overallTrip[0].truck.vehicleNumber}</td>
-        <td style={{ textAlign: 'center' }}>{row.partyName}</td>
-        <td style={{ textAlign: 'center' }}>{row.unloadingPoint.name}</td>
-        <td style={{ textAlign: 'right' }}>
-            {row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}
-        </td>
-        <td style={{ textAlign: 'right' }}>{row.freightAmount.toFixed(2)}</td>
-        <td style={{ textAlign: 'right' }}>
-            {(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}
-        </td>
-        <td style={{ textAlign: 'right' }}>
-            {(row.overallTrip[0].shortageQuantity[0].shortageQuantity / 1000).toFixed(2)}
-        </td>
-        <td style={{ textAlign: 'right' }}>
-            {(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}
-        </td>
-    </tr>
-)
+const tableRowForStockToUnloading: StockToUnloadingProps = (row, index) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr>
+            <td style={{ textAlign: 'center' }}>{index + 1}</td>
+            <td style={{ textAlign: 'center' }}>{row.invoiceNumber}</td>
+            <td style={{ textAlign: 'center' }}>{epochToMinimalDate(row.startDate)}</td>
+            <td style={{ textAlign: 'center' }}>{row.overallTrip[0].truck.vehicleNumber}</td>
+            <td style={{ textAlign: 'center' }}>{row.partyName}</td>
+            <td style={{ textAlign: 'center' }}>{row.unloadingPoint.name}</td>
+            <td style={{ textAlign: 'right' }}>
+                {row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}
+            </td>
+            <td style={{ textAlign: 'right' }}>{billingRate.toFixed(2)}</td>
+            <td style={{ textAlign: 'right' }}>
+                {(row.loadingPointToStockPointTrip.filledLoad * billingRate).toFixed(2)}
+            </td>
+            <td style={{ textAlign: 'right' }}>
+                {(row.overallTrip[0].shortageQuantity[0].shortageQuantity / 1000).toFixed(2)}
+            </td>
+            <td style={{ textAlign: 'right' }}>
+                {(row.loadingPointToStockPointTrip.filledLoad * billingRate).toFixed(2)}
+            </td>
+        </tr>
+    )
+}
 
 const MahaAnnexure: FC<MahaAnnexure> = ({ tripDetails, total, bill }) => (
     <section style={{ padding: '20px' }} id="annexure">

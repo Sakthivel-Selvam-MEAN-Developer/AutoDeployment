@@ -6,6 +6,7 @@ import { financialYear } from '../financialYear.ts'
 import { epochToMinimalDate } from '../epochToNormal.ts'
 import { toWords } from '../numberToWords.ts'
 import { cutomInvoiceDetails } from '../customInvoiceAddress.ts'
+import { checkBillingRate } from '../calculateTotal.tsx'
 export interface AddressDetails {
     address: string
 }
@@ -14,49 +15,56 @@ export interface InvoiceProps {
     trip: InvoiceProp['trips']
     bill: { billNo: string; date: number }
 }
-const tableRow = (row: LoadingTripProps, index: number) => (
-    <tr key={row.invoiceNumber}>
-        <td>{index + 1}</td>
-        <td>{row.invoiceNumber}</td>
-        <td>{row.lrNumber}</td>
-        <td>{epochToMinimalDate(row.startDate)}</td>
-        <td>{row.partyName}</td>
-        <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
-        <td>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
-        <td>5116</td>
-        <td>{row.filledLoad.toFixed(2)}</td>
-        <td>{row.freightAmount.toFixed(2)}</td>
-        <td>{(row.filledLoad * row.freightAmount).toFixed(2)}</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-)
+const tableRow = (row: LoadingTripProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr key={row.invoiceNumber}>
+            <td>{index + 1}</td>
+            <td>{row.invoiceNumber}</td>
+            <td>{row.lrNumber}</td>
+            <td>{epochToMinimalDate(row.startDate)}</td>
+            <td>{row.partyName}</td>
+            <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
+            <td>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
+            <td>5116</td>
+            <td>{row.filledLoad.toFixed(2)}</td>
+            <td>{billingRate.toFixed(2)}</td>
+            <td>{(row.filledLoad * billingRate).toFixed(2)}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    )
+}
 
-const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => (
-    <tr key={row.invoiceNumber}>
-        <td>{index + 1}</td>
-        <td>{row.invoiceNumber}</td>
-        <td>{row.lrNumber}</td>
-        <td>{epochToMinimalDate(row.startDate)}</td>
-        <td>{row.partyName}</td>
-        <td>{row.unloadingPoint.name}</td>
-        <td>{row.overallTrip[0].truck.vehicleNumber}</td>
-        <td>5116</td>
-        <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
-        <td>{row.freightAmount.toFixed(2)}</td>
-        <td>{(row.loadingPointToStockPointTrip.filledLoad * row.freightAmount).toFixed(2)}</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-)
+const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: number) => {
+    const billingRate = checkBillingRate(row.billingRate)
+    return (
+        <tr key={row.invoiceNumber}>
+            <td>{index + 1}</td>
+            <td>{row.invoiceNumber}</td>
+            <td>{row.lrNumber}</td>
+            <td>{epochToMinimalDate(row.startDate)}</td>
+            <td>{row.partyName}</td>
+            <td>{row.unloadingPoint.name}</td>
+            <td>{row.overallTrip[0].truck.vehicleNumber}</td>
+            <td>5116</td>
+            <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
+            <td>{checkBillingRate(row.billingRate).toFixed(2)}</td>
+            <td>{(row.loadingPointToStockPointTrip.filledLoad * billingRate).toFixed(2)}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    )
+}
+
 const CustomInvoice: React.FC<InvoiceProps> = ({ trip, bill }) => {
     let totalFilledLoad = 0
     let totalAmount = 0
@@ -125,24 +133,26 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ trip, bill }) => {
                         {trip.loadingPointToUnloadingPointTrip &&
                             trip.loadingPointToUnloadingPointTrip.map(
                                 (loadingToUnloading, index) => {
-                                    totalAmount +=
-                                        loadingToUnloading.freightAmount *
-                                        loadingToUnloading.filledLoad
+                                    const billingRate = checkBillingRate(
+                                        loadingToUnloading.billingRate
+                                    )
+                                    totalAmount += billingRate * loadingToUnloading.filledLoad
                                     totalFilledLoad += loadingToUnloading.filledLoad
                                     return tableRow(loadingToUnloading, index)
                                 }
                             )}
                         {trip.loadingPointToStockPointTrip &&
                             trip.loadingPointToStockPointTrip.map((loadingToStock, index) => {
-                                totalAmount +=
-                                    loadingToStock.freightAmount * loadingToStock.filledLoad
+                                const billingRate = checkBillingRate(loadingToStock.billingRate)
+                                totalAmount += billingRate * loadingToStock.filledLoad
                                 totalFilledLoad += loadingToStock.filledLoad
                                 return tableRow(loadingToStock, index)
                             })}
                         {trip.stockPointToUnloadingPointTrip &&
                             trip.stockPointToUnloadingPointTrip.map((stockToUnloading, index) => {
+                                const billingRate = checkBillingRate(stockToUnloading.billingRate)
                                 totalAmount +=
-                                    stockToUnloading.freightAmount *
+                                    billingRate *
                                     stockToUnloading.loadingPointToStockPointTrip.filledLoad
                                 totalFilledLoad +=
                                     stockToUnloading.loadingPointToStockPointTrip.filledLoad
