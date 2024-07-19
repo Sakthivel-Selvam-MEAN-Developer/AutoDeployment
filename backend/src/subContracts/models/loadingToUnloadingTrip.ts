@@ -102,7 +102,18 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
             freightAmount: true,
             totalFreightAmount: true,
             overallTrip: {
-                select: { truck: { select: { vehicleNumber: true } } }
+                select: {
+                    truck: {
+                        select: {
+                            vehicleNumber: true
+                        }
+                    },
+                    shortageQuantity: {
+                        select: {
+                            unloadedQuantity: true
+                        }
+                    }
+                }
             },
             loadingPoint: {
                 select: {

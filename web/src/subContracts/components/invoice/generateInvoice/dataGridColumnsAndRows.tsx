@@ -6,7 +6,8 @@ export const columns = [
     { field: 'vehicleNumber', headerName: 'Vehicle Number', flex: 1 },
     { field: 'loadingPoint', headerName: 'Loading Point', flex: 1 },
     { field: 'unloadingPoint', headerName: 'Unloading Point', flex: 1 },
-    { field: 'filledLoad', headerName: 'Quantity', flex: 1 },
+    { field: 'filledLoad', headerName: 'Loading Quantity', flex: 1 },
+    { field: 'unloadedQuantity', headerName: 'Unloading Quantity', flex: 1 },
     {
         field: 'freightAmount',
         headerName: 'Freight Amount(₹)',
@@ -30,7 +31,10 @@ export interface tripProp {
     freightAmount: number
     totalFreightAmount: number
     filledLoad?: number
-    overallTrip: { truck: { vehicleNumber: string } }[]
+    overallTrip: {
+        truck: { vehicleNumber: string }
+        shortageQuantity: { unloadedQuantity: number }[]
+    }[]
     loadingPointToStockPointTrip?: {
         filledLoad: number
         stockPoint: { name: string }
@@ -55,6 +59,9 @@ export const alignRows = (tripDetails: tripProp[]) => {
             filledLoad: trip.filledLoad
                 ? trip.filledLoad
                 : trip.loadingPointToStockPointTrip?.filledLoad,
+            unloadedQuantity: (
+                trip.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000
+            ).toFixed(2),
             freightAmount: trip.freightAmount,
             totalFreightAmount: trip.totalFreightAmount,
             billingRate: trip.billingRate

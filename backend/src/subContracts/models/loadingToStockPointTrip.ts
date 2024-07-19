@@ -113,6 +113,11 @@ export const getStockTripsByinvoiceFilter = (filterData: filterDataProps) =>
                         select: {
                             vehicleNumber: true
                         }
+                    },
+                    shortageQuantity: {
+                        select: {
+                            unloadedQuantity: true
+                        }
                     }
                 }
             },
