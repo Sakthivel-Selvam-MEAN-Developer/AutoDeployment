@@ -43,6 +43,7 @@ import Employee from './subContracts/components/employee'
 import CreateEmployee from './subContracts/components/employee/list'
 import CompanyAdvisoryIndex from './subContracts/components/companyAdvisory'
 import CompanyAdvisory from './subContracts/components/companyAdvisory/list'
+import AddSubmissionDate from './subContracts/components/invoice/addSubmissionDate/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -168,6 +169,10 @@ const sunContractRoutes = {
                 {
                     path: 'viewinvoice',
                     element: <ViewList />
+                },
+                {
+                    path: 'addsubmissiondate',
+                    element: <AddSubmissionDate />
                 }
             ]
         },

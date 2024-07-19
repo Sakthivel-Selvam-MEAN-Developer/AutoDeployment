@@ -21,7 +21,7 @@ import {
 import { getContentBasedOnCompany } from '../InvoiceFormat/calculateTotal.tsx'
 import { InvoiceProp } from '../InvoiceFormat/type.tsx'
 import prisma from '../../../prisma/index.ts'
-import { create } from '../models/viewInvoice.ts'
+import { create } from '../models/companyInvoice.ts'
 
 export interface filterDataProps {
     startDate: number

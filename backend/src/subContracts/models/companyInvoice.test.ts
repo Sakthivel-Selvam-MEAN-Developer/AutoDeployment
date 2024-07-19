@@ -23,9 +23,9 @@ import {
     getCompanyInvoice,
     getCompanyInvoiceNameList,
     pageCount
-} from './viewInvoice.ts'
+} from './companyInvoice.ts'
 import prisma from '../../../prisma/index.ts'
-import { create as createInvoice } from './viewInvoice.ts'
+import { create as createInvoice } from './companyInvoice.ts'
 const unloadingPointTest = await createPricePointMarker({
     ...seedPricePointMarker,
     location: 'salem'

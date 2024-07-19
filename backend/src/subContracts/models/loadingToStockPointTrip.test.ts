@@ -7,7 +7,7 @@ import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createStockpoint } from './stockPoint.ts'
 import { create as createTruck } from './truck.ts'
-import { create as createInvoice } from './viewInvoice.ts'
+import { create as createInvoice } from './companyInvoice.ts'
 import {
     closeStockTrip,
     create,

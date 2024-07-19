@@ -1,5 +1,9 @@
 import { Request, Response } from 'express'
-import { getCompanyInvoice, getCompanyInvoiceNameList, pageCount } from '../models/viewInvoice.ts'
+import {
+    getCompanyInvoice,
+    getCompanyInvoiceNameList,
+    pageCount
+} from '../models/companyInvoice.ts'
 interface RequestQuery {
     startDate: string
     endDate: string

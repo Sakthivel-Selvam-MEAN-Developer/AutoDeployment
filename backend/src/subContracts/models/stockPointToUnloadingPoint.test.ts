@@ -11,7 +11,7 @@ import { create as createLoadingPointToStockPoint } from './loadingToStockPointT
 import { create as createCompany } from './cementCompany.ts'
 import { create as createLoadingPoint } from './loadingPoint.ts'
 import { create as createTruck } from './truck.ts'
-import { create as createInvoice } from './viewInvoice.ts'
+import { create as createInvoice } from './companyInvoice.ts'
 import {
     create,
     getAllStockToUnloadingPointTrip,
