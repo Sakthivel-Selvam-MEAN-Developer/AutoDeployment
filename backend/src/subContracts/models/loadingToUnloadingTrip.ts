@@ -117,7 +117,12 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
             },
             loadingPoint: {
                 select: {
-                    name: true
+                    name: true,
+                    cementCompany: {
+                        select: {
+                            quantityType: true
+                        }
+                    }
                 }
             },
             unloadingPoint: {
@@ -147,6 +152,7 @@ export const getInvoiceDetails = (id: number[]) =>
                     name: true,
                     cementCompany: {
                         select: {
+                            quantityType: true,
                             primaryBill: {
                                 select: { address: true, gstNumber: true, panNumber: true }
                             }
@@ -163,7 +169,8 @@ export const getInvoiceDetails = (id: number[]) =>
                     },
                     shortageQuantity: {
                         select: {
-                            shortageQuantity: true
+                            shortageQuantity: true,
+                            unloadedQuantity: true
                         }
                     }
                 }

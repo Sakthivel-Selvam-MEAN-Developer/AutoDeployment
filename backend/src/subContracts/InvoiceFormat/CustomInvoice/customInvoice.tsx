@@ -27,7 +27,12 @@ const tableRow = (row: LoadingTripProps, index: number) => {
             <td>{row.unloadingPoint ? row.unloadingPoint.name : row.stockPoint?.name}</td>
             <td>{row.overallTrip[0]?.truck?.vehicleNumber}</td>
             <td>5116</td>
-            <td>{row.filledLoad.toFixed(2)}</td>
+            <td>
+                {(row.loadingPoint.cementCompany.quantityType === 'Loading Quantity'
+                    ? row.filledLoad
+                    : row.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000
+                ).toFixed(2)}
+            </td>
             <td>{billingRate.toFixed(2)}</td>
             <td>{(row.filledLoad * billingRate).toFixed(2)}</td>
             <td>0</td>

@@ -39,9 +39,24 @@ export interface tripProp {
         filledLoad: number
         stockPoint: { name: string }
     }
-    stockPoint?: { name: string }
-    loadingPoint?: { name: string }
-    unloadingPoint?: { name: string }
+    stockPoint?: {
+        name: string
+        cementCompany: {
+            quantityType: string
+        }
+    }
+    loadingPoint?: {
+        name: string
+        cementCompany: {
+            quantityType: string
+        }
+    }
+    unloadingPoint?: {
+        name: string
+        cementCompany: {
+            quantityType: string
+        }
+    }
 }
 export const alignRows = (tripDetails: tripProp[]) => {
     return tripDetails.map((trip: tripProp) => {

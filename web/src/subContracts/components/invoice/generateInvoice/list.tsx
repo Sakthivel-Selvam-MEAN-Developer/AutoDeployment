@@ -179,6 +179,7 @@ const InvoiceList: React.FC = () => {
                     activateFields={activateFields}
                     setActivateFields={setActivateFields}
                     previewPdf={previewPdf}
+                    quantityType={tripDetails[0]}
                 />
             </billNoContext.Provider>
             <PreviewDialog load={load} setLoad={setLoad} pdfStr={pdfStr} update={updateInvocie} />

@@ -70,6 +70,7 @@ export const getInvoiceDetails = (id: number[]) =>
                     name: true,
                     cementCompany: {
                         select: {
+                            quantityType: true,
                             primaryBill: {
                                 select: { address: true, gstNumber: true, panNumber: true }
                             }
@@ -80,7 +81,7 @@ export const getInvoiceDetails = (id: number[]) =>
             overallTrip: {
                 select: {
                     truck: { select: { vehicleNumber: true } },
-                    shortageQuantity: { select: { shortageQuantity: true } }
+                    shortageQuantity: { select: { shortageQuantity: true, unloadedQuantity: true } }
                 }
             },
             billingRate: true,
@@ -123,7 +124,12 @@ export const getStockTripsByinvoiceFilter = (filterData: filterDataProps) =>
             },
             loadingPoint: {
                 select: {
-                    name: true
+                    name: true,
+                    cementCompany: {
+                        select: {
+                            quantityType: true
+                        }
+                    }
                 }
             },
             stockPoint: {

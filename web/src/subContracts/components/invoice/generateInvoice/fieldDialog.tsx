@@ -4,17 +4,20 @@ import { billNoContext, invoiceFilterData } from './invoiceContext'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { DialogContentConatiner } from './dialogField'
+import { tripProp } from './dataGridColumnsAndRows'
 dayjs.extend(utc)
 
 interface FieldDialogProps {
     activateFields: boolean
     setActivateFields: React.Dispatch<React.SetStateAction<boolean>>
     previewPdf: () => void
+    quantityType: tripProp
 }
 export const InvoiceFieldDialog: FC<FieldDialogProps> = ({
     activateFields,
     setActivateFields,
-    previewPdf
+    previewPdf,
+    quantityType
 }) => {
     const { invoiceValues, setInvoiceValues } = useContext(billNoContext)
     const { filterData } = useContext(invoiceFilterData)
@@ -36,7 +39,10 @@ export const InvoiceFieldDialog: FC<FieldDialogProps> = ({
             <DialogTitle>
                 <h4 style={{ margin: 0 }}>{'Add Bill Number and Date for Invoice'}</h4>
                 <h6 style={{ color: '#FF5733', margin: 0 }}>
-                    (NOTE:{filterData.cementCompany.name})
+                    NOTE:{filterData.cementCompany.name},
+                    {quantityType &&
+                        (quantityType.loadingPoint?.cementCompany.quantityType ??
+                            quantityType.stockPoint?.cementCompany.quantityType)}
                 </h6>
             </DialogTitle>
             <DialogContentConatiner

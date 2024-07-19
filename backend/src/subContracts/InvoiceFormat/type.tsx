@@ -20,6 +20,7 @@ export interface LoadingTripProps {
     loadingPoint: {
         name: string
         cementCompany: {
+            quantityType: string | null
             primaryBill: { address: string; gstNumber: string; panNumber: string | null } | null
         }
     }
@@ -28,6 +29,7 @@ export interface LoadingTripProps {
             vehicleNumber: string
         } | null
         shortageQuantity: {
+            unloadedQuantity: number
             shortageQuantity: number
         }[]
     }[]
@@ -44,6 +46,7 @@ export interface StockToUnloadingPointProps {
         name: string
         cementCompany: {
             name: string
+
             secondaryBill: { address: string; gstNumber: string; panNumber: number | null }
         }
     }

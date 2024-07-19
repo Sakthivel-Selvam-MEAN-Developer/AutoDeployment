@@ -75,7 +75,9 @@ export const getInvoiceDetails = (id: number[]) =>
             },
             overallTrip: {
                 select: {
-                    shortageQuantity: { select: { shortageQuantity: true } },
+                    shortageQuantity: {
+                        select: { shortageQuantity: true, unloadedQuantity: true }
+                    },
                     truck: { select: { vehicleNumber: true } }
                 }
             }
@@ -101,7 +103,19 @@ export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
             freightAmount: true,
             totalFreightAmount: true,
             loadingPointToStockPointTrip: {
-                select: { filledLoad: true, stockPoint: { select: { name: true } } }
+                select: {
+                    filledLoad: true,
+                    stockPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: {
+                                    quantityType: true
+                                }
+                            }
+                        }
+                    }
+                }
             },
             overallTrip: {
                 select: {
