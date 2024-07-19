@@ -6,12 +6,12 @@ export interface formField {
 export interface invoiceList {
     control: Control
     invoiceList: list[]
-    companyList: list[]
+    advisoryList: list[]
 }
-export interface company {
+export interface advisory {
     control: Control
-    companyList: list[]
-    setCpnyName: React.Dispatch<React.SetStateAction<string>>
+    advisoryList: list[]
+    setAdvId: React.Dispatch<React.SetStateAction<string>>
 }
 interface list {
     id: number

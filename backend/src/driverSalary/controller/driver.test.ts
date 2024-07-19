@@ -6,10 +6,15 @@ import { app } from '../../app.ts'
 
 const mockCreateDriver = vi.fn()
 const mockGetAllDriver = vi.fn()
+const mockgetAllDriverAttendanceDetails = vi.fn()
 
 vi.mock('../models/driver', () => ({
     create: (inputs: any) => mockCreateDriver(inputs),
     getAllDriver: () => mockGetAllDriver()
+}))
+vi.mock('../models/driverAttendance', () => ({
+    getAllDriverAttendanceDetails: (driverIds: number[]) =>
+        mockgetAllDriverAttendanceDetails(driverIds)
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -49,6 +54,12 @@ const allDriver = [
         fatherName: 'userFather',
         dateofBirth: 1709836200,
         aadharNumber: '34567890'
+    },
+    {
+        name: 'User1',
+        fatherName: 'userFather1',
+        dateofBirth: 1709936200,
+        aadharNumber: '345678901'
     }
 ]
 const mockRes = {
@@ -78,5 +89,18 @@ describe('Driver Controller', () => {
         mockGetAllDriver.mockResolvedValue(allDriver)
         await supertest(app).get('/api/driver').expect(200)
         expect(mockGetAllDriver).toBeCalledTimes(1)
+    })
+    test('should able to filter driver by attendance', async () => {
+        mockGetAllDriver.mockResolvedValue(allDriver)
+        mockgetAllDriverAttendanceDetails.mockResolvedValue([
+            {
+                id: 1,
+                driverId: 1,
+                attendance: [{ year: 2024, attendance: [{ month: 'July', datesPresent: [19] }] }]
+            }
+        ])
+        await supertest(app).get('/api/fillterDriver').expect(200)
+        expect(mockGetAllDriver).toBeCalledTimes(2)
+        expect(mockgetAllDriverAttendanceDetails).toBeCalledTimes(1)
     })
 })

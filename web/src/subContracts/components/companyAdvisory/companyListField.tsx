@@ -1,19 +1,19 @@
 import { ChangeEvent, FC } from 'react'
 import AutoComplete from '../../../form/AutoComplete'
-import { company } from './types'
+import { advisory } from './types'
 
-const CompanyList: FC<company> = ({ control, companyList, setCpnyName }) => {
+const AdvisoryList: FC<advisory> = ({ control, advisoryList, setAdvId }) => {
     return (
         <AutoComplete
             control={control}
-            fieldName="companyList"
-            label="Company List"
-            options={companyList && companyList.map((company) => company.name)}
+            fieldName="advisoryList"
+            label="Advisory List"
+            options={advisoryList && advisoryList.map((advisory) => advisory.name)}
             onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
-                setCpnyName(newValue)
+                setAdvId(newValue)
             }}
         />
     )
 }
 
-export default CompanyList
+export default AdvisoryList

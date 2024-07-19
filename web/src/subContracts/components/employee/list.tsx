@@ -73,7 +73,6 @@ const CreateEmployee: React.FC = (): ReactElement => {
         getAllAccountTypes().then(setAccountTypes)
     }, [])
     const handleEdit = (editedEmployee: any) => {
-        console.log(editedEmployee, editMode)
         setEditMode(true)
         const acc = accountTypes.find((acc) => acc.accountTypeNumber == editedEmployee.accountType)
         setEmployeeId(editedEmployee.id)

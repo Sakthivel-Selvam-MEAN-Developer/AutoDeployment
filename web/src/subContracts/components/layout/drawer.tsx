@@ -204,16 +204,16 @@ const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
                 <DrawerCollapse
                     index={13}
                     drawerState={drawerState}
-                    text="Reports"
-                    icon={<Summarize />}
-                    subs={reportSubs}
+                    text="Receivables"
+                    icon={<CallReceived />}
+                    subs={receivablesSubs}
                 />
                 <DrawerCollapse
                     index={14}
                     drawerState={drawerState}
-                    text="Receivables"
-                    icon={<CallReceived />}
-                    subs={receivablesSubs}
+                    text="Reports"
+                    icon={<Summarize />}
+                    subs={reportSubs}
                 />
             </List>
         </Drawer>

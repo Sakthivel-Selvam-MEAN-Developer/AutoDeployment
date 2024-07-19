@@ -8,7 +8,6 @@ const EmployeeReport: React.FC<{ handleEdit: (row: Row) => void }> = ({ handleEd
     useEffect(() => {
         getAllEmployee()
             .then((data) => {
-                console.log(data)
                 setAllEmployee(data)
             })
             .then(() => setLoading(false))

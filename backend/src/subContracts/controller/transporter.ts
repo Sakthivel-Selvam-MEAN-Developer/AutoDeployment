@@ -7,7 +7,6 @@ export const createTransporter = (req: Request, res: Response) => {
     const { id, ...details } = req.body
     create(details, id)
         .then((data) => {
-            console.log(data)
             res.status(200).json(data)
         })
         .catch((error) => handlePrismaError(error, res))
@@ -15,7 +14,6 @@ export const createTransporter = (req: Request, res: Response) => {
 export const listAllTransporter = (_req: Request, res: Response) => {
     getAllTransporter()
         .then((data) => {
-            console.log(data)
             res.status(200).json(data)
         })
         .catch(() => res.status(500))
