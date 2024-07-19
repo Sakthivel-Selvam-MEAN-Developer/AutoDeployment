@@ -140,12 +140,8 @@ export const updatePaymentNEFTStatus = async (
     dueIds: number[]
 ) => {
     return prismas?.paymentDues.updateMany({
-        where: {
-            id: { in: dueIds }
-        },
-        data: {
-            NEFTStatus: true
-        }
+        where: { id: { in: dueIds } },
+        data: { NEFTStatus: true }
     })
 }
 export const checkNEFTStatus = (dueId: number[]) =>

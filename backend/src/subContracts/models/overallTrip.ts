@@ -1258,20 +1258,9 @@ export const getOveralltripByTollNotEmpty = () =>
     })
 export const getOverallTripIdByVehicleNumber = (vehicleNumber: string) =>
     prisma.overallTrip.findFirst({
-        orderBy: {
-            id: 'desc'
-        },
-        where: {
-            truck: {
-                vehicleNumber,
-                transporter: {
-                    transporterType: 'Own'
-                }
-            }
-        },
-        select: {
-            id: true
-        }
+        orderBy: { id: 'desc' },
+        where: { truck: { vehicleNumber, transporter: { transporterType: 'Own' } } },
+        select: { id: true }
     })
 export const updateTdsAmountAndPercentage = (
     id: number,
@@ -1281,4 +1270,15 @@ export const updateTdsAmountAndPercentage = (
     prisma.overallTrip.update({
         where: { id },
         data: { tdsAmount: tdsAmount, tdsPercenatage: tdsPercentage }
+    })
+export const uploadAcknowledgementFile = (id: number, pdfLink: string) =>
+    prisma.overallTrip.update({
+        where: { id },
+        data: { acknowledgementPdfLink: pdfLink },
+        select: { id: true }
+    })
+export const getAcknowledgementFile = (id: number) =>
+    prisma.overallTrip.findMany({
+        where: { id },
+        select: { acknowledgementPdfLink: true }
     })
