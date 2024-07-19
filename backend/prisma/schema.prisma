@@ -694,6 +694,7 @@ model overallTrip {
   tdsPercenatage                     Int?
   tdsAmount                          Int?
   acknowledgementStatus              Boolean                           @default(false)
+  acknowledgementPdfLink             String?
   acknowledgementApproval            Boolean                           @default(false)
   pricePointApprovalStatus           Boolean                           @default(false)
   finalPayDuration                   Int                               @default(0)
