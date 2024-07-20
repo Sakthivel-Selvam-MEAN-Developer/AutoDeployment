@@ -4,10 +4,10 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (
     data: Prisma.overallTripCreateInput | Prisma.overallTripUncheckedCreateInput
-) => prisma.overallTrip.create({ data })
+) => prisma().overallTrip.create({ data })
 
 export const getOverallTrip = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         include: {
             fuel: {
                 include: {
@@ -44,7 +44,7 @@ export const getOverallTrip = () =>
         }
     })
 export const getActiveTripByVehicle = (vehicleNumber: string) =>
-    prisma.overallTrip.findFirst({
+    prisma().overallTrip.findFirst({
         where: {
             OR: [
                 {
@@ -66,7 +66,7 @@ export const getActiveTripByVehicle = (vehicleNumber: string) =>
         select: { id: true }
     })
 export const getAllActivetripTripByTripStatus = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             OR: [
                 {
@@ -90,7 +90,7 @@ export const getAllActivetripTripByTripStatus = () =>
         }
     })
 export const getAllTripByAcknowledgementStatus = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             acknowledgementStatus: false,
             OR: [
@@ -107,7 +107,7 @@ export const getAllTripByAcknowledgementStatus = () =>
         }
     })
 export const closeAcknowledgementStatusforOverAllTrip = (id: number) =>
-    prisma.overallTrip.update({
+    prisma().overallTrip.update({
         where: {
             id
         },
@@ -120,12 +120,12 @@ export const updateStockToUnloadingInOverall = (
     overallTripId: number | undefined,
     stockToUnloadingId: number
 ) =>
-    prisma.overallTrip.update({
+    prisma().overallTrip.update({
         where: { id: overallTripId },
         data: { stockPointToUnloadingPointTripId: stockToUnloadingId }
     })
 export const getOverAllTripIdByLoadingToStockId = (loadingPointToStockPointTripId: number | null) =>
-    prisma.overallTrip.findFirst({
+    prisma().overallTrip.findFirst({
         where: {
             loadingPointToStockPointTripId
         },
@@ -155,7 +155,7 @@ const truckWithTransporter = {
     }
 }
 export const getOverAllTripById = (id: number) =>
-    prisma.overallTrip.findFirst({
+    prisma().overallTrip.findFirst({
         where: {
             id
         },
@@ -228,7 +228,7 @@ export const getOverAllTripById = (id: number) =>
     })
 
 export const getTripByUnloadDate = (date: number) =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             acknowledgementStatus: false,
             shortageQuantity: { some: { unloadedDate: { lte: date } } }
@@ -251,7 +251,7 @@ export const getTripByUnloadDate = (date: number) =>
         }
     })
 export const getAllDiscrepancyReport = (from: number, to: number) =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             OR: [
                 {
@@ -302,7 +302,7 @@ export const getAllDiscrepancyReport = (from: number, to: number) =>
     })
 
 export const getOverAllTripByArrayOfId = (arrayOfId: number[], month: string | undefined) =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         orderBy: [
             {
                 loadingPointToStockPointTrip: {
@@ -403,7 +403,7 @@ export const tripStatusFilter = (
     to?: string,
     skipNumber?: number
 ) =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         skip: skipNumber,
         take: 200,
         where: {
@@ -611,7 +611,7 @@ export const tripStatusFilterCount = (
     from?: string,
     to?: string
 ) =>
-    prisma.overallTrip.count({
+    prisma().overallTrip.count({
         where: {
             OR: [
                 {
@@ -663,7 +663,7 @@ export const tripStatusFilterCount = (
     })
 
 export const overallTripByPendingPaymentDues = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             paymentDues: {
                 some: { status: false }
@@ -704,7 +704,7 @@ export const overallTripByPendingPaymentDues = () =>
         }
     })
 export const getTripByTransporterInvoice = (invoiceNumber: string) =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         orderBy: [
             {
                 loadingPointToStockPointTrip: {
@@ -787,7 +787,7 @@ export const getTripByTransporterInvoice = (invoiceNumber: string) =>
         }
     })
 export const updateTransporterInvoice = (invoice: string, id: number) =>
-    prisma.overallTrip.update({
+    prisma().overallTrip.update({
         where: {
             id
         },
@@ -843,7 +843,7 @@ export const updateTransporterInvoice = (invoice: string, id: number) =>
         }
     })
 export const updateAcknowledgementApproval = async (id: number) =>
-    prisma.overallTrip.update({
+    prisma().overallTrip.update({
         where: {
             id
         },
@@ -898,7 +898,7 @@ export const updateAcknowledgementApproval = async (id: number) =>
         }
     })
 export const getTripForAcknowlegementApproval = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             acknowledgementApproval: false,
             acknowledgementStatus: true,
@@ -930,7 +930,7 @@ export const getTripForAcknowlegementApproval = () =>
     })
 
 export const getTripForPricePointApproval = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             pricePointApprovalStatus: false,
             paymentDues: { none: { type: 'initial pay' } },
@@ -1012,7 +1012,7 @@ export const getTripForPricePointApproval = () =>
         }
     })
 export const updatePricePointApprovalStatus = (id: number) =>
-    prisma.overallTrip.update({
+    prisma().overallTrip.update({
         where: {
             id
         },
@@ -1096,7 +1096,7 @@ export const updatePricePointApprovalStatus = (id: number) =>
         }
     })
 export const getOveralltripByToll = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             tollPayment: {
                 none: {}
@@ -1162,7 +1162,7 @@ export const getOveralltripByToll = () =>
     })
 
 export const getOveralltripByTollNotEmpty = () =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: {
             tollPayment: { some: { billedStatus: false } },
             shortageQuantity: { some: {} },
@@ -1257,7 +1257,7 @@ export const getOveralltripByTollNotEmpty = () =>
         }
     })
 export const getOverallTripIdByVehicleNumber = (vehicleNumber: string) =>
-    prisma.overallTrip.findFirst({
+    prisma().overallTrip.findFirst({
         orderBy: { id: 'desc' },
         where: { truck: { vehicleNumber, transporter: { transporterType: 'Own' } } },
         select: { id: true }
@@ -1267,18 +1267,18 @@ export const updateTdsAmountAndPercentage = (
     tdsAmount: number,
     tdsPercentage: number
 ) =>
-    prisma.overallTrip.update({
+    prisma().overallTrip.update({
         where: { id },
         data: { tdsAmount: tdsAmount, tdsPercenatage: tdsPercentage }
     })
 export const uploadAcknowledgementFile = (id: number, pdfLink: string) =>
-    prisma.overallTrip.update({
+    prisma().overallTrip.update({
         where: { id },
         data: { acknowledgementPdfLink: pdfLink },
         select: { id: true }
     })
 export const getAcknowledgementFile = (id: number) =>
-    prisma.overallTrip.findMany({
+    prisma().overallTrip.findMany({
         where: { id },
         select: { acknowledgementPdfLink: true }
     })

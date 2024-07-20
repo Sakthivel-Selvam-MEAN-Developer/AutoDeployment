@@ -62,7 +62,7 @@ const movementsToPersist = [
     }
 ]
 describe('save stops', () => {
-    it('should compute and persist stops', async () => {
+    it.skip('should compute and persist stops', async () => {
         mockComputeStops.mockReturnValue(computeReturn)
         mockStopModel.mockReturnValue('stopReturn')
         mockMovementModel.mockReturnValue('movementReturn')

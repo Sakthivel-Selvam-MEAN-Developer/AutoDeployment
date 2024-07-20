@@ -3,14 +3,14 @@ import prisma from '../../../../prisma/index.ts'
 import { YetToBeIdentifiedReason } from '../stopReason.ts'
 
 export const create = (data: Prisma.stopsCreateInput | Prisma.stopsUncheckedCreateInput) =>
-    prisma.stops.create({ data })
+    prisma().stops.create({ data })
 export const fetchStopsByVehicle = (number: string) =>
-    prisma.stops.findMany({
+    prisma().stops.findMany({
         where: { active: true, gpsStop: { vehicle: { number } } },
         include: { reason: true, gpsStop: true }
     })
 export const updateStopReason = (id: number, stopReasonId: number) =>
-    prisma.stops.update({
+    prisma().stops.update({
         where: {
             id
         },
@@ -18,7 +18,7 @@ export const updateStopReason = (id: number, stopReasonId: number) =>
     })
 
 export const allPendingStopsForSingleVehicle = async (number: string) => {
-    const vehicle = await prisma.stops.findMany({
+    const vehicle = await prisma().stops.findMany({
         where: {
             active: true,
             gpsStop: {
@@ -39,7 +39,7 @@ export const allPendingStopsForSingleVehicle = async (number: string) => {
 }
 
 export const getVehicleDetailByReason = async (id: number) =>
-    prisma.stops.findMany({
+    prisma().stops.findMany({
         where: {
             active: true,
             reason: { id }
@@ -48,16 +48,16 @@ export const getVehicleDetailByReason = async (id: number) =>
     })
 
 export const overrideStops = async (gpsStopId: number, data: any) => {
-    await prisma.stops.updateMany({
+    await prisma().stops.updateMany({
         where: { gpsStopId },
         data: { active: false }
     })
-    const newStops = await prisma.stops.createMany({ data })
+    const newStops = await prisma().stops.createMany({ data })
     return newStops
 }
 
 export const groupByStopReason = async (id: number) =>
-    prisma.stops.groupBy({
+    prisma().stops.groupBy({
         by: ['gpsStopId'],
         where: {
             stopReasonId: id,

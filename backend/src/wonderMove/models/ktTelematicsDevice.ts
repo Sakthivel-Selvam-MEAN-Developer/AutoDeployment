@@ -3,10 +3,10 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (
     data: Prisma.ktTelematicsDeviceCreateInput | Prisma.ktTelematicsDeviceUncheckedCreateInput
-) => prisma.ktTelematicsDevice.create({ data })
+) => prisma().ktTelematicsDevice.create({ data })
 
 const createIfNotExist = (data: any) =>
-    prisma.ktTelematicsDevice.upsert({
+    prisma().ktTelematicsDevice.upsert({
         where: {
             ktTelematicsDeviceId: data.ktTelematicsDeviceId
         },
@@ -20,7 +20,7 @@ export const createManyIfNotExist = (data: Prisma.ktTelematicsDeviceCreateManyIn
     Promise.all(data.map(createIfNotExist))
 
 export const getKtTelematicsByVehicleNumber = async (vehicleNumber: string) =>
-    prisma.ktTelematicsDevice.findFirstOrThrow({
+    prisma().ktTelematicsDevice.findFirstOrThrow({
         where: {
             vehicle: { is: { number: vehicleNumber } }
         },

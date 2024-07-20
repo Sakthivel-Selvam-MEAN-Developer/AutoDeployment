@@ -4,10 +4,10 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (
     data: Prisma.driverAttendanceCreateInput | Prisma.driverAttendanceUncheckedCreateInput
-) => prisma.driverAttendance.create({ data })
+) => prisma().driverAttendance.create({ data })
 
 export const getDriverAttendanceDetails = (id: number) =>
-    prisma.driverAttendance.findFirst({
+    prisma().driverAttendance.findFirst({
         where: { driverId: id },
         select: {
             id: true,
@@ -17,7 +17,7 @@ export const getDriverAttendanceDetails = (id: number) =>
     })
 
 export const getAllDriverAttendanceDetails = (id: number[]) =>
-    prisma.driverAttendance.findMany({
+    prisma().driverAttendance.findMany({
         where: { driverId: { in: id } },
         select: {
             id: true,
@@ -31,7 +31,7 @@ export const upsertDriverAttendanceDetails = (
     driverId: number,
     data: JsonArray[]
 ) =>
-    prisma.driverAttendance.upsert({
+    prisma().driverAttendance.upsert({
         where: { id },
         update: { attendance: data },
         create: {
@@ -41,7 +41,7 @@ export const upsertDriverAttendanceDetails = (
     })
 
 export const updateDriverAttendanceDetails = (id: number | undefined, data: JsonArray[]) =>
-    prisma.driverAttendance.update({
+    prisma().driverAttendance.update({
         where: { id },
         data: { attendance: data }
     })

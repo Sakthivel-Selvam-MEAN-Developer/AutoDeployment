@@ -8,7 +8,6 @@ export default defineWorkspace([
             environment: 'node',
             include: ['src/**/*.test.ts'],
             exclude: ['src/**/models/**/*.test.ts'],
-
         }
     },
     {
@@ -18,7 +17,6 @@ export default defineWorkspace([
             environment: 'node',
             include: ['src/hrm/models/*.test.ts'],
             setupFiles: ['./src/hrm/testUtils/testGlobalHooks.ts'],
-            poolOptions: { threads: { singleThread: true } }
         }
     },
     {
@@ -28,7 +26,6 @@ export default defineWorkspace([
             environment: 'node',
             include: ['src/subContracts/models/**/*.test.ts'],
             setupFiles: ['./src/subContracts/testUtils/testGlobalHooks.ts'],
-            poolOptions: { threads: { singleThread: true } }
         }
     },
     {
@@ -38,7 +35,6 @@ export default defineWorkspace([
             environment: 'node',
             include: ['src/wonderMove/models/**/*.test.ts'],
             setupFiles: ['./src/wonderMove/testUtils/testGlobalHooks.ts'],
-            poolOptions: { threads: { singleThread: true } }
         }
     },
     {
@@ -48,7 +44,6 @@ export default defineWorkspace([
             environment: 'node',
             include: ['src/driverSalary/models/**/*.test.ts'],
             setupFiles: ['./src/driverSalary/testUtils/testGlobalHooks.ts'],
-            poolOptions: { threads: { singleThread: true } }
         }
     }
 ])

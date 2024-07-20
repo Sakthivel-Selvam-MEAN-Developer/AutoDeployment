@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
 export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
-    prisma.loconavDevice.findFirstOrThrow({
+    prisma().loconavDevice.findFirstOrThrow({
         where: {
             vehicle: { is: { number: vehicleNumber } }
         },
@@ -13,10 +13,10 @@ export const getLoconavByVehicleNumber = async (vehicleNumber: string) =>
 
 export const create = (
     data: Prisma.loconavDeviceCreateInput | Prisma.loconavDeviceUncheckedCreateInput
-) => prisma.loconavDevice.create({ data })
+) => prisma().loconavDevice.create({ data })
 
 const createIfNotExist = (data: any) =>
-    prisma.loconavDevice.upsert({
+    prisma().loconavDevice.upsert({
         where: {
             loconavDeviceId: data.loconavDeviceId
         },

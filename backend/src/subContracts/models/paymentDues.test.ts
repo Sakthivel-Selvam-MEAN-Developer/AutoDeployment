@@ -481,7 +481,7 @@ describe('Payment-Due model', () => {
     test('should be able to update Payment NEFT Status', async () => {
         await create(seedPaymentDue)
         const paymentDue: any = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
-        await updatePaymentNEFTStatus(prisma, [paymentDue?.id])
+        await updatePaymentNEFTStatus(prisma(), [paymentDue?.id])
         const actual = await getPaymentDuesWithoutTripId(seedPaymentDue.vehicleNumber)
         expect(actual?.NEFTStatus).toBe(true)
     })

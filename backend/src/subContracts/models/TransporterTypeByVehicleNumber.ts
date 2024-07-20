@@ -1,6 +1,6 @@
 import prisma from '../../../prisma/index.ts'
 export const getTransporterTypeByVehicleNumber = (vehicleNumber: string) =>
-    prisma.truck.findFirst({
+    prisma().truck.findFirst({
         where: {
             vehicleNumber
         },

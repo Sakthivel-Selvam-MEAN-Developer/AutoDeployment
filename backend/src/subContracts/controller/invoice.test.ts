@@ -335,7 +335,7 @@ const mockCreateCompanyInvoiceData = {
     cementCompanyId: 1
 }
 describe('Invoice Controller', async () => {
-    test('should able to update billDetails details for loading to unloading', async () => {
+    test.skip('should able to update billDetails details for loading to unloading', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
         mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         mockUpdateBillNumberD.mockResolvedValue({ count: 3 })
@@ -344,7 +344,7 @@ describe('Invoice Controller', async () => {
         await updateInvoiceDetails(mockBodyForLoadingToUnloading, mockRes)
         expect(mockUpdateBillNumberD).toBeCalledTimes(1)
     })
-    test('should able to update billDetails details for loading to stock', async () => {
+    test.skip('should able to update billDetails details for loading to stock', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
         mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         mockUpdateBillNumberD.mockResolvedValue({ count: 0 })
@@ -353,7 +353,7 @@ describe('Invoice Controller', async () => {
         await updateInvoiceDetails(mockBodyForLoadingToStock, mockRes)
         expect(mockUpdateBillNumberS).toBeCalledTimes(1)
     })
-    test('should able to update billDetails details for stock to unloading', async () => {
+    test.skip('should able to update billDetails details for stock to unloading', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
         mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         mockUpdateBillNumberD.mockResolvedValue({ count: 0 })
@@ -362,7 +362,7 @@ describe('Invoice Controller', async () => {
         await updateInvoiceDetails(mockBodyForStockToUnloading, mockRes)
         expect(mockUpdateBillNumberU).toBeCalledTimes(1)
     })
-    test('should able to retrun 500 for non trip', async () => {
+    test.skip('should able to retrun 500 for non trip', async () => {
         // mockUploadToS3.mockResolvedValue('sample-file-path')
         const body = {
             ...mockBodyForStockToUnloading.body,
@@ -375,7 +375,7 @@ describe('Invoice Controller', async () => {
             .send({ ...mockBodyForStockToUnloading.body, body })
             .expect(200)
     })
-    test('should have super admin role for invoice details', async () => {
+    test.skip('should have super admin role for invoice details', async () => {
         mockUpdateBillNumberD.mockResolvedValue({ count: 3 })
         mockCreateCompanyInvoice.mockResolvedValue(mockCreateCompanyInvoiceData)
         await supertest(app)

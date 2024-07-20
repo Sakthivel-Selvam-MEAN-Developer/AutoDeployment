@@ -4,7 +4,7 @@ import { create, getAllDriver } from './driver.ts'
 
 describe('Driver model', () => {
     test('should able to create', async () => {
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             await create(seedDriver, prismas)
         })
         const actual = await getAllDriver()

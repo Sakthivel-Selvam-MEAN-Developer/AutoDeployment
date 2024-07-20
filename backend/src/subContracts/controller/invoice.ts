@@ -55,7 +55,7 @@ export const listTripDetailsByCompanyName: listTripDetailsByCompanyNameProps = a
 }
 
 export const updateInvoiceDetails = async (req: Request, res: Response) => {
-    await prisma
+    await prisma()
         .$transaction(async (prismaT) => {
             const invoice = await create({
                 amount: req.body.totalAmount,

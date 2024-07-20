@@ -7,7 +7,7 @@ import { DefaultArgs } from '@prisma/client/runtime/library'
 dayjs.extend(utc)
 export const create = (
     data: Prisma.paymentDuesCreateManyInput | Prisma.paymentDuesCreateManyInput[]
-) => prisma.paymentDues.createMany({ data })
+) => prisma().paymentDues.createMany({ data })
 interface getOnlyActiveDuesByName {
     by: any[]
     where?: {
@@ -33,7 +33,7 @@ export const getOnlyActiveDuesByName = (dueDate: number, status: boolean, type: 
     if (dueDate !== dayjs.utc().startOf('day').unix()) {
         searchQuery.where.dueDate = { equals: dueDate }
     } else searchQuery.where.dueDate = { lte: dueDate }
-    return prisma.paymentDues.groupBy(searchQuery)
+    return prisma().paymentDues.groupBy(searchQuery)
 }
 interface findTripWithActiveDuesProps {
     where: {
@@ -83,7 +83,7 @@ export const findTripWithActiveDues = (dueDate: number, status: boolean, type: s
     } else {
         query.where.dueDate = { lte: dueDate }
     }
-    return prisma.paymentDues.findMany(query)
+    return prisma().paymentDues.findMany(query)
 }
 interface dataProps {
     id: number
@@ -91,7 +91,7 @@ interface dataProps {
     paidAt: number
 }
 export const updatePaymentDues = (data: dataProps) =>
-    prisma.paymentDues.update({
+    prisma().paymentDues.update({
         where: { id: data.id },
         data: {
             transactionId: data.transactionId,
@@ -101,7 +101,7 @@ export const updatePaymentDues = (data: dataProps) =>
     })
 
 export const getPaymentDuesWithoutTripId = (vehicleNumber: string) =>
-    prisma.paymentDues.findFirst({
+    prisma().paymentDues.findFirst({
         where: {
             vehicleNumber,
             status: false,
@@ -113,7 +113,7 @@ interface props {
     overallTripId: number | undefined
 }
 export const updatePaymentDuesWithTripId = (data: props) =>
-    prisma.paymentDues.update({
+    prisma().paymentDues.update({
         where: {
             id: data.id
         },
@@ -123,7 +123,7 @@ export const updatePaymentDuesWithTripId = (data: props) =>
     })
 
 export const getDueByOverallTripId = (overallTripId: number) =>
-    prisma.paymentDues.findMany({
+    prisma().paymentDues.findMany({
         where: { overallTripId, NOT: { type: 'gst pay' } },
         select: {
             payableAmount: true,
@@ -145,14 +145,14 @@ export const updatePaymentNEFTStatus = async (
     })
 }
 export const checkNEFTStatus = (dueId: number[]) =>
-    prisma.paymentDues.count({
+    prisma().paymentDues.count({
         where: {
             id: { in: dueId },
             NEFTStatus: false
         }
     })
 export const getGstDuesGroupByName = (status: boolean) =>
-    prisma.paymentDues.groupBy({
+    prisma().paymentDues.groupBy({
         by: ['name'],
         where: { status: false, NEFTStatus: status, type: 'gst pay' },
         _count: { status: true },
@@ -160,7 +160,7 @@ export const getGstDuesGroupByName = (status: boolean) =>
     })
 
 export const getGstPaymentDues = (name: string[], status: boolean) =>
-    prisma.paymentDues.findMany({
+    prisma().paymentDues.findMany({
         where: {
             name: {
                 in: name
@@ -201,7 +201,7 @@ export const getUpcomingDuesByFilter = (
     to: string | undefined,
     type: string | undefined
 ) =>
-    prisma.paymentDues.findMany({
+    prisma().paymentDues.findMany({
         where: {
             name,
             type,
@@ -263,7 +263,7 @@ export const getUpcomingDuesByFilter = (
 
 export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
     const skip = (parseInt(fiterdata.pageNumber) - 1) * 20
-    return prisma.paymentDues.findMany({
+    return prisma().paymentDues.findMany({
         skip,
         take: 20,
         where: {
@@ -324,7 +324,7 @@ export const getCompletedDues = (fiterdata: CompletedDueQuery) => {
     })
 }
 export const completedDuesLength = (fiterdata: CompletedDueQuery) =>
-    prisma.paymentDues.findMany({
+    prisma().paymentDues.findMany({
         where: {
             name: fiterdata.vendor,
             type: fiterdata.payType,
@@ -347,7 +347,7 @@ export const completedDuesLength = (fiterdata: CompletedDueQuery) =>
         }
     })
 export const getFuelTransactionId = (id: number) =>
-    prisma.paymentDues.findFirst({
+    prisma().paymentDues.findFirst({
         where: {
             fuelId: id
         },

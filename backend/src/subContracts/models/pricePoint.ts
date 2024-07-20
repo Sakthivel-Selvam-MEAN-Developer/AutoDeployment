@@ -12,11 +12,11 @@ type priceType = (
     transporterAdvancePercentage: number
 } | null>
 export const getPricePoint: priceType = (loadingPointId, unloadingPointId, stockPointId) =>
-    prisma.pricePoint.findFirst({
+    prisma().pricePoint.findFirst({
         where: { loadingPointId, unloadingPointId, stockPointId }
     })
 export const getAllPricePoint = () =>
-    prisma.pricePoint.findMany({
+    prisma().pricePoint.findMany({
         include: {
             loadingPoint: { include: { cementCompany: true } },
             stockPoint: { include: { cementCompany: true } },
@@ -24,7 +24,7 @@ export const getAllPricePoint = () =>
         }
     })
 export const create = async (data: any) => {
-    const pricePointData = await prisma.pricePoint.findFirst({
+    const pricePointData = await prisma().pricePoint.findFirst({
         where: {
             loadingPointId: data.loadingPointId,
             unloadingPointId: data.unloadingPointId,
@@ -33,7 +33,7 @@ export const create = async (data: any) => {
         select: { id: true }
     })
     if (pricePointData !== null) {
-        return prisma.pricePoint.update({
+        return prisma().pricePoint.update({
             where: {
                 id: pricePointData.id
             },
@@ -46,5 +46,5 @@ export const create = async (data: any) => {
             }
         })
     }
-    return prisma.pricePoint.create({ data })
+    return prisma().pricePoint.create({ data })
 }

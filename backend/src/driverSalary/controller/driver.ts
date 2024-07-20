@@ -22,7 +22,7 @@ const getResponse: type = (stdout, reject, resolve) => {
 export const createDriver = async (req: Request, res: Response) => {
     const command = "docker-compose exec keycloak sh '/config/createDriver.sh'"
     try {
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             const data = await create(req.body, prismas)
             await new Promise<void>((resolve, reject) => {
                 exec(

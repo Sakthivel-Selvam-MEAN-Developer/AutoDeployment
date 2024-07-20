@@ -54,7 +54,7 @@ vi.mock('../models/overallTrip', () => ({
     getActiveTripByVehicle: (inputs: any) => mockGetActiveTripByVehicle(inputs),
     getOverallTripIdByVehicleNumber: (id: string) => mockGetOverallTripIdByVehicleNumber(id)
 }))
-vi.mock('../models/truck', () => ({
+vi.mock('../models/TransporterTypeByVehicleNumber', () => ({
     getTransporterTypeByVehicleNumber: (id: string) => mockGetTransporterTypeByVehicleNumber(id)
 }))
 vi.mock('../../auditRoute.ts', () => ({

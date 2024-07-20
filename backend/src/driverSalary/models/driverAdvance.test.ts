@@ -16,7 +16,7 @@ const driverAdvanceData = {
 describe('Driver Advance model', () => {
     test('should able to create', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await createDriverTrip({

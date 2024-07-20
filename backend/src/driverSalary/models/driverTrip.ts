@@ -4,10 +4,10 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = async (
     data: Prisma.driverTripCreateInput | Prisma.driverTripUncheckedCreateInput
-) => prisma.driverTrip.create({ data })
+) => prisma().driverTrip.create({ data })
 
 export const getAllDriverTripById = (id: number, date: string | undefined) =>
-    prisma.driverTrip.findMany({
+    prisma().driverTrip.findMany({
         where: {
             driverId: id,
             tripStartDate: {
@@ -46,19 +46,19 @@ export const getAllDriverTripById = (id: number, date: string | undefined) =>
     })
 
 export const getDriverIdByTripId = (id: number) =>
-    prisma.driverTrip.findFirst({
+    prisma().driverTrip.findFirst({
         where: { tripId: id },
         select: { id: true, driverId: true }
     })
 
 export const updateDriverTripWithTripSalaryId = (id: number, tripBetta: number, stockId: number) =>
-    prisma.driverTrip.update({
+    prisma().driverTrip.update({
         where: { id },
         data: { secondaryTripBetta: tripBetta, stockTripSalaryId: stockId }
     })
 
 export const getDriverTripByOverallId = (id: number) =>
-    prisma.driverTrip.findMany({
+    prisma().driverTrip.findMany({
         where: { tripId: id },
         select: {
             id: true,
@@ -70,7 +70,7 @@ export const getDriverTripByOverallId = (id: number) =>
     })
 
 export const getDriverAdvance = async (id: number) =>
-    prisma.driverTrip.findMany({
+    prisma().driverTrip.findMany({
         where: {
             tripId: id
         },
@@ -88,7 +88,7 @@ export const getDriverAdvance = async (id: number) =>
         }
     })
 export const getExpensesByTripIds = async (id: number) =>
-    prisma.expenses.findMany({
+    prisma().expenses.findMany({
         where: { tripId: id },
         select: {
             tripId: true,

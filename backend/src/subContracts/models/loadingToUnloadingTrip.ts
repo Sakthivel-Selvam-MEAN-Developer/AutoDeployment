@@ -8,10 +8,10 @@ export const create = (
     data:
         | Prisma.loadingPointToUnloadingPointTripCreateInput
         | Prisma.loadingPointToUnloadingPointTripUncheckedCreateInput
-) => prisma.loadingPointToUnloadingPointTrip.create({ data })
+) => prisma().loadingPointToUnloadingPointTrip.create({ data })
 
 export const getAllTrip = () =>
-    prisma.loadingPointToUnloadingPointTrip.findMany({
+    prisma().loadingPointToUnloadingPointTrip.findMany({
         include: {
             loadingPoint: { select: { name: true } },
             unloadingPoint: { select: { name: true } },
@@ -26,7 +26,7 @@ export const getAllTrip = () =>
     })
 
 export const getTripByVehicleNumber = (trucknumber: string) =>
-    prisma.loadingPointToUnloadingPointTrip.findFirst({
+    prisma().loadingPointToUnloadingPointTrip.findFirst({
         where: {
             overallTrip: {
                 some: {
@@ -48,7 +48,7 @@ export const getTripByVehicleNumber = (trucknumber: string) =>
     })
 
 export const getOnlyActiveTripByVehicleNumber = (vehicleNumber: string) =>
-    prisma.loadingPointToUnloadingPointTrip.findFirst({
+    prisma().loadingPointToUnloadingPointTrip.findFirst({
         where: {
             tripStatus: false,
             overallTrip: { some: { truck: { vehicleNumber } } }
@@ -57,7 +57,7 @@ export const getOnlyActiveTripByVehicleNumber = (vehicleNumber: string) =>
     })
 
 export const updateUnloadWeightforTrip = (id: number) =>
-    prisma.loadingPointToUnloadingPointTrip.update({
+    prisma().loadingPointToUnloadingPointTrip.update({
         where: {
             id
         },
@@ -82,7 +82,7 @@ export const updateBillNumber: type = (prismaT, id, billNo, invoiceId) =>
     })
 
 export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
-    prisma.loadingPointToUnloadingPointTrip.findMany({
+    prisma().loadingPointToUnloadingPointTrip.findMany({
         where: {
             loadingPoint: { cementCompany: { name: filterData.company } },
             startDate: {
@@ -133,7 +133,7 @@ export const getDirectTripsByinvoiceFilter = (filterData: filterDataProps) =>
         }
     })
 export const getInvoiceDetails = (id: number[]) =>
-    prisma.loadingPointToUnloadingPointTrip.findMany({
+    prisma().loadingPointToUnloadingPointTrip.findMany({
         where: {
             id: { in: id },
             tripStatus: true
@@ -182,14 +182,14 @@ export const getInvoiceDetails = (id: number[]) =>
         }
     })
 export const getAllUnloadingPointInvoiceNumbers = () =>
-    prisma.loadingPointToUnloadingPointTrip.findMany({
+    prisma().loadingPointToUnloadingPointTrip.findMany({
         select: {
             invoiceNumber: true
         }
     })
 
 export const getAllUnloadingPointUnbilledTrips = () =>
-    prisma.loadingPointToUnloadingPointTrip.findMany({
+    prisma().loadingPointToUnloadingPointTrip.findMany({
         where: {
             overallTrip: {
                 some: {
@@ -230,7 +230,7 @@ export const getAllUnloadingPointUnbilledTrips = () =>
         }
     })
 export const updateFreightInDirectTrip = (id: number, details: any) =>
-    prisma.loadingPointToUnloadingPointTrip.update({
+    prisma().loadingPointToUnloadingPointTrip.update({
         where: {
             id
         },
@@ -259,7 +259,7 @@ export const updateFreightInDirectTrip = (id: number, details: any) =>
         }
     })
 export const updateDirectTripBillingRate = (id: string, billingRate: string) =>
-    prisma.loadingPointToUnloadingPointTrip.update({
+    prisma().loadingPointToUnloadingPointTrip.update({
         where: {
             id: parseInt(id)
         },

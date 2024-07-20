@@ -11,10 +11,10 @@ const companyInvoiceDetails = {
 }
 export const create = (
     data: Prisma.companyInvoiceCreateInput | Prisma.companyInvoiceUncheckedCreateInput
-) => prisma.companyInvoice.create({ data })
+) => prisma().companyInvoice.create({ data })
 export const getCompanyInvoice = (filterData: filterdata) => {
     const skip = (filterData.pageNumber - 1) * 50
-    return prisma.companyInvoice.findMany({
+    return prisma().companyInvoice.findMany({
         skip,
         take: 50,
         where: {
@@ -28,7 +28,7 @@ export const getCompanyInvoice = (filterData: filterdata) => {
     })
 }
 export const pageCount = async (filterData: filterdata) =>
-    prisma.companyInvoice.count({
+    prisma().companyInvoice.count({
         where: {
             cementCompany: { id: parseInt(filterData.company) },
             billDate: {
@@ -38,12 +38,12 @@ export const pageCount = async (filterData: filterdata) =>
         }
     })
 export const getCompanyInvoiceNameList = () =>
-    prisma.companyInvoice.findMany({
+    prisma().companyInvoice.findMany({
         where: { companyAdvisoryId: null },
         select: { id: true, billNo: true }
     })
 export const getCompanyInvoiceForSubmitDate = () =>
-    prisma.companyInvoice.findMany({
+    prisma().companyInvoice.findMany({
         where: { submissionDate: null },
         select: companyInvoiceDetails
     })

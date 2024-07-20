@@ -17,7 +17,7 @@ import { seedDriverAdvance } from '../seed/driverAdvance.ts'
 describe('Driver model', () => {
     test('should able to create and get All Driver Trip By Id without startDate', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await create({
@@ -30,7 +30,7 @@ describe('Driver model', () => {
     })
     test('should able to create and get All Driver Trip By Idn with startDate', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await create({
@@ -46,7 +46,7 @@ describe('Driver model', () => {
     })
     test('should able to get driver id by trip id', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await create({
@@ -59,7 +59,7 @@ describe('Driver model', () => {
     })
     test('should able to get driver advance by trip id', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await create({
@@ -67,7 +67,7 @@ describe('Driver model', () => {
             driverId: driver.id,
             unloadingTripSalaryId: 1
         })
-        await prisma.driverAdvance.create({
+        await prisma().driverAdvance.create({
             data: {
                 ...seedDriverAdvance,
                 driverTripId: driverTrip.id
@@ -80,7 +80,7 @@ describe('Driver model', () => {
 
     test('should able to get expenses by trip id', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await create({
@@ -88,7 +88,7 @@ describe('Driver model', () => {
             driverId: driver.id,
             unloadingTripSalaryId: 1
         })
-        await prisma.expenses.create({
+        await prisma().expenses.create({
             data: {
                 ...seedExpenses,
                 acceptedAmount: 100
@@ -99,7 +99,7 @@ describe('Driver model', () => {
     })
     test('should able to get DriverTrip By OverallId', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await create({
@@ -113,7 +113,7 @@ describe('Driver model', () => {
     })
     test('should able to update DriverTrip With TripSalary Id', async () => {
         let driver: { id: number } | undefined = { id: 1 }
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             driver = await createDriver(seedDriver, prismas)
         })
         const driverTrip = await create({

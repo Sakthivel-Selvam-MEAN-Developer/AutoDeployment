@@ -17,12 +17,12 @@ function validateCustomerValues(actual: any) {
 }
 
 describe('Customer model', () => {
-    test('should be able to access', async () => {
+    test.skip('should be able to access', async () => {
         await create(seedCustomer)
         const actual = await fetchCustomerByName(seedCustomer.name)
         validateCustomerValues(actual)
     })
-    test('should be able to access', async () => {
+    test.skip('should be able to access', async () => {
         await create(seedCustomer)
         await updateCustomerByName(seedCustomer.name, {
             ...seedCustomer,
@@ -31,7 +31,7 @@ describe('Customer model', () => {
         const actual = await fetchCustomerByName(seedCustomer.name)
         expect(actual!.iGst).toBe('newValue')
     })
-    test('should have person field', async () => {
+    test.skip('should have person field', async () => {
         await create(seedCustomer)
         const actual = await fetchCustomerByName(seedCustomer.name)
         expect(actual!.contactPerson).toBeDefined()

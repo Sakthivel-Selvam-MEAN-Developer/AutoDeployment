@@ -127,7 +127,11 @@ export const createFuel = async (req: Request, res: Response) => {
         const fuel = await create({ ...req.body.data, overallTripId: latestTripIdForOwn })
         return createDues(fuel, latestTripIdForOwn, bunkname, vehicleNumber, creditDays)
             .then(() => res.sendStatus(200))
-            .catch((error) => handlePrismaError(error, res))
+            .catch((error) => {
+                console.log(error)
+
+                handlePrismaError(error, res)
+            })
     } catch (error) {
         handlePrismaError(error, res)
     }

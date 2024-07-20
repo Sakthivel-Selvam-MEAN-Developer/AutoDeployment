@@ -2,12 +2,12 @@ import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
 export const create = (data: Prisma.fuelCreateInput | Prisma.fuelUncheckedCreateInput) =>
-    prisma.fuel.create({ data })
+    prisma().fuel.create({ data })
 
-export const getAllFuel = () => prisma.fuel.findMany({})
+export const getAllFuel = () => prisma().fuel.findMany({})
 
 export const getFuelWithoutTrip = (vehicleNumber: string) =>
-    prisma.fuel.findFirst({
+    prisma().fuel.findFirst({
         where: {
             vehicleNumber,
             overallTripId: null
@@ -22,7 +22,7 @@ interface dataProps {
     overallTripId: number | null
 }
 export const updateFuelWithTripId = (data: dataProps) =>
-    prisma.fuel.update({
+    prisma().fuel.update({
         where: {
             id: data.id
         },
@@ -32,7 +32,7 @@ export const updateFuelWithTripId = (data: dataProps) =>
     })
 
 export const getFuelDetailsWithoutTrip = () =>
-    prisma.fuel.findMany({
+    prisma().fuel.findMany({
         where: {
             paymentStatus: false
         },
@@ -42,7 +42,7 @@ export const getFuelDetailsWithoutTrip = () =>
     })
 
 export const updateFuelStatus = (fuelId: number) =>
-    prisma.fuel.update({
+    prisma().fuel.update({
         where: {
             id: fuelId
         },
@@ -58,7 +58,7 @@ export const getFuelReport = (
     to?: string,
     skipNumber?: number
 ) =>
-    prisma.fuel.findMany({
+    prisma().fuel.findMany({
         skip: skipNumber,
         take: 200,
         orderBy: { id: 'asc' },
@@ -132,7 +132,7 @@ export const getFuelReportCount = (
     from?: string,
     to?: string
 ) =>
-    prisma.fuel.count({
+    prisma().fuel.count({
         where: {
             vehicleNumber:
                 vehicleNumber === undefined || vehicleNumber === null ? undefined : vehicleNumber,
@@ -148,7 +148,7 @@ export const getFuelReportCount = (
         }
     })
 export const getPreviousFullFuel = (vehicleNumber: string, date: string, id: string) =>
-    prisma.fuel.findFirst({
+    prisma().fuel.findFirst({
         where: {
             id: {
                 not: { equals: parseInt(id) }

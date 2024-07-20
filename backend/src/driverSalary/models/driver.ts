@@ -13,7 +13,7 @@ export const create = (
 ) => prisma?.driver.create({ data })
 
 export const getAllDriver = () =>
-    prisma.driver.findMany({
+    prisma().driver.findMany({
         select: {
             id: true,
             name: true,

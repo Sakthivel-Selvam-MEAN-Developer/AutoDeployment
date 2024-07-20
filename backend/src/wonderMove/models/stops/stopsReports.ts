@@ -7,7 +7,7 @@ interface Stop {
     durationInMillis: number
 }
 export const getDurationWithInRange = async (from: number, to: number): Promise<Stop[]> => {
-    const duration = await prisma.stops.groupBy({
+    const duration = await prisma().stops.groupBy({
         by: ['stopReasonId'],
         where: {
             startTime: {
@@ -31,7 +31,7 @@ export const getDurationWithInRange = async (from: number, to: number): Promise<
 
 export const getDurationStopBeforeFrom = async (from: number, to: number): Promise<Stop[]> => {
     const modifiedAggDuration: Record<number, Stop> = {}
-    const stopsBeforeFrom = await prisma.stops.findMany({
+    const stopsBeforeFrom = await prisma().stops.findMany({
         where: {
             startTime: {
                 lt: from
@@ -66,7 +66,7 @@ export const getDurationStopBeforeFrom = async (from: number, to: number): Promi
 
 export const getDurationStopAfterTo = async (from: number, to: number): Promise<Stop[]> => {
     const modifiedAggDuration: Record<number, Stop> = {}
-    const stopsAfterTo = await prisma.stops.findMany({
+    const stopsAfterTo = await prisma().stops.findMany({
         where: {
             startTime: {
                 gte: from,
@@ -101,7 +101,7 @@ export const getDurationStopAfterTo = async (from: number, to: number): Promise<
 
 export const getDurationGreaterThanFromTo = async (from: number, to: number): Promise<Stop[]> => {
     const modifiedAggDuration: Record<number, Stop> = {}
-    const stopsBeyondRange = await prisma.stops.findMany({
+    const stopsBeyondRange = await prisma().stops.findMany({
         where: {
             startTime: {
                 lt: from

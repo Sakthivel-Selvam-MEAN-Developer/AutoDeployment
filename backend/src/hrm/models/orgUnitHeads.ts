@@ -3,10 +3,10 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (
     data: Prisma.orgUnitHeadsCreateInput | Prisma.orgUnitHeadsUncheckedCreateInput
-) => prisma.orgUnitHeads.create({ data })
+) => prisma().orgUnitHeads.create({ data })
 
 export const isEmployeeInOrgUnitHeads = (employeeId: string) =>
-    prisma.orgUnitHeads.findFirst({
+    prisma().orgUnitHeads.findFirst({
         where: {
             orgHead: {
                 employeeId
@@ -15,7 +15,7 @@ export const isEmployeeInOrgUnitHeads = (employeeId: string) =>
     })
 
 export const orgHeadOfEmployees = (orgUnitId: number) =>
-    prisma.orgUnitHeads.findFirst({
+    prisma().orgUnitHeads.findFirst({
         where: {
             orgUnitId
         }

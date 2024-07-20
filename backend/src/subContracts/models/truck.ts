@@ -18,15 +18,15 @@ const tripStatusCheck = [
     }
 ]
 export const create = (data: Prisma.truckCreateInput | Prisma.truckUncheckedCreateInput) =>
-    prisma.truck.create({ data })
+    prisma().truck.create({ data })
 export const getAllTruck = () =>
-    prisma.truck.findMany({
+    prisma().truck.findMany({
         include: {
             transporter: { select: { id: true, name: true } }
         }
     })
 export const getTruckByTransporter = (transporterName: string) =>
-    prisma.truck.findMany({
+    prisma().truck.findMany({
         where: {
             transporter: {
                 name: transporterName
@@ -55,7 +55,7 @@ export const getTruckByTransporter = (transporterName: string) =>
         }
     })
 export const getNumberByTruckId = (id: number) =>
-    prisma.truck.findFirst({
+    prisma().truck.findFirst({
         where: { id },
         select: {
             vehicleNumber: true,
@@ -63,7 +63,7 @@ export const getNumberByTruckId = (id: number) =>
         }
     })
 export const updateTransporterId = (transporterId: number, truckId: number) =>
-    prisma.truck.update({
+    prisma().truck.update({
         where: {
             id: truckId,
             overallTrip: { none: { OR: tripStatusCheck } }

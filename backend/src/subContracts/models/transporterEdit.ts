@@ -5,7 +5,7 @@
 //     data: Prisma.transporterCreateInput | Prisma.transporterUncheckedCreateInput,
 //     id: number | undefined
 // ) => {
-//     return prisma.transporter.upsert({
+//     return prisma().transporter.upsert({
 //         where: {
 //             id: id ?? undefined
 //         },

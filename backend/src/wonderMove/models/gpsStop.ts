@@ -2,11 +2,11 @@ import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
 export const create = (data: Prisma.gpsStopsCreateInput | Prisma.gpsStopsUncheckedCreateInput) =>
-    prisma.gpsStops.create({ data })
+    prisma().gpsStops.create({ data })
 export const createMany = (data: Prisma.gpsStopsCreateManyInput[]) =>
-    prisma.gpsStops.createMany({ data })
+    prisma().gpsStops.createMany({ data })
 
-export const getGpsStops = () => prisma.gpsStops.findMany()
+export const getGpsStops = () => prisma().gpsStops.findMany()
 interface gpsStopProps {
     startTime: number
     endTime: number
@@ -45,7 +45,7 @@ const getGpsStopInPersistableFormat = (gpsStop: gpsStopProps) => {
 
 const createIfNotExist = (gpsStop: any) => {
     const gpsStopWithStop = getGpsStopInPersistableFormat(gpsStop)
-    return prisma.gpsStops.upsert({
+    return prisma().gpsStops.upsert({
         where: {
             vehicleStop: {
                 vehicleId: gpsStopWithStop.vehicleId,

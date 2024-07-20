@@ -19,9 +19,9 @@ const tableToClean = [
     '"companyAdvisory"'
 ]
 const cleanTableData = async (table: string) =>
-    prisma.$executeRawUnsafe(`truncate "subContract".${table} cascade`)
+    prisma().$executeRawUnsafe(`truncate "subContract".${table} cascade`)
 
 const cleanData = async () =>
-    Promise.all(tableToClean.map(cleanTableData)).then(() => prisma.$disconnect())
+    Promise.all(tableToClean.map(cleanTableData)).then(() => prisma().$disconnect())
 
 export default cleanData

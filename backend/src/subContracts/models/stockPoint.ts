@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
-export const getAllStockPoint = () => prisma.stockPoint.findMany({})
+export const getAllStockPoint = () => prisma().stockPoint.findMany({})
 
 export const getStockPointByCompany = (companyName: string) =>
-    prisma.stockPoint.findMany({
+    prisma().stockPoint.findMany({
         where: {
             cementCompany: {
                 name: companyName
@@ -14,4 +14,4 @@ export const getStockPointByCompany = (companyName: string) =>
 
 export const create = (
     data: Prisma.stockPointCreateInput | Prisma.stockPointUncheckedCreateInput
-) => prisma.stockPoint.create({ data })
+) => prisma().stockPoint.create({ data })

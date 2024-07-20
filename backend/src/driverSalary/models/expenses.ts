@@ -7,18 +7,18 @@ import { updateExpenseType } from '../controller/expense.ts'
 dayjs.extend(utc)
 
 export const create = (data: Prisma.expensesCreateManyInput | Prisma.expensesCreateManyInput[]) =>
-    prisma.expenses.createMany({ data })
+    prisma().expenses.createMany({ data })
 
-export const getAllExpenses = () => prisma.expenses.findMany({})
+export const getAllExpenses = () => prisma().expenses.findMany({})
 
 export const getAllExpenseByTripId = (id: number) =>
-    prisma.expenses.findMany({
+    prisma().expenses.findMany({
         where: { tripId: id },
         select: { expenseType: true, tripId: true, id: true, placedAmount: true }
     })
 
 export const getAllExpenseForApproval = (tripId: number[]) =>
-    prisma.expenses.findMany({
+    prisma().expenses.findMany({
         where: {
             tripId: { in: tripId },
             expenseApproval: false
@@ -27,7 +27,7 @@ export const getAllExpenseForApproval = (tripId: number[]) =>
     })
 
 export const getAllExpenseCountByTripId = (id: number[]) =>
-    prisma.expenses.findMany({
+    prisma().expenses.findMany({
         where: {
             tripId: { in: id },
             expenseApproval: true
@@ -40,7 +40,7 @@ export const getAllExpenseCountByTripId = (id: number[]) =>
     })
 
 export const updateExpenseApproval = (id: number, data: updateExpenseType) =>
-    prisma.expenses.update({
+    prisma().expenses.update({
         where: { id },
         data: {
             acceptedAmount: data.acceptedAmount,

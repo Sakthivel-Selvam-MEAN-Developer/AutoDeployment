@@ -5,16 +5,16 @@ export const create = (
     data: Prisma.bunkCreateInput | Prisma.bunkUncheckedCreateInput,
     id: number
 ) =>
-    prisma.bunk.upsert({
+    prisma().bunk.upsert({
         where: { id },
         update: data,
         create: data
     })
 
-export const getAllBunk = () => prisma.bunk.findMany({})
+export const getAllBunk = () => prisma().bunk.findMany({})
 
 export const getAllBunkName = () =>
-    prisma.bunk.findMany({
+    prisma().bunk.findMany({
         select: { bunkName: true }
     })
 const bunkData = {
@@ -26,7 +26,7 @@ const bunkData = {
     accountHolder: true
 }
 export const getBunkAccountByName = (bunkName: string[]) =>
-    prisma.bunk.findMany({
+    prisma().bunk.findMany({
         where: { bunkName: { in: bunkName } },
         select: bunkData
     })

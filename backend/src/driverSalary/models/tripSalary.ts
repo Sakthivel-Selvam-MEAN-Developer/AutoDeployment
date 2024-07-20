@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
 
 export const createTripSalary = async (data: Prisma.tripSalaryCreateInput) => {
-    const tripSalaryData = await prisma.tripSalary.findFirst({
+    const tripSalaryData = await prisma().tripSalary.findFirst({
         where: {
             loadingPointId: data.loadingPointId,
             unloadingPointId: data.unloadingPointId,
@@ -11,7 +11,7 @@ export const createTripSalary = async (data: Prisma.tripSalaryCreateInput) => {
         select: { id: true }
     })
     if (tripSalaryData !== null) {
-        return prisma.tripSalary.update({
+        return prisma().tripSalary.update({
             where: { id: tripSalaryData.id },
             data: {
                 dailyBetta: data.dailyBetta,
@@ -20,7 +20,7 @@ export const createTripSalary = async (data: Prisma.tripSalaryCreateInput) => {
             }
         })
     }
-    return prisma.tripSalary.create({ data })
+    return prisma().tripSalary.create({ data })
 }
 
 export const getTripSalaryDetailsByLoactionId = (
@@ -28,7 +28,7 @@ export const getTripSalaryDetailsByLoactionId = (
     unloadingPointId: string,
     stockPointId: string
 ) =>
-    prisma.tripSalary.findFirst({
+    prisma().tripSalary.findFirst({
         where: {
             loadingPointId: parseInt(loadingPointId),
             unloadingPointId: parseInt(unloadingPointId),
@@ -43,7 +43,7 @@ export const getTripSalaryDetailsByLoactionId = (
     })
 
 export const getTripSalaryDetailsById = (id: number[]) =>
-    prisma.tripSalary.findMany({
+    prisma().tripSalary.findMany({
         where: { id: { in: id } },
         select: {
             id: true,

@@ -13,6 +13,7 @@ const mockUpdateFuelWithTripId = vi.fn()
 const mockGetCementCompanyByLocation = vi.fn()
 const mockGetNumberByTruckId = vi.fn()
 const mockUnbilledTrip = vi.fn()
+const mockGetPricePoint = vi.fn()
 
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     getAllTrip: () => mockgetTrip(),
@@ -26,6 +27,9 @@ vi.mock('../models/overallTrip', () => ({
 }))
 vi.mock('../models/truck', () => ({
     getNumberByTruckId: (truckId: any) => mockGetNumberByTruckId(truckId)
+}))
+vi.mock('../models/pricePoint', () => ({
+    getPricePoint: (truckId: any) => mockGetPricePoint(truckId)
 }))
 vi.mock('../models/paymentDues', () => ({
     getPaymentDuesWithoutTripId: (vehicleNumber: any) =>

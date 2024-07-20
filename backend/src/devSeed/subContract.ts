@@ -20,33 +20,43 @@ import seedPricePointMarker from '../subContracts/seed/pricePointMarker.ts'
 import prisma from '../../prisma/index.ts'
 
 async function addFuelStations() {
-    await prisma.$executeRaw`INSERT INTO "subContract"."bunk" ("bunkName","location", "accountHolder", "accountNumber", "ifsc", "accountTypeNumber", "createdAt", "updatedAt","branchName", "bunkType","contactPersonName","contactPersonNumber","creaditDays","emailId")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."bunk" ("bunkName","location", "accountHolder", "accountNumber", "ifsc", "accountTypeNumber", "createdAt", "updatedAt","branchName", "bunkType","contactPersonName","contactPersonNumber","creaditDays","emailId")
     VALUES ('SRK Barath Petroleum','Erode','Barath', 156038718, 'HDFC0005627', 11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'Salem','HPCL', 'Sakthivel', '345435345', 10, 'sakthivel@gmail.com'),
     ('Sakthivel Barath Petroleum','Salem', 'Sakthivel', 23456332, 'ICIC0001356', 14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Namakkal','BPCL', 'Barath', '34234234', 18, 'sakthivel1@gmail.com');`
-    await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
     VALUES ('TN22E3456',50,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
     VALUES ('TN12R9456',50,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."stockPoint" ("name", "createdAt", "updatedAt","cementCompanyId","pricePointMarkerId")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."stockPoint" ("name", "createdAt", "updatedAt","cementCompanyId","pricePointMarkerId")
     VALUES ('StockPoint', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId","truckId", "createdAt", "updatedAt")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."overallTrip" ("loadingPointToUnloadingPointTripId","truckId", "createdAt", "updatedAt")
     VALUES (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."transporter" ("name","emailId","contactPersonName","contactPersonNumber","address","hasGst","hasTds","transporterType","accountHolder","accountNumber","ifsc","accountTypeNumber", "createdAt", "updatedAt", "branchName")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."transporter" ("name","emailId","contactPersonName","contactPersonNumber","address","hasGst","hasTds","transporterType","accountHolder","accountNumber","ifsc","accountTypeNumber", "createdAt", "updatedAt", "branchName")
     VALUES ('Magnum Logistics Pvt Ltd','magnum@gmail.com','Magnum', '987675654432','Magnum Street',false,false,'Own','Magnum','635534523','uvx1234',13454350,CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'Erode');`
-    await prisma.$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."truck" ("vehicleNumber", "capacity","transporterId","createdAt", "updatedAt")
     VALUES ('TN12G9456',70,3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."accountType" ("accountTypeName","accountTypeNumber", "createdAt", "updatedAt")
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."accountType" ("accountTypeName","accountTypeNumber", "createdAt", "updatedAt")
     VALUES ('Current Account',11, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('Overdraft Account',12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('Cash Credit Account',13, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('Advances Account',14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('NRE Account',40, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ('Credit Card',52, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."billNo" ("id","lastBillNo")
+    await prisma().$executeRaw`INSERT INTO "subContract"."billNo" ("id","lastBillNo")
     VALUES (1,'MGL23A-0');`
-    await prisma.$executeRaw`INSERT INTO "subContract"."pricePoint" ( "freightAmount" , "transporterAmount" , "transporterPercentage" ,"createdAt","updatedAt", "loadingPointId" , "unloadingPointId" , "stockPointId" , "payGeneratingDuration" )
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."pricePoint" ( "freightAmount" , "transporterAmount" , "transporterPercentage" ,"createdAt","updatedAt", "loadingPointId" , "unloadingPointId" , "stockPointId" , "payGeneratingDuration" )
     VALUES (1200,1176,2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,1,null, 1,0);`
-    await prisma.$executeRaw`INSERT INTO "subContract"."pricePoint" ( "freightAmount" , "transporterAmount" , "transporterPercentage" ,"createdAt","updatedAt", "loadingPointId" , "unloadingPointId" , "stockPointId" , "payGeneratingDuration" )
+    await prisma()
+        .$executeRaw`INSERT INTO "subContract"."pricePoint" ( "freightAmount" , "transporterAmount" , "transporterPercentage" ,"createdAt","updatedAt", "loadingPointId" , "unloadingPointId" , "stockPointId" , "payGeneratingDuration" )
     VALUES (1000,880,12, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,null,1, 1,0);`
 }
 

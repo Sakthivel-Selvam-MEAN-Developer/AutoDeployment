@@ -8,13 +8,13 @@ export const create = (
     data:
         | Prisma.stockPointToUnloadingPointTripCreateInput
         | Prisma.stockPointToUnloadingPointTripUncheckedCreateInput
-) => prisma.stockPointToUnloadingPointTrip.create({ data })
+) => prisma().stockPointToUnloadingPointTrip.create({ data })
 
 export const getAllStockToUnloadingPointTrip = () =>
-    prisma.stockPointToUnloadingPointTrip.findMany({})
+    prisma().stockPointToUnloadingPointTrip.findMany({})
 
 export const updateUnloadWeightForStockTrip = (id: number) =>
-    prisma.stockPointToUnloadingPointTrip.update({
+    prisma().stockPointToUnloadingPointTrip.update({
         where: { id },
         data: {
             tripStatus: true,
@@ -45,7 +45,7 @@ export const updateBillNumber: type = (prismaT, id, billNo, invoiceId) =>
     })
 
 export const getInvoiceDetails = (id: number[]) =>
-    prisma.stockPointToUnloadingPointTrip.findMany({
+    prisma().stockPointToUnloadingPointTrip.findMany({
         where: { id: { in: id }, tripStatus: true },
         select: {
             startDate: true,
@@ -85,7 +85,7 @@ export const getInvoiceDetails = (id: number[]) =>
     })
 
 export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
-    prisma.stockPointToUnloadingPointTrip.findMany({
+    prisma().stockPointToUnloadingPointTrip.findMany({
         where: {
             tripStatus: true,
             unloadingPoint: { cementCompany: { name: filterData.company } },
@@ -131,13 +131,13 @@ export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
         }
     })
 export const getAllStockToUnloadingPointInvoiceNumbers = () =>
-    prisma.stockPointToUnloadingPointTrip.findMany({
+    prisma().stockPointToUnloadingPointTrip.findMany({
         select: {
             invoiceNumber: true
         }
     })
 export const getAllStockToUnloadingPointUnbilledTrips = () =>
-    prisma.stockPointToUnloadingPointTrip.findMany({
+    prisma().stockPointToUnloadingPointTrip.findMany({
         where: {
             overallTrip: {
                 some: {
@@ -182,7 +182,7 @@ export const getAllStockToUnloadingPointUnbilledTrips = () =>
         }
     })
 export const updateUnloadingTripBillingRate = (id: string, billingRate: string) =>
-    prisma.stockPointToUnloadingPointTrip.update({
+    prisma().stockPointToUnloadingPointTrip.update({
         where: {
             id: parseInt(id)
         },

@@ -3,10 +3,10 @@ import prisma from '../../../prisma/index.ts'
 
 export const create = (
     data: Prisma.shortageQuantityCreateInput | Prisma.shortageQuantityUncheckedCreateInput
-) => prisma.shortageQuantity.create({ data })
+) => prisma().shortageQuantity.create({ data })
 
 export const getShortageQuantityByOverallTripId = (overallTripId: number) =>
-    prisma.shortageQuantity.findFirst({
+    prisma().shortageQuantity.findFirst({
         where: { overallTripId },
         select: {
             id: true,
@@ -23,7 +23,7 @@ interface shortageProps {
     approvalStatus: boolean
 }
 export const updateShortageByOverallTripId = (id: number, newShortage: shortageProps) =>
-    prisma.shortageQuantity.update({
+    prisma().shortageQuantity.update({
         where: { id },
         data: {
             unloadedQuantity: newShortage.unloadedQuantity,

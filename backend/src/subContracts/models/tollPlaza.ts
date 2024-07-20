@@ -4,7 +4,7 @@ import tollPlaza from '../seed/tollPlaza.ts'
 
 export const create = (
     data: Prisma.tollPaymentCreateManyInput | Prisma.tollPaymentUncheckedCreateInput[]
-) => prisma.tollPayment.createMany({ data })
+) => prisma().tollPayment.createMany({ data })
 interface props {
     billNo: string
     billDate: number
@@ -16,7 +16,7 @@ export interface tollPlaza {
     id: number
 }
 export const updateBillDetails = (overallTripIds: number[], data: props) =>
-    prisma.tollPayment.updateMany({
+    prisma().tollPayment.updateMany({
         where: { overallTripId: { in: overallTripIds } },
         data: {
             billNo: data.billNo,
@@ -25,7 +25,7 @@ export const updateBillDetails = (overallTripIds: number[], data: props) =>
         }
     })
 export const updateTollAmount = (ids: number[], data: data) =>
-    prisma.tollPayment.updateMany({
+    prisma().tollPayment.updateMany({
         where: {
             id: { in: ids }
         },
@@ -33,9 +33,9 @@ export const updateTollAmount = (ids: number[], data: data) =>
             amount: data.amount
         }
     })
-export const getTollPlaza = () => prisma.tollPayment.findMany({})
+export const getTollPlaza = () => prisma().tollPayment.findMany({})
 export const getTollLocations = () =>
-    prisma.tollPlazaLocation.findMany({
+    prisma().tollPlazaLocation.findMany({
         select: {
             id: true,
             location: true
@@ -43,4 +43,4 @@ export const getTollLocations = () =>
     })
 export const createTollPlazaLocations = (
     data: Prisma.tollPlazaLocationCreateInput | Prisma.tollPlazaLocationUncheckedCreateInput
-) => prisma.tollPlazaLocation.create({ data })
+) => prisma().tollPlazaLocation.create({ data })

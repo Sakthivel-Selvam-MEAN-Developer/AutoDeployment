@@ -10,5 +10,5 @@ export const saveStops = async (
 ) => {
     const rawStops = computeStops(movementsInGenericFormat)
     const gpsStop = rawStops.map((stop) => ({ ...stop, vehicleId, source }))
-    await prisma.$transaction([createMany(gpsStop), createMovements(movementsInGenericFormat)])
+    await prisma().$transaction([createMany(gpsStop), createMovements(movementsInGenericFormat)])
 }

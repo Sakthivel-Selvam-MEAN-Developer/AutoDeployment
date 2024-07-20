@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client'
 import seedOrgUnit from '../hrm/seed/orgUnitRelation.ts'
 import seedEmployeeHead from '../hrm/seed/employeeHead.ts'
 import seedEmployee from '../hrm/seed/employeeWithoutDep.ts'
@@ -9,8 +8,7 @@ import { create as createOrgUnitHead } from '../hrm/models/orgUnitHeads.ts'
 import { create as createReason } from '../hrm/models/leaveReasons.ts'
 import seedSubContract from './subContract.ts'
 import seedDriverSalary from './driverSalary.ts'
-
-const prisma = new PrismaClient()
+import prisma from '../../prisma/index.ts'
 
 const createOrgSetupWithEmployee = async () => {
     const orgUnit = await createOrgUnit(seedOrgUnit)
@@ -35,5 +33,5 @@ main()
         process.exit(1)
     })
     .finally(() => {
-        prisma.$disconnect()
+        prisma().$disconnect()
     })

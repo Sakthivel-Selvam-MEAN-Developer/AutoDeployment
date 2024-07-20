@@ -18,9 +18,7 @@ import { getBunkAccountByName } from '../models/bunk.ts'
 import { overallTripByPendingPaymentDues } from '../models/overallTrip.ts'
 import { handlePrismaError } from '../../../prisma/errorHandler.ts'
 import { dataProps, getNEFTData } from '../domain/neftLogic.ts'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import prisma from '../../../prisma/index.ts'
 interface transporterAccountProps {
     name: string
     accountNumber: string
@@ -342,7 +340,7 @@ export const donwloadNEFTFile = async (req: Request, res: Response) => {
     const NEFTData: dataProps[] = req.body
     const dueIds = NEFTData.map((data) => data.id)
     try {
-        await prisma.$transaction(async (prismas) => {
+        await prisma().$transaction(async (prismas) => {
             const count = await checkNEFTStatus(dueIds)
             if (!(dueIds.length === count)) {
                 throw new Error('Not all files have NEFT status true')
