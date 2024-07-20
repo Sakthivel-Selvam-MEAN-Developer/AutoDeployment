@@ -234,7 +234,7 @@ export const getTripByUnloadDate = (date: number) =>
             shortageQuantity: { some: { unloadedDate: { lte: date } } }
         },
         include: {
-            truck: { include: { transporter: true } },
+            truck: { include: { transporter: { include: { employee: true } } } },
             shortageQuantity: true,
             loadingPointToUnloadingPointTrip: {
                 include: {
@@ -682,7 +682,7 @@ export const overallTripByPendingPaymentDues = () =>
             truck: {
                 select: {
                     vehicleNumber: true,
-                    transporter: true
+                    transporter: { select: { employee: { select: { name: true } } } }
                 }
             },
             paymentDues: true,
