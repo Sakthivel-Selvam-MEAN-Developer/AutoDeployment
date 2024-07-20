@@ -1,10 +1,13 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma'
-interface filterdata {
-    startDate: number
-    endDate: number
-    company: string
-    pageNumber: number
+import { filterdata } from './companyInvoiceType'
+const companyInvoiceDetails = {
+    id: true,
+    billNo: true,
+    billDate: true,
+    amount: true,
+    pdfLink: true,
+    cementCompany: { select: { name: true, id: true } }
 }
 export const create = (
     data: Prisma.companyInvoiceCreateInput | Prisma.companyInvoiceUncheckedCreateInput
@@ -21,13 +24,7 @@ export const getCompanyInvoice = (filterData: filterdata) => {
                 gte: filterData.endDate === 0 ? undefined : filterData.endDate
             }
         },
-        select: {
-            billNo: true,
-            billDate: true,
-            amount: true,
-            pdfLink: true,
-            cementCompany: { select: { name: true, id: true } }
-        }
+        select: companyInvoiceDetails
     })
 }
 export const pageCount = async (filterData: filterdata) =>
@@ -40,9 +37,13 @@ export const pageCount = async (filterData: filterdata) =>
             }
         }
     })
-
 export const getCompanyInvoiceNameList = () =>
     prisma.companyInvoice.findMany({
         where: { companyAdvisoryId: null },
         select: { id: true, billNo: true }
+    })
+export const getCompanyInvoiceForSubmitDate = () =>
+    prisma.companyInvoice.findMany({
+        where: { submissionDate: null },
+        select: companyInvoiceDetails
     })

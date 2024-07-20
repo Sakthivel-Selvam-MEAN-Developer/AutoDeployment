@@ -21,6 +21,7 @@ import { create as createShortageQuantity } from './shortageQuantity.ts'
 import {
     create as createCompanyinvoice,
     getCompanyInvoice,
+    getCompanyInvoiceForSubmitDate,
     getCompanyInvoiceNameList,
     pageCount
 } from './companyInvoice.ts'
@@ -165,6 +166,13 @@ describe('ViewInvoice model', () => {
         })
         const actual = await pageCount(filterData)
         expect(actual).toBe(1)
+    })
+    test('should able to get company invoice with no submission date', async () => {
+        const company = await createCompany(seedCompany, 1)
+        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+        const actual = await getCompanyInvoiceForSubmitDate()
+        expect(actual.length).toBe(1)
+        expect(actual[0].id).toBe(invoice.id)
     })
 })
 
