@@ -39,6 +39,25 @@ resource "aws_security_group" "application" {
     protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+    cidr_blocks = ["49.47.219.38/32"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    tags = {
+      Name = "Test_Server"
+    }
+}
+resource "aws_key_pair" "test_server_key" {
+  key_name   = "test_server"
+  public_key = file("${path.module}/test_server.pub")
 }
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
@@ -58,23 +77,25 @@ resource "aws_route_table_association" "rta" {
 resource "aws_instance" "test_server" {
   instance_type = "t2.nano"
   ami = "ami-0b72821e2f351e396"
-  user_data = <<-EOL
+  user_data = <<-EOF
+    #!/bin/bash
     set -e
-    sudo yum update
-    sudo yum install -y docker
-    curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-aarch64 -o ~/docker-compose
+    yum update
+    yum install docker
+    curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/docker-compose
+    ls
     chmod +x ~/docker-compose
     ~/docker-compose version
     echo "install docker complete"
-    sudo systemctl enable docker.service
-    sudo systemctl start docker.service
+    systemctl enable docker.service
+    systemctl start docker.service
     echo "set docker auto start"
-    sudo chmod 666 /var/run/docker.sock
-  EOL
+    chmod 666 /var/run/docker.sock
+  EOF
   tags = {
     Name = "Test Server"
   }
-  # key_name = "wonderwhytest"
+  key_name = aws_key_pair.test_server_key.key_name
   root_block_device {
     volume_size = 20
   }
