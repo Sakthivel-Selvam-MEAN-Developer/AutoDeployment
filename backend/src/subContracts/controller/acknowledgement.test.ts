@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
-import { getTrip } from './acknowledgement.ts'
+import { acknowledgementFileUpload, getTrip } from './acknowledgement.ts'
 
 const mockGetAllActivetripTripByTripStatus = vi.fn()
 const mockGetAllTripByAcknowledgementStatus = vi.fn()
@@ -15,13 +15,16 @@ const mockCreateShortageQuantity = vi.fn()
 const mockGetPercentageByTransporter = vi.fn()
 const mockGetShortageQuantityByOverallTripId = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
+const mockUploadAcknowledgementFile = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getAllActivetripTripByTripStatus: () => mockGetAllActivetripTripByTripStatus(),
     getAllTripByAcknowledgementStatus: () => mockGetAllTripByAcknowledgementStatus(),
     getOverAllTripById: (inputs: any) => mockOverAllTripById(inputs),
     closeAcknowledgementStatusforOverAllTrip: (inputs: any) =>
-        mockAcknowledgeStatusforOverAllTrip(inputs)
+        mockAcknowledgeStatusforOverAllTrip(inputs),
+    uploadAcknowledgementFile: (id: number, pdfLink: string) =>
+        mockUploadAcknowledgementFile(id, pdfLink)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     updateUnloadWeightforTrip: (inputs: any, data: any) =>
@@ -53,6 +56,12 @@ vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
         next()
     }
+}))
+
+vi.mock('../controller/upload.ts', () => ({
+    default: vi.fn(() => {
+        return ''
+    })
 }))
 const mockOverAllTrip = [
     {
@@ -133,6 +142,22 @@ const mockOverAllTripByStockIdData = {
         totalTransporterAmount: 36000
     }
 }
+export interface S3File extends Express.MulterS3.File {
+    location: string
+}
+const mockRes = {
+    sendStatus: vi.fn().mockReturnThis(),
+    status: vi.fn().mockReturnThis(),
+    json: vi.fn().mockReturnThis()
+} as unknown as Response
+const mockReq = {
+    file: {
+        location: 'ghyutuyfj'
+    } as S3File,
+    body: {
+        id: 1
+    }
+} as unknown as Request
 const mockOverAllTripByTripIdData = {
     id: 1,
     acknowledgementStatus: false,
@@ -352,11 +377,11 @@ describe('Acknowledgement Controller', () => {
     //     expect(mockUpdateWeightForStockTrip).toBeCalledTimes(3)
     // })
 
-    // test('should handle error for updateWeightForTrip', async () => {
-    //     mockUpdateWeightForTrip.mockRejectedValue(new Error('Error'))
-    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
-    //     expect(mockUpdateWeightForTrip).toBeCalledTimes(3)
-    // })
+    test('should handle acknowledgement uploadfile', async () => {
+        mockUploadAcknowledgementFile.mockResolvedValue({ id: 1 })
+        await acknowledgementFileUpload(mockReq, mockRes)
+        expect(mockUploadAcknowledgementFile).toHaveBeenCalledTimes(1)
+    })
 })
 const mockOverallTripWithStockPointToUnloadingPointTrip = {
     stockPointToUnloadingPointTrip: {

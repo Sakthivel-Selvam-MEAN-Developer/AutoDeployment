@@ -30,8 +30,8 @@ export default defineConfig({
                 'src/subContracts/routes/**': {
                     branches: 100,
                     functions: 100,
-                    lines: 99.5,
-                    statements: 99.5
+                    lines: 99.51,
+                    statements: 99.51
                 }
             },
             exclude: ['src/subContracts/InvoiceFormat/**']

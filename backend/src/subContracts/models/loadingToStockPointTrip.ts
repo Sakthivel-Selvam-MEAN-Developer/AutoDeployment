@@ -8,22 +8,22 @@ export const create = (
         | Prisma.loadingPointToStockPointTripCreateInput
         | Prisma.loadingPointToStockPointTripUncheckedCreateInput
 ) => prisma().loadingPointToStockPointTrip.create({ data })
-
+const overallTrip = {
+    select: {
+        truck: {
+            select: {
+                vehicleNumber: true,
+                transporter: { select: { name: true, transporterType: true } }
+            }
+        }
+    }
+}
 export const getAllStockPointTrip = () =>
     prisma().loadingPointToStockPointTrip.findMany({
         include: {
             loadingPoint: { select: { name: true, cementCompanyId: true } },
             stockPoint: { select: { name: true, id: true } },
-            overallTrip: {
-                select: {
-                    truck: {
-                        select: {
-                            vehicleNumber: true,
-                            transporter: { select: { name: true, transporterType: true } }
-                        }
-                    }
-                }
-            },
+            overallTrip: overallTrip,
             stockPointToUnloadingPointTrip: true
         }
     })

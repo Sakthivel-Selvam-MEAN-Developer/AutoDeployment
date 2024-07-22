@@ -22,6 +22,7 @@ async function getSqlFiles(dir: string): Promise<string[]> {
 }
 export const applyMigrations = async (client: any) => {
     const migrationDir = `${configs.TEST_PATH}`
+
     const sqlFiles = await getSqlFiles(migrationDir)
     try {
         for (const file of sqlFiles) {

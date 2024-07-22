@@ -3,7 +3,8 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
     getAllTripByAcknowledgementStatus,
     getTripById,
-    updateAcknowledgementStatus
+    updateAcknowledgementStatus,
+    uploadAcknowledgementFile
 } from '../../services/acknowledgement'
 import { epochToDate } from '../../../commonUtils/epochToTime'
 import dayjs from 'dayjs'
@@ -12,6 +13,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import SubmitButton from '../../../form/button'
 import { tripdetailsProps } from './types'
 import { DueDateDialog } from './AcknowledgementDialog'
+import FileUpload from './upload'
 
 const AddAcknowledgement: React.FC = () => {
     const currentTime = dayjs().unix()
@@ -23,14 +25,33 @@ const AddAcknowledgement: React.FC = () => {
     const [tripClosed, setTripClosed] = useState<boolean>(false)
     const [tripDetails, setTripDetails] = useState<tripdetailsProps | null>(null)
     const [disable, setDisable] = useState(false)
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
     let clicked = false
     const finalDue = async (id: number) => {
         if (clicked) return
         clicked = true
         clicked &&
             (await updateAcknowledgementStatus(id)
-                .then(() => setTripClosed(true))
+                .then(() => uploadAcknowledgement())
+                .then(() => {
+                    setTripClosed(true)
+                    setSelectedFile(null)
+                })
                 .catch(() => alert('Trip Not Closed')))
+    }
+    const uploadAcknowledgement = async () => {
+        if (!selectedFile) {
+            console.error('No file selected')
+            return
+        }
+        const formData = new FormData()
+        formData.append('image', selectedFile)
+        formData.append('id', tripId.toString())
+        try {
+            await uploadAcknowledgementFile(formData)
+        } catch (error) {
+            console.error('Error uploading file:', error)
+        }
     }
     const onSubmit: SubmitHandler<FieldValues> = () => {
         setTripClosed(false)
@@ -79,6 +100,7 @@ const AddAcknowledgement: React.FC = () => {
                             setTripDetails
                         )}
                     />
+
                     <SubmitButton name="Submit" type="submit" disabled={disable} />
                 </form>
             </div>
@@ -92,6 +114,10 @@ const AddAcknowledgement: React.FC = () => {
                             <h3 style={{ fontWeight: 'normal' }}>
                                 Add Acknowledgement for the Trip
                             </h3>
+                            <FileUpload
+                                selectedFile={selectedFile}
+                                setSelectedFile={setSelectedFile}
+                            />
                             <div
                                 style={{
                                     display: 'flex',
