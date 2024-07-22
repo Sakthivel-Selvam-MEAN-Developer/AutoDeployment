@@ -1,6 +1,7 @@
 // import { PGlite } from '@electric-sql/pglite'
 import { join } from 'path'
 import { readdir, readFile, stat } from 'fs/promises'
+import configs from './config'
 // import { PrismaPGlite } from 'pglite-prisma-adapter'
 // import { PrismaClient } from '@prisma/client'
 
@@ -20,7 +21,7 @@ async function getSqlFiles(dir: string): Promise<string[]> {
     return files
 }
 export const applyMigrations = async (client: any) => {
-    const migrationDir = '/Users/barath/Desktop/wonderWhy/backend/prisma/migrations/'
+    const migrationDir = `${configs.TEST_PATH}`
     const sqlFiles = await getSqlFiles(migrationDir)
     try {
         for (const file of sqlFiles) {

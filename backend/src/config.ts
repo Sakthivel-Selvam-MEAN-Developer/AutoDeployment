@@ -12,7 +12,8 @@ const configs = {
     AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY || '',
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || '',
     S3_BUCKET: process.env.S3_BUCKET || '',
-    REGION: process.env.REGION || ''
+    REGION: process.env.REGION || '',
+    TEST_PATH: process.env.TEST_PATH || ''
 }
 
 export default configs
