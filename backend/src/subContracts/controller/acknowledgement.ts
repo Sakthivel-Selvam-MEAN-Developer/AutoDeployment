@@ -119,12 +119,11 @@ export const closeTripById = async (req: Request, res: Response) => {
         .then(() => res.sendStatus(200))
         .catch(() => res.sendStatus(500))
 }
-export const acknowledgementFileUpload = (req: Request, res: Response) => {
+export const acknowledgementFileUpload = async (req: Request, res: Response) => {
     const file = req.file as S3File
     if (file?.location !== undefined) {
-        uploadAcknowledgementFile(parseInt(req.body.id), file?.location)
+        await uploadAcknowledgementFile(parseInt(req.body.id), file?.location)
             .then((data) => res.status(200).json(data))
             .catch(() => res.status(500))
     }
-    return res.status(500)
 }

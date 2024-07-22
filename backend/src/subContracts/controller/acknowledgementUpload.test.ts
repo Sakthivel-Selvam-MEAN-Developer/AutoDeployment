@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import multer from 'multer'
 import multerS3 from 'multer-s3'
 import { Role } from '../roles'
+import dayjs from 'dayjs'
 
 vi.mock('../../config', () => ({
     __esModule: true,
@@ -87,7 +88,7 @@ describe('Upload Middleware', () => {
             const keyCb = (err: any, data: any) => {
                 console.log(err)
                 expect(data).toStrictEqual(
-                    `${mockFile.fieldname}/${Date.now()}-${mockFile.originalname}`
+                    `${mockFile.fieldname}/${dayjs().unix()}-${mockFile.originalname}`
                 )
             }
             multerS3Options?.key(mockReq, mockFile, keyCb)

@@ -2,6 +2,7 @@ import { S3Client } from '@aws-sdk/client-s3'
 import multer from 'multer'
 import multerS3 from 'multer-s3'
 import configs from '../../config'
+import dayjs from 'dayjs'
 
 export const s3 = new S3Client({
     region: configs.REGION,
@@ -21,7 +22,7 @@ export const upload = multer({
         },
         key: (req, file, cb) => {
             console.log(req)
-            cb(null, `${files}/${Date.now()}-${file.originalname}`)
+            cb(null, `${files}/${dayjs().unix()}-${file.originalname}`)
         }
     })
 }).single('image')
