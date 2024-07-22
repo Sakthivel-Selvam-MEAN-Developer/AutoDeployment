@@ -85,6 +85,15 @@ describe('Driver Controller', () => {
         expect(mockRes.status).toHaveBeenCalledTimes(3)
         expect(mockRes.json).toHaveBeenCalledTimes(3)
     })
+    test('should not able to create driver and throw error', async () => {
+        setMockExecResponse('', 'User exists with same username')
+        mockCreateDriver.mockResolvedValue({})
+        await createDriver(mockDriverData, mockRes)
+        mockCreateDriver.mockResolvedValue(mockDriverData.body)
+        await createDriver(mockDriverData, mockRes)
+        expect(mockRes.status).toHaveBeenCalledTimes(5)
+        expect(mockRes.json).toHaveBeenCalledTimes(5)
+    })
     test('should able to get driver', async () => {
         mockGetAllDriver.mockResolvedValue(allDriver)
         await supertest(app).get('/api/driver').expect(200)

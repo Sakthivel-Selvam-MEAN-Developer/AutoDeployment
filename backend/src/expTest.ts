@@ -1,9 +1,6 @@
-// import { PGlite } from '@electric-sql/pglite'
 import { join } from 'path'
 import { readdir, readFile, stat } from 'fs/promises'
 import configs from './config'
-// import { PrismaPGlite } from 'pglite-prisma-adapter'
-// import { PrismaClient } from '@prisma/client'
 
 async function getSqlFiles(dir: string): Promise<string[]> {
     let files: string[] = []

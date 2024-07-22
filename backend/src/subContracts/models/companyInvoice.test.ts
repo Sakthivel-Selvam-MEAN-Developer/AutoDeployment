@@ -1,4 +1,4 @@
-// import { create as createCompany } from './cementCompany.ts'
+import { create as createCompany } from './cementCompany.ts'
 // import {
 //     create as createTrip,
 //     updateBillNumber as updateLoadingToUnloading
@@ -8,7 +8,7 @@
 // import { create as createTruck } from './truck.ts'
 // import { create as createTransporter } from './transporter.ts'
 // import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
-// import seedCompany from '../seed/cementCompany.ts'
+import seedCompany from '../seed/cementCompany.ts'
 // import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
 // import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
 // import seedTruck from '../seed/truckWithoutDeb.ts'
@@ -18,27 +18,27 @@
 // import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.ts'
 // import seedShortageQuantity from '../seed/shortageQuantity.ts'
 // import { create as createShortageQuantity } from './shortageQuantity.ts'
-// import {
-//     create as createCompanyinvoice,
-//     getCompanyInvoice,
-//     getCompanyInvoiceForSubmitDate,
-//     getCompanyInvoiceNameList,
-//     pageCount
-// } from './companyInvoice.ts'
+import {
+    // create as createCompanyinvoice,
+    // getCompanyInvoice,
+    getCompanyInvoiceForSubmitDate
+    // getCompanyInvoiceNameList,
+    // pageCount
+} from './companyInvoice.ts'
 // import prisma from '../../../prisma/index.ts'
-// import { create as createInvoice } from './companyInvoice.ts'
+import { create as createInvoice } from './companyInvoice.ts'
 // const unloadingPointTest = await createPricePointMarker({
 //     ...seedPricePointMarker,
 //     location: 'salem'
 // })
-// const companyInvoice = {
-//     billNo: 'MGL-034',
-//     billDate: 1688282262,
-//     amount: 24000,
-//     pdfLink: 'https://aws.s3.sample.pdf',
-//     GSTAmount: parseInt((24000 * (12 / 100)).toFixed(2)),
-//     TDSAmount: parseInt((24000 * (2 / 100)).toFixed(2))
-// }
+const companyInvoice = {
+    billNo: 'MGL-034',
+    billDate: 1688282262,
+    amount: 24000,
+    pdfLink: 'https://aws.s3.sample.pdf',
+    GSTAmount: parseInt((24000 * (12 / 100)).toFixed(2)),
+    TDSAmount: parseInt((24000 * (2 / 100)).toFixed(2))
+}
 // const createTripDetails = {
 //     acknowledgementApproval: false,
 //     acknowledgementStatus: true,
@@ -347,6 +347,12 @@
 //         loadingKilometer: 0
 //     })
 // }
-describe('', () => {
-    test('', () => {})
+describe('company invoice', () => {
+    test('should able to get company invoice with no submission date', async () => {
+        const company = await createCompany(seedCompany, 1)
+        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+        const actual = await getCompanyInvoiceForSubmitDate()
+        expect(actual.length).toBe(1)
+        expect(actual[0].id).toBe(invoice.id)
+    })
 })

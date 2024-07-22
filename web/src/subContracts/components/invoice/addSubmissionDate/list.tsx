@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import DataTable from './dataGrid'
 import { gridContent } from './dataGridInputs'
+import { getBillsWithNoSubmissionDate } from '../../../services/invoiceSubmissionDate'
 export interface tripProp {
     data: billProps[]
 }
@@ -26,8 +27,7 @@ const initialState = {
 const AddSubmissionDate: React.FC = () => {
     const [billDetails, setBillDetails] = useState<tripProp>(initialState)
     useEffect(() => {
-        console.log(setBillDetails(initialState))
-        // getBillsWithNoSubmissionDate().then(setBillDetails)
+        getBillsWithNoSubmissionDate().then(setBillDetails)
     }, [])
     const gridRows = gridContent(billDetails.data)
     return (

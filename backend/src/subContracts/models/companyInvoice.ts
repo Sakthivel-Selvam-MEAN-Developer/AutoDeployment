@@ -42,7 +42,7 @@ export const getCompanyInvoiceNameList = () =>
         where: { companyAdvisoryId: null },
         select: { id: true, billNo: true }
     })
-export const getCompanyInvoiceForSubmitDate = () =>
+export const getCompanyInvoiceForSubmitDate = async () =>
     prisma().companyInvoice.findMany({
         where: { submissionDate: null },
         select: companyInvoiceDetails

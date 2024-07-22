@@ -1,7 +1,7 @@
 import { applyMigrations } from '../../expTest.ts'
 import { initPrisma } from '../../../prisma/index.ts'
 import cleanData from './cleanDb.ts'
-import { initDb } from '../inMemoryDb.ts'
+import { initDb } from '../../inMemoryDb.ts'
 
 beforeAll(async () => {
     await initDb().then(async (data) => {

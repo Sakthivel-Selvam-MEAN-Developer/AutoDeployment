@@ -1,7 +1,7 @@
 import cleanData from './cleanDb.ts'
 import { initPrisma } from '../../../prisma/index.ts'
 import { applyMigrations } from '../../expTest.ts'
-import { initDb } from '../../subContracts/inMemoryDb.ts'
+import { initDb } from '../../inMemoryDb.ts'
 beforeAll(async () => {
     await initDb().then(async (data) => {
         await initPrisma(data.adapter)

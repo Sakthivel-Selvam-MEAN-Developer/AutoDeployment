@@ -39,6 +39,7 @@ import tollPlazaRoutes from './subContracts/routes/tollPlaza.ts'
 import viewInvoiceRoutes from './subContracts/routes/viewInvoice.ts'
 import employeeSubRoutes from './subContracts/routes/employee.ts'
 import companyAdvisoryRoutes from './subContracts/routes/companyAdvisory.ts'
+import invoiceSubmission from './subContracts/routes/invoiceSubmission.ts'
 // import gpsStopRoutes from './gpsStops'
 const router = express.Router()
 // wondermove
@@ -80,6 +81,8 @@ pricePointApprovalRoutes(router)
 tollPlazaRoutes(router)
 viewInvoiceRoutes(router)
 employeeSubRoutes(router)
+invoiceSubmission(router)
+
 // driverSalary
 driverRoutes(router)
 driverTripRoutes(router)
