@@ -115,13 +115,16 @@ vi.mock('../../auditRoute.ts', () => ({
 const mockGetInvoiceDetailsDData = [
     {
         startDate: 1709231400,
+        billNo: 12334,
         billingRate: 1200,
+        tripStatus: '',
         unloadingPoint: {
             name: 'Salem'
         },
         loadingPoint: {
             name: 'Chennai-south',
             cementCompany: {
+                quantityType: 'aaa',
                 primaryBill: { address: 'ULTRA TECH\n ,new street\n erode', gstNumber: 'asdfgh ' }
             }
         },
@@ -129,7 +132,8 @@ const mockGetInvoiceDetailsDData = [
             {
                 shortageQuantity: [
                     {
-                        shortageQuantity: 0
+                        shortageQuantity: 0,
+                        unloadedQuantity: 1000
                     }
                 ],
                 truck: {
@@ -145,6 +149,7 @@ const mockGetInvoiceDetailsDData = [
 const mockGetInvoiceDetailsSData = [
     {
         startDate: 1709317800,
+        billNo: 12334,
         billingRate: 1200,
         stockPoint: {
             name: 'StockPoint'
@@ -152,14 +157,16 @@ const mockGetInvoiceDetailsSData = [
         loadingPoint: {
             name: 'Chennai-south',
             cementCompany: {
-                primaryBill: { address: 'ULTRA TECH\n ,new street\n erode', gstNumber: 'asdfgh ' }
+                primaryBill: { address: 'ULTRA TECH\n ,new street\n erode', gstNumber: 'asdfgh ' },
+                quantityType: 'aaa'
             }
         },
         overallTrip: [
             {
                 shortageQuantity: [
                     {
-                        shortageQuantity: 0
+                        shortageQuantity: 0,
+                        unloadedQuantity: 1000
                     }
                 ],
                 truck: {
@@ -175,6 +182,7 @@ const mockGetInvoiceDetailsSData = [
 const mockGetInvoiceDetailsUData = [
     {
         startDate: 1709317800,
+        billNo: 12334,
         billingRate: 800,
         unloadingPoint: {
             name: 'Salem',
@@ -193,14 +201,19 @@ const mockGetInvoiceDetailsUData = [
         loadingPointToStockPointTrip: {
             filledLoad: 23,
             stockPoint: {
-                name: 'StockPoint'
+                name: 'StockPoint',
+                cementCompany: {
+                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
+                    quantityType: 'aaa'
+                }
             }
         },
         overallTrip: [
             {
                 shortageQuantity: [
                     {
-                        shortageQuantity: 0
+                        shortageQuantity: 0,
+                        unloadedQuantity: 1000
                     }
                 ],
                 truck: {
@@ -220,14 +233,19 @@ const mockGetInvoiceDetailsUData = [
         loadingPointToStockPointTrip: {
             filledLoad: 23,
             stockPoint: {
-                name: 'StockPoint'
+                name: 'StockPoint',
+                cementCompany: {
+                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
+                    quantityType: 'aaa'
+                }
             }
         },
         overallTrip: [
             {
                 shortageQuantity: [
                     {
-                        shortageQuantity: 0
+                        shortageQuantity: 0,
+                        unloadedQuantity: 1000
                     }
                 ],
                 truck: {
@@ -250,14 +268,19 @@ const mockGetInvoiceDetailsUData = [
                 vehicleNumber: 'TN29B3246'
             },
             stockPoint: {
-                name: 'StockPoint'
+                name: 'StockPoint',
+                cementCompany: {
+                    name: 'ULTRATECH CEMENT LIMITED,TADIPATRI',
+                    quantityType: 'aaa'
+                }
             }
         },
         overallTrip: [
             {
                 shortageQuantity: [
                     {
-                        shortageQuantity: 0
+                        shortageQuantity: 0,
+                        unloadedQuantity: 1000
                     }
                 ],
                 truck: {
@@ -272,27 +295,27 @@ const mockBodyForLoadingToUnloading = {
     body: {
         trip: { tripId: [1, 2, 3], tripName: 'LoadingToUnloading' },
         bill: { billNo: 'MGL-01', date: 1717180200 },
-        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
+        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1, quantityType: 'aaa' }
     }
 } as Request
 const mockBodyForLoadingToStock = {
     body: {
         trip: { tripId: [2], tripName: 'LoadingToStock' },
         bill: { billNo: 'MGL-01', date: 1717180200 },
-        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
+        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1, quantityType: 'aaa' }
     }
 } as Request
 const mockBodyForStockToUnloading = {
     body: {
         trip: { tripId: [5], tripName: 'StockToUnloading' },
         bill: { billNo: 'MGL-01', date: 1717180200 },
-        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1 }
+        cementCompany: { name: 'ULTRATECH CEMENT LIMITED,TADIPATRI', id: 1, quantityType: 'aaa' }
     }
 } as Request
 const mockFilterData = {
     startDate: 1709317800,
     endDate: 1709317800,
-    cementCompany: { name: 'ultraTech', id: 1 },
+    cementCompany: { name: 'ultraTech', id: 1, quantityType: 'aaa' },
     pageName: 'LoadingToUnloading'
 }
 const mockUpdateBillingRateData = {
@@ -307,6 +330,7 @@ const mockUpdateBillingRateData = {
     freightAmount: 1000,
     approvedFreightAmount: 1000,
     billingRate: 1000,
+    quantityType: 'qqq',
     transporterAmount: 900,
     totalFreightAmount: 45000,
     totalTransporterAmount: 40500,

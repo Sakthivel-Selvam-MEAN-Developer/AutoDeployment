@@ -17,6 +17,11 @@ export interface InvoiceProps {
 }
 const tableRow = (row: LoadingTripProps, index: number) => {
     const billingRate = checkBillingRate(row.billingRate)
+    console.log(
+        row.loadingPoint.cementCompany.quantityType === 'Loading Quantity'
+            ? row.filledLoad
+            : row.overallTrip[0].shortageQuantity[0].unloadedQuantity
+    )
     return (
         <tr key={row.invoiceNumber}>
             <td>{index + 1}</td>
@@ -34,7 +39,12 @@ const tableRow = (row: LoadingTripProps, index: number) => {
                 ).toFixed(2)}
             </td>
             <td>{billingRate.toFixed(2)}</td>
-            <td>{(row.filledLoad * billingRate).toFixed(2)}</td>
+            <td>
+                {(row.loadingPoint.cementCompany.quantityType === 'Loading Quantity'
+                    ? row.filledLoad
+                    : (row.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000) * billingRate
+                ).toFixed(2)}
+            </td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
@@ -141,16 +151,38 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ trip, bill }) => {
                                     const billingRate = checkBillingRate(
                                         loadingToUnloading.billingRate
                                     )
-                                    totalAmount += billingRate * loadingToUnloading.filledLoad
-                                    totalFilledLoad += loadingToUnloading.filledLoad
+                                    totalAmount +=
+                                        billingRate *
+                                        (loadingToUnloading.loadingPoint.cementCompany
+                                            .quantityType === 'Loading Quantity'
+                                            ? loadingToUnloading.filledLoad
+                                            : loadingToUnloading.overallTrip[0].shortageQuantity[0]
+                                                  .unloadedQuantity / 1000)
+                                    totalFilledLoad +=
+                                        loadingToUnloading.loadingPoint.cementCompany
+                                            .quantityType === 'Loading Quantity'
+                                            ? loadingToUnloading.filledLoad
+                                            : loadingToUnloading.overallTrip[0].shortageQuantity[0]
+                                                  .unloadedQuantity / 1000
                                     return tableRow(loadingToUnloading, index)
                                 }
                             )}
                         {trip.loadingPointToStockPointTrip &&
                             trip.loadingPointToStockPointTrip.map((loadingToStock, index) => {
                                 const billingRate = checkBillingRate(loadingToStock.billingRate)
-                                totalAmount += billingRate * loadingToStock.filledLoad
-                                totalFilledLoad += loadingToStock.filledLoad
+                                totalAmount +=
+                                    billingRate *
+                                    (loadingToStock.loadingPoint.cementCompany.quantityType ===
+                                    'Loading Quantity'
+                                        ? loadingToStock.filledLoad
+                                        : loadingToStock.overallTrip[0].shortageQuantity[0]
+                                              .unloadedQuantity / 1000)
+                                totalFilledLoad +=
+                                    loadingToStock.loadingPoint.cementCompany.quantityType ===
+                                    'Loading Quantity'
+                                        ? loadingToStock.filledLoad
+                                        : loadingToStock.overallTrip[0].shortageQuantity[0]
+                                              .unloadedQuantity / 1000
                                 return tableRow(loadingToStock, index)
                             })}
                         {trip.stockPointToUnloadingPointTrip &&
@@ -158,9 +190,17 @@ const CustomInvoice: React.FC<InvoiceProps> = ({ trip, bill }) => {
                                 const billingRate = checkBillingRate(stockToUnloading.billingRate)
                                 totalAmount +=
                                     billingRate *
-                                    stockToUnloading.loadingPointToStockPointTrip.filledLoad
+                                    (stockToUnloading.loadingPointToStockPointTrip.stockPoint
+                                        .cementCompany.quantityType === 'Loading Quantity'
+                                        ? stockToUnloading.loadingPointToStockPointTrip.filledLoad
+                                        : stockToUnloading.overallTrip[0].shortageQuantity[0]
+                                              .unloadedQuantity / 1000)
                                 totalFilledLoad +=
-                                    stockToUnloading.loadingPointToStockPointTrip.filledLoad
+                                    stockToUnloading.loadingPointToStockPointTrip.stockPoint
+                                        .cementCompany.quantityType === 'Loading Quantity'
+                                        ? stockToUnloading.loadingPointToStockPointTrip.filledLoad
+                                        : stockToUnloading.overallTrip[0].shortageQuantity[0]
+                                              .unloadedQuantity / 1000
                                 return tableRowForStockToUnloading(stockToUnloading, index)
                             })}
                         <tr>

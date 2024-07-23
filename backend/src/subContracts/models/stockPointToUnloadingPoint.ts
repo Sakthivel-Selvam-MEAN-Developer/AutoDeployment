@@ -122,6 +122,7 @@ export const getUnloadingTripsByinvoiceFilter = (filterData: filterDataProps) =>
                     truck: { select: { vehicleNumber: true } },
                     shortageQuantity: {
                         select: {
+                            shortageQuantity: true,
                             unloadedQuantity: true
                         }
                     }

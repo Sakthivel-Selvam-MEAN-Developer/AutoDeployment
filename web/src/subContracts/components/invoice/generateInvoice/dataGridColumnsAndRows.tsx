@@ -74,9 +74,10 @@ export const alignRows = (tripDetails: tripProp[]) => {
             filledLoad: trip.filledLoad
                 ? trip.filledLoad
                 : trip.loadingPointToStockPointTrip?.filledLoad,
-            unloadedQuantity: (
-                trip.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000
-            ).toFixed(2),
+            unloadedQuantity:
+                trip.overallTrip[0].shortageQuantity.length !== 0
+                    ? (trip.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000).toFixed(2)
+                    : 'NO',
             freightAmount: trip.freightAmount,
             totalFreightAmount: trip.totalFreightAmount,
             billingRate: trip.billingRate

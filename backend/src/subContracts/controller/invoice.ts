@@ -117,6 +117,7 @@ export const previewPDFController = async (req: Request, res: Response) => {
     if (tripName === 'LoadingToStock') {
         loadingPointToStockPointTrip = await loadingToStockInvoice(tripId)
     }
+    console.log(stockPointToUnloadingPointTrip)
     const componentDetails = getContentBasedOnCompany(
         req.body.cementCompany.name,
         {
