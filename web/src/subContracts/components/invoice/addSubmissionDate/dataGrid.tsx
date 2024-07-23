@@ -69,6 +69,7 @@ const GetDateField: FC<dateFieldProps> = ({ updateDate }) => {
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
             <DatePicker
                 label="SubmittedDate"
+                format="DD/MM/YYYY"
                 onChange={(newValue) => {
                     const date = dayjs((newValue as unknown as dateProps)?.$d).format('DD/MM/YYYY')
                     const submitDate = dayjs.utc(date, 'DD/MM/YYYY').unix()

@@ -27,7 +27,7 @@ import {
 } from './companyInvoice.ts'
 import prisma from '../../../../prisma/index.ts'
 import { create as createInvoice } from './companyInvoice.ts'
-import { updateSubmitDate } from './updateSubmissionDate.ts'
+import { updateDueDate, updateSubmitDate } from './updateCompanyInvoice.ts'
 const unloadingPointTest = () =>
     createPricePointMarker({
         ...seedPricePointMarker,
@@ -160,13 +160,6 @@ describe('ViewInvoice model', () => {
         await updateLoadingToUnloading(prisma(), [overallTrip.id], 'MGL-034', invoice.id)
         const actual = await pageCount(filterData)
         expect(actual).toBe(1)
-    })
-    test('should able to get company invoice with no submission date', async () => {
-        const company = await createCompany(seedCompany, 1)
-        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
-        const actual = await getCompanyInvoiceForSubmitDate()
-        expect(actual.length).toBe(1)
-        expect(actual[0].id).toBe(invoice.id)
     })
 })
 
@@ -355,5 +348,13 @@ describe('company invoice', () => {
         const data = await getCompanyInvoiceForSubmitDate()
         const actual = await updateSubmitDate({ id: data[0].id, submitDate: 1688282262 })
         expect(actual.id).toBe(invoice.id)
+    })
+    test('should able to get and update submit date in company invoice', async () => {
+        const company = await createCompany(seedCompany, 1)
+        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+        const data = await getCompanyInvoiceForSubmitDate()
+        const actual = await updateDueDate(data[0].id, 1688282262)
+        expect(actual.id).toBe(invoice.id)
+        expect(actual.dueDate).toBe(1688282262)
     })
 })
