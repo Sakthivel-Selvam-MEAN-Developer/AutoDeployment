@@ -16,6 +16,7 @@ const mockGetPercentageByTransporter = vi.fn()
 const mockGetShortageQuantityByOverallTripId = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
 const mockUploadAcknowledgementFile = vi.fn()
+const mockGetFileFromS3 = vi.fn()
 
 vi.mock('../models/overallTrip', () => ({
     getAllActivetripTripByTripStatus: () => mockGetAllActivetripTripByTripStatus(),
@@ -44,6 +45,9 @@ vi.mock('../models/transporter', () => ({
 }))
 vi.mock('../models/paymentDues', () => ({
     getDueByOverallTripId: (id: number) => mockGetDueByOverallTripId(id)
+}))
+vi.mock('./acknowledgementGet.ts', () => ({
+    getFileFromS3: () => mockGetFileFromS3()
 }))
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
@@ -339,52 +343,14 @@ describe('Acknowledgement Controller', () => {
         await supertest(app).put('/api/acknowledgement/trip').expect(200)
         expect(mockAuth).toBeCalledWith(['Admin'])
     })
-    //additional test
-
-    // test('should handle error for close trip by Id for stockTrip and approval status is true', async () => {
-    //     mockOverAllTripById.mockResolvedValue(mockOverAllTripByStockIdData)
-    //     mockGetPercentageByTransporter.mockResolvedValue(mockPercentageByTransporterData)
-    //     mockCreateShortageQuantity.mockResolvedValue(mockShortageQuantityData)
-    //     mockUpdateWeightForStockTrip.mockRejectedValue(new Error('Error'))
-    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
-    //     expect(mockOverAllTripById).toBeCalledTimes(7)
-    //     expect(mockUpdateWeightForStockTrip).toBeCalledTimes(3)
-    // })
-
-    // test('should handle error for close trip by Id for trip', async () => {
-    //     mockOverAllTripById.mockResolvedValue(mockOverAllTripByTripIdData)
-    //     mockUpdateWeightForTrip.mockRejectedValue(new Error('Error'))
-    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
-    //     expect(mockOverAllTripById).toBeCalledTimes(8)
-    //     expect(mockUpdateWeightForTrip).toBeCalledTimes(3)
-    // })
-
-    // test('should handle error for update acknowledgement status with create final due', async () => {
-    //     mockAcknowledgeStatusforOverAllTrip.mockRejectedValue(new Error('Error'))
-    //     await supertest(app).put('/api/acknowledge/12').expect(500)
-    //     expect(mockAcknowledgeStatusforOverAllTrip).toBeCalledTimes(2)
-    // })
-
-    // test('should handle error for createShortageQuantity', async () => {
-    //     mockCreateShortageQuantity.mockRejectedValue(new Error('Error'))
-    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
-    //     expect(mockCreateShortageQuantity).toBeCalledTimes(7)
-    // })
-
-    // test('should handle error for updateWeightForStockTrip', async () => {
-    //     mockUpdateWeightForStockTrip.mockRejectedValue(new Error('Error'))
-    //     await supertest(app).put('/api/acknowledgement/trip').expect(500)
-    //     expect(mockUpdateWeightForStockTrip).toBeCalledTimes(3)
-    // })
-
     test('should handle acknowledgement uploadfile', async () => {
         mockUploadAcknowledgementFile.mockResolvedValue({ id: 1 })
         await acknowledgementFileUpload(mockReq, mockRes)
         expect(mockUploadAcknowledgementFile).toHaveBeenCalledTimes(1)
     })
     test('should handle acknowledgement uploadfile', async () => {
+        mockGetFileFromS3.mockResolvedValue({})
         await acknowledgementFileGet(mockReq, mockRes)
-        expect(mockUploadAcknowledgementFile).toHaveBeenCalledTimes(1)
     })
 })
 const mockOverallTripWithStockPointToUnloadingPointTrip = {

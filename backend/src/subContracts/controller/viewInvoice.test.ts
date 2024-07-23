@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 const mockCompanyGeneratedInvoice = vi.fn()
 const mockgetCompanyInvoiceNameList = vi.fn()
 const mockPageCount = vi.fn()
-vi.mock('../models/companyInvoice', () => {
+vi.mock('../models/companyInvoice/companyInvoice', () => {
     return {
         getCompanyInvoice: () => mockCompanyGeneratedInvoice(),
         pageCount: () => mockPageCount(),

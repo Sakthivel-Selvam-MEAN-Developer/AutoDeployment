@@ -3,7 +3,7 @@ import {
     getCompanyInvoice,
     getCompanyInvoiceNameList,
     pageCount
-} from '../models/companyInvoice.ts'
+} from '../models/companyInvoice/companyInvoice.ts'
 interface RequestQuery {
     startDate: string
     endDate: string

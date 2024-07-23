@@ -4,3 +4,7 @@ export interface filterdata {
     company: string
     pageNumber: number
 }
+export interface billTypes {
+    id: number
+    submitDate: number
+}

@@ -89,6 +89,27 @@ const mockGetDriverTripData = [
         ]
     }
 ]
+const mockGetDriverTripData1 = [
+    {
+        id: 1,
+        tripId: 1,
+        driver: {
+            name: 'sakthi',
+            driverAttendance: []
+        },
+        primaryTripBetta: null,
+        secondaryTripBetta: null,
+        unloadingTripSalaryId: 1,
+        stockTripSalaryId: 2,
+        dailyBetta: 100,
+        driverAdvanceForTrip: [
+            {
+                amount: true,
+                advanceDate: true
+            }
+        ]
+    }
+]
 
 const mockGetAllExpenseCountByTripIdData = [
     { expenseType: 'Loading_Charges', acceptedAmount: 123, tripId: 1 }
@@ -188,14 +209,23 @@ describe('driverTrip Controller', () => {
         expect(mockGetAllDriverTripById).toBeCalledTimes(1)
         expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(1)
     })
+    test('should able to handle when trip betta is null', async () => {
+        vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
+        mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData1)
+        mockGetPreviousFuel.mockResolvedValue(previousFuelDetails)
+        mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
+        await supertest(app).get('/api/drivertrip').query({ driverId: 1 }).expect(200)
+        expect(mockGetAllDriverTripById).toBeCalledTimes(2)
+        expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(2)
+    })
     test('should not able to get all driver Trip by Id', async () => {
         mockGetAllDriverTripById.mockResolvedValue([])
         mockGetPreviousFuel.mockResolvedValue(previousFuelDetails)
         mockGetAllExpenseCountByTripId.mockResolvedValue(mockGetAllExpenseCountByTripIdData)
         vi.spyOn(axios, 'get').mockResolvedValue(mockGetOverAllTripByArrayOfIdData)
         await supertest(app).get('/api/drivertrip').query({ driverId: 1 }).expect(200)
-        expect(mockGetAllDriverTripById).toBeCalledTimes(2)
-        expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(1)
+        expect(mockGetAllDriverTripById).toBeCalledTimes(3)
+        expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(2)
     })
     test('should able to get all driver Trip by Id btu should return without fuel', async () => {
         mockGetAllDriverTripById.mockResolvedValue(mockGetDriverTripData)
@@ -208,8 +238,8 @@ describe('driverTrip Controller', () => {
             .get('/api/drivertrip')
             .query({ driverId: 1, month: 1719400371 })
             .expect(200)
-        expect(mockGetAllDriverTripById).toBeCalledTimes(3)
-        expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(2)
+        expect(mockGetAllDriverTripById).toBeCalledTimes(4)
+        expect(mockGetAllExpenseCountByTripId).toBeCalledTimes(3)
     })
     test('should able to update driver advance by trip id', async () => {
         mockGetDriverIdByTripId.mockResolvedValue(mockGetDriverIdByTripIdData)
@@ -267,7 +297,7 @@ describe('driverTrip Controller', () => {
                 })
             })
         expect(mockGtDriverTripByOverallId).toHaveBeenCalledTimes(1)
-        expect(mockGetAllExpenseCountByTripId).toHaveBeenCalledTimes(3)
+        expect(mockGetAllExpenseCountByTripId).toHaveBeenCalledTimes(4)
         expect(mockGetTripSalaryDetailsById).toHaveBeenCalledTimes(1)
         expect(mockGtDriverTripByOverallId).toHaveBeenCalledWith(1)
         expect(mockGetAllExpenseCountByTripId).toHaveBeenCalledWith([1])

@@ -1,23 +1,23 @@
-import { create as createCompany } from './cementCompany.ts'
+import { create as createCompany } from '../cementCompany.ts'
 import {
     create as createTrip,
     updateBillNumber as updateLoadingToUnloading
-} from './loadingToUnloadingTrip.ts'
-import { create as createLoadingPoint } from './loadingPoint.ts'
-import { create as createUnloadingpoint } from './unloadingPoint.ts'
-import { create as createTruck } from './truck.ts'
-import { create as createTransporter } from './transporter.ts'
-import seedFactoryToCustomerTrip from '../seed/loadingToUnloadingTrip.ts'
-import seedCompany from '../seed/cementCompany.ts'
-import seedLoadingPoint from '../seed/loadingPointWithoutDep.ts'
-import seedUnloadingPoint from '../seed/unloadingPointWithoutDep.ts'
-import seedTruck from '../seed/truckWithoutDeb.ts'
-import seedTransporter from '../seed/transporter.ts'
-import { create as createPricePointMarker } from './pricePointMarker.ts'
-import seedPricePointMarker from '../seed/pricePointMarker.ts'
-import { closeAcknowledgementStatusforOverAllTrip, create } from './overallTrip.ts'
-import seedShortageQuantity from '../seed/shortageQuantity.ts'
-import { create as createShortageQuantity } from './shortageQuantity.ts'
+} from '../loadingToUnloadingTrip.ts'
+import { create as createLoadingPoint } from '../loadingPoint.ts'
+import { create as createUnloadingpoint } from '../unloadingPoint.ts'
+import { create as createTruck } from '../truck.ts'
+import { create as createTransporter } from '../transporter.ts'
+import seedFactoryToCustomerTrip from '../../seed/loadingToUnloadingTrip.ts'
+import seedCompany from '../../seed/cementCompany.ts'
+import seedLoadingPoint from '../../seed/loadingPointWithoutDep.ts'
+import seedUnloadingPoint from '../../seed/unloadingPointWithoutDep.ts'
+import seedTruck from '../../seed/truckWithoutDeb.ts'
+import seedTransporter from '../../seed/transporter.ts'
+import { create as createPricePointMarker } from '../pricePointMarker.ts'
+import seedPricePointMarker from '../../seed/pricePointMarker.ts'
+import { closeAcknowledgementStatusforOverAllTrip, create } from '../overallTrip.ts'
+import seedShortageQuantity from '../../seed/shortageQuantity.ts'
+import { create as createShortageQuantity } from '../shortageQuantity.ts'
 import {
     create as createCompanyinvoice,
     getCompanyInvoice,
@@ -25,8 +25,9 @@ import {
     getCompanyInvoiceNameList,
     pageCount
 } from './companyInvoice.ts'
-import prisma from '../../../prisma/index.ts'
+import prisma from '../../../../prisma/index.ts'
 import { create as createInvoice } from './companyInvoice.ts'
+import { updateSubmitDate } from './updateSubmissionDate.ts'
 const unloadingPointTest = () =>
     createPricePointMarker({
         ...seedPricePointMarker,
@@ -347,5 +348,12 @@ describe('company invoice', () => {
         const actual = await getCompanyInvoiceForSubmitDate()
         expect(actual.length).toBe(1)
         expect(actual[0].id).toBe(invoice.id)
+    })
+    test('should able to get and update submit date in company invoice', async () => {
+        const company = await createCompany(seedCompany, 1)
+        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+        const data = await getCompanyInvoiceForSubmitDate()
+        const actual = await updateSubmitDate({ id: data[0].id, submitDate: 1688282262 })
+        expect(actual.id).toBe(invoice.id)
     })
 })

@@ -11,6 +11,6 @@ interface dataTypes {
 }
 export const updateSubmittedDateForInvoice = (data: dataTypes) =>
     axiosInstance
-        .post(`/submissiondate`, data)
+        .put(`/submissiondate`, data)
         .then(getData)
         .catch(() => alert('Error Getting data'))

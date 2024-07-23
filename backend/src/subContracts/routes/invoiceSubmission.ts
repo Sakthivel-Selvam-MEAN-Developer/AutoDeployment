@@ -1,8 +1,12 @@
 import { Router } from 'express'
-import { listCompanyInvoiceForSubmitDate } from '../controller/invoiceSubmission'
+import {
+    listCompanyInvoiceForSubmitDate,
+    updateCompanyInvoiceSubmitDate
+} from '../controller/invoiceSubmission'
 
 const invoiceSubmission = (router: Router) => {
     router.get('/submissiondate', listCompanyInvoiceForSubmitDate)
+    router.put('/submissiondate', updateCompanyInvoiceSubmitDate)
 }
 
 export default invoiceSubmission

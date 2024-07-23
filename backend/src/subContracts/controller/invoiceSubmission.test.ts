@@ -4,6 +4,7 @@ import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
 
 const mockGetCompanyInvoiceForSubmitDate = vi.fn()
+const mockUpdateSubmitDate = vi.fn()
 const mockAuth = vi.fn()
 vi.mock('../routes/authorise', () => ({
     authorise: (role: Role[]) => (_req: Request, _res: Response, next: NextFunction) => {
@@ -11,8 +12,13 @@ vi.mock('../routes/authorise', () => ({
         next()
     }
 }))
-vi.mock('../models/companyInvoice', () => ({
-    getCompanyInvoiceForSubmitDate: (inputs: any) => mockGetCompanyInvoiceForSubmitDate(inputs)
+vi.mock('../models/companyInvoice/companyInvoice.ts', () => ({
+    getCompanyInvoiceForSubmitDate: () => mockGetCompanyInvoiceForSubmitDate(),
+    updateSubmitDate: () => mockUpdateSubmitDate()
+}))
+vi.mock('../models/companyInvoice/updateSubmissionDate.ts', () => ({
+    getCompanyInvoiceForSubmitDate: () => mockGetCompanyInvoiceForSubmitDate(),
+    updateSubmitDate: () => mockUpdateSubmitDate()
 }))
 vi.mock('../../auditRoute.ts', () => ({
     auditRoute: (_req: Request, _res: Response, next: NextFunction) => {
@@ -29,10 +35,19 @@ const companyInvoice = {
         name: 'ULTRATECH CEMENT LIMITED,TADIPATRI'
     }
 }
+const updateData = {
+    id: 1,
+    submitDate: 1688282262
+}
 describe('invoiceSubmissiondate Controller', () => {
-    test('should able to get all invoice for Submission date', async () => {
+    test('should able to get all invoice with no Submission date', async () => {
         mockGetCompanyInvoiceForSubmitDate.mockResolvedValue(companyInvoice)
         await supertest(app).get('/api/submissiondate').expect(200).expect(companyInvoice)
         expect(mockGetCompanyInvoiceForSubmitDate).toBeCalledTimes(1)
+    })
+    test('should able to update Submission date in companyInvoice', async () => {
+        mockUpdateSubmitDate.mockResolvedValue(updateData)
+        await supertest(app).put('/api/submissiondate').expect(200).expect(updateData)
+        expect(mockUpdateSubmitDate).toBeCalledTimes(1)
     })
 })

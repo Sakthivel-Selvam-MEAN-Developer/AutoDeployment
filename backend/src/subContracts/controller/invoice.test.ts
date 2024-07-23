@@ -75,7 +75,7 @@ vi.mock('../models/loadingToUnloadingTrip', () => ({
     updateDirectTripBillingRate: (id: number, billingRate: number, pageName: string) =>
         mockupdateDirectTripBillingRate(id, billingRate, pageName)
 }))
-vi.mock('../models/companyInvoice.ts', () => ({
+vi.mock('../models/companyInvoice/companyInvoice.ts', () => ({
     create: (inputs: any) => mockCreateCompanyInvoice(inputs)
 }))
 vi.mock('../models/loadingToStockPointTrip', () => ({
