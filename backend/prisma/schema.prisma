@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters","postgresqlExtensions", "multiSchema"]
+  previewFeatures = ["driverAdapters", "postgresqlExtensions", "multiSchema"]
   binaryTargets   = ["native", "linux-musl-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
 }
 
@@ -318,7 +318,7 @@ model employee {
 
 model companyInvoice {
   id                               Int                                @id @default(autoincrement())
-  billNo                           String
+  billNo                           String                             @unique
   pdfLink                          String
   billDate                         Int
   amount                           Int

@@ -1,5 +1,4 @@
 import { FieldValues, useForm } from 'react-hook-form'
-import FormField from './formField'
 import { useEffect, useState } from 'react'
 import ListAllTripForInvoice from './show'
 import { Button } from '@mui/material'
@@ -14,6 +13,7 @@ import html2pdf from 'html2pdf.js'
 import dayjs from 'dayjs'
 import PreviewDialog from './previewDialog'
 import { tripProp } from './dataGridColumnsAndRows'
+import FormField from '../formField'
 export interface dateProps {
     $d: number
 }
@@ -76,7 +76,10 @@ const InvoiceList: React.FC = () => {
     useEffect(() => {
         setTripDetails([])
     }, [filterData?.cementCompany])
-    const onSubmit = async () => await getTripDetails()
+    const onSubmit = async () => {
+        console.log(filterData)
+        await getTripDetails()
+    }
     const handleClick = () => setActivateFields(true)
     const getTripDetails = async () => {
         if (filterData?.cementCompany.name === '') return
@@ -154,6 +157,7 @@ const InvoiceList: React.FC = () => {
                         control={control}
                         cementCompany={cementCompany}
                         setCementCompany={setCementCompany}
+                        FilterData={invoiceFilterData}
                     />
                     <Button
                         color="secondary"

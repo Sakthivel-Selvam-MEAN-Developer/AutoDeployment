@@ -25,7 +25,6 @@ export const getAllExpenseForApproval = (tripId: number[]) =>
         },
         select: { expenseType: true, tripId: true, id: true, placedAmount: true }
     })
-
 export const getAllExpenseCountByTripId = (id: number[]) =>
     prisma().expenses.findMany({
         where: {

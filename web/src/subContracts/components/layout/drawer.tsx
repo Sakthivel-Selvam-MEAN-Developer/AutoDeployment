@@ -74,11 +74,12 @@ const reportSubs = [
     },
     { navigate: '/sub/reports/discrepancydues', name: 'DiscrepancyPayment Report', icon: 'DR' },
     { navigate: '/sub/reports/completedpayment', name: 'Completed Payments', icon: 'CP' },
-    { navigate: '/sub/reports/fuel', name: 'Fuel Report', icon: 'FR' }
+    { navigate: '/sub/reports/fuel', name: 'Fuel Report', icon: 'FR' },
+    { navigate: '/sub/reports/invoice', name: 'Invoice Report', icon: 'IR' }
 ]
 const invoiceSubs = [
     { navigate: '/sub/invoice', name: 'Generate Invoice', icon: 'GI' },
-    { navigate: '/sub/invoice/viewInvoice', name: 'View Invoice', icon: 'VI' },
+    { navigate: '/sub/invoice/addAdvisory', name: 'Add Advisory', icon: 'AA' },
     { navigate: '/sub/invoice/addsubmissiondate', name: 'Add Submission Date', icon: 'SI' }
 ]
 const receivablesSubs = [{ navigate: '/sub/companyAdvisory', name: 'Company Advisory', icon: 'CA' }]

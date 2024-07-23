@@ -19,7 +19,7 @@ import SelectTrip from './subContracts/components/acknowledgement/list'
 import Invoice from './subContracts/components/invoice/generateInvoice'
 import InvoiceList from './subContracts/components/invoice/generateInvoice/list'
 import Report from './subContracts/components/report'
-import ViewList from './subContracts/components/invoice/viewInvoice/list'
+import ViewList from './subContracts/components/report/viewInvoice/list'
 import ListAllTrip from './subContracts/components/report/tripStatusReport/list'
 import ListAllUpcomingDues from './subContracts/components/report/upcomingTransporterDuesReport/upcomingTransporterDuesList'
 import ListAllAcknowledgementDues from './subContracts/components/report/acknowledgementAgingReport/listAllAcknowledgementDues'
@@ -41,9 +41,8 @@ import PricePointApprovalList from './subContracts/components/pricePointApproval
 import Bunk from './subContracts/components/bunk/addBunk/list'
 import Employee from './subContracts/components/employee'
 import CreateEmployee from './subContracts/components/employee/list'
-import CompanyAdvisoryIndex from './subContracts/components/companyAdvisory'
-import CompanyAdvisory from './subContracts/components/companyAdvisory/list'
 import AddSubmissionDate from './subContracts/components/invoice/addSubmissionDate/list'
+import AddAdvisory from './subContracts/components/invoice/addAdvisory/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -167,8 +166,8 @@ const sunContractRoutes = {
                     element: <InvoiceList />
                 },
                 {
-                    path: 'viewinvoice',
-                    element: <ViewList />
+                    path: 'addAdvisory',
+                    element: <AddAdvisory />
                 },
                 {
                     path: 'addsubmissiondate',
@@ -203,6 +202,10 @@ const sunContractRoutes = {
                 {
                     path: 'fuel',
                     element: <BunkList />
+                },
+                {
+                    path: 'invoice',
+                    element: <ViewList />
                 }
             ]
         },
@@ -247,16 +250,6 @@ const sunContractRoutes = {
                 {
                     path: '',
                     element: <PricePointApprovalList />
-                }
-            ]
-        },
-        {
-            path: 'companyAdvisory',
-            element: <CompanyAdvisoryIndex />,
-            children: [
-                {
-                    path: '',
-                    element: <CompanyAdvisory />
                 }
             ]
         }

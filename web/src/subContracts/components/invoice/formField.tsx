@@ -1,25 +1,32 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, Context, useContext, useEffect, useState } from 'react'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import { getAllCementCompany } from '../../../services/cementCompany.ts'
+import { getAllCementCompany } from '../../services/cementCompany.ts'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { Control } from 'react-hook-form'
-import AutoComplete from '../../../../form/AutoComplete.tsx'
-import { cementCompanyProps, dateProps } from './list.tsx'
+import AutoComplete from '../../../form/AutoComplete.tsx'
 import { Button } from '@mui/material'
-import { filterDataProps, invoiceFilterData } from './invoiceContext.ts'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import { cementCompanyProps, dateProps } from './generateInvoice/list.tsx'
+import { filterDataProps } from './addAdvisory/addAdvisoryContext.ts'
 dayjs.extend(utc)
+
 interface FormFieldsProps {
     control: Control
     cementCompany: cementCompanyProps[]
     setCementCompany: React.Dispatch<React.SetStateAction<cementCompanyProps[]>>
+    FilterData: Context<any>
 }
-const FormField: React.FC<FormFieldsProps> = ({ control, cementCompany, setCementCompany }) => {
+const FormField: React.FC<FormFieldsProps> = ({
+    control,
+    cementCompany,
+    setCementCompany,
+    FilterData
+}) => {
     useEffect(() => {
         getAllCementCompany().then(setCementCompany)
     }, [])
-    const { setFilterData } = useContext(invoiceFilterData)
+    const { setFilterData } = useContext(FilterData)
     const [startDate, setStartDate] = useState<string | null>(null)
     const [endDate, setEndDate] = useState<string | null>(null)
 
