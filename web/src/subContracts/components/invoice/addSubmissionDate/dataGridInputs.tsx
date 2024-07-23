@@ -2,23 +2,23 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { billProps } from './list'
 
 export const columns = [
-    { field: 'id', headerName: '#', flex: 1, minWidth: 100 },
-    { field: 'billNo', headerName: 'Bill Number', width: 150, flex: 1 },
-    { field: 'billDate', headerName: 'Date Created', width: 150, flex: 1 },
-    { field: 'cementCompany', headerName: 'Company Name', width: 200, flex: 1 },
-    { field: 'amount', headerName: 'Amount', width: 150, flex: 1 },
-    { field: 'submissionDate', headerName: 'Submission Date', width: 150, flex: 1 },
-    { field: 'action', headerName: 'Action', width: 150, flex: 1 }
+    { field: 'id', headerName: '#', flex: 1, minWidth: 70 },
+    { field: 'billNo', headerName: 'Bill Number', minWidth: 120, flex: 1 },
+    { field: 'billDate', headerName: 'Invoice Date', minWidth: 120, flex: 1 },
+    { field: 'cementCompany', headerName: 'Company Name', minWidth: 150, flex: 1 },
+    { field: 'amount', headerName: 'Amount', minWidth: 100, flex: 1 },
+    { field: 'submissionDate', headerName: 'Submission Date', minWidth: 180, flex: 1 },
+    { field: 'action', headerName: 'Action', minWidth: 150, flex: 1 }
 ]
 
 export const gridContent = (gridRows: billProps[]) => {
-    return gridRows.map((trip: billProps) => {
+    return gridRows.map((bills: billProps) => {
         return {
-            id: 1,
-            billNo: trip.billNo,
-            billDate: epochToMinimalDate(trip.billDate),
-            cementCompany: trip.cementCompany.name,
-            amount: trip.amount
+            id: bills.id,
+            billNo: bills.billNo,
+            billDate: epochToMinimalDate(bills.billDate),
+            cementCompany: bills.cementCompany.name,
+            amount: bills.amount
         }
     })
 }

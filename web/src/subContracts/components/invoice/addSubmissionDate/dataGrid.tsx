@@ -1,11 +1,12 @@
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { columns } from './dataGridInputs'
-// import dayjs from "dayjs"
-// import { dateProps } from "../generateInvoice/list"
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Button } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
+import { dateProps } from '../generateInvoice/list'
+import { updateSubmittedDateForInvoice } from '../../../services/invoiceSubmissionDate'
 interface gridRows {
     gridRows: {
         id: number
@@ -16,20 +17,35 @@ interface gridRows {
     }[]
 }
 const DataTable: FC<gridRows> = ({ gridRows }) => {
-    columns.map((column) => ({
+    const [date, setDate] = useState<{ [key: number]: number }>({})
+    const onChange = (rowId: number) => {
+        updateSubmittedDateForInvoice({ id: rowId, submitDate: date[rowId] })
+    }
+    const headers: GridColDef[] = columns.map((column) => ({
         ...column,
-        renderCell: () => {
+        renderCell: (params) => {
             if (column.field === 'action') {
-                return <Button variant="text">Add</Button>
+                return (
+                    <Button variant="text" onClick={() => onChange(params.row.id)}>
+                        Add
+                    </Button>
+                )
             } else if (column.field === 'submissionDate') {
-                return <GetDateField />
+                return (
+                    <GetDateField
+                        updateDate={(date: number) => {
+                            setDate((prev) => ({ ...prev, [params.row.id]: date }))
+                        }}
+                    />
+                )
             }
         }
     }))
     return (
         <div>
             <DataGrid
-                columns={columns}
+                sx={{ width: '88vw', height: '40vw', marginLeft: 4 }}
+                columns={headers}
                 rows={gridRows}
                 disableRowSelectionOnClick
                 hideFooterPagination
@@ -39,17 +55,18 @@ const DataTable: FC<gridRows> = ({ gridRows }) => {
 }
 
 export default DataTable
-
-const GetDateField: FC = () => {
+interface dateFieldProps {
+    updateDate: (date: number) => void
+}
+const GetDateField: FC<dateFieldProps> = ({ updateDate }) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
             <DatePicker
                 label="SubmittedDate"
-                // onChange={(newValue) => {
-                //     const endDate = dayjs
-                //         .utc(dayjs((newValue as unknown as dateProps)?.$d))
-                //         .unix()
-                // }}
+                onChange={(newValue) => {
+                    const endDate = dayjs.utc(dayjs((newValue as unknown as dateProps)?.$d)).unix()
+                    updateDate(endDate)
+                }}
             />
         </LocalizationProvider>
     )

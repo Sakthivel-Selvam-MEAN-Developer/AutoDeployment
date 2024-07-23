@@ -5,3 +5,12 @@ export const getBillsWithNoSubmissionDate = () =>
         .get(`/submissiondate`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
+interface dataTypes {
+    id: number
+    submitDate: number
+}
+export const updateSubmittedDateForInvoice = (data: dataTypes) =>
+    axiosInstance
+        .post(`/submissiondate`, data)
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

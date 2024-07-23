@@ -3,9 +3,6 @@ import { useState } from 'react'
 import DataTable from './dataGrid'
 import { gridContent } from './dataGridInputs'
 import { getBillsWithNoSubmissionDate } from '../../../services/invoiceSubmissionDate'
-export interface tripProp {
-    data: billProps[]
-}
 export interface billProps {
     id: number
     billNo: string
@@ -13,27 +10,26 @@ export interface billProps {
     cementCompany: { name: string }
     amount: number
 }
-const initialState = {
-    data: [
-        {
-            id: 0,
-            billNo: '',
-            billDate: 21,
-            cementCompany: { name: '' },
-            amount: 0
-        }
-    ]
-}
+const initialState = [
+    {
+        id: 0,
+        billNo: '',
+        billDate: 21,
+        cementCompany: { name: '' },
+        amount: 0
+    }
+]
 const AddSubmissionDate: React.FC = () => {
-    const [billDetails, setBillDetails] = useState<tripProp>(initialState)
+    const [billDetails, setBillDetails] = useState<billProps[]>(initialState)
     useEffect(() => {
         getBillsWithNoSubmissionDate().then(setBillDetails)
     }, [])
-    const gridRows = gridContent(billDetails.data)
+    const gridRows = gridContent(billDetails)
     return (
-        <>
+        <div>
+            <h4>Add Invoice Submission Date</h4>
             <DataTable gridRows={gridRows} />
-        </>
+        </div>
     )
 }
 export default AddSubmissionDate
