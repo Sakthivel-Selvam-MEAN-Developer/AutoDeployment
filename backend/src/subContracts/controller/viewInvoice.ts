@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import {
     getCompanyInvoice,
     getCompanyInvoiceNameList,
+    getInvoiceToAddAdvisory,
     pageCount
 } from '../models/companyInvoice/companyInvoice.ts'
 interface RequestQuery {
@@ -19,6 +20,12 @@ export const getInvoicedTrip: getCompanyInvoiceProps = async (req, res) => {
     const count = await pageCount(filterData)
     await getCompanyInvoice(filterData)
         .then((data) => res.status(200).json({ data, count }))
+        .catch(() => res.status(500))
+}
+export const getInvoicedToAddAdvisoryDetails: getCompanyInvoiceProps = async (req, res) => {
+    const filterData = filterDatas(req)
+    await getInvoiceToAddAdvisory(filterData)
+        .then((data) => res.status(200).json({ data, count: data.length }))
         .catch(() => res.status(500))
 }
 function filterDatas(req: Request<object, object, object, RequestQuery, Record<string, number>>) {

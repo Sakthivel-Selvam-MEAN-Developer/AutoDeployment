@@ -7,7 +7,18 @@ const companyInvoiceDetails = {
     billDate: true,
     amount: true,
     pdfLink: true,
+    GSTAmount: true,
+    TDSAmount: true,
     cementCompany: { select: { name: true, id: true } }
+}
+const condition = (filterData: filterdata) => {
+    return {
+        cementCompany: { id: parseInt(filterData.company) },
+        billDate: {
+            lte: filterData.startDate === 0 ? undefined : filterData.startDate,
+            gte: filterData.endDate === 0 ? undefined : filterData.endDate
+        }
+    }
 }
 export const create = (
     data: Prisma.companyInvoiceCreateInput | Prisma.companyInvoiceUncheckedCreateInput
@@ -17,25 +28,22 @@ export const getCompanyInvoice = (filterData: filterdata) => {
     return prisma().companyInvoice.findMany({
         skip,
         take: 50,
-        where: {
-            cementCompany: { id: parseInt(filterData.company) },
-            billDate: {
-                lte: filterData.startDate === 0 ? undefined : filterData.startDate,
-                gte: filterData.endDate === 0 ? undefined : filterData.endDate
-            }
-        },
+        where: { ...condition(filterData) },
+        select: companyInvoiceDetails
+    })
+}
+export const getInvoiceToAddAdvisory = (filterData: filterdata) => {
+    const skip = (filterData.pageNumber - 1) * 50
+    return prisma().companyInvoice.findMany({
+        skip,
+        take: 50,
+        where: { ...condition(filterData), paid: false },
         select: companyInvoiceDetails
     })
 }
 export const pageCount = async (filterData: filterdata) =>
     prisma().companyInvoice.count({
-        where: {
-            cementCompany: { id: parseInt(filterData.company) },
-            billDate: {
-                lte: filterData.startDate === 0 ? undefined : filterData.startDate,
-                gte: filterData.endDate === 0 ? undefined : filterData.endDate
-            }
-        }
+        where: { ...condition(filterData) }
     })
 export const getCompanyInvoiceNameList = () =>
     prisma().companyInvoice.findMany({

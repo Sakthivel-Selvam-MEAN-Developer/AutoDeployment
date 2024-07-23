@@ -77,7 +77,6 @@ const InvoiceList: React.FC = () => {
         setTripDetails([])
     }, [filterData?.cementCompany])
     const onSubmit = async () => {
-        console.log(filterData)
         await getTripDetails()
     }
     const handleClick = () => setActivateFields(true)

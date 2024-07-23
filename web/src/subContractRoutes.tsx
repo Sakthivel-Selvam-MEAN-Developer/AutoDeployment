@@ -42,7 +42,7 @@ import Bunk from './subContracts/components/bunk/addBunk/list'
 import Employee from './subContracts/components/employee'
 import CreateEmployee from './subContracts/components/employee/list'
 import AddSubmissionDate from './subContracts/components/invoice/addSubmissionDate/list'
-import AddAdvisory from './subContracts/components/invoice/addAdvisory/list'
+import List from './subContracts/components/invoice/addAdvisory/list'
 const sunContractRoutes = {
     path: '/sub',
     element: <SubContractLayout />,
@@ -167,7 +167,7 @@ const sunContractRoutes = {
                 },
                 {
                     path: 'addAdvisory',
-                    element: <AddAdvisory />
+                    element: <List />
                 },
                 {
                     path: 'addsubmissiondate',

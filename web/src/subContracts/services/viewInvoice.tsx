@@ -12,8 +12,8 @@ export const getCompanyInvoice = (filterData: Nullable<tripTypeProps>) =>
         .then(getData)
         .catch(() => alert('Error Getting data'))
 
-export const getCompanyInvoiceNames = () =>
+export const getInvoiceToAddAdvisory = (filterData: Nullable<tripTypeProps>) =>
     axiosInstance
-        .get('/invoice/list')
+        .get('/invoice/advisory/add', { params: filterData })
         .then(getData)
         .catch(() => alert('Error Getting data'))

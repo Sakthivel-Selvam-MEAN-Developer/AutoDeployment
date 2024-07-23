@@ -1,36 +1,33 @@
-import { useState } from 'react'
-import { useForm, FieldValues } from 'react-hook-form'
-import { cementCompanyProps } from '../generateInvoice/list'
-import { filterDataProps, advisoryFilterData } from './addAdvisoryContext'
-import FormField from '../formField'
-
+import { useEffect, useState } from 'react'
+import AddAdvisory from './addAdvisory'
+import { getInvoiceToAddAdvisory } from '../../../services/viewInvoice'
+import { advisoryFilterData, filterDataProps } from './addAdvisoryContext'
 const defaultFilterData = {
     startDate: 0,
     endDate: 0,
     cementCompany: { name: '', id: 0 },
     pageNumber: 1
 }
-
-const AddAdvisory = () => {
-    const { handleSubmit, control } = useForm<FieldValues>()
-    const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
+interface invoiceData extends filterDataProps {
+    GSTAmount: number
+    TDSAmount: number
+}
+export interface invoice {
+    data: invoiceData[]
+    count: number
+}
+const List = () => {
+    const [invoice, setInvoice] = useState<invoice>({} as invoice)
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
-
-    const onFilter = (data: FieldValues) => {
-        console.log(filterData, data)
-    }
+    const onFilter = async () => await getInvoiceToAddAdvisory(filterData).then(setInvoice)
+    useEffect(() => {
+        onFilter()
+    }, [filterData.pageNumber])
     return (
         <advisoryFilterData.Provider value={{ filterData, setFilterData }}>
-            <form onSubmit={handleSubmit(onFilter)}>
-                <FormField
-                    control={control}
-                    cementCompany={cementCompany}
-                    setCementCompany={setCementCompany}
-                    FilterData={advisoryFilterData}
-                />
-            </form>
+            <AddAdvisory onFilter={onFilter} invoice={invoice} />
         </advisoryFilterData.Provider>
     )
 }
 
-export default AddAdvisory
+export default List
