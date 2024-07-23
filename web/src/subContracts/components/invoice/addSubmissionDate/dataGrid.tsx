@@ -21,6 +21,7 @@ interface gridRows {
 const DataTable: FC<gridRows> = ({ gridRows, setBillDetails }) => {
     const [date, setDate] = useState<{ [key: number]: number }>({})
     const onChange = (rowId: number) => {
+        if (date[rowId] === undefined) return
         updateSubmittedDateForInvoice({ id: rowId, submitDate: date[rowId] }).then(() => {
             setBillDetails((prev) => prev.filter(({ id }) => id !== rowId))
         })
@@ -37,6 +38,7 @@ const DataTable: FC<gridRows> = ({ gridRows, setBillDetails }) => {
             } else if (column.field === 'submissionDate') {
                 return (
                     <GetDateField
+                        key={params.row.id}
                         updateDate={(date: number) => {
                             setDate((prev) => ({ ...prev, [params.row.id]: date }))
                         }}
@@ -68,8 +70,9 @@ const GetDateField: FC<dateFieldProps> = ({ updateDate }) => {
             <DatePicker
                 label="SubmittedDate"
                 onChange={(newValue) => {
-                    const endDate = dayjs.utc(dayjs((newValue as unknown as dateProps)?.$d)).unix()
-                    updateDate(endDate)
+                    const date = dayjs((newValue as unknown as dateProps)?.$d).format('DD/MM/YYYY')
+                    const submitDate = dayjs.utc(date, 'DD/MM/YYYY').unix()
+                    updateDate(submitDate)
                 }}
             />
         </LocalizationProvider>

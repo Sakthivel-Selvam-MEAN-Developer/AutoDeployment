@@ -80,7 +80,7 @@ const reportSubs = [
 const invoiceSubs = [
     { navigate: '/sub/invoice', name: 'Generate Invoice', icon: 'GI' },
     { navigate: '/sub/invoice/addAdvisory', name: 'Add Advisory', icon: 'AA' },
-    { navigate: '/sub/invoice/addsubmissiondate', name: 'Add Submission Date', icon: 'SI' }
+    { navigate: '/sub/invoice/addsubmissiondate', name: 'Add Submission Date', icon: 'SD' }
 ]
 const receivablesSubs = [{ navigate: '/sub/companyAdvisory', name: 'Company Advisory', icon: 'CA' }]
 const MiniDrawer = ({ handleDrawerClose, drawerState }: MiniDrawerProps) => {
