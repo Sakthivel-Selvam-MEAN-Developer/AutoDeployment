@@ -1,12 +1,13 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { columns } from './dataGridInputs'
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { Button } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import { dateProps } from '../generateInvoice/list'
 import { updateSubmittedDateForInvoice } from '../../../services/invoiceSubmissionDate'
+import { billProps } from './list'
 interface gridRows {
     gridRows: {
         id: number
@@ -15,11 +16,14 @@ interface gridRows {
         cementCompany: string
         amount: number
     }[]
+    setBillDetails: React.Dispatch<React.SetStateAction<billProps[]>>
 }
-const DataTable: FC<gridRows> = ({ gridRows }) => {
+const DataTable: FC<gridRows> = ({ gridRows, setBillDetails }) => {
     const [date, setDate] = useState<{ [key: number]: number }>({})
     const onChange = (rowId: number) => {
-        updateSubmittedDateForInvoice({ id: rowId, submitDate: date[rowId] })
+        updateSubmittedDateForInvoice({ id: rowId, submitDate: date[rowId] }).then(() => {
+            setBillDetails((prev) => prev.filter(({ id }) => id !== rowId))
+        })
     }
     const headers: GridColDef[] = columns.map((column) => ({
         ...column,

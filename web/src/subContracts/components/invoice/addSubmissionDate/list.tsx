@@ -28,7 +28,7 @@ const AddSubmissionDate: React.FC = () => {
     return (
         <div>
             <h4>Add Invoice Submission Date</h4>
-            <DataTable gridRows={gridRows} />
+            <DataTable gridRows={gridRows} setBillDetails={setBillDetails} />
         </div>
     )
 }
