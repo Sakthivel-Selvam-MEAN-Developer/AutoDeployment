@@ -37,7 +37,12 @@ export interface tripProp {
     }[]
     loadingPointToStockPointTrip?: {
         filledLoad: number
-        stockPoint: { name: string }
+        stockPoint: {
+            name: string
+            cementCompany: {
+                quantityType: string | null
+            }
+        }
     }
     stockPoint?: {
         name: string

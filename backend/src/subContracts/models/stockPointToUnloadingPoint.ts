@@ -70,7 +70,16 @@ export const getInvoiceDetails = (id: number[]) =>
             loadingPointToStockPointTrip: {
                 select: {
                     filledLoad: true,
-                    stockPoint: { select: { name: true } }
+                    stockPoint: {
+                        select: {
+                            name: true,
+                            cementCompany: {
+                                select: {
+                                    quantityType: true
+                                }
+                            }
+                        }
+                    }
                 }
             },
             overallTrip: {

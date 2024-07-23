@@ -42,7 +42,9 @@ export const InvoiceFieldDialog: FC<FieldDialogProps> = ({
                     NOTE:{filterData.cementCompany.name},
                     {quantityType &&
                         (quantityType.loadingPoint?.cementCompany.quantityType ??
-                            quantityType.stockPoint?.cementCompany.quantityType)}
+                            quantityType.stockPoint?.cementCompany.quantityType ??
+                            quantityType.loadingPointToStockPointTrip?.stockPoint.cementCompany
+                                .quantityType)}
                 </h6>
             </DialogTitle>
             <DialogContentConatiner

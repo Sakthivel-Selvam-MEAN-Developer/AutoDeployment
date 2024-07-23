@@ -17,11 +17,6 @@ export interface InvoiceProps {
 }
 const tableRow = (row: LoadingTripProps, index: number) => {
     const billingRate = checkBillingRate(row.billingRate)
-    console.log(
-        row.loadingPoint.cementCompany.quantityType === 'Loading Quantity'
-            ? row.filledLoad
-            : row.overallTrip[0].shortageQuantity[0].unloadedQuantity
-    )
     return (
         <tr key={row.invoiceNumber}>
             <td>{index + 1}</td>
@@ -40,9 +35,11 @@ const tableRow = (row: LoadingTripProps, index: number) => {
             </td>
             <td>{billingRate.toFixed(2)}</td>
             <td>
-                {(row.loadingPoint.cementCompany.quantityType === 'Loading Quantity'
-                    ? row.filledLoad
-                    : (row.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000) * billingRate
+                {(
+                    (row.loadingPoint.cementCompany.quantityType === 'Loading Quantity'
+                        ? row.filledLoad
+                        : row.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000) *
+                    billingRate
                 ).toFixed(2)}
             </td>
             <td>0</td>
@@ -67,9 +64,23 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
             <td>{row.unloadingPoint.name}</td>
             <td>{row.overallTrip[0].truck.vehicleNumber}</td>
             <td>5116</td>
-            <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
+            <td>
+                {(row.loadingPointToStockPointTrip.stockPoint.cementCompany.quantityType ===
+                'Loading Quantity'
+                    ? row.loadingPointToStockPointTrip.filledLoad
+                    : row.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000
+                ).toFixed(2)}
+            </td>
             <td>{checkBillingRate(row.billingRate).toFixed(2)}</td>
-            <td>{(row.loadingPointToStockPointTrip.filledLoad * billingRate).toFixed(2)}</td>
+            <td>
+                {(
+                    (row.loadingPointToStockPointTrip.stockPoint.cementCompany.quantityType ===
+                    'Loading Quantity'
+                        ? row.loadingPointToStockPointTrip.filledLoad
+                        : row.overallTrip[0].shortageQuantity[0].unloadedQuantity / 1000) *
+                    billingRate
+                ).toFixed(2)}
+            </td>
             <td>0</td>
             <td>0</td>
             <td>0</td>
