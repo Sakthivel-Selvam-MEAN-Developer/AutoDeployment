@@ -11,31 +11,10 @@ import { updateUnloadWeightForStockTrip } from '../models/stockPointToUnloadingP
 import { create as createShortageQuantity } from '../models/shortageQuantity.ts'
 import { shortageAmountCalculation } from '../domain/shortageLogic.ts'
 import { allTrips } from '../domain/types.ts'
+import { getFileFromS3 } from './acknowledgementGet.ts'
 export interface S3File extends Express.MulterS3.File {
     location: string
 }
-// const s3 = new S3Client({
-//     region: configs.REGION,
-//     credentials: {
-//         accessKeyId: configs.AWS_ACCESS_KEY,
-//         secretAccessKey: configs.AWS_SECRET_ACCESS_KEY
-//     }
-// })
-
-// export const upload = multer({
-//     storage: multerS3({
-//         s3:s3 ,
-//         bucket: configs.S3_BUCKET_ACKNOWLEDGEMENT || 'acknowledgementapproval',
-//         metadata: (req, file, cb) => {
-//             console.log(req)
-//             cb(null, { fieldName: file.fieldname })
-//         },
-//         key: (req, file, cb) => {
-//             console.log(req)
-//             cb(null, `acknowledgement/${Date.now()}-${file.originalname}`)
-//         }
-//     })
-// })
 export const listAllActivetripTripByTripStatus = (_req: Request, res: Response) => {
     getAllActivetripTripByTripStatus()
         .then((data) => res.status(200).json(data))
@@ -126,4 +105,13 @@ export const acknowledgementFileUpload = async (req: Request, res: Response) => 
             .then((data) => res.status(200).json(data))
             .catch(() => res.status(500))
     }
+}
+export const acknowledgementFileGet = async (req: Request, res: Response) => {
+    const bucketName: string = req.body.bucketName
+    const fileName: string = req.body.fileName
+    getFileFromS3(bucketName, fileName)
+        .then((data) => {
+            res.status(200).json(data)
+        })
+        .catch(() => res.status(500))
 }

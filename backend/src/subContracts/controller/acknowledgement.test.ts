@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
-import { acknowledgementFileUpload, getTrip } from './acknowledgement.ts'
+import { acknowledgementFileGet, acknowledgementFileUpload, getTrip } from './acknowledgement.ts'
 
 const mockGetAllActivetripTripByTripStatus = vi.fn()
 const mockGetAllTripByAcknowledgementStatus = vi.fn()
@@ -380,6 +380,10 @@ describe('Acknowledgement Controller', () => {
     test('should handle acknowledgement uploadfile', async () => {
         mockUploadAcknowledgementFile.mockResolvedValue({ id: 1 })
         await acknowledgementFileUpload(mockReq, mockRes)
+        expect(mockUploadAcknowledgementFile).toHaveBeenCalledTimes(1)
+    })
+    test('should handle acknowledgement uploadfile', async () => {
+        await acknowledgementFileGet(mockReq, mockRes)
         expect(mockUploadAcknowledgementFile).toHaveBeenCalledTimes(1)
     })
 })

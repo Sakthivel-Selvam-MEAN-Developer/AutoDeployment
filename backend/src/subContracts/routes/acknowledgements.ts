@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
     OverAllTripById,
+    acknowledgementFileGet,
     acknowledgementFileUpload,
     closeTripById,
     listAllActivetripTripByTripStatus,
@@ -17,6 +18,7 @@ const acknowledgementRoutes = (router: Router) => {
     router.get('/acknowledgement/acknowlegementstatus', listAllTripToByAcknowledgementStatus)
     router.get('/acknowledgement/:id', OverAllTripById)
     router.post('/acknowledgement/uploadAcknowledgementFile', upload, acknowledgementFileUpload)
+    router.get('/acknowledgement/getAcknowledgementFile', acknowledgementFileGet)
 }
 
 export default acknowledgementRoutes
