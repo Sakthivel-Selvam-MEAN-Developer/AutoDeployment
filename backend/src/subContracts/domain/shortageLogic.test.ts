@@ -80,4 +80,8 @@ describe('Shortage Logics Test', async () => {
         const result = shortageAmountCalculation(50, 49900)
         expect(result).toBe(false)
     })
+    test('should return false when filledLoad * 1000 - unload <= 100', () => {
+        const result = shortageAmountCalculation(50, 49900)
+        expect(result).toBe(false)
+    })
 })

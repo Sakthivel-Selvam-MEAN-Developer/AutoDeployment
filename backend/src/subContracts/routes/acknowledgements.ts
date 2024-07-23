@@ -4,6 +4,7 @@ import {
     acknowledgementFileGet,
     acknowledgementFileUpload,
     closeTripById,
+    getAcknowledgementFileByOverallTripId,
     listAllActivetripTripByTripStatus,
     listAllTripToByAcknowledgementStatus,
     updateAcknowledgementStatusforOverAllTrip
@@ -18,7 +19,8 @@ const acknowledgementRoutes = (router: Router) => {
     router.get('/acknowledgement/acknowlegementstatus', listAllTripToByAcknowledgementStatus)
     router.get('/acknowledgement/:id', OverAllTripById)
     router.post('/acknowledgement/uploadAcknowledgementFile', upload, acknowledgementFileUpload)
-    router.get('/acknowledgement/getAcknowledgementFile', acknowledgementFileGet)
+    router.get('/getAcknowledgementFile', acknowledgementFileGet)
+    router.get('/getAcknowledgementFileByOverallTripId', getAcknowledgementFileByOverallTripId)
 }
 
 export default acknowledgementRoutes

@@ -15,3 +15,9 @@ export const approveAcknowledgement = (
         .put(`/acknowlegementapproval`, { id, unloadedQuantity, approvalStatus })
         .then(getData)
         .catch(() => alert('Error Getting data'))
+
+export const acknowledgementFileGet = (bucketName: string, fileName: string) =>
+    axiosInstance
+        .get('/getAcknowledgementFile', { params: { bucketName, fileName } })
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

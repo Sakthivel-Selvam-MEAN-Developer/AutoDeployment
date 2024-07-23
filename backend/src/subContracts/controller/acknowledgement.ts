@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import {
     closeAcknowledgementStatusforOverAllTrip,
+    getAcknowledgementFile,
     getAllActivetripTripByTripStatus,
     getAllTripByAcknowledgementStatus,
     getOverAllTripById,
@@ -107,11 +108,17 @@ export const acknowledgementFileUpload = async (req: Request, res: Response) => 
     }
 }
 export const acknowledgementFileGet = async (req: Request, res: Response) => {
-    const bucketName: string = req.body.bucketName
-    const fileName: string = req.body.fileName
-    getFileFromS3(bucketName, fileName)
+    const bucketName = req.query.bucketName as string
+    const fileName = req.query.fileName as string
+    await getFileFromS3(bucketName, fileName)
         .then((data) => {
             res.status(200).json(data)
         })
-        .catch(() => res.status(500))
+        .catch(() => res.status(500).json({ error: 'Error Getting data' }))
+}
+export const getAcknowledgementFileByOverallTripId = async (req: Request, res: Response) => {
+    const id = req.query.id as string
+    await getAcknowledgementFile(parseInt(id))
+        .then(() => res.sendStatus(200))
+        .catch(() => res.sendStatus(500))
 }

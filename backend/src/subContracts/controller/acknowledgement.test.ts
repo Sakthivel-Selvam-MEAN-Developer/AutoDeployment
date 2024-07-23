@@ -2,7 +2,12 @@ import supertest from 'supertest'
 import { NextFunction, Request, Response } from 'express'
 import { app } from '../../app.ts'
 import { Role } from '../roles.ts'
-import { acknowledgementFileGet, acknowledgementFileUpload, getTrip } from './acknowledgement.ts'
+import {
+    acknowledgementFileGet,
+    acknowledgementFileUpload,
+    getAcknowledgementFileByOverallTripId,
+    getTrip
+} from './acknowledgement.ts'
 
 const mockGetAllActivetripTripByTripStatus = vi.fn()
 const mockGetAllTripByAcknowledgementStatus = vi.fn()
@@ -17,7 +22,7 @@ const mockGetShortageQuantityByOverallTripId = vi.fn()
 const mockGetDueByOverallTripId = vi.fn()
 const mockUploadAcknowledgementFile = vi.fn()
 const mockGetFileFromS3 = vi.fn()
-
+const mockGetAcknowledgementFile = vi.fn()
 vi.mock('../models/overallTrip', () => ({
     getAllActivetripTripByTripStatus: () => mockGetAllActivetripTripByTripStatus(),
     getAllTripByAcknowledgementStatus: () => mockGetAllTripByAcknowledgementStatus(),
@@ -25,7 +30,8 @@ vi.mock('../models/overallTrip', () => ({
     closeAcknowledgementStatusforOverAllTrip: (inputs: any) =>
         mockAcknowledgeStatusforOverAllTrip(inputs),
     uploadAcknowledgementFile: (id: number, pdfLink: string) =>
-        mockUploadAcknowledgementFile(id, pdfLink)
+        mockUploadAcknowledgementFile(id, pdfLink),
+    getAcknowledgementFile: (id: number) => mockGetAcknowledgementFile(id)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     updateUnloadWeightforTrip: (inputs: any, data: any) =>
@@ -160,7 +166,8 @@ const mockReq = {
     } as S3File,
     body: {
         id: 1
-    }
+    },
+    query: {}
 } as unknown as Request
 const mockOverAllTripByTripIdData = {
     id: 1,
@@ -351,6 +358,15 @@ describe('Acknowledgement Controller', () => {
     test('should handle acknowledgement uploadfile', async () => {
         mockGetFileFromS3.mockResolvedValue({})
         await acknowledgementFileGet(mockReq, mockRes)
+    })
+    test('should handle acknowledgement getfile', async () => {
+        await acknowledgementFileGet(mockReq, mockRes)
+    })
+    test('should handle get acknowledgement Pdflink', async () => {
+        const req = { query: { id: 1 } } as unknown as Request
+        mockGetAcknowledgementFile.mockResolvedValue('ygfjvhgfcghy')
+        await getAcknowledgementFileByOverallTripId(req, mockRes)
+        expect(mockGetAcknowledgementFile).toHaveBeenCalledTimes(1)
     })
 })
 const mockOverallTripWithStockPointToUnloadingPointTrip = {
