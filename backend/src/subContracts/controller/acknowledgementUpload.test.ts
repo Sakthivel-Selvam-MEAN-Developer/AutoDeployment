@@ -40,7 +40,7 @@ vi.mock('../../auditRoute.ts', () => ({
     }
 }))
 const mockFile = {
-    fieldname: 'acknowledgement',
+    fieldname: 'testacknowledgementapproval',
     originalname: 'test.pdf',
     encoding: '7bit',
     mimetype: 'application/pdf',
@@ -92,7 +92,7 @@ const testHelper = async () => {
     await middleFunction()
     expect(mockNext).not.toHaveBeenCalledWith(expect.any(Error))
     expect(mockReq.file).toBeDefined()
-    expect(mockReq?.file?.fieldname).toBe('acknowledgement')
+    expect(mockReq?.file?.fieldname).toBe('testacknowledgementapproval')
     testHelperReq()
 }
 const metadataCb = (err: any, data: any) => {

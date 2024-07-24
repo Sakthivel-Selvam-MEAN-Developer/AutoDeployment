@@ -14,7 +14,7 @@ export const s3 = new S3Client({
 
 let files = 'acknowledgement'
 const getFolderName = (req: any) =>
-    req.headers.host.includes('localhost') ? (files = 'acknowledgement') : files
+    req.headers.host.includes('localhost') ? (files = 'testacknowledgementapproval') : files
 
 export const upload = multer({
     storage: multerS3({
