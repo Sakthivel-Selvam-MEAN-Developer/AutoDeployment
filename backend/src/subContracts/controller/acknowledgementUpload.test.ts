@@ -50,13 +50,18 @@ const mockFile = {
 }
 const mockReq = {
     file: mockFile,
+    get: (headerName: string) => (headerName === 'host' ? 'localhost' : undefined),
     headers: {
-        'content-type': 'multipart/form-data'
+        'content-type': 'multipart/form-data',
+        host: ['localhost']
     },
     body: {}
 } as unknown as Request
 const mockRes = {} as Response
 const mockNext = vi.fn()
+vi.mock('../acknowledgementUpload', () => ({
+    getFolderName: vi.fn(() => 'mocked-folder')
+}))
 const { upload } = await import('../controller/acknowledgementUpload')
 const multerS3Mock = vi.mocked(multerS3).mockImplementation((options: any) => {
     console.log(options)
@@ -71,29 +76,58 @@ const middleFunction = async () => {
         })
     })
 }
+const inputReq = {
+    file: mockFile,
+    get: (headerName: string) => (headerName === 'host' ? 'localhost' : undefined),
+    headers: {
+        'content-type': 'multipart/form-data',
+        host: ['magnum']
+    },
+    body: {}
+} as unknown as Request
+const testHelperReq = async () => {
+    expect(mockReq?.file?.originalname).toBe('test.pdf')
+}
+const testHelper = async () => {
+    await middleFunction()
+    expect(mockNext).not.toHaveBeenCalledWith(expect.any(Error))
+    expect(mockReq.file).toBeDefined()
+    expect(mockReq?.file?.fieldname).toBe('acknowledgement')
+    testHelperReq()
+}
+const metadataCb = (err: any, data: any) => {
+    console.log(err)
+    expect(data).toEqual({ fieldName: mockFile.fieldname })
+}
 describe('Upload Middleware', () => {
     test('should upload file to S3', async () => {
-        await middleFunction()
-        expect(mockNext).not.toHaveBeenCalledWith(expect.any(Error))
-        expect(mockReq.file).toBeDefined()
-        expect(mockReq?.file?.fieldname).toBe('acknowledgement')
-        expect(mockReq?.file?.originalname).toBe('test.pdf')
+        testHelper()
         const multerS3Options: any = multerS3Mock.mock.calls[0]?.[0]
         if (multerS3Options) {
-            const metadataCb = (err: any, data: any) => {
-                console.log(err)
-                expect(data).toEqual({ fieldName: mockFile.fieldname })
-            }
-            multerS3Options?.metadata(mockReq, mockFile, metadataCb)
+            multerS3Options.metadata(mockReq, mockFile, metadataCb)
             const keyCb = (err: any, data: any) => {
                 console.log(err)
                 expect(data).toStrictEqual(
                     `${mockFile.fieldname}/${dayjs().unix()}-${mockFile.originalname}`
                 )
             }
-            multerS3Options?.key(mockReq, mockFile, keyCb)
-        } else {
-            throw new Error('multerS3Options is undefined')
+            multerS3Options.key(mockReq, mockFile, keyCb)
+        }
+    })
+})
+describe('Upload Middleware', () => {
+    test('should upload file to S3 for magnum ', async () => {
+        testHelper()
+        const multerS3Options: any = multerS3Mock.mock.calls[0]?.[0]
+        if (multerS3Options) {
+            multerS3Options.metadata(mockReq, mockFile, metadataCb)
+            const keyCb = (err: any, data: any) => {
+                console.log(err)
+                expect(data).toStrictEqual(
+                    `${mockFile.fieldname}/${dayjs().unix()}-${mockFile.originalname}`
+                )
+            }
+            multerS3Options.key(inputReq, mockFile, keyCb)
         }
     })
 })

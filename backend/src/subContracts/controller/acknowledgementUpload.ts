@@ -11,7 +11,11 @@ export const s3 = new S3Client({
         secretAccessKey: configs.AWS_SECRET_ACCESS_KEY
     }
 })
-const files = 'acknowledgement'
+
+let files = 'acknowledgement'
+const getFolderName = (req: any) =>
+    req.headers.host.includes('localhost') ? (files = 'acknowledgement') : files
+
 export const upload = multer({
     storage: multerS3({
         s3: s3,
@@ -21,8 +25,8 @@ export const upload = multer({
             cb(null, { fieldName: file.fieldname })
         },
         key: (req, file, cb) => {
-            console.log(req)
-            cb(null, `${files}/${dayjs().unix()}-${file.originalname}`)
+            const folderName = getFolderName(req)
+            cb(null, `${folderName}/${dayjs().unix()}-${file.originalname}`)
         }
     })
 }).single('image')
