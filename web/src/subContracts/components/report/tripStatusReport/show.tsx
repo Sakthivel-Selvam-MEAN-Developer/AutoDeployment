@@ -10,6 +10,7 @@ import { overallTripsProps } from './tripFilterForm.tsx'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { FLOAT } from 'html2canvas/dist/types/css/property-descriptors/float'
 import { DialogBox } from './dialogBox.tsx'
+import { downloadAcknowledgementFile } from './downloadFile.tsx'
 
 interface Row {
     acknowledgementDate: number
@@ -197,6 +198,19 @@ const columns = [
     { field: 'invoiceNumber', headerName: 'Invoice Number', width: 150 },
     { field: 'transporterName', headerName: 'Transporter', width: 240 },
     { field: 'csmName', headerName: 'CSM Name', width: 130 },
+    {
+        field: 'acknowledgementFile',
+        headerName: 'AcknowledgementFile',
+        width: 150,
+        renderCell: (params: any) => (
+            <Button
+                onClick={() => params.downloadAcknowledgementFile(params.row.id)}
+                variant="contained"
+            >
+                Show More
+            </Button>
+        )
+    },
     {
         field: 'action',
         headerName: 'Action',
@@ -405,7 +419,17 @@ const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser 
         ...column,
         type: 'string',
         renderCell: (params) => {
-            if (column.field === 'action') {
+            if (column.field === 'acknowledgementFile') {
+                return (
+                    <Button
+                        onClick={() => downloadAcknowledgementFile(params.row.id)}
+                        variant="contained"
+                        size="small"
+                    >
+                        Download
+                    </Button>
+                )
+            } else if (column.field === 'action') {
                 return (
                     <Button
                         onClick={() => handleShowMore(params.row)}

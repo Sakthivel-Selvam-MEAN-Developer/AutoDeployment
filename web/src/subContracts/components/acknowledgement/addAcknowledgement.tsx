@@ -26,11 +26,9 @@ const AddAcknowledgement: React.FC = () => {
     const [tripDetails, setTripDetails] = useState<tripdetailsProps | null>(null)
     const [disable, setDisable] = useState(false)
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
-    let clicked = false
     const finalDue = async (id: number) => {
-        if (clicked) return
-        clicked = true
-        clicked &&
+        console.log(selectedFile?.size)
+        selectedFile &&
             (await updateAcknowledgementStatus(id)
                 .then(() => uploadAcknowledgement())
                 .then(() => {
@@ -38,6 +36,10 @@ const AddAcknowledgement: React.FC = () => {
                     setSelectedFile(null)
                 })
                 .catch(() => alert('Trip Not Closed')))
+        if (!selectedFile) {
+            alert('No file selected')
+            return
+        }
     }
     const uploadAcknowledgement = async () => {
         if (!selectedFile) {

@@ -15,11 +15,11 @@ const mockAllInvoiceNumbers = vi.fn()
 
 vi.mock('../../../services/overallTrips', () => ({
     tripStatusFilter: (
-        cementCompanyId: any,
-        transporterId: any,
-        loadingPointId: any,
-        vehicleNumber: any,
-        invoiceNumber: any
+        cementCompanyId: number,
+        transporterId: number,
+        loadingPointId: number,
+        vehicleNumber: string,
+        invoiceNumber: string
     ) =>
         mockGetOverallTripByFilter(
             cementCompanyId,

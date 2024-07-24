@@ -26,13 +26,20 @@ const extractBucketAndKey = (url: string) => {
 
 export const downloadAcknowledgementFile = (id: number) => {
     acknowledgementFileByOverallTripId(id).then(async (data) => {
-        const { bucketName, objectKey } = extractBucketAndKey(data[0].acknowledgementPdfLink)
-        try {
-            const signedUrl = await acknowledgementFileGet(bucketName, objectKey)
-            const fileName = objectKey.split('/').pop()
-            await downloadFile(signedUrl, fileName)
-        } catch (error) {
-            console.error('Error downloading file:', error)
+        if (!data[0].acknowledgementPdfLink) {
+            alert('No file')
+            return
         }
+        const { bucketName, objectKey } = extractBucketAndKey(data[0].acknowledgementPdfLink)
+        await handleFileDownload(bucketName, objectKey)
     })
+}
+const handleFileDownload = async (bucketName: string, objectKey: string) => {
+    try {
+        const signedUrl = await acknowledgementFileGet(bucketName, objectKey)
+        const fileName = objectKey.split('/').pop()
+        await downloadFile(signedUrl, fileName)
+    } catch (error) {
+        console.error('Error downloading file:', error)
+    }
 }
