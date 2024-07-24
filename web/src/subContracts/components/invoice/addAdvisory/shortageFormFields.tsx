@@ -1,0 +1,38 @@
+import { TextField } from '@mui/material'
+import { grid } from './dataGrid'
+import { ReactElement } from 'react'
+type type = (
+    height: { height: string },
+    setUpdate: grid['setUpdate'],
+    update: grid['update']
+) => ReactElement
+export const getAmt: type = (height, setUpdate, update) => {
+    return (
+        <TextField
+            type="number"
+            label="Shortage Amount"
+            sx={height}
+            value={update.shortageAmount}
+            onChange={(e) => {
+                setUpdate((prev) => {
+                    return { ...prev, shortageAmount: parseInt(e.target.value) }
+                })
+            }}
+        />
+    )
+}
+export const getAmtBill: type = (height, setUpdate, update) => {
+    return (
+        <TextField
+            type="text"
+            label="Shortaged Bill No"
+            sx={height}
+            value={update.shortagedBillNo}
+            onChange={(e) => {
+                setUpdate((prev) => {
+                    return { ...prev, shortagedBillNo: e.target.value }
+                })
+            }}
+        />
+    )
+}

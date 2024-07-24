@@ -2,13 +2,11 @@ import supertest from 'supertest'
 import { app } from '../../app.ts'
 import { vi } from 'vitest'
 const mockCompanyGeneratedInvoice = vi.fn()
-const mockgetCompanyInvoiceNameList = vi.fn()
 const mockPageCount = vi.fn()
 vi.mock('../models/companyInvoice/companyInvoice', () => {
     return {
         getCompanyInvoice: () => mockCompanyGeneratedInvoice(),
-        pageCount: () => mockPageCount(),
-        getCompanyInvoiceNameList: () => mockgetCompanyInvoiceNameList()
+        pageCount: () => mockPageCount()
     }
 })
 const mockGeneratedInvoice = [
@@ -39,10 +37,5 @@ describe('ViewInvoice Controller', () => {
             .expect(200)
         expect(mockCompanyGeneratedInvoice).toBeCalledTimes(1)
         expect(mockPageCount).toBeCalledTimes(1)
-    })
-    test('should able to update company advisory id in company invoice', async () => {
-        mockgetCompanyInvoiceNameList.mockResolvedValue([{ id: 1, billNo: 'MGL-01' }])
-        await supertest(app).get('/api/invoice/list').expect(200)
-        expect(mockgetCompanyInvoiceNameList).toBeCalledTimes(1)
     })
 })

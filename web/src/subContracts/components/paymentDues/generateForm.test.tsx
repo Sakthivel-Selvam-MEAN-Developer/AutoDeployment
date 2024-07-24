@@ -8,7 +8,7 @@ const mockGroupedDues = vi.fn()
 const mockExportFile = vi.fn()
 
 vi.mock('../../services/paymentDues', () => ({
-    getOnlyActiveDues: (date: any, status: any) => mockGroupedDues(date, status)
+    getOnlyActiveDues: (date: number, status: boolean) => mockGroupedDues(date, status)
 }))
 
 vi.mock('./NEFTForm/exportFile', () => ({

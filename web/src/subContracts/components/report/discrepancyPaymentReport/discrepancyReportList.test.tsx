@@ -7,7 +7,7 @@ import ListAllDiscrepancyReport from './discrepancyReportList'
 const mockGetAllDiscrepancyReport = vi.fn()
 
 vi.mock('../../../services/overallTrips', () => ({
-    getAllDiscrepancyReport: (from: any, to: any) => mockGetAllDiscrepancyReport(from, to)
+    getAllDiscrepancyReport: (from: number, to: number) => mockGetAllDiscrepancyReport(from, to)
 }))
 
 const mockdiscrepancyData = [

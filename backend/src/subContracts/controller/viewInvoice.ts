@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import {
     getCompanyInvoice,
-    getCompanyInvoiceNameList,
+    // getCompanyInvoiceNameList,
     getInvoiceToAddAdvisory,
     pageCount
 } from '../models/companyInvoice/companyInvoice.ts'
@@ -36,8 +36,8 @@ function filterDatas(req: Request<object, object, object, RequestQuery, Record<s
         pageNumber: parseInt(req.query.pageNumber)
     }
 }
-export const getInvocieNameList = async (_req: Request, res: Response) => {
-    await getCompanyInvoiceNameList()
-        .then((data) => res.status(200).json(data))
-        .catch(() => res.sendStatus(500))
-}
+// export const getInvocieNameList = async (_req: Request, res: Response) => {
+//     await getCompanyInvoiceNameList()
+//         .then((data) => res.status(200).json(data))
+//         .catch(() => res.sendStatus(500))
+// }

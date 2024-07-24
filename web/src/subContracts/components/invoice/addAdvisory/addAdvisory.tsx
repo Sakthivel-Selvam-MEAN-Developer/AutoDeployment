@@ -5,10 +5,15 @@ import { advisoryFilterData } from './addAdvisoryContext'
 import FormField from '../formField'
 import DataGridTable from './dataGrid'
 import { invoice } from './list'
-
+export interface update {
+    shortageAmount: number
+    shortagedBillNo: string
+    invoiceId: number
+}
 const AddAdvisory: FC<{ onFilter: () => void; invoice: invoice }> = ({ onFilter, invoice }) => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
+    const [update, setUpdate] = useState<update>({} as update)
     return (
         <>
             <form onSubmit={handleSubmit(onFilter)}>
@@ -19,7 +24,12 @@ const AddAdvisory: FC<{ onFilter: () => void; invoice: invoice }> = ({ onFilter,
                     FilterData={advisoryFilterData}
                 />
             </form>
-            <DataGridTable invoice={invoice} />
+            <DataGridTable
+                invoice={invoice}
+                setUpdate={setUpdate}
+                update={update}
+                onFilter={onFilter}
+            />
         </>
     )
 }

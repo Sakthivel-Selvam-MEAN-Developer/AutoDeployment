@@ -8,7 +8,7 @@ const mockgetUpcomingDuesByFilter = vi.fn()
 const mockAllTransporter = vi.fn()
 
 vi.mock('../../../services/paymentDues', () => ({
-    getUpcomingDuesByFilter: (name: any, from: any, to: any, type: any) =>
+    getUpcomingDuesByFilter: (name: string, from: number, to: number, type: string) =>
         mockgetUpcomingDuesByFilter(name, from, to, type)
 }))
 vi.mock('../../../services/transporter', () => ({

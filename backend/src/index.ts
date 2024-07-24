@@ -38,7 +38,6 @@ import pricePointApprovalRoutes from './subContracts/routes/pricePointApproval.t
 import tollPlazaRoutes from './subContracts/routes/tollPlaza.ts'
 import viewInvoiceRoutes from './subContracts/routes/viewInvoice.ts'
 import employeeSubRoutes from './subContracts/routes/employee.ts'
-import companyAdvisoryRoutes from './subContracts/routes/companyAdvisory.ts'
 import invoiceSubmission from './subContracts/routes/invoiceSubmission.ts'
 // import gpsStopRoutes from './gpsStops'
 const router = express.Router()
@@ -89,6 +88,5 @@ driverTripRoutes(router)
 expenseRoutes(router)
 tripBettaRoutes(router)
 driverAttendanceRoutes(router)
-companyAdvisoryRoutes(router)
 
 export default router

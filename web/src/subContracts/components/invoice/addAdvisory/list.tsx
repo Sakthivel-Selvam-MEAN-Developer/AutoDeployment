@@ -11,13 +11,18 @@ const defaultFilterData = {
 interface invoiceData extends filterDataProps {
     GSTAmount: number
     TDSAmount: number
+    cementCompany: { id: number; name: string }
+    billNo: string
+    billDate: number
+    id: number
+    amount: number
 }
 export interface invoice {
     data: invoiceData[]
     count: number
 }
 const List = () => {
-    const [invoice, setInvoice] = useState<invoice>({} as invoice)
+    const [invoice, setInvoice] = useState<invoice>({ count: 0, data: [] })
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
     const onFilter = async () => await getInvoiceToAddAdvisory(filterData).then(setInvoice)
     useEffect(() => {

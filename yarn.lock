@@ -849,6 +849,23 @@
     "@smithy/util-config-provider" "^3.0.0"
     tslib "^2.6.2"
 
+"@aws-sdk/middleware-sdk-s3@3.617.0":
+  version "3.617.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-sdk-s3/-/middleware-sdk-s3-3.617.0.tgz#515082f2d67bb1fe61e34d0d1205e9034b5c0087"
+  integrity sha512-zVOS6sNGcLGhq7i+5POmVqmSPNmrQYDFsynpnWMSLsNaej+xvkdSOnytLrUvag3Du4kAxfO5NNIC0GuNj9lcCg==
+  dependencies:
+    "@aws-sdk/types" "3.609.0"
+    "@aws-sdk/util-arn-parser" "3.568.0"
+    "@smithy/node-config-provider" "^3.1.4"
+    "@smithy/protocol-http" "^4.0.4"
+    "@smithy/signature-v4" "^4.0.0"
+    "@smithy/smithy-client" "^3.1.8"
+    "@smithy/types" "^3.3.0"
+    "@smithy/util-config-provider" "^3.0.0"
+    "@smithy/util-stream" "^3.1.0"
+    "@smithy/util-utf8" "^3.0.0"
+    tslib "^2.6.2"
+
 "@aws-sdk/middleware-signing@3.609.0":
   version "3.609.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-signing/-/middleware-signing-3.609.0.tgz#7e5c4e70302bf87a7aa3dfde83ec1b387bf819f0"
@@ -917,6 +934,20 @@
     "@smithy/util-middleware" "^3.0.3"
     tslib "^2.6.2"
 
+"@aws-sdk/s3-request-presigner@^3.617.0":
+  version "3.617.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/s3-request-presigner/-/s3-request-presigner-3.617.0.tgz#31ab5d58fdef071af984baa071a61b3e80040775"
+  integrity sha512-zszOwBmu3Ei5rRgddcQ3sbKFCtzLtUNDcmeybh4OhxENfgzHZHOeTOt8C+C16DD5YDQqeP4JYPRUp0LPuybkvg==
+  dependencies:
+    "@aws-sdk/signature-v4-multi-region" "3.617.0"
+    "@aws-sdk/types" "3.609.0"
+    "@aws-sdk/util-format-url" "3.609.0"
+    "@smithy/middleware-endpoint" "^3.0.5"
+    "@smithy/protocol-http" "^4.0.4"
+    "@smithy/smithy-client" "^3.1.8"
+    "@smithy/types" "^3.3.0"
+    tslib "^2.6.2"
+
 "@aws-sdk/signature-v4-multi-region@3.609.0":
   version "3.609.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/signature-v4-multi-region/-/signature-v4-multi-region-3.609.0.tgz#c88c4a25713bd50b7b253d611e3d2473258087eb"
@@ -938,6 +969,18 @@
     "@aws-sdk/types" "3.609.0"
     "@smithy/protocol-http" "^4.0.3"
     "@smithy/signature-v4" "^3.1.2"
+    "@smithy/types" "^3.3.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/signature-v4-multi-region@3.617.0":
+  version "3.617.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/signature-v4-multi-region/-/signature-v4-multi-region-3.617.0.tgz#2c28e5cb2e937140ee7293000443cbf857515f4c"
+  integrity sha512-kGbLs9q0/ziuzA1huf0BBh05ChxDeZ8ZWc/kedb80ocq6izOLaGgeqqUR8oB0ianwjel4AQq/iv1fsOIt3wmAA==
+  dependencies:
+    "@aws-sdk/middleware-sdk-s3" "3.617.0"
+    "@aws-sdk/types" "3.609.0"
+    "@smithy/protocol-http" "^4.0.4"
+    "@smithy/signature-v4" "^4.0.0"
     "@smithy/types" "^3.3.0"
     tslib "^2.6.2"
 
@@ -996,6 +1039,16 @@
     "@aws-sdk/types" "3.609.0"
     "@smithy/types" "^3.3.0"
     "@smithy/util-endpoints" "^2.0.5"
+    tslib "^2.6.2"
+
+"@aws-sdk/util-format-url@3.609.0":
+  version "3.609.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/util-format-url/-/util-format-url-3.609.0.tgz#f53907193bb636b52b61c81bbe6d7bd5ddc76c68"
+  integrity sha512-fuk29BI/oLQlJ7pfm6iJ4gkEpHdavffAALZwXh9eaY1vQ0ip0aKfRTiNudPoJjyyahnz5yJ1HkmlcDitlzsOrQ==
+  dependencies:
+    "@aws-sdk/types" "3.609.0"
+    "@smithy/querystring-builder" "^3.0.3"
+    "@smithy/types" "^3.3.0"
     tslib "^2.6.2"
 
 "@aws-sdk/util-locate-window@^3.0.0":
@@ -2850,6 +2903,19 @@
     "@smithy/util-utf8" "^3.0.0"
     tslib "^2.6.2"
 
+"@smithy/signature-v4@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@smithy/signature-v4/-/signature-v4-4.0.0.tgz#0583baba98819eab49e028166b186ce927c42128"
+  integrity sha512-ervYjQ+ZvmNG51Ui77IOTPri7nOyo8Kembzt9uwwlmtXJPmFXvslOahbA1blvAVs7G0KlYMiOBog1rAt7RVXxg==
+  dependencies:
+    "@smithy/is-array-buffer" "^3.0.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/util-hex-encoding" "^3.0.0"
+    "@smithy/util-middleware" "^3.0.3"
+    "@smithy/util-uri-escape" "^3.0.0"
+    "@smithy/util-utf8" "^3.0.0"
+    tslib "^2.6.2"
+
 "@smithy/smithy-client@^3.1.5":
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/@smithy/smithy-client/-/smithy-client-3.1.5.tgz#3956f0b511c3a51f859c45eb11bfd70ae00c5fec"
@@ -3040,7 +3106,7 @@
     "@smithy/util-utf8" "^3.0.0"
     tslib "^2.6.2"
 
-"@smithy/util-stream@^3.0.6", "@smithy/util-stream@^3.1.1":
+"@smithy/util-stream@^3.0.6", "@smithy/util-stream@^3.1.0", "@smithy/util-stream@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@smithy/util-stream/-/util-stream-3.1.1.tgz#2fffe56d9cdf70e94a7cd690e980454b1b35ad23"
   integrity sha512-EhRnVvl3AhoHAT2rGQ5o+oSDRM/BUSMPLZZdRJZLcNVUsFAjOs4vHaPdNQivTSzRcFxf5DA4gtO46WWU2zimaw==

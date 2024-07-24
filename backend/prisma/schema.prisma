@@ -325,9 +325,9 @@ model companyInvoice {
   GSTAmount                        Int
   TDSAmount                        Int
   dueDate                          Int?
-  receivedAmount                   Int?
+  shortageAmount                   Int?
   submissionDate                   Int?
-  paid                             Boolean                            @default(false)
+  received                         Boolean                            @default(false)
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])
@@ -335,8 +335,6 @@ model companyInvoice {
   loadingPointToStockPointTrip     loadingPointToStockPointTrip[]
   stockPointToUnloadingPointTrip   stockPointToUnloadingPointTrip[]
   loadingPointToUnloadingPointTrip loadingPointToUnloadingPointTrip[]
-  companyAdvisory                  companyAdvisory?                   @relation(fields: [companyAdvisoryId], references: [id])
-  companyAdvisoryId                Int?
 
   @@schema("subContract")
 }
@@ -375,17 +373,17 @@ model cementCompany {
   @@schema("subContract")
 }
 
-model companyAdvisory {
-  id                    Int              @id @default(autoincrement())
-  bankReferenceNumber   String
-  paymentDocumentNumber String
-  paymentReceivedDate   Int
-  createdAt             DateTime         @default(now()) @db.Timestamptz(6)
-  updatedAt             DateTime         @updatedAt @db.Timestamptz(6)
-  companyInvoice        companyInvoice[]
+// model companyAdvisory {
+//   id                    Int              @id @default(autoincrement())
+//   bankReferenceNumber   String
+//   paymentDocumentNumber String
+//   paymentReceivedDate   Int
+//   createdAt             DateTime         @default(now()) @db.Timestamptz(6)
+//   updatedAt             DateTime         @updatedAt @db.Timestamptz(6)
+//   companyInvoice        companyInvoice[]
 
-  @@schema("subContract")
-}
+//   @@schema("subContract")
+// }
 
 model companyBillingDetails {
   id            Int             @id @default(autoincrement())
