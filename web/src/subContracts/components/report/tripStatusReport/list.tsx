@@ -4,7 +4,6 @@ import { filterData, dispatchData } from './tripStatusContext'
 import ListAllDetails from './show'
 import { updateFilterProps } from './updateFilterProps'
 import { initialFilterData } from './tripStatusActionType'
-
 const ListAllTrip: React.FC = (): ReactElement => {
     const [overallTrips, setOverallTrips] = useState([])
     const [count, setCount] = useState<number>(0)

@@ -119,6 +119,6 @@ export const acknowledgementFileGet = async (req: Request, res: Response) => {
 export const getAcknowledgementFileByOverallTripId = async (req: Request, res: Response) => {
     const id = req.query.id as string
     await getAcknowledgementFile(parseInt(id))
-        .then(() => res.sendStatus(200))
+        .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }

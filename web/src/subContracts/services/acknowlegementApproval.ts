@@ -21,3 +21,8 @@ export const acknowledgementFileGet = (bucketName: string, fileName: string) =>
         .get('/getAcknowledgementFile', { params: { bucketName, fileName } })
         .then(getData)
         .catch(() => alert('Error Getting data'))
+export const acknowledgementFileByOverallTripId = (id: number) =>
+    axiosInstance
+        .get('/getAcknowledgementFileByOverallTripId', { params: { id } })
+        .then(getData)
+        .catch(() => alert('Error Getting data'))

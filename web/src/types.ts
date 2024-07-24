@@ -1,5 +1,4 @@
 export type Nullable<T> = T | null | undefined
-
 export type updateProps = {
     billingRate: number | undefined
     pageName: string
@@ -15,7 +14,6 @@ export type tripTypeProps = {
     endDate: number
     pageName: string
 }
-
 export interface updateInvoiceProps {
     trip: tripDetailsProps
     bill: { billNo: string; date: number }
