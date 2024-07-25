@@ -23,7 +23,8 @@ import {
     getCompanyInvoice,
     getCompanyInvoiceForSubmitDate,
     getInvoiceToAddAdvisory,
-    pageCount
+    pageCount,
+    pageCountForAddAdvisory
 } from './companyInvoice.ts'
 import prisma from '../../../../prisma/index.ts'
 import { create as createInvoice } from './companyInvoice.ts'
@@ -339,6 +340,11 @@ async function tripData(
         loadingKilometer: 0
     })
 }
+const updateDetails = {
+    billNo: companyInvoice.billNo,
+    shortageAmount: 2000,
+    invoiceId: 0
+}
 describe('company invoice', () => {
     test('should able to get company invoice with no submission date', async () => {
         const company = await createCompany(seedCompany, 1)
@@ -362,16 +368,16 @@ describe('company invoice', () => {
         expect(actual.id).toBe(invoice.id)
         expect(actual.dueDate).toBe(1688282262)
     })
+})
+
+describe('Update Invocie Details Model', async () => {
     test('should able to update shortage amount', async () => {
-        await companyInvoiceGeneration()
-        await updateShortageDetailsModel({
-            billNo: companyInvoice.billNo,
-            shortageAmount: 2000,
-            invoiceId: 0
-        })
+        const filterData = await companyInvoiceGeneration()
+        const actual = await updateShortageDetailsModel(updateDetails)
+        await pageCountForAddAdvisory(filterData)
+        expect(actual.shortageAmount).toBe(2000)
     })
     test('should able to update invoice received', async () => {
-        // await companyInvoiceGeneration()
         const company = await createCompany(seedCompany, 1)
         const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
         const actual = await updateInvoiceReceived(invoice.id)

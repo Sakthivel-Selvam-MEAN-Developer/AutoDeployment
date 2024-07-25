@@ -2,9 +2,11 @@ import supertest from 'supertest'
 import { app } from '../../app'
 
 const mockgetInvoiceToAddAdvisory = vi.fn()
+const mockpageCountForAddAdvisory = vi.fn()
 
-vi.mock('../models/companyInvoice/companyInvoice', () => ({
-    getInvoiceToAddAdvisory: (inputs: any) => mockgetInvoiceToAddAdvisory(inputs)
+vi.mock('../models/companyInvoice/companyInvoice.ts', () => ({
+    getInvoiceToAddAdvisory: (inputs: any) => mockgetInvoiceToAddAdvisory(inputs),
+    pageCountForAddAdvisory: (inputs: any) => mockpageCountForAddAdvisory(inputs)
 }))
 const mockgetInvoiceToAddAdvisoryData = {
     count: 1,
@@ -25,6 +27,7 @@ const mockgetInvoiceToAddAdvisoryData = {
 describe('ViewInvoice Controller', () => {
     test('should be able to get all invoice generated billNo', async () => {
         mockgetInvoiceToAddAdvisory.mockResolvedValue(mockgetInvoiceToAddAdvisoryData)
+        mockpageCountForAddAdvisory.mockResolvedValue(1)
         await supertest(app)
             .get('/api/invoice/advisory/add')
             .query({

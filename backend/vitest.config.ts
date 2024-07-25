@@ -16,10 +16,10 @@ export default defineConfig({
                     statements: 99.4
                 },
                 'src/subContracts/controller/**': {
-                    branches: 92.28,
-                    functions: 99.16,
-                    lines: 98.3,
-                    statements: 98.3
+                    branches: 92.34,
+                    functions: 99.17,
+                    lines: 98.31,
+                    statements: 98.31
                 },
                 'src/subContracts/domain': {
                     branches: 61.81,

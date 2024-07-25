@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material'
-import { grid } from './dataGrid'
 import { ReactElement } from 'react'
+import { grid } from './tabs'
 type type = (
     height: { height: string },
     setUpdate: grid['setUpdate'],

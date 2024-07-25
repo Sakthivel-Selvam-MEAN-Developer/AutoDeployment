@@ -2,7 +2,8 @@ import { Request, Response } from 'express'
 import {
     getCompanyInvoice,
     getInvoiceToAddAdvisory,
-    pageCount
+    pageCount,
+    pageCountForAddAdvisory
 } from '../models/companyInvoice/companyInvoice.ts'
 import {
     updateInvoiceReceived,
@@ -27,8 +28,9 @@ export const getInvoicedTrip: getCompanyInvoiceProps = async (req, res) => {
 }
 export const getInvoicedToAddAdvisoryDetails: getCompanyInvoiceProps = async (req, res) => {
     const filterData = filterDatas(req)
+    const count = pageCountForAddAdvisory(filterData)
     await getInvoiceToAddAdvisory(filterData)
-        .then((data) => res.status(200).json({ data, count: data.length }))
+        .then((data) => res.status(200).json({ data, count }))
         .catch(() => res.status(500))
 }
 function filterDatas(req: Request<object, object, object, RequestQuery, Record<string, number>>) {
@@ -39,11 +41,10 @@ function filterDatas(req: Request<object, object, object, RequestQuery, Record<s
         pageNumber: parseInt(req.query.pageNumber)
     }
 }
-export const updateShortageDetails = (req: Request, res: Response) => {
+export const updateShortageDetails = (req: Request, res: Response) =>
     updateInvoiceReceived(req.body.invoiceId)
         .then(() => {
             if (req.body.shortageAmount === 0) return res.sendStatus(200)
             updateShortageDetailsModel(req.body).then(() => res.sendStatus(200))
         })
         .catch(() => res.sendStatus(500))
-}

@@ -1,48 +1,25 @@
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { FC } from 'react'
-import { invoice } from './list'
-import { columns, getRows, row } from './gridColumnsAndRows'
-import { update } from './addAdvisory'
-import { getAmt, getAmtBill } from './shortageFormFields'
-import { Button } from '@mui/material'
-import { updateShortageDetails } from '../../../services/viewInvoice'
+import { row } from './gridColumnsAndRowsToAddAdvisory'
 
 export interface grid {
-    invoice: invoice
-    setUpdate: React.Dispatch<React.SetStateAction<update>>
-    update: update
-    onFilter: () => void
+    adjCol: GridColDef<row>[]
+    rows: row[]
+    checkBox: boolean
 }
 
-const DataGridTable: FC<grid> = ({ invoice, setUpdate, update, onFilter }) => {
-    const height = { height: '20px' }
-    const adjestedColumns = columns.map((column: { field: string }) => {
-        return {
-            ...column,
-            renderCell: (params: { row: row }) => {
-                if (column.field === 'shortageAmount') return getAmt(height, setUpdate, update)
-                else if (column.field === 'shortageBillNo')
-                    return getAmtBill(height, setUpdate, update)
-                else if (column.field === 'action')
-                    return (
-                        <Button
-                            variant="contained"
-                            onClick={async () => {
-                                await updateShortageDetails({
-                                    ...update,
-                                    invoiceId: params.row.id
-                                }).then(onFilter)
-                            }}
-                        >
-                            Add
-                        </Button>
-                    )
-            }
-        }
-    })
+const DataGridTable: FC<grid> = ({ adjCol, rows, checkBox }) => {
     return (
         <div style={{ marginTop: '20px' }}>
-            <DataGrid columns={adjestedColumns} rows={getRows(invoice.data)} />
+            <DataGrid
+                checkboxSelection={checkBox}
+                columns={adjCol}
+                rows={rows}
+                onRowSelectionModelChange={(newRowSelectionModel) => {
+                    console.log(newRowSelectionModel)
+                }}
+                disableRowSelectionOnClick
+            />
         </div>
     )
 }

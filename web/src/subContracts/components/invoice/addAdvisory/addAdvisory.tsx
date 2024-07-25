@@ -3,8 +3,8 @@ import { useForm, FieldValues } from 'react-hook-form'
 import { cementCompanyProps } from '../generateInvoice/list'
 import { advisoryFilterData } from './addAdvisoryContext'
 import FormField from '../formField'
-import DataGridTable from './dataGrid'
 import { invoice } from './list'
+import InvoiceTabs from './tabs'
 export interface update {
     shortageAmount: number
     billNo: string
@@ -24,7 +24,7 @@ const AddAdvisory: FC<{ onFilter: () => void; invoice: invoice }> = ({ onFilter,
                     FilterData={advisoryFilterData}
                 />
             </form>
-            <DataGridTable
+            <InvoiceTabs
                 invoice={invoice}
                 setUpdate={setUpdate}
                 update={update}

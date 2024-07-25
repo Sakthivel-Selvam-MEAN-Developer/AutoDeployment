@@ -16,7 +16,7 @@ import { PaymentDueDateFilter } from './PaymentDueDateFilter.tsx'
 import { dateProps } from '../invoice/generateInvoice/list.tsx'
 dayjs.extend(utc)
 
-interface TabPanelProps {
+export interface TabPanelProps {
     children?: React.ReactNode
     index: number
     value: number

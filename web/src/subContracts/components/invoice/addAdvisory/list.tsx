@@ -24,7 +24,10 @@ export interface invoice {
 const List = () => {
     const [invoice, setInvoice] = useState<invoice>({ count: 0, data: [] })
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
-    const onFilter = async () => await getInvoiceToAddAdvisory(filterData).then(setInvoice)
+    const onFilter = async () => {
+        await getInvoiceToAddAdvisory(filterData).then(setInvoice)
+        await getInvoiceToAddAdvisory(filterData).then(setInvoice)
+    }
     useEffect(() => {
         onFilter()
     }, [filterData.pageNumber])
