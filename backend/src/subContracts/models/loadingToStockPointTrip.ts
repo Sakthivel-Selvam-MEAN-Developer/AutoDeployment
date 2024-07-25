@@ -28,13 +28,14 @@ export const getAllStockPointTrip = () =>
         }
     })
 
-export const closeStockTrip = (id: number) =>
+export const closeStockTrip = (id: number, arrivalDate: number) =>
     prisma().loadingPointToStockPointTrip.update({
         where: {
             id
         },
         data: {
-            tripStatus: true
+            tripStatus: true,
+            arrivalDate
         }
     })
 type type = (

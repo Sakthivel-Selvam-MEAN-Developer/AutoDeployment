@@ -87,7 +87,8 @@ describe('Loading To Stock Trip model', () => {
             wantFuel: true,
             loadingKilometer: 0
         })
-        const actual = await closeStockTrip(trip.id)
+        const arrivalDate = 4567890
+        const actual = await closeStockTrip(trip.id, arrivalDate)
         expect(actual.tripStatus).toBe(true)
     })
     test.skip('should able to update Bill Number in stock trip', async () => {

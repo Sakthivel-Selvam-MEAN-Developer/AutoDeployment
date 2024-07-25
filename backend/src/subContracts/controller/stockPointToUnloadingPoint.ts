@@ -17,6 +17,7 @@ import {
 import logger from '../../logger.ts'
 
 interface rowProps {
+    arrivalDate: number
     freightAmount: number
     invoiceNumber: string
     loadingPointToStockPointTripId: number
@@ -28,15 +29,17 @@ interface rowProps {
     truckId?: number
 }
 
-const createStockToUnloadTrip = async (data: rowProps) =>
-    create(data).then(async (stockToUnloading) => {
+const createStockToUnloadTrip = async (data: rowProps) => {
+    const { arrivalDate, ...resData } = data
+    return create(resData).then(async (stockToUnloading) => {
         const overallTrip = await getOverAllTripIdByLoadingToStockId(
             stockToUnloading.loadingPointToStockPointTripId
         )
         await updateStockToUnloadingInOverall(overallTrip?.id, stockToUnloading.id)
-        await closeStockTrip(stockToUnloading.loadingPointToStockPointTripId)
+        await closeStockTrip(stockToUnloading.loadingPointToStockPointTripId, arrivalDate)
         return overallTrip
     })
+}
 interface RequestQuery {
     type: string
     stockPointId: string

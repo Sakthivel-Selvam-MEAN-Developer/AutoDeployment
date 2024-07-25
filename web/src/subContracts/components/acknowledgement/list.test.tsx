@@ -172,6 +172,7 @@ describe('Acknowledgement Test', () => {
         })
         await userEvent.click(option)
         await userEvent.type(screen.getByLabelText('Unloaded Date'), '12122024')
+        await userEvent.type(screen.getByLabelText('Arrival Date'), '12122024')
         await userEvent.click(screen.getByRole('button', { name: 'Unload' }))
         mockgetTripById.mockResolvedValue(mockOverAllTripDataByIdAfterTripClosed)
         expect(getAllActivetripTripByTripStatus).toHaveBeenCalledTimes(1)

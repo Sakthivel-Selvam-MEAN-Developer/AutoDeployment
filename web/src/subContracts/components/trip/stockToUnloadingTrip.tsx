@@ -39,6 +39,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
     const [lrNumber, setLrNumber] = useState<string>('')
     const [partyName, setPartyName] = useState<string>('')
     const [stockDate, setStockDate] = useState<number>(0)
+    const [stockArrivalDate, setStockArrivalDate] = useState<number>(0)
     const authoriser = CheckUser()
     const coverDateToEpoc = (date: Dayjs | null) => {
         const formattedDays =
@@ -60,6 +61,7 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             totalTransporterAmount: parseFloat(totalTransporterAmountFloat),
             unloadingPointId,
             loadingPointToStockPointTripId: row.id,
+            arrivalDate: stockArrivalDate,
             partyName,
             lrNumber
         }
@@ -106,6 +108,21 @@ const StockToUnloadingFormFields: React.FC<dataProps> = ({
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     {NewTime(coverDateToEpoc)}
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        label="Stock Arrival Date"
+                        name="stockArrivalDate"
+                        format="DD/MM/YYYY"
+                        sx={{ marginRight: '20px' }}
+                        onChange={(date: Dayjs | null) => {
+                            const utcDate = dayjs((date as unknown as dateProps)?.$d).format(
+                                'DD/MM/YYYY'
+                            )
+                            const advanceDate = dayjs.utc(utcDate, 'DD/MM/YYYY').unix()
+                            setStockArrivalDate(advanceDate)
+                        }}
+                    />
                 </LocalizationProvider>
                 <TextField
                     id="outlined-basic"

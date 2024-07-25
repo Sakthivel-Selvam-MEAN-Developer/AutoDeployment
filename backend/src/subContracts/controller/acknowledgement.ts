@@ -88,13 +88,17 @@ export const closeTripById = async (req: Request, res: Response) => {
             await createShortageQuantity(shortage)
             if (overAllTripData && overAllTripData.stockPointToUnloadingPointTrip !== null) {
                 await updateUnloadWeightForStockTrip(
-                    overAllTripData.stockPointToUnloadingPointTrip.id
+                    overAllTripData.stockPointToUnloadingPointTrip.id,
+                    req.body.arrivalDate
                 )
             } else if (
                 overAllTripData &&
                 overAllTripData?.loadingPointToUnloadingPointTrip !== null
             ) {
-                await updateUnloadWeightforTrip(overAllTripData.loadingPointToUnloadingPointTrip.id)
+                await updateUnloadWeightforTrip(
+                    overAllTripData.loadingPointToUnloadingPointTrip.id,
+                    req.body.arrivalDate
+                )
             }
         })
         .then(() => res.sendStatus(200))

@@ -12,17 +12,17 @@ export const create = (
 
 export const getAllStockToUnloadingPointTrip = () =>
     prisma().stockPointToUnloadingPointTrip.findMany({})
-
-export const updateUnloadWeightForStockTrip = (id: number) =>
+const unloadingUpdateData = {
+    tripStatus: true,
+    acknowledgeDueTime: dayjs().subtract(1, 'minute').unix(),
+    loadingPointToStockPointTrip: {
+        update: { acknowledgeDueTime: dayjs().subtract(1, 'minute').unix() }
+    }
+}
+export const updateUnloadWeightForStockTrip = (id: number, arrivalDate: number) =>
     prisma().stockPointToUnloadingPointTrip.update({
         where: { id },
-        data: {
-            tripStatus: true,
-            acknowledgeDueTime: dayjs().subtract(1, 'minute').unix(),
-            loadingPointToStockPointTrip: {
-                update: { acknowledgeDueTime: dayjs().subtract(1, 'minute').unix() }
-            }
-        }
+        data: { arrivalDate, ...unloadingUpdateData }
     })
 type type = (
     prismaT: Omit<

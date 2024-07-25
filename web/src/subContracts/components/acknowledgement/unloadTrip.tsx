@@ -22,6 +22,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
     const [shortageQuantity, setShortageQuantity] = useState<number>(0)
     const [unloadedDate, setUnloadedDate] = useState<Date | null>(null)
     const [unloadingKilometer, setUnloadingKilometer] = useState<number>(0)
+    const [arrivedDate, setArrivedDate] = useState<string | null>(null)
     const style = {
         padding: ' 0 20px 20px 20px',
         margin: '30px 20%',
@@ -54,7 +55,8 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
         )
     }, [tripDetails, render])
     const handleCloseTrip: SubmitHandler<FieldValues> = async () => {
-        const date = dayjs((unloadedDate as unknown as dateProps)?.$d).format('DD/MM/YYYY')
+        const unloadDate = dayjs((unloadedDate as unknown as dateProps)?.$d).format('DD/MM/YYYY')
+        const arrivalDate = dayjs((arrivedDate as unknown as dateProps)?.$d).format('DD/MM/YYYY')
         const details = {
             overallTripId: tripDetails.id,
             shortageQuantity,
@@ -63,7 +65,8 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
             reason,
             filledLoad: filledLoad * 1000,
             unloadedQuantity: unload,
-            unloadedDate: dayjs(date, 'DD/MM/YYYY').unix(),
+            unloadedDate: dayjs(unloadDate, 'DD/MM/YYYY').unix(),
+            arrivalDate: dayjs(arrivalDate, 'DD/MM/YYYY').unix(),
             unloadingKilometer
         }
         await closeTrip(details)
@@ -156,7 +159,16 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                         />
                         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
                             <DatePicker
+                                label="Arrival Date"
+                                format="DD/MM/YYYY"
+                                value={arrivedDate}
+                                onChange={(newValue) => setArrivedDate(newValue)}
+                            />
+                        </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-in">
+                            <DatePicker
                                 label="Unloaded Date"
+                                format="DD/MM/YYYY"
                                 value={unloadedDate}
                                 onChange={(newValue) => setUnloadedDate(newValue)}
                             />
@@ -215,6 +227,7 @@ const UnloadTrip: React.FC<FormFieldProps> = ({ tripDetails, setRender, render }
                         <Button
                             disabled={
                                 unload === null ||
+                                arrivedDate === null ||
                                 unloadedDate === null ||
                                 unload === 0 ||
                                 approvalType === '' ||

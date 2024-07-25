@@ -113,7 +113,8 @@ describe('Trip model', () => {
             unloadingPointId: deliveryPoint.id,
             loadingKilometer: 0
         })
-        const actual = await updateUnloadWeightforTrip(trip.id)
+        const arrivalDate = 3456789
+        const actual = await updateUnloadWeightforTrip(trip.id, arrivalDate)
         expect(actual.tripStatus).toBe(true)
     })
     test('should able to get loading To Unloading Point for invoice', async () => {

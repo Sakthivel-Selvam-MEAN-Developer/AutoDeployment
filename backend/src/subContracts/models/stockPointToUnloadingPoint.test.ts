@@ -118,7 +118,8 @@ describe('stock Point to unloading point', () => {
             loadingPointToStockPointTripId: loadingPointToStockPoint.id,
             unloadingPointId: unloadingPoint.id
         })
-        const actual = await updateUnloadWeightForStockTrip(unloadingPointTrip.id)
+        const arrivalDate = 23456789
+        const actual = await updateUnloadWeightForStockTrip(unloadingPointTrip.id, arrivalDate)
         expect(actual.tripStatus).toBe(true)
     })
     test.skip('should able to update BillNumber for stockPoint To UnloadingPoint Trip', async () => {
