@@ -5,7 +5,7 @@
 
 */
 -- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "postgis";
+-- CREATE EXTENSION IF NOT EXISTS "postgis";
 
 -- CreateIndex
 CREATE UNIQUE INDEX "companyInvoice_billNo_key" ON "subContract"."companyInvoice"("billNo");

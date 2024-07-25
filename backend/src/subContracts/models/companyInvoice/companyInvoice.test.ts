@@ -22,11 +22,17 @@ import {
     create as createCompanyinvoice,
     getCompanyInvoice,
     getCompanyInvoiceForSubmitDate,
+    getInvoiceToAddAdvisory,
     pageCount
 } from './companyInvoice.ts'
 import prisma from '../../../../prisma/index.ts'
 import { create as createInvoice } from './companyInvoice.ts'
-import { updateDueDate, updateSubmitDate } from './updateCompanyInvoice.ts'
+import {
+    updateDueDate,
+    updateInvoiceReceived,
+    updateShortageDetailsModel,
+    updateSubmitDate
+} from './updateCompanyInvoice.ts'
 const unloadingPointTest = () =>
     createPricePointMarker({
         ...seedPricePointMarker,
@@ -68,7 +74,7 @@ const companyInvoiceGeneration = async () => {
     await updateLoadingToUnloading(prisma(), [overallTrip.id], 'MGL-034', invoice.id)
     return filterData
 }
-describe.skip('ViewInvoice model', () => {
+describe('ViewInvoice model', () => {
     test('should able to create company invoice', async () => {
         const filterData = await companyInvoiceGeneration()
         const actual = await getCompanyInvoice(filterData)
@@ -154,6 +160,11 @@ describe.skip('ViewInvoice model', () => {
         await updateLoadingToUnloading(prisma(), [overallTrip.id], 'MGL-034', invoice.id)
         const actual = await pageCount(filterData)
         expect(actual).toBe(1)
+    })
+    test('should able to get invocie details to add advisory details', async () => {
+        const filterData = await companyInvoiceGeneration()
+        const actual = await getInvoiceToAddAdvisory(filterData)
+        expect(actual[0].billNo).toBe(companyInvoice.billNo)
     })
 })
 
@@ -328,7 +339,7 @@ async function tripData(
         loadingKilometer: 0
     })
 }
-describe.skip('company invoice', () => {
+describe('company invoice', () => {
     test('should able to get company invoice with no submission date', async () => {
         const company = await createCompany(seedCompany, 1)
         const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
@@ -350,5 +361,20 @@ describe.skip('company invoice', () => {
         const actual = await updateDueDate(data[0].id, 1688282262)
         expect(actual.id).toBe(invoice.id)
         expect(actual.dueDate).toBe(1688282262)
+    })
+    test('should able to update shortage amount', async () => {
+        await companyInvoiceGeneration()
+        await updateShortageDetailsModel({
+            billNo: companyInvoice.billNo,
+            shortageAmount: 2000,
+            invoiceId: 0
+        })
+    })
+    test('should able to update invoice received', async () => {
+        // await companyInvoiceGeneration()
+        const company = await createCompany(seedCompany, 1)
+        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+        const actual = await updateInvoiceReceived(invoice.id)
+        expect(actual.id).toBe(invoice.id)
     })
 })
