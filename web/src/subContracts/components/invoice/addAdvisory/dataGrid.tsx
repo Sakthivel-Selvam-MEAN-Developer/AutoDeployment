@@ -5,6 +5,7 @@ import { columns, getRows, row } from './gridColumnsAndRows'
 import { update } from './addAdvisory'
 import { getAmt, getAmtBill } from './shortageFormFields'
 import { Button } from '@mui/material'
+import { updateShortageDetails } from '../../../services/viewInvoice'
 
 export interface grid {
     invoice: invoice
@@ -26,11 +27,11 @@ const DataGridTable: FC<grid> = ({ invoice, setUpdate, update, onFilter }) => {
                     return (
                         <Button
                             variant="contained"
-                            onClick={() => {
-                                setUpdate((prev) => {
-                                    return { ...prev, invoiceId: params.row.id }
-                                })
-                                onFilter()
+                            onClick={async () => {
+                                await updateShortageDetails({
+                                    ...update,
+                                    invoiceId: params.row.id
+                                }).then(onFilter)
                             }}
                         >
                             Add

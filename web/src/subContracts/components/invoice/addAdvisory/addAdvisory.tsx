@@ -7,13 +7,13 @@ import DataGridTable from './dataGrid'
 import { invoice } from './list'
 export interface update {
     shortageAmount: number
-    shortagedBillNo: string
+    billNo: string
     invoiceId: number
 }
 const AddAdvisory: FC<{ onFilter: () => void; invoice: invoice }> = ({ onFilter, invoice }) => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
-    const [update, setUpdate] = useState<update>({} as update)
+    const [update, setUpdate] = useState<update>({ billNo: '', invoiceId: 0, shortageAmount: 0 })
     return (
         <>
             <form onSubmit={handleSubmit(onFilter)}>

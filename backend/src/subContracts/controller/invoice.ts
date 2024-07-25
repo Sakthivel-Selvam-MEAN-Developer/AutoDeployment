@@ -117,7 +117,6 @@ export const previewPDFController = async (req: Request, res: Response) => {
     if (tripName === 'LoadingToStock') {
         loadingPointToStockPointTrip = await loadingToStockInvoice(tripId)
     }
-    console.log(stockPointToUnloadingPointTrip)
     const componentDetails = getContentBasedOnCompany(
         req.body.cementCompany.name,
         {
@@ -150,30 +149,3 @@ export const updateBillingRate = async (req: Request, res: Response) =>
     getTripType(req.body)
         .then(() => res.sendStatus(200))
         .catch(() => res.sendStatus(500))
-
-// const makePDFBuffer = async (componentHtmlString: string) => {
-// console.log(componentHtmlString)
-// const pup = puppeteer.createBrowserFetcher()
-// const dom = new JSDOM(`<!DOCTYPE html><html><body>${componentHtmlString}</body></html>`)
-// const invoiceHtml = dom.window.document.querySelector('#invoice')?.outerHTML
-// const annexureHtml = dom.window.document.querySelector('#annexure')?.outerHTML
-// const jspdf = new jsPDF('p', 'mm', [1200, 1300])
-// jspdf.fromHtml(componentHtmlString)
-// const combinedPdfBuffer = jspdf.output('arraybuffer')
-// if (!invoiceHtml) logger.error('Required HTML sections not found')
-// const browser = await puppeteer.launch({ headless: true })
-// const invoicePdfBuffer = await generateBufferFromHtml(browser, invoiceHtml, 1200, 1300)
-// const annexurePdfBuffer = await generateBufferFromHtml(browser, annexureHtml, 1200, 1300)
-// await browser.close()
-// const pdfDoc = await PDFDocument.create()
-// const [invoicePdf, annexurePdf] = await Promise.all([
-//     PDFDocument.load(invoicePdfBuffer),
-//     PDFDocument.load(annexurePdfBuffer)
-// ])
-// const [invoicePage] = await pdfDoc.copyPages(invoicePdf, [0])
-// const [annexurePage] = await pdfDoc.copyPages(annexurePdf, [0])
-// pdfDoc.addPage(invoicePage)
-// pdfDoc.addPage(annexurePage)
-// const combinedPdfBuffer = await pdfDoc.save()
-// return Buffer.from(combinedPdfBuffer)
-// }

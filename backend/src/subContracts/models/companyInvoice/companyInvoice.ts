@@ -42,14 +42,7 @@ export const getInvoiceToAddAdvisory = (filterData: filterdata) => {
     })
 }
 export const pageCount = async (filterData: filterdata) =>
-    prisma().companyInvoice.count({
-        where: { ...condition(filterData) }
-    })
-// export const getCompanyInvoiceNameList = () =>
-//     prisma().companyInvoice.findMany({
-//         where: { companyAdvisoryId: null },
-//         select: { id: true, billNo: true }
-//     })
+    prisma().companyInvoice.count({ where: { ...condition(filterData) } })
 export const getCompanyInvoiceForSubmitDate = async () =>
     prisma().companyInvoice.findMany({
         where: { submissionDate: null },

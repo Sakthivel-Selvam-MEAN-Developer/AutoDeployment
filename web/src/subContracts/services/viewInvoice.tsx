@@ -1,5 +1,5 @@
 import { axiosInstance, getData } from '../../apiCalls'
-import { Nullable } from '../../types'
+import { Nullable, type } from '../../types'
 type tripTypeProps = {
     cementCompany: { name: string | undefined; id: number | undefined }
     startDate: number
@@ -17,3 +17,8 @@ export const getInvoiceToAddAdvisory = (filterData: Nullable<tripTypeProps>) =>
         .get('/invoice/advisory/add', { params: filterData })
         .then(getData)
         .catch(() => alert('Error Getting data'))
+export const updateShortageDetails = (shortageDetails: type) =>
+    axiosInstance
+        .put('/invoice/shortage/update', shortageDetails)
+        .then(getData)
+        .catch((err) => console.log(err))

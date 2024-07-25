@@ -4,6 +4,11 @@ export type updateProps = {
     pageName: string
     id: number
 }
+export interface type {
+    shortageAmount: number
+    billNo: string
+    invoiceId: number
+}
 export interface tripDetailsProps {
     tripId: number[]
     tripName: string

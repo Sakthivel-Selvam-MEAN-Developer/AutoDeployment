@@ -27,10 +27,10 @@ export const getAmtBill: type = (height, setUpdate, update) => {
             type="text"
             label="Shortaged Bill No"
             sx={height}
-            value={update.shortagedBillNo}
+            value={update.billNo}
             onChange={(e) => {
                 setUpdate((prev) => {
-                    return { ...prev, shortagedBillNo: e.target.value }
+                    return { ...prev, billNo: e.target.value }
                 })
             }}
         />

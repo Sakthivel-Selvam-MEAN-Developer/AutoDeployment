@@ -328,6 +328,7 @@ model companyInvoice {
   shortageAmount                   Int?
   submissionDate                   Int?
   received                         Boolean                            @default(false)
+  gstReceived                      Boolean                            @default(false)
   createdAt                        DateTime                           @default(now()) @db.Timestamptz(6)
   updatedAt                        DateTime                           @updatedAt @db.Timestamptz(6)
   cementCompany                    cementCompany                      @relation(fields: [cementCompanyId], references: [id])
