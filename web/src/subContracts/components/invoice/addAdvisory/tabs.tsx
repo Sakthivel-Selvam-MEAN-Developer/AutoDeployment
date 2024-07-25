@@ -73,7 +73,7 @@ const InvoiceTabs: FC<grid> = ({ invoice, setUpdate, update, onFilter }) => {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                {invoice.count !== 0 ? (
+                {invoice.data.length !== 0 ? (
                     <DataGridTable adjCol={adjCol} rows={getRows(invoice.data)} checkBox={false} />
                 ) : (
                     <p>No Invoice To Add Shortage ..!</p>

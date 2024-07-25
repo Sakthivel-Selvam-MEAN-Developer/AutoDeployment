@@ -383,4 +383,5 @@ describe('Update Invocie Details Model', async () => {
         const actual = await updateInvoiceReceived(invoice.id)
         expect(actual.id).toBe(invoice.id)
     })
+    test('should able to update GST received', async () => {})
 })

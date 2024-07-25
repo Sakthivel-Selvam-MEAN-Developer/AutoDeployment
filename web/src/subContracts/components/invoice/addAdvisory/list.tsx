@@ -26,7 +26,7 @@ const List = () => {
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
     const onFilter = async () => {
         await getInvoiceToAddAdvisory(filterData).then(setInvoice)
-        await getInvoiceToAddAdvisory(filterData).then(setInvoice)
+        // await getInvoiceToAddAdvisory(filterData).then(setInvoice)
     }
     useEffect(() => {
         onFilter()
