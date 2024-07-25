@@ -21,4 +21,9 @@ export const updateShortageDetails = (shortageDetails: type) =>
     axiosInstance
         .put('/invoice/shortage/update', shortageDetails)
         .then(getData)
-        .catch((err) => console.log(err))
+        .catch(() => alert('Error Updating Data'))
+export const updateGSTReceived = (ids: number[]) =>
+    axiosInstance
+        .put('/invoice/gstReceived', ids)
+        .then(getData)
+        .catch(() => alert('Error Updating Data'))

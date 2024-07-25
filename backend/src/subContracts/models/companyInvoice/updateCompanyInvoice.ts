@@ -23,3 +23,8 @@ export const updateInvoiceReceived = (id: number) =>
         where: { id, received: false },
         data: { received: true }
     })
+export const updateGSTReceivedModel = (ids: number[]) =>
+    prisma().companyInvoice.updateMany({
+        where: { id: { in: ids }, gstReceived: false },
+        data: { gstReceived: true }
+    })

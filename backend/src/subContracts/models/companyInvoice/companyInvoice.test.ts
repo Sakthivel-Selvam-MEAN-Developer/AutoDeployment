@@ -30,6 +30,7 @@ import prisma from '../../../../prisma/index.ts'
 import { create as createInvoice } from './companyInvoice.ts'
 import {
     updateDueDate,
+    updateGSTReceivedModel,
     updateInvoiceReceived,
     updateShortageDetailsModel,
     updateSubmitDate
@@ -383,5 +384,11 @@ describe('Update Invocie Details Model', async () => {
         const actual = await updateInvoiceReceived(invoice.id)
         expect(actual.id).toBe(invoice.id)
     })
-    test('should able to update GST received', async () => {})
+    test('should able to update GST received', async () => {
+        const company = await createCompany(seedCompany, 1)
+        const invoice = await createInvoice({ ...companyInvoice, cementCompanyId: company.id })
+        await updateInvoiceReceived(invoice.id)
+        const actual = await updateGSTReceivedModel([invoice.id])
+        expect(actual).toStrictEqual({ count: 1 })
+    })
 })
