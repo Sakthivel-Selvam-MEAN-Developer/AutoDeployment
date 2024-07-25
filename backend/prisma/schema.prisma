@@ -476,6 +476,7 @@ model loadingPointToStockPointTrip {
   margin                         Float                            @db.DoublePrecision
   loadingKilometer               Float                            @default(0) @db.DoublePrecision
   unloadingKilometer             Float                            @default(0) @db.DoublePrecision
+  arrivalDate                    Int?
   loadingPointId                 Int
   invoiceNumber                  String                           @unique
   loadingPoint                   loadingPoint                     @relation(fields: [loadingPointId], references: [id])
@@ -500,6 +501,7 @@ model stockPointToUnloadingPointTrip {
   invoiceNumber                  String                       @unique
   tripStatus                     Boolean                      @default(false)
   acknowledgeDueTime             Int?
+  arrivalDate                    Int?
   freightAmount                  Float                        @db.DoublePrecision
   billingRate                    Float?                       @db.DoublePrecision
   transporterAmount              Float                        @db.DoublePrecision
@@ -526,6 +528,7 @@ model loadingPointToUnloadingPointTrip {
   wantFuel               Boolean?
   tripStatus             Boolean         @default(false)
   acknowledgeDueTime     Int?
+  arrivalDate            Int?
   partyName              String          @default("")
   lrNumber               String          @default("")
   freightAmount          Float           @db.DoublePrecision
