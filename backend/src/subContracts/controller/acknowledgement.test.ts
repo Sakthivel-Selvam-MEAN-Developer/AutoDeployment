@@ -6,6 +6,7 @@ import {
     acknowledgementFileGet,
     acknowledgementFileUpload,
     getAcknowledgementFileByOverallTripId,
+    getCementCompanyName,
     getTrip
 } from './acknowledgement.ts'
 
@@ -23,6 +24,7 @@ const mockGetDueByOverallTripId = vi.fn()
 const mockUploadAcknowledgementFile = vi.fn()
 const mockGetFileFromS3 = vi.fn()
 const mockGetAcknowledgementFile = vi.fn()
+const mockGetCementCompanyByOverallTrip = vi.fn()
 vi.mock('../models/overallTrip', () => ({
     getAllActivetripTripByTripStatus: () => mockGetAllActivetripTripByTripStatus(),
     getAllTripByAcknowledgementStatus: () => mockGetAllTripByAcknowledgementStatus(),
@@ -31,7 +33,8 @@ vi.mock('../models/overallTrip', () => ({
         mockAcknowledgeStatusforOverAllTrip(inputs),
     uploadAcknowledgementFile: (id: number, pdfLink: string) =>
         mockUploadAcknowledgementFile(id, pdfLink),
-    getAcknowledgementFile: (id: number) => mockGetAcknowledgementFile(id)
+    getAcknowledgementFile: (id: number) => mockGetAcknowledgementFile(id),
+    getCementCompanyByOverallTrip: (id: number) => mockGetCementCompanyByOverallTrip(id)
 }))
 vi.mock('../models/loadingToUnloadingTrip', () => ({
     updateUnloadWeightforTrip: (inputs: any, data: any) =>
@@ -367,6 +370,12 @@ describe('Acknowledgement Controller', () => {
         mockGetAcknowledgementFile.mockResolvedValue('ygfjvhgfcghy')
         await getAcknowledgementFileByOverallTripId(req, mockRes)
         expect(mockGetAcknowledgementFile).toHaveBeenCalledTimes(1)
+    })
+    test('should handle get cementcompanyName by overalltripid', async () => {
+        const req = { query: { id: 1 } } as unknown as Request
+        mockGetCementCompanyByOverallTrip.mockResolvedValue(mockOverAllTripByTripIdData)
+        await getCementCompanyName(req, mockRes)
+        expect(mockGetCementCompanyByOverallTrip).toHaveBeenCalledTimes(1)
     })
 })
 const mockOverallTripWithStockPointToUnloadingPointTrip = {

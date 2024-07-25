@@ -1282,3 +1282,44 @@ export const getAcknowledgementFile = (id: number) =>
         where: { id },
         select: { acknowledgementPdfLink: true }
     })
+
+export const getCementCompanyByOverallTrip = (id: number) =>
+    prisma().overallTrip.findMany({
+        where: {
+            id: id
+        },
+        select: {
+            id: true,
+            loadingPointToUnloadingPointTrip: {
+                select: {
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            },
+            loadingPointToStockPointTrip: {
+                select: {
+                    loadingPoint: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    stockPointToUnloadingPointTrip: {
+                        select: {
+                            loadingPointToStockPointTrip: {
+                                select: {
+                                    stockPoint: {
+                                        select: {
+                                            name: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })

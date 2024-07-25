@@ -4,6 +4,7 @@ import {
     getAcknowledgementFile,
     getAllActivetripTripByTripStatus,
     getAllTripByAcknowledgementStatus,
+    getCementCompanyByOverallTrip,
     getOverAllTripById,
     uploadAcknowledgementFile
 } from '../models/overallTrip.ts'
@@ -33,7 +34,7 @@ const checkUnloadingPointTrip = (overallTrip: allTrips) => {
 }
 export const getTrip = (overallTrip: any) => {
     if (overallTrip.stockPointToUnloadingPointTrip !== null) {
-        return overallTrip.stockPointToUnloadingPointTrip.loadingPointToStockPointTrip !== null
+        return overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip !== null
             ? overallTrip.stockPointToUnloadingPointTrip?.loadingPointToStockPointTrip
             : null
     }
@@ -120,5 +121,11 @@ export const getAcknowledgementFileByOverallTripId = async (req: Request, res: R
     const id = req.query.id as string
     await getAcknowledgementFile(parseInt(id))
         .then((data) => res.status(200).json(data))
+        .catch(() => res.sendStatus(500))
+}
+export const getCementCompanyName = async (req: Request, res: Response) => {
+    const id = req.query.id as string
+    await getCementCompanyByOverallTrip(parseInt(id))
+        .then((data) => getTrip(data).then((file: []) => res.status(200).json(file)))
         .catch(() => res.sendStatus(500))
 }

@@ -5,13 +5,18 @@ import {
     acknowledgementFileUpload,
     closeTripById,
     getAcknowledgementFileByOverallTripId,
+    getCementCompanyName,
     listAllActivetripTripByTripStatus,
     listAllTripToByAcknowledgementStatus,
     updateAcknowledgementStatusforOverAllTrip
 } from '../controller/acknowledgement.ts'
 import { authorise } from './authorise.ts'
 import { upload } from '../controller/acknowledgementUpload.ts'
-
+const acknowledgementRoutesHelper = (router: Router) => {
+    router.get('/getCompanyNameByOverallTripId', getCementCompanyName)
+    router.get('/getAcknowledgementFile', acknowledgementFileGet)
+    router.get('/getAcknowledgementFileByOverallTripId', getAcknowledgementFileByOverallTripId)
+}
 const acknowledgementRoutes = (router: Router) => {
     router.put('/acknowledgement/trip', authorise(['Admin']), closeTripById)
     router.put('/acknowledge/:id', authorise(['Admin']), updateAcknowledgementStatusforOverAllTrip)
@@ -19,8 +24,6 @@ const acknowledgementRoutes = (router: Router) => {
     router.get('/acknowledgement/acknowlegementstatus', listAllTripToByAcknowledgementStatus)
     router.get('/acknowledgement/:id', OverAllTripById)
     router.post('/acknowledgement/uploadAcknowledgementFile', upload, acknowledgementFileUpload)
-    router.get('/getAcknowledgementFile', acknowledgementFileGet)
-    router.get('/getAcknowledgementFileByOverallTripId', getAcknowledgementFileByOverallTripId)
+    acknowledgementRoutesHelper(router)
 }
-
 export default acknowledgementRoutes

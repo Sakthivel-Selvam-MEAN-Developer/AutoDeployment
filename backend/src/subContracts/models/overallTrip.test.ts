@@ -6,6 +6,7 @@ import {
     getAllActivetripTripByTripStatus,
     getAllDiscrepancyReport,
     getAllTripByAcknowledgementStatus,
+    getCementCompanyByOverallTrip,
     getOverAllTripByArrayOfId,
     getOverAllTripById,
     getOverAllTripIdByLoadingToStockId,
@@ -1601,6 +1602,8 @@ describe('overall trip model', () => {
             acknowledgementPdfLink: 'acknlowledgement/sample.pdf'
         })
         const actual = await getAcknowledgementFile(overallTrip.id)
+        const getCementCompany = await getCementCompanyByOverallTrip(overallTrip.id)
         expect(actual[0].acknowledgementPdfLink).toEqual('acknlowledgement/sample.pdf')
+        expect(getCementCompany[0].id).toEqual(overallTrip.id)
     })
 })

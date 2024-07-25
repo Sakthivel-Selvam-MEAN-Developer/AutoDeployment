@@ -195,6 +195,11 @@ describe('Fuel Controller', () => {
         expect(mockUpdateFuelWithTrip).toBeCalledTimes(1)
     })
 })
+const testCalls = () => {
+    expect(mockGetFuelReport).toBeCalledTimes(2)
+    expect(mockGetFuelTransactionId).toBeCalledTimes(2)
+    expect(mockGetFuelReportCount).toBeCalledTimes(2)
+}
 describe('Fuel report List', () => {
     test('should generate fuel report', async () => {
         mockGetFuelReport.mockResolvedValue([
@@ -269,9 +274,7 @@ describe('Fuel report List', () => {
                 pageNumber: 0
             })
             .expect(200)
-        expect(mockGetFuelReport).toBeCalledTimes(2)
-        expect(mockGetFuelTransactionId).toBeCalledTimes(2)
-        expect(mockGetFuelReportCount).toBeCalledTimes(2)
+        testCalls()
     })
     test('should generate fuel report without stockPoint To UnloadingPoint Trip', async () => {
         mockGetFuelReport.mockResolvedValue([
