@@ -111,7 +111,6 @@ export const previewPDFController = async (req: Request, res: Response) => {
         loadingPointToUnloadingPointTrip = await loadingToUnlaodingInvoice(tripId)
     }
     if (tripName === 'StockToUnloading') {
-        // @ts-expect-error type
         stockPointToUnloadingPointTrip = await stockToUnlaodingInvoice(tripId)
     }
     if (tripName === 'LoadingToStock') {

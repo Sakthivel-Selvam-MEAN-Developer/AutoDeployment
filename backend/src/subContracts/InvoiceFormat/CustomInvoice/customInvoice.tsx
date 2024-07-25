@@ -62,7 +62,7 @@ const tableRowForStockToUnloading = (row: StockToUnloadingPointProps, index: num
             <td>{epochToMinimalDate(row.startDate)}</td>
             <td>{row.partyName}</td>
             <td>{row.unloadingPoint.name}</td>
-            <td>{row.overallTrip[0].truck.vehicleNumber}</td>
+            <td>{row.overallTrip[0].truck?.vehicleNumber}</td>
             <td>5116</td>
             <td>
                 {(row.loadingPointToStockPointTrip.stockPoint.cementCompany.quantityType ===

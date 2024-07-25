@@ -46,15 +46,12 @@ export interface StockToUnloadingPointProps {
         name: string
         cementCompany: {
             name: string
-            secondaryBill: { address: string; gstNumber: string; panNumber: number | null }
+            secondaryBill: { address: string; gstNumber: string; panNumber: string | null } | null
         }
     }
     freightAmount: number
     loadingPointToStockPointTrip: {
         filledLoad: number
-        truck: {
-            vehicleNumber: string
-        }
         stockPoint: {
             cementCompany: {
                 quantityType: string | null
@@ -70,7 +67,7 @@ export interface StockToUnloadingPointProps {
         }[]
         truck: {
             vehicleNumber: string
-        }
+        } | null
     }[]
 }
 export interface InvoiceProp {

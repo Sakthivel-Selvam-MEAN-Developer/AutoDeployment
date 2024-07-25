@@ -39,7 +39,7 @@ const tableRowForStockToUnloading: tableRowForStockToUnloadingProps = (row, inde
             <td>{row.invoiceNumber}</td>
             <td>{row.partyName}</td>
             <td>{row.unloadingPoint.name}</td>
-            <td>{row.overallTrip[0].truck.vehicleNumber}</td>
+            <td>{row.overallTrip[0].truck?.vehicleNumber}</td>
             <td>{row.loadingPointToStockPointTrip.filledLoad.toFixed(2)}</td>
             <td>22</td>
             <td>{billingRate.toFixed(2)}</td>
