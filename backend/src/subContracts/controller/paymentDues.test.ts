@@ -24,9 +24,11 @@ const mockGetCompletedPaymentDues = vi.fn()
 const mockUpdateNEFTStatus = vi.fn()
 const mockCheckNEFTStatus = vi.fn()
 const mockUpdateFuelStatus = vi.fn()
+const mockgetPaymentDueById = vi.fn()
 
 vi.mock('../models/paymentDues', () => ({
     getOnlyActiveDuesByName: () => mockgetOnlyActiveDuesByName(),
+    getPaymentDueById: () => mockgetPaymentDueById(),
     findTripWithActiveDues: () => mockfindTripWithActiveDues(),
     create: (intputs: Prisma.paymentDuesCreateInput) => mockcreatePaymentDues(intputs),
     updatePaymentDues: () => mockUpdatePayment(),
@@ -627,10 +629,24 @@ const mockOverallTrip = {
         ]
     }
 }
+const paymentDueById = { status: false, transactionId: null }
 describe('Payment Due Controller', () => {
     test('should update the paymentDue with transactionId', async () => {
+        mockgetPaymentDueById.mockResolvedValue(paymentDueById)
         mockUpdatePayment.mockResolvedValue(mockUpdateData)
-        await supertest(app).put('/api/payment-dues')
+        await supertest(app)
+            .put('/api/payment-dues')
+            .send({ id: 1, transactionId: 'hgf43', paidAt: dayjs().unix() })
+            .expect(200)
+        expect(mockUpdatePayment).toHaveBeenCalledTimes(1)
+    })
+    test('should not able to update the paymentDue when paymentDueis already paid', async () => {
+        mockgetPaymentDueById.mockResolvedValue({ ...paymentDueById, status: true })
+        mockUpdatePayment.mockResolvedValue(mockUpdateData)
+        await supertest(app)
+            .put('/api/payment-dues')
+            .send({ id: 1, transactionId: 'hgf43', paidAt: dayjs().unix() })
+            .expect(500)
         expect(mockUpdatePayment).toHaveBeenCalledTimes(1)
     })
     test('should create the paymentDue with transactionId', async () => {
@@ -688,16 +704,6 @@ describe('Payment Due Controller', () => {
             .expect(200)
         expect(mockGetCompletedPaymentDues).toHaveBeenCalledTimes(4)
     })
-    test('should update the paymentDue with transactionId', async () => {
-        mockUpdatePayment.mockResolvedValue(mockUpdateData)
-
-        const response = await supertest(app)
-            .put('/api/payment-dues')
-            .send({ transactionId: 'hgf43', paidAt: dayjs().unix() })
-            .expect(200)
-        expect(response.body).toEqual('')
-    })
-
     test('should create the paymentDue with transactionId', async () => {
         mockcreatePaymentDues.mockResolvedValue(mockCreateDues)
 
@@ -726,11 +732,12 @@ describe('Payment Due Controller', () => {
         expect(mockCheckNEFTStatus).toHaveBeenCalledTimes(3)
     })
     test('should able to update fuel status with fuel id', async () => {
+        mockgetPaymentDueById.mockResolvedValue(paymentDueById)
         mockUpdatePayment.mockResolvedValue(mockUpdateDataWithFuelId)
         mockUpdateFuelStatus.mockResolvedValue(0)
         await supertest(app).put('/api/payment-dues').send(mockUpdateDataWithFuelId).expect(200)
         expect(mockUpdateFuelStatus).toHaveBeenCalledTimes(1)
-        expect(mockUpdatePayment).toHaveBeenCalledTimes(3)
+        expect(mockUpdatePayment).toHaveBeenCalledTimes(2)
     })
     it('should return loadingPointToStockPointTrip when it is not null', () => {
         const tripData = {

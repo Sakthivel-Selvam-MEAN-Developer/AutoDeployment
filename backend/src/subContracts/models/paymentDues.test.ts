@@ -15,7 +15,8 @@ import {
     updatePaymentDues,
     updatePaymentDuesWithTripId,
     updatePaymentNEFTStatus,
-    checkNEFTStatus
+    checkNEFTStatus,
+    getPaymentDueById
 } from './paymentDues.ts'
 import seedPaymentDue from '../seed/paymentDue.ts'
 import { create as createOverallTrip } from './overallTrip.ts'
@@ -170,6 +171,13 @@ describe('Payment-Due model', () => {
         expect(groupDues[0].name).toBe(seedPaymentDue.name)
 
         expect(groupDues[0]._sum.payableAmount).toBe(50000)
+    })
+    test('should get the payment dues', async () => {
+        await create(seedPaymentDue)
+        const type = 'initial pay'
+        const due = await findTripWithActiveDues(dueDate, false, type)
+        const actual = await getPaymentDueById(due[0].id)
+        expect(actual?.id).toBe(due[0].id)
     })
     test('should update the payment dues', async () => {
         await create(seedPaymentDue)

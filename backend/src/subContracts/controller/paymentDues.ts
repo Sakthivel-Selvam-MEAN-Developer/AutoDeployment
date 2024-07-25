@@ -10,7 +10,8 @@ import {
     getUpcomingDuesByFilter,
     updatePaymentDues,
     updatePaymentNEFTStatus,
-    checkNEFTStatus
+    checkNEFTStatus,
+    getPaymentDueById
 } from '../models/paymentDues.ts'
 import { getFuelDetailsWithoutTrip, updateFuelStatus } from '../models/fuel.ts'
 import { getTransporterAccountByName } from '../models/transporter.ts'
@@ -233,9 +234,17 @@ export const listOnlyActiveTransporterDues = async (
         .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }
-
-export const updatePayment = (req: Request, res: Response) => {
-    updatePaymentDues(req.body)
+const isPaymentAlreadyPaid = async (id: number) =>
+    getPaymentDueById(id).then((due) => {
+        if (due?.status === false && (due?.transactionId === '' || due?.transactionId === null)) {
+            return false
+        }
+        return true
+    })
+export const updatePayment = async (req: Request, res: Response) => {
+    const status = await isPaymentAlreadyPaid(req.body.id)
+    if (status === true) return res.sendStatus(500)
+    await updatePaymentDues(req.body)
         .then(async () => {
             if (req.body.type === 'fuel pay') await updateFuelStatus(req.body.fuelId)
         })
@@ -243,11 +252,6 @@ export const updatePayment = (req: Request, res: Response) => {
         .catch(() => res.sendStatus(500))
 }
 
-// export const updateNEFTStatus = (req: Request, res: Response) => {
-//     updatePaymentNEFTStatus(req.body)
-//         .then((data) => res.status(200).json(data))
-//         .catch(() => res.sendStatus(500))
-// }
 export const findTripType = (overallTrip: overallTripProps) => {
     let tripType
     if (overallTrip.loadingPointToStockPointTrip !== null) {
