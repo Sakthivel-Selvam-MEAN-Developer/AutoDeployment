@@ -8,6 +8,7 @@ type ActionType = {
     from?: number
     to?: number
     pageNumber?: number
+    transporterType: string
 }
 export const divStyle = {
     display: 'flex',
@@ -35,6 +36,9 @@ export const updateFilterProps = (
         },
         updatePageNumber: () => {
             return { ...currentFilterData, pageNumber: action.pageNumber }
+        },
+        updateTransporterType: () => {
+            return { ...currentFilterData, transporterType: action.transporterType }
         },
         UpdateToInitialValues: () => {
             return { ...initialFuelFilterData }

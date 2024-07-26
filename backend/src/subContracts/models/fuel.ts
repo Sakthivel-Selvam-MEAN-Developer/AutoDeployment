@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client'
 import prisma from '../../../prisma/index.ts'
+import { RequestQuery } from '../controller/fuel.ts'
 
 export const create = (data: Prisma.fuelCreateInput | Prisma.fuelUncheckedCreateInput) =>
     prisma().fuel.create({ data })
@@ -57,12 +58,14 @@ export const getFuelReport = (
     from?: string,
     to?: string,
     skipNumber?: number
+    // transporterType?: string
 ) =>
     prisma().fuel.findMany({
         skip: skipNumber,
         take: 200,
         orderBy: { id: 'asc' },
         where: {
+            // overallTrip: { truck: { transporter: { transporterType } } },
             vehicleNumber:
                 vehicleNumber === undefined || vehicleNumber === null ? undefined : vehicleNumber,
             fueledDate: {
@@ -125,15 +128,12 @@ export const getFuelReport = (
             }
         }
     })
-export const getFuelReportCount = (
-    bunkId?: string,
-    paymentStatus?: string,
-    vehicleNumber?: string,
-    from?: string,
-    to?: string
-) =>
-    prisma().fuel.count({
+export const getFuelReportCount = (filterData: RequestQuery) => {
+    const { bunkId, paymentStatus, vehicleNumber, from, to } = filterData
+    // console.log(bunkId, paymentStatus, vehicleNumber, from, to)
+    return prisma().fuel.count({
         where: {
+            // overallTrip: { truck: { transporter: { transporterType } } },
             vehicleNumber:
                 vehicleNumber === undefined || vehicleNumber === null ? undefined : vehicleNumber,
             fueledDate: {
@@ -147,16 +147,13 @@ export const getFuelReportCount = (
                     : JSON.parse(paymentStatus)
         }
     })
+}
 export const getPreviousFullFuel = (vehicleNumber: string, date: string, id: string) =>
     prisma().fuel.findFirst({
         where: {
-            id: {
-                not: { equals: parseInt(id) }
-            },
+            id: { not: { equals: parseInt(id) } },
             vehicleNumber,
             fuelType: 'Full tank',
-            fueledDate: {
-                lte: parseInt(date)
-            }
+            fueledDate: { lte: parseInt(date) }
         }
     })

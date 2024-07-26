@@ -772,7 +772,8 @@ describe('Overall Trip model', () => {
             `${truck.vehicleNumber}`,
             `${trip.invoiceNumber}`,
             `${trip.startDate}`,
-            `${trip.startDate}`
+            `${trip.startDate}`,
+            `Market Transporter`
         )
         expect(actual).toBe(1)
     })
@@ -784,7 +785,7 @@ describe('Overall Trip model', () => {
         })
         const company = await createCompany(seedCompany, 1)
         const transporter = await createTransporter(seedTransporter, 1)
-        await createTruck({ ...seedTruck, transporterId: transporter.id })
+        const truck = await createTruck({ ...seedTruck, transporterId: transporter.id })
         const factoryPoint = await createLoadingPoint({
             ...seedLoadingPoint,
             cementCompanyId: company.id,
@@ -802,8 +803,9 @@ describe('Overall Trip model', () => {
             wantFuel: false,
             loadingKilometer: 0
         })
-        await create({ loadingPointToUnloadingPointTripId: trip.id })
+        await create({ loadingPointToUnloadingPointTripId: trip.id, truckId: truck.id })
         const actual = await tripStatusFilterCount(
+            undefined,
             undefined,
             undefined,
             undefined,

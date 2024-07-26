@@ -28,6 +28,7 @@ type RequestQuery = {
     from: string
     to: string
     pageNumber: string
+    transporterType: string
 }
 type listTripStatusReportDetailsProps = (
     req: Request<object, object, object, RequestQuery>,
@@ -42,7 +43,8 @@ export const listTripStatusReportDetails: listTripStatusReportDetailsProps = asy
         invoiceNumber,
         from,
         to,
-        pageNumber
+        pageNumber,
+        transporterType
     } = req.query
     const skipNumber = (parseInt(pageNumber) - 1) * 200
     tripStatusFilter(
@@ -53,7 +55,8 @@ export const listTripStatusReportDetails: listTripStatusReportDetailsProps = asy
         invoiceNumber,
         from,
         to,
-        skipNumber
+        skipNumber,
+        transporterType
     )
         .then((filterData) => {
             filterData.sort((a, b) => {
@@ -70,7 +73,8 @@ export const listTripStatusReportDetails: listTripStatusReportDetailsProps = asy
                 vehicleNumber,
                 invoiceNumber,
                 from,
-                to
+                to,
+                transporterType
             ).then((count) => res.status(200).json({ filterData, count }))
         })
         .catch(() => res.status(500))

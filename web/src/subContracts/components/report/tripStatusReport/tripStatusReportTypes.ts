@@ -12,6 +12,7 @@ export type dispatchType =
     | { type: string; invoiceNumber: string }
     | { type: string; from: number; to: number }
     | { type: string; pageNumber: number }
+    | { type: string; transporterType: string }
 export interface TripFilterFormProps {
     setOverallTrips: React.Dispatch<React.SetStateAction<never[]>>
     setCount: React.Dispatch<React.SetStateAction<number>>

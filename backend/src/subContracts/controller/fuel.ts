@@ -97,17 +97,16 @@ export interface FuelingEvent {
     overallTrip: OverallTrip | null
 }
 
-async function createDues(
+const createDues = async (
     fuel: dataProps,
     overallTripId: number | null | undefined,
     bunkname: string,
     vehicleNumber: string,
     creditDays: number
-) {
-    return fuelLogics(fuel, overallTripId, bunkname, vehicleNumber, creditDays).then((dues) =>
+) =>
+    fuelLogics(fuel, overallTripId, bunkname, vehicleNumber, creditDays).then((dues) =>
         createPaymentDues(dues)
     )
-}
 export interface latestTripIdForOwnProp {
     id: number | undefined | null
 }
@@ -213,27 +212,26 @@ export const generateFuelReport = async (fuel: FuelingEvent[]) => {
     )
     return fuelReport
 }
-type RequestQuery = {
-    bunkId: string
-    paymentStatus?: string
-    vehicleNumber: string
-    from: string
-    to: string
+export type RequestQuery = {
+    bunkId: string | undefined
+    paymentStatus?: string | undefined
+    vehicleNumber: string | undefined
+    from: string | undefined
+    to: string | undefined
     pageNumber: string
+    transporterType: string | undefined
 }
 type fuelReportDetail = (req: Request<object, object, object, RequestQuery>, res: Response) => void
 
-export const listAllFuelList: fuelReportDetail = async (_req, res) => {
-    const { bunkId, paymentStatus, vehicleNumber, from, to, pageNumber } = _req.query
+export const listAllFuelList: fuelReportDetail = async (req, res) => {
+    const { bunkId, paymentStatus, vehicleNumber, from, to, pageNumber } = req.query
     const skipNumber = (parseInt(pageNumber) - 1) * 200
     await getFuelReport(bunkId, paymentStatus, vehicleNumber, from, to, skipNumber)
         .then((filterList) => {
             generateFuelReport(filterList).then((data) => {
                 data.sort((a, b) => a.id - b.id)
                 fuelReport = []
-                getFuelReportCount(bunkId, paymentStatus, vehicleNumber, from, to).then((count) =>
-                    res.status(200).json({ data, count })
-                )
+                getFuelReportCount(req.query).then((count) => res.status(200).json({ data, count }))
             })
         })
         .catch(() => res.status(500).json({ error: 'Internal Server Error' }))

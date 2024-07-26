@@ -42,6 +42,16 @@ const FuelFilterFields: React.FC<FormFieldsProps> = ({ control }) => {
                     )
                 }}
             />
+            <AutoComplete
+                control={control}
+                fieldName="transporterType"
+                label="Select Transporter Type"
+                options={['Own', 'Market Transporter']}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    dispatch({ transporterType: newValue, type: 'updateTransporterType' })
+                    dispatch({ pageNumber: 1, type: 'updatePageNumber' })
+                }}
+            />
             <FilterField control={control} dispatch={dispatch} />
             <AutoComplete
                 control={control}

@@ -401,19 +401,20 @@ export const tripStatusFilter = (
     invoiceNumber?: string,
     from?: string,
     to?: string,
-    skipNumber?: number
+    skipNumber?: number,
+    transporterType?: string
 ) =>
     prisma().overallTrip.findMany({
         skip: skipNumber,
         take: 200,
         where: {
+            truck: {
+                transporterId: transporterId === undefined ? undefined : parseInt(transporterId),
+                vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber,
+                transporter: { transporterType }
+            },
             OR: [
                 {
-                    truck: {
-                        transporterId:
-                            transporterId === undefined ? undefined : parseInt(transporterId),
-                        vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
-                    },
                     loadingPointToUnloadingPointTrip: {
                         startDate: {
                             gte: from === undefined ? undefined : parseInt(from),
@@ -431,11 +432,6 @@ export const tripStatusFilter = (
                     }
                 },
                 {
-                    truck: {
-                        transporterId:
-                            transporterId === undefined ? undefined : parseInt(transporterId),
-                        vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
-                    },
                     loadingPointToStockPointTrip: {
                         startDate: {
                             gte: from === undefined ? undefined : parseInt(from),
@@ -479,6 +475,7 @@ export const tripStatusFilter = (
                     vehicleNumber: true,
                     transporter: {
                         select: {
+                            transporterType: true,
                             name: true,
                             gstPercentage: true,
                             employee: {
@@ -609,17 +606,18 @@ export const tripStatusFilterCount = (
     vehicleNumber?: string,
     invoiceNumber?: string,
     from?: string,
-    to?: string
+    to?: string,
+    transporterType?: string
 ) =>
     prisma().overallTrip.count({
         where: {
+            truck: {
+                transporterId: transporterId === undefined ? undefined : parseInt(transporterId),
+                vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber,
+                transporter: { transporterType }
+            },
             OR: [
                 {
-                    truck: {
-                        transporterId:
-                            transporterId === undefined ? undefined : parseInt(transporterId),
-                        vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
-                    },
                     loadingPointToUnloadingPointTrip: {
                         startDate: {
                             gte: from === undefined ? undefined : parseInt(from),
@@ -637,11 +635,6 @@ export const tripStatusFilterCount = (
                     }
                 },
                 {
-                    truck: {
-                        transporterId:
-                            transporterId === undefined ? undefined : parseInt(transporterId),
-                        vehicleNumber: vehicleNumber === undefined ? undefined : vehicleNumber
-                    },
                     loadingPointToStockPointTrip: {
                         startDate: {
                             gte: from === undefined ? undefined : parseInt(from),

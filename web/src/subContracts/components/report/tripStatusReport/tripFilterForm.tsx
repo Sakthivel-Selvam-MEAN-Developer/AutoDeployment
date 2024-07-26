@@ -16,6 +16,7 @@ export const TripFilterForm: FC<TripFilterFormProps> = ({ setOverallTrips, setCo
     const { dispatch } = useContext(dispatchData)
     const oldFilterData = useContext(filterData)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        console.log(data)
         if (data.from !== undefined && data.to !== undefined) {
             dispatch({ from: data.from.unix(), to: data.to.unix(), type: 'updateFromAndTo' })
             dispatch({ pageNumber: 1, type: 'updatePageNumber' })

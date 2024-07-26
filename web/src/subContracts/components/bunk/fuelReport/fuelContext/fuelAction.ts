@@ -6,6 +6,7 @@ export type ActionType = {
     from: number
     to: number
     pageNumber: number
+    transporterType: string
 }
 
 export const initialFuelFilterData = {
@@ -14,5 +15,6 @@ export const initialFuelFilterData = {
     vehicleNumber: undefined,
     paymentStatus: undefined,
     from: undefined,
-    to: undefined
+    to: undefined,
+    transporterType: undefined
 }

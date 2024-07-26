@@ -6,6 +6,7 @@ import { VehicleNumberField } from './vehicleNumberField.tsx'
 import { InvoiceNumberField } from './invoiceNumberField.tsx'
 import { DateField } from './DateField.tsx'
 import { dispatchType } from './tripStatusReportTypes.ts'
+import { TransporterTypeField } from './transporterTypeField.tsx'
 interface FilterFieldProps {
     control: Control
     dispatch: Dispatch<dispatchType>
@@ -17,6 +18,7 @@ export const FilterField: FC<FilterFieldProps> = ({ control, dispatch, cementCom
             <TransporterField control={control} dispatch={dispatch} />
             <VehicleNumberField control={control} dispatch={dispatch} />
             <InvoiceNumberField control={control} dispatch={dispatch} />
+            <TransporterTypeField control={control} dispatch={dispatch} />
             <FactoryField
                 control={control}
                 dispatch={dispatch}

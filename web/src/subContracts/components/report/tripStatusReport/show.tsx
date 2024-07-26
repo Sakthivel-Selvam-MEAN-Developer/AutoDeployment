@@ -95,6 +95,7 @@ interface Props {
             name: string
             csmName: string
             gstPercentage: FLOAT | string
+            transporterType: string | null
             employee?: {
                 name: string
             }
@@ -155,7 +156,7 @@ export interface finalDataProps {
     totalTransporterAmount: number | string
     overallFreightAmount: number | string
     overallTransporterAmount: number | string
-    margin: number
+    margin?: number
     transporterInvoice: string
     primaryBillNo: string
     secondaryBillNo: string
@@ -298,7 +299,7 @@ const generateRow = (row: Props, index: number) => {
         row.shortageQuantity.length !== 0
             ? row.shortageQuantity[0].unloadedQuantity
             : 'Not Yet Unloaded'
-    finalData.push({
+    const tripDetails = {
         id: row.id,
         number: ++index,
         cementCompany: data.loadingPoint.cementCompany.name,
@@ -365,7 +366,6 @@ const generateRow = (row: Props, index: number) => {
                       data?.stockPointToUnloadingPointTrip[0]?.totalTransporterAmount
                   ).toFixed(2)
                 : 'null',
-        margin: data.margin,
         transporterInvoice: row.transporterInvoice
             ? row.transporterInvoiceReceivedDate !== null
                 ? epochToMinimalDate(row.transporterInvoiceReceivedDate)
@@ -400,7 +400,13 @@ const generateRow = (row: Props, index: number) => {
                 ? epochToMinimalDate(row.shortageQuantity[0].unloadedDate)
                 : 'Not Yet Unloaded',
         ranKm
-    })
+    }
+    const margin = row.truck.transporter.transporterType !== 'Own' ? data.margin : null
+    if (margin !== null) {
+        // @ts-expect-error type
+        tripDetails.margin = margin
+    }
+    finalData.push(tripDetails)
 }
 const DataGridTable: React.FC<dataGridTableProps> = ({ overallTrips, authoriser }) => {
     const [openDialog, setOpenDialog] = useState(false)

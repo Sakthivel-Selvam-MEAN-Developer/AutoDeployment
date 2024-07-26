@@ -131,6 +131,15 @@ describe('Fuel model', () => {
         expect(actual.paymentStatus).toBe(true)
     })
 })
+const fuelFilter = {
+    bunkId: undefined,
+    paymentStatus: undefined,
+    vehicleNumber: undefined,
+    from: undefined,
+    to: undefined,
+    pageNumber: '1',
+    transporterType: undefined
+}
 describe('Fuel Report', () => {
     test('should able to display fuel report', async () => {
         const bunk = await create(seedBunkWithoutDep, 0)
@@ -284,7 +293,6 @@ describe('Fuel Report', () => {
         ])
     })
 })
-
 describe('Fuel Count', () => {
     test('should able to get fuel report count', async () => {
         const bunk = await create(seedBunkWithoutDep, 0)
@@ -294,7 +302,7 @@ describe('Fuel Count', () => {
             dieselkilometer: 0
         })
         expect(fuel.overallTripId).toBe(null)
-        const actual = await getFuelReportCount()
+        const actual = await getFuelReportCount(fuelFilter)
         expect(actual).toStrictEqual(1)
     })
     test('should able to get fuel count with bunk name', async () => {
@@ -305,13 +313,7 @@ describe('Fuel Count', () => {
             dieselkilometer: 0
         })
         expect(fuel.overallTripId).toBe(null)
-        const actual = await getFuelReportCount(
-            bunk.id.toString(),
-            undefined,
-            undefined,
-            undefined,
-            undefined
-        )
+        const actual = await getFuelReportCount({ ...fuelFilter, bunkId: bunk.id.toString() })
         expect(actual).toStrictEqual(1)
     })
     test('should able to get count fuel report with fueled date', async () => {
@@ -322,13 +324,11 @@ describe('Fuel Count', () => {
             dieselkilometer: 0
         })
         expect(fuel.overallTripId).toBe(null)
-        const actual = await getFuelReportCount(
-            undefined,
-            undefined,
-            undefined,
-            '1706553000',
-            '1706553000'
-        )
+        const actual = await getFuelReportCount({
+            ...fuelFilter,
+            from: '1706553000',
+            to: '1706553000'
+        })
         expect(actual).toStrictEqual(1)
     })
     test('should able to get count fuel report with paymentStatus', async () => {
@@ -339,7 +339,7 @@ describe('Fuel Count', () => {
             dieselkilometer: 0
         })
         expect(fuel.overallTripId).toBe(null)
-        const actual = await getFuelReportCount(undefined, 'false', undefined, undefined, undefined)
+        const actual = await getFuelReportCount({ ...fuelFilter, paymentStatus: 'false' })
         expect(actual).toStrictEqual(1)
     })
     test('should able to get count fuel report with vehicleNumber', async () => {
@@ -350,13 +350,7 @@ describe('Fuel Count', () => {
             dieselkilometer: 0
         })
         expect(fuel.overallTripId).toBe(null)
-        const actual = await getFuelReportCount(
-            undefined,
-            undefined,
-            'TN93D5512',
-            undefined,
-            undefined
-        )
+        const actual = await getFuelReportCount({ ...fuelFilter, vehicleNumber: 'TN93D5512' })
         expect(actual).toStrictEqual(1)
     })
     test('should able to get previous fuel for same vehicleNumber', async () => {
@@ -369,5 +363,4 @@ describe('Fuel Count', () => {
         const actual = await getPreviousFullFuel('TN93D5512', JSON.stringify(fuel.fueledDate), `1`)
         expect(actual?.id).toStrictEqual(fuel.id)
     })
-    // test('should able to get current trip id by vehicleNumber', async () => {})
 })

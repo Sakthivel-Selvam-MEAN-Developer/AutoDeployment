@@ -8,10 +8,12 @@ export type ActionType = {
     from: number
     to: number
     pageNumber: number
+    transporterType: string
 }
 
 export const initialFilterData = {
     pageNumber: 1,
+    transporterType: undefined,
     cementCompanyId: undefined,
     loadinPointId: undefined,
     transporterId: undefined,
