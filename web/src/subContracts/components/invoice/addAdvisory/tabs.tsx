@@ -3,15 +3,18 @@ import { TabPanelProps } from '../../paymentDues/list'
 import { FC, useState } from 'react'
 import DataGridTable from './dataGrid'
 import { columns, getRows, row } from './gridColumnsAndRowsToAddAdvisory'
-import { updateShortageDetails } from '../../../services/viewInvoice'
+import { updateGSTReceived, updateShortageDetails } from '../../../services/viewInvoice'
 import { getAmt, getAmtBill } from './shortageFormFields'
 import { invoice } from './list'
 import { update } from './addAdvisory'
+import { columnsGST, getRowsGST } from './gridColumnsAndRowsForGST'
+import { GridRowId } from '@mui/x-data-grid'
 export interface grid {
     invoice: invoice
     setUpdate: React.Dispatch<React.SetStateAction<update>>
     update: update
     onFilter: () => void
+    invoiceGST: invoice
 }
 const CustomTabPanel = (props: TabPanelProps) => {
     const { children, value, index, ...other } = props
@@ -33,11 +36,13 @@ const CustomTabPanel = (props: TabPanelProps) => {
 }
 
 const tabs = ['Taxable Amount', 'GST Amount']
-const InvoiceTabs: FC<grid> = ({ invoice, setUpdate, update, onFilter }) => {
+const InvoiceTabs: FC<grid> = ({ invoice, setUpdate, update, onFilter, invoiceGST }) => {
     const height = { height: '20px' }
     const [value, setValue] = useState(0)
-    const onChange = (_event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue)
+    const [selRows, setSelRows] = useState<GridRowId[]>([])
+    const onChange = (_event: React.SyntheticEvent, newValue: number) => setValue(newValue)
+    const onUpdate = () => {
+        updateGSTReceived(selRows).then(onFilter)
     }
     const adjCol = columns.map((column: { field: string }) => {
         return {
@@ -80,7 +85,23 @@ const InvoiceTabs: FC<grid> = ({ invoice, setUpdate, update, onFilter }) => {
                 )}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                Item Two
+                {invoiceGST.data.length !== 0 ? (
+                    <>
+                        <div style={{ display: 'flex', justifyContent: 'end' }}>
+                            <Button variant="contained" onClick={onUpdate}>
+                                Add GST Received
+                            </Button>
+                        </div>
+                        <DataGridTable
+                            adjCol={columnsGST}
+                            rows={getRowsGST(invoiceGST.data)}
+                            checkBox={true}
+                            setSelRows={setSelRows}
+                        />
+                    </>
+                ) : (
+                    <p>No Invoice To Add GST Received ..!</p>
+                )}
             </CustomTabPanel>
         </>
     )

@@ -22,9 +22,8 @@ import {
     create as createCompanyinvoice,
     getCompanyInvoice,
     getCompanyInvoiceForSubmitDate,
-    getInvoiceToAddAdvisory,
-    pageCount,
-    pageCountForAddAdvisory
+    getInvoiceFoeGSTModel,
+    getInvoiceToAddAdvisory
 } from './companyInvoice.ts'
 import prisma from '../../../../prisma/index.ts'
 import { create as createInvoice } from './companyInvoice.ts'
@@ -35,6 +34,7 @@ import {
     updateShortageDetailsModel,
     updateSubmitDate
 } from './updateCompanyInvoice.ts'
+import { pageCount, pageCountForAddAdvisory, pageCountForGST } from './pageCount.ts'
 const unloadingPointTest = () =>
     createPricePointMarker({
         ...seedPricePointMarker,
@@ -368,6 +368,12 @@ describe('company invoice', () => {
         const actual = await updateDueDate(data[0].id, 1688282262)
         expect(actual.id).toBe(invoice.id)
         expect(actual.dueDate).toBe(1688282262)
+    })
+    test('should able to get invoice details for GST', async () => {
+        const filterData = await companyInvoiceGeneration()
+        const actual = await getInvoiceFoeGSTModel(filterData)
+        await pageCountForGST(filterData)
+        expect(actual[0].GSTAmount).toBe(parseInt((24000 * (12 / 100)).toFixed(2)))
     })
 })
 

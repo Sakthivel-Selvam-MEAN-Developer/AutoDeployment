@@ -10,7 +10,12 @@ export interface update {
     billNo: string
     invoiceId: number
 }
-const AddAdvisory: FC<{ onFilter: () => void; invoice: invoice }> = ({ onFilter, invoice }) => {
+interface advisory {
+    onFilter: () => void
+    invoice: invoice
+    invoiceGST: invoice
+}
+const AddAdvisory: FC<advisory> = ({ onFilter, invoice, invoiceGST }) => {
     const { handleSubmit, control } = useForm<FieldValues>()
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
     const [update, setUpdate] = useState<update>({ billNo: '', invoiceId: 0, shortageAmount: 0 })
@@ -29,6 +34,7 @@ const AddAdvisory: FC<{ onFilter: () => void; invoice: invoice }> = ({ onFilter,
                 setUpdate={setUpdate}
                 update={update}
                 onFilter={onFilter}
+                invoiceGST={invoiceGST}
             />
         </>
     )

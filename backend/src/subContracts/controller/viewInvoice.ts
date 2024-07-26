@@ -1,21 +1,20 @@
 import { Request, Response } from 'express'
 import {
     getCompanyInvoice,
-    getInvoiceToAddAdvisory,
-    pageCount,
-    pageCountForAddAdvisory
+    getInvoiceToAddAdvisory
 } from '../models/companyInvoice/companyInvoice.ts'
 import {
     updateInvoiceReceived,
     updateShortageDetailsModel
 } from '../models/companyInvoice/updateCompanyInvoice.ts'
+import { pageCount, pageCountForAddAdvisory } from '../models/companyInvoice/pageCount.ts'
 interface RequestQuery {
     startDate: string
     endDate: string
     cementCompany: { id: string }
     pageNumber: string
 }
-type getCompanyInvoiceProps = (
+export type getCompanyInvoiceProps = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
 ) => void
@@ -33,7 +32,9 @@ export const getInvoicedToAddAdvisoryDetails: getCompanyInvoiceProps = async (re
         .then((data) => res.status(200).json({ data, count }))
         .catch(() => res.status(500))
 }
-function filterDatas(req: Request<object, object, object, RequestQuery, Record<string, number>>) {
+export function filterDatas(
+    req: Request<object, object, object, RequestQuery, Record<string, number>>
+) {
     return {
         startDate: parseInt(req.query.startDate),
         endDate: parseInt(req.query.endDate),

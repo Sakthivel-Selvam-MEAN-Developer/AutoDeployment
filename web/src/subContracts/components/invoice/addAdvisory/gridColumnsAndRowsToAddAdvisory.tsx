@@ -2,14 +2,14 @@ import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { invoice } from './list'
 
 export interface row {
-    index: number
+    index?: number
     id: number
     cementCompany: string
     billDate: number
     billNo: string
     amount: number
-    GSTAmount: number
-    TDSAmount: number
+    GSTAmount?: number
+    TDSAmount?: number
 }
 
 export const columns = [

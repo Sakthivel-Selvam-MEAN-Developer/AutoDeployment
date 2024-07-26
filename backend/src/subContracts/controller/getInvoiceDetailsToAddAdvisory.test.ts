@@ -5,7 +5,9 @@ const mockgetInvoiceToAddAdvisory = vi.fn()
 const mockpageCountForAddAdvisory = vi.fn()
 
 vi.mock('../models/companyInvoice/companyInvoice.ts', () => ({
-    getInvoiceToAddAdvisory: (inputs: any) => mockgetInvoiceToAddAdvisory(inputs),
+    getInvoiceToAddAdvisory: (inputs: any) => mockgetInvoiceToAddAdvisory(inputs)
+}))
+vi.mock('../models/companyInvoice/pageCount.ts', () => ({
     pageCountForAddAdvisory: (inputs: any) => mockpageCountForAddAdvisory(inputs)
 }))
 const mockgetInvoiceToAddAdvisoryData = {

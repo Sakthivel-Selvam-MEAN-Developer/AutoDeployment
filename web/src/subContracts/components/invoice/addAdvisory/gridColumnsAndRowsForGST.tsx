@@ -1,7 +1,7 @@
 import { epochToMinimalDate } from '../../../../commonUtils/epochToTime'
 import { invoice } from './list'
 
-export const columns = [
+export const columnsGST = [
     { field: 'cementCompany', headerName: 'Cement Company', flex: 1 },
     {
         field: 'billDate',
@@ -14,7 +14,7 @@ export const columns = [
     { field: 'GSTAmount', headerName: 'GST', flex: 1 }
 ]
 
-export const getRows = (invoice: invoice['data']) => {
+export const getRowsGST = (invoice: invoice['data']) => {
     return invoice.map((inv) => {
         return {
             id: inv.id,

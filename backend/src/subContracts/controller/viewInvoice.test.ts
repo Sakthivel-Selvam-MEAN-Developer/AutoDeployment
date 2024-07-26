@@ -5,10 +5,12 @@ const mockCompanyGeneratedInvoice = vi.fn()
 const mockPageCount = vi.fn()
 vi.mock('../models/companyInvoice/companyInvoice', () => {
     return {
-        getCompanyInvoice: () => mockCompanyGeneratedInvoice(),
-        pageCount: () => mockPageCount()
+        getCompanyInvoice: () => mockCompanyGeneratedInvoice()
     }
 })
+vi.mock('../models/companyInvoice/pageCount.ts', () => ({
+    pageCount: () => mockPageCount()
+}))
 const mockGeneratedInvoice = [
     {
         billNo: 'MGL-2002',

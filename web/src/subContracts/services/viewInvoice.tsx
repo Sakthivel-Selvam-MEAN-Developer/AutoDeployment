@@ -1,3 +1,4 @@
+import { GridRowId } from '@mui/x-data-grid'
 import { axiosInstance, getData } from '../../apiCalls'
 import { Nullable, type } from '../../types'
 type tripTypeProps = {
@@ -11,7 +12,6 @@ export const getCompanyInvoice = (filterData: Nullable<tripTypeProps>) =>
         .get('/invoice/viewInvoice', { params: filterData })
         .then(getData)
         .catch(() => alert('Error Getting data'))
-
 export const getInvoiceToAddAdvisory = (filterData: Nullable<tripTypeProps>) =>
     axiosInstance
         .get('/invoice/advisory/add', { params: filterData })
@@ -22,8 +22,13 @@ export const updateShortageDetails = (shortageDetails: type) =>
         .put('/invoice/shortage/update', shortageDetails)
         .then(getData)
         .catch(() => alert('Error Updating Data'))
-export const updateGSTReceived = (ids: number[]) =>
+export const updateGSTReceived = (ids: GridRowId[]) =>
     axiosInstance
         .put('/invoice/gstReceived', ids)
+        .then(getData)
+        .catch(() => alert('Error Updating Data'))
+export const getInvoiceDetailsForGST = (filterData: Nullable<tripTypeProps>) =>
+    axiosInstance
+        .get('/invoice/viewInvoice/gst/list', { params: filterData })
         .then(getData)
         .catch(() => alert('Error Updating Data'))
