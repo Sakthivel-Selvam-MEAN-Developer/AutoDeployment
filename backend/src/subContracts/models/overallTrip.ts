@@ -1294,7 +1294,11 @@ export const getCementCompanyByOverallTrip = (id: number) =>
                 select: {
                     loadingPoint: {
                         select: {
-                            name: true
+                            cementCompany: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     }
                 }
@@ -1303,7 +1307,11 @@ export const getCementCompanyByOverallTrip = (id: number) =>
                 select: {
                     loadingPoint: {
                         select: {
-                            name: true
+                            cementCompany: {
+                                select: {
+                                    name: true
+                                }
+                            }
                         }
                     },
                     stockPointToUnloadingPointTrip: {
@@ -1312,7 +1320,11 @@ export const getCementCompanyByOverallTrip = (id: number) =>
                                 select: {
                                     stockPoint: {
                                         select: {
-                                            name: true
+                                            cementCompany: {
+                                                select: {
+                                                    name: true
+                                                }
+                                            }
                                         }
                                     }
                                 }

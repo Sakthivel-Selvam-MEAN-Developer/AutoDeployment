@@ -71,10 +71,10 @@ vi.mock('../../auditRoute.ts', () => ({
     }
 }))
 
-vi.mock('../controller/upload.ts', () => ({
-    default: vi.fn(() => {
-        return ''
-    })
+vi.mock('./acknowledgementS3Upload', () => ({
+    handleFileUpload: (_req: Request, _res: Response, next: NextFunction) => {
+        next()
+    }
 }))
 const mockOverAllTrip = [
     {
@@ -400,6 +400,10 @@ describe('getTrip', () => {
     })
 
     test('should return null when stockPointToUnloadingPointTrip is not null but loadingPointToStockPointTrip is null', () => {
+        const result = getTrip(mockOverallTripWithoutLoadingPointToStockPointTrip)
+        expect(result).toBeNull()
+    })
+    test('should upload acknowledgement', () => {
         const result = getTrip(mockOverallTripWithoutLoadingPointToStockPointTrip)
         expect(result).toBeNull()
     })

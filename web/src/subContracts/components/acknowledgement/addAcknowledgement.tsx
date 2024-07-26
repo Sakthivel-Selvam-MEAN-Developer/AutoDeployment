@@ -14,6 +14,7 @@ import SubmitButton from '../../../form/button'
 import { tripdetailsProps } from './types'
 import { DueDateDialog } from './AcknowledgementDialog'
 import FileUpload from './upload'
+import { getCompanyNameByOverallTripId } from '../../services/acknowledgementApprovalHelper'
 
 const AddAcknowledgement: React.FC = () => {
     const currentTime = dayjs().unix()
@@ -26,6 +27,7 @@ const AddAcknowledgement: React.FC = () => {
     const [tripDetails, setTripDetails] = useState<tripdetailsProps | null>(null)
     const [disable, setDisable] = useState(false)
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    useEffect(() => {}, [])
     const finalDue = async (id: number) => {
         console.log(selectedFile?.size)
         selectedFile &&
@@ -35,7 +37,7 @@ const AddAcknowledgement: React.FC = () => {
                     setTripClosed(true)
                     setSelectedFile(null)
                 })
-                .catch(() => alert('Trip Not Closed')))
+                .catch((err) => console.log(err)))
         if (!selectedFile) {
             alert('No file selected')
             return
@@ -46,11 +48,30 @@ const AddAcknowledgement: React.FC = () => {
             console.error('No file selected')
             return
         }
+
+        const comapnyNameByTrip = await getCompanyNameByOverallTripId(1)
+        console.log(comapnyNameByTrip)
+        let company: string = ''
+        if (comapnyNameByTrip[0].loadingPointToUnloadingPointTrip.loadingPoint.cementCompany.name) {
+            company =
+                comapnyNameByTrip[0].loadingPointToUnloadingPointTrip.loadingPoint.cementCompany
+                    .name
+        } else if (
+            comapnyNameByTrip[0].loadingPointToStockPointTrip.loadingPoint.cementCompany.name
+        ) {
+            company =
+                comapnyNameByTrip[0].loadingPointToStockPointTrip?.loadingPoint.cementCompany.name
+        }
         const formData = new FormData()
+        console.log('invoiceNumber')
         formData.append('image', selectedFile)
-        formData.append('id', tripId.toString())
+        const details = {
+            id: tripId.toString(),
+            companyName: company,
+            invoiceNumber: vehicleNumber
+        }
         try {
-            await uploadAcknowledgementFile(formData)
+            await uploadAcknowledgementFile(formData, details)
         } catch (error) {
             console.error('Error uploading file:', error)
         }

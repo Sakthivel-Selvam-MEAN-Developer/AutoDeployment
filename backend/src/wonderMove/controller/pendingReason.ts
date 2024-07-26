@@ -10,12 +10,8 @@ function groupNumber(groupedData: any[], gpsStopIdToVehicleId: any, vehicleDataM
         const vehicleId = gpsStopIdToVehicleId.get(gpsStopId)
         const vehicleData = vehicleDataMap.get(vehicleId)
         if (!acc[vehicleId]) {
-            acc[vehicleId] = {
-                number: vehicleData.number,
-                _count: 0
-            }
+            acc[vehicleId] = { number: vehicleData.number, _count: 0 }
         }
-
         acc[vehicleId]._count += entry._count
         return acc
     }, {})

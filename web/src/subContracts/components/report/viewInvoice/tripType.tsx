@@ -12,7 +12,6 @@ export const columns = [
         headerName: 'PDF File Link',
         width: 200,
         flex: 1,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         renderCell: (params: any) => (
             <a href={params.value} target="_blank" rel="noopener noreferrer">
                 View PDF

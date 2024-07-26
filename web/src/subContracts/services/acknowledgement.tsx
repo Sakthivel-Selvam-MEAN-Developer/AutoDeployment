@@ -31,6 +31,11 @@ interface dataProps {
     filledLoad: number
     unloadedQuantity: number | null
 }
+interface details {
+    id: string
+    companyName: string
+    invoiceNumber: string | undefined
+}
 export const closeTrip = (tripDetails: dataProps) =>
     axiosInstance
         .put(`/acknowledgement/trip`, tripDetails)
@@ -42,10 +47,11 @@ export const getNumberByTruckId = (id: number) =>
         .get(`/truck/transpotertype/${id}`)
         .then(getData)
         .catch(() => alert('Error Getting data'))
-export const uploadAcknowledgementFile = (formData: FormData) =>
+export const uploadAcknowledgementFile = (formData: FormData, details: details) =>
     axiosInstance
         .post('/acknowledgement/uploadAcknowledgementFile', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
+            headers: { 'Content-Type': 'multipart/form-data' },
+            params: details
         })
         .then(getData)
         .catch(() => alert('Error Getting data'))

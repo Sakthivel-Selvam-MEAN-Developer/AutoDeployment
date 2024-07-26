@@ -49,6 +49,27 @@ export interface tripdetailsProps {
             loadingPointToStockPointTrip: undefined
         }
     }
+    loadingPointToStockPointTrip: {
+        startDate: number
+        acknowledgeDueTime: number
+        truck: truck
+        loadingPoint: pointProps
+        unloadingPoint: pointProps
+        tripStatus: boolean
+        filledLoad: number
+        invoiceNumber: string
+        loadingPointToStockPointTrip: {
+            startDate: number
+            acknowledgeDueTime: number
+            truck: truck
+            loadingPoint: pointProps
+            unloadingPoint: pointProps
+            tripStatus: boolean
+            filledLoad: number
+            invoiceNumber: string
+            loadingPointToStockPointTrip: undefined
+        }
+    }
     loadingPointToUnloadingPointTrip: {
         startDate: number
         acknowledgeDueTime: number

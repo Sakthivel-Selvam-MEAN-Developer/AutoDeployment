@@ -14,6 +14,7 @@ import { create as createShortageQuantity } from '../models/shortageQuantity.ts'
 import { shortageAmountCalculation } from '../domain/shortageLogic.ts'
 import { allTrips } from '../domain/types.ts'
 import { getFileFromS3 } from './acknowledgementGet.ts'
+
 export interface S3File extends Express.MulterS3.File {
     location: string
 }
@@ -106,11 +107,10 @@ export const closeTripById = async (req: Request, res: Response) => {
 }
 export const acknowledgementFileUpload = async (req: Request, res: Response) => {
     const file = req.file as S3File
-    if (file?.location !== undefined) {
-        await uploadAcknowledgementFile(parseInt(req.body.id), file?.location)
-            .then((data) => res.status(200).json(data))
-            .catch(() => res.status(500))
-    }
+    const id: any = req.query.id
+    await uploadAcknowledgementFile(parseInt(id), file?.location)
+        .then((data) => res.status(200).json(data))
+        .catch(() => res.status(500))
 }
 export const acknowledgementFileGet = async (req: Request, res: Response) => {
     const bucketName = req.query.bucketName as string
@@ -130,6 +130,6 @@ export const getAcknowledgementFileByOverallTripId = async (req: Request, res: R
 export const getCementCompanyName = async (req: Request, res: Response) => {
     const id = req.query.id as string
     await getCementCompanyByOverallTrip(parseInt(id))
-        .then((data) => getTrip(data).then((file: []) => res.status(200).json(file)))
+        .then((data) => res.status(200).json(data))
         .catch(() => res.sendStatus(500))
 }
