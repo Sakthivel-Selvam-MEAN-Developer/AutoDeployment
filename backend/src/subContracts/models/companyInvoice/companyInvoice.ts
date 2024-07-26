@@ -8,7 +8,9 @@ export const condition = (filterData: filterdata) => {
         billDate: {
             lte: filterData.startDate === 0 ? undefined : filterData.startDate,
             gte: filterData.endDate === 0 ? undefined : filterData.endDate
-        }
+        },
+        received: filterData.received ? filterData.received === 'true' : undefined,
+        gstReceived: filterData.GSTReceived ? filterData.GSTReceived === 'true' : undefined
     }
 }
 export const create = (

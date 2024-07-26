@@ -35,7 +35,6 @@ const InvoiceDataGrid: React.FC<gridProp> = ({ display, setFilterData, filterDat
         if (column.field === 'pdfLink') {
             return {
                 ...column,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 renderCell: (params: any) => link(handleOpenDialog, params)
             }
         }

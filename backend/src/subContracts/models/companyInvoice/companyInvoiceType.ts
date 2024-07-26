@@ -3,6 +3,8 @@ export interface filterdata {
     endDate: number
     company: string
     pageNumber: number
+    received: string | undefined
+    GSTReceived: string | undefined
 }
 export interface billTypes {
     id: number

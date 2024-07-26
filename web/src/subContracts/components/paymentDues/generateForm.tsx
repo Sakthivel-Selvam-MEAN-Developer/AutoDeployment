@@ -86,7 +86,6 @@ const GenerateForm: React.FC<GenerateFormProps> = ({
         getOnlyActiveDues(paymentDueDate, false, type)
             .then(setTransporterDue)
             .then(() => setNEFTDetails([]))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refresh, paymentDueDate])
     const handleClick = (list: tripProp, data: dataProp) => {
         const object = {

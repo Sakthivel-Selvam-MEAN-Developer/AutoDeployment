@@ -78,6 +78,39 @@ const FormField: React.FC<FormFieldsProps> = ({ control, cementCompany, setCemen
                     })
                 }}
             />
+            <AutoComplete
+                control={control}
+                fieldName="categoryFilter"
+                label="Select Category"
+                options={['All', 'Pending', 'Completed']}
+                onChange={(_event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+                    if (newValue === 'Completed') {
+                        setFilterData((prev) => {
+                            return {
+                                ...prev,
+                                received: true,
+                                GSTReceived: true
+                            }
+                        })
+                    } else if (newValue === 'Pending') {
+                        setFilterData((prev) => {
+                            return {
+                                ...prev,
+                                received: false,
+                                GSTReceived: false
+                            }
+                        })
+                    } else {
+                        setFilterData((prev) => {
+                            return {
+                                ...prev,
+                                received: undefined,
+                                GSTReceived: undefined
+                            }
+                        })
+                    }
+                }}
+            />
             <Button
                 color="secondary"
                 variant="contained"

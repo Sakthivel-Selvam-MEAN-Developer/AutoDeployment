@@ -89,7 +89,7 @@ const InvoiceTabs: FC<grid> = ({ invoice, setUpdate, update, onFilter, invoiceGS
                     <>
                         <div style={{ display: 'flex', justifyContent: 'end' }}>
                             <Button variant="contained" onClick={onUpdate}>
-                                Add GST Received
+                                GST Received
                             </Button>
                         </div>
                         <DataGridTable

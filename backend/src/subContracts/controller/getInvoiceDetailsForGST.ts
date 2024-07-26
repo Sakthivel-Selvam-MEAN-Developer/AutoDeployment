@@ -3,8 +3,7 @@ import { pageCountForGST } from '../models/companyInvoice/pageCount'
 import { filterDatas, getCompanyInvoiceProps } from './viewInvoice'
 
 export const getInvoicedForGST: getCompanyInvoiceProps = async (req, res) => {
-    console.log(req.query)
-    const filterData = filterDatas(req)
+    const filterData = filterDatas(req.query)
     const count = pageCountForGST(filterData)
     await getInvoiceFoeGSTModel(filterData)
         .then((data) => res.status(200).json({ data, count }))

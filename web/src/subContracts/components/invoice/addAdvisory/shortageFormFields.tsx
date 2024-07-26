@@ -25,7 +25,7 @@ export const getAmtBill: type = (height, setUpdate, update) => {
     return (
         <TextField
             type="text"
-            label="Shortaged Bill No"
+            label="Shortage Bill No"
             sx={height}
             value={update.billNo}
             onChange={(e) => {

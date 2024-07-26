@@ -7,19 +7,19 @@ export default defineConfig({
             thresholds: {
                 branches: 92.85,
                 functions: 81.31,
-                lines: 88.51,
-                statements: 88.51,
+                lines: 88.53,
+                statements: 88.53,
                 'src/subContracts/models/**': {
-                    branches: 100,
-                    functions: 97.91,
+                    branches: 99.26,
+                    functions: 97.94,
                     lines: 99.41,
                     statements: 99.41
                 },
                 'src/subContracts/controller/**': {
-                    branches: 92.38,
-                    functions: 99.18,
-                    lines: 98.32,
-                    statements: 98.32
+                    branches: 92.45,
+                    functions: 99.2,
+                    lines: 98.35,
+                    statements: 98.35
                 },
                 'src/subContracts/domain': {
                     branches: 61.81,
@@ -30,8 +30,8 @@ export default defineConfig({
                 'src/subContracts/routes/**': {
                     branches: 100,
                     functions: 100,
-                    lines: 99.52,
-                    statements: 99.52
+                    lines: 99.53,
+                    statements: 99.53
                 }
             },
             exclude: ['src/subContracts/InvoiceFormat/**']

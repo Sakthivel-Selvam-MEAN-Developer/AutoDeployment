@@ -8,38 +8,33 @@ import {
     updateShortageDetailsModel
 } from '../models/companyInvoice/updateCompanyInvoice.ts'
 import { pageCount, pageCountForAddAdvisory } from '../models/companyInvoice/pageCount.ts'
-interface RequestQuery {
-    startDate: string
-    endDate: string
-    cementCompany: { id: string }
-    pageNumber: string
-}
+import { RequestQuery } from './viewInvoiceType.ts'
 export type getCompanyInvoiceProps = (
     req: Request<object, object, object, RequestQuery>,
     res: Response
 ) => void
 export const getInvoicedTrip: getCompanyInvoiceProps = async (req, res) => {
-    const filterData = filterDatas(req)
+    const filterData = filterDatas(req.query)
     const count = await pageCount(filterData)
     await getCompanyInvoice(filterData)
         .then((data) => res.status(200).json({ data, count }))
         .catch(() => res.status(500))
 }
 export const getInvoicedToAddAdvisoryDetails: getCompanyInvoiceProps = async (req, res) => {
-    const filterData = filterDatas(req)
+    const filterData = filterDatas(req.query)
     const count = pageCountForAddAdvisory(filterData)
     await getInvoiceToAddAdvisory(filterData)
         .then((data) => res.status(200).json({ data, count }))
         .catch(() => res.status(500))
 }
-export function filterDatas(
-    req: Request<object, object, object, RequestQuery, Record<string, number>>
-) {
+export const filterDatas = (query: RequestQuery) => {
     return {
-        startDate: parseInt(req.query.startDate),
-        endDate: parseInt(req.query.endDate),
-        company: req.query.cementCompany.id,
-        pageNumber: parseInt(req.query.pageNumber)
+        startDate: parseInt(query.startDate),
+        endDate: parseInt(query.endDate),
+        company: query.cementCompany.id,
+        pageNumber: parseInt(query.pageNumber),
+        received: query.received,
+        GSTReceived: query.GSTReceived
     }
 }
 export const updateShortageDetails = (req: Request, res: Response) =>

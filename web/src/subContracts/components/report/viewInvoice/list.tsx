@@ -13,21 +13,19 @@ const defaultFilterData = {
     startDate: 0,
     endDate: 0,
     cementCompany: { name: '', id: 0 },
-    pageNumber: 1
+    pageNumber: 1,
+    received: undefined,
+    GSTReceived: undefined
 }
 const viewInvoiceHeading = (
-    <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
-        View Generated Invoice
-    </Typography>
+    <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Invoice Report</Typography>
 )
 const ViewList: React.FC = () => {
     const [display, setDisplay] = useState<gridProp['display']>({} as gridProp['display'])
     const { handleSubmit, control } = useForm<FieldValues>()
     const [cementCompany, setCementCompany] = useState<cementCompanyProps[]>([])
     const [filterData, setFilterData] = useState<filterDataProps>(defaultFilterData)
-    const onSubmit = async () => {
-        await getCompanyInvoice({ ...filterData }).then(setDisplay)
-    }
+    const onSubmit = async () => await getCompanyInvoice({ ...filterData }).then(setDisplay)
     useEffect(() => {
         onSubmit()
     }, [filterData.pageNumber])

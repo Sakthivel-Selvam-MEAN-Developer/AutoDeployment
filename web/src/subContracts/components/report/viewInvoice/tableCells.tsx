@@ -20,7 +20,6 @@ export function openDialogBox(
 export function pdfBox(dialogOpen: boolean, handleCloseDialog: () => void, pdfLink: string | null) {
     return <PDFDialog open={dialogOpen} onClose={handleCloseDialog} pdfLink={pdfLink!} />
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function link(handleOpenDialog: (link: string) => void, params: any) {
     return (
         <a href="#" onClick={() => handleOpenDialog(params.value)}>

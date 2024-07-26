@@ -187,7 +187,9 @@ function filterDataTest(company: {
         company: company.id.toString(),
         startDate: 1688282262,
         endDate: 1688282262,
-        pageNumber: 1
+        pageNumber: 1,
+        received: undefined,
+        GSTReceived: undefined
     }
 }
 function filterDataPageCount(company: {
@@ -207,7 +209,9 @@ function filterDataPageCount(company: {
         company: company.id.toString(),
         startDate: 0,
         endDate: 0,
-        pageNumber: 1
+        pageNumber: 1,
+        received: undefined,
+        GSTReceived: undefined
     }
 }
 interface locationtype {
@@ -267,7 +271,9 @@ function dataFilterDetails(company: {
         company: company.id.toString(),
         startDate: 0,
         endDate: 0,
-        pageNumber: 1
+        pageNumber: 1,
+        received: undefined,
+        GSTReceived: undefined
     }
 }
 
