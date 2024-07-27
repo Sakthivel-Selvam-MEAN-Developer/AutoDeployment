@@ -78,5 +78,5 @@ jobs:
         run: |
           ssh -t -i deploy_key.pem ec2-user@"52.204.111.73" << 'EOF'
             mkdir sample
-            touch sample.txt
+            touch ./sample.txt
           EOF
