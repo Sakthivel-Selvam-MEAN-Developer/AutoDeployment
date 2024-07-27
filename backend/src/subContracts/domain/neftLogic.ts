@@ -52,7 +52,7 @@ const getNEFTBody = (NEFTData: dataProps[]) => {
     })
     return { body: NEFTDataBody, fileType: types.neftType }
 }
-export const getNEFTData = (NEFTData: dataProps[]) => {
+export const getNEFTData = async (NEFTData: dataProps[]) => {
     const { body: NEFTDataBody, fileType } = getNEFTBody(NEFTData)
     const date = dayjs().format('DDMMYYYY')
     const finalData = {

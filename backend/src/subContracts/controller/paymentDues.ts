@@ -349,8 +349,9 @@ export const donwloadNEFTFile = async (req: Request, res: Response) => {
             if (!(dueIds.length === count)) {
                 throw new Error('Not all files have NEFT status true')
             }
-            await updatePaymentNEFTStatus(prismas, dueIds)
-            const finalData = getNEFTData(NEFTData)
+            const finalData = await getNEFTData(NEFTData).then(() =>
+                updatePaymentNEFTStatus(prismas, dueIds)
+            )
             res.status(200).send(finalData)
         })
     } catch (error) {
