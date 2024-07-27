@@ -76,6 +76,6 @@ jobs:
           chmod 600 deploy_key.pem
       - name: Deploy to EC2
         run: |
-          ssh -t -i deploy_key.pem ec2-user@"$IP" << 'EOF'
+          ssh -t -i deploy_key.pem ec2-user@52-204-111-73 << 'EOF'
             mkdir sample
           EOF
