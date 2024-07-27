@@ -70,7 +70,7 @@ jobs:
     steps: 
       - name: Setup SSH Key
         env:
-          SSH_PEM: ${{ secrets.SSH_PEM }}
+          SSH_PEM: ${{ secrets.SAMPLE_PEM }}
         run: |
           echo "$SSH_PEM" > deploy_key.pem
           chmod 600 deploy_key.pem
