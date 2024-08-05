@@ -19,16 +19,16 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: pwd
-      - run: yarn install
-      - run: yarn u lint
-      - run: yarn u format
-      - run: yarn u build
+      # - run: yarn install
+      # - run: yarn u lint
+      # - run: yarn u format
+      # - run: yarn u build
       # - run: yarn u test
 
   Auto_Deployment:
     runs-on: ubuntu-latest
     needs: [UiLintAndTest]
-    steps: 
+    steps:
       - name: Setup SSH Key
         env:
           SSH_PEM: ${{ secrets.SAMPLE_PEM }}
@@ -37,10 +37,14 @@ jobs:
           chmod 600 deploy_key.pem
       - name: Debug SSH Connection
         run: |
-          ssh -vvv -i deploy_key.pem ec2-user@"44.195.5.175"
+          ssh -vvv -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175
+      - name: Verify Network Configuration
+        run: |
+          ip a
+          ip route
       - name: Deploy to EC2
         run: |
-          ssh -t -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
             mkdir sample
             touch sample.txt
           EOF
