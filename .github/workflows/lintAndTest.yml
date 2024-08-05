@@ -1,13 +1,37 @@
-name: Deployment with Approval
-
+name: AmISane
+run-name: ${{ github.actor }} - ${{ github.event.head_commit.message }} commit is running
 on: [push]
-
 jobs:
-  approval:
+  UiLintAndTest:
     runs-on: ubuntu-latest
-    outputs:
-      approved: ${{ steps.approval.outputs.approved }}
+    steps:
+      - run: |
+          curl -s https://api.ipify.org > runner_ip
+          cat runner_ip
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn'
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: pwd
+      - run: yarn install
+      - run: yarn u lint
+      - run: yarn u format
+      - run: yarn u build
+      - run: yarn u test
+      - run: ipconfig getifaddr en1
 
+  Auto_Deployment:
+    runs-on: ubuntu-latest
+    needs: [UiLintAndTest]
     steps:
       - name: Get public IP address
         run: |
@@ -23,46 +47,29 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Create Security Group
-        id: create-sg
+      - name: Update Security Group
         run: |
-          SECURITY_GROUP_ID=$(aws ec2 create-security-group --group-name temp-sg --description "Temporary Security Group for GitHub Actions" --query 'GroupId' --output text)
-          echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID" >> $GITHUB_ENV
-          echo "Security Group Created: $SECURITY_GROUP_ID"
+            SECURITY_GROUP_ID="sg-0aac2fccc9245503f"  # Replace with your security group ID
+            IP_ADDRESS=${{ env.IP_ADDRESS }}
+            aws ec2 authorize-security-group-ingress \
+              --group-id $SECURITY_GROUP_ID \
+              --protocol tcp \
+              --port 22 \
+              --cidr ${IP_ADDRESS}/32
 
-      - name: Add Inbound Rule
-        id: add-rule
+      - name: Copy Code to EC2
+        run: rsync -avz  -e 'ssh -i deploy_key.pem git clone --depth 1 git@github.com:Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git ec2-user@44.195.5.175:~/
+
+      - name: Setup SSH Key
+        env:
+          SSH_PEM: ${{ secrets.SAMPLE_PEM }}
         run: |
-          aws ec2 authorize-security-group-ingress --group-id ${{ env.SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ env.IP_ADDRESS }}/32
-          echo "Inbound Rule Added for IP: ${{ env.IP_ADDRESS }}"
+          echo "$SSH_PEM" > deploy_key.pem
+          chmod 600 deploy_key.pem
 
-      - name: Request Approval
-        id: request-approval
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { data: issue } = await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Deployment Approval Required',
-              body: `A deployment requires your approval. Please review and approve the request.\n\n- IP Address: ${{ env.IP_ADDRESS }}\n- Security Group ID: ${{ env.SECURITY_GROUP_ID }}`
-            });
-            console.log(`Created issue for approval: ${issue.html_url}`);
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-  deploy:
-    needs: approval
-    if: needs.approval.outputs.approved == 'true'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Perform Deployment
+      - name: Deploy to EC2
         run: |
-          # Your deployment commands go here
-          echo "Performing deployment with Security Group ${{ env.SECURITY_GROUP_ID }}"
-
-      - name: Remove Inbound Rule
-        if: success() || failure()
-        run: |
-          aws ec2 revoke-security-group-ingress --group-id ${{ env.SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ env.IP_ADDRESS }}/32
-          echo "Inbound Rule Removed for IP: ${{ env.IP_ADDRESS }}"
+          ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
+            mkdir sample
+            touch sample.txt
+          EOF
