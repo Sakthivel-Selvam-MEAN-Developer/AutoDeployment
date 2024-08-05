@@ -60,14 +60,14 @@ jobs:
         env:
           SSH_PEM: ${{ secrets.SAMPLE_PEM }}
         run: |
-                echo "$SSH_PEM" > deploy_key.pem
-                chmod 600 deploy_key.pem
+          echo "$SSH_PEM" > deploy_key.pem
+          chmod 600 deploy_key.pem
                 
       - name: Clone Repository
-        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
+        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git > AutoDeployment
                       
       - name: Copy Code to EC2
-        run: rsync -avz  -e 'ssh -i deploy_key.pem' AutoDeployment/ ec2-user@44.195.5.175:~/
+        run: rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment/ ec2-user@44.195.5.175:~/
 
       - name: Deploy to EC2
         run: |
