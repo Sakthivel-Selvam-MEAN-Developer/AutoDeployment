@@ -78,16 +78,16 @@ jobs:
             --protocol tcp \
             --port 22 \
             --cidr ${IP_ADDRESS}/32
-            - name: Setup SSH Key
-            env:
-              SSH_PEM: ${{ secrets.SAMPLE_PEM }}
-            run: |
-              echo "$SSH_PEM" > deploy_key.pem
-              chmod 600 deploy_key.pem
-          - name: Deploy to EC2
-            run: |
-              ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
-                mkdir sample
-                touch sample.txt
-              EOF
+      - name: Setup SSH Key
+        env:
+          SSH_PEM: ${{ secrets.SAMPLE_PEM }}
+        run: |
+          echo "$SSH_PEM" > deploy_key.pem
+          chmod 600 deploy_key.pem
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
+            mkdir sample
+            touch sample.txt
+          EOF
     
