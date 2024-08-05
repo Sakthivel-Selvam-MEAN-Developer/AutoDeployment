@@ -57,7 +57,7 @@ jobs:
               --cidr ${IP_ADDRESS}/32
 
       - name: Clone Repository
-        run: git clone --depth 1 git@github.com:Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
+        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
             
       - name: Copy Code to EC2
         run: rsync -avz  -e 'ssh -i deploy_key.pem' AutoDeployment/ ec2-user@44.195.5.175:~/
