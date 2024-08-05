@@ -19,7 +19,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: pwd
-      # - run: yarn install
+      - run: yarn install
       # - run: yarn u lint
       # - run: yarn u format
       # - run: yarn u build
@@ -35,13 +35,6 @@ jobs:
         run: |
           echo "$SSH_PEM" > deploy_key.pem
           chmod 600 deploy_key.pem
-      - name: Debug SSH Connection
-        run: |
-          ssh -vvv -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175
-      - name: Verify Network Configuration
-        run: |
-          ip a
-          ip route
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
