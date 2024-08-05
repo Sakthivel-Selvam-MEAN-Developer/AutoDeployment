@@ -1,25 +1,46 @@
-name: Deploy to EC2
-
-on:
-  push:
-    branches:
-      - main
-
+name: AmISane
+run-name: ${{ github.actor }} - ${{ github.event.head_commit.message }} commit is running
+on: [push]
 jobs:
-  deploy:
+  # UiLintAndTest:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - run: curl https://api.ipify.org > runner_ip
+  #     - run: echo runner_ip
+  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
+  #         cache: 'yarn'
+  #     - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+  #     - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+  #     - name: List files in the repository
+  #       run: |
+  #         ls ${{ github.workspace }}
+  #     - run: pwd
+  #     - run: yarn install
+  #     - run: yarn u lint
+  #     - run: yarn u format
+  #     - run: yarn u build
+  #     - run: yarn u test
+  #     - run: ipconfig getifaddr en1
+
+  Auto_Deployment:
     runs-on: ubuntu-latest
-
+    # needs: [UiLintAndTest]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up SSH
+      - name: Setup SSH Key
+        env:
+          SSH_PEM: ${{ secrets.SAMPLE_PEM }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SAMPLE_PEM }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ec2-instance-public-dns >> ~/.ssh/known_hosts
-
+          echo "$SSH_PEM" > deploy_key.pem
+          chmod 600 deploy_key.pem
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@ec2-instance-public-dns 'bash -s' < ./deploy.sh
+          ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
+            mkdir sample
+            touch sample.txt
+          EOF
