@@ -65,7 +65,13 @@ jobs:
                 
       - name: Clone Repository
         run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
-                      
+      - name: Add EC2 Host Key to Known Hosts
+      run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
+          echo "Known hosts content:"
+          cat ~/.ssh/known_hosts
+
       - name: Copy Code to EC2
         run: rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment/ ec2-user@44.195.5.175:~/
 
