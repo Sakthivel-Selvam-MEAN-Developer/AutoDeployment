@@ -20,10 +20,10 @@ jobs:
           ls ${{ github.workspace }}
       - run: pwd
       - run: yarn install
-      # - run: yarn u lint
-      # - run: yarn u format
-      # - run: yarn u build
-      # - run: yarn u test
+      - run: yarn u lint
+      - run: yarn u format
+      - run: yarn u build
+      - run: yarn u test
 
   Auto_Deployment:
     runs-on: ubuntu-latest
