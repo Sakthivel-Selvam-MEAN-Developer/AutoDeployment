@@ -37,26 +37,19 @@ jobs:
           echo "Inbound Rule Added for IP: ${{ env.IP_ADDRESS }}"
 
       - name: Request Approval
-        id: approval
-        run: |
-          echo "Approval required before proceeding to deployment."
-          echo "::set-output name=approved::false"
-
-      - name: Notify Owner for Approval
-        if: steps.approval.outputs.approved == 'false'
+        id: request-approval
         uses: actions/github-script@v6
         with:
           script: |
-            const issueTitle = 'Deployment Approval Required';
-            const issueBody = `A deployment requires your approval. Please review and approve the request.\n\n- IP Address: ${{ env.IP_ADDRESS }}\n- Security Group ID: ${{ env.SECURITY_GROUP_ID }}`;
-            const { data: issue } = await github.issues.create({
+            const { data: issue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: issueTitle,
-              body: issueBody
+              title: 'Deployment Approval Required',
+              body: `A deployment requires your approval. Please review and approve the request.\n\n- IP Address: ${{ env.IP_ADDRESS }}\n- Security Group ID: ${{ env.SECURITY_GROUP_ID }}`
             });
             console.log(`Created issue for approval: ${issue.html_url}`);
-      
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
     needs: approval
     if: needs.approval.outputs.approved == 'true'
