@@ -38,6 +38,7 @@ jobs:
           IP_ADDRESS=$(cat runner_ip)
           echo "Runner IP: $IP_ADDRESS"
           echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
+
       - name: Configure AWS CLI
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -65,7 +66,7 @@ jobs:
       - name: Clone Repository
         run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
       - name: Add EC2 Host Key to Known Hosts
-      run: |
+        run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
           echo "Known hosts content:"
