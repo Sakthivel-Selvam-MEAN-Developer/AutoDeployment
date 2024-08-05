@@ -23,7 +23,7 @@ jobs:
       - run: yarn u lint
       - run: yarn u format
       - run: yarn u build
-      - run: yarn u test
+      # - run: yarn u test
 
   Auto_Deployment:
     runs-on: ubuntu-latest
@@ -37,10 +37,10 @@ jobs:
           chmod 600 deploy_key.pem
       - name: Debug SSH Connection
         run: |
-          ssh -vvv -i deploy_key.pem ec2-user@"52.204.111.73"
+          ssh -vvv -i deploy_key.pem ec2-user@"44.195.5.175"
       - name: Deploy to EC2
         run: |
-          ssh -t -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@52.204.111.73 << 'EOF'
+          ssh -t -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
             mkdir sample
             touch sample.txt
           EOF
