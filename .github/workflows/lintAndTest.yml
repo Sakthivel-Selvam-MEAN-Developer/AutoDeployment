@@ -8,26 +8,25 @@ jobs:
       - run: |
           curl -s https://api.ipify.org > runner_ip
           cat runner_ip
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'yarn'
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: pwd
-      - run: yarn install
-      - run: yarn u lint
-      - run: yarn u format
-      - run: yarn u build
-      - run: yarn u test
-      - run: ipconfig getifaddr en1
+      # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      # - name: Check out repository code
+      #   uses: actions/checkout@v4
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18'
+      #     cache: 'yarn'
+      # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      # - name: List files in the repository
+      #   run: |
+      #     ls ${{ github.workspace }}
+      # - run: pwd
+      # - run: yarn install
+      # - run: yarn u lint
+      # - run: yarn u format
+      # - run: yarn u build
+      # - run: yarn u test
 
   Auto_Deployment:
     runs-on: ubuntu-latest
