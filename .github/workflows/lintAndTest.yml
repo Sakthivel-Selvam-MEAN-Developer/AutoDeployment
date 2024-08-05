@@ -64,7 +64,7 @@ jobs:
           chmod 600 deploy_key.pem
                 
       - name: Clone Repository
-        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git > AutoDeployment
+        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
                       
       - name: Copy Code to EC2
         run: rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment/ ec2-user@44.195.5.175:~/
