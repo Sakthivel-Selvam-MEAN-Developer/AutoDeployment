@@ -38,7 +38,6 @@ jobs:
           IP_ADDRESS=$(cat runner_ip)
           echo "Runner IP: $IP_ADDRESS"
           echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
-
       - name: Configure AWS CLI
         uses: aws-actions/configure-aws-credentials@v2
         with:
