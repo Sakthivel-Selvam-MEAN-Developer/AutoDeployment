@@ -24,46 +24,7 @@ jobs:
       - run: yarn u format
       - run: yarn u build
       - run: yarn u test
-  # BackendLintAndTest:
-  #   runs-on: ubuntu-latest
-  #   services:
-  #     postgres:
-  #       image: timescale/timescaledb-ha:pg15-ts2.12
-  #       env:
-  #         POSTGRES_DB: wonderwhyci
-  #         POSTGRES_PASSWORD: postgres
-  #         POSTGRES_USER: postgres
-  #       ports:
-  #         - 5432:5432
-  #       # Set health checks to wait until postgres has started
-  #       options: >-
-  #         --health-cmd pg_isready
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-  #   steps:
-  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '18'
-  #         cache: 'yarn'
-  #     - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-  #     - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-  #     - name: List files in the repository
-  #       run: |
-  #         ls ${{ github.workspace }}
-  #     - run: pwd
-  #     - run: yarn install
-  #     - run: yarn b format
-  #     - run: yarn b lint
-  #     - run: yarn b build
-  #     - run: yarn b prismaUp
-  #     - run: yarn b prismaMigrateCi
-  #     - run: yarn b testCI
-  #     - run: echo "🍏 This job's status is ${{ job.status }}."
+
   Auto_Deployment:
     runs-on: ubuntu-latest
     needs: [UiLintAndTest]
@@ -74,6 +35,9 @@ jobs:
         run: |
           echo "$SSH_PEM" > deploy_key.pem
           chmod 600 deploy_key.pem
+      - name: Debug SSH Connection
+        run: |
+          ssh -vvv -i deploy_key.pem ec2-user@"52.204.111.73"
       - name: Deploy to EC2
         run: |
           ssh -t -i deploy_key.pem ec2-user@"52.204.111.73" << 'EOF'
