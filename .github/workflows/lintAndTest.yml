@@ -1,60 +1,12 @@
-# name: AmISane
-# run-name: ${{ github.actor }} - ${{ github.event.head_commit.message }} commit is running
-# on: [push]
-# jobs:
-#   UiLintAndTest:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: |
-#           curl -s https://api.ipify.org > runner_ip
-#           cat runner_ip
-#       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-#       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-#       - name: Check out repository code
-#         uses: actions/checkout@v4
-#       - uses: actions/setup-node@v3
-#         with:
-#           node-version: '18'
-#           cache: 'yarn'
-#       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-#       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-#       - name: List files in the repository
-#         run: |
-#           ls ${{ github.workspace }}
-
-#       - run: pwd
-#       - run: yarn install
-#       - run: yarn u lint
-#       - run: yarn u format
-#       - run: yarn u build
-#       - run: yarn u test
-
-#       - run: ipconfig getifaddr en1
-
-#   Auto_Deployment:
-#     runs-on: ubuntu-latest
-#     needs: [UiLintAndTest]
-#     steps:
-#       - name: Setup SSH Key
-#         env:
-#           SSH_PEM: ${{ secrets.SAMPLE_PEM }}
-#         run: |
-#           echo "$SSH_PEM" > deploy_key.pem
-#           chmod 600 deploy_key.pem
-#       - name: Deploy to EC2
-#         run: |
-#           ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
-#             mkdir sample
-#             touch sample.txt
-#           EOF
-
-name: Update Security Group with Runner IP
+name: Deployment with Approval
 
 on: [push]
 
 jobs:
-  update-sg:
+  approval:
     runs-on: ubuntu-latest
+    outputs:
+      approved: ${{ steps.approval.outputs.approved }}
 
     steps:
       - name: Get public IP address
@@ -69,27 +21,55 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1  # Replace with your region
+          aws-region: us-west-2  # Replace with your region
 
-      - name: Update Security Group
+      - name: Create Security Group
+        id: create-sg
         run: |
-          SECURITY_GROUP_ID="sg-0aac2fccc9245503f"  # Replace with your security group ID
-          IP_ADDRESS=${{ env.IP_ADDRESS }}
-          aws ec2 authorize-security-group-ingress \
-            --group-id $SECURITY_GROUP_ID \
-            --protocol tcp \
-            --port 22 \
-            --cidr ${IP_ADDRESS}/32
-      - name: Setup SSH Key
-        env:
-          SSH_PEM: ${{ secrets.SAMPLE_PEM }}
+          SECURITY_GROUP_ID=$(aws ec2 create-security-group --group-name temp-sg --description "Temporary Security Group for GitHub Actions" --query 'GroupId' --output text)
+          echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID" >> $GITHUB_ENV
+          echo "Security Group Created: $SECURITY_GROUP_ID"
+
+      - name: Add Inbound Rule
+        id: add-rule
         run: |
-          echo "$SSH_PEM" > deploy_key.pem
-          chmod 600 deploy_key.pem
-      - name: Deploy to EC2
+          aws ec2 authorize-security-group-ingress --group-id ${{ env.SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ env.IP_ADDRESS }}/32
+          echo "Inbound Rule Added for IP: ${{ env.IP_ADDRESS }}"
+
+      - name: Request Approval
+        id: approval
         run: |
-          ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
-            mkdir sample
-            touch sample.txt
-          EOF
-    
+          echo "Approval required before proceeding to deployment."
+          echo "::set-output name=approved::false"
+
+      - name: Notify Owner for Approval
+        if: steps.approval.outputs.approved == 'false'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueTitle = 'Deployment Approval Required';
+            const issueBody = `A deployment requires your approval. Please review and approve the request.\n\n- IP Address: ${{ env.IP_ADDRESS }}\n- Security Group ID: ${{ env.SECURITY_GROUP_ID }}`;
+            const { data: issue } = await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody
+            });
+            console.log(`Created issue for approval: ${issue.html_url}`);
+      
+  deploy:
+    needs: approval
+    if: needs.approval.outputs.approved == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Perform Deployment
+        run: |
+          # Your deployment commands go here
+          echo "Performing deployment with Security Group ${{ env.SECURITY_GROUP_ID }}"
+
+      - name: Remove Inbound Rule
+        if: success() || failure()
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ env.SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ env.IP_ADDRESS }}/32
+          echo "Inbound Rule Removed for IP: ${{ env.IP_ADDRESS }}"
