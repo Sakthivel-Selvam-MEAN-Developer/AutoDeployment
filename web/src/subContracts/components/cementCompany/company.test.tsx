@@ -45,6 +45,7 @@ describe('Create company', () => {
         expect(await screen.findByDisplayValue('Sankar Cements')).toBeInTheDocument()
         // const option = screen.getByRole('button', { name: 'Create' })
         // await userEvent.click(option)
+
         // expect(mockCreateCompany).toHaveBeenCalledTimes(1)
         // expect(mockCreateCompany).toBeCalledWith(mockCompany[0])
     })

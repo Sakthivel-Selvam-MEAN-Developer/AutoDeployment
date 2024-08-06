@@ -70,6 +70,7 @@ jobs:
 
       - name: Add remote host to known_hosts
         run: |
+          mkdir -p ~/.ssh
           ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
 
       - name: Clone Repository
@@ -85,7 +86,7 @@ jobs:
         run: |
           ssh -t -i deploy_key.pem ec2-user@44.195.5.175 << EOF
             set -e
-            sudo yum update
+            sudo yum update -y
             docker-compose stop nginx
             docker-compose start nginx -d
           EOF
