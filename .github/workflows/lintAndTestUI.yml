@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'web/**'
+
 jobs:
   UiLintAndTest:
     runs-on: ubuntu-latest
@@ -66,7 +67,10 @@ jobs:
         run: |
             echo "$SSH_PEM" > deploy_key.pem
             chmod 600 deploy_key.pem
-            cat deploy_key.pem
+
+      - name: Add remote host to known_hosts
+        run: |
+          ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
 
       - name: Clone Repository
         run: |
@@ -75,14 +79,13 @@ jobs:
           rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment ec2-user@44.195.5.175:~/
 
       - name: Copy Dist Folder
-        run: rsync -avz  -e 'ssh -i deploy_key.pem' web/dist/*  ec2-user@44.195.5.175:~/AutoDeployment/nginx/html/
+        run: rsync -avz -e 'ssh -i deploy_key.pem' web/dist/* ec2-user@44.195.5.175:~/AutoDeployment/nginx/html/
 
       - name: Start Docker Container
         run: |
-          'ssh -t -i deploy_key.pem' ec2-user@44.195.5.175  << EOF
+          ssh -t -i deploy_key.pem ec2-user@44.195.5.175 << EOF
             set -e
             sudo yum update
             docker-compose stop nginx
             docker-compose start nginx -d
           EOF
-      
