@@ -8,76 +8,78 @@ jobs:
       - run: |
           curl -s https://api.ipify.org > runner_ip
           cat runner_ip
-      # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      # - name: Check out repository code
-      #   uses: actions/checkout@v4
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18'
-      #     cache: 'yarn'
-      # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      # - name: List files in the repository
-      #   run: |
-      #     ls ${{ github.workspace }}
-      # - run: pwd
-      # - run: yarn install
-      # - run: yarn u lint
-      # - run: yarn u format
-      # - run: yarn u build
-      # - run: yarn u test
-
-  Auto_Deployment:
-    runs-on: ubuntu-latest
-    needs: [UiLintAndTest]
-    steps:
-      - name: Get public IP address
-        run: |
-          curl -s https://api.ipify.org > runner_ip
-          IP_ADDRESS=$(cat runner_ip)
-          echo "Runner IP: $IP_ADDRESS"
-          echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
-
-      - name: Configure AWS CLI
-        uses: aws-actions/configure-aws-credentials@v2
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      - name: Update Security Group
+          node-version: '18'
+          cache: 'yarn'
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
         run: |
-            SECURITY_GROUP_ID="sg-0aac2fccc9245503f"  # Replace with your security group ID
-            IP_ADDRESS=${{ env.IP_ADDRESS }}
-            aws ec2 authorize-security-group-ingress \
-              --group-id $SECURITY_GROUP_ID \
-              --protocol tcp \
-              --port 22 \
-              --cidr ${IP_ADDRESS}/32
+          ls ${{ github.workspace }}
+      - run: pwd
+      - run: yarn install
+      - run: yarn u lint
+      - run: yarn u format
+      - run: yarn u build
+      - run: yarn u test
+      - run: ls
 
-      - name: Setup SSH Key
-        env:
-          SSH_PEM: ${{ secrets.SAMPLE_PEM }}
-        run: |
-          echo "$SSH_PEM" > deploy_key.pem
-          chmod 600 deploy_key.pem
+  # Auto_Deployment:
+  #   runs-on: ubuntu-latest
+  #   needs: [UiLintAndTest]
+  #   steps:
+  #     - name: Get public IP address
+  #       run: |
+  #         curl -s https://api.ipify.org > runner_ip
+  #         IP_ADDRESS=$(cat runner_ip)
+  #         echo "Runner IP: $IP_ADDRESS"
+  #         echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
+
+  #     - name: Configure AWS CLI
+  #       uses: aws-actions/configure-aws-credentials@v2
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
+
+  #     - name: Update Security Group
+  #       run: |
+  #           SECURITY_GROUP_ID="sg-0aac2fccc9245503f"  # Replace with your security group ID
+  #           IP_ADDRESS=${{ env.IP_ADDRESS }}
+  #           aws ec2 authorize-security-group-ingress \
+  #             --group-id $SECURITY_GROUP_ID \
+  #             --protocol tcp \
+  #             --port 22 \
+  #             --cidr ${IP_ADDRESS}/32
+
+  #     - name: Setup SSH Key
+  #       env:
+  #         SSH_PEM: ${{ secrets.SAMPLE_PEM }}
+  #       run: |
+  #         echo "$SSH_PEM" > deploy_key.pem
+  #         chmod 600 deploy_key.pem
                 
-      - name: Clone Repository
-        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
-      - name: Add EC2 Host Key to Known Hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
-          echo "Known hosts content:"
-          cat ~/.ssh/known_hosts
+  #     - name: Clone Repository
+  #       run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
 
-      - name: Copy Code to EC2
-        run: rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment/ ec2-user@44.195.5.175:~/
+  #     - name: Add EC2 Host Key to Known Hosts
+  #       run: |
+  #         mkdir -p ~/.ssh
+  #         ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
+  #         echo "Known hosts content:"
+  #         cat ~/.ssh/known_hosts
 
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
-            mkdir sample
-            touch sample.txt
-          EOF
+  #     - name: Copy Code to EC2
+  #       run: rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment/ ec2-user@44.195.5.175:~/
+
+  #     - name: Deploy to EC2
+  #       run: |
+  #         ssh -o StrictHostKeyChecking=no -i deploy_key.pem ec2-user@44.195.5.175 << 'EOF'
+  #           mkdir sample
+  #           touch sample.txt
+  #         EOF
