@@ -43,7 +43,6 @@ describe('Create company', () => {
         // await userEvent.type(screen.getByLabelText('Contact Number'), '9876543436')
         // await userEvent.type(screen.getByLabelText('Address'), 'Salem, TamilNadu')
         expect(await screen.findByDisplayValue('Sankar Cements')).toBeInTheDocument()
-
         // const option = screen.getByRole('button', { name: 'Create' })
         // await userEvent.click(option)
         // expect(mockCreateCompany).toHaveBeenCalledTimes(1)
