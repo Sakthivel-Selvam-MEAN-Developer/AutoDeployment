@@ -28,7 +28,7 @@ jobs:
       - run: yarn u build
       # - run: yarn u test
       - run: |
-          cd /home/runner/work/AutoDeployment/AutoDeployment/web/dist/
+          cd /home/runner/work/AutoDeployment/AutoDeployment/web/dist/assets/
           ls
 
   # Auto_Deployment:
