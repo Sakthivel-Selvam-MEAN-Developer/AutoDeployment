@@ -42,7 +42,6 @@ jobs:
         run: |
           IP_ADDRESS=$(curl -s https://api.ipify.org)
           echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
-          echo "IP_ADDRESS=$IP_ADDRESS"
 
       - name: Configure AWS CLI
         uses: aws-actions/configure-aws-credentials@v2
@@ -76,7 +75,6 @@ jobs:
       - name: Clone Repository
         run: |
           git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
-          ls
           rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment ec2-user@44.195.5.175:~/
 
       - name: Copy Dist Folder
