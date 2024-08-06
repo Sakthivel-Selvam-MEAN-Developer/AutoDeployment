@@ -39,7 +39,7 @@ jobs:
 
       - name: Get Runner IP
         run: |
-          curl -s https://api.ipify.org > IP_ADDRESS
+          IP_ADDRESS=(curl -s https://api.ipify.org)
           echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
           echo "IP_ADDRESS=$IP_ADDRESS"
 
