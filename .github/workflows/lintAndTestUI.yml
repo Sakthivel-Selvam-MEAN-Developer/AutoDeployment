@@ -86,7 +86,8 @@ jobs:
         run: |
           ssh -t -i deploy_key.pem ec2-user@44.195.5.175 << EOF
             set -e
+            cd AutoDeployment
             sudo yum update -y
             docker-compose stop nginx
-            docker-compose start nginx -d
+            docker-compose up nginx -d
           EOF
