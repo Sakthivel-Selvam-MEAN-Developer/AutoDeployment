@@ -37,7 +37,6 @@ describe('Create company', () => {
                 <CreateCompany />
             </BrowserRouter>
         )
-
         await userEvent.type(screen.getByLabelText('Company Name'), 'Sankar Cements')
         // await userEvent.type(screen.getByLabelText('Gst Number'), 'ASD123')
         // await userEvent.type(screen.getByLabelText('Email Id'), 'sample@gmail.com')

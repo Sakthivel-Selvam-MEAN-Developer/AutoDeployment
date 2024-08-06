@@ -70,6 +70,7 @@ jobs:
       - name: Clone Repository
         run: |
           git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
+          ls
           rsync -avz  -e 'ssh -i deploy_key.pem' AutoDeployment  ec2-user@"$IP":~/
 
       - name: Copy Dist Folder
