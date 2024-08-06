@@ -31,7 +31,6 @@ describe('Create company', () => {
     })
     test('should create company details', async () => {
         expect(mockCreateCompany).toHaveBeenCalledTimes(0)
-
         render(
             <BrowserRouter>
                 <CreateCompany />
