@@ -27,14 +27,11 @@ jobs:
       - run: yarn u format
       - run: yarn u build
       # - run: yarn u test
-      - run: |
-          cd /home/runner/work/AutoDeployment/AutoDeployment/web/dist/assets/
-          ls
       - name: Upload Dist
         uses: actions/upload-artifact@v2
         with:
           name: dist-folder
-          path: /home/runner/work/AutoDeployment/AutoDeployment/web/dist/
+          path: web/dist/
 
   Auto_Deployment:
     runs-on: ubuntu-latest
@@ -44,10 +41,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist-folder
-          # path: /home/runner/work/AutoDeployment/AutoDeployment/web/dist/
-
+          path: web/dist/
+      - name: Clone Repository
+        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
       - name: list files
-        run: ls
+        run: |
+          ls -l web/dist/
+          ls -l web/dist/assets/
+          ls
       # - name: Get public IP address
       #   run: |
       #     curl -s https://api.ipify.org > runner_ip
