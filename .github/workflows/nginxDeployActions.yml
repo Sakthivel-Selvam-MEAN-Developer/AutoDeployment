@@ -48,11 +48,11 @@ jobs:
       - name: Clone Repository to EC2
         run: |
           git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
-          rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment ${{ env.ELASTIC_IP }}:~/
+          rsync -avz -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' AutoDeployment ${{ env.ELASTIC_IP }}:~/
         
       - name: Start Nginx Container
         run: |
-            'ssh -t -i deploy_key.pem' ${{ env.ELASTIC_IP }} << EOF
+            ssh -i deploy_key.pem ${{ env.ELASTIC_IP }} << EOF
                 set -e
                 docker-compose stop nginx
                 docker-compose start nginx -d

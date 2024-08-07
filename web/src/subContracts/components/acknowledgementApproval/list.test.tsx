@@ -10,6 +10,7 @@ vi.mock('../../services/acknowlegementApproval', () => ({
     getTripForAcknowlegementApproval: () => mockGetTripForAcknowlegementApproval(),
     approveAcknowledgement: () => mockApproveAcknowledgement()
 }))
+
 const mockData = [
     {
         id: 11,

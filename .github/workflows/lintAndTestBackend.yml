@@ -57,7 +57,7 @@ jobs:
         
       - name: Get Runner IP
         run: |
-          curl -s https://api.ipify.org > runner_ip
+          IP_ADDRESS=$(curl -s https://api.ipify.org)
           echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
 
       - name: Set Variables
@@ -94,11 +94,11 @@ jobs:
         run: rsync -avz -e 'ssh -i deploy_key.pem' backend/dist/*  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/dist/
       
       - name: Clone Screts from Github to EC2
-        run: rsync -avz  -e 'ssh -i deploy_key.pem' ${{secrets.AWS_ENV}}  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/.env
+        run: rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' ${{secrets.AWS_ENV}}  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/.env
 
       - name: Start Docker Container
         run : |
-          'ssh -t -i deploy_key.pem' ${{ env.ELASTIC_IP }}  << EOF
+          ssh -i deploy_key.pem ${{ env.ELASTIC_IP }}  << EOF
             set -e
             sudo yum update
             docker-compose stop backend

@@ -48,14 +48,14 @@ jobs:
       - name: Clone Repository to EC2
         run: |
           git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
-          rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment ${{ env.ELASTIC_IP }}:~/
+          rsync -avz -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' AutoDeployment ${{ env.ELASTIC_IP }}:~/
 
       - name: Clone Screts from Github to EC2
         run: rsync -avz  -e 'ssh -i deploy_key.pem' ${{secrets.KEYCLOAK_CONF}}  ${{ env.ELASTIC_IP }}:~/AutoDeployment/keycloak/keycloak.conf
         
       - name: Start Keycloak Container
         run: |
-            'ssh -t -i deploy_key.pem' ${{ env.ELASTIC_IP }} << EOF
+            ssh -i deploy_key.pem ${{ env.ELASTIC_IP }} << EOF
                 set -e
                 docker-compose stop keycloak
                 docker-compose start keycloak -d

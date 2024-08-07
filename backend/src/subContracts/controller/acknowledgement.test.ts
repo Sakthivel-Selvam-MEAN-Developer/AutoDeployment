@@ -25,6 +25,7 @@ const mockUploadAcknowledgementFile = vi.fn()
 const mockGetFileFromS3 = vi.fn()
 const mockGetAcknowledgementFile = vi.fn()
 const mockGetCementCompanyByOverallTrip = vi.fn()
+
 vi.mock('../models/overallTrip', () => ({
     getAllActivetripTripByTripStatus: () => mockGetAllActivetripTripByTripStatus(),
     getAllTripByAcknowledgementStatus: () => mockGetAllTripByAcknowledgementStatus(),
