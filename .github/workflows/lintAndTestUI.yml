@@ -38,6 +38,9 @@ jobs:
           name: dist-folder-ui
           path: web/dist/
 
+      - name: Set Variables
+        run: echo "ELASTIC_IP=ec2-user@44.195.5.175" >> $GITHUB_ENV
+
       - name: Get Runner IP
         run: |
           IP_ADDRESS=$(curl -s https://api.ipify.org)
@@ -52,7 +55,7 @@ jobs:
       
       - name: Update Security Group
         run: |
-          SECURITY_GROUP_ID="sg-0aac2fccc9245503f"  # Replace with your security group ID
+          SECURITY_GROUP_ID="sg-0aac2fccc9245503f"
           IP_ADDRESS=${{ env.IP_ADDRESS }}
           aws ec2 authorize-security-group-ingress \
             --group-id $SECURITY_GROUP_ID \
@@ -67,25 +70,25 @@ jobs:
             echo "$SSH_PEM" > deploy_key.pem
             chmod 600 deploy_key.pem
 
-      - name: Add remote host to known_hosts
+      - name: Add remote host to known_hosts # Add this to Startup Scripts on Terraform
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
-
-      - name: Clone Repository
+          
+      - name: Clone Repository to EC2
         run: |
           git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
-          rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment ec2-user@44.195.5.175:~/
+          rsync -avz -e 'ssh -i deploy_key.pem' AutoDeployment ${{ env.ELASTIC_IP }}:~/
 
       - name: Copy Dist Folder
-        run: rsync -avz -e 'ssh -i deploy_key.pem' web/dist/* ec2-user@44.195.5.175:~/AutoDeployment/nginx/html/
+        run: rsync -avz -e 'ssh -i deploy_key.pem' web/dist/*  ${{ env.ELASTIC_IP }}:~/AutoDeployment/nginx/html/
 
-      - name: Start Docker Container
+      - name: Remove Added Security Group Rule
         run: |
-          ssh -t -i deploy_key.pem ec2-user@44.195.5.175 << EOF
-            set -e
-            cd AutoDeployment
-            sudo yum update -y
-            docker-compose stop nginx
-            docker-compose up nginx -d
-          EOF
+          aws ec2 revoke-security-group-ingress \
+            --group-id $SECURITY_GROUP_ID \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${IP_ADDRESS}/32
+
+      

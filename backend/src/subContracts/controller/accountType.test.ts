@@ -28,7 +28,6 @@ const mockAccountType = {
 describe('AccountType Controller', () => {
     test('should able to access', async () => {
         mockAccountTypes.mockResolvedValue(mockAccountType)
-
         await supertest(app)
             .get('/api/accountType')
             .expect({ accountTypeName: 'Savings Account', accountTypeNumber: 10 })

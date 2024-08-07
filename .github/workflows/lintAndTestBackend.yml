@@ -60,6 +60,9 @@ jobs:
           curl -s https://api.ipify.org > runner_ip
           echo "IP_ADDRESS=$IP_ADDRESS" >> $GITHUB_ENV
 
+      - name: Set Variables
+        run: echo "ELASTIC_IP=ec2-user@44.195.5.175" >> $GITHUB_ENV
+
       - name: Configure AWS CLI
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -85,22 +88,29 @@ jobs:
             chmod 600 deploy_key.pem
 
       - name: Clone Repository
-        run: |
-            git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
-            rsync -avz  -e 'ssh -i deploy_key.pem' AutoDeployment  ec2-user@"$IP":~/
+        run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
 
       - name: Clone Dist Folder
-        run: rsync -avz -e 'ssh -i deploy_key.pem' backend/dist/*  ec2-user@"44.195.5.175":~/AutoDeployment/backend/dist/
+        run: rsync -avz -e 'ssh -i deploy_key.pem' backend/dist/*  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/dist/
+      
+      - name: Clone Screts from Github to EC2
+        run: rsync -avz  -e 'ssh -i deploy_key.pem' ${{secrets.AWS_ENV}}  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/.env
 
       - name: Start Docker Container
         run : |
-          'ssh -t -i deploy_key.pem' ec2-user@"44.195.5.175"  << EOF
+          'ssh -t -i deploy_key.pem' ${{ env.ELASTIC_IP }}  << EOF
             set -e
             sudo yum update
-            docker-compose stop setup
-            docker-compose stop migrate
             docker-compose stop backend
             docker-compose up setup -d
             docker-compose up migrate -d
             docker-compose up backend -d
           EOF
+        
+      - name: Remove Added Security Group Rule
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id $SECURITY_GROUP_ID \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${IP_ADDRESS}/32
