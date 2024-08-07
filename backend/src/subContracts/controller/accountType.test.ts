@@ -20,7 +20,6 @@ vi.mock('../../auditRoute.ts', () => ({
         next()
     }
 }))
-
 const mockAccountType = {
     accountTypeName: 'Savings Account',
     accountTypeNumber: 10
