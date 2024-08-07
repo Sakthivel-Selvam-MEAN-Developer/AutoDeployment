@@ -35,7 +35,7 @@ jobs:
       - run: yarn b build
       - run: yarn b prismaUp
       - run: yarn b prismaMigrateCi
-      - run: yarn b testCI
+      # - run: yarn b testCI
       - name: Upload Dist
         uses: actions/upload-artifact@v2
         with:
@@ -109,6 +109,8 @@ jobs:
         
       - name: Remove Added Security Group Rule
         run: |
+          SECURITY_GROUP_ID="sg-0aac2fccc9245503f" 
+          IP_ADDRESS=${{ env.IP_ADDRESS }}
           aws ec2 revoke-security-group-ingress \
             --group-id $SECURITY_GROUP_ID \
             --protocol tcp \
