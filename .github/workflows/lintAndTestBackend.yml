@@ -87,6 +87,11 @@ jobs:
             echo "$SSH_PEM" > deploy_key.pem
             chmod 600 deploy_key.pem
 
+      - name: Add remote host to known_hosts # Add this to Startup Scripts on Terraform
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 44.195.5.175 >> ~/.ssh/known_hosts
+
       - name: Clone Repository
         run: git clone --depth 1 https://github.com/Sakthivel-Selvam-MEAN-Developer/AutoDeployment.git
 
@@ -94,13 +99,15 @@ jobs:
         run: rsync -avz -e 'ssh -i deploy_key.pem' backend/dist/*  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/dist/
       
       - name: Clone Screts from Github to EC2
-        run: rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' ${{secrets.AWS_ENV}}  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/.env
+        run: | 
+          echo "${{ secrets.AWS_ENV }}" > env_aws  
+          rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' env_aws  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/.env
 
       - name: Start Docker Container
         run : |
           ssh -i deploy_key.pem ${{ env.ELASTIC_IP }}  << EOF
             set -e
-            sudo yum update
+            cd AutoDeployment
             docker-compose stop backend
             docker-compose up setup -d
             docker-compose up migrate -d

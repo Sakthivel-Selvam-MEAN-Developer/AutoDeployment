@@ -13,7 +13,6 @@ vi.mock('../../services/acknowledgement', () => ({
     getTripById: (inputs: any) => mockgetTripById(inputs),
     updateAcknowledgementStatus: (inputs: any) => mockUpdateAcknowledgementStatus(inputs)
 }))
-
 const mockOverAllTripDataById = {
     id: 1,
     acknowledgementStatus: false,

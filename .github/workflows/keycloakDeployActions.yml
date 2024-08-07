@@ -51,12 +51,15 @@ jobs:
           rsync -avz -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' AutoDeployment ${{ env.ELASTIC_IP }}:~/
 
       - name: Clone Screts from Github to EC2
-        run: rsync -avz  -e 'ssh -i deploy_key.pem' ${{secrets.KEYCLOAK_CONF}}  ${{ env.ELASTIC_IP }}:~/AutoDeployment/keycloak/keycloak.conf
+        run: | 
+          echo "${{ secrets.KEYCLOAK_CONF }}" > keycloak.conf
+          rsync -avz  -e 'ssh -i deploy_key.pem' keycloak.conf  ${{ env.ELASTIC_IP }}:~/AutoDeployment/keycloak/keycloak.conf
         
       - name: Start Keycloak Container
         run: |
             ssh -i deploy_key.pem ${{ env.ELASTIC_IP }} << EOF
                 set -e
+                cd AutoDeployment
                 docker-compose stop keycloak
                 docker-compose start keycloak -d
             EOF
