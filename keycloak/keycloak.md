@@ -22,5 +22,5 @@ docker-compose exec keycloak  sh -c "/config/updateRealm.sh"
 ```sh
 cd /opt/keycloak/bin
 ./kcadm.sh config credentials --server http://localhost:8080 --realm master --user $KEYCLOAK_ADMIN --password $KEYCLOAK_ADMIN_PASSWORD
-./kcadm.sh create realms -s realm=WonderWhy -f /tmp/realm-export.json sample
+./kcadm.sh create realms -s realm=WonderWhy -f /tmp/realm-export.json
 ```

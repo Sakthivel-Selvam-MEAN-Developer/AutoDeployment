@@ -56,7 +56,7 @@ jobs:
                 set -e
                 cd AutoDeployment
                 docker-compose stop nginx
-                docker-compose start nginx -d
+                docker-compose up nginx -d
             EOF
       - name: Remove Added Security Group Rule
         run: |
