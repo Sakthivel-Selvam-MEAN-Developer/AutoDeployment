@@ -62,8 +62,8 @@ jobs:
         run: |
           echo "${{ secrets.FULL_CHAIN }}" > fullChain.pem  
           echo "${{ secrets.PREV_KEY }}" > prevkey.pem  
-          rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' fullChain.pem  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/.env
-          rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' prevkey.pem  ${{ env.ELASTIC_IP }}:~/AutoDeployment/backend/.env
+          rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' fullChain.pem  ${{ env.ELASTIC_IP }}:~/AutoDeployment/nginx/certs/
+          rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' prevkey.pem  ${{ env.ELASTIC_IP }}:~/AutoDeployment/nginx/certs/
         
       - name: Start Nginx Container
         run: |
