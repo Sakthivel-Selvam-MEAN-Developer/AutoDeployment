@@ -61,7 +61,7 @@ jobs:
       - name: Clone Secrets to EC2
         run: |
           echo "${{ secrets.FULL_CHAIN }}" > fullchain.pem  
-          echo "${{ secrets.PREV_KEY }}" > privkey.pem  
+          echo "${{ secrets.PRIV_KEY }}" > privkey.pem  
           rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' fullchain.pem  ${{ env.ELASTIC_IP }}:~/AutoDeployment/nginx/certs/
           rsync -avz  -e 'ssh -i deploy_key.pem -o StrictHostKeyChecking=no' privkey.pem  ${{ env.ELASTIC_IP }}:~/AutoDeployment/nginx/certs/
         
