@@ -1,10 +1,9 @@
 name: Keycloak
-run-name: ${{ github.actor }} - ${{ github.event.head_commit.message }} commit is running
+run-name: ${{ github.actor }} - ${{ github.event.head_commit.message || 'Manual Trigger' }} is running
 on:
-  # push:
-  #   paths:
-  #     - 'keycloak/**'
   workflow_dispatch:
+    # paths:
+    #   - 'keycloak/**'
     
 jobs:
   AutoDeployment:
