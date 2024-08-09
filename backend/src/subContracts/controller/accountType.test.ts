@@ -24,6 +24,7 @@ const mockAccountType = {
     accountTypeName: 'Savings Account',
     accountTypeNumber: 10
 }
+
 describe('AccountType Controller', () => {
     test('should able to access', async () => {
         mockAccountTypes.mockResolvedValue(mockAccountType)
