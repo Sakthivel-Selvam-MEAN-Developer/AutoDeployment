@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'keycloak/**'
+  workflow_dispatch:
+    
 jobs:
   AutoDeployment:
     runs-on: ubuntu-latest
@@ -61,7 +63,7 @@ jobs:
                 set -e
                 cd AutoDeployment
                 docker-compose stop keycloak
-                docker-compose start keycloak -d
+                docker-compose up keycloak -d
             EOF
 
       - name: Remove Added Security Group Rule
