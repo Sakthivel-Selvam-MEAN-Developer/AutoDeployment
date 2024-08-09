@@ -1,9 +1,9 @@
 name: Keycloak
 run-name: ${{ github.actor }} - ${{ github.event.head_commit.message }} commit is running
 on:
-  push:
-    paths:
-      - 'keycloak/**'
+  # push:
+  #   paths:
+  #     - 'keycloak/**'
   workflow_dispatch:
     
 jobs:
